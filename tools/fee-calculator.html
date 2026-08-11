@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Crypto Fee Calculator — Compare Exchange Trading & Withdrawal Fees</title>
+<meta name="description" content="Compare spot, futures and USDT withdrawal fees across major crypto exchanges. Free, no signup.">
+<style>
+  :root{--bg:#f7f8fa;--card:#fff;--ink:#1c2430;--sub:#5b6776;--line:#e4e8ee;--brand:#2563eb;--brand2:#0ea5a4;--ok:#16a34a;--bad:#dc2626;--warn:#d97706}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;font-size:15px}
+  .wrap{max-width:920px;margin:0 auto;padding:24px 18px 60px}
+  header h1{font-size:24px;margin-bottom:4px}
+  header p{color:var(--sub);font-size:14px}
+  .disclaimer{background:#fffbeb;border:1px solid #fed7aa;border-radius:10px;padding:10px 14px;font-size:12.5px;color:#92400e;margin:14px 0}
+  .disclaimer a{color:#b45309}
+  .tabs{display:flex;gap:8px;margin:18px 0 6px}
+  .tab{padding:9px 16px;border:1px solid var(--line);background:#fff;border-radius:9px;cursor:pointer;font-weight:600;color:var(--sub)}
+  .tab.active{background:var(--brand);color:#fff;border-color:var(--brand)}
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;margin-top:10px}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  label{display:block;font-size:13px;color:var(--sub);margin-bottom:5px;font-weight:600}
+  input,select{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:9px;font-size:15px;background:#fff}
+  .seg{display:flex;gap:8px}
+  .seg button{flex:1;padding:9px;border:1px solid var(--line);background:#fff;border-radius:9px;cursor:pointer;font-weight:600;color:var(--sub)}
+  .seg button.on{background:var(--brand2);color:#fff;border-color:var(--brand2)}
+  .btn{margin-top:16px;background:var(--brand);color:#fff;border:none;padding:12px 18px;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;width:100%}
+  .btn:hover{opacity:.92}
+  table{width:100%;border-collapse:collapse;margin-top:18px;font-size:14px}
+  th,td{border:1px solid var(--line);padding:10px 12px;text-align:left}
+  th{background:#f1f5f9;font-weight:600}
+  tr.kc{background:#eef4ff}
+  .cta{display:inline-block;background:var(--brand);color:#fff;padding:5px 12px;border-radius:7px;font-size:12.5px;font-weight:700;text-decoration:none}
+  .cta:hover{opacity:.9}
+  .na{color:var(--bad);font-weight:600}
+  .best{color:var(--ok);font-weight:700}
+  .notice{background:#fef2f2;border:1px solid #fecaca;color:#991b1b;border-radius:10px;padding:14px 16px;margin-top:14px;font-size:14px;display:none}
+  .sticky{position:sticky;bottom:0;background:linear-gradient(135deg,#1e3a8a,#0ea5a4);color:#fff;border-radius:12px;padding:14px 18px;margin-top:18px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+  .sticky a{background:#fff;color:var(--brand);padding:9px 16px;border-radius:9px;font-weight:800;text-decoration:none;font-size:14px}
+  .foot{color:var(--sub);font-size:12px;margin-top:18px;text-align:center}
+  .updated{font-size:11.5px;color:var(--sub);margin-top:8px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>🪙 Crypto Fee Calculator</h1>
+    <p>Compare trading &amp; withdrawal fees across major exchanges — free, no signup required.</p>
+  </header>
+
+  <div class="disclaimer">
+    <b>Affiliate disclosure:</b> This site may earn a commission from exchanges at no extra cost to you. Links are marked <code>rel="sponsored"</code>.
+    Fee data is a seed snapshot (last updated <span id="upd"></span>) — always verify on the exchange's official fee page before trading.
+    This site is <b>not available in restricted regions</b> (e.g. US, China, Hong Kong, Singapore).
+  </div>
+
+  <!-- Country selector -->
+  <div class="panel">
+    <label for="country">Your region (used only to hide CTAs in restricted areas)</label>
+    <select id="country"></select>
+    <div class="updated">We never store this selection. It only filters which signup CTAs show.</div>
+  </div>
+
+  <div class="tabs">
+    <div class="tab active" data-tab="trading">Trading Fee</div>
+    <div class="tab" data-tab="withdrawal">USDT Withdrawal Fee</div>
+  </div>
+
+  <!-- Trading panel -->
+  <div class="panel" id="p-trading">
+    <div class="grid">
+      <div>
+        <label for="notional">Trade size per trade (USDT)</label>
+        <input id="notional" type="number" value="1000" min="1">
+      </div>
+      <div>
+        <label>Market</label>
+        <div class="seg" id="market">
+          <button data-v="spot" class="on">Spot</button>
+          <button data-v="futures">Futures</button>
+        </div>
+      </div>
+      <div>
+        <label>Order type</label>
+        <div class="seg" id="order">
+          <button data-v="taker" class="on">Taker</button>
+          <button data-v="maker">Maker</button>
+        </div>
+      </div>
+      <div>
+        <label for="trades">Trades per month</label>
+        <input id="trades" type="number" value="10" min="1">
+      </div>
+      <div>
+        <label for="months">Months</label>
+        <input id="months" type="number" value="1" min="1">
+      </div>
+    </div>
+    <button class="btn" id="calcTrading">Calculate trading fees</button>
+  </div>
+
+  <!-- Withdrawal panel -->
+  <div class="panel" id="p-withdrawal" style="display:none">
+    <div class="grid">
+      <div>
+        <label for="wamount">Withdraw amount (USDT)</label>
+        <input id="wamount" type="number" value="1000" min="1">
+      </div>
+      <div>
+        <label for="network">Network</label>
+        <select id="network">
+          <option>TRC20</option><option>ERC20</option><option>BSC</option>
+          <option>SOL</option><option>Arbitrum</option><option>Base</option>
+        </select>
+      </div>
+    </div>
+    <button class="btn" id="calcWithdrawal">Calculate withdrawal fees</button>
+  </div>
+
+  <div id="result"></div>
+
+  <div class="sticky" id="sticky" style="display:none">
+    <div><b>New to KuCoin?</b> Sign up via our link — same fees, we may earn a commission.</div>
+    <a id="stickyLink" href="#" rel="sponsored nofollow" target="_blank">Open KuCoin →</a>
+  </div>
+
+  <div class="notice" id="notice"></div>
+
+  <div class="foot">Educational tool only. Not financial advice. Verify all fees on official exchange pages.</div>
+</div>
+
+<script src="../data/exchanges.js"></script>
+<script src="../data/coins.js"></script>
+<script src="../data/country_availability.js"></script>
+<script>
+(function(){
+  var state = { market:"spot", order:"taker", allowed:[], restricted:false };
+
+  // populate country select
+  var csel = document.getElementById("country");
+  Object.keys(window.COUNTRY_AVAILABILITY).forEach(function(cc){
+    var o = document.createElement("option");
+    o.value = cc; o.textContent = (window.COUNTRY_NAMES[cc]||cc) + (window.COUNTRY_AVAILABILITY[cc].restricted ? " (restricted)" : "");
+    csel.appendChild(o);
+  });
+  document.getElementById("upd").textContent = window.EXCHANGES.kucoin.last_updated;
+
+  function applyCountry(){
+    var cc = csel.value;
+    var c = window.COUNTRY_AVAILABILITY[cc];
+    state.restricted = !!c.restricted;
+    state.allowed = state.restricted ? [] : Object.keys(c.exchanges||{}).filter(function(k){return c.exchanges[k];});
+    document.getElementById("notice").style.display = state.restricted ? "block" : "none";
+    if(state.restricted){
+      document.getElementById("notice").textContent = "⚠️ " + (c.note||"This region is not supported.") + " We do not show any signup links here.";
+    }
+    refreshSticky();
+  }
+  csel.addEventListener("change", function(){ applyCountry(); render(); });
+
+  function refreshSticky(){
+    var st = document.getElementById("sticky");
+    var link = document.getElementById("stickyLink");
+    if(state.restricted || state.allowed.indexOf("kucoin")===-1){
+      st.style.display="none"; return;
+    }
+    st.style.display="flex";
+    link.href = window.EXCHANGES.kucoin.affiliate_link;
+  }
+
+  // tabs
+  document.querySelectorAll(".tab").forEach(function(t){
+    t.addEventListener("click", function(){
+      document.querySelectorAll(".tab").forEach(function(x){x.classList.remove("active");});
+      t.classList.add("active");
+      var which = t.getAttribute("data-tab");
+      document.getElementById("p-trading").style.display = which==="trading"?"block":"none";
+      document.getElementById("p-withdrawal").style.display = which==="withdrawal"?"block":"none";
+    });
+  });
+  // segmented
+  function seg(id, key){
+    document.querySelectorAll("#"+id+" button").forEach(function(b){
+      b.addEventListener("click", function(){
+        document.querySelectorAll("#"+id+" button").forEach(function(x){x.classList.remove("on");});
+        b.classList.add("on"); state[key]=b.getAttribute("data-v"); render();
+      });
+    });
+  }
+  seg("market","market"); seg("order","order");
+
+  function fmt(n){ return n.toLocaleString(undefined,{maximumFractionDigits:2}); }
+
+  function ctaCell(slug){
+    if(state.restricted || state.allowed.indexOf(slug)===-1) return '<span class="na">—</span>';
+    var url = window.EXCHANGES[slug].affiliate_link || "#";
+    return '<a class="cta" href="'+url+'" rel="sponsored nofollow" target="_blank">Sign up</a>';
+  }
+
+  function render(){
+    var html = "";
+    if(document.querySelector(".tab.active").getAttribute("data-tab")==="trading"){
+      var notional = parseFloat(document.getElementById("notional").value)||0;
+      var trades = parseFloat(document.getElementById("trades").value)||0;
+      var months = parseFloat(document.getElementById("months").value)||0;
+      var rows = [];
+      Object.keys(window.EXCHANGES).forEach(function(slug){
+        var ex = window.EXCHANGES[slug];
+        var rate = ex[state.market][state.order];
+        var fee = notional * rate * trades * months;
+        rows.push({slug:slug, name:ex.name, fee:fee});
+      });
+      rows.sort(function(a,b){return a.fee-b.fee;});
+      var best = rows.length?rows[0].fee:0;
+      html += '<table><thead><tr><th>Exchange</th><th>'+state.market+' '+state.order+' rate</th><th>Est. fee ('+months+'mo)</th><th></th></tr></thead><tbody>';
+      rows.forEach(function(r){
+        var ex = window.EXCHANGES[r.slug];
+        var cls = r.slug==="kucoin"?"kucoin":"";
+        var bestMark = (r.fee===best && best>0)?' <span class="best">← lowest</span>':"";
+        html += '<tr class="'+cls+'"><td><b>'+r.name+'</b></td><td>'+(ex[state.market][state.order]*100).toFixed(3)+'%</td><td>'+fmt(r.fee)+' USDT'+bestMark+'</td><td>'+ctaCell(r.slug)+'</td></tr>';
+      });
+      html += '</tbody></table>';
+    } else {
+      var amt = parseFloat(document.getElementById("wamount").value)||0;
+      var net = document.getElementById("network").value;
+      var rows = [];
+      Object.keys(window.EXCHANGES).forEach(function(slug){
+        var fee = window.getUsdtWithdrawalFee(slug, net);
+        rows.push({slug:slug, name:window.EXCHANGES[slug].name, fee:fee, netSupported: fee!=null});
+      });
+      rows.sort(function(a,b){
+        if(!a.netSupported) return 1; if(!b.netSupported) return -1; return a.fee-b.fee;
+      });
+      html += '<table><thead><tr><th>Exchange</th><th>'+net+' fee</th><th>You receive</th><th></th></tr></thead><tbody>';
+      rows.forEach(function(r){
+        if(!r.netSupported){ html += '<tr><td><b>'+r.name+'</b></td><td colspan="2" class="na">'+net+' not supported</td><td>'+ctaCell(r.slug)+'</td></tr>'; return; }
+        var bestMark = (r===rows.filter(function(x){return x.netSupported;})[0])?' <span class="best">← lowest</span>':"";
+        html += '<tr class="'+(r.slug==="kucoin"?"kucoin":"")+'"><td><b>'+r.name+'</b></td><td>'+fmt(r.fee)+' USDT'+bestMark+'</td><td>'+fmt(amt-r.fee)+' USDT</td><td>'+ctaCell(r.slug)+'</td></tr>';
+      });
+      html += '</tbody></table>';
+    }
+    document.getElementById("result").innerHTML = html;
+    refreshSticky();
+  }
+
+  document.getElementById("calcTrading").addEventListener("click", render);
+  document.getElementById("calcWithdrawal").addEventListener("click", render);
+  document.getElementById("wamount").addEventListener("change", render);
+  document.getElementById("network").addEventListener("change", render);
+
+  applyCountry();
+  render();
+})();
+</script>
+</body>
+</html>
