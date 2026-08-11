@@ -1,8 +1,10 @@
 /*
  * exchanges.js — 交易所费率与能力数据层（P1 数据底座）
  * =========================================================
- * 重要：以下费率为「种子数据」，上线前必须逐条对照各所官方费率文档核实，
- * 并更新 last_updated 与来源链接。禁止编造优惠。
+ * 重要：KuCoin 费率已于 2026-08-11 按官方费率文档核实（现货基础档 0.10/0.10、合约 0.02/0.06、
+ * USDT 提币 TRC20 ~1 / ERC20 ~4）。其余交易所仍为种子数据，上线前须逐条对照各所官方文档核实。
+ * 禁止编造优惠。
+ * 监管动态（2026）：KuCoin 2026-02 奥地利 FMA 暂停欧盟新客户 onboarding；2026-03 CFTC 美国永久禁令。
  * 字段命名统一，供 /tools 计算器与 /exchanges/[x] 程序化页面共用。
  */
 
@@ -11,16 +13,16 @@ window.EXCHANGES = {
     "slug": "kucoin",
     "name": "KuCoin",
     "affiliate_link": "https://www.kucoin.com/r/af/HODL100", // 待 P0 确认为正式 Affiliate link
-    "spot":      { "maker": 0.0008, "taker": 0.0010 },
-    "futures":   { "maker": 0.0002, "taker": 0.0006 },
-    "usdt_withdrawal": { "TRC20": 1.0, "ERC20": 15.0, "BSC": 0.8, "SOL": 0.1, "Arbitrum": 0.6, "Base": 0.6 },
+    "spot":      { "maker": 0.0010, "taker": 0.0010 }, // 官方基础档 0.10% (KCS 支付折 0.08%)
+    "futures":   { "maker": 0.0002, "taker": 0.0006 }, // 官方 0.02%/0.06%
+    "usdt_withdrawal": { "TRC20": 1.0, "ERC20": 4.0, "BSC": 0.8, "SOL": 0.1, "Arbitrum": 0.6, "Base": 0.6 }, // TRC20 ~1 / ERC20 ~4 USDT
     "supported_networks": ["TRC20", "ERC20", "BSC", "SOL", "Arbitrum", "Base", "Optimism", "Polygon"],
     "has_trading_bot": true,
     "has_api": true,
     "has_copy_trading": true,
-    "new_user_note": "See official KuCoin campaigns for current new-user fee promos.",
+    "new_user_note": "KuCoin base spot fee 0.10% (20% off when paid in KCS). EU new-client onboarding paused since Feb 2026 (Austria FMA); US permanently banned (CFTC, Mar 2026).",
     "source": "https://www.kucoin.com/vip/level",
-    "last_updated": "2026-08-08"
+    "last_updated": "2026-08-11"
   },
   "binance": {
     "slug": "binance",

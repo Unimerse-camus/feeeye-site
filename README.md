@@ -51,7 +51,7 @@ affiliate-site/
 |------|------|------|
 | P0 合规 | 起草三件套模板 ✅ / 地区白名单 ✅ | 部分完成 |
 | P0 合规 | **用户确认 HODL100 是普通 Referral 还是正式 Affiliate、真实费率/二级条款** | ✅ 已确认正式 Affiliate |
-| P0 合规 | 注册品牌域名（不含 kucoin 字样）、海外主机 | ⏳ 待用户 |
+| P0 合规 | 注册品牌域名 + 海外主机 | ✅ **feeeye.com 已注册**（Porkbun，2026-08-11）；Cloudflare NS 已切、Pages 已部署、自定义域名绑定中 |
 | P1 数据 | exchanges / coins / country 三张表 + 校验 ✅ | 完成 |
 | P2 工具 | 手续费 + 提币费计算器 ✅（含地区过滤、CTA、披露） | 完成 |
 | P3 SEO | 程序化生成器 + 68 币 where-to-buy + 21 国家页 + 真实价格 + CoinGecko 摄取管线 ✅ | 完成 |
@@ -62,10 +62,11 @@ affiliate-site/
 | P7 放大 | 多所 affiliate + A/B | 未开始 |
 
 ## 下一步（按优先级）
-1. **用户侧 P0**：注册品牌域名（不含 kucoin 字样）+ 海外主机；用 KuCoin 官方费率替换 `data/exchanges.js` 种子值并更新 `last_updated` + `source`。
-2. **真实覆盖**：在服务器上 `node build/fetch_coins.mjs` 抓取逐币真实上币覆盖（替换启发式，消除页面「indicative」标注）。
-3. 上线前请目标司法辖区合规顾问复核 Terms / 地区限制。
-4. P4 启动：写第一份原创 benchmark 报告（如「12 所 USDT 提币费对比 2026」）做 GEO 弹药。
+1. **部署收尾**：等 Cloudflare Pages 自定义域名绑定转 Active → 清 DNS 残留 Porkbun 占位记录（CNAME `*`/`www` + A 207.207.210.36/50）→ 配 geo-block WAF（规则见 `ops/geo-block-rules.md`）→ VPN 切区验证 → 提交 sitemap 到 GSC。
+2. **数据替换**：用 KuCoin 官方费率替换 `data/exchanges.js` 种子值并更新 `last_updated` + `source`。
+3. **真实覆盖**：在服务器上 `node build/fetch_coins.mjs` 抓取逐币真实上币覆盖（替换启发式，消除页面「indicative」标注）。
+4. 上线前请目标司法辖区合规顾问复核 Terms / 地区限制。
+5. P4 启动：写第一份原创 benchmark 报告（如「12 所 USDT 提币费对比 2026」）做 GEO 弹药。
 
 ## 本地预览
 - 浏览器打开 `dist/index.html`（先看整站）。或 `tools/fee-calculator.html`（计算器）。
