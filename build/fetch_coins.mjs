@@ -118,7 +118,7 @@ async function main() {
     if (doCoverage && online) {
       try {
         const t = await cgGet(`${CG}/coins/${m.id}/tickers?depth=false`);
-        const ids = new Set((t.tickers || []).map((x) => x.market && x.market.id).filter(Boolean));
+        const ids = new Set((t.tickers || []).map((x) => x.market && x.market.identifier).filter(Boolean));
         exchanges = OUR_SLUGS.filter((s) => ids.has(Object.keys(CG_TO_SLUG).find((k) => CG_TO_SLUG[k] === s)));
         await sleep(2000); // 礼貌限速
       } catch (e) {
