@@ -120,9 +120,6 @@ async function main() {
       try {
         const t = await cgGet(`${CG}/coins/${m.id}/tickers?depth=false`);
         const ids = new Set((t.tickers || []).map((x) => x.market && x.market.identifier).filter(Boolean));
-        if (m.id === 'bitcoin') {
-          console.log(`  🔍 DEBUG BTC: tickers.length=${(t.tickers || []).length} ids.size=${ids.size} sample=[${Array.from(ids).slice(0, 5).join(', ')}] has(kucoin)=${ids.has('kucoin')} has(okex)=${ids.has('okex')} has(bybit_spot)=${ids.has('bybit_spot')}`);
-        }
         exchanges = OUR_SLUGS.filter((s) => ids.has(Object.keys(CG_TO_SLUG).find((k) => CG_TO_SLUG[k] === s)));
         await sleep(2000); // 礼貌限速
       } catch (e) {
