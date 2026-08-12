@@ -194,13 +194,16 @@ function T(lang, key, vars) {
   if (vars) for (const [k, v] of Object.entries(vars)) s = s.replace(new RegExp('\\{' + k + '\\}', 'g'), String(v));
   return s;
 }
+// 根路径绝对链接（修复：zh 页面相对链接叠层导致 404 / 跳错语言）
+function absPath(lang, rel) {
+  return (lang === 'zh' ? '/zh/' : '/') + rel;
+}
 const COVERAGE_NOTE = (lang) => COVERAGE_MODE === 'coingecko-tickers'
   ? T(lang, 'coverageNote')
   : (lang === 'zh' ? '上币覆盖为估算值（基于排名），请在各交易所核实。价格为 CoinGecko 快照。' : 'Exchange coverage is indicative (rank-based) — verify on each exchange. Prices are a CoinGecko snapshot.');
 
 function page({ lang, title, desc, body, jsonLd, depth = 0, path }) {
   const i = I18N[lang];
-  const up = '../'.repeat(depth);
   const canonical = `${SITE_URL}/${path}`;
   const ld = jsonLd ? `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>` : '';
   const disc = `${esc(i.discT)} ${esc(i.discB)} ${esc(COVERAGE_NOTE(lang))} ${esc(T(lang, 'foot', { u: '' }).split('。')[0] + ' ' + UPD)}`;
@@ -257,7 +260,7 @@ tr.kc{background:#eef4ff}
 </head>
 <body>
 <div class="wrap">
-<header><nav><span class="logo">${SITE}</span><span><a href="${up}tools/fee-calculator.html">${esc(i.navFee)}</a><a href="${up}index.html">${esc(i.navHome)}</a><a href="${up}${lang === 'zh' ? '../' : 'zh/'}index.html">${esc(i.navZh)}</a></span></nav></header>
+<header><nav><span class="logo">${SITE}</span><span><a href="${absPath(lang, 'tools/fee-calculator.html')}">${esc(i.navFee)}</a><a href="${lang === 'zh' ? '/zh/' : '/'}">${esc(i.navHome)}</a><a href="${lang === 'zh' ? '/' : '/zh/'}">${esc(i.navZh)}</a></span></nav></header>
 ${body}
 ${discHtml}
 <div class="foot">${esc(i.foot)} ${esc(UPD)}.</div>
@@ -300,7 +303,7 @@ function exchangePage(slug, lang) {
   const ex = EX[slug];
   const supportedCoins = COIN_LIST.filter((c) => c.exchanges.includes(slug)).length;
   const cmp = ['bybit', 'okx', 'binance'].filter((s) => s !== slug);
-  const cmpLinks = cmp.map((s) => `<a href="../compare/kucoin-vs-${s}.html">KuCoin vs ${EX[s].name}</a>`).join(' · ');
+  const cmpLinks = cmp.map((s) => `<a href="${absPath(lang, 'compare/kucoin-vs-' + s + '.html')}">KuCoin vs ${EX[s].name}</a>`).join(' · ');
   const body = `
   <h1>${esc(T(lang, 'exH1', { n: ex.name }))}</h1>
   <p class="intro">${esc(T(lang, 'exIntro', { n: ex.name, u: UPD }))}</p>
@@ -363,24 +366,24 @@ function countryPage(cc, lang) {
 
 function indexPage(lang) {
   const top = [...COIN_LIST].sort((a, b) => a.rank - b.rank).slice(0, 24);
-  const zhPre = lang === 'zh' ? 'zh/' : '';
-  const coins = top.map((c) => `<a class="pill" href="${zhPre}where-to-buy/${c.symbol.toLowerCase()}.html">${esc(c.name)} (${esc(c.symbol)})</a>`).join('');
+  const p = (rel) => absPath(lang, rel);
+  const coins = top.map((c) => `<a class="pill" href="${p('where-to-buy/' + c.symbol.toLowerCase() + '.html')}">${esc(c.name)} (${esc(c.symbol)})</a>`).join('');
   const countries = Object.keys(CA).filter((c) => !CA[c].restricted).slice(0, 10)
-    .map((c) => `<a class="pill" href="${zhPre}${c.toLowerCase()}/exchanges.html">${COUNTRY_NAMES[c] || c}</a>`).join('');
+    .map((c) => `<a class="pill" href="${p(c.toLowerCase() + '/exchanges.html')}">${COUNTRY_NAMES[c] || c}</a>`).join('');
   const body = `
   <h1>${esc(T(lang, 'idxH1'))}</h1>
   <p class="intro">${esc(T(lang, 'idxIntro', { c: coinCount, e: Object.keys(EX).length }))}</p>
   <div class="grid">
-    <div class="card"><b>${esc(T(lang, 'idxFeeT'))}</b><br>${esc(T(lang, 'idxFeeB', { e: Object.keys(EX).length }))}<br><a href="${zhPre}tools/fee-calculator.html">${esc(T(lang, 'idxOpen'))}</a></div>
-    <div class="card"><b>${esc(T(lang, 'idxWbT'))}</b><br>${esc(T(lang, 'idxWbB'))}<br><a href="${zhPre}where-to-buy/pepe.html">${esc(T(lang, 'idxEx'))}</a></div>
-    <div class="card"><b>${esc(T(lang, 'idxExT'))}</b><br>${esc(T(lang, 'idxExB'))}<br><a href="${zhPre}exchanges/kucoin.html">KuCoin →</a></div>
-    <div class="card"><b>⚖️ Comparisons</b><br>${esc(T(lang, 'idxCpB'))}<br><a href="${zhPre}compare/kucoin-vs-bybit.html">vs Bybit →</a></div>
+    <div class="card"><b>${esc(T(lang, 'idxFeeT'))}</b><br>${esc(T(lang, 'idxFeeB', { e: Object.keys(EX).length }))}<br><a href="${p('tools/fee-calculator.html')}">${esc(T(lang, 'idxOpen'))}</a></div>
+    <div class="card"><b>${esc(T(lang, 'idxWbT'))}</b><br>${esc(T(lang, 'idxWbB'))}<br><a href="${p('where-to-buy/pepe.html')}">${esc(T(lang, 'idxEx'))}</a></div>
+    <div class="card"><b>${esc(T(lang, 'idxExT'))}</b><br>${esc(T(lang, 'idxExB'))}<br><a href="${p('exchanges/kucoin.html')}">KuCoin →</a></div>
+    <div class="card"><b>⚖️ Comparisons</b><br>${esc(T(lang, 'idxCpB'))}<br><a href="${p('compare/kucoin-vs-bybit.html')}">vs Bybit →</a></div>
   </div>
   <h3>${esc(T(lang, 'idxPopular', { c: coinCount }))}</h3>
   <div class="pills">${coins}</div>
   <h3>${esc(T(lang, 'idxRegion'))}</h3>
   <div class="pills">${countries}</div>`;
-  return page({ lang, title: T(lang, 'idxTitle'), desc: T(lang, 'idxDesc'), body, path: `${zhPre}index.html` });
+  return page({ lang, title: T(lang, 'idxTitle'), desc: T(lang, 'idxDesc'), body, path: `${lang === 'zh' ? 'zh/' : ''}index.html` });
 }
 
 // ---- 写入 ----
@@ -412,9 +415,11 @@ for (const lang of ['en', 'zh']) {
   }
 }
 
-// 拷贝工具与数据，使站内计算器可用
+// 拷贝工具与数据，使站内计算器可用（en 根 + zh 双语目录各一份，工具页以 ../data/ 相对引用）
 fs.cpSync(toolsDir, path.join(distDir, 'tools'), { recursive: true });
 fs.cpSync(dataDir, path.join(distDir, 'data'), { recursive: true });
+fs.cpSync(toolsDir, path.join(distDir, 'zh', 'tools'), { recursive: true });
+fs.cpSync(dataDir, path.join(distDir, 'zh', 'data'), { recursive: true });
 
 // sitemap.xml + robots.txt
 const today = new Date().toISOString().slice(0, 10);
@@ -425,5 +430,18 @@ ${pages.map((u) => `  <url><loc>${SITE_URL}/${u}</loc><lastmod>${today}</lastmod
 </urlset>`;
 write('sitemap.xml', sitemap);
 write('robots.txt', `User-agent: *\nAllow: /\nSitemap: ${SITE_URL}/sitemap.xml\n`);
+
+// 404 兜底页（绝对链接，防止任何相对链接在错误路径下继续叠层）
+write('404.html', `<!doctype html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Page not found — FeeEye</title>
+<style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",Arial,sans-serif;background:#f7f8fa;color:#1c2430;text-align:center;padding:80px 20px;line-height:1.7}
+h1{font-size:26px;margin-bottom:8px}a{color:#2563eb;text-decoration:none;font-weight:600;margin:0 8px}</style></head>
+<body>
+<h1>404 — Page not found / 页面未找到</h1>
+<p>The page you are looking for does not exist.<br>您访问的页面不存在。</p>
+<p><a href="/">English Home</a> · <a href="/zh/">中文首页</a> · <a href="/tools/fee-calculator.html">Fee Calculator / 手续费计算器</a></p>
+</body></html>`);
 
 console.log(`✅ Generated ${count} static pages (en+zh, coins=${coinCount}, countries=${Object.keys(CA).filter((c) => !CA[c].restricted).length}) into dist/ [coverage_mode=${COVERAGE_MODE}].`);
