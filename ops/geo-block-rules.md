@@ -22,14 +22,38 @@
 **路径**：Cloudflare 控制台 → 选择域名 → **Security → WAF → Custom rules → Create rule**
 
 - **Rule name**: `geo-block-restricted-locations`
-- **Expression**（手动选择/输入）:
+- **Expression**（手动选择/输入；**已含合法爬虫白名单**，详见 2.1）:
 ```
-(ip.geoip.country in {"CN" "HK" "US" "SG" "IR" "KP" "CU" "SY"})
+(ip.geoip.country in {"CN" "HK" "US" "SG" "IR" "KP" "CU" "SY"}) and not cf.client.bot
 ```
 - **Action**: `Block`
 - 响应代码默认 **403**（可选改成 429 或自定义 403 页面）
 
-> 字段说明：WAF Custom Rules 用 `ip.geoip.country`（旧版文档里的 `cf-ipcountry` 是 Workers/Transform Rules 的写法，注意别混用）。
+> **字段说明**：WAF Custom Rules 用 `ip.geoip.country`（旧版文档里的 `cf-ipcountry` 是 Workers/Transform Rules 的写法，注意别混用）。
+
+### 2.1 关键修正：给合法爬虫白名单（不修站点永远不被 Google 收录）
+
+⚠️ **2026-08-12 发现**：原规则会拦 **Googlebot/Bingbot**（Google 来自美国 IP → 被 403），导致站点永远不会被 Google 收录。**必须加 `cf.client.bot` 排除**。
+
+修正表达式（已含在 2.0 模板里）：
+
+```
+(ip.geoip.country in {"CN" "HK" "US" "SG" "IR" "KP" "CU" "SY"}) and not cf.client.bot
+```
+
+**可视化构建**（推荐，Cloudflare 表达式编辑器更可读）：
+- 条件 1（AND）：Field `Country` → `in` → CN / HK / US / SG / IR / KP / CU / SY
+- 条件 2（AND 取反）：Field `Security > cf.client.bot` → `equals` → `true` → **勾选 NOT**
+- Action: Block
+
+`cf.client.bot` 是 Cloudflare 验证的合法爬虫（Googlebot、Bingbot、Yandex、Facebook 等），**必须放行**，否则站点无法被收录。
+
+### 2.2 如果已用旧规则上线（务必改！）
+
+1. Cloudflare → **feeeye.com** → Security → WAF → Custom rules
+2. 找到 `geo-block-restricted-locations` 规则 → Edit
+3. Expression 改为 2.1 修正版
+4. Deploy（立即生效）
 
 ---
 
