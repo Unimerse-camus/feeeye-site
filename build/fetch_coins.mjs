@@ -31,11 +31,12 @@ const outPath = path.join(root, 'data', 'coins.json');
 const CG = 'https://api.coingecko.com/api/v3';
 
 // CoinGecko 交易所 id → 本站交易所 slug
+// 注意：CoinGecko 用的是历史 identifier（OKX 在 CG 里叫 'okex'，Bybit spot 叫 'bybit_spot'）
 const CG_TO_SLUG = {
   kucoin: 'kucoin',
   binance: 'binance',
-  okx: 'okx',
-  bybit: 'bybit',
+  okex: 'okx',
+  bybit_spot: 'bybit',
   bitget: 'bitget',
   kraken: 'kraken',
   gdax: 'coinbase'
