@@ -22,6 +22,7 @@ const root = path.resolve(__dirname, '..');
 const dataDir = path.join(root, 'data');
 const distDir = path.join(root, 'dist');
 const toolsDir = path.join(root, 'tools');
+const assetsDir = path.join(root, 'assets');
 
 // ---- 加载数据（vm 注入 window 垫片）----
 const ctx = { window: {}, console };
@@ -223,6 +224,7 @@ function page({ lang, title, desc, body, jsonLd, depth = 0, path }) {
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>${esc(title)}</title>
 <meta name="description" content="${esc(desc)}">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <link rel="canonical" href="${canonical}">
 <link rel="alternate" hreflang="en" href="${SITE_URL}/${lang === 'zh' ? path.replace(/^zh\//, '') : path}">
 ${lang === 'zh' ? `<link rel="alternate" hreflang="zh" href="${SITE_URL}/${path}">` : `<link rel="alternate" hreflang="zh" href="${SITE_URL}/zh/${path}">`}
@@ -230,6 +232,11 @@ ${lang === 'zh' ? `<link rel="alternate" hreflang="zh" href="${SITE_URL}/${path}
 <meta property="og:url" content="${canonical}">
 <meta property="og:title" content="${esc(title)}">
 <meta property="og:description" content="${esc(desc)}">
+<meta property="og:image" content="${SITE_URL}/assets/logo.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="${esc(title)}">
+<meta name="twitter:description" content="${esc(desc)}">
+<meta name="twitter:image" content="${SITE_URL}/assets/logo.png">
 ${ld}
 <style>
 :root{--bg:#f7f8fa;--card:#fff;--ink:#1c2430;--sub:#5b6776;--line:#e4e8ee;--brand:#2563eb;--brand2:#0ea5a4;--ok:#16a34a;--bad:#dc2626}
@@ -237,7 +244,8 @@ ${ld}
 body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.65;font-size:15px}
 .wrap{max-width:880px;margin:0 auto;padding:22px 18px 60px}
 header nav{display:flex;align-items:center;justify-content:space-between;padding:6px 0 14px;border-bottom:1px solid var(--line);margin-bottom:20px;flex-wrap:wrap}
-.logo{font-weight:800;color:var(--brand);font-size:18px}
+.logo{display:flex;align-items:center;gap:8px;font-weight:800;color:var(--brand);font-size:18px}
+.logo img{height:26px;width:26px;border-radius:7px;display:block}
 nav a{color:var(--sub);text-decoration:none;font-size:13.5px;margin-left:14px}
 h1{font-size:25px;margin-bottom:6px}
 h3{margin-top:22px;font-size:18px}
@@ -264,7 +272,7 @@ tr.kc{background:#eef4ff}
 </head>
 <body>
 <div class="wrap">
-<header><nav><span class="logo">${SITE}</span><span><a href="${absPath(lang, toolPath(lang))}">${esc(i.navFee)}</a><a href="${lang === 'zh' ? '/zh/' : '/'}">${esc(i.navHome)}</a><a href="${lang === 'zh' ? '/' : '/zh/'}">${esc(i.navZh)}</a></span></nav></header>
+<header><nav><span class="logo"><img src="/assets/logo.png" alt="FeeEye" width="26" height="26">${SITE}</span><span><a href="${absPath(lang, toolPath(lang))}">${esc(i.navFee)}</a><a href="${lang === 'zh' ? '/zh/' : '/'}">${esc(i.navHome)}</a><a href="${lang === 'zh' ? '/' : '/zh/'}">${esc(i.navZh)}</a></span></nav></header>
 ${body}
 ${discHtml}
 <div class="foot">${esc(i.foot)} ${esc(UPD)}.</div>
@@ -424,6 +432,8 @@ fs.cpSync(toolsDir, path.join(distDir, 'tools'), { recursive: true });
 fs.cpSync(dataDir, path.join(distDir, 'data'), { recursive: true });
 fs.cpSync(toolsDir, path.join(distDir, 'zh', 'tools'), { recursive: true });
 fs.cpSync(dataDir, path.join(distDir, 'zh', 'data'), { recursive: true });
+// 拷贝 logo / favicon 到 dist 根（en + zh 通过绝对路径 /assets/ 共用一份）
+fs.cpSync(assetsDir, path.join(distDir, 'assets'), { recursive: true });
 
 // sitemap.xml + robots.txt
 const today = new Date().toISOString().slice(0, 10);
