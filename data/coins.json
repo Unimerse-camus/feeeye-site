@@ -4,7 +4,11 @@
     "generated_at": "2026-08-12T07:41:18.576Z",
     "top": 150,
     "coverage_mode": "coingecko-tickers",
-    "note": "Exchange coverage verified via CoinGecko tickers."
+    "note": "Exchange coverage verified via CoinGecko tickers.",
+    "filtered": {
+      "removed": 5,
+      "note": "stablecoins/RWA funds/bad symbols removed via isJunkCoin"
+    }
   },
   "coins": [
     {
@@ -48,51 +52,12 @@
       "coverage_source": "coingecko"
     },
     {
-      "cg_id": "tether",
-      "symbol": "USDT",
-      "name": "Tether",
-      "rank": 3,
-      "price": 0.999185,
-      "market_cap": 183028324756,
-      "exchanges": [
-        "kucoin",
-        "binance",
-        "okx",
-        "bybit",
-        "bitget",
-        "kraken"
-      ],
-      "networks": [],
-      "last_updated": "2026-08-12",
-      "coverage_source": "coingecko"
-    },
-    {
       "cg_id": "binancecoin",
       "symbol": "BNB",
       "name": "BNB",
       "rank": 4,
       "price": 611.74,
       "market_cap": 81458651696,
-      "exchanges": [
-        "kucoin",
-        "binance",
-        "okx",
-        "bybit",
-        "bitget",
-        "kraken",
-        "coinbase"
-      ],
-      "networks": [],
-      "last_updated": "2026-08-12",
-      "coverage_source": "coingecko"
-    },
-    {
-      "cg_id": "usd-coin",
-      "symbol": "USDC",
-      "name": "USDC",
-      "rank": 5,
-      "price": 0.999629,
-      "market_cap": 72079037709,
       "exchanges": [
         "kucoin",
         "binance",
@@ -166,18 +131,6 @@
       "coverage_source": "coingecko"
     },
     {
-      "cg_id": "figure-heloc",
-      "symbol": "FIGR_HELOC",
-      "name": "Figure Heloc",
-      "rank": 9,
-      "price": 1.038,
-      "market_cap": 21983454157,
-      "exchanges": [],
-      "networks": [],
-      "last_updated": "2026-08-12",
-      "coverage_source": "coingecko"
-    },
-    {
       "cg_id": "hyperliquid",
       "symbol": "HYPE",
       "name": "Hyperliquid",
@@ -205,25 +158,6 @@
       "market_cap": 11134604053,
       "exchanges": [
         "kucoin",
-        "binance",
-        "okx",
-        "bybit",
-        "bitget",
-        "kraken",
-        "coinbase"
-      ],
-      "networks": [],
-      "last_updated": "2026-08-12",
-      "coverage_source": "coingecko"
-    },
-    {
-      "cg_id": "usds",
-      "symbol": "USDS",
-      "name": "USDS",
-      "rank": 12,
-      "price": 0.999966,
-      "market_cap": 9802835605,
-      "exchanges": [
         "binance",
         "okx",
         "bybit",
@@ -372,20 +306,6 @@
       "coverage_source": "coingecko"
     },
     {
-      "cg_id": "dai",
-      "symbol": "DAI",
-      "name": "Dai",
-      "rank": 21,
-      "price": 0.999942,
-      "market_cap": 4566818605,
-      "exchanges": [
-        "kraken"
-      ],
-      "networks": [],
-      "last_updated": "2026-08-12",
-      "coverage_source": "coingecko"
-    },
-    {
       "cg_id": "bitcoin-cash",
       "symbol": "BCH",
       "name": "Bitcoin Cash",
@@ -400,39 +320,6 @@
         "bitget",
         "kraken",
         "coinbase"
-      ],
-      "networks": [],
-      "last_updated": "2026-08-12",
-      "coverage_source": "coingecko"
-    },
-    {
-      "cg_id": "usd1-wlfi",
-      "symbol": "USD1",
-      "name": "USD1",
-      "rank": 23,
-      "price": 0.999251,
-      "market_cap": 4020650367,
-      "exchanges": [
-        "binance",
-        "bybit",
-        "coinbase"
-      ],
-      "networks": [],
-      "last_updated": "2026-08-12",
-      "coverage_source": "coingecko"
-    },
-    {
-      "cg_id": "ethena-usde",
-      "symbol": "USDE",
-      "name": "Ethena USDe",
-      "rank": 24,
-      "price": 0.999731,
-      "market_cap": 3949932604,
-      "exchanges": [
-        "binance",
-        "bybit",
-        "bitget",
-        "kraken"
       ],
       "networks": [],
       "last_updated": "2026-08-12",
@@ -496,21 +383,6 @@
       "coverage_source": "coingecko"
     },
     {
-      "cg_id": "global-dollar",
-      "symbol": "USDG",
-      "name": "Global Dollar",
-      "rank": 28,
-      "price": 0.99968,
-      "market_cap": 3488003201,
-      "exchanges": [
-        "okx",
-        "kraken"
-      ],
-      "networks": [],
-      "last_updated": "2026-08-12",
-      "coverage_source": "coingecko"
-    },
-    {
       "cg_id": "hashnote-usyc",
       "symbol": "USYC",
       "name": "Circle USYC",
@@ -558,36 +430,6 @@
         "kraken",
         "coinbase"
       ],
-      "networks": [],
-      "last_updated": "2026-08-12",
-      "coverage_source": "coingecko"
-    },
-    {
-      "cg_id": "paypal-usd",
-      "symbol": "PYUSD",
-      "name": "PayPal USD",
-      "rank": 32,
-      "price": 0.999854,
-      "market_cap": 2797465807,
-      "exchanges": [
-        "kucoin",
-        "okx",
-        "bybit",
-        "bitget",
-        "kraken"
-      ],
-      "networks": [],
-      "last_updated": "2026-08-12",
-      "coverage_source": "coingecko"
-    },
-    {
-      "cg_id": "blackrock-usd-institutional-digital-liquidity-fund",
-      "symbol": "BUIDL",
-      "name": "BlackRock USD Institutional Digital Liquidity Fund",
-      "rank": 33,
-      "price": 1,
-      "market_cap": 2741921547,
-      "exchanges": [],
       "networks": [],
       "last_updated": "2026-08-12",
       "coverage_source": "coingecko"
@@ -684,20 +526,6 @@
         "bitget",
         "kraken",
         "coinbase"
-      ],
-      "networks": [],
-      "last_updated": "2026-08-12",
-      "coverage_source": "coingecko"
-    },
-    {
-      "cg_id": "ondo-us-dollar-yield",
-      "symbol": "USDY",
-      "name": "Ondo US Dollar Yield",
-      "rank": 40,
-      "price": 1.14,
-      "market_cap": 2140642422,
-      "exchanges": [
-        "bybit"
       ],
       "networks": [],
       "last_updated": "2026-08-12",
@@ -852,39 +680,6 @@
       "coverage_source": "coingecko"
     },
     {
-      "cg_id": "ripple-usd",
-      "symbol": "RLUSD",
-      "name": "Ripple USD",
-      "rank": 48,
-      "price": 1,
-      "market_cap": 1573870185,
-      "exchanges": [
-        "binance",
-        "okx",
-        "bybit",
-        "bitget",
-        "kraken"
-      ],
-      "networks": [],
-      "last_updated": "2026-08-12",
-      "coverage_source": "coingecko"
-    },
-    {
-      "cg_id": "usdd",
-      "symbol": "USDD",
-      "name": "USDD",
-      "rank": 49,
-      "price": 0.999201,
-      "market_cap": 1545377461,
-      "exchanges": [
-        "kucoin",
-        "kraken"
-      ],
-      "networks": [],
-      "last_updated": "2026-08-12",
-      "coverage_source": "coingecko"
-    },
-    {
       "cg_id": "memecore",
       "symbol": "M",
       "name": "MemeCore",
@@ -957,32 +752,6 @@
       "coverage_source": "coingecko"
     },
     {
-      "cg_id": "falcon-finance",
-      "symbol": "USDF",
-      "name": "Falcon USD",
-      "rank": 53,
-      "price": 0.995786,
-      "market_cap": 1336776831,
-      "exchanges": [],
-      "networks": [],
-      "last_updated": "2026-08-12",
-      "coverage_source": "coingecko"
-    },
-    {
-      "cg_id": "bfusd",
-      "symbol": "BFUSD",
-      "name": "BFUSD",
-      "rank": 55,
-      "price": 0.998565,
-      "market_cap": 1318100808,
-      "exchanges": [
-        "binance"
-      ],
-      "networks": [],
-      "last_updated": "2026-08-12",
-      "coverage_source": "coingecko"
-    },
-    {
       "cg_id": "morpho",
       "symbol": "MORPHO",
       "name": "Morpho",
@@ -1043,20 +812,6 @@
       "coverage_source": "coingecko"
     },
     {
-      "cg_id": "united-stables",
-      "symbol": "U",
-      "name": "United Stables",
-      "rank": 59,
-      "price": 0.999103,
-      "market_cap": 1220654605,
-      "exchanges": [
-        "binance"
-      ],
-      "networks": [],
-      "last_updated": "2026-08-12",
-      "coverage_source": "coingecko"
-    },
-    {
       "cg_id": "worldcoin-wld",
       "symbol": "WLD",
       "name": "Worldcoin",
@@ -1097,20 +852,6 @@
       "coverage_source": "coingecko"
     },
     {
-      "cg_id": "usdgo",
-      "symbol": "USDGO",
-      "name": "USDGO",
-      "rank": 62,
-      "price": 1,
-      "market_cap": 1160037492,
-      "exchanges": [
-        "bitget"
-      ],
-      "networks": [],
-      "last_updated": "2026-08-12",
-      "coverage_source": "coingecko"
-    },
-    {
       "cg_id": "bitget-token",
       "symbol": "BGB",
       "name": "Bitget Token",
@@ -1121,18 +862,6 @@
         "bitget",
         "kraken"
       ],
-      "networks": [],
-      "last_updated": "2026-08-12",
-      "coverage_source": "coingecko"
-    },
-    {
-      "cg_id": "spiko-amundi-overnight-swap-fund-eur",
-      "symbol": "EURSAFO",
-      "name": "Spiko Amundi Overnight Swap Fund (EUR)",
-      "rank": 64,
-      "price": 1.17,
-      "market_cap": 1078875374,
-      "exchanges": [],
       "networks": [],
       "last_updated": "2026-08-12",
       "coverage_source": "coingecko"
@@ -1206,30 +935,6 @@
       "coverage_source": "coingecko"
     },
     {
-      "cg_id": "superstate-short-duration-us-government-securities-fund-ustb",
-      "symbol": "USTB",
-      "name": "Invesco Short Duration US Government Securities Fund",
-      "rank": 69,
-      "price": 11.17,
-      "market_cap": 958209195,
-      "exchanges": [],
-      "networks": [],
-      "last_updated": "2026-08-12",
-      "coverage_source": "coingecko"
-    },
-    {
-      "cg_id": "eutbl",
-      "symbol": "EUTBL",
-      "name": "Spiko EU T-Bills Money Market Fund",
-      "rank": 70,
-      "price": 1.22,
-      "market_cap": 928273603,
-      "exchanges": [],
-      "networks": [],
-      "last_updated": "2026-08-12",
-      "coverage_source": "coingecko"
-    },
-    {
       "cg_id": "kucoin-shares",
       "symbol": "KCS",
       "name": "KuCoin",
@@ -1260,18 +965,6 @@
         "kraken",
         "coinbase"
       ],
-      "networks": [],
-      "last_updated": "2026-08-12",
-      "coverage_source": "coingecko"
-    },
-    {
-      "cg_id": "janus-henderson-anemoy-treasury-fund",
-      "symbol": "JTRSY",
-      "name": "Janus Henderson Anemoy Treasury Fund",
-      "rank": 73,
-      "price": 1.11,
-      "market_cap": 871962222,
-      "exchanges": [],
       "networks": [],
       "last_updated": "2026-08-12",
       "coverage_source": "coingecko"
@@ -1449,42 +1142,6 @@
       "coverage_source": "coingecko"
     },
     {
-      "cg_id": "gho",
-      "symbol": "GHO",
-      "name": "GHO",
-      "rank": 84,
-      "price": 0.998501,
-      "market_cap": 697949727,
-      "exchanges": [],
-      "networks": [],
-      "last_updated": "2026-08-12",
-      "coverage_source": "coingecko"
-    },
-    {
-      "cg_id": "janus-henderson-anemoy-aaa-clo-fund",
-      "symbol": "JAAA",
-      "name": "Janus Henderson Anemoy AAA CLO Fund",
-      "rank": 85,
-      "price": 1.045,
-      "market_cap": 693809028,
-      "exchanges": [],
-      "networks": [],
-      "last_updated": "2026-08-12",
-      "coverage_source": "coingecko"
-    },
-    {
-      "cg_id": "ylds",
-      "symbol": "YLDS",
-      "name": "YLDS",
-      "rank": 86,
-      "price": 1.001,
-      "market_cap": 658044809,
-      "exchanges": [],
-      "networks": [],
-      "last_updated": "2026-08-12",
-      "coverage_source": "coingecko"
-    },
-    {
       "cg_id": "render-token",
       "symbol": "RENDER",
       "name": "Render",
@@ -1594,18 +1251,6 @@
       "coverage_source": "coingecko"
     },
     {
-      "cg_id": "usual-usd",
-      "symbol": "USD0",
-      "name": "Usual USD",
-      "rank": 93,
-      "price": 0.998641,
-      "market_cap": 550749154,
-      "exchanges": [],
-      "networks": [],
-      "last_updated": "2026-08-12",
-      "coverage_source": "coingecko"
-    },
-    {
       "cg_id": "xdce-crowd-sale",
       "symbol": "XDC",
       "name": "XDC Network",
@@ -1655,37 +1300,6 @@
         "bitget",
         "kraken",
         "coinbase"
-      ],
-      "networks": [],
-      "last_updated": "2026-08-12",
-      "coverage_source": "coingecko"
-    },
-    {
-      "cg_id": "true-usd",
-      "symbol": "TUSD",
-      "name": "TrueUSD",
-      "rank": 98,
-      "price": 0.995959,
-      "market_cap": 492605716,
-      "exchanges": [
-        "kucoin",
-        "binance",
-        "bybit",
-        "bitget"
-      ],
-      "networks": [],
-      "last_updated": "2026-08-12",
-      "coverage_source": "coingecko"
-    },
-    {
-      "cg_id": "bianrensheng",
-      "symbol": "币安人生",
-      "name": "币安人生 (BinanceLife)",
-      "rank": 100,
-      "price": 0.482899,
-      "market_cap": 482887749,
-      "exchanges": [
-        "binance"
       ],
       "networks": [],
       "last_updated": "2026-08-12",
@@ -1755,22 +1369,6 @@
         "okx",
         "bybit",
         "bitget",
-        "kraken",
-        "coinbase"
-      ],
-      "networks": [],
-      "last_updated": "2026-08-12",
-      "coverage_source": "coingecko"
-    },
-    {
-      "cg_id": "euro-coin",
-      "symbol": "EURC",
-      "name": "EURC",
-      "rank": 104,
-      "price": 1.15,
-      "market_cap": 457030661,
-      "exchanges": [
-        "okx",
         "kraken",
         "coinbase"
       ],
@@ -1899,18 +1497,6 @@
       "coverage_source": "coingecko"
     },
     {
-      "cg_id": "ousg",
-      "symbol": "OUSG",
-      "name": "Ondo Short-Term U.S. Government Bond Fund",
-      "rank": 112,
-      "price": 116.19,
-      "market_cap": 380843707,
-      "exchanges": [],
-      "networks": [],
-      "last_updated": "2026-08-12",
-      "coverage_source": "coingecko"
-    },
-    {
       "cg_id": "official-trump",
       "symbol": "TRUMP",
       "name": "Official Trump",
@@ -1964,34 +1550,6 @@
         "bitget",
         "kraken",
         "coinbase"
-      ],
-      "networks": [],
-      "last_updated": "2026-08-12",
-      "coverage_source": "coingecko"
-    },
-    {
-      "cg_id": "usdtb",
-      "symbol": "USDTB",
-      "name": "USDtb",
-      "rank": 116,
-      "price": 0.999327,
-      "market_cap": 352702154,
-      "exchanges": [
-        "bybit"
-      ],
-      "networks": [],
-      "last_updated": "2026-08-12",
-      "coverage_source": "coingecko"
-    },
-    {
-      "cg_id": "first-digital-usd",
-      "symbol": "FDUSD",
-      "name": "First Digital USD",
-      "rank": 117,
-      "price": 0.997094,
-      "market_cap": 350743047,
-      "exchanges": [
-        "binance"
       ],
       "networks": [],
       "last_updated": "2026-08-12",
@@ -2372,18 +1930,6 @@
         "bitget",
         "kraken"
       ],
-      "networks": [],
-      "last_updated": "2026-08-12",
-      "coverage_source": "coingecko"
-    },
-    {
-      "cg_id": "onyc",
-      "symbol": "ONYC",
-      "name": "OnRe Tokenized Reinsurance",
-      "rank": 138,
-      "price": 1.13,
-      "market_cap": 255923213,
-      "exchanges": [],
       "networks": [],
       "last_updated": "2026-08-12",
       "coverage_source": "coingecko"

@@ -95,6 +95,27 @@ function heuristicCoverage(rank, symbol) {
   return [...set];
 }
 
+// ---- 币种过滤（A1：去除稳定币 / RWA 代币基金 / 垃圾符号，只留真实 "where to buy" 意图的币）----
+const STABLECOINS = new Set([
+  'USDT','USDC','DAI','USDE','USDS','FDUSD','TUSD','PYUSD','GUSD','BUSD','LUSD','FRAX',
+  'USTC','USDP','XUSD','USUAL','USD1','EURS','EURC','AEUR','AUSD','USDY','USDF','USDM',
+  'USD0','USDX','MUSD','USDR','DOLA','CRVUSD','GHUSD','USDG','USDA','BUIDL','USDEB',
+  'RLUSD','BFUSD','U','GHO','YLDS','USDTB','USDC.E'
+]);
+// RWA / 代币化基金 / 债类特征（name 关键词，宽匹配但避开正常币名）
+const JUNK_NAME = /tokeniz|fund|etf|bond|treasury|heloc|credit|loan|receipt|claim token|collateralized debt|deposit note|stablecoin|stables|dollar|\busd\b/i;
+const SYMBOL_RE = /^[A-Z0-9][A-Z0-9.-]{0,11}$/; // ASCII、≤12 字符
+
+function isJunkCoin(symbol, name) {
+  if (STABLECOINS.has(symbol)) return true;
+  if (symbol.startsWith('USD')) return true;       // USD 前缀 = 美元稳定币/包装稳定币（USDT/USDC/USDE/USDtb...）
+  if (!SYMBOL_RE.test(symbol)) return true;          // 非 ASCII / 超长 / 非法字符
+  if (/^[0-9]+$/.test(symbol)) return true;          // 纯数字符号
+  if (JUNK_NAME.test(name)) return true;             // RWA / 基金 / 债类 / 稳定币名特征
+  if (symbol.includes('USD') && /bridg|wrapped usd/i.test(name)) return true; // 桥接稳定币
+  return false;
+}
+
 async function main() {
   console.log(`🔄 Fetching top ${TOP} coins from CoinGecko...`);
   const markets = [];
@@ -110,11 +131,13 @@ async function main() {
   console.log(`  ✓ got ${markets.length} coins`);
 
   const coins = [];
+  let skipped = 0;
   let online = true;
   const doCoverage = !NO_COVERAGE && markets.length <= 150;
 
   for (const m of markets) {
     const sym = m.symbol.toUpperCase();
+    if (isJunkCoin(sym, m.name)) { skipped++; continue; }
     let exchanges;
     if (doCoverage && online) {
       try {
@@ -154,7 +177,7 @@ async function main() {
       : 'Exchange coverage is INDICATIVE (rank-based heuristic). Verify on each exchange before relying on it.'
   };
   fs.writeFileSync(outPath, JSON.stringify({ meta, coins }, null, 2));
-  console.log(`✅ Wrote ${coins.length} coins → data/coins.json`);
+  console.log(`✅ Wrote ${coins.length} coins → data/coins.json (removed ${skipped} junk: stablecoins/RWA funds/bad symbols)`);
   console.log(`   coverage_mode=${meta.coverage_mode}`);
   const kc = coins.filter((c) => c.exchanges.includes('kucoin')).length;
   console.log(`   kuCoin-listed: ${kc}/${coins.length}`);
