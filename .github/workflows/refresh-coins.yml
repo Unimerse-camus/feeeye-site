@@ -25,7 +25,10 @@ jobs:
           node-version: 20
 
       # --top 150：≤150 才抓逐币 tickers（真实覆盖）；250 会退回启发式
+      # COINGECKO_API_KEY：仓库 Secret（Demo key），大幅降低 429 限流
       - name: Fetch CoinGecko data (top 150, real exchange coverage)
+        env:
+          COINGECKO_API_KEY: ${{ secrets.COINGECKO_API_KEY }}
         run: node build/fetch_coins.mjs --top 150
 
       - name: Commit and push if changed

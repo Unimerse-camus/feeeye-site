@@ -53,10 +53,15 @@ const FORCE = args.includes('--force');
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
+// CoinGecko API key（GitHub Actions 从 Secret COINGECKO_API_KEY 注入；本地留空则匿名）
+const API_KEY = process.env.COINGECKO_API_KEY || '';
+
 async function cgGet(url, tries = 3) {
   for (let t = 0; t < tries; t++) {
     try {
-      const res = await fetch(url, { headers: { 'accept': 'application/json' } });
+      const headers = { 'accept': 'application/json' };
+      if (API_KEY) headers['x-cg-demo-api-key'] = API_KEY;
+      const res = await fetch(url, { headers });
       if (res.status === 429) {
         const wait = 15000 * (t + 1);
         console.warn(`  ⚠️ 429 rate limit, waiting ${wait / 1000}s...`);
@@ -99,7 +104,7 @@ async function main() {
     if (!Array.isArray(batch) || batch.length === 0) break;
     markets.push(...batch);
     if (batch.length < per) break;
-    await sleep(1500);
+    await sleep(2000);
   }
   console.log(`  ✓ got ${markets.length} coins`);
 
@@ -115,7 +120,7 @@ async function main() {
         const t = await cgGet(`${CG}/coins/${m.id}/tickers?depth=false`);
         const ids = new Set((t.tickers || []).map((x) => x.market && x.market.id).filter(Boolean));
         exchanges = OUR_SLUGS.filter((s) => ids.has(Object.keys(CG_TO_SLUG).find((k) => CG_TO_SLUG[k] === s)));
-        await sleep(1500); // 礼貌限速
+        await sleep(2000); // 礼貌限速
       } catch (e) {
         console.warn(`  ⚠️ ticker fetch failed for ${sym} (${e.message}); switching to offline heuristic.`);
         online = false;
