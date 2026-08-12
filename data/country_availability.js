@@ -14,9 +14,9 @@ window.COUNTRY_AVAILABILITY = {
   "US": { "restricted": true,  "note": "Restricted Location — 不提供服务", "exchanges": {} },
   "SG": { "restricted": true,  "note": "Restricted Location — 不提供服务", "exchanges": {} },
 
-  "DE": { "restricted": false, "exchanges": { "kucoin": true, "binance": true, "bybit": true, "okx": true, "bitget": true, "kraken": true, "coinbase": true } },
+  "DE": { "restricted": false, "exchanges": { "kucoin": false, "binance": true, "bybit": true, "okx": true, "bitget": true, "kraken": true, "coinbase": true }, "note": "KuCoin paused new-client onboarding in EU (Austria FMA, Feb 2026)" },
   "GB": { "restricted": false, "exchanges": { "kucoin": true, "binance": true, "bybit": true, "okx": true, "bitget": true, "kraken": true, "coinbase": true } },
-  "FR": { "restricted": false, "exchanges": { "kucoin": true, "binance": true, "bybit": true, "okx": true, "bitget": true, "kraken": true, "coinbase": true } },
+  "FR": { "restricted": false, "exchanges": { "kucoin": false, "binance": true, "bybit": true, "okx": true, "bitget": true, "kraken": true, "coinbase": true }, "note": "KuCoin paused new-client onboarding in EU (Austria FMA, Feb 2026)" },
   "JP": { "restricted": false, "exchanges": { "kucoin": true, "binance": false, "bybit": true, "okx": true, "bitget": false, "kraken": true, "coinbase": true } },
   "BR": { "restricted": false, "exchanges": { "kucoin": true, "binance": true, "bybit": true, "okx": true, "bitget": true, "kraken": false, "coinbase": true } },
   "IN": { "restricted": false, "exchanges": { "kucoin": true, "binance": false, "bybit": true, "okx": true, "bitget": true, "kraken": false, "coinbase": true } },
@@ -32,9 +32,9 @@ window.COUNTRY_AVAILABILITY = {
   "ZA": { "restricted": false, "exchanges": { "kucoin": true, "binance": true, "bybit": true, "okx": true, "bitget": true, "kraken": false, "coinbase": true } },
   "KR": { "restricted": false, "exchanges": { "kucoin": true, "binance": false, "bybit": true, "okx": true, "bitget": false, "kraken": false, "coinbase": false } },
   "TH": { "restricted": false, "exchanges": { "kucoin": true, "binance": false, "bybit": true, "okx": true, "bitget": true, "kraken": false, "coinbase": false } },
-  "PL": { "restricted": false, "exchanges": { "kucoin": true, "binance": true, "bybit": true, "okx": true, "bitget": true, "kraken": true, "coinbase": true } },
-  "ES": { "restricted": false, "exchanges": { "kucoin": true, "binance": true, "bybit": true, "okx": true, "bitget": true, "kraken": true, "coinbase": true } },
-  "IT": { "restricted": false, "exchanges": { "kucoin": true, "binance": true, "bybit": true, "okx": true, "bitget": true, "kraken": true, "coinbase": true } }
+  "PL": { "restricted": false, "exchanges": { "kucoin": false, "binance": true, "bybit": true, "okx": true, "bitget": true, "kraken": true, "coinbase": true }, "note": "KuCoin paused new-client onboarding in EU (Austria FMA, Feb 2026)" },
+  "ES": { "restricted": false, "exchanges": { "kucoin": false, "binance": true, "bybit": true, "okx": true, "bitget": true, "kraken": true, "coinbase": true }, "note": "KuCoin paused new-client onboarding in EU (Austria FMA, Feb 2026)" },
+  "IT": { "restricted": false, "exchanges": { "kucoin": false, "binance": true, "bybit": true, "okx": true, "bitget": true, "kraken": true, "coinbase": true }, "note": "KuCoin paused new-client onboarding in EU (Austria FMA, Feb 2026)" }
 };
 
 window.COUNTRY_NAMES = {
@@ -46,4 +46,4 @@ window.COUNTRY_NAMES = {
   "ES":"Spain","IT":"Italy"
 };
 
-window.LAST_UPDATED_COUNTRY = "2026-08-08";
+window.LAST_UPDATED_COUNTRY = "2026-08-12";
