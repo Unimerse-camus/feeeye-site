@@ -54,19 +54,20 @@ affiliate-site/
 | P0 合规 | 注册品牌域名 + 海外主机 | ✅ **feeeye.com 已注册**（Porkbun，2026-08-11）；Cloudflare NS 已切、Pages 已部署、自定义域名绑定中 |
 | P1 数据 | exchanges / coins / country 三张表 + 校验 ✅ | 完成 |
 | P2 工具 | 手续费 + 提币费计算器 ✅（含地区过滤、CTA、披露） | 完成 |
-| P3 SEO | 程序化生成器 + 68 币 where-to-buy + 21 国家页 + 真实价格 + CoinGecko 摄取管线 ✅ | 完成 |
+| P3 SEO | 程序化生成器 + 118 币 where-to-buy（已滤稳定币/RWA 基金）+ 21 国家页 + 真实价格 + CoinGecko 摄取管线（含 A1 币种过滤） ✅ | 完成 |
 | P4 GEO | 原创 benchmark 报告 | 未开始 |
 | P5 内容 | YouTube / X / Newsletter 分发 | 未开始 |
 | P5 运营 | 返佣追踪看板 ✅ + 英文 TG Bot 规格 ✅ + 落地执行手册 ✅（融合外部手册方法论，合规化） | 完成 |
 | P6 二级 | 招 KOL/群主/工具开发者 | 未开始 |
 | P7 放大 | 多所 affiliate + A/B | 未开始 |
+| 工具库 | 工具矩阵规划 ✅（`docs/tools-roadmap.md`：T1 盈亏 → T2 清算 → T3-T5 辅助 → T6-T7 实时数据 → T8-T9 交互） | 规划完成，待落地 |
 
 ## 下一步（按优先级）
-1. **部署收尾**：等 Cloudflare Pages 自定义域名绑定转 Active → 清 DNS 残留 Porkbun 占位记录（CNAME `*`/`www` + A 207.207.210.36/50）→ 配 geo-block WAF（规则见 `ops/geo-block-rules.md`）→ VPN 切区验证 → 提交 sitemap 到 GSC。
-2. **数据替换**：用 KuCoin 官方费率替换 `data/exchanges.js` 种子值并更新 `last_updated` + `source`。
-3. **真实覆盖**：在服务器上 `node build/fetch_coins.mjs` 抓取逐币真实上币覆盖（替换启发式，消除页面「indicative」标注）。
-4. 上线前请目标司法辖区合规顾问复核 Terms / 地区限制。
-5. P4 启动：写第一份原创 benchmark 报告（如「12 所 USDT 提币费对比 2026」）做 GEO 弹药。
+1. **工具库落地**：按 `docs/tools-roadmap.md` 顺序做 T1 盈亏计算器 → T2 合约清算 → T3-T5 辅助计算器 → T6-T7 实时数据 → T8-T9 交互增强（每个工具 en+zh 双语 + CTA + 地区过滤）。
+2. **页面优化**：首页工具矩阵卡片分组、币页相关工具区、移动端体验。
+3. **数据**：A2 扩币 150→500+（真实 tickers 覆盖仅 top 150，需混合模式）；持续观察 GSC 收录。
+4. P4 启动：写第一份原创 benchmark 报告（如「各所 USDT 提币费对比 2026」）做 GEO 弹药。
+5. 上线前请目标司法辖区合规顾问复核 Terms / 地区限制。
 
 ## 本地预览
 - 浏览器打开 `dist/index.html`（先看整站）。或 `tools/fee-calculator.html`（计算器）。
