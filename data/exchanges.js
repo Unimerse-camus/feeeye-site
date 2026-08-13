@@ -37,6 +37,8 @@ window.EXCHANGES = {
   "binance": {
     "slug": "binance",
     "name": "Binance",
+    "affiliate_link": "https://www.binance.com/register?ref=BTCANDSOL",
+    "affiliate_rate": { "spot": 0.20, "futures": 0.10 },
     "spot":      { "maker": 0.0010, "taker": 0.0010 },
     "futures":   { "maker": 0.0002, "taker": 0.0004 },
     "usdt_withdrawal": { "TRC20": 1.0, "ERC20": 4.0, "BSC": 0.3, "SOL": 0.01, "Arbitrum": 0.1, "Base": 0.5, "Optimism": 0.1, "Polygon": 0.1 },
