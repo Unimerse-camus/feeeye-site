@@ -31,12 +31,11 @@ for (const f of ['exchanges.js', 'country_availability.js']) {
   vm.runInContext(fs.readFileSync(path.join(dataDir, f), 'utf8'), ctx, { filename: f });
 }
 const EX = ctx.window.EXCHANGES;
+const EXCHANGE_COMPARE = ctx.window.EXCHANGE_COMPARE || {};
 const CA = ctx.window.COUNTRY_AVAILABILITY;
 const COUNTRY_NAMES = ctx.window.COUNTRY_NAMES || {};
 const getFee = ctx.window.getUsdtWithdrawalFee;
 const UPD = EX.kucoin.last_updated;
-const KU = EX.kucoin;
-const KU_LINK = KU.affiliate_link;
 const RESTRICTED_LABEL = ['US', 'CN', 'HK', 'SG'].join(', ');
 
 // CTA 链接规则：有 affiliate 用 affiliate（rel=sponsored nofollow），否则用官网（rel=noopener）
@@ -126,7 +125,7 @@ const I18N = {
     exH1: '{n} — Fees, Networks & Tools (2026)',
     exIntro: 'Snapshot of {n} trading fees, USDT withdrawal costs, supported networks and features. Data {u}.',
     exSpot: 'Spot fee', exFutures: 'Futures fee', exWd: 'USDT withdrawal', exCoins: 'Coins listed', exBot: 'Trading bot', exApi: 'API',
-    exOf: '{a} of {c} tracked', exBotYes: 'Available', exBotNo: 'No',
+    exOf: '{t} listed · {a} of {c} tracked', exBotYes: 'Available', exBotNo: 'No',
     exTitle: '{n} Review 2026 — Fees, Withdrawal & Features',
     exDesc: '{n} fees, USDT withdrawal costs, supported networks and trading features. Compare with other exchanges.',
     exCompare: 'Compare: ',
@@ -171,7 +170,7 @@ const I18N = {
     exH1: '{n}——费率、网络与工具（2026）',
     exIntro: '{n} 交易费率、USDT 提币成本、支持网络与功能快照。数据更新至 {u}。',
     exSpot: '现货费率', exFutures: '合约费率', exWd: 'USDT 提币', exCoins: '上架币种', exBot: '交易机器人', exApi: 'API',
-    exOf: '已追踪 {c} 个中的 {a} 个', exBotYes: '支持', exBotNo: '不支持',
+    exOf: '上架 {t} 个 · 追踪 {a}/{c}', exBotYes: '支持', exBotNo: '不支持',
     exTitle: '{n} 2026 评测——费率、提币与功能',
     exDesc: '{n} 费率、USDT 提币成本、支持网络与交易功能。与其他交易所对比。',
     exCompare: '对比：',
@@ -278,6 +277,7 @@ input[type=number]{font-size:16px}
 .best{color:var(--ok);font-weight:700}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 @media(max-width:640px){.grid{grid-template-columns:1fr}}
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
 .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
 .card a{color:var(--brand);text-decoration:none;font-weight:600}
 .foot{color:var(--sub);font-size:12px;margin-top:22px;text-align:center}
@@ -313,7 +313,7 @@ function whereToBuy(c, lang) {
   <h1>${esc(T(lang, 'wbH1', { n: name, s: symbol }))}</h1>
   <p class="intro">${esc(T(lang, 'wbIntro', { n: name }))}</p>
   ${priceLine}
-  <table><thead><tr><th>${esc(T(lang, 'thExchange'))}</th><th>${esc(T(lang, 'thLists', { s: symbol }))}</th><th>${esc(T(lang, 'thTaker'))}</th><th>${esc(T(lang, 'thFee20'))}</th><th></th></tr></thead><tbody>${rows}</tbody></table>
+  <div class="scroll"><table><thead><tr><th>${esc(T(lang, 'thExchange'))}</th><th>${esc(T(lang, 'thLists', { s: symbol }))}</th><th>${esc(T(lang, 'thTaker'))}</th><th>${esc(T(lang, 'thFee20'))}</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>
   <p class="intro">${esc(T(lang, 'alsoOn', { n: name, o: others || '—' }))}</p>`;
   const jsonLd = {
     '@context': 'https://schema.org', '@type': 'FAQPage',
@@ -327,6 +327,7 @@ function whereToBuy(c, lang) {
 function exchangePage(slug, lang) {
   const ex = EX[slug];
   const supportedCoins = COIN_LIST.filter((c) => c.exchanges.includes(slug)).length;
+  const totalListed = (EXCHANGE_COMPARE[slug] && EXCHANGE_COMPARE[slug].coins) || null;
   const cmp = ['bybit', 'okx', 'binance'].filter((s) => s !== slug);
   const cmpLinks = cmp.map((s) => `<a href="${absPath(lang, 'compare/kucoin-vs-' + s + '.html')}">KuCoin vs ${EX[s].name}</a>`).join(' · ');
   const body = `
@@ -336,7 +337,7 @@ function exchangePage(slug, lang) {
     <div class="card"><b>${esc(T(lang, 'exSpot'))}</b><br>${esc(T(lang, 'thTaker'))} ${pct(ex.spot.taker)} · ${esc(lang === 'zh' ? '挂单' : 'Maker')} ${pct(ex.spot.maker)}</div>
     <div class="card"><b>${esc(T(lang, 'exFutures'))}</b><br>${esc(T(lang, 'thTakerFut'))} ${pct(ex.futures.taker)} · ${esc(lang === 'zh' ? '挂单' : 'Maker')} ${pct(ex.futures.maker)}</div>
     <div class="card"><b>${esc(T(lang, 'exWd'))}</b><br>TRC20 ${usd(getFee(slug, 'TRC20'))} · ERC20 ${usd(getFee(slug, 'ERC20'))}</div>
-    <div class="card"><b>${esc(T(lang, 'exCoins'))}</b><br>${esc(T(lang, 'exOf', { a: supportedCoins, c: coinCount }))}</div>
+    <div class="card"><b>${esc(T(lang, 'exCoins'))}</b><br>${esc(T(lang, 'exOf', { t: totalListed != null ? totalListed.toLocaleString() : '—', a: supportedCoins, c: coinCount }))}</div>
     <div class="card"><b>${esc(T(lang, 'exBot'))}</b><br>${ex.has_trading_bot ? T(lang, 'exBotYes') : T(lang, 'exBotNo')}</div>
     <div class="card"><b>${esc(T(lang, 'exApi'))}</b><br>${ex.has_api ? T(lang, 'exBotYes') : T(lang, 'exBotNo')}</div>
   </div>
@@ -359,8 +360,8 @@ function comparePage(other, lang) {
   const body = `
   <h1>${esc(T(lang, 'cpH1', { n: b.name }))}</h1>
   <p class="intro">${esc(T(lang, 'cpIntro', { u: UPD }))}</p>
-  <table><thead><tr><th>${esc(T(lang, 'cpTh'))}</th><th>KuCoin</th><th>${b.name}</th></tr></thead><tbody>${rows}</tbody></table>
-  <p style="margin-top:14px"><a class="cta" href="${KU_LINK}" rel="sponsored nofollow" target="_blank">${esc(T(lang, 'ctaOpen'))}</a></p>`;
+  <div class="scroll"><table><thead><tr><th>${esc(T(lang, 'cpTh'))}</th><th>KuCoin</th><th>${b.name}</th></tr></thead><tbody>${rows}</tbody></table></div>
+  <p style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap">${ctaHtml('kucoin', esc(T(lang, 'ctaOpen')))}${ctaHtml(other, esc(T(lang, 'ctaOpenOn', { x: b.name })))}</p>`;
   const jsonLd = {
     '@context': 'https://schema.org', '@type': 'FAQPage',
     mainEntity: [{ '@type': 'Question', name: T(lang, 'cpQ1', { n: b.name }), answer: { '@type': 'Answer', text: T(lang, 'cpA1', { n: b.name, k: pct(a.spot.taker), o: pct(b.spot.taker), u: UPD }) } }]
@@ -381,7 +382,7 @@ function countryPage(cc, lang) {
   <h1>${esc(T(lang, 'cyH1', { n: name }))}</h1>
   <p class="intro">${esc(T(lang, 'cyIntro', { n: name }))}</p>
   <div class="note">${esc(T(lang, 'cyNote', { n: name, r: RESTRICTED_LABEL }))}</div>
-  <table><thead><tr><th>${esc(T(lang, 'thExchange'))}</th><th>${esc(T(lang, 'thTaker'))}</th><th>${esc(T(lang, 'thFee20'))}</th><th></th></tr></thead><tbody>${rows}</tbody></table>
+  <div class="scroll"><table><thead><tr><th>${esc(T(lang, 'thExchange'))}</th><th>${esc(T(lang, 'thTaker'))}</th><th>${esc(T(lang, 'thFee20'))}</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>
   <p class="intro">${esc(T(lang, 'cyUse'))}</p>`;
   return page({ lang, title: T(lang, 'cyTitle', { n: name }), desc: T(lang, 'cyDesc', { n: name }), body, depth: lang === 'zh' ? 2 : 1, path: `${lang === 'zh' ? 'zh/' : ''}${cc.toLowerCase()}/exchanges.html`, affiliate: false });
 }

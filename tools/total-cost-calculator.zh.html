@@ -87,7 +87,7 @@
       <div>
         <label for="slip">价格价差估算（%）</label>
         <input id="slip" type="number" inputmode="decimal" value="0.1" min="0" step="0.05">
-        <div class="updated">买入价高于市场价的幅度（滑点/价差）。流动性好的币约 0.1%。</div>
+        <div class="updated">买入价高于市场价的幅度（滑点/价差）。主流币约 0.1%，小市值币约 1–3%。</div>
       </div>
       <div>
         <label>是否提现到钱包？</label>
@@ -266,13 +266,14 @@ document.getElementById("upd").textContent = window.EXCHANGES.kucoin.last_update
       rows.push({ slug:slug, name:ex.name, depCostMin:depCostMin, depCostMax:depCostMax, tradeCost:tradeCost, wdCost:wdCost, spreadCost:spreadCost, totalMin:totalMin, totalMax:totalMax, mid:(totalMin+totalMax)/2, effMin:totalMin/amt, effMax:totalMax/amt, feeMin:feeMin, feeMax:feeMax, premium:premium });
     });
     rows.sort(function(a,b){ return a.mid-b.mid; });
+    var minMid = rows.length ? rows[0].mid : 0;
 
     var html = '<h3>总成本对比 —— '+zhMethod(method)+'入金，'+fmt(amt)+' USDT</h3>';
     if(methodNote) html += '<p class="detail" style="margin-top:4px">'+LABEL.note+'：'+zhNote(methodNote)+'</p>';
     html += '<table><thead><tr><th>交易所</th><th>'+LABEL.depositFee+'</th><th>'+LABEL.tradeFee+'</th><th>'+(state.withdraw==="yes"?LABEL.wdFee+" ("+net+")":"—")+'</th><th>'+LABEL.spread+'</th><th><b>'+LABEL.total+'</b></th><th>'+LABEL.effRate+'</th><th></th></tr></thead><tbody>';
     rows.forEach(function(r, idx){
       var cls = r.slug==="kucoin"?"kc":"";
-      var isBest = (idx===0 && r.mid>0);
+      var isBest = (r.mid>0 && Math.abs(r.mid - minMid) < 0.001);
       var bestMark = isBest?' <span class="best">'+LABEL.cheapest+'</span>':"";
       var rowCls = isBest ? 'class="bestrow '+cls+'"' : 'class="'+cls+'"';
       var depCell = (r.feeMin===r.feeMax)

@@ -167,7 +167,7 @@
 
     // 推荐区（KuCoin 是唯一 affiliate，客观标注）
     if(slugs.indexOf("kucoin")>-1){
-      html = '<div class="rec"><b>★ Recommended for broad coin coverage:</b> KuCoin lists ~1,000+ coins (more than Binance/OKX) with 0.10% spot fees and a clean security record. <a class="cta" href="'+window.EXCHANGES.kucoin.affiliate_link+'" rel="sponsored nofollow" target="_blank">Open KuCoin →</a></div>' + html;
+      html = '<div class="rec"><b>★ Recommended for broad coin coverage:</b> KuCoin lists ~'+(window.EXCHANGE_COMPARE.kucoin.coins).toLocaleString()+' coins (more than Binance/OKX) with 0.10% spot fees and a clean security record. <a class="cta" href="'+window.EXCHANGES.kucoin.affiliate_link+'" rel="sponsored nofollow" target="_blank">Open KuCoin →</a></div>' + html;
     }
 
     html += '<p class="foot" style="text-align:left;margin-top:12px">Fees/volumes are snapshot values (last updated <span id="upd2"></span>). Security/trust scores are our editorial synthesis of public sources — always verify on the exchange. This table is for comparison, not a guarantee of safety.</p>';

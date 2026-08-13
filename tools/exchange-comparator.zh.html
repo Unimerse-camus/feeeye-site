@@ -178,7 +178,7 @@
     html += '</tr></tbody></table></div>';
 
     if(slugs.indexOf("kucoin")>-1){
-      html = '<div class="rec"><b>★ 币种覆盖推荐：</b>KuCoin 上架约 1000+ 个币（比 Binance/OKX 多），现货费率 0.10%，安全记录干净。 <a class="cta" href="'+window.EXCHANGES.kucoin.affiliate_link+'" rel="sponsored nofollow" target="_blank">打开 KuCoin →</a></div>' + html;
+      html = '<div class="rec"><b>★ 币种覆盖推荐：</b>KuCoin 上架约 '+(window.EXCHANGE_COMPARE.kucoin.coins).toLocaleString()+' 个币（比 Binance/OKX 多），现货费率 0.10%，安全记录干净。 <a class="cta" href="'+window.EXCHANGES.kucoin.affiliate_link+'" rel="sponsored nofollow" target="_blank">打开 KuCoin →</a></div>' + html;
     }
 
     html += '<p class="foot" style="text-align:left;margin-top:12px">费率/流动性为快照值（更新于 <span id="upd2"></span>）。安全/信任分为我们对公开来源的编辑性综合，交易前请以交易所为准。本表仅供对比，不构成安全保证。</p>';
