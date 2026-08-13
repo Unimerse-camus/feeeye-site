@@ -39,6 +39,22 @@ const KU = EX.kucoin;
 const KU_LINK = KU.affiliate_link;
 const RESTRICTED_LABEL = ['US', 'CN', 'HK', 'SG'].join(', ');
 
+// CTA 链接规则：有 affiliate 用 affiliate（rel=sponsored nofollow），否则用官网（rel=noopener）
+function linkFor(slug) {
+  const ex = EX[slug];
+  return ex.affiliate_link || ex.official_url || null;
+}
+function ctaHtml(slug, label) {
+  const ex = EX[slug];
+  if (ex.affiliate_link) {
+    return `<a class="cta" href="${ex.affiliate_link}" rel="sponsored nofollow" target="_blank">${label}</a>`;
+  }
+  if (ex.official_url) {
+    return `<a class="cta" href="${ex.official_url}" rel="noopener" target="_blank">${label}</a>`;
+  }
+  return '<span class="na">—</span>';
+}
+
 // ---- 币种：优先 coins.json，回退 coins.js ----
 function heuristicCoverage(rank, symbol) {
   const set = new Set();
@@ -99,7 +115,7 @@ const I18N = {
     discHtml: '<div style="text-align:left"><div style="margin:0 0 6px"><b>\u2460 Fee snapshot</b>: recently updated 2026-08-13 \u2014 verify each rate on the exchange\'s official page before trading.</div><div style="margin:0 0 4px"><b>\u2461 Compliance-restricted regions</b> by exchange (representative examples; <b>all exchanges do not serve</b> residents of Mainland China, Hong Kong, Singapore, the United States and other Restricted Locations):</div><ul style="margin:0 0 0 20px;padding:0"><li><b>KuCoin</b>: EU new-client onboarding paused (Germany, France, Italy, Spain, Poland, ...)</li><li><b>Binance</b>: Japan, Ontario (Canada), India, Turkey, UAE, Korea, Thailand, ...</li><li><b>Bybit / OKX</b>: no specific countries publicly listed</li><li><b>Bitget</b>: Japan, Korea, ...</li><li><b>Kraken</b>: Brazil, India, Indonesia, Vietnam, Thailand, ...</li><li><b>Coinbase</b>: Indonesia, Vietnam, Thailand, ...</li></ul><div style="margin:6px 0 0"><b>\u2462</b> Before signing up, check each exchange\'s Terms of Use to confirm your country/region is supported.</div></div>',
     foot: 'Educational only. Not financial advice. Verify all data on official exchange pages. Data snapshot ',
     thExchange: 'Exchange', thLists: 'Lists {s}', thTaker: 'Spot taker', thFee20: 'USDT TRC20 fee',
-    ctaBuy: 'Buy {n} on KuCoin', ctaOpen: 'Open KuCoin', ctaAcct: 'Open a KuCoin account',
+    ctaBuy: 'Buy {n} on {x}', ctaOpen: 'Open KuCoin', ctaOpenOn: 'Open {x}', ctaAcct: 'Open a {x} account',
     alsoOn: '{n} is also available on: {o}. Use the Fee Calculator to compare your exact trade size.',
     priceLine: '{n} ({s}) price: {p} · Market cap: {m} · Rank #{r} (CoinGecko snapshot).',
     wbH1: 'Buy {n} ({s})',
@@ -144,7 +160,7 @@ const I18N = {
     discHtml: '<div style="text-align:left"><div style="margin:0 0 6px"><b>① 费率快照</b>：最近更新 2026-08-13 —— 交易前请以各交易所官方页面为准。</div><div style="margin:0 0 4px"><b>② 各所合规受限地区</b>（代表性示例；<b>所有交易所均不接受</b>中国大陆、中国香港、新加坡、美国等 Restricted Locations 用户）：</div><ul style="margin:0 0 0 20px;padding:0"><li><b>KuCoin</b>：欧盟新客户暂停（含德国、法国、意大利、西班牙、波兰等）</li><li><b>Binance</b>：日本、加拿大（安大略）、印度、土耳其、阿联酋、韩国、泰国等</li><li><b>Bybit / OKX</b>：未明确公开列示特定国家限制</li><li><b>Bitget</b>：日本、韩国等</li><li><b>Kraken</b>：巴西、印度、印度尼西亚、越南、泰国等</li><li><b>Coinbase</b>：印度尼西亚、越南、泰国等</li></ul><div style="margin:6px 0 0"><b>③</b> 注册前请查各所 Terms of Use 确认你所在国家/地区可用。</div></div>',
     foot: '仅供教育参考，不构成投资建议。请以各交易所官方页面核实所有数据。数据快照 ',
     thExchange: '交易所', thLists: '上架 {s}', thTaker: '现货吃单费率', thFee20: 'USDT TRC20 提币费',
-    ctaBuy: '在 KuCoin 购买 {n}', ctaOpen: '打开 KuCoin', ctaAcct: '注册 KuCoin 账户',
+    ctaBuy: '在 {x} 购买 {n}', ctaOpen: '打开 KuCoin', ctaOpenOn: '打开 {x}', ctaAcct: '注册 {x} 账户',
     alsoOn: '{n} 还可在以下平台购买：{o}。使用手续费计算器对比你的具体交易成本。',
     priceLine: '{n}（{s}）价格：{p} · 市值：{m} · 排名 #{r}（CoinGecko 快照）。',
     wbH1: '购买 {n}（{s}）',
@@ -287,7 +303,7 @@ function whereToBuy(c, lang) {
     const ex = EX[slug];
     const supported = c.exchanges.includes(slug);
     const cta = supported
-      ? `<a class="cta" href="${KU_LINK}" rel="sponsored nofollow" target="_blank">${esc(T(lang, 'ctaBuy', { n: name }))}</a>`
+      ? ctaHtml(slug, esc(T(lang, 'ctaBuy', { n: name, x: ex.name })))
       : '<span class="na">—</span>';
     return `<tr class="${slug === 'kucoin' ? 'kc' : ''}"><td><b>${ex.name}</b></td><td>${supported ? '✓' : '<span class="na">✗</span>'}</td><td>${pct(ex.spot.taker)}</td><td>${usd(getFee(slug, 'TRC20'))}</td><td>${cta}</td></tr>`;
   }).join('');
@@ -324,7 +340,7 @@ function exchangePage(slug, lang) {
     <div class="card"><b>${esc(T(lang, 'exBot'))}</b><br>${ex.has_trading_bot ? T(lang, 'exBotYes') : T(lang, 'exBotNo')}</div>
     <div class="card"><b>${esc(T(lang, 'exApi'))}</b><br>${ex.has_api ? T(lang, 'exBotYes') : T(lang, 'exBotNo')}</div>
   </div>
-  ${slug === 'kucoin' ? `<p style="margin-top:14px"><a class="cta" href="${KU_LINK}" rel="sponsored nofollow" target="_blank">${esc(T(lang, 'ctaAcct'))}</a></p>` : ''}
+  ${linkFor(slug) ? `<p style="margin-top:14px">${ctaHtml(slug, esc(T(lang, 'ctaAcct', { x: ex.name })))}</p>` : ''}
   <p class="intro" style="margin-top:16px">${esc(T(lang, 'exCompare'))}${cmpLinks}</p>`;
   return page({ lang, title: T(lang, 'exTitle', { n: ex.name }), desc: T(lang, 'exDesc', { n: ex.name }), body, path: `${lang === 'zh' ? 'zh/' : ''}exchanges/${slug}.html`, affiliate: false });
 }
@@ -358,9 +374,7 @@ function countryPage(cc, lang) {
   const avail = Object.keys(EX).filter((s) => info.exchanges[s]);
   const rows = avail.map((slug) => {
     const ex = EX[slug];
-    const cta = slug === 'kucoin'
-      ? `<a class="cta" href="${KU_LINK}" rel="sponsored nofollow" target="_blank">${esc(T(lang, 'ctaOpen'))}</a>`
-      : '—';
+    const cta = ctaHtml(slug, esc(T(lang, 'ctaOpenOn', { x: ex.name })));
     return `<tr class="${slug === 'kucoin' ? 'kc' : ''}"><td><b>${ex.name}</b></td><td>${pct(ex.spot.taker)}</td><td>${usd(getFee(slug, 'TRC20'))}</td><td>${cta}</td></tr>`;
   }).join('');
   const body = `

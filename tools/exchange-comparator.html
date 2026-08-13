@@ -119,9 +119,10 @@
   }
 
   function ctaCell(slug){
-    var url = window.EXCHANGES[slug].affiliate_link || "#";
-    var sponsored = slug==="kucoin" ? ' rel="sponsored nofollow"' : "";
-    return '<a class="cta" href="'+url+'"'+sponsored+' target="_blank">Sign up</a>';
+    var ex = window.EXCHANGES[slug];
+    var url = ex.affiliate_link || ex.official_url || "#";
+    var rel = ex.affiliate_link ? ' rel="sponsored nofollow"' : ' rel="noopener"';
+    return '<a class="cta" href="'+url+'"'+rel+' target="_blank">Sign up</a>';
   }
 
   function stars(n){ return "★".repeat(n) + "☆".repeat(10-n); }

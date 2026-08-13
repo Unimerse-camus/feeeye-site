@@ -16,6 +16,7 @@ window.EXCHANGES = {
   "kucoin": {
     "slug": "kucoin",
     "name": "KuCoin",
+    "official_url": "https://www.kucoin.com",
     "affiliate_link": "https://www.kucoin.com/r/af/HODL100",
     "spot":      { "maker": 0.0010, "taker": 0.0010 },
     "futures":   { "maker": 0.0002, "taker": 0.0006 },
@@ -37,6 +38,7 @@ window.EXCHANGES = {
   "binance": {
     "slug": "binance",
     "name": "Binance",
+    "official_url": "https://www.binance.com",
     "affiliate_link": "https://www.binance.com/register?ref=BTCANDSOL",
     "affiliate_rate": { "spot": 0.20, "futures": 0.10 },
     "spot":      { "maker": 0.0010, "taker": 0.0010 },
@@ -62,6 +64,7 @@ window.EXCHANGES = {
   "bybit": {
     "slug": "bybit",
     "name": "Bybit",
+    "official_url": "https://www.bybit.com",
     "spot":      { "maker": 0.0010, "taker": 0.0010 },
     "futures":   { "maker": 0.0002, "taker": 0.00055 },
     "usdt_withdrawal": { "TRC20": 1.0, "ERC20": 10.0, "BSC": 0.8, "SOL": 0.01, "Arbitrum": 0.1, "Base": 0.1, "Optimism": 0.1 },
@@ -84,6 +87,7 @@ window.EXCHANGES = {
   "okx": {
     "slug": "okx",
     "name": "OKX",
+    "official_url": "https://www.okx.com",
     "spot":      { "maker": 0.0008, "taker": 0.0010 },
     "futures":   { "maker": 0.0002, "taker": 0.0005 },
     "usdt_withdrawal": { "TRC20": 1.0, "ERC20": 10.0, "BSC": 0.5, "SOL": 0.05, "Arbitrum": 0.1, "Base": 0.1, "Optimism": 0.1, "Polygon": 0.2 },
@@ -105,6 +109,7 @@ window.EXCHANGES = {
   "bitget": {
     "slug": "bitget",
     "name": "Bitget",
+    "official_url": "https://www.bitget.com",
     "spot":      { "maker": 0.0010, "taker": 0.0010 },
     "futures":   { "maker": 0.0002, "taker": 0.0006 },
     "usdt_withdrawal": { "TRC20": 1.5, "ERC20": 10.0, "BSC": 0.6, "SOL": 0.5, "Arbitrum": 0.2, "Base": 0.2, "Optimism": 0.2 },
@@ -126,6 +131,7 @@ window.EXCHANGES = {
   "kraken": {
     "slug": "kraken",
     "name": "Kraken",
+    "official_url": "https://www.kraken.com",
     "spot":      { "maker": 0.0025, "taker": 0.0040 },
     "futures":   { "maker": 0.0002, "taker": 0.0005 },
     "usdt_withdrawal": { "TRC20": 2.0, "ERC20": 0.5, "BSC": 0.8, "SOL": 0.01, "Arbitrum": 0.25, "Polygon": 0.8 },
@@ -146,6 +152,7 @@ window.EXCHANGES = {
   "coinbase": {
     "slug": "coinbase",
     "name": "Coinbase",
+    "official_url": "https://www.coinbase.com",
     "spot":      { "maker": 0.0040, "taker": 0.0060 },
     "futures":   { "maker": 0.0002, "taker": 0.0005 },
     "usdt_withdrawal": { "TRC20": 2.4, "ERC20": 3.0, "BSC": 0.5, "Base": 0.2, "Arbitrum": 0.2 },
