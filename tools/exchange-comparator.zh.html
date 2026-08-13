@@ -33,13 +33,13 @@
   .rec .cta{background:var(--brand2)}
   table{width:100%;border-collapse:collapse;margin-top:16px;font-size:13.5px}
   th,td{border:1px solid var(--line);padding:9px 10px;text-align:left;vertical-align:top}
-  th{background:#f1f5f9;font-weight:600;font-size:12.5px}
+  th{background:#f1f5f9;font-weight:600;font-size:12.5px;white-space:nowrap}
   td.dim{font-weight:600;color:var(--sub);white-space:nowrap;min-width:130px}
   td.kc{background:#eef4ff}
   .good{color:var(--ok);font-weight:700}
   .mid{color:var(--warn);font-weight:600}
   .bad{color:var(--bad);font-weight:700}
-  .cta{display:inline-block;background:var(--brand);color:#fff;padding:6px 14px;border-radius:8px;font-size:12.5px;font-weight:700;text-decoration:none;min-height:34px}
+  .cta{display:inline-block;background:var(--brand);color:#fff;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:700;text-decoration:none;min-height:36px}
   .cta:hover{opacity:.9}
   .na{color:var(--bad);font-weight:600}
   .sticky{position:sticky;bottom:0;background:linear-gradient(135deg,#1e3a8a,#0ea5a4);color:#fff;border-radius:12px;padding:14px 18px;margin-top:18px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding-bottom:max(14px,env(safe-area-inset-bottom))}
@@ -54,7 +54,7 @@
   <header>
     <div>
       <span class="logo"><a href="/zh/" aria-label="FeeEye 首页" style="display:flex;align-items:center;gap:8px;color:inherit;text-decoration:none"><img src="/assets/logo.svg" alt="FeeEye" width="26" height="26">FeeEye</a></span>
-      <h1>⚖️ 智能交易所对比</h1>
+      <h1>智能交易所对比</h1>
       <p>从 <b>10 个维度</b>对比交易所——不止看费率。费率、提币、币种覆盖、流动性、安全、KYC、牌照、声誉。</p>
     </div>
     <a href="exchange-comparator.html" style="font-size:13px;color:var(--brand);text-decoration:none;font-weight:600">English ↗</a>
@@ -155,8 +155,8 @@
       { dim:"冷存储", val:function(ex){ return window.EXCHANGE_COMPARE[ex.slug].cold; } },
       { dim:"KYC", val:function(ex){ return KYC_ZH[window.EXCHANGE_COMPARE[ex.slug].kyc] || window.EXCHANGE_COMPARE[ex.slug].kyc; } },
       { dim:"合规牌照", val:function(ex){ return window.EXCHANGE_COMPARE[ex.slug].licenses; } },
-      { dim:"跟单 / 机器人", val:function(ex){ return (ex.has_copy_trading ? "✅ 跟单" : "—") + " · " + (ex.has_trading_bot ? "✅ 机器人" : "—"); } },
-      { dim:"API", val:function(ex){ return ex.has_api ? "✅ REST + WS" : "—"; } },
+      { dim:"跟单 / 机器人", val:function(ex){ return (ex.has_copy_trading ? '<span class="good">✓</span> 跟单' : "—") + " · " + (ex.has_trading_bot ? '<span class="good">✓</span> 机器人' : "—"); } },
+      { dim:"API", val:function(ex){ return ex.has_api ? '<span class="good">✓</span> REST + WS' : "—"; } },
       { dim:"声誉（信任分）", val:function(ex){ var t=window.EXCHANGE_COMPARE[ex.slug].trust; return (t>=10?'<span class="good">':t>=9?'<span class="good">':'<span class="mid">')+stars(t)+'</span> <span class="num">'+t+'/10</span>'; } },
       { dim:"安全事件", val:function(ex){ return INCIDENT_ZH[window.EXCHANGE_COMPARE[ex.slug].incident] || window.EXCHANGE_COMPARE[ex.slug].incident; } }
     ];

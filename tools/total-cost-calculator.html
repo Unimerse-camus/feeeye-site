@@ -34,10 +34,10 @@
   .btn:hover{opacity:.92}
   table{width:100%;border-collapse:collapse;margin-top:18px;font-size:14px}
   th,td{border:1px solid var(--line);padding:10px 12px;text-align:left}
-  th{background:#f1f5f9;font-weight:600}
+  th{background:#f1f5f9;font-weight:600;white-space:nowrap}
   tr.kc{background:#eef4ff}
   tr.bestrow{outline:2px solid var(--ok)}
-  .cta{display:inline-block;background:var(--brand);color:#fff;padding:5px 12px;border-radius:7px;font-size:12.5px;font-weight:700;text-decoration:none}
+  .cta{display:inline-block;background:var(--brand);color:#fff;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:700;text-decoration:none;min-height:36px}
   .cta:hover{opacity:.9}
   .na{color:var(--bad);font-weight:600}
   .best{color:var(--ok);font-weight:700}
@@ -57,7 +57,7 @@
   <header>
     <div>
       <span class="logo"><a href="/" aria-label="FeeEye home" style="display:flex;align-items:center;gap:8px;color:inherit;text-decoration:none"><img src="/assets/logo.svg" alt="FeeEye" width="26" height="26">FeeEye</a></span>
-      <h1>💰 Crypto Total Cost Calculator</h1>
+      <h1>Crypto Total Cost Calculator</h1>
       <p>See the <b>real all-in cost</b> of buying crypto — not just the fee rate. Deposit + trading + spread + withdrawal, compared across exchanges.</p>
     </div>
     <a href="total-cost-calculator.zh.html" style="font-size:13px;color:var(--brand);text-decoration:none;font-weight:600">中文 ↗</a>
@@ -243,7 +243,7 @@ document.getElementById("upd").textContent = window.EXCHANGES.kucoin.last_update
     var bestRow = rows[0], worstRow = rows[rows.length-1];
     if(bestRow && worstRow && bestRow.slug!==worstRow.slug){
       var diff = worstRow.mid - bestRow.mid;
-      html += '<p class="intro" style="margin-top:12px">💡 On '+fmt(amt)+' USDT, the cheapest option ('+bestRow.name+') saves ~<b class="best">'+fmt(diff)+' USDT</b> (mid-point) vs the most expensive ('+worstRow.name+').</p>';
+      html += '<p class="intro" style="margin-top:12px">On '+fmt(amt)+' USDT, the cheapest option ('+bestRow.name+') saves ~<b class="best">'+fmt(diff)+' USDT</b> (mid-point) vs the most expensive ('+worstRow.name+').</p>';
     }
 
     html += '<div class="formula"><b>How it is calculated:</b><br><code>Total cost = Deposit fee (amount × '+(method==="P2P"?"P2P rate + premium":"deposit rate range")+') + Trading fee (amount × each exchange\'s spot taker rate) + Withdrawal fee'+(state.withdraw==="yes"?" (network fee)":"")+' + Spread (amount × '+pct(slip)+').</code><br>Ranges show min–max when a fee varies by region/card/processor; single values are fixed. Snapshot <span id="upd2"></span> — always verify on the exchange.</div>';

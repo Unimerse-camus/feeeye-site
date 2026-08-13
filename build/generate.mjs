@@ -54,6 +54,16 @@ function ctaHtml(slug, label) {
   return '<span class="na">—</span>';
 }
 
+// 内联 SVG 图标（Lucide 风格，替代彩色 emoji，避免无 Noto Color Emoji 环境显示豆腐块）
+const SVG_ATTR = 'width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"';
+const ICON = {
+  receipt: `<svg ${SVG_ATTR}><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 17.5v-11"/></svg>`,
+  calculator: `<svg ${SVG_ATTR}><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="16" y1="14" x2="16" y2="18"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/><path d="M12 14h.01"/><path d="M8 14h.01"/><path d="M12 18h.01"/><path d="M8 18h.01"/></svg>`,
+  scale: `<svg ${SVG_ATTR}><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/></svg>`,
+  coins: `<svg ${SVG_ATTR}><circle cx="8" cy="8" r="6"/><path d="M18.09 10.37A6 6 0 1 1 10.34 18"/><path d="M7 6h1v4"/><path d="m16.71 13.88.7.71-2.82 2.82"/></svg>`,
+  landmark: `<svg ${SVG_ATTR}><line x1="3" y1="22" x2="21" y2="22"/><line x1="6" y1="18" x2="6" y2="11"/><line x1="10" y1="18" x2="10" y2="11"/><line x1="14" y1="18" x2="14" y2="11"/><line x1="18" y1="18" x2="18" y2="11"/><polygon points="12 2 20 7 4 7"/></svg>`
+};
+
 // ---- 币种：优先 coins.json，回退 coins.js ----
 function heuristicCoverage(rank, symbol) {
   const set = new Set();
@@ -144,11 +154,11 @@ const I18N = {
     cyUse: 'Use the Fee Calculator to compare your exact trade size across these exchanges.',
     idxH1: 'Free Crypto Tools & Exchange Data',
     idxIntro: 'Compare exchange fees, find where to buy a token, and check withdrawal costs — free, no signup. Tracking {c} coins across {e} exchanges.',
-    idxTcT: '💰 Total Cost Calculator', idxTcB: 'The REAL all-in cost of buying crypto (deposit + trading + spread + withdrawal).', idxTcC: 'Example: $1,000 buy →',
-    idxFeeT: '💱 Fee Calculator', idxFeeB: 'Compare trading & withdrawal fees across {e} exchanges.', idxOpen: 'Open tool →',
-    idxCmpT: '⚖️ Exchange Comparator', idxCmpB: 'Compare 10 dimensions: fees, coins, liquidity, security, KYC.', idxCmpC: 'Compare 10 dimensions →',
-    idxWbT: '🪙 Where to Buy', idxWbB: 'Find which exchange lists a token.', idxEx: 'Example: PEPE →',
-    idxExT: '🏦 Exchange Pages', idxExB: 'Fees & features per exchange.',
+    idxTcT: 'Total Cost Calculator', idxTcB: 'The REAL all-in cost of buying crypto (deposit + trading + spread + withdrawal).', idxTcC: 'Example: $1,000 buy →',
+    idxFeeT: 'Fee Calculator', idxFeeB: 'Compare trading & withdrawal fees across {e} exchanges.', idxOpen: 'Open tool →',
+    idxCmpT: 'Exchange Comparator', idxCmpB: 'Compare 10 dimensions: fees, coins, liquidity, security, KYC.', idxCmpC: 'Compare 10 dimensions →',
+    idxWbT: 'Where to Buy', idxWbB: 'Find which exchange lists a token.', idxEx: 'Example: PEPE →',
+    idxExT: 'Exchange Pages', idxExB: 'Fees & features per exchange.',
     idxCpB: 'KuCoin vs others.',
     idxPopular: 'Popular tokens ({c} tracked)',
     idxTitle: 'FeeEye — Free Crypto Fee Calculator & Exchange Data',
@@ -189,11 +199,11 @@ const I18N = {
     cyUse: '使用手续费计算器对比你在这些交易所的具体交易成本。',
     idxH1: '免费加密货币工具与交易所数据',
     idxIntro: '对比交易所费率、查找代币在哪里购买、查看提币成本——免费、无需注册。追踪 {c} 个币种、{e} 家交易所。',
-    idxTcT: '💰 全成本计算器', idxTcB: '看清购买加密货币的真实总花费（入金 + 交易 + 价差 + 提现）。', idxTcC: '示例：$1,000 买入 →',
-    idxFeeT: '💱 手续费计算器', idxFeeB: '对比 {e} 家交易所的交易与提币费率。', idxOpen: '打开工具 →',
-    idxCmpT: '⚖️ 智能交易所对比', idxCmpB: '10 维度对比：费率、币种、流动性、安全、KYC。', idxCmpC: '10 维度对比 →',
-    idxWbT: '🪙 在哪里购买', idxWbB: '查找某代币在哪些交易所上架。', idxEx: '示例：PEPE →',
-    idxExT: '🏦 交易所页面', idxExB: '每家交易所的费率与功能。',
+    idxTcT: '全成本计算器', idxTcB: '看清购买加密货币的真实总花费（入金 + 交易 + 价差 + 提现）。', idxTcC: '示例：$1,000 买入 →',
+    idxFeeT: '手续费计算器', idxFeeB: '对比 {e} 家交易所的交易与提币费率。', idxOpen: '打开工具 →',
+    idxCmpT: '智能交易所对比', idxCmpB: '10 维度对比：费率、币种、流动性、安全、KYC。', idxCmpC: '10 维度对比 →',
+    idxWbT: '在哪里购买', idxWbB: '查找某代币在哪些交易所上架。', idxEx: '示例：PEPE →',
+    idxExT: '交易所页面', idxExB: '每家交易所的费率与功能。',
     idxCpB: 'KuCoin 与其他交易所对比。',
     idxPopular: '热门代币（已追踪 {c} 个）',
     idxTitle: 'FeeEye——免费加密货币费率计算器与交易所数据',
@@ -267,7 +277,7 @@ h3{margin-top:22px;font-size:18px}
 .intro{color:var(--sub);margin-bottom:18px}
 table{width:100%;border-collapse:collapse;margin:14px 0;font-size:14px}
 th,td{border:1px solid var(--line);padding:10px 12px;text-align:left}
-th{background:#f1f5f9;font-weight:600}
+th{background:#f1f5f9;font-weight:600;white-space:nowrap}
 tr.kc{background:#eef4ff}
 .cta{display:inline-block;background:var(--brand);color:#fff;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:700;text-decoration:none;min-height:36px}
 .cta:hover{opacity:.9}
@@ -280,6 +290,8 @@ input[type=number]{font-size:16px}
 .scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
 .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
 .card a{color:var(--brand);text-decoration:none;font-weight:600}
+.ic{display:inline-flex;vertical-align:-3px;margin-right:7px;color:var(--brand)}
+.ic svg{display:block}
 .foot{color:var(--sub);font-size:12px;margin-top:22px;text-align:center}
 .note{background:#eef4ff;border:1px solid #c7d8ff;border-radius:10px;padding:10px 14px;font-size:13px;color:#1e40af;margin:14px 0}
 .pills{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
@@ -395,12 +407,12 @@ function indexPage(lang) {
   <h1>${esc(T(lang, 'idxH1'))}</h1>
   <p class="intro">${esc(T(lang, 'idxIntro', { c: coinCount, e: Object.keys(EX).length }))}</p>
   <div class="grid">
-    <div class="card"><b>${esc(T(lang, 'idxTcT'))}</b><br>${esc(T(lang, 'idxTcB'))}<br><a href="${p(tcPath(lang))}">${esc(T(lang, 'idxTcC'))}</a></div>
-    <div class="card"><b>${esc(T(lang, 'idxFeeT'))}</b><br>${esc(T(lang, 'idxFeeB', { e: Object.keys(EX).length }))}<br><a href="${p(toolPath(lang))}">${esc(T(lang, 'idxOpen'))}</a></div>
-    <div class="card"><b>${esc(T(lang, 'idxCmpT'))}</b><br>${esc(T(lang, 'idxCmpB'))}<br><a href="${p(cmpPath(lang))}">${esc(T(lang, 'idxCmpC'))}</a></div>
-    <div class="card"><b>${esc(T(lang, 'idxWbT'))}</b><br>${esc(T(lang, 'idxWbB'))}<br><a href="${p('where-to-buy/pepe.html')}">${esc(T(lang, 'idxEx'))}</a></div>
-    <div class="card"><b>${esc(T(lang, 'idxExT'))}</b><br>${esc(T(lang, 'idxExB'))}<br><a href="${p('exchanges/kucoin.html')}">KuCoin →</a></div>
-    <div class="card"><b>⚖️ Comparisons</b><br>${esc(T(lang, 'idxCpB'))}<br><a href="${p('compare/kucoin-vs-bybit.html')}">vs Bybit →</a></div>
+    <div class="card"><b><span class="ic">${ICON.receipt}</span>${esc(T(lang, 'idxTcT'))}</b><br>${esc(T(lang, 'idxTcB'))}<br><a href="${p(tcPath(lang))}">${esc(T(lang, 'idxTcC'))}</a></div>
+    <div class="card"><b><span class="ic">${ICON.calculator}</span>${esc(T(lang, 'idxFeeT'))}</b><br>${esc(T(lang, 'idxFeeB', { e: Object.keys(EX).length }))}<br><a href="${p(toolPath(lang))}">${esc(T(lang, 'idxOpen'))}</a></div>
+    <div class="card"><b><span class="ic">${ICON.scale}</span>${esc(T(lang, 'idxCmpT'))}</b><br>${esc(T(lang, 'idxCmpB'))}<br><a href="${p(cmpPath(lang))}">${esc(T(lang, 'idxCmpC'))}</a></div>
+    <div class="card"><b><span class="ic">${ICON.coins}</span>${esc(T(lang, 'idxWbT'))}</b><br>${esc(T(lang, 'idxWbB'))}<br><a href="${p('where-to-buy/pepe.html')}">${esc(T(lang, 'idxEx'))}</a></div>
+    <div class="card"><b><span class="ic">${ICON.landmark}</span>${esc(T(lang, 'idxExT'))}</b><br>${esc(T(lang, 'idxExB'))}<br><a href="${p('exchanges/kucoin.html')}">KuCoin →</a></div>
+    <div class="card"><b><span class="ic">${ICON.scale}</span>Comparisons</b><br>${esc(T(lang, 'idxCpB'))}<br><a href="${p('compare/kucoin-vs-bybit.html')}">vs Bybit →</a></div>
   </div>
   <h3>${esc(T(lang, 'idxPopular', { c: coinCount }))}</h3>
   <div class="pills">${coins}</div>`;
@@ -454,7 +466,9 @@ ${pages.map((u) => `  <url><loc>${SITE_URL}/${u}</loc><lastmod>${today}</lastmod
 write('sitemap.xml', sitemap);
 write('robots.txt', `User-agent: *\nAllow: /\nSitemap: ${SITE_URL}/sitemap.xml\n`);
 
-// Cloudflare Pages _headers：强制 HTML/XML 不缓存（根治边缘/浏览器缓存旧版导致的陈旧内容）
+// Cloudflare Pages _headers：缓存策略
+// - HTML/XML 不缓存（根治边缘/浏览器缓存旧版导致的陈旧内容；数据是快照，需保证新鲜）
+// - assets/ 静态资源（logo/favicon 几乎不变）长缓存，享受 CDN 加速
 // 语法：路径匹配（* 通配任意字符含 /），子行缩进 2 空格写响应头
 write('_headers', [
   '/*.html',
@@ -462,6 +476,9 @@ write('_headers', [
   '',
   '/*.xml',
   '  Cache-Control: no-cache, no-store, must-revalidate',
+  '',
+  '/assets/*',
+  '  Cache-Control: public, max-age=31536000, immutable',
   '',
   '/',
   '  Cache-Control: no-cache, no-store, must-revalidate',
@@ -484,4 +501,4 @@ h1{font-size:26px;margin-bottom:8px}a{color:#2563eb;text-decoration:none;font-we
 <p><a href="/">English Home</a> · <a href="/zh/">中文首页</a> · <a href="/tools/fee-calculator.html">Fee Calculator</a> · <a href="/zh/tools/fee-calculator.zh.html">手续费计算器</a></p>
 </body></html>`);
 
-console.log(`✅ Generated ${count} static pages (en+zh, coins=${coinCount}, countries=${Object.keys(CA).filter((c) => !CA[c].restricted).length}) into dist/ [coverage_mode=${COVERAGE_MODE}].`);
+console.log(`[OK] Generated ${count} static pages (en+zh, coins=${coinCount}, countries=${Object.keys(CA).filter((c) => !CA[c].restricted).length}) into dist/ [coverage_mode=${COVERAGE_MODE}].`);
