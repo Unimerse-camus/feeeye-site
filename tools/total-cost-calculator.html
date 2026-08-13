@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Crypto Total Cost Calculator — All-In Fees Across Exchanges</title>
+<meta name="description" content="See the REAL all-in cost of buying crypto: deposit fees, trading fees, spread and withdrawal fees compared across major exchanges. Free, no signup.">
+<style>
+  :root{--bg:#f7f8fa;--card:#fff;--ink:#1c2430;--sub:#5b6776;--line:#e4e8ee;--brand:#2563eb;--brand2:#0ea5a4;--ok:#16a34a;--bad:#dc2626;--warn:#d97706}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;font-size:15px}
+  .wrap{max-width:920px;margin:0 auto;padding:24px 18px 60px}
+  header{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:12px;margin-bottom:14px;flex-wrap:wrap}
+  header h1{font-size:24px;margin-bottom:4px}
+  .logo{display:flex;align-items:center;gap:8px;font-weight:800;color:#2563eb;font-size:18px}
+  .logo img{height:26px;width:26px;display:block}
+  header p{color:var(--sub);font-size:14px}
+  .disclaimer{background:#fffbeb;border:1px solid #fed7aa;border-radius:10px;padding:10px 14px;font-size:12.5px;color:#92400e;margin:14px 0}
+  .disclaimer code{background:#fde9c8;padding:1px 5px;border-radius:4px}
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;margin-top:10px}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  label{display:block;font-size:13px;color:var(--sub);margin-bottom:5px;font-weight:600}
+  input,select{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:9px;font-size:15px;background:#fff}
+  .seg{display:flex;gap:8px;flex-wrap:wrap}
+  .seg button{flex:1;min-width:110px;padding:9px;border:1px solid var(--line);background:#fff;border-radius:9px;cursor:pointer;font-weight:600;color:var(--sub)}
+  .seg button.on{background:var(--brand2);color:#fff;border-color:var(--brand2)}
+  .btn{margin-top:16px;background:var(--brand);color:#fff;border:none;padding:12px 18px;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;width:100%}
+  .btn:hover{opacity:.92}
+  table{width:100%;border-collapse:collapse;margin-top:18px;font-size:14px}
+  th,td{border:1px solid var(--line);padding:10px 12px;text-align:left}
+  th{background:#f1f5f9;font-weight:600}
+  tr.kc{background:#eef4ff}
+  tr.bestrow{outline:2px solid var(--ok)}
+  .cta{display:inline-block;background:var(--brand);color:#fff;padding:5px 12px;border-radius:7px;font-size:12.5px;font-weight:700;text-decoration:none}
+  .cta:hover{opacity:.9}
+  .na{color:var(--bad);font-weight:600}
+  .best{color:var(--ok);font-weight:700}
+  .notice{background:#fef2f2;border:1px solid #fecaca;color:#991b1b;border-radius:10px;padding:14px 16px;margin-top:14px;font-size:14px;display:none}
+  .sticky{position:sticky;bottom:0;background:linear-gradient(135deg,#1e3a8a,#0ea5a4);color:#fff;border-radius:12px;padding:14px 18px;margin-top:18px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+  .sticky a{background:#fff;color:var(--brand);padding:9px 16px;border-radius:9px;font-weight:800;text-decoration:none;font-size:14px}
+  .foot{color:var(--sub);font-size:12px;margin-top:18px;text-align:center}
+  .updated{font-size:11.5px;color:var(--sub);margin-top:8px}
+  .formula{background:#f8fafc;border:1px dashed var(--line);border-radius:10px;padding:12px 14px;font-size:12.5px;color:var(--sub);margin-top:14px}
+  .formula code{background:#eef2f7;padding:1px 5px;border-radius:4px}
+  .detail{font-size:12.5px;color:var(--sub)}
+  .warn{color:var(--warn);font-weight:600}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <span class="logo"><img src="/assets/logo.svg" alt="FeeEye" width="26" height="26">FeeEye</span>
+      <h1>💰 Crypto Total Cost Calculator</h1>
+      <p>See the <b>real all-in cost</b> of buying crypto — not just the fee rate. Deposit + trading + spread + withdrawal, compared across exchanges.</p>
+    </div>
+    <a href="total-cost-calculator.zh.html" style="font-size:13px;color:var(--brand);text-decoration:none;font-weight:600">中文 ↗</a>
+  </header>
+
+  <div class="disclaimer">
+    <b>Affiliate disclosure:</b> This site may earn a commission from exchanges at no extra cost to you. Links are marked <code>rel="sponsored"</code>.
+    Fee data snapshot (last updated <span id="upd"></span>) — always verify on the exchange's official page before trading.
+    This site is <b>not available in restricted regions</b> (e.g. US, China, Hong Kong, Singapore).
+  </div>
+
+  <div class="panel">
+    <label for="country">Your region (used only to hide signup CTAs in restricted areas)</label>
+    <select id="country"></select>
+    <div class="updated">We never store this selection. It only filters which signup CTAs show.</div>
+  </div>
+
+  <div class="panel">
+    <div class="grid">
+      <div>
+        <label for="amount">Buy amount (USDT)</label>
+        <input id="amount" type="number" value="1000" min="1">
+      </div>
+      <div>
+        <label>Deposit method</label>
+        <div class="seg" id="deposit">
+          <button data-v="bank" class="on">Bank transfer</button>
+          <button data-v="card">Credit / debit card</button>
+          <button data-v="p2p">P2P</button>
+        </div>
+      </div>
+      <div>
+        <label for="slip">Price spread estimate (%)</label>
+        <input id="slip" type="number" value="0.1" min="0" step="0.05">
+        <div class="updated">Buying above the market price (slippage / spread). 0.1% is typical for liquid pairs.</div>
+      </div>
+      <div>
+        <label>Withdraw to wallet?</label>
+        <div class="seg" id="wd">
+          <button data-v="no" class="on">No, keep on exchange</button>
+          <button data-v="yes">Yes, withdraw USDT</button>
+        </div>
+      </div>
+      <div id="netWrap" style="display:none">
+        <label for="network">Withdrawal network</label>
+        <select id="network">
+          <option>TRC20</option><option>ERC20</option><option>BSC</option>
+          <option>SOL</option><option>Arbitrum</option><option>Base</option>
+        </select>
+      </div>
+    </div>
+    <button class="btn" id="calc">Calculate total cost</button>
+  </div>
+
+  <div id="result"></div>
+
+  <div class="sticky" id="sticky" style="display:none">
+    <div><b>New to KuCoin?</b> Sign up via our link — same fees, we may earn a commission.</div>
+    <a id="stickyLink" href="#" rel="sponsored nofollow" target="_blank">Open KuCoin →</a>
+  </div>
+
+  <div class="notice" id="notice"></div>
+
+  <div class="foot">Educational tool only. Not financial advice. Verify all fees on official exchange pages.</div>
+</div>
+
+<script src="../data/exchanges.js"></script>
+<script src="../data/coins.js"></script>
+<script src="../data/country_availability.js"></script>
+<script>
+(function(){
+  var state = { deposit:"bank", withdraw:false, allowed:[], restricted:false };
+
+  var csel = document.getElementById("country");
+  Object.keys(window.COUNTRY_AVAILABILITY).forEach(function(cc){
+    var o = document.createElement("option");
+    o.value = cc; o.textContent = (window.COUNTRY_NAMES[cc]||cc) + (window.COUNTRY_AVAILABILITY[cc].restricted ? " (restricted)" : "");
+    csel.appendChild(o);
+  });
+  document.getElementById("upd").textContent = window.EXCHANGES.kucoin.last_updated;
+
+  function applyCountry(){
+    var cc = csel.value;
+    var c = window.COUNTRY_AVAILABILITY[cc];
+    state.restricted = !!c.restricted;
+    state.allowed = state.restricted ? [] : Object.keys(c.exchanges||{}).filter(function(k){return c.exchanges[k];});
+    document.getElementById("notice").style.display = state.restricted ? "block" : "none";
+    if(state.restricted){
+      document.getElementById("notice").textContent = "⚠️ " + (c.note||"This region is not supported.") + " We do not show any signup links here.";
+    }
+    refreshSticky();
+  }
+  csel.addEventListener("change", function(){ applyCountry(); render(); });
+
+  function refreshSticky(){
+    var st = document.getElementById("sticky");
+    var link = document.getElementById("stickyLink");
+    if(state.restricted || state.allowed.indexOf("kucoin")===-1){
+      st.style.display="none"; return;
+    }
+    st.style.display="flex";
+    link.href = window.EXCHANGES.kucoin.affiliate_link;
+  }
+
+  function seg(id, key, fn){
+    document.querySelectorAll("#"+id+" button").forEach(function(b){
+      b.addEventListener("click", function(){
+        document.querySelectorAll("#"+id+" button").forEach(function(x){x.classList.remove("on");});
+        b.classList.add("on"); state[key]=b.getAttribute("data-v"); fn && fn(); render();
+      });
+    });
+  }
+  seg("deposit","deposit");
+  seg("wd","withdraw", function(){
+    document.getElementById("netWrap").style.display = state.withdraw==="yes" ? "block" : "none";
+  });
+
+  function fmt(n){ return n.toLocaleString(undefined,{maximumFractionDigits:2}); }
+  function pct(x){ return (x*100).toFixed(2)+"%"; }
+
+  function depositFee(ex, method){
+    var d = ex.deposit || {};
+    var fee = d[method];
+    if(fee == null) return null; // method not supported (e.g. P2P on Kraken/Coinbase)
+    return fee;
+  }
+
+  function ctaCell(slug){
+    if(state.restricted || state.allowed.indexOf(slug)===-1) return '<span class="na">—</span>';
+    var url = window.EXCHANGES[slug].affiliate_link || "#";
+    return '<a class="cta" href="'+url+'" rel="sponsored nofollow" target="_blank">Sign up</a>';
+  }
+
+  function render(){
+    var amt = parseFloat(document.getElementById("amount").value)||0;
+    var slip = (parseFloat(document.getElementById("slip").value)||0)/100;
+    var net = document.getElementById("network").value;
+    var method = state.deposit;
+    if(!amt){ document.getElementById("result").innerHTML = '<p class="warn">Enter an amount to calculate.</p>'; return; }
+
+    var rows = [];
+    Object.keys(window.EXCHANGES).forEach(function(slug){
+      var ex = window.EXCHANGES[slug];
+      var dep = depositFee(ex, method);
+      if(dep == null) return; // skip exchanges not supporting this deposit method
+      var depCost = amt * dep + (method==="p2p" ? amt * (ex.deposit.p2p_premium||0) : 0);
+      var tradeCost = amt * ex.spot.taker;              // one spot buy (taker)
+      var wdCost = state.withdraw==="yes" ? (window.getUsdtWithdrawalFee(slug, net)||0) : 0;
+      var spreadCost = amt * slip;
+      var total = depCost + tradeCost + wdCost + spreadCost;
+      var effectiveRate = total/amt;
+      rows.push({ slug:slug, name:ex.name, depCost:depCost, tradeCost:tradeCost, wdCost:wdCost, spreadCost:spreadCost, total:total, effectiveRate:effectiveRate, depRate:dep });
+    });
+    rows.sort(function(a,b){ return a.total-b.total; });
+    var best = rows.length?rows[0].total:0;
+
+    var html = '<h3>Total cost comparison — '+(method==="bank"?"bank transfer":method==="card"?"credit card":"P2P")+' deposit, '+fmt(amt)+' USDT</h3>';
+    html += '<table><thead><tr><th>Exchange</th><th>Deposit fee</th><th>Trading fee</th><th>'+(state.withdraw==="yes"?"Withdrawal ("+net+")":"—")+'</th><th>Spread</th><th><b>Total cost</b></th><th>Effective rate</th><th></th></tr></thead><tbody>';
+    rows.forEach(function(r){
+      var cls = r.slug==="kucoin"?"kc":"";
+      var bestMark = (r.total===best && best>0)?' <span class="best">← cheapest</span>':"";
+      var rowCls = (r.total===best && best>0) ? 'class="bestrow '+cls+'"' : 'class="'+cls+'"';
+      html += '<tr '+rowCls+'><td><b>'+r.name+'</b></td><td>'+fmt(r.depCost)+' USDT ('+pct(r.depRate)+(method==="p2p"?" + premium":"")+')</td><td>'+fmt(r.tradeCost)+' USDT</td><td>'+fmt(r.wdCost)+' USDT</td><td>'+fmt(r.spreadCost)+' USDT</td><td><b>'+fmt(r.total)+' USDT</b>'+bestMark+'</td><td>'+pct(r.effectiveRate)+'</td><td>'+ctaCell(r.slug)+'</td></tr>';
+    });
+    html += '</tbody></table>';
+
+    // insight
+    var bestRow = rows[0], worstRow = rows[rows.length-1];
+    if(bestRow && worstRow && bestRow.slug!==worstRow.slug){
+      var diff = worstRow.total - bestRow.total;
+      html += '<p class="intro" style="margin-top:12px">💡 On '+fmt(amt)+' USDT, the cheapest option ('+bestRow.name+') saves <b class="best">'+fmt(diff)+' USDT</b> ('+pct(diff/amt)+' of your amount) vs the most expensive ('+worstRow.name+').</p>';
+    }
+
+    // formula transparency (trust + GEO)
+    html += '<div class="formula"><b>How it is calculated:</b><br><code>Total cost = Deposit fee (amount × '+(method==="p2p"?"P2P rate + premium":"deposit rate")+') + Trading fee (amount × spot taker '+pct(window.EXCHANGES.kucoin.spot.taker)+' at KuCoin) + Withdrawal fee'+(state.withdraw==="yes"?" (network fee)":"")+' + Spread (amount × '+pct(slip)+').</code><br>Fees are per-exchange official rates (snapshot <span id="upd2"></span>). Spread is a user-adjustable estimate — liquid pairs like BTC/ETH are tighter, small caps wider.</div>';
+
+    document.getElementById("result").innerHTML = html;
+    document.getElementById("upd2").textContent = window.EXCHANGES.kucoin.last_updated;
+    refreshSticky();
+  }
+
+  document.getElementById("calc").addEventListener("click", render);
+  document.getElementById("amount").addEventListener("change", render);
+  document.getElementById("slip").addEventListener("change", render);
+  document.getElementById("network").addEventListener("change", render);
+
+  applyCountry();
+  render();
+})();
+</script>
+</body>
+</html>

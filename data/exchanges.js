@@ -10,6 +10,8 @@
  *   - Kraken Pro: spot 0.25/0.40（Pro 默认档）、futures 0.02/0.05
  *   - Coinbase Advanced: spot 0.40/0.60（Intro 档）、futures 0.02/0.05
  * USDT 提币费：TRC20 ~1、BEP20/BSC 0.3-0.8、Arbitrum 0.10-0.25、Base 0.20 附近
+ * 入金费（2026-08-13 多源）：bank 银行转账 0-1.5%、card 银行卡 1.8-3.5%、p2p 通常 0%（p2p_premium 溢价参考 0.8%）
+ *   Kraken/Coinbase 不支持 P2P（p2p=null）；Coinbase bank 1-3%（ACH 免费）
  * 监管动态：KuCoin 2026-02 奥地利 FMA 暂停欧盟新客户 onboarding；2026-03 CFTC 美国永久禁令。
  * 字段命名统一，供 /tools 计算器与 /exchanges/[x] 程序化页面共用。
  */
@@ -22,6 +24,7 @@ window.EXCHANGES = {
     "spot":      { "maker": 0.0010, "taker": 0.0010 }, // 官方基础档 0.10% (KCS 支付折 0.08%)
     "futures":   { "maker": 0.0002, "taker": 0.0006 }, // 官方 0.02%/0.06%
     "usdt_withdrawal": { "TRC20": 1.0, "ERC20": 4.0, "BSC": 0.8, "SOL": 0.1, "Arbitrum": 0.6, "Base": 0.6 },
+    "deposit": { "bank": 0.005, "card": 0.03, "p2p": 0, "p2p_premium": 0.008 },
     "supported_networks": ["TRC20", "ERC20", "BSC", "SOL", "Arbitrum", "Base", "Optimism", "Polygon"],
     "has_trading_bot": true,
     "has_api": true,
@@ -36,6 +39,7 @@ window.EXCHANGES = {
     "spot":      { "maker": 0.0010, "taker": 0.0010 }, // 官方基础档 0.10%（BNB 支付折 0.075%）
     "futures":   { "maker": 0.0002, "taker": 0.0004 }, // 官方 USDⓈ-M 0.02%/0.04%
     "usdt_withdrawal": { "TRC20": 1.0, "ERC20": 3.5, "BSC": 0.3, "SOL": 0.01, "Arbitrum": 0.1, "Base": 0.5 },
+    "deposit": { "bank": 0.005, "card": 0.025, "p2p": 0, "p2p_premium": 0.008 },
     "supported_networks": ["TRC20", "ERC20", "BSC", "SOL", "Arbitrum", "Base", "Optimism", "Polygon"],
     "has_trading_bot": true,
     "has_api": true,
@@ -50,6 +54,7 @@ window.EXCHANGES = {
     "spot":      { "maker": 0.0010, "taker": 0.0010 }, // 官方基础档 0.10%/0.10%
     "futures":   { "maker": 0.0002, "taker": 0.00055 }, // 官方 USDⓈ-M 0.02%/0.055%
     "usdt_withdrawal": { "TRC20": 1.0, "ERC20": 5.0, "BSC": 0.8, "SOL": 0.01, "Arbitrum": 0.1, "Base": 0.1 },
+    "deposit": { "bank": 0.008, "card": 0.0275, "p2p": 0, "p2p_premium": 0.008 },
     "supported_networks": ["TRC20", "ERC20", "BSC", "SOL", "Arbitrum", "Base", "Optimism"],
     "has_trading_bot": true,
     "has_api": true,
@@ -64,6 +69,7 @@ window.EXCHANGES = {
     "spot":      { "maker": 0.0008, "taker": 0.0010 }, // 官方 Lv1 0.08%/0.10%
     "futures":   { "maker": 0.0002, "taker": 0.0005 }, // 官方 0.02%/0.05%
     "usdt_withdrawal": { "TRC20": 1.0, "ERC20": 3.0, "BSC": 0.5, "SOL": 0.05, "Arbitrum": 0.1, "Base": 0.1 },
+    "deposit": { "bank": 0.005, "card": 0.025, "p2p": 0, "p2p_premium": 0.008 },
     "supported_networks": ["TRC20", "ERC20", "BSC", "SOL", "Arbitrum", "Base", "Optimism", "Polygon"],
     "has_trading_bot": true,
     "has_api": true,
@@ -78,6 +84,7 @@ window.EXCHANGES = {
     "spot":      { "maker": 0.0010, "taker": 0.0010 }, // 官方 VIP0 0.10%/0.10%（BGB 折 0.08%）
     "futures":   { "maker": 0.0002, "taker": 0.0006 }, // 官方 USDT-M 0.02%/0.06%
     "usdt_withdrawal": { "TRC20": 1.5, "ERC20": 5.0, "BSC": 0.6, "SOL": 0.5, "Arbitrum": 0.2, "Base": 0.2 },
+    "deposit": { "bank": 0.005, "card": 0.025, "p2p": 0, "p2p_premium": 0.008 },
     "supported_networks": ["TRC20", "ERC20", "BSC", "SOL", "Arbitrum", "Base", "Optimism"],
     "has_trading_bot": true,
     "has_api": true,
@@ -92,6 +99,7 @@ window.EXCHANGES = {
     "spot":      { "maker": 0.0025, "taker": 0.0040 }, // 官方 Pro 基础档 0.25%/0.40%（Kraken 普通账户更贵）
     "futures":   { "maker": 0.0002, "taker": 0.0005 }, // 官方 0.02%/0.05%
     "usdt_withdrawal": { "TRC20": 1.0, "ERC20": 2.5, "BSC": 0.8, "SOL": 0.01, "Arbitrum": 0.25, "Polygon": 0.8 },
+    "deposit": { "bank": 0.005, "card": 0.035, "p2p": null, "p2p_premium": 0 },
     "supported_networks": ["TRC20", "ERC20", "BSC", "SOL", "Arbitrum", "Polygon"],
     "has_trading_bot": false,
     "has_api": true,
@@ -106,6 +114,7 @@ window.EXCHANGES = {
     "spot":      { "maker": 0.0040, "taker": 0.0060 }, // 官方 Advanced 介绍档 0.40%/0.60%（taker 高于 maker 是 Coinbase 基础档特色）
     "futures":   { "maker": 0.0002, "taker": 0.0005 }, // 官方 0.02%/0.05%
     "usdt_withdrawal": { "TRC20": 1.0, "ERC20": 3.0, "BSC": 0.5, "Base": 0.2, "Arbitrum": 0.2 },
+    "deposit": { "bank": 0.02, "card": 0.035, "p2p": null, "p2p_premium": 0 },
     "supported_networks": ["TRC20", "ERC20", "BSC", "Base", "Arbitrum", "Polygon"],
     "has_trading_bot": false,
     "has_api": true,

@@ -132,6 +132,7 @@ const I18N = {
     cyUse: 'Use the Fee Calculator to compare your exact trade size across these exchanges.',
     idxH1: 'Free Crypto Tools & Exchange Data',
     idxIntro: 'Compare exchange fees, find where to buy a token, and check withdrawal costs — free, no signup. Tracking {c} coins across {e} exchanges.',
+    idxTcT: '💰 Total Cost Calculator', idxTcB: 'The REAL all-in cost of buying crypto (deposit + trading + spread + withdrawal).', idxTcC: 'Example: $1,000 buy →',
     idxFeeT: '💱 Fee Calculator', idxFeeB: 'Compare trading & withdrawal fees across {e} exchanges.', idxOpen: 'Open tool →',
     idxWbT: '🪙 Where to Buy', idxWbB: 'Find which exchange lists a token.', idxEx: 'Example: PEPE →',
     idxExT: '🏦 Exchange Pages', idxExB: 'Fees & features per exchange.',
@@ -179,6 +180,7 @@ const I18N = {
     cyUse: '使用手续费计算器对比你在这些交易所的具体交易成本。',
     idxH1: '免费加密货币工具与交易所数据',
     idxIntro: '对比交易所费率、查找代币在哪里购买、查看提币成本——免费、无需注册。追踪 {c} 个币种、{e} 家交易所。',
+    idxTcT: '💰 全成本计算器', idxTcB: '看清购买加密货币的真实总花费（入金 + 交易 + 价差 + 提现）。', idxTcC: '示例：$1,000 买入 →',
     idxFeeT: '💱 手续费计算器', idxFeeB: '对比 {e} 家交易所的交易与提币费率。', idxOpen: '打开工具 →',
     idxWbT: '🪙 在哪里购买', idxWbB: '查找某代币在哪些交易所上架。', idxEx: '示例：PEPE →',
     idxExT: '🏦 交易所页面', idxExB: '每家交易所的费率与功能。',
@@ -202,6 +204,9 @@ function absPath(lang, rel) {
 // 工具页：zh 用中文版，en 用英文版
 function toolPath(lang) {
   return 'tools/fee-calculator' + (lang === 'zh' ? '.zh' : '') + '.html';
+}
+function tcPath(lang) {
+  return 'tools/total-cost-calculator' + (lang === 'zh' ? '.zh' : '') + '.html';
 }
 const COVERAGE_NOTE = (lang) => COVERAGE_MODE === 'coingecko-tickers'
   ? T(lang, 'coverageNote')
@@ -386,6 +391,7 @@ function indexPage(lang) {
   <h1>${esc(T(lang, 'idxH1'))}</h1>
   <p class="intro">${esc(T(lang, 'idxIntro', { c: coinCount, e: Object.keys(EX).length }))}</p>
   <div class="grid">
+    <div class="card"><b>${esc(T(lang, 'idxTcT'))}</b><br>${esc(T(lang, 'idxTcB'))}<br><a href="${p(tcPath(lang))}">${esc(T(lang, 'idxTcC'))}</a></div>
     <div class="card"><b>${esc(T(lang, 'idxFeeT'))}</b><br>${esc(T(lang, 'idxFeeB', { e: Object.keys(EX).length }))}<br><a href="${p(toolPath(lang))}">${esc(T(lang, 'idxOpen'))}</a></div>
     <div class="card"><b>${esc(T(lang, 'idxWbT'))}</b><br>${esc(T(lang, 'idxWbB'))}<br><a href="${p('where-to-buy/pepe.html')}">${esc(T(lang, 'idxEx'))}</a></div>
     <div class="card"><b>${esc(T(lang, 'idxExT'))}</b><br>${esc(T(lang, 'idxExB'))}<br><a href="${p('exchanges/kucoin.html')}">KuCoin →</a></div>
