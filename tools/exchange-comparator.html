@@ -44,7 +44,6 @@
   .na{color:var(--bad);font-weight:600}
   .sticky{position:sticky;bottom:0;background:linear-gradient(135deg,#1e3a8a,#0ea5a4);color:#fff;border-radius:12px;padding:14px 18px;margin-top:18px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding-bottom:max(14px,env(safe-area-inset-bottom))}
   .sticky a{background:#fff;color:var(--brand);padding:9px 16px;border-radius:9px;font-weight:800;text-decoration:none;font-size:14px}
-  .notice{background:#fef2f2;border:1px solid #fecaca;color:#991b1b;border-radius:10px;padding:14px 16px;margin-top:14px;font-size:14px;display:none}
   .foot{color:var(--sub);font-size:12px;margin-top:18px;text-align:center}
   .num{font-variant-numeric:tabular-nums;font-feature-settings:"tnum"}
   .scroll{overflow-x:auto}
@@ -60,20 +59,6 @@
     </div>
     <a href="exchange-comparator.zh.html" style="font-size:13px;color:var(--brand);text-decoration:none;font-weight:600">中文 ↗</a>
   </header>
-
-  <div class="disclaimer">
-    <p style="margin:0 0 6px"><b>① Data snapshot</b>: last updated <span id="upd"></span> — verify on each exchange's official page.</p>
-    <p style="margin:0 0 4px"><b>② Compliance-restricted regions</b> by exchange (representative examples; <b>all exchanges do not serve</b> residents of Mainland China, Hong Kong, Singapore, the United States and other Restricted Locations):</p>
-    <ul style="margin:0 0 0 20px;padding:0">
-      <li><b>KuCoin</b>: EU new-client onboarding paused (Germany, France, Italy, Spain, Poland, ...)</li>
-      <li><b>Binance</b>: Japan, Ontario (Canada), India, Turkey, UAE, Korea, Thailand, ...</li>
-      <li><b>Bybit / OKX</b>: no specific countries publicly listed</li>
-      <li><b>Bitget</b>: Japan, Korea, ...</li>
-      <li><b>Kraken</b>: Brazil, India, Indonesia, Vietnam, Thailand, ...</li>
-      <li><b>Coinbase</b>: Indonesia, Vietnam, Thailand, ...</li>
-    </ul>
-    <p style="margin:6px 0 0"><b>③</b> Before signing up, check each exchange's Terms of Use to confirm your country/region is supported.</p>
-  </div>
 
   <div class="panel">
     <label for="country">Your region (only filters signup CTAs)</label>
@@ -93,7 +78,19 @@
     <a id="stickyLink" href="#" rel="sponsored nofollow" target="_blank">Open KuCoin →</a>
   </div>
 
-  <div class="notice" id="notice"></div>
+  <div class="disclaimer">
+    <p style="margin:0 0 6px"><b>① Data snapshot</b>: last updated <span id="upd"></span> — verify on each exchange's official page.</p>
+    <p style="margin:0 0 4px"><b>② Compliance-restricted regions</b> by exchange (representative examples; <b>all exchanges do not serve</b> residents of Mainland China, Hong Kong, Singapore, the United States and other Restricted Locations):</p>
+    <ul style="margin:0 0 0 20px;padding:0">
+      <li><b>KuCoin</b>: EU new-client onboarding paused (Germany, France, Italy, Spain, Poland, ...)</li>
+      <li><b>Binance</b>: Japan, Ontario (Canada), India, Turkey, UAE, Korea, Thailand, ...</li>
+      <li><b>Bybit / OKX</b>: no specific countries publicly listed</li>
+      <li><b>Bitget</b>: Japan, Korea, ...</li>
+      <li><b>Kraken</b>: Brazil, India, Indonesia, Vietnam, Thailand, ...</li>
+      <li><b>Coinbase</b>: Indonesia, Vietnam, Thailand, ...</li>
+    </ul>
+    <p style="margin:6px 0 0"><b>③</b> Before signing up, check each exchange's Terms of Use to confirm your country/region is supported.</p>
+  </div>
 
   <div class="foot">Educational tool only. Not financial advice. Verify all data on official exchange pages.</div>
 </div>
@@ -133,10 +130,6 @@
     var c = window.COUNTRY_AVAILABILITY[cc];
     state.restricted = !!c.restricted;
     state.allowed = state.restricted ? [] : Object.keys(c.exchanges||{}).filter(function(k){return c.exchanges[k];});
-    document.getElementById("notice").style.display = state.restricted ? "block" : "none";
-    if(state.restricted){
-      document.getElementById("notice").textContent = "⚠️ " + (c.note||"This region is not supported.") + " We do not show any signup links here.";
-    }
     refreshSticky();
   }
   csel.addEventListener("change", function(){ applyCountry(); render(); });
