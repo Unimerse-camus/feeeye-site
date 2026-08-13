@@ -114,7 +114,7 @@ const I18N = {
     navZh: '中文',
     discHtml: '<div style="text-align:left"><div style="margin:0 0 6px"><b>\u2460 Fee snapshot</b>: recently updated 2026-08-13 \u2014 verify each rate on the exchange\'s official page before trading.</div><div style="margin:0 0 4px"><b>\u2461 Compliance-restricted regions</b> by exchange (representative examples; <b>all exchanges do not serve</b> residents of Mainland China, Hong Kong, Singapore, the United States and other Restricted Locations):</div><ul style="margin:0 0 0 20px;padding:0"><li><b>KuCoin</b>: EU new-client onboarding paused (Germany, France, Italy, Spain, Poland, ...)</li><li><b>Binance</b>: Japan, Ontario (Canada), India, Turkey, UAE, Korea, Thailand, ...</li><li><b>Bybit / OKX</b>: no specific countries publicly listed</li><li><b>Bitget</b>: Japan, Korea, ...</li><li><b>Kraken</b>: Brazil, India, Indonesia, Vietnam, Thailand, ...</li><li><b>Coinbase</b>: Indonesia, Vietnam, Thailand, ...</li></ul><div style="margin:6px 0 0"><b>\u2462</b> Before signing up, check each exchange\'s Terms of Use to confirm your country/region is supported.</div></div>',
     foot: 'Educational only. Not financial advice. Verify all data on official exchange pages. Data snapshot ',
-    thExchange: 'Exchange', thLists: 'Lists {s}', thTaker: 'Spot taker', thFee20: 'USDT TRC20 fee',
+    thExchange: 'Exchange', thLists: 'Lists {s}', thTaker: 'Spot taker', thTakerFut: 'Futures taker', thFee20: 'USDT TRC20 fee',
     ctaBuy: 'Buy {n} on {x}', ctaOpen: 'Open KuCoin', ctaOpenOn: 'Open {x}', ctaAcct: 'Open a {x} account',
     alsoOn: '{n} is also available on: {o}. Use the Fee Calculator to compare your exact trade size.',
     priceLine: '{n} ({s}) price: {p} · Market cap: {m} · Rank #{r} (CoinGecko snapshot).',
@@ -159,7 +159,7 @@ const I18N = {
     navZh: 'English',
     discHtml: '<div style="text-align:left"><div style="margin:0 0 6px"><b>① 费率快照</b>：最近更新 2026-08-13 —— 交易前请以各交易所官方页面为准。</div><div style="margin:0 0 4px"><b>② 各所合规受限地区</b>（代表性示例；<b>所有交易所均不接受</b>中国大陆、中国香港、新加坡、美国等 Restricted Locations 用户）：</div><ul style="margin:0 0 0 20px;padding:0"><li><b>KuCoin</b>：欧盟新客户暂停（含德国、法国、意大利、西班牙、波兰等）</li><li><b>Binance</b>：日本、加拿大（安大略）、印度、土耳其、阿联酋、韩国、泰国等</li><li><b>Bybit / OKX</b>：未明确公开列示特定国家限制</li><li><b>Bitget</b>：日本、韩国等</li><li><b>Kraken</b>：巴西、印度、印度尼西亚、越南、泰国等</li><li><b>Coinbase</b>：印度尼西亚、越南、泰国等</li></ul><div style="margin:6px 0 0"><b>③</b> 注册前请查各所 Terms of Use 确认你所在国家/地区可用。</div></div>',
     foot: '仅供教育参考，不构成投资建议。请以各交易所官方页面核实所有数据。数据快照 ',
-    thExchange: '交易所', thLists: '上架 {s}', thTaker: '现货吃单费率', thFee20: 'USDT TRC20 提币费',
+    thExchange: '交易所', thLists: '上架 {s}', thTaker: '现货吃单费率', thTakerFut: '合约吃单费率', thFee20: 'USDT TRC20 提币费',
     ctaBuy: '在 {x} 购买 {n}', ctaOpen: '打开 KuCoin', ctaOpenOn: '打开 {x}', ctaAcct: '注册 {x} 账户',
     alsoOn: '{n} 还可在以下平台购买：{o}。使用手续费计算器对比你的具体交易成本。',
     priceLine: '{n}（{s}）价格：{p} · 市值：{m} · 排名 #{r}（CoinGecko 快照）。',
@@ -334,7 +334,7 @@ function exchangePage(slug, lang) {
   <p class="intro">${esc(T(lang, 'exIntro', { n: ex.name, u: UPD }))}</p>
   <div class="grid">
     <div class="card"><b>${esc(T(lang, 'exSpot'))}</b><br>${esc(T(lang, 'thTaker'))} ${pct(ex.spot.taker)} · ${esc(lang === 'zh' ? '挂单' : 'Maker')} ${pct(ex.spot.maker)}</div>
-    <div class="card"><b>${esc(T(lang, 'exFutures'))}</b><br>${esc(T(lang, 'thTaker'))} ${pct(ex.futures.taker)} · ${esc(lang === 'zh' ? '挂单' : 'Maker')} ${pct(ex.futures.maker)}</div>
+    <div class="card"><b>${esc(T(lang, 'exFutures'))}</b><br>${esc(T(lang, 'thTakerFut'))} ${pct(ex.futures.taker)} · ${esc(lang === 'zh' ? '挂单' : 'Maker')} ${pct(ex.futures.maker)}</div>
     <div class="card"><b>${esc(T(lang, 'exWd'))}</b><br>TRC20 ${usd(getFee(slug, 'TRC20'))} · ERC20 ${usd(getFee(slug, 'ERC20'))}</div>
     <div class="card"><b>${esc(T(lang, 'exCoins'))}</b><br>${esc(T(lang, 'exOf', { a: supportedCoins, c: coinCount }))}</div>
     <div class="card"><b>${esc(T(lang, 'exBot'))}</b><br>${ex.has_trading_bot ? T(lang, 'exBotYes') : T(lang, 'exBotNo')}</div>
@@ -354,7 +354,7 @@ function comparePage(other, lang) {
     [T(lang, 'fWd20'), usd(getFee('kucoin', 'TRC20')), usd(getFee(other, 'TRC20'))],
     [T(lang, 'fWdErc'), usd(getFee('kucoin', 'ERC20')), usd(getFee(other, 'ERC20'))],
     [T(lang, 'fBot'), a.has_trading_bot ? '✓' : '✗', b.has_trading_bot ? '✓' : '✗'],
-    [T(lang, 'fApi'), a.has_api ? '✓' : '✗', b.has_api ? '✗' : '✗']
+    [T(lang, 'fApi'), a.has_api ? '✓' : '✗', b.has_api ? '✓' : '✗']
   ].map((r) => `<tr><td>${esc(r[0])}</td><td class="kc" style="background:#eef4ff">${r[1]}</td><td>${r[2]}</td></tr>`).join('');
   const body = `
   <h1>${esc(T(lang, 'cpH1', { n: b.name }))}</h1>
