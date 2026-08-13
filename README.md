@@ -60,17 +60,15 @@ affiliate-site/
 | P5 运营 | 返佣追踪看板 ✅ + 英文 TG Bot 规格 ✅ + 落地执行手册 ✅（融合外部手册方法论，合规化） | 完成 |
 | P6 二级 | 招 KOL/群主/工具开发者 | 未开始 |
 | P7 放大 | 多所 affiliate + A/B | 未开始 |
-| 工具库 | 工具矩阵规划 ✅（`docs/tools-roadmap.md`：T1 全成本 → T2 智能对比 → T3 清算 → T4 Gas [MVP] → T5 跨平台盈亏 → T6 DCA [扩展] → T7 P2P → T8 代币安全 [地区化]；融合 2026-08-13 工具调研 PRD 8 工具 + 痛点硬数据 + 地区差异化 + 返佣嵌入原则）+ 竞品调研 ✅（`docs/tools-competitor-research.md`） | 规划完成，待落地 |
-| 多所返佣 | 主流 10 所返佣政策对比 ✅（`docs/exchange-affiliate-comparison.md`，用户明天逐所申请；MEXC 70%/Bitget 40%/Bybit 30% 起优先） | 待用户申请 |
+| 工具库 | 工具矩阵规划 ✅（`docs/tools-roadmap.md`：T1 全成本 → T2 智能对比 → T3 清算 → T4 Gas [MVP] → T5 跨平台盈亏 → T6 DCA [扩展] → T7 P2P → T8 代币安全 [地区化]；融合 2026-08-13 工具调研 PRD 8 工具 + 痛点硬数据 + 地区差异化 + 返佣嵌入原则）+ 竞品调研 ✅（`docs/tools-competitor-research.md`） | **T1 全成本计算器 ✅ 已上线**（en+zh，含入金费/交易费/价差/提现 7 所对比）；T2-T8 待做 |
+| 多所返佣 | 主流 10 所返佣政策对比 ✅（`docs/exchange-affiliate-comparison.md` v2：归因时长+KYC 可行性；结论：大陆 KYC 限制 MEXC/Binance/Bybit 不可行，目前基本只有 KuCoin 可用） | **后置**（等有流量筹码再申请多所） |
 
 ## 下一步（按优先级）
-1. **多所返佣申请**（用户）：按 `docs/exchange-affiliate-comparison.md` 第二梯队顺序：MEXC → Bitget → Bybit → Gate → OKX；Binance/Kraken/Coinbase 暂搁置。回填结果到 `ops/referral-tracker.md`，启动站点多所 CTA 切换。
-2. **MVP 工具库（Week 1-2）**：按 `docs/tools-roadmap.md` 第一阶段顺序——**T1 全成本计算器**（含入金/价差/滑点/提现，竞品无）→ **T2 智能交易所对比**（10 维度+地区合规过滤）→ **T3 合约清算**（多所公式+资金费率预警）→ **T4 Gas 智能追踪**（"该不该操作"建议+跨链提醒）。每个 en+zh 双语 + CTA + 地区过滤。
-3. **数据维护**：周日提醒**手动核对** 7 所官方费率页（每周 30 分钟，不是自动的）。
-4. **页面优化**：首页工具矩阵卡片分组、币页相关工具区、移动端体验。
-5. **数据**：A2 扩币 150→500+；持续观察 GSC 收录。
-6. P4：写第一份原创 benchmark 报告做 GEO 弹药。
-7. 上线前请目标司法辖区合规顾问复核 Terms / 地区限制。
+1. **产品主线**：MVP 工具库（`docs/tools-roadmap.md` 第一阶段）——**T1 全成本计算器** → **T2 智能交易所对比** → **T3 合约清算** → **T4 Gas 智能追踪**；每个 en+zh 双语 + CTA + 地区过滤。站点 CTA 暂以 KuCoin 为主。
+2. **页面完善**：首页工具矩阵卡片分组、币页相关工具区、移动端体验。
+3. **SEO/GEO**：原创 benchmark 报告（提币费实测对比，AI 引用资产）、结构化数据打磨、持续观察 GSC 收录。
+4. **数据维护**：周日提醒手动核对 7 所官方费率页（每周 30 分钟）。
+5. **数据**：A2 扩币 150→500+（混合模式）；P4 GEO 弹药。
 
 ## 本地预览
 - 浏览器打开 `dist/index.html`（先看整站）。或 `tools/fee-calculator.html`（计算器）。
