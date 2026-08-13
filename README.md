@@ -60,7 +60,7 @@ affiliate-site/
 | P5 运营 | 返佣追踪看板 ✅ + 英文 TG Bot 规格 ✅ + 落地执行手册 ✅（融合外部手册方法论，合规化） | 完成 |
 | P6 二级 | 招 KOL/群主/工具开发者 | 未开始 |
 | P7 放大 | 多所 affiliate + A/B | 未开始 |
-| 工具库 | 工具矩阵规划 ✅（`docs/tools-roadmap.md`：T1 全成本 → T2 智能对比 → T3 清算 → T4 Gas [MVP] → T5 跨平台盈亏 → T6 DCA [扩展] → T7 P2P → T8 代币安全 [地区化]；融合 2026-08-13 工具调研 PRD 8 工具 + 痛点硬数据 + 地区差异化 + 返佣嵌入原则）+ 竞品调研 ✅（`docs/tools-competitor-research.md`） | **T1 全成本计算器 ✅ 已上线**（en+zh，含入金费/交易费/价差/提现 7 所对比）；T2-T8 待做 |
+| 工具库 | 工具矩阵规划 ✅（`docs/tools-roadmap.md`：T1 全成本 → T2 智能对比 → T3 清算 → T4 Gas [MVP] → T5 跨平台盈亏 → T6 DCA [扩展] → T7 P2P → T8 代币安全 [地区化]；融合 2026-08-13 工具调研 PRD 8 工具 + 痛点硬数据 + 地区差异化 + 返佣嵌入原则）+ 竞品调研 ✅（`docs/tools-competitor-research.md`） | **T1 全成本计算器 ✅ + T2 智能交易所对比器 ✅ 已上线**（均 en+zh；T2 含 10 维度对比 + EXCHANGE_COMPARE 数据层 + 地区过滤 + KuCoin CTA）；T3-T8 待做 |
 | 多所返佣 | 主流 10 所返佣政策对比 ✅（`docs/exchange-affiliate-comparison.md` v2：归因时长+KYC 可行性；结论：大陆 KYC 限制 MEXC/Binance/Bybit 不可行，目前基本只有 KuCoin 可用） | **后置**（等有流量筹码再申请多所） |
 | 前端规范 | ✅ `docs/frontend-design-spec.md`（融合 2026-08-13 前端设计规范.pdf：设计原则/视觉 tokens/动线/组件/移动端/暗色/性能/验收；暗色模式优化为"默认亮色+切换+尊重系统"）| 已建立 + 可落地项已应用（.num 等宽数字/input 16px/CTA 8px/inputmode/safe-area） |
 
