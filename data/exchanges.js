@@ -45,8 +45,7 @@ window.EXCHANGES = {
       { "m": "Bank transfer", "fee": 0, "note": "ACH/SEPA free; SWIFT bank fee" },
       { "m": "Credit/Debit card", "fee": 0.036, "fee_max": 0.041, "note": "3.6-4.1% (2026-08 user-verified)" },
       { "m": "Apple Pay", "fee": 0.036, "note": "2026-08 user-verified 3.6%" },
-      { "m": "Google Pay", "fee": 0.02, "note": "~2%" },
-      { "m": "PayPal", "fee": 0.02, "note": "~2%" },
+      { "m": "Google Pay", "fee": 0.036, "fee_max": 0.041, "note": "3.6-4.1% (2026-08 user-verified via Bpay)" },
       { "m": "Bpay", "fee": 0, "note": "AU bank payment, 0 fee" },
       { "m": "P2P", "fee": 0, "premium": 0.005, "note": "0% fee + ~0.3-0.8% premium" }
     ],
