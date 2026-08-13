@@ -81,7 +81,17 @@
       </div>
       <div>
         <label for="deposit">入金方式</label>
-        <select id="deposit"></select>
+        <select id="deposit">
+          <option value="" disabled selected>点击选择入金方式</option>
+          <option value="Bank transfer">银行转账</option>
+          <option value="Credit/Debit card">信用卡/借记卡</option>
+          <option value="P2P">C2C</option>
+          <option value="Apple Pay">Apple Pay</option>
+          <option value="Google Pay">Google Pay</option>
+          <option value="PayPal">PayPal</option>
+          <option value="Bpay">Bpay（澳洲银行支付）</option>
+          <option value="Wire transfer">电汇</option>
+        </select>
         <div class="updated">各交易所真实支付通道——费率因地区而异。选择一个通道跨所对比。</div>
       </div>
       <div>
@@ -182,8 +192,12 @@
   });
   document.getElementById("upd").textContent = window.EXCHANGES.kucoin.last_updated;
 
-  // 入金通道下拉：合并所有交易所的真实通道（中文显示）
+  // 入金通道下拉：HTML 已内嵌 placeholder + 8 个默认 option 作 fallback；
+  // JS 启动后用数据驱动的列表覆盖（保留 placeholder 第一个）
   var dsel = document.getElementById("deposit");
+  var ph = dsel.options[0]; // 保留 placeholder
+  dsel.innerHTML = "";
+  dsel.appendChild(ph);
   window.getAllDepositMethods().forEach(function(m){
     var o = document.createElement("option");
     o.value = m; o.textContent = zhMethod(m);
@@ -250,6 +264,7 @@
     var net = document.getElementById("network").value;
     var method = state.deposit;
     if(!amt){ document.getElementById("result").innerHTML = '<p class="warn">请输入金额后再计算。</p>'; return; }
+    if(!method){ document.getElementById("result").innerHTML = '<p class="warn">请选择入金方式后再计算。</p>'; return; }
 
     var rows = [], methodNote = "";
     Object.keys(window.EXCHANGES).forEach(function(slug){
