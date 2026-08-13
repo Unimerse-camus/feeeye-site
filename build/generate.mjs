@@ -138,7 +138,7 @@ const I18N = {
     idxWbT: '🪙 Where to Buy', idxWbB: 'Find which exchange lists a token.', idxEx: 'Example: PEPE →',
     idxExT: '🏦 Exchange Pages', idxExB: 'Fees & features per exchange.',
     idxCpB: 'KuCoin vs others.',
-    idxPopular: 'Popular tokens ({c} tracked)', idxRegion: 'By region',
+    idxPopular: 'Popular tokens ({c} tracked)',
     idxTitle: 'FeeEye — Free Crypto Fee Calculator & Exchange Data',
     idxDesc: 'Free crypto tools: compare exchange fees, find where to buy tokens, check withdrawal costs. No signup.',
     coverageNote: 'Exchange coverage verified via CoinGecko tickers.'
@@ -187,7 +187,7 @@ const I18N = {
     idxWbT: '🪙 在哪里购买', idxWbB: '查找某代币在哪些交易所上架。', idxEx: '示例：PEPE →',
     idxExT: '🏦 交易所页面', idxExB: '每家交易所的费率与功能。',
     idxCpB: 'KuCoin 与其他交易所对比。',
-    idxPopular: '热门代币（已追踪 {c} 个）', idxRegion: '按地区',
+    idxPopular: '热门代币（已追踪 {c} 个）',
     idxTitle: 'FeeEye——免费加密货币费率计算器与交易所数据',
     idxDesc: '免费加密货币工具：对比交易所费率、查找代币在哪里购买、查看提币成本。无需注册。',
     coverageNote: '上币覆盖已通过 CoinGecko tickers 核实。'
@@ -397,8 +397,6 @@ function indexPage(lang) {
   const top = [...COIN_LIST].sort((a, b) => a.rank - b.rank).slice(0, 24);
   const p = (rel) => absPath(lang, rel);
   const coins = top.map((c) => `<a class="pill" href="${p('where-to-buy/' + c.symbol.toLowerCase() + '.html')}">${esc(c.name)} (${esc(c.symbol)})</a>`).join('');
-  const countries = Object.keys(CA).filter((c) => !CA[c].restricted).slice(0, 10)
-    .map((c) => `<a class="pill" href="${p(c.toLowerCase() + '/exchanges.html')}">${COUNTRY_NAMES[c] || c}</a>`).join('');
   const body = `
   <h1>${esc(T(lang, 'idxH1'))}</h1>
   <p class="intro">${esc(T(lang, 'idxIntro', { c: coinCount, e: Object.keys(EX).length }))}</p>
