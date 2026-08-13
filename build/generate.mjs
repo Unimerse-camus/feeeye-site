@@ -98,12 +98,11 @@ const I18N = {
     navZh: '中文',
     discHtml: '<div style="margin:0 0 6px"><b>\u2460 Fee snapshot</b>: recently updated 2026-08-13 \u2014 verify each rate on the exchange\'s official page before trading.</div><div style="margin:0 0 4px"><b>\u2461 Compliance-restricted regions</b> by exchange (representative examples; <b>all exchanges do not serve</b> residents of Mainland China, Hong Kong, Singapore, the United States and other Restricted Locations):</div><ul style="margin:0 0 0 20px;padding:0"><li><b>KuCoin</b>: EU new-client onboarding paused (Germany, France, Italy, Spain, Poland, ...)</li><li><b>Binance</b>: Japan, Ontario (Canada), India, Turkey, UAE, Korea, Thailand, ...</li><li><b>Bybit / OKX</b>: no specific countries publicly listed</li><li><b>Bitget</b>: Japan, Korea, ...</li><li><b>Kraken</b>: Brazil, India, Indonesia, Vietnam, Thailand, ...</li><li><b>Coinbase</b>: Indonesia, Vietnam, Thailand, ...</li></ul><div style="margin:6px 0 0"><b>\u2462</b> Before signing up, check each exchange\'s Terms of Use to confirm your country/region is supported.</div>',
     foot: 'Educational only. Not financial advice. Verify all data on official exchange pages. Data snapshot ',
-    noteAvail: 'Availability depends on your region — residents of {r} are not eligible. Always verify listing status on the exchange.',
     thExchange: 'Exchange', thLists: 'Lists {s}', thTaker: 'Spot taker', thFee20: 'USDT TRC20 fee',
     ctaBuy: 'Buy {n} on KuCoin', ctaOpen: 'Open KuCoin', ctaAcct: 'Open a KuCoin account',
     alsoOn: '{n} is also available on: {o}. Use the Fee Calculator to compare your exact trade size.',
     priceLine: '{n} ({s}) price: {p} · Market cap: {m} · Rank #{r} (CoinGecko snapshot).',
-    wbH1: 'Where to Buy {n} ({s}) in 2026',
+    wbH1: 'Buy {n} ({s})',
     wbIntro: 'Compare where {n} is listed, spot fees, and USDT (TRC20) withdrawal costs across major exchanges.',
     wbTitle: 'Where to Buy {n} ({s}) — Compare Exchanges',
     wbDesc: 'Find where to buy {n} ({s}) in 2026. Compare listings, spot fees and withdrawal costs across major exchanges.',
@@ -138,19 +137,17 @@ const I18N = {
     idxCpB: 'KuCoin vs others.',
     idxPopular: 'Popular tokens ({c} tracked)',
     idxTitle: 'FeeEye — Free Crypto Fee Calculator & Exchange Data',
-    idxDesc: 'Free crypto tools: compare exchange fees, find where to buy tokens, check withdrawal costs. No signup.',
-    coverageNote: 'Exchange coverage verified via CoinGecko tickers.'
+    idxDesc: 'Free crypto tools: compare exchange fees, find where to buy tokens, check withdrawal costs. No signup.'
   },
   zh: {
     navZh: 'English',
     discHtml: '<div style="margin:0 0 6px"><b>① 费率快照</b>：最近更新 2026-08-13 —— 交易前请以各交易所官方页面为准。</div><div style="margin:0 0 4px"><b>② 各所合规受限地区</b>（代表性示例；<b>所有交易所均不接受</b>中国大陆、中国香港、新加坡、美国等 Restricted Locations 用户）：</div><ul style="margin:0 0 0 20px;padding:0"><li><b>KuCoin</b>：欧盟新客户暂停（含德国、法国、意大利、西班牙、波兰等）</li><li><b>Binance</b>：日本、加拿大（安大略）、印度、土耳其、阿联酋、韩国、泰国等</li><li><b>Bybit / OKX</b>：未明确公开列示特定国家限制</li><li><b>Bitget</b>：日本、韩国等</li><li><b>Kraken</b>：巴西、印度、印度尼西亚、越南、泰国等</li><li><b>Coinbase</b>：印度尼西亚、越南、泰国等</li></ul><div style="margin:6px 0 0"><b>③</b> 注册前请查各所 Terms of Use 确认你所在国家/地区可用。</div>',
     foot: '仅供教育参考，不构成投资建议。请以各交易所官方页面核实所有数据。数据快照 ',
-    noteAvail: '可用性取决于你所在地区——{r} 等受限地区居民不适用。请始终在交易所核实上架状态。',
     thExchange: '交易所', thLists: '上架 {s}', thTaker: '现货吃单费率', thFee20: 'USDT TRC20 提币费',
     ctaBuy: '在 KuCoin 购买 {n}', ctaOpen: '打开 KuCoin', ctaAcct: '注册 KuCoin 账户',
     alsoOn: '{n} 还可在以下平台购买：{o}。使用手续费计算器对比你的具体交易成本。',
     priceLine: '{n}（{s}）价格：{p} · 市值：{m} · 排名 #{r}（CoinGecko 快照）。',
-    wbH1: '2026 年在哪里购买 {n}（{s}）',
+    wbH1: '购买 {n}（{s}）',
     wbIntro: '对比 {n} 的上架平台、现货费率及 USDT（TRC20）提币成本。',
     wbTitle: '在哪里购买 {n}（{s}）——交易所对比',
     wbDesc: '查找 2026 年在哪里购买 {n}（{s}）。对比各大交易所的上架情况、现货费率与提币成本。',
@@ -186,7 +183,6 @@ const I18N = {
     idxPopular: '热门代币（已追踪 {c} 个）',
     idxTitle: 'FeeEye——免费加密货币费率计算器与交易所数据',
     idxDesc: '免费加密货币工具：对比交易所费率、查找代币在哪里购买、查看提币成本。无需注册。',
-    coverageNote: '上币覆盖已通过 CoinGecko tickers 核实。'
   }
 };
 
@@ -209,9 +205,6 @@ function tcPath(lang) {
 function cmpPath(lang) {
   return 'tools/exchange-comparator' + (lang === 'zh' ? '.zh' : '') + '.html';
 }
-const COVERAGE_NOTE = (lang) => COVERAGE_MODE === 'coingecko-tickers'
-  ? T(lang, 'coverageNote')
-  : (lang === 'zh' ? '上币覆盖为估算值（基于排名），请在各交易所核实。价格为 CoinGecko 快照。' : 'Exchange coverage is indicative (rank-based) — verify on each exchange. Prices are a CoinGecko snapshot.');
 
 function page({ lang, title, desc, body, jsonLd, depth = 0, path, affiliate = false }) {
   const i = I18N[lang];
@@ -304,7 +297,6 @@ function whereToBuy(c, lang) {
   <h1>${esc(T(lang, 'wbH1', { n: name, s: symbol }))}</h1>
   <p class="intro">${esc(T(lang, 'wbIntro', { n: name }))}</p>
   ${priceLine}
-  <div class="note">${esc(T(lang, 'noteAvail', { r: RESTRICTED_LABEL }))} ${esc(COVERAGE_NOTE(lang))}</div>
   <table><thead><tr><th>${esc(T(lang, 'thExchange'))}</th><th>${esc(T(lang, 'thLists', { s: symbol }))}</th><th>${esc(T(lang, 'thTaker'))}</th><th>${esc(T(lang, 'thFee20'))}</th><th></th></tr></thead><tbody>${rows}</tbody></table>
   <p class="intro">${esc(T(lang, 'alsoOn', { n: name, o: others || '—' }))}</p>`;
   const jsonLd = {
