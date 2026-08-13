@@ -227,6 +227,9 @@ function page({ lang, title, desc, body, jsonLd, depth = 0, path }) {
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <title>${esc(title)}</title>
 <meta name="description" content="${esc(desc)}">
 <link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
@@ -277,7 +280,7 @@ tr.kc{background:#eef4ff}
 </head>
 <body>
 <div class="wrap">
-<header><nav><span class="logo"><img src="/assets/logo.svg" alt="FeeEye" width="26" height="26">${SITE}</span><span><a href="${absPath(lang, toolPath(lang))}">${esc(i.navFee)}</a><a href="${lang === 'zh' ? '/zh/' : '/'}">${esc(i.navHome)}</a><a href="${lang === 'zh' ? '/' : '/zh/'}">${esc(i.navZh)}</a></span></nav></header>
+<header><nav><a class="logo" href="${lang === 'zh' ? '/zh/' : '/'}" aria-label="FeeEye home"><img src="/assets/logo.svg" alt="FeeEye" width="26" height="26">${SITE}</a><span><a href="${absPath(lang, toolPath(lang))}">${esc(i.navFee)}</a><a href="${lang === 'zh' ? '/zh/' : '/'}">${esc(i.navHome)}</a><a href="${lang === 'zh' ? '/' : '/zh/'}">${esc(i.navZh)}</a></span></nav></header>
 ${body}
 ${discHtml}
 <div class="foot">${esc(i.foot)} ${esc(UPD)}.</div>
