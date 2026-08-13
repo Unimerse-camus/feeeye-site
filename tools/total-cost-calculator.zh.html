@@ -193,11 +193,10 @@
   document.getElementById("upd").textContent = window.EXCHANGES.kucoin.last_updated;
 
   // 入金通道下拉：HTML 已内嵌 placeholder + 8 个默认 option 作 fallback；
-  // JS 启动后用数据驱动的列表覆盖（保留 placeholder 第一个）
+  // JS 启动后用数据驱动的列表覆盖（保留 placeholder 第一个）。
+  // 关键：不要 innerHTML="" 清空再 appendChild 同一个 ph 节点（会抛 HierarchyRequestError 中止 IIFE）。
   var dsel = document.getElementById("deposit");
-  var ph = dsel.options[0]; // 保留 placeholder
-  dsel.innerHTML = "";
-  dsel.appendChild(ph);
+  while (dsel.options.length > 1) dsel.remove(1); // 删掉 HTML 默认的 8 个 fallback，保留 placeholder
   window.getAllDepositMethods().forEach(function(m){
     var o = document.createElement("option");
     o.value = m; o.textContent = zhMethod(m);
