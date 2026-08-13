@@ -221,12 +221,6 @@ function page({ lang, title, desc, body, jsonLd, depth = 0, path }) {
   const i = I18N[lang];
   const canonical = `${SITE_URL}/${path}`;
   const ld = jsonLd ? `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>` : '';
-  const disc = `${esc(i.discT)} ${esc(i.discB)} ${esc(COVERAGE_NOTE(lang))} ${esc(T(lang, 'foot', { u: '' }).split('。')[0] + ' ' + UPD)}`;
-  const discHtml = `
-  <div class="disc">
-    <b>${esc(i.discT)}</b> ${esc(i.discB)} ${esc(COVERAGE_NOTE(lang))} ${esc(lang === 'zh' ? '费率快照 ' + UPD : 'Fee snapshot ' + UPD)}.
-    ${esc(lang === 'zh' ? '不适用于受限地区（' + RESTRICTED_LABEL + '）；我们不会面向这些地区显示注册引导。' : 'Not available in restricted regions (' + RESTRICTED_LABEL + '); we do not show signup links targeting those regions.')}
-  </div>`;
   return `<!doctype html>
 <html lang="${lang === 'zh' ? 'zh-CN' : 'en'}">
 <head>
@@ -265,8 +259,6 @@ nav a{color:var(--sub);text-decoration:none;font-size:13.5px;margin-left:14px}
 h1{font-size:25px;margin-bottom:6px}
 h3{margin-top:22px;font-size:18px}
 .intro{color:var(--sub);margin-bottom:18px}
-.disc{background:#fffbeb;border:1px solid #fed7aa;border-radius:10px;padding:10px 14px;font-size:12.5px;color:#92400e;margin:18px 0}
-.disc code{background:#fde9c8;padding:1px 5px;border-radius:4px}
 table{width:100%;border-collapse:collapse;margin:14px 0;font-size:14px}
 th,td{border:1px solid var(--line);padding:10px 12px;text-align:left}
 th{background:#f1f5f9;font-weight:600}
@@ -291,8 +283,7 @@ input[type=number]{font-size:16px}
 <div class="wrap">
 <header><nav><a class="logo" href="${lang === 'zh' ? '/zh/' : '/'}" aria-label="FeeEye home"><img src="/assets/logo.svg" alt="FeeEye" width="26" height="26">${SITE}</a><span><a href="${absPath(lang, toolPath(lang))}">${esc(i.navFee)}</a><a href="${lang === 'zh' ? '/zh/' : '/'}">${esc(i.navHome)}</a><a href="${lang === 'zh' ? '/' : '/zh/'}">${esc(i.navZh)}</a></span></nav></header>
 ${body}
-${discHtml}
-<div class="foot">${esc(i.foot)} ${esc(UPD)}.</div>
+<div class="foot">${esc(i.discT)} ${esc(i.discB)} ${esc(i.foot)} ${esc(UPD)}.</div>
 </div>
 </body>
 </html>`;
