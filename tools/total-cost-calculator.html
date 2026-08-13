@@ -77,12 +77,9 @@
         <input id="amount" type="number" value="1000" min="1">
       </div>
       <div>
-        <label>Deposit method</label>
-        <div class="seg" id="deposit">
-          <button data-v="bank" class="on">Bank transfer</button>
-          <button data-v="card">Credit / debit card</button>
-          <button data-v="p2p">P2P</button>
-        </div>
+        <label for="deposit">Deposit method</label>
+        <select id="deposit"></select>
+        <div class="updated">Real payment channels per exchange — fees vary by region. Select one to compare across exchanges.</div>
       </div>
       <div>
         <label for="slip">Price spread estimate (%)</label>
@@ -124,7 +121,7 @@
 <script src="../data/country_availability.js"></script>
 <script>
 (function(){
-  var state = { deposit:"bank", withdraw:false, allowed:[], restricted:false };
+  var state = { deposit:"Bank transfer", withdraw:false, allowed:[], restricted:false };
 
   var csel = document.getElementById("country");
   Object.keys(window.COUNTRY_AVAILABILITY).forEach(function(cc){
@@ -133,6 +130,15 @@
     csel.appendChild(o);
   });
   document.getElementById("upd").textContent = window.EXCHANGES.kucoin.last_updated;
+
+  // 入金通道下拉：合并所有交易所的真实通道
+  var dsel = document.getElementById("deposit");
+  window.getAllDepositMethods().forEach(function(m){
+    var o = document.createElement("option");
+    o.value = m; o.textContent = m;
+    dsel.appendChild(o);
+  });
+  dsel.addEventListener("change", function(){ state.deposit = dsel.value; render(); });
 
   function applyCountry(){
     var cc = csel.value;
@@ -165,7 +171,6 @@
       });
     });
   }
-  seg("deposit","deposit");
   seg("wd","withdraw", function(){
     document.getElementById("netWrap").style.display = state.withdraw==="yes" ? "block" : "none";
   });
@@ -173,11 +178,13 @@
   function fmt(n){ return n.toLocaleString(undefined,{maximumFractionDigits:2}); }
   function pct(x){ return (x*100).toFixed(2)+"%"; }
 
-  function depositFee(ex, method){
-    var d = ex.deposit || {};
-    var fee = d[method];
-    if(fee == null) return null; // method not supported (e.g. P2P on Kraken/Coinbase)
-    return fee;
+  // 查某所某入金通道：返回 {fee, premium} 或 null（不支持）
+  function depositInfo(ex, method){
+    var list = ex.deposit_methods || [];
+    for(var i=0;i<list.length;i++){
+      if(list[i].m === method) return list[i];
+    }
+    return null;
   }
 
   function ctaCell(slug){
@@ -193,41 +200,40 @@
     var method = state.deposit;
     if(!amt){ document.getElementById("result").innerHTML = '<p class="warn">Enter an amount to calculate.</p>'; return; }
 
-    var rows = [];
+    var rows = [], methodNote = "";
     Object.keys(window.EXCHANGES).forEach(function(slug){
       var ex = window.EXCHANGES[slug];
-      var dep = depositFee(ex, method);
-      if(dep == null) return; // skip exchanges not supporting this deposit method
-      var depCost = amt * dep + (method==="p2p" ? amt * (ex.deposit.p2p_premium||0) : 0);
-      var tradeCost = amt * ex.spot.taker;              // one spot buy (taker)
+      var dep = depositInfo(ex, method);
+      if(!dep) return; // 该所不支持此通道
+      if(!methodNote) methodNote = dep.note || "";
+      var depCost = amt * (dep.fee||0) + (dep.premium ? amt * dep.premium : 0);
+      var tradeCost = amt * ex.spot.taker;
       var wdCost = state.withdraw==="yes" ? (window.getUsdtWithdrawalFee(slug, net)||0) : 0;
       var spreadCost = amt * slip;
       var total = depCost + tradeCost + wdCost + spreadCost;
-      var effectiveRate = total/amt;
-      rows.push({ slug:slug, name:ex.name, depCost:depCost, tradeCost:tradeCost, wdCost:wdCost, spreadCost:spreadCost, total:total, effectiveRate:effectiveRate, depRate:dep });
+      rows.push({ slug:slug, name:ex.name, depCost:depCost, tradeCost:tradeCost, wdCost:wdCost, spreadCost:spreadCost, total:total, effRate:total/amt, depFee:dep.fee||0, depPremium:dep.premium||0 });
     });
     rows.sort(function(a,b){ return a.total-b.total; });
     var best = rows.length?rows[0].total:0;
 
-    var html = '<h3>Total cost comparison — '+(method==="bank"?"bank transfer":method==="card"?"credit card":"P2P")+' deposit, '+fmt(amt)+' USDT</h3>';
+    var html = '<h3>Total cost comparison — '+method+' deposit, '+fmt(amt)+' USDT</h3>';
+    if(methodNote) html += '<p class="detail" style="margin-top:4px">Note: '+methodNote+'</p>';
     html += '<table><thead><tr><th>Exchange</th><th>Deposit fee</th><th>Trading fee</th><th>'+(state.withdraw==="yes"?"Withdrawal ("+net+")":"—")+'</th><th>Spread</th><th><b>Total cost</b></th><th>Effective rate</th><th></th></tr></thead><tbody>';
     rows.forEach(function(r){
       var cls = r.slug==="kucoin"?"kc":"";
       var bestMark = (r.total===best && best>0)?' <span class="best">← cheapest</span>':"";
       var rowCls = (r.total===best && best>0) ? 'class="bestrow '+cls+'"' : 'class="'+cls+'"';
-      html += '<tr '+rowCls+'><td><b>'+r.name+'</b></td><td>'+fmt(r.depCost)+' USDT ('+pct(r.depRate)+(method==="p2p"?" + premium":"")+')</td><td>'+fmt(r.tradeCost)+' USDT</td><td>'+fmt(r.wdCost)+' USDT</td><td>'+fmt(r.spreadCost)+' USDT</td><td><b>'+fmt(r.total)+' USDT</b>'+bestMark+'</td><td>'+pct(r.effectiveRate)+'</td><td>'+ctaCell(r.slug)+'</td></tr>';
+      html += '<tr '+rowCls+'><td><b>'+r.name+'</b></td><td>'+fmt(r.depCost)+' USDT ('+pct(r.depFee)+(r.depPremium>0?" + "+pct(r.depPremium)+" premium":"")+')</td><td>'+fmt(r.tradeCost)+' USDT</td><td>'+fmt(r.wdCost)+' USDT</td><td>'+fmt(r.spreadCost)+' USDT</td><td><b>'+fmt(r.total)+' USDT</b>'+bestMark+'</td><td>'+pct(r.effRate)+'</td><td>'+ctaCell(r.slug)+'</td></tr>';
     });
     html += '</tbody></table>';
 
-    // insight
     var bestRow = rows[0], worstRow = rows[rows.length-1];
     if(bestRow && worstRow && bestRow.slug!==worstRow.slug){
       var diff = worstRow.total - bestRow.total;
       html += '<p class="intro" style="margin-top:12px">💡 On '+fmt(amt)+' USDT, the cheapest option ('+bestRow.name+') saves <b class="best">'+fmt(diff)+' USDT</b> ('+pct(diff/amt)+' of your amount) vs the most expensive ('+worstRow.name+').</p>';
     }
 
-    // formula transparency (trust + GEO)
-    html += '<div class="formula"><b>How it is calculated:</b><br><code>Total cost = Deposit fee (amount × '+(method==="p2p"?"P2P rate + premium":"deposit rate")+') + Trading fee (amount × spot taker '+pct(window.EXCHANGES.kucoin.spot.taker)+' at KuCoin) + Withdrawal fee'+(state.withdraw==="yes"?" (network fee)":"")+' + Spread (amount × '+pct(slip)+').</code><br>Fees are per-exchange official rates (snapshot <span id="upd2"></span>). Spread is a user-adjustable estimate — liquid pairs like BTC/ETH are tighter, small caps wider.</div>';
+    html += '<div class="formula"><b>How it is calculated:</b><br><code>Total cost = Deposit fee (amount × '+(method==="P2P"?"P2P rate + premium":"deposit rate")+') + Trading fee (amount × spot taker '+pct(window.EXCHANGES.kucoin.spot.taker)+' at KuCoin) + Withdrawal fee'+(state.withdraw==="yes"?" (network fee)":"")+' + Spread (amount × '+pct(slip)+').</code><br>Fees are per-exchange official/verified rates (snapshot <span id="upd2"></span>); some (e.g. ERC20 withdrawal, card deposits) are dynamic — always check the exchange before trading.</div>';
 
     document.getElementById("result").innerHTML = html;
     document.getElementById("upd2").textContent = window.EXCHANGES.kucoin.last_updated;

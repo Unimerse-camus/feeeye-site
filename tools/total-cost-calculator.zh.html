@@ -77,12 +77,9 @@
         <input id="amount" type="number" value="1000" min="1">
       </div>
       <div>
-        <label>入金方式</label>
-        <div class="seg" id="deposit">
-          <button data-v="bank" class="on">银行转账</button>
-          <button data-v="card">信用卡/借记卡</button>
-          <button data-v="p2p">P2P</button>
-        </div>
+        <label for="deposit">入金方式</label>
+        <select id="deposit"></select>
+        <div class="updated">各交易所真实支付通道——费率因地区而异。选择一个通道跨所对比。</div>
       </div>
       <div>
         <label for="slip">价格价差估算（%）</label>
@@ -124,8 +121,8 @@
 <script src="../data/country_availability.js"></script>
 <script>
 (function(){
-  var state = { deposit:"bank", withdraw:false, allowed:[], restricted:false };
-  var LABEL = { bank:"银行转账", card:"信用卡", p2p:"P2P", depositFee:"入金费", tradeFee:"交易费", wdFee:"提现费", spread:"价差", total:"总成本", effRate:"实际成本率", cheapest:"← 最低", signup:"注册", save:"节省", vs:"对比" };
+  var state = { deposit:"Bank transfer", withdraw:false, allowed:[], restricted:false };
+  var LABEL = { depositFee:"入金费", tradeFee:"交易费", wdFee:"提现费", spread:"价差", total:"总成本", effRate:"实际成本率", cheapest:"← 最低", signup:"注册", save:"节省", note:"备注" };
 
   var csel = document.getElementById("country");
   Object.keys(window.COUNTRY_AVAILABILITY).forEach(function(cc){
@@ -134,6 +131,15 @@
     csel.appendChild(o);
   });
   document.getElementById("upd").textContent = window.EXCHANGES.kucoin.last_updated;
+
+  // 入金通道下拉：合并所有交易所的真实通道
+  var dsel = document.getElementById("deposit");
+  window.getAllDepositMethods().forEach(function(m){
+    var o = document.createElement("option");
+    o.value = m; o.textContent = m;
+    dsel.appendChild(o);
+  });
+  dsel.addEventListener("change", function(){ state.deposit = dsel.value; render(); });
 
   function applyCountry(){
     var cc = csel.value;
@@ -166,7 +172,6 @@
       });
     });
   }
-  seg("deposit","deposit");
   seg("wd","withdraw", function(){
     document.getElementById("netWrap").style.display = state.withdraw==="yes" ? "block" : "none";
   });
@@ -174,11 +179,13 @@
   function fmt(n){ return n.toLocaleString(undefined,{maximumFractionDigits:2}); }
   function pct(x){ return (x*100).toFixed(2)+"%"; }
 
-  function depositFee(ex, method){
-    var d = ex.deposit || {};
-    var fee = d[method];
-    if(fee == null) return null;
-    return fee;
+  // 查某所某入金通道：返回 {fee, premium} 或 null（不支持）
+  function depositInfo(ex, method){
+    var list = ex.deposit_methods || [];
+    for(var i=0;i<list.length;i++){
+      if(list[i].m === method) return list[i];
+    }
+    return null;
   }
 
   function ctaCell(slug){
@@ -194,28 +201,30 @@
     var method = state.deposit;
     if(!amt){ document.getElementById("result").innerHTML = '<p class="warn">请输入金额后再计算。</p>'; return; }
 
-    var rows = [];
+    var rows = [], methodNote = "";
     Object.keys(window.EXCHANGES).forEach(function(slug){
       var ex = window.EXCHANGES[slug];
-      var dep = depositFee(ex, method);
-      if(dep == null) return;
-      var depCost = amt * dep + (method==="p2p" ? amt * (ex.deposit.p2p_premium||0) : 0);
+      var dep = depositInfo(ex, method);
+      if(!dep) return;
+      if(!methodNote) methodNote = dep.note || "";
+      var depCost = amt * (dep.fee||0) + (dep.premium ? amt * dep.premium : 0);
       var tradeCost = amt * ex.spot.taker;
       var wdCost = state.withdraw==="yes" ? (window.getUsdtWithdrawalFee(slug, net)||0) : 0;
       var spreadCost = amt * slip;
       var total = depCost + tradeCost + wdCost + spreadCost;
-      rows.push({ slug:slug, name:ex.name, depCost:depCost, tradeCost:tradeCost, wdCost:wdCost, spreadCost:spreadCost, total:total, effRate:total/amt, depRate:dep });
+      rows.push({ slug:slug, name:ex.name, depCost:depCost, tradeCost:tradeCost, wdCost:wdCost, spreadCost:spreadCost, total:total, effRate:total/amt, depFee:dep.fee||0, depPremium:dep.premium||0 });
     });
     rows.sort(function(a,b){ return a.total-b.total; });
     var best = rows.length?rows[0].total:0;
 
-    var html = '<h3>总成本对比 —— '+(method==="bank"?LABEL.bank:method==="card"?LABEL.card:LABEL.p2p)+'入金，'+fmt(amt)+' USDT</h3>';
+    var html = '<h3>总成本对比 —— '+method+'入金，'+fmt(amt)+' USDT</h3>';
+    if(methodNote) html += '<p class="detail" style="margin-top:4px">'+LABEL.note+'：'+methodNote+'</p>';
     html += '<table><thead><tr><th>交易所</th><th>'+LABEL.depositFee+'</th><th>'+LABEL.tradeFee+'</th><th>'+(state.withdraw==="yes"?LABEL.wdFee+" ("+net+")":"—")+'</th><th>'+LABEL.spread+'</th><th><b>'+LABEL.total+'</b></th><th>'+LABEL.effRate+'</th><th></th></tr></thead><tbody>';
     rows.forEach(function(r){
       var cls = r.slug==="kucoin"?"kc":"";
       var bestMark = (r.total===best && best>0)?' <span class="best">'+LABEL.cheapest+'</span>':"";
       var rowCls = (r.total===best && best>0) ? 'class="bestrow '+cls+'"' : 'class="'+cls+'"';
-      html += '<tr '+rowCls+'><td><b>'+r.name+'</b></td><td>'+fmt(r.depCost)+' USDT ('+pct(r.depRate)+(method==="p2p"?" + 溢价":"")+')</td><td>'+fmt(r.tradeCost)+' USDT</td><td>'+fmt(r.wdCost)+' USDT</td><td>'+fmt(r.spreadCost)+' USDT</td><td><b>'+fmt(r.total)+' USDT</b>'+bestMark+'</td><td>'+pct(r.effRate)+'</td><td>'+ctaCell(r.slug)+'</td></tr>';
+      html += '<tr '+rowCls+'><td><b>'+r.name+'</b></td><td>'+fmt(r.depCost)+' USDT ('+pct(r.depFee)+(r.depPremium>0?" + "+pct(r.depPremium)+" 溢价":"")+')</td><td>'+fmt(r.tradeCost)+' USDT</td><td>'+fmt(r.wdCost)+' USDT</td><td>'+fmt(r.spreadCost)+' USDT</td><td><b>'+fmt(r.total)+' USDT</b>'+bestMark+'</td><td>'+pct(r.effRate)+'</td><td>'+ctaCell(r.slug)+'</td></tr>';
     });
     html += '</tbody></table>';
 
@@ -225,7 +234,7 @@
       html += '<p class="intro" style="margin-top:12px">💡 买入 '+fmt(amt)+' USDT，最便宜的方案（'+bestRow.name+'）比最贵的（'+worstRow.name+'）<b class="best">'+LABEL.save+' '+fmt(diff)+' USDT</b>（占金额 '+pct(diff/amt)+'）。</p>';
     }
 
-    html += '<div class="formula"><b>计算方式：</b><br><code>总成本 = 入金费（金额 × '+(method==="p2p"?"P2P 费率 + 溢价":"入金费率")+'）+ 交易费（金额 × 现货吃单 '+pct(window.EXCHANGES.kucoin.spot.taker)+' @ KuCoin）+ 提现费'+(state.withdraw==="yes"?"（网络费）":"")+' + 价差（金额 × '+pct(slip)+'）。</code><br>费率来自各交易所官方费率页（快照 <span id="upd2"></span>）。价差为可调整估算——BTC/ETH 等流动性好的币更小，小市值币更大。</div>';
+    html += '<div class="formula"><b>计算方式：</b><br><code>总成本 = 入金费（金额 × '+(method==="P2P"?"P2P 费率 + 溢价":"入金费率")+'）+ 交易费（金额 × 现货吃单 '+pct(window.EXCHANGES.kucoin.spot.taker)+' @ KuCoin）+ 提现费'+(state.withdraw==="yes"?"（网络费）":"")+' + 价差（金额 × '+pct(slip)+'）。</code><br>费率来自各交易所官方/核实值（快照 <span id="upd2"></span>）；部分为动态（如 ERC20 提现、银行卡入金）——交易前请以交易所实时显示为准。</div>';
 
     document.getElementById("result").innerHTML = html;
     document.getElementById("upd2").textContent = window.EXCHANGES.kucoin.last_updated;
