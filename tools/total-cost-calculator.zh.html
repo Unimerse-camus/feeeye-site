@@ -123,6 +123,53 @@
 (function(){
   var state = { deposit:"Bank transfer", withdraw:false, allowed:[], restricted:false };
   var LABEL = { depositFee:"入金费", tradeFee:"交易费", wdFee:"提现费", spread:"价差", total:"总成本", effRate:"实际成本率", cheapest:"← 最低", signup:"注册", save:"节省", note:"备注" };
+  // 通道名中文化（贴近用户语言：中文币圈叫 C2C 而非 P2P）
+  var METHOD_ZH = {
+    "Bank transfer": "银行转账",
+    "Credit/Debit card": "信用卡/借记卡",
+    "P2P": "C2C",
+    "Wire transfer": "电汇",
+    "Apple Pay": "Apple Pay",
+    "Google Pay": "Google Pay",
+    "PayPal": "PayPal",
+    "Bpay": "Bpay（澳洲银行支付）"
+  };
+  var NOTE_ZH = {
+    "ACH/SEPA free; SWIFT bank fee": "ACH/SEPA 免费；SWIFT 有银行手续费",
+    "ACH/SEPA/FPS free": "ACH/SEPA/FPS 免费",
+    "ACH free": "ACH 免费",
+    "$5-10 per transfer": "每笔 $5-10",
+    "$10-25 outbound": "转出 $10-25",
+    "1.8-3.5% varies": "约 1.8-3.5%，因地区而异",
+    "2-3.5% via processor": "约 2-3.5%（支付服务商）",
+    "2-3% via 3rd-party": "约 2-3%（第三方支付商）",
+    "1.5-3.5%": "约 1.5-3.5%",
+    "3-4%": "约 3-4%",
+    "3.99%": "3.99%",
+    "2.5-3.5%": "约 2.5-3.5%",
+    "0-1.5% via partners": "约 0-1.5%（合作通道）",
+    "SEPA free; varies by region": "SEPA 免费；其他地区各异",
+    "SEPA free": "SEPA 免费",
+    "SEPA free; local varies": "SEPA 免费；本地通道各异",
+    "EU": "欧盟",
+    "US": "美国",
+    "AU bank payment, 0 fee": "澳洲银行支付，0 手续费",
+    "card channel, 2-3.5%": "卡通道，约 2-3.5%",
+    "card channel": "卡通道",
+    "0% fee + ~0.8% price premium": "0 手续费 + 约 0.8% 价格溢价",
+    "0% fee + ~0.3-0.8% premium": "0 手续费 + 约 0.3-0.8% 溢价",
+    "0% fee + spread in price": "0 手续费，价差含在报价中",
+    "0% fee + premium": "0 手续费 + 溢价",
+    "3-5% highest": "3-5%，费率最高",
+    "2026-08 user-verified 3.6%": "2026-08 实测 3.6%",
+    "~2%": "约 2%"
+  };
+  function zhNote(en){
+    return NOTE_ZH[en] || en;
+  }
+  function zhMethod(en){
+    return METHOD_ZH[en] || en;
+  }
 
   var csel = document.getElementById("country");
   Object.keys(window.COUNTRY_AVAILABILITY).forEach(function(cc){
@@ -132,11 +179,11 @@
   });
   document.getElementById("upd").textContent = window.EXCHANGES.kucoin.last_updated;
 
-  // 入金通道下拉：合并所有交易所的真实通道
+  // 入金通道下拉：合并所有交易所的真实通道（中文显示）
   var dsel = document.getElementById("deposit");
   window.getAllDepositMethods().forEach(function(m){
     var o = document.createElement("option");
-    o.value = m; o.textContent = m;
+    o.value = m; o.textContent = zhMethod(m);
     dsel.appendChild(o);
   });
   dsel.addEventListener("change", function(){ state.deposit = dsel.value; render(); });
@@ -217,8 +264,8 @@
     rows.sort(function(a,b){ return a.total-b.total; });
     var best = rows.length?rows[0].total:0;
 
-    var html = '<h3>总成本对比 —— '+method+'入金，'+fmt(amt)+' USDT</h3>';
-    if(methodNote) html += '<p class="detail" style="margin-top:4px">'+LABEL.note+'：'+methodNote+'</p>';
+    var html = '<h3>总成本对比 —— '+zhMethod(method)+'入金，'+fmt(amt)+' USDT</h3>';
+    if(methodNote) html += '<p class="detail" style="margin-top:4px">'+LABEL.note+'：'+zhNote(methodNote)+'</p>';
     html += '<table><thead><tr><th>交易所</th><th>'+LABEL.depositFee+'</th><th>'+LABEL.tradeFee+'</th><th>'+(state.withdraw==="yes"?LABEL.wdFee+" ("+net+")":"—")+'</th><th>'+LABEL.spread+'</th><th><b>'+LABEL.total+'</b></th><th>'+LABEL.effRate+'</th><th></th></tr></thead><tbody>';
     rows.forEach(function(r){
       var cls = r.slug==="kucoin"?"kc":"";
@@ -234,7 +281,7 @@
       html += '<p class="intro" style="margin-top:12px">💡 买入 '+fmt(amt)+' USDT，最便宜的方案（'+bestRow.name+'）比最贵的（'+worstRow.name+'）<b class="best">'+LABEL.save+' '+fmt(diff)+' USDT</b>（占金额 '+pct(diff/amt)+'）。</p>';
     }
 
-    html += '<div class="formula"><b>计算方式：</b><br><code>总成本 = 入金费（金额 × '+(method==="P2P"?"P2P 费率 + 溢价":"入金费率")+'）+ 交易费（金额 × 现货吃单 '+pct(window.EXCHANGES.kucoin.spot.taker)+' @ KuCoin）+ 提现费'+(state.withdraw==="yes"?"（网络费）":"")+' + 价差（金额 × '+pct(slip)+'）。</code><br>费率来自各交易所官方/核实值（快照 <span id="upd2"></span>）；部分为动态（如 ERC20 提现、银行卡入金）——交易前请以交易所实时显示为准。</div>';
+    html += '<div class="formula"><b>计算方式：</b><br><code>总成本 = 入金费（金额 × '+(method==="P2P"?"C2C 费率 + 溢价":"入金费率")+'）+ 交易费（金额 × 现货吃单 '+pct(window.EXCHANGES.kucoin.spot.taker)+' @ KuCoin）+ 提现费'+(state.withdraw==="yes"?"（网络费）":"")+' + 价差（金额 × '+pct(slip)+'）。</code><br>费率来自各交易所官方/核实值（快照 <span id="upd2"></span>）；部分为动态（如 ERC20 提现、银行卡入金）——交易前请以交易所实时显示为准。</div>';
 
     document.getElementById("result").innerHTML = html;
     document.getElementById("upd2").textContent = window.EXCHANGES.kucoin.last_updated;
