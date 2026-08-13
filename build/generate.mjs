@@ -96,7 +96,7 @@ const SITE_URL = 'https://feeeye.com';
 const I18N = {
   en: {
     navZh: '中文',
-    discT: 'Affiliate disclosure:', discB: 'This site may earn a commission from exchanges at no extra cost to you. Links are marked rel="sponsored".',
+    discHtml: '<div style="margin:0 0 6px"><b>\u2460 Fee snapshot</b>: recently updated 2026-08-13 \u2014 verify each rate on the exchange\'s official page before trading.</div><div style="margin:0 0 4px"><b>\u2461 Compliance-restricted regions</b> by exchange (representative examples; <b>all exchanges do not serve</b> residents of Mainland China, Hong Kong, Singapore, the United States and other Restricted Locations):</div><ul style="margin:0 0 0 20px;padding:0"><li><b>KuCoin</b>: EU new-client onboarding paused (Germany, France, Italy, Spain, Poland, ...)</li><li><b>Binance</b>: Japan, Ontario (Canada), India, Turkey, UAE, Korea, Thailand, ...</li><li><b>Bybit / OKX</b>: no specific countries publicly listed</li><li><b>Bitget</b>: Japan, Korea, ...</li><li><b>Kraken</b>: Brazil, India, Indonesia, Vietnam, Thailand, ...</li><li><b>Coinbase</b>: Indonesia, Vietnam, Thailand, ...</li></ul><div style="margin:6px 0 0"><b>\u2462</b> Before signing up, check each exchange\'s Terms of Use to confirm your country/region is supported.</div>',
     foot: 'Educational only. Not financial advice. Verify all data on official exchange pages. Data snapshot ',
     noteAvail: 'Availability depends on your region — residents of {r} are not eligible. Always verify listing status on the exchange.',
     thExchange: 'Exchange', thLists: 'Lists {s}', thTaker: 'Spot taker', thFee20: 'USDT TRC20 fee',
@@ -145,7 +145,7 @@ const I18N = {
   },
   zh: {
     navZh: 'English',
-    discT: '联盟披露：', discB: '本站可能从交易所获得推广佣金，但不会增加你的成本。链接均已标记 rel="sponsored"。',
+    discHtml: '<div style="margin:0 0 6px"><b>① 费率快照</b>：最近更新 2026-08-13 —— 交易前请以各交易所官方页面为准。</div><div style="margin:0 0 4px"><b>② 各所合规受限地区</b>（代表性示例；<b>所有交易所均不接受</b>中国大陆、中国香港、新加坡、美国等 Restricted Locations 用户）：</div><ul style="margin:0 0 0 20px;padding:0"><li><b>KuCoin</b>：欧盟新客户暂停（含德国、法国、意大利、西班牙、波兰等）</li><li><b>Binance</b>：日本、加拿大（安大略）、印度、土耳其、阿联酋、韩国、泰国等</li><li><b>Bybit / OKX</b>：未明确公开列示特定国家限制</li><li><b>Bitget</b>：日本、韩国等</li><li><b>Kraken</b>：巴西、印度、印度尼西亚、越南、泰国等</li><li><b>Coinbase</b>：印度尼西亚、越南、泰国等</li></ul><div style="margin:6px 0 0"><b>③</b> 注册前请查各所 Terms of Use 确认你所在国家/地区可用。</div>',
     foot: '仅供教育参考，不构成投资建议。请以各交易所官方页面核实所有数据。数据快照 ',
     noteAvail: '可用性取决于你所在地区——{r} 等受限地区居民不适用。请始终在交易所核实上架状态。',
     thExchange: '交易所', thLists: '上架 {s}', thTaker: '现货吃单费率', thFee20: 'USDT TRC20 提币费',
@@ -222,7 +222,7 @@ function page({ lang, title, desc, body, jsonLd, depth = 0, path, affiliate = fa
   const canonical = `${SITE_URL}/${path}`;
   const ld = jsonLd ? `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>` : '';
   // 仅在页面有 affiliate CTA 的页面显示合规披露（首页/对比/国家/交易所页 = 纯工具/数据，不挂）
-  const discLine = affiliate ? `${esc(i.discT)} ${esc(i.discB)} ` : '';
+  const discLine = affiliate ? i.discHtml : '';
   return `<!doctype html>
 <html lang="${lang === 'zh' ? 'zh-CN' : 'en'}">
 <head>
