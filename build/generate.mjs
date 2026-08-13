@@ -95,7 +95,7 @@ const SITE_URL = 'https://feeeye.com';
 // ---- 国际化文案（en / zh）----
 const I18N = {
   en: {
-    navFee: 'Fee Calculator', navTools: 'Tools', navHome: 'Home', navZh: '中文',
+    navFee: 'Fee Calculator',
     discT: 'Affiliate disclosure:', discB: 'This site may earn a commission from exchanges at no extra cost to you. Links are marked rel="sponsored".',
     foot: 'Educational only. Not financial advice. Verify all data on official exchange pages. Data snapshot ',
     noteAvail: 'Availability depends on your region — residents of {r} are not eligible. Always verify listing status on the exchange.',
@@ -144,7 +144,7 @@ const I18N = {
     coverageNote: 'Exchange coverage verified via CoinGecko tickers.'
   },
   zh: {
-    navFee: '手续费计算器', navTools: '工具', navHome: '首页', navZh: 'English',
+    navFee: '手续费计算器',
     discT: '联盟披露：', discB: '本站可能从交易所获得推广佣金，但不会增加你的成本。链接均已标记 rel="sponsored"。',
     foot: '仅供教育参考，不构成投资建议。请以各交易所官方页面核实所有数据。数据快照 ',
     noteAvail: '可用性取决于你所在地区——{r} 等受限地区居民不适用。请始终在交易所核实上架状态。',
@@ -283,7 +283,7 @@ input[type=number]{font-size:16px}
 </head>
 <body>
 <div class="wrap">
-<header><nav><a class="logo" href="${lang === 'zh' ? '/zh/' : '/'}" aria-label="FeeEye home"><img src="/assets/logo.svg" alt="FeeEye" width="26" height="26">${SITE}</a><span><a href="${absPath(lang, toolPath(lang))}">${esc(i.navFee)}</a><a href="${lang === 'zh' ? '/zh/' : '/'}">${esc(i.navHome)}</a><a href="${lang === 'zh' ? '/' : '/zh/'}">${esc(i.navZh)}</a></span></nav></header>
+<header><nav><a class="logo" href="${lang === 'zh' ? '/zh/' : '/'}" aria-label="FeeEye home"><img src="/assets/logo.svg" alt="FeeEye" width="26" height="26">${SITE}</a><span><a href="${absPath(lang, toolPath(lang))}">${esc(i.navFee)}</a></span></nav></header>
 ${body}
 <div class="foot">${discLine}${esc(i.foot)} ${esc(UPD)}.</div>
 </div>
