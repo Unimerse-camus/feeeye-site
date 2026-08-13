@@ -64,18 +64,6 @@
     <a href="total-cost-calculator.html" style="font-size:13px;color:#2563eb;text-decoration:none;font-weight:600">English ↗</a>
   </header>
 
-  <div class="disclaimer">
-    <b>联盟披露：</b> 本站可能从交易所获得推广佣金，但不会增加你的成本。链接均已标记 <code>rel="sponsored"</code>。
-    费率数据为快照（最近更新 <span id="upd"></span>）——交易前请务必在交易所官方页面核实。
-    本站<b>不适用于受限地区</b>（如美国、中国大陆、中国香港、新加坡）。
-  </div>
-
-  <div class="panel">
-    <label for="country">你的地区（仅用于在受限地区隐藏注册入口）</label>
-    <select id="country"></select>
-    <div class="updated">我们不会存储此选择。它只决定哪些注册入口显示。</div>
-  </div>
-
   <div class="panel">
     <div class="grid">
       <div>
@@ -127,7 +115,11 @@
     <a id="stickyLink" href="#" rel="sponsored nofollow" target="_blank">打开 KuCoin →</a>
   </div>
 
-  <div class="notice" id="notice"></div>
+  <div class="disclaimer">
+    <b>联盟披露：</b> 本站可能从交易所获得推广佣金，但不会增加你的成本。链接均已标记 <code>rel="sponsored"</code>。
+    费率数据为快照（最近更新 <span id="upd"></span>）——交易前请务必在交易所官方页面核实。
+    本站<b>不适用于受限地区</b>（如美国、中国大陆、中国香港、新加坡）。
+  </div>
 
   <div class="foot">仅供教育参考，不构成投资建议。请以各交易所官方页面核实所有费率。</div>
 </div>
@@ -187,13 +179,7 @@
     return METHOD_ZH[en] || en;
   }
 
-  var csel = document.getElementById("country");
-  Object.keys(window.COUNTRY_AVAILABILITY).forEach(function(cc){
-    var o = document.createElement("option");
-    o.value = cc; o.textContent = (window.COUNTRY_NAMES[cc]||cc) + (window.COUNTRY_AVAILABILITY[cc].restricted ? "（受限）" : "");
-    csel.appendChild(o);
-  });
-  document.getElementById("upd").textContent = window.EXCHANGES.kucoin.last_updated;
+document.getElementById("upd").textContent = window.EXCHANGES.kucoin.last_updated;
 
   // 入金通道下拉：HTML 已内嵌 placeholder + 8 个默认 option 作 fallback；
   // JS 启动后用数据驱动的列表覆盖（保留 placeholder 第一个）。
@@ -205,22 +191,7 @@
     o.value = m; o.textContent = zhMethod(m);
     dsel.appendChild(o);
   });
-  dsel.addEventListener("change", function(){ state.deposit = dsel.value; render(); });
-
-  function applyCountry(){
-    var cc = csel.value;
-    var c = window.COUNTRY_AVAILABILITY[cc];
-    state.restricted = !!c.restricted;
-    state.allowed = state.restricted ? [] : Object.keys(c.exchanges||{}).filter(function(k){return c.exchanges[k];});
-    document.getElementById("notice").style.display = state.restricted ? "block" : "none";
-    if(state.restricted){
-      document.getElementById("notice").textContent = "⚠️ " + (c.note||"该地区暂不支持。") + " 我们不会在此显示任何注册链接。";
-    }
-    refreshSticky();
-  }
-  csel.addEventListener("change", function(){ applyCountry(); render(); });
-
-  function refreshSticky(){
+  dsel.addEventListener("change", function(){ state.deposit = dsel.value; render(); });function refreshSticky(){
     var st = document.getElementById("sticky");
     var link = document.getElementById("stickyLink");
     if(state.restricted || state.allowed.indexOf("kucoin")===-1){
@@ -255,7 +226,7 @@
   }
 
   function ctaCell(slug){
-    if(state.restricted || state.allowed.indexOf(slug)===-1) return '<span class="na">—</span>';
+    // 工具站优先：CTA 永远显示
     var url = window.EXCHANGES[slug].affiliate_link || "#";
     return '<a class="cta" href="'+url+'" rel="sponsored nofollow" target="_blank">'+LABEL.signup+'</a>';
   }
@@ -325,7 +296,6 @@
   document.getElementById("slip").addEventListener("change", render);
   document.getElementById("network").addEventListener("change", render);
 
-  applyCountry();
   render();
 })();
 </script>

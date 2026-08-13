@@ -64,18 +64,6 @@
     <a href="total-cost-calculator.zh.html" style="font-size:13px;color:var(--brand);text-decoration:none;font-weight:600">中文 ↗</a>
   </header>
 
-  <div class="disclaimer">
-    <b>Affiliate disclosure:</b> This site may earn a commission from exchanges at no extra cost to you. Links are marked <code>rel="sponsored"</code>.
-    Fee data snapshot (last updated <span id="upd"></span>) — always verify on the exchange's official page before trading.
-    This site is <b>not available in restricted regions</b> (e.g. US, China, Hong Kong, Singapore).
-  </div>
-
-  <div class="panel">
-    <label for="country">Your region (used only to hide signup CTAs in restricted areas)</label>
-    <select id="country"></select>
-    <div class="updated">We never store this selection. It only filters which signup CTAs show.</div>
-  </div>
-
   <div class="panel">
     <div class="grid">
       <div>
@@ -127,7 +115,11 @@
     <a id="stickyLink" href="#" rel="sponsored nofollow" target="_blank">Open KuCoin →</a>
   </div>
 
-  <div class="notice" id="notice"></div>
+  <div class="disclaimer">
+    <b>Affiliate disclosure:</b> This site may earn a commission from exchanges at no extra cost to you. Links are marked <code>rel="sponsored"</code>.
+    Fee data snapshot (last updated <span id="upd"></span>) — always verify on the exchange's official page before trading.
+    This site is <b>not available in restricted regions</b> (e.g. US, China, Hong Kong, Singapore).
+  </div>
 
   <div class="foot">Educational tool only. Not financial advice. Verify all fees on official exchange pages.</div>
 </div>
@@ -139,13 +131,7 @@
 (function(){
   var state = { deposit:"Bank transfer", withdraw:false, allowed:[], restricted:false };
 
-  var csel = document.getElementById("country");
-  Object.keys(window.COUNTRY_AVAILABILITY).forEach(function(cc){
-    var o = document.createElement("option");
-    o.value = cc; o.textContent = (window.COUNTRY_NAMES[cc]||cc) + (window.COUNTRY_AVAILABILITY[cc].restricted ? " (restricted)" : "");
-    csel.appendChild(o);
-  });
-  document.getElementById("upd").textContent = window.EXCHANGES.kucoin.last_updated;
+document.getElementById("upd").textContent = window.EXCHANGES.kucoin.last_updated;
 
   // 入金通道下拉：HTML 已内嵌 placeholder + 8 个默认 option 作 fallback；
   // JS 启动后用数据驱动的列表覆盖（保留 placeholder 第一个）。
@@ -157,22 +143,7 @@
     o.value = m; o.textContent = m;
     dsel.appendChild(o);
   });
-  dsel.addEventListener("change", function(){ state.deposit = dsel.value; render(); });
-
-  function applyCountry(){
-    var cc = csel.value;
-    var c = window.COUNTRY_AVAILABILITY[cc];
-    state.restricted = !!c.restricted;
-    state.allowed = state.restricted ? [] : Object.keys(c.exchanges||{}).filter(function(k){return c.exchanges[k];});
-    document.getElementById("notice").style.display = state.restricted ? "block" : "none";
-    if(state.restricted){
-      document.getElementById("notice").textContent = "⚠️ " + (c.note||"This region is not supported.") + " We do not show any signup links here.";
-    }
-    refreshSticky();
-  }
-  csel.addEventListener("change", function(){ applyCountry(); render(); });
-
-  function refreshSticky(){
+  dsel.addEventListener("change", function(){ state.deposit = dsel.value; render(); });function refreshSticky(){
     var st = document.getElementById("sticky");
     var link = document.getElementById("stickyLink");
     if(state.restricted || state.allowed.indexOf("kucoin")===-1){
@@ -207,7 +178,7 @@
   }
 
   function ctaCell(slug){
-    if(state.restricted || state.allowed.indexOf(slug)===-1) return '<span class="na">—</span>';
+    // 工具站优先：CTA 永远显示
     var url = window.EXCHANGES[slug].affiliate_link || "#";
     return '<a class="cta" href="'+url+'" rel="sponsored nofollow" target="_blank">Sign up</a>';
   }
@@ -278,7 +249,6 @@
   document.getElementById("slip").addEventListener("change", render);
   document.getElementById("network").addEventListener("change", render);
 
-  applyCountry();
   render();
 })();
 </script>
