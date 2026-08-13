@@ -236,7 +236,7 @@ document.getElementById("upd").textContent = window.EXCHANGES.kucoin.last_update
       html += '<p class="intro" style="margin-top:12px">💡 On '+fmt(amt)+' USDT, the cheapest option ('+bestRow.name+') saves ~<b class="best">'+fmt(diff)+' USDT</b> (mid-point) vs the most expensive ('+worstRow.name+').</p>';
     }
 
-    html += '<div class="formula"><b>How it is calculated:</b><br><code>Total cost = Deposit fee (amount × '+(method==="P2P"?"P2P rate + premium":"deposit rate range")+') + Trading fee (amount × spot taker '+pct(window.EXCHANGES.kucoin.spot.taker)+' at KuCoin) + Withdrawal fee'+(state.withdraw==="yes"?" (network fee)":"")+' + Spread (amount × '+pct(slip)+').</code><br>Ranges show min–max when a fee varies by region/card/processor; single values are fixed. Snapshot <span id="upd2"></span> — always verify on the exchange.</div>';
+    html += '<div class="formula"><b>How it is calculated:</b><br><code>Total cost = Deposit fee (amount × '+(method==="P2P"?"P2P rate + premium":"deposit rate range")+') + Trading fee (amount × each exchange\'s spot taker rate) + Withdrawal fee'+(state.withdraw==="yes"?" (network fee)":"")+' + Spread (amount × '+pct(slip)+').</code><br>Ranges show min–max when a fee varies by region/card/processor; single values are fixed. Snapshot <span id="upd2"></span> — always verify on the exchange.</div>';
 
     document.getElementById("result").innerHTML = html;
     document.getElementById("upd2").textContent = window.EXCHANGES.kucoin.last_updated;
