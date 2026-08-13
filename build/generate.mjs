@@ -108,7 +108,6 @@ const I18N = {
     wbTitle: 'Where to Buy {n} ({s}) — Compare Exchanges',
     wbDesc: 'Find where to buy {n} ({s}) in 2026. Compare listings, spot fees and withdrawal costs across major exchanges.',
     wbQ1: 'Where can I buy {n} ({s})?', wbA1: '{n} ({s}) is listed on {c} exchanges including KuCoin, subject to regional availability. Compare fees above.',
-    wbQ2: 'Is KuCoin available in my country?', wbA2: 'KuCoin is not available in restricted regions including {r}. Check the Fee Calculator region selector for eligibility.',
     exH1: '{n} — Fees, Networks & Tools (2026)',
     exIntro: 'Snapshot of {n} trading fees, USDT withdrawal costs, supported networks and features. Data {u}.',
     exSpot: 'Spot fee', exFutures: 'Futures fee', exWd: 'USDT withdrawal', exCoins: 'Coins listed', exBot: 'Trading bot', exApi: 'API',
@@ -118,7 +117,6 @@ const I18N = {
     exCompare: 'Compare: ',
     cpH1: 'KuCoin vs {n} — Fee & Feature Comparison (2026)',
     cpIntro: 'Side-by-side of trading fees, withdrawal costs and features. Data snapshot {u}.',
-    cpNote: 'This is an objective comparison, not an endorsement. Choose based on your region and needs. Residents of {r} are not eligible for KuCoin.',
     cpTh: 'Feature', cpQ1: 'KuCoin or {n} — which has lower fees?',
     cpA1: 'Spot taker fees: KuCoin {k} vs {n} {o} (snapshot {u}). Compare full table above.',
     cpTitle: 'KuCoin vs {n} 2026 — Fees & Features Compared',
@@ -157,7 +155,6 @@ const I18N = {
     wbTitle: '在哪里购买 {n}（{s}）——交易所对比',
     wbDesc: '查找 2026 年在哪里购买 {n}（{s}）。对比各大交易所的上架情况、现货费率与提币成本。',
     wbQ1: '我可以在哪里购买 {n}（{s}）？', wbA1: '{n}（{s}）已在 {c} 家交易所上架（含 KuCoin），具体取决于地区可用性。请对比上方费率。',
-    wbQ2: 'KuCoin 在我的国家可用吗？', wbA2: 'KuCoin 不向 {r} 等受限地区提供服务。请使用手续费计算器的地区选择器确认资格。',
     exH1: '{n}——费率、网络与工具（2026）',
     exIntro: '{n} 交易费率、USDT 提币成本、支持网络与功能快照。数据更新至 {u}。',
     exSpot: '现货费率', exFutures: '合约费率', exWd: 'USDT 提币', exCoins: '上架币种', exBot: '交易机器人', exApi: 'API',
@@ -167,7 +164,6 @@ const I18N = {
     exCompare: '对比：',
     cpH1: 'KuCoin vs {n}——费率与功能对比（2026）',
     cpIntro: '交易费率、提币成本与功能并列对比。数据快照 {u}。',
-    cpNote: '这是客观对比，并非推荐。请根据你的地区和需求选择。{r} 等受限地区居民不适用 KuCoin。',
     cpTh: '功能', cpQ1: 'KuCoin 还是 {n}——哪家费率更低？',
     cpA1: '现货吃单费率：KuCoin {k} vs {n} {o}（快照 {u}）。请对比上方完整表格。',
     cpTitle: 'KuCoin vs {n} 2026——费率与功能对比',
@@ -314,8 +310,7 @@ function whereToBuy(c, lang) {
   const jsonLd = {
     '@context': 'https://schema.org', '@type': 'FAQPage',
     mainEntity: [
-      { '@type': 'Question', name: T(lang, 'wbQ1', { n: name, s: symbol }), answer: { '@type': 'Answer', text: T(lang, 'wbA1', { n: name, s: symbol, c: c.exchanges.length }) } },
-      { '@type': 'Question', name: T(lang, 'wbQ2'), answer: { '@type': 'Answer', text: T(lang, 'wbA2', { r: RESTRICTED_LABEL }) } }
+      { '@type': 'Question', name: T(lang, 'wbQ1', { n: name, s: symbol }), answer: { '@type': 'Answer', text: T(lang, 'wbA1', { n: name, s: symbol, c: c.exchanges.length }) } }
     ]
   };
   return page({ lang, title: T(lang, 'wbTitle', { n: name, s: symbol }), desc: T(lang, 'wbDesc', { n: name, s: symbol }), body, jsonLd, path: `${lang === 'zh' ? 'zh/' : ''}where-to-buy/${c.symbol.toLowerCase()}.html`, affiliate: true });
@@ -356,7 +351,6 @@ function comparePage(other, lang) {
   const body = `
   <h1>${esc(T(lang, 'cpH1', { n: b.name }))}</h1>
   <p class="intro">${esc(T(lang, 'cpIntro', { u: UPD }))}</p>
-  <div class="note">${esc(T(lang, 'cpNote', { r: RESTRICTED_LABEL }))}</div>
   <table><thead><tr><th>${esc(T(lang, 'cpTh'))}</th><th>KuCoin</th><th>${b.name}</th></tr></thead><tbody>${rows}</tbody></table>
   <p style="margin-top:14px"><a class="cta" href="${KU_LINK}" rel="sponsored nofollow" target="_blank">${esc(T(lang, 'ctaOpen'))}</a></p>`;
   const jsonLd = {
