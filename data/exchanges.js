@@ -22,8 +22,8 @@ window.EXCHANGES = {
     "usdt_withdrawal": { "TRC20": 1.5, "ERC20": 5.5, "BSC": 1.0, "SOL": 1.5, "Arbitrum": 1.0, "Base": 0.6, "Optimism": 1.0, "Polygon": 0.8, "TON": 0.5, "NEAR": 0.5, "PLASMA": 0.4 },
     "withdrawal_note": "TRC20=1.5 (2026-08 实锤); ERC20 动态 ~5.5; 最便宜 PLASMA 0.4",
     "deposit_methods": [
-      { "m": "Bank transfer", "fee": 0.005, "note": "0-1.5% via partners" },
-      { "m": "Credit/Debit card", "fee": 0.03, "note": "2.5-3.5%" },
+      { "m": "Bank transfer", "fee": 0, "fee_max": 0.015, "note": "0-1.5% via partners" },
+      { "m": "Credit/Debit card", "fee": 0.025, "fee_max": 0.035, "note": "2.5-3.5%" },
       { "m": "P2P", "fee": 0, "premium": 0.008, "note": "0% fee + ~0.8% price premium" }
     ],
     "supported_networks": ["TRC20", "ERC20", "BSC", "SOL", "Arbitrum", "Base", "Optimism", "Polygon", "TON", "NEAR"],
@@ -43,7 +43,7 @@ window.EXCHANGES = {
     "withdrawal_note": "TRC20=1 fixed; ERC20 dynamic 1.2-20 (gas); BEP20 ~0.29",
     "deposit_methods": [
       { "m": "Bank transfer", "fee": 0, "note": "ACH/SEPA free; SWIFT bank fee" },
-      { "m": "Credit/Debit card", "fee": 0.0385, "note": "3.6-4.1% (2026-08 user-verified)" },
+      { "m": "Credit/Debit card", "fee": 0.036, "fee_max": 0.041, "note": "3.6-4.1% (2026-08 user-verified)" },
       { "m": "Apple Pay", "fee": 0.036, "note": "2026-08 user-verified 3.6%" },
       { "m": "Google Pay", "fee": 0.02, "note": "~2%" },
       { "m": "PayPal", "fee": 0.02, "note": "~2%" },
@@ -67,9 +67,9 @@ window.EXCHANGES = {
     "withdrawal_note": "TRC20=1; ERC20 ~10",
     "deposit_methods": [
       { "m": "Bank transfer", "fee": 0, "note": "SEPA free; local varies" },
-      { "m": "Credit/Debit card", "fee": 0.035, "note": "2-5% via Simplex/Banxa" },
-      { "m": "Apple Pay", "fee": 0.0275, "note": "card channel, 2-3.5%" },
-      { "m": "Google Pay", "fee": 0.0275, "note": "card channel, 2-3.5%" },
+      { "m": "Credit/Debit card", "fee": 0.02, "fee_max": 0.05, "note": "2-5% via Simplex/Banxa" },
+      { "m": "Apple Pay", "fee": 0.02, "fee_max": 0.05, "note": "card channel, 2-5%" },
+      { "m": "Google Pay", "fee": 0.02, "fee_max": 0.05, "note": "card channel, 2-5%" },
       { "m": "P2P", "fee": 0, "premium": 0.008, "note": "0% fee + spread in price" }
     ],
     "supported_networks": ["TRC20", "ERC20", "BSC", "SOL", "Arbitrum", "Base", "Optimism"],
@@ -89,8 +89,8 @@ window.EXCHANGES = {
     "withdrawal_note": "TRC20=1; ERC20 ~10",
     "deposit_methods": [
       { "m": "Bank transfer", "fee": 0, "note": "SEPA free; varies by region" },
-      { "m": "Credit/Debit card", "fee": 0.025, "note": "2-3% via 3rd-party" },
-      { "m": "Apple Pay", "fee": 0.025, "note": "card channel" },
+      { "m": "Credit/Debit card", "fee": 0.02, "fee_max": 0.03, "note": "2-3% via 3rd-party" },
+      { "m": "Apple Pay", "fee": 0.02, "fee_max": 0.03, "note": "card channel, 2-3%" },
       { "m": "P2P", "fee": 0, "premium": 0.008, "note": "0% fee + premium" }
     ],
     "supported_networks": ["TRC20", "ERC20", "BSC", "SOL", "Arbitrum", "Base", "Optimism", "Polygon"],
@@ -110,8 +110,8 @@ window.EXCHANGES = {
     "withdrawal_note": "TRC20=1.5 (bitcoinmarket 2026 guide); some sources list 1 — verify",
     "deposit_methods": [
       { "m": "Bank transfer", "fee": 0, "note": "SEPA free" },
-      { "m": "Credit/Debit card", "fee": 0.035, "note": "3-4% (processor-dependent)" },
-      { "m": "PayPal", "fee": 0.04, "note": "3-5% highest" },
+      { "m": "Credit/Debit card", "fee": 0.03, "fee_max": 0.04, "note": "3-4% (processor-dependent)" },
+      { "m": "PayPal", "fee": 0.03, "fee_max": 0.05, "note": "3-5%" },
       { "m": "P2P", "fee": 0, "premium": 0.008, "note": "0% fee + premium" }
     ],
     "supported_networks": ["TRC20", "ERC20", "BSC", "SOL", "Arbitrum", "Base", "Optimism"],
@@ -132,7 +132,7 @@ window.EXCHANGES = {
     "deposit_methods": [
       { "m": "Bank transfer", "fee": 0, "note": "ACH/SEPA/FPS free" },
       { "m": "Wire transfer", "fee": 0.005, "note": "$5-10 per transfer" },
-      { "m": "Credit/Debit card", "fee": 0.0435, "note": "3.75-4.95% via 3rd-party" }
+      { "m": "Credit/Debit card", "fee": 0.0375, "fee_max": 0.0495, "note": "3.75-4.95% via 3rd-party" }
     ],
     "supported_networks": ["TRC20", "ERC20", "BSC", "SOL", "Arbitrum", "Polygon"],
     "has_trading_bot": false,

@@ -226,34 +226,47 @@
       var dep = depositInfo(ex, method);
       if(!dep) return; // 该所不支持此通道
       if(!methodNote) methodNote = dep.note || "";
-      var depCost = amt * (dep.fee||0) + (dep.premium ? amt * dep.premium : 0);
+      var premium = dep.premium || 0;
+      var feeMin = dep.fee || 0;
+      var feeMax = (dep.fee_max != null) ? dep.fee_max : feeMin; // 无 fee_max 视为固定费率
+      var depCostMin = amt * feeMin + amt * premium;
+      var depCostMax = amt * feeMax + amt * premium;
       var tradeCost = amt * ex.spot.taker;
       var wdCost = state.withdraw==="yes" ? (window.getUsdtWithdrawalFee(slug, net)||0) : 0;
       var spreadCost = amt * slip;
-      var total = depCost + tradeCost + wdCost + spreadCost;
-      rows.push({ slug:slug, name:ex.name, depCost:depCost, tradeCost:tradeCost, wdCost:wdCost, spreadCost:spreadCost, total:total, effRate:total/amt, depFee:dep.fee||0, depPremium:dep.premium||0 });
+      var totalMin = depCostMin + tradeCost + wdCost + spreadCost;
+      var totalMax = depCostMax + tradeCost + wdCost + spreadCost;
+      rows.push({ slug:slug, name:ex.name, depCostMin:depCostMin, depCostMax:depCostMax, tradeCost:tradeCost, wdCost:wdCost, spreadCost:spreadCost, totalMin:totalMin, totalMax:totalMax, mid:(totalMin+totalMax)/2, effMin:totalMin/amt, effMax:totalMax/amt, feeMin:feeMin, feeMax:feeMax, premium:premium });
     });
-    rows.sort(function(a,b){ return a.total-b.total; });
-    var best = rows.length?rows[0].total:0;
+    rows.sort(function(a,b){ return a.mid-b.mid; }); // 按区间中值排序
 
     var html = '<h3>Total cost comparison — '+method+' deposit, '+fmt(amt)+' USDT</h3>';
     if(methodNote) html += '<p class="detail" style="margin-top:4px">Note: '+methodNote+'</p>';
     html += '<table><thead><tr><th>Exchange</th><th>Deposit fee</th><th>Trading fee</th><th>'+(state.withdraw==="yes"?"Withdrawal ("+net+")":"—")+'</th><th>Spread</th><th><b>Total cost</b></th><th>Effective rate</th><th></th></tr></thead><tbody>';
-    rows.forEach(function(r){
+    rows.forEach(function(r, idx){
       var cls = r.slug==="kucoin"?"kc":"";
-      var bestMark = (r.total===best && best>0)?' <span class="best">← cheapest</span>':"";
-      var rowCls = (r.total===best && best>0) ? 'class="bestrow '+cls+'"' : 'class="'+cls+'"';
-      html += '<tr '+rowCls+'><td><b>'+r.name+'</b></td><td>'+fmt(r.depCost)+' USDT ('+pct(r.depFee)+(r.depPremium>0?" + "+pct(r.depPremium)+" premium":"")+')</td><td>'+fmt(r.tradeCost)+' USDT</td><td>'+fmt(r.wdCost)+' USDT</td><td>'+fmt(r.spreadCost)+' USDT</td><td><b>'+fmt(r.total)+' USDT</b>'+bestMark+'</td><td>'+pct(r.effRate)+'</td><td>'+ctaCell(r.slug)+'</td></tr>';
+      var isBest = (idx===0 && r.mid>0);
+      var bestMark = isBest?' <span class="best">← cheapest</span>':"";
+      var rowCls = isBest ? 'class="bestrow '+cls+'"' : 'class="'+cls+'"';
+      // 区间 vs 单值展示：费率随地区/卡/处理器浮动时展示 min–max
+      var depCell = (r.feeMin===r.feeMax)
+        ? fmt(r.depCostMin)+' USDT ('+pct(r.feeMin)+(r.premium>0?" + "+pct(r.premium)+" premium":"")+')'
+        : fmt(r.depCostMin)+'–'+fmt(r.depCostMax)+' USDT ('+pct(r.feeMin)+'–'+pct(r.feeMax)+')';
+      var totalCell = (r.totalMin===r.totalMax)
+        ? '<b>'+fmt(r.totalMin)+' USDT</b>'
+        : '<b>'+fmt(r.totalMin)+'–'+fmt(r.totalMax)+' USDT</b>';
+      var effCell = (r.effMin===r.effMax) ? pct(r.effMin) : pct(r.effMin)+'–'+pct(r.effMax);
+      html += '<tr '+rowCls+'><td><b>'+r.name+'</b></td><td>'+depCell+'</td><td>'+fmt(r.tradeCost)+' USDT</td><td>'+fmt(r.wdCost)+' USDT</td><td>'+fmt(r.spreadCost)+' USDT</td><td>'+totalCell+bestMark+'</td><td>'+effCell+'</td><td>'+ctaCell(r.slug)+'</td></tr>';
     });
     html += '</tbody></table>';
 
     var bestRow = rows[0], worstRow = rows[rows.length-1];
     if(bestRow && worstRow && bestRow.slug!==worstRow.slug){
-      var diff = worstRow.total - bestRow.total;
-      html += '<p class="intro" style="margin-top:12px">💡 On '+fmt(amt)+' USDT, the cheapest option ('+bestRow.name+') saves <b class="best">'+fmt(diff)+' USDT</b> ('+pct(diff/amt)+' of your amount) vs the most expensive ('+worstRow.name+').</p>';
+      var diff = worstRow.mid - bestRow.mid;
+      html += '<p class="intro" style="margin-top:12px">💡 On '+fmt(amt)+' USDT, the cheapest option ('+bestRow.name+') saves ~<b class="best">'+fmt(diff)+' USDT</b> (mid-point) vs the most expensive ('+worstRow.name+').</p>';
     }
 
-    html += '<div class="formula"><b>How it is calculated:</b><br><code>Total cost = Deposit fee (amount × '+(method==="P2P"?"P2P rate + premium":"deposit rate")+') + Trading fee (amount × spot taker '+pct(window.EXCHANGES.kucoin.spot.taker)+' at KuCoin) + Withdrawal fee'+(state.withdraw==="yes"?" (network fee)":"")+' + Spread (amount × '+pct(slip)+').</code><br>Fees are per-exchange official/verified rates (snapshot <span id="upd2"></span>); some (e.g. ERC20 withdrawal, card deposits) are dynamic — always check the exchange before trading.</div>';
+    html += '<div class="formula"><b>How it is calculated:</b><br><code>Total cost = Deposit fee (amount × '+(method==="P2P"?"P2P rate + premium":"deposit rate range")+') + Trading fee (amount × spot taker '+pct(window.EXCHANGES.kucoin.spot.taker)+' at KuCoin) + Withdrawal fee'+(state.withdraw==="yes"?" (network fee)":"")+' + Spread (amount × '+pct(slip)+').</code><br>Ranges show min–max when a fee varies by region/card/processor; single values are fixed. Snapshot <span id="upd2"></span> — always verify on the exchange.</div>';
 
     document.getElementById("result").innerHTML = html;
     document.getElementById("upd2").textContent = window.EXCHANGES.kucoin.last_updated;
