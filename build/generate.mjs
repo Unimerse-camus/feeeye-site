@@ -456,10 +456,13 @@ ${pages.map((u) => `  <url><loc>${SITE_URL}/${u}</loc><lastmod>${today}</lastmod
 write('sitemap.xml', sitemap);
 write('robots.txt', `User-agent: *\nAllow: /\nSitemap: ${SITE_URL}/sitemap.xml\n`);
 
-// Cloudflare Pages _headers：强制 HTML 不缓存（根治边缘/浏览器缓存旧版导致的陈旧内容）
+// Cloudflare Pages _headers：强制 HTML/XML 不缓存（根治边缘/浏览器缓存旧版导致的陈旧内容）
 // 语法：路径匹配（* 通配任意字符含 /），子行缩进 2 空格写响应头
 write('_headers', [
   '/*.html',
+  '  Cache-Control: no-cache, no-store, must-revalidate',
+  '',
+  '/*.xml',
   '  Cache-Control: no-cache, no-store, must-revalidate',
   '',
   '/',
