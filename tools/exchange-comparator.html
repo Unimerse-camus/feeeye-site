@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>Exchange Comparator — Compare 10 Dimensions Across Exchanges</title>
+<link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
+<meta name="description" content="Compare crypto exchanges across 10 dimensions: fees, withdrawal, coin coverage, liquidity, security, KYC, licenses and reputation. Free, no signup.">
+<style>
+  :root{--bg:#f7f8fa;--card:#fff;--ink:#1c2430;--sub:#5b6776;--line:#e4e8ee;--brand:#2563eb;--brand2:#0ea5a4;--ok:#16a34a;--bad:#dc2626;--warn:#d97706}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;font-size:15px}
+  .wrap{max-width:920px;margin:0 auto;padding:24px 18px 60px}
+  header{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:12px;margin-bottom:14px;flex-wrap:wrap;gap:8px}
+  header h1{font-size:24px;margin-bottom:4px}
+  .logo{display:flex;align-items:center;gap:8px;font-weight:800;color:#2563eb;font-size:18px}
+  .logo img{height:26px;width:26px;display:block}
+  header p{color:var(--sub);font-size:14px}
+  .disclaimer{background:#fffbeb;border:1px solid #fed7aa;border-radius:10px;padding:10px 14px;font-size:12.5px;color:#92400e;margin:14px 0}
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;margin-top:10px}
+  label{display:block;font-size:13px;color:var(--sub);margin-bottom:5px;font-weight:600}
+  select{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:8px;font-size:15px;background:#fff;min-height:44px}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+  .chip{display:inline-flex;align-items:center;gap:6px;padding:8px 12px;border:1px solid var(--line);border-radius:8px;background:#fff;cursor:pointer;font-weight:600;font-size:13.5px;user-select:none;min-height:40px}
+  .chip.on{background:var(--brand);color:#fff;border-color:var(--brand)}
+  .rec{background:linear-gradient(135deg,#eef4ff,#e6f7f7);border:1px solid #c7d8ff;border-radius:12px;padding:14px 16px;margin-top:14px}
+  .rec b{color:var(--brand)}
+  .rec .cta{background:var(--brand2)}
+  table{width:100%;border-collapse:collapse;margin-top:16px;font-size:13.5px}
+  th,td{border:1px solid var(--line);padding:9px 10px;text-align:left;vertical-align:top}
+  th{background:#f1f5f9;font-weight:600;font-size:12.5px}
+  td.dim{font-weight:600;color:var(--sub);white-space:nowrap;min-width:130px}
+  td.kc{background:#eef4ff}
+  .good{color:var(--ok);font-weight:700}
+  .mid{color:var(--warn);font-weight:600}
+  .bad{color:var(--bad);font-weight:700}
+  .cta{display:inline-block;background:var(--brand);color:#fff;padding:6px 14px;border-radius:8px;font-size:12.5px;font-weight:700;text-decoration:none;min-height:34px}
+  .cta:hover{opacity:.9}
+  .na{color:var(--bad);font-weight:600}
+  .sticky{position:sticky;bottom:0;background:linear-gradient(135deg,#1e3a8a,#0ea5a4);color:#fff;border-radius:12px;padding:14px 18px;margin-top:18px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding-bottom:max(14px,env(safe-area-inset-bottom))}
+  .sticky a{background:#fff;color:var(--brand);padding:9px 16px;border-radius:9px;font-weight:800;text-decoration:none;font-size:14px}
+  .notice{background:#fef2f2;border:1px solid #fecaca;color:#991b1b;border-radius:10px;padding:14px 16px;margin-top:14px;font-size:14px;display:none}
+  .foot{color:var(--sub);font-size:12px;margin-top:18px;text-align:center}
+  .num{font-variant-numeric:tabular-nums;font-feature-settings:"tnum"}
+  .scroll{overflow-x:auto}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <span class="logo"><a href="/" aria-label="FeeEye home" style="display:flex;align-items:center;gap:8px;color:inherit;text-decoration:none"><img src="/assets/logo.svg" alt="FeeEye" width="26" height="26">FeeEye</a></span>
+      <h1>⚖️ Exchange Comparator</h1>
+      <p>Compare exchanges across <b>10 dimensions</b> — not just fees. Fees, withdrawal, coins, liquidity, security, KYC, licenses, reputation.</p>
+    </div>
+    <a href="exchange-comparator.zh.html" style="font-size:13px;color:var(--brand);text-decoration:none;font-weight:600">中文 ↗</a>
+  </header>
+
+  <div class="disclaimer">
+    <b>Affiliate disclosure:</b> This site may earn a commission from exchanges at no extra cost to you. Links are marked <code>rel="sponsored"</code>.
+    Data snapshot (last updated <span id="upd"></span>) — always verify on the exchange's official page. Not available in restricted regions (US, China, Hong Kong, Singapore).
+  </div>
+
+  <div class="panel">
+    <label for="country">Your region (only filters signup CTAs)</label>
+    <select id="country"></select>
+    <div class="updated" style="font-size:11.5px;color:var(--sub);margin-top:6px">We never store this. It only hides signup links in restricted areas.</div>
+  </div>
+
+  <div class="panel">
+    <label>Choose exchanges to compare (tap to toggle)</label>
+    <div class="chips" id="chips"></div>
+  </div>
+
+  <div id="result"></div>
+
+  <div class="sticky" id="sticky" style="display:none">
+    <div><b>New to KuCoin?</b> Sign up via our link — same fees, we may earn a commission.</div>
+    <a id="stickyLink" href="#" rel="sponsored nofollow" target="_blank">Open KuCoin →</a>
+  </div>
+
+  <div class="notice" id="notice"></div>
+
+  <div class="foot">Educational tool only. Not financial advice. Verify all data on official exchange pages.</div>
+</div>
+
+<script src="../data/exchanges.js"></script>
+<script src="../data/country_availability.js"></script>
+<script>
+(function(){
+  var state = { selected: ['kucoin','binance','bybit','okx'], allowed: [], restricted: false };
+
+  var csel = document.getElementById("country");
+  Object.keys(window.COUNTRY_AVAILABILITY).forEach(function(cc){
+    var o = document.createElement("option");
+    o.value = cc; o.textContent = (window.COUNTRY_NAMES[cc]||cc) + (window.COUNTRY_AVAILABILITY[cc].restricted ? " (restricted)" : "");
+    csel.appendChild(o);
+  });
+  document.getElementById("upd").textContent = window.EXCHANGES.kucoin.last_updated;
+
+  // 交易所多选 chips
+  var chipsEl = document.getElementById("chips");
+  Object.keys(window.EXCHANGES).forEach(function(slug){
+    var ex = window.EXCHANGES[slug];
+    var b = document.createElement("button");
+    b.className = "chip" + (state.selected.indexOf(slug)>-1 ? " on" : "");
+    b.textContent = ex.name;
+    b.addEventListener("click", function(){
+      var i = state.selected.indexOf(slug);
+      if(i>-1){ state.selected.splice(i,1); b.classList.remove("on"); }
+      else { state.selected.push(slug); b.classList.add("on"); }
+      render();
+    });
+    chipsEl.appendChild(b);
+  });
+
+  function applyCountry(){
+    var cc = csel.value;
+    var c = window.COUNTRY_AVAILABILITY[cc];
+    state.restricted = !!c.restricted;
+    state.allowed = state.restricted ? [] : Object.keys(c.exchanges||{}).filter(function(k){return c.exchanges[k];});
+    document.getElementById("notice").style.display = state.restricted ? "block" : "none";
+    if(state.restricted){
+      document.getElementById("notice").textContent = "⚠️ " + (c.note||"This region is not supported.") + " We do not show any signup links here.";
+    }
+    refreshSticky();
+  }
+  csel.addEventListener("change", function(){ applyCountry(); render(); });
+
+  function refreshSticky(){
+    var st = document.getElementById("sticky");
+    if(state.restricted || state.allowed.indexOf("kucoin")===-1){ st.style.display="none"; return; }
+    st.style.display="flex";
+    document.getElementById("stickyLink").href = window.EXCHANGES.kucoin.affiliate_link;
+  }
+
+  function ctaCell(slug){
+    if(state.restricted || state.allowed.indexOf(slug)===-1) return '<span class="na">—</span>';
+    var url = window.EXCHANGES[slug].affiliate_link || "#";
+    var sponsored = slug==="kucoin" ? ' rel="sponsored nofollow"' : "";
+    return '<a class="cta" href="'+url+'"'+sponsored+' target="_blank">Sign up</a>';
+  }
+
+  function stars(n){ return "★".repeat(n) + "☆".repeat(10-n); }
+
+  function render(){
+    var slugs = state.selected;
+    if(!slugs.length){ document.getElementById("result").innerHTML = '<p class="warn">Select at least one exchange.</p>'; return; }
+
+    var rows = [
+      { dim:"Spot fee (taker)", val:function(ex){ return (ex.spot.taker*100).toFixed(2)+"%"; } },
+      { dim:"Futures fee (taker)", val:function(ex){ return (ex.futures.taker*100).toFixed(3)+"%"; } },
+      { dim:"USDT withdraw (TRC20)", val:function(ex){ return ex.usdt_withdrawal.TRC20 + " USDT"; } },
+      { dim:"Coin coverage", val:function(ex){ return (window.EXCHANGE_COMPARE[ex.slug].coins).toLocaleString()+" coins"; } },
+      { dim:"24h liquidity (spot)", val:function(ex){ return window.EXCHANGE_COMPARE[ex.slug].volume; } },
+      { dim:"Security", val:function(ex){ var c=window.EXCHANGE_COMPARE[ex.slug]; var s=c.security; return (s>=10?'<span class="good">':s>=8?'<span class="good">':s>=7?'<span class="mid">':'<span class="bad">')+stars(s)+'</span> <span class="num">'+s+'/10</span>'; } },
+      { dim:"Proof of reserves", val:function(ex){ return window.EXCHANGE_COMPARE[ex.slug].reserve; } },
+      { dim:"Cold storage", val:function(ex){ return window.EXCHANGE_COMPARE[ex.slug].cold; } },
+      { dim:"KYC", val:function(ex){ return window.EXCHANGE_COMPARE[ex.slug].kyc; } },
+      { dim:"Licenses", val:function(ex){ return window.EXCHANGE_COMPARE[ex.slug].licenses; } },
+      { dim:"Copy trading / bot", val:function(ex){ return (ex.has_copy_trading ? "✅ Copy trading" : "—") + " · " + (ex.has_trading_bot ? "✅ Bot" : "—"); } },
+      { dim:"API", val:function(ex){ return ex.has_api ? "✅ REST + WS" : "—"; } },
+      { dim:"Reputation (trust)", val:function(ex){ var t=window.EXCHANGE_COMPARE[ex.slug].trust; return (t>=10?'<span class="good">':t>=9?'<span class="good">':'<span class="mid">')+stars(t)+'</span> <span class="num">'+t+'/10</span>'; } },
+      { dim:"Security incidents", val:function(ex){ return window.EXCHANGE_COMPARE[ex.slug].incident; } }
+    ];
+
+    var html = '<div class="scroll"><table><thead><tr><th>Dimension</th>';
+    slugs.forEach(function(slug){ html += '<th>'+window.EXCHANGES[slug].name+'</th>'; });
+    html += '</tr></thead><tbody>';
+    rows.forEach(function(r){
+      html += '<tr><td class="dim">'+r.dim+'</td>';
+      slugs.forEach(function(slug){
+        var ex = window.EXCHANGES[slug];
+        var cls = slug==="kucoin" ? ' class="kc"' : '';
+        html += '<td'+cls+'>'+r.val(ex)+'</td>';
+      });
+      html += '</tr>';
+    });
+    // CTA row
+    html += '<tr><td class="dim">Sign up</td>';
+    slugs.forEach(function(slug){ html += '<td'+(slug==="kucoin"?' class="kc"':'')+'>'+ctaCell(slug)+'</td>'; });
+    html += '</tr></tbody></table></div>';
+
+    // 推荐区（KuCoin 是唯一 affiliate，客观标注）
+    if(slugs.indexOf("kucoin")>-1 && !state.restricted && state.allowed.indexOf("kucoin")>-1){
+      html = '<div class="rec"><b>★ Recommended for broad coin coverage:</b> KuCoin lists ~1,000+ coins (more than Binance/OKX) with 0.10% spot fees and a clean security record. <a class="cta" href="'+window.EXCHANGES.kucoin.affiliate_link+'" rel="sponsored nofollow" target="_blank">Open KuCoin →</a></div>' + html;
+    }
+
+    html += '<p class="foot" style="text-align:left;margin-top:12px">Fees/volumes are snapshot values (last updated <span id="upd2"></span>). Security/trust scores are our editorial synthesis of public sources — always verify on the exchange. This table is for comparison, not a guarantee of safety.</p>';
+    document.getElementById("result").innerHTML = html;
+    document.getElementById("upd2").textContent = window.EXCHANGES.kucoin.last_updated;
+    refreshSticky();
+  }
+
+  applyCountry();
+  render();
+})();
+</script>
+</body>
+</html>
