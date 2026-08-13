@@ -61,12 +61,6 @@
   </header>
 
   <div class="panel">
-    <label for="country">Your region (only filters signup CTAs)</label>
-    <select id="country"></select>
-    <div class="updated" style="font-size:11.5px;color:var(--sub);margin-top:6px">We never store this. It only hides signup links in restricted areas.</div>
-  </div>
-
-  <div class="panel">
     <label>Choose exchanges to compare (tap to toggle)</label>
     <div class="chips" id="chips"></div>
   </div>
@@ -96,17 +90,10 @@
 </div>
 
 <script src="../data/exchanges.js"></script>
-<script src="../data/country_availability.js"></script>
 <script>
 (function(){
-  var state = { selected: ['kucoin','binance','bybit','okx'], allowed: [], restricted: false };
+  var state = { selected: ['kucoin','binance','bybit','okx'] };
 
-  var csel = document.getElementById("country");
-  Object.keys(window.COUNTRY_AVAILABILITY).forEach(function(cc){
-    var o = document.createElement("option");
-    o.value = cc; o.textContent = (window.COUNTRY_NAMES[cc]||cc) + (window.COUNTRY_AVAILABILITY[cc].restricted ? " (restricted)" : "");
-    csel.appendChild(o);
-  });
   document.getElementById("upd").textContent = window.EXCHANGES.kucoin.last_updated;
 
   // 交易所多选 chips
@@ -125,24 +112,13 @@
     chipsEl.appendChild(b);
   });
 
-  function applyCountry(){
-    var cc = csel.value;
-    var c = window.COUNTRY_AVAILABILITY[cc];
-    state.restricted = !!c.restricted;
-    state.allowed = state.restricted ? [] : Object.keys(c.exchanges||{}).filter(function(k){return c.exchanges[k];});
-    refreshSticky();
-  }
-  csel.addEventListener("change", function(){ applyCountry(); render(); });
-
   function refreshSticky(){
     var st = document.getElementById("sticky");
-    if(state.restricted || state.allowed.indexOf("kucoin")===-1){ st.style.display="none"; return; }
     st.style.display="flex";
     document.getElementById("stickyLink").href = window.EXCHANGES.kucoin.affiliate_link;
   }
 
   function ctaCell(slug){
-    if(state.restricted || state.allowed.indexOf(slug)===-1) return '<span class="na">—</span>';
     var url = window.EXCHANGES[slug].affiliate_link || "#";
     var sponsored = slug==="kucoin" ? ' rel="sponsored nofollow"' : "";
     return '<a class="cta" href="'+url+'"'+sponsored+' target="_blank">Sign up</a>';
@@ -189,7 +165,7 @@
     html += '</tr></tbody></table></div>';
 
     // 推荐区（KuCoin 是唯一 affiliate，客观标注）
-    if(slugs.indexOf("kucoin")>-1 && !state.restricted && state.allowed.indexOf("kucoin")>-1){
+    if(slugs.indexOf("kucoin")>-1){
       html = '<div class="rec"><b>★ Recommended for broad coin coverage:</b> KuCoin lists ~1,000+ coins (more than Binance/OKX) with 0.10% spot fees and a clean security record. <a class="cta" href="'+window.EXCHANGES.kucoin.affiliate_link+'" rel="sponsored nofollow" target="_blank">Open KuCoin →</a></div>' + html;
     }
 
@@ -199,7 +175,6 @@
     refreshSticky();
   }
 
-  applyCountry();
   render();
 })();
 </script>
