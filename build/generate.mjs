@@ -411,9 +411,7 @@ function indexPage(lang) {
     <div class="card"><b>⚖️ Comparisons</b><br>${esc(T(lang, 'idxCpB'))}<br><a href="${p('compare/kucoin-vs-bybit.html')}">vs Bybit →</a></div>
   </div>
   <h3>${esc(T(lang, 'idxPopular', { c: coinCount }))}</h3>
-  <div class="pills">${coins}</div>
-  <h3>${esc(T(lang, 'idxRegion'))}</h3>
-  <div class="pills">${countries}</div>`;
+  <div class="pills">${coins}</div>`;
   return page({ lang, title: T(lang, 'idxTitle'), desc: T(lang, 'idxDesc'), body, path: `${lang === 'zh' ? 'zh/' : ''}index.html` });
 }
 
