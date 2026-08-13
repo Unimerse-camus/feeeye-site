@@ -217,10 +217,12 @@ const COVERAGE_NOTE = (lang) => COVERAGE_MODE === 'coingecko-tickers'
   ? T(lang, 'coverageNote')
   : (lang === 'zh' ? '上币覆盖为估算值（基于排名），请在各交易所核实。价格为 CoinGecko 快照。' : 'Exchange coverage is indicative (rank-based) — verify on each exchange. Prices are a CoinGecko snapshot.');
 
-function page({ lang, title, desc, body, jsonLd, depth = 0, path }) {
+function page({ lang, title, desc, body, jsonLd, depth = 0, path, affiliate = false }) {
   const i = I18N[lang];
   const canonical = `${SITE_URL}/${path}`;
   const ld = jsonLd ? `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>` : '';
+  // 仅在页面有 affiliate CTA 的页面显示合规披露（首页/对比/国家/交易所页 = 纯工具/数据，不挂）
+  const discLine = affiliate ? `${esc(i.discT)} ${esc(i.discB)} ` : '';
   return `<!doctype html>
 <html lang="${lang === 'zh' ? 'zh-CN' : 'en'}">
 <head>
@@ -283,7 +285,7 @@ input[type=number]{font-size:16px}
 <div class="wrap">
 <header><nav><a class="logo" href="${lang === 'zh' ? '/zh/' : '/'}" aria-label="FeeEye home"><img src="/assets/logo.svg" alt="FeeEye" width="26" height="26">${SITE}</a><span><a href="${absPath(lang, toolPath(lang))}">${esc(i.navFee)}</a><a href="${lang === 'zh' ? '/zh/' : '/'}">${esc(i.navHome)}</a><a href="${lang === 'zh' ? '/' : '/zh/'}">${esc(i.navZh)}</a></span></nav></header>
 ${body}
-<div class="foot">${esc(i.discT)} ${esc(i.discB)} ${esc(i.foot)} ${esc(UPD)}.</div>
+<div class="foot">${discLine}${esc(i.foot)} ${esc(UPD)}.</div>
 </div>
 </body>
 </html>`;
@@ -316,7 +318,7 @@ function whereToBuy(c, lang) {
       { '@type': 'Question', name: T(lang, 'wbQ2'), answer: { '@type': 'Answer', text: T(lang, 'wbA2', { r: RESTRICTED_LABEL }) } }
     ]
   };
-  return page({ lang, title: T(lang, 'wbTitle', { n: name, s: symbol }), desc: T(lang, 'wbDesc', { n: name, s: symbol }), body, jsonLd, path: `${lang === 'zh' ? 'zh/' : ''}where-to-buy/${c.symbol.toLowerCase()}.html` });
+  return page({ lang, title: T(lang, 'wbTitle', { n: name, s: symbol }), desc: T(lang, 'wbDesc', { n: name, s: symbol }), body, jsonLd, path: `${lang === 'zh' ? 'zh/' : ''}where-to-buy/${c.symbol.toLowerCase()}.html`, affiliate: true });
 }
 
 function exchangePage(slug, lang) {
@@ -337,7 +339,7 @@ function exchangePage(slug, lang) {
   </div>
   ${slug === 'kucoin' ? `<p style="margin-top:14px"><a class="cta" href="${KU_LINK}" rel="sponsored nofollow" target="_blank">${esc(T(lang, 'ctaAcct'))}</a></p>` : ''}
   <p class="intro" style="margin-top:16px">${esc(T(lang, 'exCompare'))}${cmpLinks}</p>`;
-  return page({ lang, title: T(lang, 'exTitle', { n: ex.name }), desc: T(lang, 'exDesc', { n: ex.name }), body, path: `${lang === 'zh' ? 'zh/' : ''}exchanges/${slug}.html` });
+  return page({ lang, title: T(lang, 'exTitle', { n: ex.name }), desc: T(lang, 'exDesc', { n: ex.name }), body, path: `${lang === 'zh' ? 'zh/' : ''}exchanges/${slug}.html`, affiliate: false });
 }
 
 function comparePage(other, lang) {
@@ -361,7 +363,7 @@ function comparePage(other, lang) {
     '@context': 'https://schema.org', '@type': 'FAQPage',
     mainEntity: [{ '@type': 'Question', name: T(lang, 'cpQ1', { n: b.name }), answer: { '@type': 'Answer', text: T(lang, 'cpA1', { n: b.name, k: pct(a.spot.taker), o: pct(b.spot.taker), u: UPD }) } }]
   };
-  return page({ lang, title: T(lang, 'cpTitle', { n: b.name }), desc: T(lang, 'cpDesc', { n: b.name }), body, jsonLd, path: `${lang === 'zh' ? 'zh/' : ''}compare/kucoin-vs-${other}.html` });
+  return page({ lang, title: T(lang, 'cpTitle', { n: b.name }), desc: T(lang, 'cpDesc', { n: b.name }), body, jsonLd, path: `${lang === 'zh' ? 'zh/' : ''}compare/kucoin-vs-${other}.html`, affiliate: false });
 }
 
 function countryPage(cc, lang) {
@@ -381,7 +383,7 @@ function countryPage(cc, lang) {
   <div class="note">${esc(T(lang, 'cyNote', { n: name, r: RESTRICTED_LABEL }))}</div>
   <table><thead><tr><th>${esc(T(lang, 'thExchange'))}</th><th>${esc(T(lang, 'thTaker'))}</th><th>${esc(T(lang, 'thFee20'))}</th><th></th></tr></thead><tbody>${rows}</tbody></table>
   <p class="intro">${esc(T(lang, 'cyUse'))}</p>`;
-  return page({ lang, title: T(lang, 'cyTitle', { n: name }), desc: T(lang, 'cyDesc', { n: name }), body, depth: lang === 'zh' ? 2 : 1, path: `${lang === 'zh' ? 'zh/' : ''}${cc.toLowerCase()}/exchanges.html` });
+  return page({ lang, title: T(lang, 'cyTitle', { n: name }), desc: T(lang, 'cyDesc', { n: name }), body, depth: lang === 'zh' ? 2 : 1, path: `${lang === 'zh' ? 'zh/' : ''}${cc.toLowerCase()}/exchanges.html`, affiliate: false });
 }
 
 function indexPage(lang) {
@@ -401,7 +403,7 @@ function indexPage(lang) {
   </div>
   <h3>${esc(T(lang, 'idxPopular', { c: coinCount }))}</h3>
   <div class="pills">${coins}</div>`;
-  return page({ lang, title: T(lang, 'idxTitle'), desc: T(lang, 'idxDesc'), body, path: `${lang === 'zh' ? 'zh/' : ''}index.html` });
+  return page({ lang, title: T(lang, 'idxTitle'), desc: T(lang, 'idxDesc'), body, path: `${lang === 'zh' ? 'zh/' : ''}index.html`, affiliate: false });
 }
 
 // ---- 写入 ----
