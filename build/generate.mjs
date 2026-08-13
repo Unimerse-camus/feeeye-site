@@ -456,6 +456,20 @@ ${pages.map((u) => `  <url><loc>${SITE_URL}/${u}</loc><lastmod>${today}</lastmod
 write('sitemap.xml', sitemap);
 write('robots.txt', `User-agent: *\nAllow: /\nSitemap: ${SITE_URL}/sitemap.xml\n`);
 
+// Cloudflare Pages _headers：强制 HTML 不缓存（根治边缘/浏览器缓存旧版导致的陈旧内容）
+// 语法：路径匹配（* 通配任意字符含 /），子行缩进 2 空格写响应头
+write('_headers', [
+  '/*.html',
+  '  Cache-Control: no-cache, no-store, must-revalidate',
+  '',
+  '/',
+  '  Cache-Control: no-cache, no-store, must-revalidate',
+  '',
+  '/zh/',
+  '  Cache-Control: no-cache, no-store, must-revalidate',
+  ''
+].join('\n'));
+
 // 404 兜底页（绝对链接，防止任何相对链接在错误路径下继续叠层）
 write('404.html', `<!doctype html>
 <html lang="en">
