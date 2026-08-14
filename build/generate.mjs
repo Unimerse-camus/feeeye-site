@@ -43,10 +43,11 @@ function linkFor(slug) {
   const ex = EX[slug];
   return ex.affiliate_link || ex.official_url || null;
 }
-function ctaHtml(slug, label) {
+function ctaHtml(slug, label, lang) {
   const ex = EX[slug];
+  const ad = lang === 'zh' ? '返佣' : 'Affiliate';
   if (ex.affiliate_link) {
-    return `<a class="cta" href="${ex.affiliate_link}" rel="sponsored nofollow" target="_blank">${label}</a>`;
+    return `<a class="cta aff" href="${ex.affiliate_link}" rel="sponsored nofollow" target="_blank" title="Affiliate link — we may earn a commission at no extra cost to you">${label}<span class="ad">${ad}</span></a>`;
   }
   if (ex.official_url) {
     return `<a class="cta" href="${ex.official_url}" rel="noopener" target="_blank">${label}</a>`;
@@ -77,10 +78,12 @@ function heuristicCoverage(rank, symbol) {
 
 let COIN_LIST = [];
 let COVERAGE_MODE = 'seed(coins.js)';
+let COIN_SNAPSHOT = '';
 const coinJsonPath = path.join(dataDir, 'coins.json');
 if (fs.existsSync(coinJsonPath)) {
   const cj = JSON.parse(fs.readFileSync(coinJsonPath, 'utf8'));
   COVERAGE_MODE = cj.meta.coverage_mode;
+  COIN_SNAPSHOT = (cj.meta.generated_at || '').slice(0, 10);
   COIN_LIST = cj.coins.map((c) => ({
     symbol: c.symbol,
     name: c.name,
@@ -121,13 +124,13 @@ const SITE_URL = 'https://feeeye.com';
 const I18N = {
   en: {
     navZh: '中文',
-    discHtml: '<div style="text-align:left"><div style="margin:0 0 6px"><b>\u2460 Fee snapshot</b>: recently updated 2026-08-13 \u2014 verify each rate on the exchange\'s official page before trading.</div><div style="margin:0 0 4px"><b>\u2461 Compliance-restricted regions</b> by exchange (representative examples; <b>all exchanges do not serve</b> residents of Mainland China, Hong Kong, Singapore, the United States and other Restricted Locations):</div><ul style="margin:0 0 0 20px;padding:0"><li><b>KuCoin</b>: EU new-client onboarding paused (Germany, France, Italy, Spain, Poland, ...)</li><li><b>Binance</b>: Japan, Ontario (Canada), India, Turkey, UAE, Korea, Thailand, ...</li><li><b>Bybit / OKX</b>: no specific countries publicly listed</li><li><b>Bitget</b>: Japan, Korea, ...</li><li><b>Kraken</b>: Brazil, India, Indonesia, Vietnam, Thailand, ...</li><li><b>Coinbase</b>: Indonesia, Vietnam, Thailand, ...</li></ul><div style="margin:6px 0 0"><b>\u2462</b> Before signing up, check each exchange\'s Terms of Use to confirm your country/region is supported.</div></div>',
+    discHtml: '<div style="text-align:left"><div style="margin:0 0 6px"><b>\u2460 Fee snapshot</b>: recently updated 2026-08-13 \u2014 verify each rate on the exchange\'s official page before trading.</div><div style="margin:0 0 4px"><b>\u2461 Compliance-restricted regions</b> by exchange (representative examples; <b>restricted regions vary by exchange</b> — some serve the US or Hong Kong; always check each exchange\'s Terms of Use):</div><ul style="margin:0 0 0 20px;padding:0"><li><b>KuCoin</b>: EU new-client onboarding paused (Germany, France, Italy, Spain, Poland, ...)</li><li><b>Binance</b>: Japan, Ontario (Canada), India, Turkey, UAE, Korea, Thailand, ...</li><li><b>Bybit / OKX</b>: no specific countries publicly listed</li><li><b>Bitget</b>: Japan, Korea, ...</li><li><b>Kraken</b>: Brazil, India, Indonesia, Vietnam, Thailand, ...</li><li><b>Coinbase</b>: Indonesia, Vietnam, Thailand, ...</li></ul><div style="margin:6px 0 0"><b>\u2462</b> Before signing up, check each exchange\'s Terms of Use to confirm your country/region is supported.</div></div>',
     foot: 'Educational only. Not financial advice. Verify all data on official exchange pages. Data snapshot ',
     footPrivacy: 'Privacy', footTerms: 'Terms', footDisclosure: 'Disclosure',
     thExchange: 'Exchange', thLists: 'Lists {s}', thTaker: 'Spot taker', thTakerFut: 'Futures taker', thFee20: 'USDT TRC20 fee',
     ctaBuy: 'Buy {n} on {x}', ctaOpen: 'Open KuCoin', ctaOpenOn: 'Open {x}', ctaAcct: 'Open a {x} account',
     alsoOn: '{n} is also available on: {o}. Use the Fee Calculator to compare your exact trade size.',
-    priceLine: '{n} ({s}) price: {p} · Market cap: {m} · Rank #{r} (CoinGecko snapshot).',
+    priceLine: '{n} ({s}) price: {p} · Market cap: {m} · Rank #{r} (CoinGecko snapshot {d}).',
     wbH1: 'Buy {n} ({s})',
     wbIntro: 'Compare where {n} is listed, spot fees, and USDT (TRC20) withdrawal costs across major exchanges.',
     wbTitle: 'Where to Buy {n} ({s}) — Compare Exchanges',
@@ -137,7 +140,7 @@ const I18N = {
     exIntro: 'Snapshot of {n} trading fees, USDT withdrawal costs, supported networks and features. Data {u}.',
     exSpot: 'Spot fee', exFutures: 'Futures fee', exWd: 'USDT withdrawal', exCoins: 'Coins listed', exBot: 'Trading bot', exApi: 'API',
     exOf: '{t} listed · {a} of {c} tracked', exBotYes: 'Available', exBotNo: 'No',
-    exTitle: '{n} Review 2026 — Fees, Withdrawal & Features',
+    exTitle: '{n} Fees & Data 2026',
     exDesc: '{n} fees, USDT withdrawal costs, supported networks and trading features. Compare with other exchanges.',
     exCompare: 'Compare: ',
     cpH1: 'KuCoin vs {n} — Fee & Feature Comparison (2026)',
@@ -157,23 +160,24 @@ const I18N = {
     idxIntro: 'Compare exchange fees, find where to buy a token, and check withdrawal costs — free, no signup. Tracking {c} coins across {e} exchanges.',
     idxTcT: 'Total Cost Calculator', idxTcB: 'The REAL all-in cost of buying crypto (deposit + trading + spread + withdrawal).', idxTcC: 'Example: $1,000 buy →',
     idxFeeT: 'Fee Calculator', idxFeeB: 'Compare trading & withdrawal fees across {e} exchanges.', idxOpen: 'Open tool →',
-    idxCmpT: 'Exchange Comparator', idxCmpB: 'Compare 10 dimensions: fees, coins, liquidity, security, KYC.', idxCmpC: 'Compare 10 dimensions →',
+    idxCmpT: 'Exchange Comparator', idxCmpB: 'Compare 14 dimensions: fees, coins, liquidity, security, KYC.', idxCmpC: 'Compare 14 dimensions →',
     idxWbT: 'Where to Buy', idxWbB: 'Find which exchange lists a token.', idxEx: 'Example: PEPE →',
     idxExT: 'Exchange Pages', idxExB: 'Fees & features per exchange.',
     idxCpB: 'KuCoin vs others.',
+    idxCpT: 'Comparisons',
     idxPopular: 'Popular tokens ({c} tracked)',
     idxTitle: 'FeeEye — Free Crypto Fee Calculator & Exchange Data',
     idxDesc: 'Free crypto tools: compare exchange fees, find where to buy tokens, check withdrawal costs. No signup.'
   },
   zh: {
     navZh: 'English',
-    discHtml: '<div style="text-align:left"><div style="margin:0 0 6px"><b>① 费率快照</b>：最近更新 2026-08-13 —— 交易前请以各交易所官方页面为准。</div><div style="margin:0 0 4px"><b>② 各所合规受限地区</b>（代表性示例；<b>所有交易所均不接受</b>中国大陆、中国香港、新加坡、美国等 Restricted Locations 用户）：</div><ul style="margin:0 0 0 20px;padding:0"><li><b>KuCoin</b>：欧盟新客户暂停（含德国、法国、意大利、西班牙、波兰等）</li><li><b>Binance</b>：日本、加拿大（安大略）、印度、土耳其、阿联酋、韩国、泰国等</li><li><b>Bybit / OKX</b>：未明确公开列示特定国家限制</li><li><b>Bitget</b>：日本、韩国等</li><li><b>Kraken</b>：巴西、印度、印度尼西亚、越南、泰国等</li><li><b>Coinbase</b>：印度尼西亚、越南、泰国等</li></ul><div style="margin:6px 0 0"><b>③</b> 注册前请查各所 Terms of Use 确认你所在国家/地区可用。</div></div>',
+    discHtml: '<div style="text-align:left"><div style="margin:0 0 6px"><b>① 费率快照</b>：最近更新 2026-08-13 —— 交易前请以各交易所官方页面为准。</div><div style="margin:0 0 4px"><b>② 各所合规受限地区</b>（代表性示例；<b>各所受限地区各不相同</b>——部分服务美国或香港，请以各交易所 Terms of Use 为准）：</div><ul style="margin:0 0 0 20px;padding:0"><li><b>KuCoin</b>：欧盟新客户暂停（含德国、法国、意大利、西班牙、波兰等）</li><li><b>Binance</b>：日本、加拿大（安大略）、印度、土耳其、阿联酋、韩国、泰国等</li><li><b>Bybit / OKX</b>：未明确公开列示特定国家限制</li><li><b>Bitget</b>：日本、韩国等</li><li><b>Kraken</b>：巴西、印度、印度尼西亚、越南、泰国等</li><li><b>Coinbase</b>：印度尼西亚、越南、泰国等</li></ul><div style="margin:6px 0 0"><b>③</b> 注册前请查各所 Terms of Use 确认你所在国家/地区可用。</div></div>',
     foot: '仅供教育参考，不构成投资建议。请以各交易所官方页面核实所有数据。数据快照 ',
     footPrivacy: '隐私政策', footTerms: '使用条款', footDisclosure: '返佣披露',
     thExchange: '交易所', thLists: '上架 {s}', thTaker: '现货吃单费率', thTakerFut: '合约吃单费率', thFee20: 'USDT TRC20 提币费',
     ctaBuy: '在 {x} 购买 {n}', ctaOpen: '打开 KuCoin', ctaOpenOn: '打开 {x}', ctaAcct: '注册 {x} 账户',
     alsoOn: '{n} 还可在以下平台购买：{o}。使用手续费计算器对比你的具体交易成本。',
-    priceLine: '{n}（{s}）价格：{p} · 市值：{m} · 排名 #{r}（CoinGecko 快照）。',
+    priceLine: '{n}（{s}）价格：{p} · 市值：{m} · 排名 #{r}（CoinGecko 快照 {d}）。',
     wbH1: '购买 {n}（{s}）',
     wbIntro: '对比 {n} 的上架平台、现货费率及 USDT（TRC20）提币成本。',
     wbTitle: '在哪里购买 {n}（{s}）——交易所对比',
@@ -183,7 +187,7 @@ const I18N = {
     exIntro: '{n} 交易费率、USDT 提币成本、支持网络与功能快照。数据更新至 {u}。',
     exSpot: '现货费率', exFutures: '合约费率', exWd: 'USDT 提币', exCoins: '上架币种', exBot: '交易机器人', exApi: 'API',
     exOf: '上架 {t} 个 · 追踪 {a}/{c}', exBotYes: '支持', exBotNo: '不支持',
-    exTitle: '{n} 2026 评测——费率、提币与功能',
+    exTitle: '{n} 费率与数据 2026',
     exDesc: '{n} 费率、USDT 提币成本、支持网络与交易功能。与其他交易所对比。',
     exCompare: '对比：',
     cpH1: 'KuCoin vs {n}——费率与功能对比（2026）',
@@ -203,10 +207,11 @@ const I18N = {
     idxIntro: '对比交易所费率、查找代币在哪里购买、查看提币成本——免费、无需注册。追踪 {c} 个币种、{e} 家交易所。',
     idxTcT: '全成本计算器', idxTcB: '看清购买加密货币的真实总花费（入金 + 交易 + 价差 + 提现）。', idxTcC: '示例：$1,000 买入 →',
     idxFeeT: '手续费计算器', idxFeeB: '对比 {e} 家交易所的交易与提币费率。', idxOpen: '打开工具 →',
-    idxCmpT: '智能交易所对比', idxCmpB: '10 维度对比：费率、币种、流动性、安全、KYC。', idxCmpC: '10 维度对比 →',
+    idxCmpT: '智能交易所对比', idxCmpB: '14 维度对比：费率、币种、流动性、安全、KYC。', idxCmpC: '14 维度对比 →',
     idxWbT: '在哪里购买', idxWbB: '查找某代币在哪些交易所上架。', idxEx: '示例：PEPE →',
     idxExT: '交易所页面', idxExB: '每家交易所的费率与功能。',
     idxCpB: 'KuCoin 与其他交易所对比。',
+    idxCpT: '对比',
     idxPopular: '热门代币（已追踪 {c} 个）',
     idxTitle: 'FeeEye——免费加密货币费率计算器与交易所数据',
     idxDesc: '免费加密货币工具：对比交易所费率、查找代币在哪里购买、查看提币成本。无需注册。',
@@ -356,6 +361,8 @@ th,td{border:1px solid var(--line);padding:10px 12px;text-align:left}
 th{background:#f1f5f9;font-weight:600;white-space:nowrap}
 tr.kc{background:#eef4ff}
 .cta{display:inline-block;background:var(--brand);color:#fff;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:700;text-decoration:none;min-height:36px}
+.cta.aff{border:1px solid #eab308}
+.ad{display:inline-block;margin-left:6px;padding:1px 6px;border-radius:6px;background:#fef3c7;color:#92400e;font-size:10px;font-weight:600;vertical-align:1px}
 .cta:hover{opacity:.9}
 .num{font-variant-numeric:tabular-nums;font-feature-settings:"tnum"}
 input[type=number]{font-size:16px}
@@ -393,18 +400,16 @@ function whereToBuy(c, lang) {
     const ex = EX[slug];
     const supported = c.exchanges.includes(slug);
     const cta = supported
-      ? ctaHtml(slug, esc(T(lang, 'ctaBuy', { n: name, x: ex.name })))
+      ? ctaHtml(slug, esc(T(lang, 'ctaBuy', { n: name, x: ex.name })), lang)
       : '<span class="na">—</span>';
-    return `<tr class="${slug === 'kucoin' ? 'kc' : ''}"><td><b>${ex.name}</b></td><td>${supported ? '✓' : '<span class="na">✗</span>'}</td><td>${pct(ex.spot.taker)}</td><td>${usd(getFee(slug, 'TRC20'))}</td><td>${cta}</td></tr>`;
+    return `<tr><td><b>${ex.name}</b></td><td>${supported ? '✓' : '<span class="na">✗</span>'}</td><td>${supported ? pct(ex.spot.taker) : '—'}</td><td>${supported ? usd(getFee(slug, 'TRC20')) : '—'}</td><td>${cta}</td></tr>`;
   }).join('');
-  const others = Object.keys(EX).filter((s) => s !== 'kucoin' && c.exchanges.includes(s)).slice(0, 4).map((s) => EX[s].name).join(', ');
-  const priceLine = `<p class="intro">${esc(T(lang, 'priceLine', { n: name, s: symbol, p: fmtPrice(c.price), m: fmtCap(c.market_cap), r: c.rank }))}</p>`;
+  const priceLine = `<p class="intro">${esc(T(lang, 'priceLine', { n: name, s: symbol, p: fmtPrice(c.price), m: fmtCap(c.market_cap), r: c.rank, d: COIN_SNAPSHOT }))}</p>`;
   const body = `
   <h1>${esc(T(lang, 'wbH1', { n: name, s: symbol }))}</h1>
   <p class="intro">${esc(T(lang, 'wbIntro', { n: name }))}</p>
   ${priceLine}
-  <div class="scroll"><table><thead><tr><th>${esc(T(lang, 'thExchange'))}</th><th>${esc(T(lang, 'thLists', { s: symbol }))}</th><th>${esc(T(lang, 'thTaker'))}</th><th>${esc(T(lang, 'thFee20'))}</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>
-  <p class="intro">${esc(T(lang, 'alsoOn', { n: name, o: others || '—' }))}</p>`;
+  <div class="scroll"><table><thead><tr><th>${esc(T(lang, 'thExchange'))}</th><th>${esc(T(lang, 'thLists', { s: symbol }))}</th><th>${esc(T(lang, 'thTaker'))}</th><th>${esc(T(lang, 'thFee20'))}</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>`;
   const jsonLd = {
     '@context': 'https://schema.org', '@type': 'FAQPage',
     mainEntity: [
@@ -431,7 +436,7 @@ function exchangePage(slug, lang) {
     <div class="card"><b>${esc(T(lang, 'exBot'))}</b><br>${ex.has_trading_bot ? T(lang, 'exBotYes') : T(lang, 'exBotNo')}</div>
     <div class="card"><b>${esc(T(lang, 'exApi'))}</b><br>${ex.has_api ? T(lang, 'exBotYes') : T(lang, 'exBotNo')}</div>
   </div>
-  ${linkFor(slug) ? `<p style="margin-top:14px">${ctaHtml(slug, esc(T(lang, 'ctaAcct', { x: ex.name })))}</p>` : ''}
+  ${linkFor(slug) ? `<p style="margin-top:14px">${ctaHtml(slug, esc(T(lang, 'ctaAcct', { x: ex.name })), lang)}</p>` : ''}
   <p class="intro" style="margin-top:16px">${esc(T(lang, 'exCompare'))}${cmpLinks}</p>`;
   return page({ lang, title: T(lang, 'exTitle', { n: ex.name }), desc: T(lang, 'exDesc', { n: ex.name }), body, path: `${lang === 'zh' ? 'zh/' : ''}exchanges/${slug}.html`, affiliate: false });
 }
@@ -451,7 +456,7 @@ function comparePage(other, lang) {
   <h1>${esc(T(lang, 'cpH1', { n: b.name }))}</h1>
   <p class="intro">${esc(T(lang, 'cpIntro', { u: UPD }))}</p>
   <div class="scroll"><table><thead><tr><th>${esc(T(lang, 'cpTh'))}</th><th>KuCoin</th><th>${b.name}</th></tr></thead><tbody>${rows}</tbody></table></div>
-  <p style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap">${ctaHtml('kucoin', esc(T(lang, 'ctaOpen')))}${ctaHtml(other, esc(T(lang, 'ctaOpenOn', { x: b.name })))}</p>`;
+  <p style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap">${ctaHtml('kucoin', esc(T(lang, 'ctaOpen')), lang)}${ctaHtml(other, esc(T(lang, 'ctaOpenOn', { x: b.name })), lang)}</p>`;
   const jsonLd = {
     '@context': 'https://schema.org', '@type': 'FAQPage',
     mainEntity: [{ '@type': 'Question', name: T(lang, 'cpQ1', { n: b.name }), answer: { '@type': 'Answer', text: T(lang, 'cpA1', { n: b.name, k: pct(a.spot.taker), o: pct(b.spot.taker), u: UPD }) } }]
@@ -465,8 +470,8 @@ function countryPage(cc, lang) {
   const avail = Object.keys(EX).filter((s) => info.exchanges[s]);
   const rows = avail.map((slug) => {
     const ex = EX[slug];
-    const cta = ctaHtml(slug, esc(T(lang, 'ctaOpenOn', { x: ex.name })));
-    return `<tr class="${slug === 'kucoin' ? 'kc' : ''}"><td><b>${ex.name}</b></td><td>${pct(ex.spot.taker)}</td><td>${usd(getFee(slug, 'TRC20'))}</td><td>${cta}</td></tr>`;
+    const cta = ctaHtml(slug, esc(T(lang, 'ctaOpenOn', { x: ex.name })), lang);
+    return `<tr><td><b>${ex.name}</b></td><td>${pct(ex.spot.taker)}</td><td>${usd(getFee(slug, 'TRC20'))}</td><td>${cta}</td></tr>`;
   }).join('');
   const body = `
   <h1>${esc(T(lang, 'cyH1', { n: name }))}</h1>
@@ -490,7 +495,7 @@ function indexPage(lang) {
     <div class="card"><b><span class="ic">${ICON.scale}</span>${esc(T(lang, 'idxCmpT'))}</b><br>${esc(T(lang, 'idxCmpB'))}<br><a href="${p(cmpPath(lang))}">${esc(T(lang, 'idxCmpC'))}</a></div>
     <div class="card"><b><span class="ic">${ICON.coins}</span>${esc(T(lang, 'idxWbT'))}</b><br>${esc(T(lang, 'idxWbB'))}<br><a href="${p('where-to-buy/pepe.html')}">${esc(T(lang, 'idxEx'))}</a></div>
     <div class="card"><b><span class="ic">${ICON.landmark}</span>${esc(T(lang, 'idxExT'))}</b><br>${esc(T(lang, 'idxExB'))}<br><a href="${p('exchanges/kucoin.html')}">KuCoin →</a></div>
-    <div class="card"><b><span class="ic">${ICON.scale}</span>Comparisons</b><br>${esc(T(lang, 'idxCpB'))}<br><a href="${p('compare/kucoin-vs-bybit.html')}">vs Bybit →</a></div>
+    <div class="card"><b><span class="ic">${ICON.scale}</span>${esc(T(lang, 'idxCpT'))}</b><br>${esc(T(lang, 'idxCpB'))}<br><a href="${p('compare/kucoin-vs-bybit.html')}">vs Bybit →</a></div>
   </div>
   <h3>${esc(T(lang, 'idxPopular', { c: coinCount }))}</h3>
   <div class="pills">${coins}</div>
@@ -579,8 +584,9 @@ write('_headers', [
   ''
 ].join('\n'));
 
-// 404 兜底页（绝对链接，防止任何相对链接在错误路径下继续叠层）
+// 404 兜底页（绝对链接，防止任何相对链接在错误路径下继续叠层）；en/zh 各一份纯语言模板
 const hotCoins = [...COIN_LIST].sort((a, b) => a.rank - b.rank).slice(0, 10).map((c) => `<a href="/where-to-buy/${c.symbol.toLowerCase()}.html">${c.symbol}</a>`).join(' · ');
+const hotCoinsZh = [...COIN_LIST].sort((a, b) => a.rank - b.rank).slice(0, 10).map((c) => `<a href="/zh/where-to-buy/${c.symbol.toLowerCase()}.html">${c.symbol}</a>`).join(' · ');
 write('404.html', `<!doctype html>
 <html lang="en">
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -588,10 +594,22 @@ write('404.html', `<!doctype html>
 <style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",Arial,sans-serif;background:#f7f8fa;color:#1c2430;text-align:center;padding:80px 20px;line-height:1.9}
 h1{font-size:26px;margin-bottom:8px}a{color:#2563eb;text-decoration:none;font-weight:600;margin:0 8px}</style></head>
 <body>
-<h1>404 — Page not found / 页面未找到</h1>
-<p>The page you are looking for does not exist.<br>您访问的页面不存在。</p>
-<p>试试这些热门币 / Try a popular coin:<br>${hotCoins}</p>
-<p><a href="/">English Home</a> · <a href="/zh/">中文首页</a> · <a href="/tools/fee-calculator.html">Fee Calculator</a> · <a href="/zh/tools/fee-calculator.zh.html">手续费计算器</a></p>
+<h1>404 — Page not found</h1>
+<p>The page you are looking for does not exist.</p>
+<p>Try a popular coin:<br>${hotCoins}</p>
+<p><a href="/">Home</a> · <a href="/zh/">中文</a> · <a href="/tools/fee-calculator.html">Fee Calculator</a></p>
+</body></html>`);
+write('zh/404.html', `<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>页面未找到 — FeeEye</title>
+<style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",Arial,sans-serif;background:#f7f8fa;color:#1c2430;text-align:center;padding:80px 20px;line-height:1.9}
+h1{font-size:26px;margin-bottom:8px}a{color:#2563eb;text-decoration:none;font-weight:600;margin:0 8px}</style></head>
+<body>
+<h1>404 — 页面未找到</h1>
+<p>您访问的页面不存在。</p>
+<p>试试这些热门币：<br>${hotCoinsZh}</p>
+<p><a href="/">英文首页</a> · <a href="/zh/">中文首页</a> · <a href="/zh/tools/fee-calculator.zh.html">手续费计算器</a></p>
 </body></html>`);
 
 console.log(`[OK] Generated ${count} static pages (en+zh, coins=${coinCount}, countries=${Object.keys(CA).filter((c) => !CA[c].restricted).length}) into dist/ [coverage_mode=${COVERAGE_MODE}].`);

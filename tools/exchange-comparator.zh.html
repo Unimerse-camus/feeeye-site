@@ -6,11 +6,11 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>智能交易所对比 — 10 维度横向对比主流交易所</title>
+<title>智能交易所对比 — 14 维度横向对比主流交易所</title>
 <link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
-<meta name="description" content="从 10 个维度对比加密货币交易所：费率、提币、币种覆盖、流动性、安全、KYC、牌照、声誉。免费、无需注册。">
+<meta name="description" content="从 14 个维度对比加密货币交易所：费率、提币、币种覆盖、流动性、安全、KYC、牌照、声誉。免费、无需注册。">
 <style>
   :root{--bg:#f7f8fa;--card:#fff;--ink:#1c2430;--sub:#5b6776;--line:#e4e8ee;--brand:#2563eb;--brand2:#0ea5a4;--ok:#16a34a;--bad:#dc2626;--warn:#d97706}
   *{box-sizing:border-box;margin:0;padding:0}
@@ -28,9 +28,6 @@
   .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
   .chip{display:inline-flex;align-items:center;gap:6px;padding:8px 12px;border:1px solid var(--line);border-radius:8px;background:#fff;cursor:pointer;font-weight:600;font-size:13.5px;user-select:none;min-height:40px}
   .chip.on{background:var(--brand);color:#fff;border-color:var(--brand)}
-  .rec{background:linear-gradient(135deg,#eef4ff,#e6f7f7);border:1px solid #c7d8ff;border-radius:12px;padding:14px 16px;margin-top:14px}
-  .rec b{color:var(--brand)}
-  .rec .cta{background:var(--brand2)}
   table{width:100%;border-collapse:collapse;margin-top:16px;font-size:13.5px}
   th,td{border:1px solid var(--line);padding:9px 10px;text-align:left;vertical-align:top}
   th{background:#f1f5f9;font-weight:600;font-size:12.5px;white-space:nowrap}
@@ -40,6 +37,8 @@
   .mid{color:var(--warn);font-weight:600}
   .bad{color:var(--bad);font-weight:700}
   .cta{display:inline-block;background:var(--brand);color:#fff;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:700;text-decoration:none;min-height:36px}
+  .cta.aff{border:1px solid #eab308}
+  .ad{display:inline-block;margin-left:6px;padding:1px 6px;border-radius:6px;background:#fef3c7;color:#92400e;font-size:10px;font-weight:600;vertical-align:1px}
   .cta:hover{opacity:.9}
   .na{color:var(--bad);font-weight:600}
   .foot{color:var(--sub);font-size:12px;margin-top:18px;text-align:center}
@@ -53,7 +52,7 @@
     <div>
       <span class="logo"><a href="/zh/" aria-label="FeeEye 首页" style="display:flex;align-items:center;gap:8px;color:inherit;text-decoration:none"><img src="/assets/logo.svg" alt="FeeEye" width="26" height="26">FeeEye</a></span>
       <h1>智能交易所对比</h1>
-      <p>从 <b>10 个维度</b>对比交易所——不止看费率。费率、提币、币种覆盖、流动性、安全、KYC、牌照、声誉。</p>
+      <p>从 <b>14 个维度</b>对比交易所——不止看费率。费率、提币、币种覆盖、流动性、安全、KYC、牌照、声誉。</p>
     </div>
     <a href="exchange-comparator.html" style="font-size:13px;color:var(--brand);text-decoration:none;font-weight:600">English ↗</a>
   </header>
@@ -67,7 +66,7 @@
 
   <div class="disclaimer">
     <p style="margin:0 0 6px"><b>① 数据快照</b>：最近更新 <span id="upd"></span>——以各交易所官方页面为准。</p>
-    <p style="margin:0 0 4px"><b>② 各所合规受限地区</b>（代表性示例；<b>所有交易所均不接受</b>中国大陆、中国香港、新加坡、美国等 Restricted Locations 用户）：</p>
+    <p style="margin:0 0 4px"><b>② 各所合规受限地区</b>（代表性示例；<b>各所受限地区各不相同</b>——部分服务美国或香港，请以各交易所 Terms of Use 为准）：</p>
     <ul style="margin:0 0 0 20px;padding:0">
       <li><b>KuCoin</b>：欧盟新客户暂停（含德国、法国、意大利、西班牙、波兰等）</li>
       <li><b>Binance</b>：日本、加拿大（安大略）、印度、土耳其、阿联酋、韩国、泰国等</li>
@@ -122,6 +121,7 @@
     var ex = window.EXCHANGES[slug];
     var url = ex.affiliate_link || ex.official_url || "#";
     var rel = ex.affiliate_link ? ' rel="sponsored nofollow"' : ' rel="noopener"';
+    if(ex.affiliate_link){ return '<a class="cta aff" href="'+url+'"'+rel+' target="_blank">注册<span class="ad">返佣</span></a>'; }
     return '<a class="cta" href="'+url+'"'+rel+' target="_blank">注册</a>';
   }
 
@@ -164,9 +164,6 @@
     slugs.forEach(function(slug){ html += '<td'+(slug==="kucoin"?' class="kc"':'')+'>'+ctaCell(slug)+'</td>'; });
     html += '</tr></tbody></table></div>';
 
-    if(slugs.indexOf("kucoin")>-1){
-      html += '<div class="rec"><b>编辑精选：</b>KuCoin 上架约 '+(window.EXCHANGE_COMPARE.kucoin.coins).toLocaleString()+' 个币（比 Binance/OKX 多），现货费率 0.10%，安全记录干净。 <a class="cta" href="'+window.EXCHANGES.kucoin.affiliate_link+'" rel="sponsored nofollow" target="_blank">打开 KuCoin →</a></div>';
-    }
 
     html += '<p class="foot" style="text-align:left;margin-top:12px">费率/流动性为快照值（更新于 <span id="upd2"></span>）。安全/信任分为我们对公开来源的编辑性综合，交易前请以交易所为准。本表仅供对比，不构成安全保证。</p>';
     document.getElementById("result").innerHTML = html;

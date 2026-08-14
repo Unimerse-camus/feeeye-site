@@ -38,12 +38,12 @@
   tr.kc{background:#eef4ff}
   tr.bestrow{outline:2px solid var(--ok)}
   .cta{display:inline-block;background:var(--brand);color:#fff;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:700;text-decoration:none;min-height:36px}
+  .cta.aff{border:1px solid #eab308}
+  .ad{display:inline-block;margin-left:6px;padding:1px 6px;border-radius:6px;background:#fef3c7;color:#92400e;font-size:10px;font-weight:600;vertical-align:1px}
   .cta:hover{opacity:.9}
   .na{color:var(--bad);font-weight:600}
   .best{color:var(--ok);font-weight:700}
   .notice{background:#fef2f2;border:1px solid #fecaca;color:#991b1b;border-radius:10px;padding:14px 16px;margin-top:14px;font-size:14px;display:none}
-  .sticky{position:sticky;bottom:0;background:linear-gradient(135deg,#1e3a8a,#0ea5a4);color:#fff;border-radius:12px;padding:14px 18px;margin-top:18px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding-bottom:max(14px,env(safe-area-inset-bottom))}
-  .sticky a{background:#fff;color:var(--brand);padding:9px 16px;border-radius:9px;font-weight:800;text-decoration:none;font-size:14px}
   .foot{color:var(--sub);font-size:12px;margin-top:18px;text-align:center}
   .updated{font-size:11.5px;color:var(--sub);margin-top:8px}
   .formula{background:#f8fafc;border:1px dashed var(--line);border-radius:10px;padding:12px 14px;font-size:12.5px;color:var(--sub);margin-top:14px}
@@ -115,14 +115,10 @@
 
   <div id="result"></div>
 
-  <div class="sticky" id="sticky" style="display:none">
-    <div><b>第一次用 KuCoin？</b>通过我们的链接注册——费率与直接注册相同。</div>
-    <a id="stickyLink" href="#" rel="sponsored nofollow" target="_blank">打开 KuCoin →</a>
-  </div>
 
   <div class="disclaimer">
     <p style="margin:0 0 6px"><b>① 费率快照</b>：最近更新 <span id="upd"></span>——交易前请以各交易所官方页面为准。</p>
-    <p style="margin:0 0 4px"><b>② 各所合规受限地区</b>（代表性示例；<b>所有交易所均不接受</b>中国大陆、中国香港、新加坡、美国等 Restricted Locations 用户）：</p>
+    <p style="margin:0 0 4px"><b>② 各所合规受限地区</b>（代表性示例；<b>各所受限地区各不相同</b>——部分服务美国或香港，请以各交易所 Terms of Use 为准）：</p>
     <ul style="margin:0 0 0 20px;padding:0">
       <li><b>KuCoin</b>：欧盟新客户暂停（含德国、法国、意大利、西班牙、波兰等）</li>
       <li><b>Binance</b>：日本、加拿大（安大略）、印度、土耳其、阿联酋、韩国、泰国等</li>
@@ -142,7 +138,7 @@
 <script src="../data/coin-prices.js"></script>
 <script>
 (function(){
-  var state = { deposit:"Bank transfer", withdraw:false, allowed:[], restricted:false, coin:"USDT", usdIntent:1000 };
+  var state = { deposit:"Bank transfer", withdraw:false, coin:"USDT", usdIntent:1000 };
   var LABEL = { depositFee:"入金费", tradeFee:"交易费", wdFee:"提现费", spread:"价差", total:"总成本", effRate:"实际成本率", cheapest:"← 最低", signup:"注册", save:"节省", note:"备注" };
   // 通道名中文化（贴近用户语言：中文币圈叫 C2C 而非 P2P）
   var METHOD_ZH = {
@@ -239,16 +235,7 @@ document.getElementById("upd").textContent = window.EXCHANGES.kucoin.last_update
     render();
   });
 
-  function refreshSticky(){
-    var st = document.getElementById("sticky");
-    var link = document.getElementById("stickyLink");
-    if(state.restricted || state.allowed.indexOf("kucoin")===-1){
-      st.style.display="none"; return;
-    }
-    st.style.display="flex";
-    link.href = window.EXCHANGES.kucoin.affiliate_link;
-  }
-
+  
   function seg(id, key, fn){
     document.querySelectorAll("#"+id+" button").forEach(function(b){
       b.addEventListener("click", function(){
@@ -278,6 +265,7 @@ document.getElementById("upd").textContent = window.EXCHANGES.kucoin.last_update
     var ex = window.EXCHANGES[slug];
     var url = ex.affiliate_link || ex.official_url || "#";
     var rel = ex.affiliate_link ? ' rel="sponsored nofollow"' : ' rel="noopener"';
+    if(ex.affiliate_link){ return '<a class="cta aff" href="'+url+'"'+rel+' target="_blank">'+LABEL.signup+'<span class="ad">返佣</span></a>'; }
     return '<a class="cta" href="'+url+'"'+rel+' target="_blank">'+LABEL.signup+'</a>';
   }
 
@@ -319,7 +307,7 @@ document.getElementById("upd").textContent = window.EXCHANGES.kucoin.last_update
     if(skippedCount > 0) html += '<p class="detail" style="margin-top:4px">'+skippedCount+' / '+totalExchanges+' 家交易所不支持此入金方式，已自动排除。</p>';
     html += '<table><thead><tr><th>交易所</th><th>'+LABEL.depositFee+'</th><th>'+LABEL.tradeFee+'</th><th>'+(state.withdraw==="yes"?LABEL.wdFee+" ("+net+")":"—")+'</th><th>'+LABEL.spread+'</th><th><b>'+LABEL.total+'</b></th><th>'+LABEL.effRate+'</th><th></th></tr></thead><tbody>';
     rows.forEach(function(r, idx){
-      var cls = r.slug==="kucoin"?"kc":"";
+      var cls = "";
       var isBest = (r.mid>0 && Math.abs(r.mid - minMid) < 0.001);
       var bestMark = isBest?' <span class="best">'+LABEL.cheapest+'</span>':"";
       var rowCls = isBest ? 'class="bestrow '+cls+'"' : 'class="'+cls+'"';
@@ -344,7 +332,6 @@ document.getElementById("upd").textContent = window.EXCHANGES.kucoin.last_update
 
     document.getElementById("result").innerHTML = html;
     document.getElementById("upd2").textContent = window.EXCHANGES.kucoin.last_updated;
-    refreshSticky();
   }
 
   document.getElementById("calc").addEventListener("click", render);

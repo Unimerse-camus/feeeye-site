@@ -10,7 +10,7 @@
 <link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
-<meta name="description" content="Compare crypto exchanges across 10 dimensions: fees, withdrawal, coin coverage, liquidity, security, KYC, licenses and reputation. Free, no signup.">
+<meta name="description" content="Compare crypto exchanges across 14 dimensions: fees, withdrawal, coin coverage, liquidity, security, KYC, licenses and reputation. Free, no signup.">
 <style>
   :root{--bg:#f7f8fa;--card:#fff;--ink:#1c2430;--sub:#5b6776;--line:#e4e8ee;--brand:#2563eb;--brand2:#0ea5a4;--ok:#16a34a;--bad:#dc2626;--warn:#d97706}
   *{box-sizing:border-box;margin:0;padding:0}
@@ -28,9 +28,6 @@
   .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
   .chip{display:inline-flex;align-items:center;gap:6px;padding:8px 12px;border:1px solid var(--line);border-radius:8px;background:#fff;cursor:pointer;font-weight:600;font-size:13.5px;user-select:none;min-height:40px}
   .chip.on{background:var(--brand);color:#fff;border-color:var(--brand)}
-  .rec{background:linear-gradient(135deg,#eef4ff,#e6f7f7);border:1px solid #c7d8ff;border-radius:12px;padding:14px 16px;margin-top:14px}
-  .rec b{color:var(--brand)}
-  .rec .cta{background:var(--brand2)}
   table{width:100%;border-collapse:collapse;margin-top:16px;font-size:13.5px}
   th,td{border:1px solid var(--line);padding:9px 10px;text-align:left;vertical-align:top}
   th{background:#f1f5f9;font-weight:600;font-size:12.5px;white-space:nowrap}
@@ -40,6 +37,8 @@
   .mid{color:var(--warn);font-weight:600}
   .bad{color:var(--bad);font-weight:700}
   .cta{display:inline-block;background:var(--brand);color:#fff;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:700;text-decoration:none;min-height:36px}
+  .cta.aff{border:1px solid #eab308}
+  .ad{display:inline-block;margin-left:6px;padding:1px 6px;border-radius:6px;background:#fef3c7;color:#92400e;font-size:10px;font-weight:600;vertical-align:1px}
   .cta:hover{opacity:.9}
   .na{color:var(--bad);font-weight:600}
   .foot{color:var(--sub);font-size:12px;margin-top:18px;text-align:center}
@@ -53,7 +52,7 @@
     <div>
       <span class="logo"><a href="/" aria-label="FeeEye home" style="display:flex;align-items:center;gap:8px;color:inherit;text-decoration:none"><img src="/assets/logo.svg" alt="FeeEye" width="26" height="26">FeeEye</a></span>
       <h1>Exchange Comparator</h1>
-      <p>Compare exchanges across <b>10 dimensions</b> — not just fees. Fees, withdrawal, coins, liquidity, security, KYC, licenses, reputation.</p>
+      <p>Compare exchanges across <b>14 dimensions</b> — not just fees. Fees, withdrawal, coins, liquidity, security, KYC, licenses, reputation.</p>
     </div>
     <a href="exchange-comparator.zh.html" style="font-size:13px;color:var(--brand);text-decoration:none;font-weight:600">中文 ↗</a>
   </header>
@@ -67,7 +66,7 @@
 
   <div class="disclaimer">
     <p style="margin:0 0 6px"><b>① Data snapshot</b>: last updated <span id="upd"></span> — verify on each exchange's official page.</p>
-    <p style="margin:0 0 4px"><b>② Compliance-restricted regions</b> by exchange (representative examples; <b>all exchanges do not serve</b> residents of Mainland China, Hong Kong, Singapore, the United States and other Restricted Locations):</p>
+    <p style="margin:0 0 4px"><b>② Compliance-restricted regions</b> by exchange (representative examples; <b>restricted regions vary by exchange</b> — some serve the US or Hong Kong; always check each exchange's Terms of Use):</p>
     <ul style="margin:0 0 0 20px;padding:0">
       <li><b>KuCoin</b>: EU new-client onboarding paused (Germany, France, Italy, Spain, Poland, ...)</li>
       <li><b>Binance</b>: Japan, Ontario (Canada), India, Turkey, UAE, Korea, Thailand, ...</li>
@@ -109,6 +108,7 @@
     var ex = window.EXCHANGES[slug];
     var url = ex.affiliate_link || ex.official_url || "#";
     var rel = ex.affiliate_link ? ' rel="sponsored nofollow"' : ' rel="noopener"';
+    if(ex.affiliate_link){ return '<a class="cta aff" href="'+url+'"'+rel+' target="_blank">Sign up<span class="ad">Affiliate</span></a>'; }
     return '<a class="cta" href="'+url+'"'+rel+' target="_blank">Sign up</a>';
   }
 
@@ -153,9 +153,6 @@
     html += '</tr></tbody></table></div>';
 
     // 推荐区（KuCoin 是唯一 affiliate，客观标注）
-    if(slugs.indexOf("kucoin")>-1){
-      html += '<div class="rec"><b>Editor\'s pick:</b> KuCoin lists ~'+(window.EXCHANGE_COMPARE.kucoin.coins).toLocaleString()+' coins (more than Binance/OKX) with 0.10% spot fees and a clean security record. <a class="cta" href="'+window.EXCHANGES.kucoin.affiliate_link+'" rel="sponsored nofollow" target="_blank">Open KuCoin →</a></div>';
-    }
 
     html += '<p class="foot" style="text-align:left;margin-top:12px">Fees/volumes are snapshot values (last updated <span id="upd2"></span>). Security/trust scores are our editorial synthesis of public sources — always verify on the exchange. This table is for comparison, not a guarantee of safety.</p>';
     document.getElementById("result").innerHTML = html;

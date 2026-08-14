@@ -38,12 +38,12 @@
   tr.kc{background:#eef4ff}
   tr.bestrow{outline:2px solid var(--ok)}
   .cta{display:inline-block;background:var(--brand);color:#fff;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:700;text-decoration:none;min-height:36px}
+  .cta.aff{border:1px solid #eab308}
+  .ad{display:inline-block;margin-left:6px;padding:1px 6px;border-radius:6px;background:#fef3c7;color:#92400e;font-size:10px;font-weight:600;vertical-align:1px}
   .cta:hover{opacity:.9}
   .na{color:var(--bad);font-weight:600}
   .best{color:var(--ok);font-weight:700}
   .notice{background:#fef2f2;border:1px solid #fecaca;color:#991b1b;border-radius:10px;padding:14px 16px;margin-top:14px;font-size:14px;display:none}
-  .sticky{position:sticky;bottom:0;background:linear-gradient(135deg,#1e3a8a,#0ea5a4);color:#fff;border-radius:12px;padding:14px 18px;margin-top:18px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding-bottom:max(14px,env(safe-area-inset-bottom))}
-  .sticky a{background:#fff;color:var(--brand);padding:9px 16px;border-radius:9px;font-weight:800;text-decoration:none;font-size:14px}
   .foot{color:var(--sub);font-size:12px;margin-top:18px;text-align:center}
   .updated{font-size:11.5px;color:var(--sub);margin-top:8px}
   .formula{background:#f8fafc;border:1px dashed var(--line);border-radius:10px;padding:12px 14px;font-size:12.5px;color:var(--sub);margin-top:14px}
@@ -115,14 +115,10 @@
 
   <div id="result"></div>
 
-  <div class="sticky" id="sticky" style="display:none">
-    <div><b>New to KuCoin?</b> Sign up via our link — same fees as direct signup.</div>
-    <a id="stickyLink" href="#" rel="sponsored nofollow" target="_blank">Open KuCoin →</a>
-  </div>
 
   <div class="disclaimer">
     <p style="margin:0 0 6px"><b>① Fee snapshot</b>: last updated <span id="upd"></span> — verify each rate on the exchange's official page before trading.</p>
-    <p style="margin:0 0 4px"><b>② Compliance-restricted regions</b> by exchange (representative examples; <b>all exchanges do not serve</b> residents of Mainland China, Hong Kong, Singapore, the United States and other Restricted Locations):</p>
+    <p style="margin:0 0 4px"><b>② Compliance-restricted regions</b> by exchange (representative examples; <b>restricted regions vary by exchange</b> — some serve the US or Hong Kong; always check each exchange's Terms of Use):</p>
     <ul style="margin:0 0 0 20px;padding:0">
       <li><b>KuCoin</b>: EU new-client onboarding paused (Germany, France, Italy, Spain, Poland, ...)</li>
       <li><b>Binance</b>: Japan, Ontario (Canada), India, Turkey, UAE, Korea, Thailand, ...</li>
@@ -142,7 +138,7 @@
 <script src="../data/coin-prices.js"></script>
 <script>
 (function(){
-  var state = { deposit:"Bank transfer", withdraw:false, allowed:[], restricted:false, coin:"USDT", usdIntent:1000 };
+  var state = { deposit:"Bank transfer", withdraw:false, coin:"USDT", usdIntent:1000 };
 
 document.getElementById("upd").textContent = window.EXCHANGES.kucoin.last_updated;
 
@@ -191,16 +187,7 @@ document.getElementById("upd").textContent = window.EXCHANGES.kucoin.last_update
     render();
   });
 
-  function refreshSticky(){
-    var st = document.getElementById("sticky");
-    var link = document.getElementById("stickyLink");
-    if(state.restricted || state.allowed.indexOf("kucoin")===-1){
-      st.style.display="none"; return;
-    }
-    st.style.display="flex";
-    link.href = window.EXCHANGES.kucoin.affiliate_link;
-  }
-
+  
   function seg(id, key, fn){
     document.querySelectorAll("#"+id+" button").forEach(function(b){
       b.addEventListener("click", function(){
@@ -230,6 +217,7 @@ document.getElementById("upd").textContent = window.EXCHANGES.kucoin.last_update
     var ex = window.EXCHANGES[slug];
     var url = ex.affiliate_link || ex.official_url || "#";
     var rel = ex.affiliate_link ? ' rel="sponsored nofollow"' : ' rel="noopener"';
+    if(ex.affiliate_link){ return '<a class="cta aff" href="'+url+'"'+rel+' target="_blank">Sign up<span class="ad">Affiliate</span></a>'; }
     return '<a class="cta" href="'+url+'"'+rel+' target="_blank">Sign up</a>';
   }
 
@@ -271,7 +259,7 @@ document.getElementById("upd").textContent = window.EXCHANGES.kucoin.last_update
     if(skippedCount > 0) html += '<p class="detail" style="margin-top:4px">'+skippedCount+' of '+totalExchanges+' exchanges don\'t support this deposit method (excluded).</p>';
     html += '<table><thead><tr><th>Exchange</th><th>Deposit fee</th><th>Trading fee</th><th>'+(state.withdraw==="yes"?"Withdrawal ("+net+")":"—")+'</th><th>Spread</th><th><b>Total cost</b></th><th>Effective rate</th><th></th></tr></thead><tbody>';
     rows.forEach(function(r, idx){
-      var cls = r.slug==="kucoin"?"kc":"";
+      var cls = "";
       var isBest = (r.mid>0 && Math.abs(r.mid - minMid) < 0.001);
       var bestMark = isBest?' <span class="best">← cheapest</span>':"";
       var rowCls = isBest ? 'class="bestrow '+cls+'"' : 'class="'+cls+'"';
@@ -297,7 +285,6 @@ document.getElementById("upd").textContent = window.EXCHANGES.kucoin.last_update
 
     document.getElementById("result").innerHTML = html;
     document.getElementById("upd2").textContent = window.EXCHANGES.kucoin.last_updated;
-    refreshSticky();
   }
 
   document.getElementById("calc").addEventListener("click", render);
