@@ -126,7 +126,9 @@
       { dim:"Spot fee (maker)", val:function(ex){ return (ex.spot.maker*100).toFixed(2)+"%"; } },
       { dim:"Futures fee (taker)", val:function(ex){ return (ex.futures.taker*100).toFixed(3)+"%"; } },
       { dim:"Futures fee (maker)", val:function(ex){ return (ex.futures.maker*100).toFixed(3)+"%"; } },
-      { dim:"Max leverage", val:function(ex){ var m=window.EXCHANGE_COMPARE[ex.slug].max_leverage; return typeof m==="number" ? m+"x" : m; } },
+      { dim:"Max leverage", val:function(ex){ var m=window.EXCHANGE_COMPARE[ex.slug].max_leverage; return typeof m==="number" ? m+"x" : (m || "N/A"); } },
+      { dim:"Options", val:function(ex){ var o=window.EXCHANGE_COMPARE[ex.slug].has_options; return o===true ? '<span class="good">✓</span> Yes' : (o===false ? '<span class="bad">✗</span> No' : "—"); } },
+      { dim:"Leveraged tokens", val:function(ex){ var l=window.EXCHANGE_COMPARE[ex.slug].has_leveraged_tokens; return l===true ? '<span class="good">✓</span> Yes' : (l===false ? '<span class="bad">✗</span> No' : "—"); } },
       { dim:"Coin coverage", val:function(ex){ return (window.EXCHANGE_COMPARE[ex.slug].coins).toLocaleString()+" coins"; } },
       { dim:"24h liquidity", val:function(ex){ return window.EXCHANGE_COMPARE[ex.slug].volume+'<span class="tip" title="Spot + futures combined, denominated in BTC">ⓘ</span>'; } },
       { dim:"Copy trading / bots", val:function(ex){ return (ex.has_copy_trading ? '<span class="good">✓</span> Copy' : "—") + " · " + (ex.has_trading_bot ? '<span class="good">✓</span> Bots' : "—"); } },
@@ -136,15 +138,6 @@
       { dim:"KYC", val:function(ex){ return window.EXCHANGE_COMPARE[ex.slug].kyc; } },
       { dim:"Licenses", val:function(ex){ return window.EXCHANGE_COMPARE[ex.slug].licenses; } },
       { dim:"Fiat deposits", val:function(ex){ return (ex.deposit_methods||[]).map(function(m){return m.m;}).join(" · "); } }
-    ]; var s=c.security; return (s>=10?'<span class="good">':s>=8?'<span class="good">':s>=7?'<span class="mid">':'<span class="bad">')+stars(s)+'</span> <span class="num">'+s+'/10</span>'; } },
-      { dim:"Proof of reserves", val:function(ex){ return window.EXCHANGE_COMPARE[ex.slug].reserve; } },
-      { dim:"Cold storage", val:function(ex){ return window.EXCHANGE_COMPARE[ex.slug].cold; } },
-      { dim:"KYC", val:function(ex){ return window.EXCHANGE_COMPARE[ex.slug].kyc; } },
-      { dim:"Licenses", val:function(ex){ return window.EXCHANGE_COMPARE[ex.slug].licenses; } },
-      { dim:"Copy trading / bot", val:function(ex){ return (ex.has_copy_trading ? '<span class="good">✓</span> Copy trading' : "—") + " · " + (ex.has_trading_bot ? '<span class="good">✓</span> Bot' : "—"); } },
-      { dim:"API", val:function(ex){ return ex.has_api ? '<span class="good">✓</span> REST + WS' : "—"; } },
-      { dim:"Reputation (trust)", val:function(ex){ var t=window.EXCHANGE_COMPARE[ex.slug].trust; return (t>=10?'<span class="good">':t>=9?'<span class="good">':'<span class="mid">')+stars(t)+'</span> <span class="num">'+t+'/10</span>'; } },
-      { dim:"Security incidents", val:function(ex){ return window.EXCHANGE_COMPARE[ex.slug].incident; } }
     ];
 
     var html = '<div class="scroll"><table><thead><tr><th>Dimension</th>';
