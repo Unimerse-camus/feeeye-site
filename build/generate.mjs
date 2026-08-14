@@ -277,6 +277,36 @@ function legalPage(key, lang) {
   return page({ lang, title: c.title, desc: c.desc, body: c.body, path: rel, affiliate: false });
 }
 
+// ---- 币种列表页（全部币种 + 搜索过滤）----
+function coinsPage(lang) {
+  const zh = lang === 'zh';
+  const title = zh ? '全部币种 — 在哪里购买' : 'All Coins — Where to Buy';
+  const desc = zh ? `全部 ${coinCount} 个追踪币种，搜索并找到每个币在哪里买。` : `Browse all ${coinCount} tracked coins and find where to buy each.`;
+  const items = [...COIN_LIST].sort((a, b) => a.rank - b.rank)
+    .map((c) => `<a class="pill" data-sym="${c.symbol.toLowerCase()}" href="${lang === 'zh' ? '/zh/' : '/'}where-to-buy/${c.symbol.toLowerCase()}.html">${esc(c.name)} (${esc(c.symbol)})</a>`)
+    .join('');
+  const body = `
+  <h1>${zh ? '全部币种' : 'All Coins'}</h1>
+  <p class="intro">${zh ? `追踪 ${coinCount} 个币种。点击任意币查看在哪些交易所可以买到。` : `Tracking ${coinCount} coins. Click any coin to see where to buy it.`}</p>
+  <input type="search" id="coinSearch" placeholder="${zh ? '搜索币种（如 BTC、PEPE）…' : 'Search coins (e.g. BTC, PEPE)…'}" style="width:100%;padding:10px 14px;border:1px solid var(--line);border-radius:10px;font-size:15px;margin-bottom:14px">
+  <div class="pills" id="coinList">${items}</div>
+  <script>
+  (function(){
+    var input = document.getElementById('coinSearch');
+    var list = document.getElementById('coinList');
+    input.addEventListener('input', function(){
+      var q = input.value.trim().toLowerCase();
+      var pills = list.querySelectorAll('.pill');
+      pills.forEach(function(p){
+        var sym = (p.getAttribute('data-sym') || '') + ' ' + p.textContent.toLowerCase();
+        p.style.display = (!q || sym.indexOf(q) > -1) ? '' : 'none';
+      });
+    });
+  })();
+  </script>`;
+  return page({ lang, title, desc, body, path: `${lang === 'zh' ? 'zh/' : ''}coins.html`, affiliate: false });
+}
+
 function page({ lang, title, desc, body, jsonLd, depth = 0, path, affiliate = false }) {
   const i = I18N[lang];
   const canonical = `${SITE_URL}/${path}`;
@@ -448,7 +478,7 @@ function countryPage(cc, lang) {
 }
 
 function indexPage(lang) {
-  const top = [...COIN_LIST].sort((a, b) => a.rank - b.rank).slice(0, 24);
+  const top = [...COIN_LIST].sort((a, b) => a.rank - b.rank).slice(0, 48);
   const p = (rel) => absPath(lang, rel);
   const coins = top.map((c) => `<a class="pill" href="${p('where-to-buy/' + c.symbol.toLowerCase() + '.html')}">${esc(c.name)} (${esc(c.symbol)})</a>`).join('');
   const body = `
@@ -463,7 +493,8 @@ function indexPage(lang) {
     <div class="card"><b><span class="ic">${ICON.scale}</span>Comparisons</b><br>${esc(T(lang, 'idxCpB'))}<br><a href="${p('compare/kucoin-vs-bybit.html')}">vs Bybit →</a></div>
   </div>
   <h3>${esc(T(lang, 'idxPopular', { c: coinCount }))}</h3>
-  <div class="pills">${coins}</div>`;
+  <div class="pills">${coins}</div>
+  <p style="margin-top:12px"><a href="${p('coins.html')}">${lang === 'zh' ? `查看全部 ${coinCount} 个币种 →` : `View all ${coinCount} coins →`}</a></p>`;
   return page({ lang, title: T(lang, 'idxTitle'), desc: T(lang, 'idxDesc'), body, path: `${lang === 'zh' ? 'zh/' : ''}index.html`, affiliate: false });
 }
 
@@ -497,6 +528,7 @@ for (const lang of ['en', 'zh']) {
   for (const key of ['privacy', 'terms', 'disclosure']) {
     write(`${lang === 'zh' ? 'zh/' : ''}${key}.html`, legalPage(key, lang)); count++;
   }
+  write(`${lang === 'zh' ? 'zh/' : ''}coins.html`, coinsPage(lang)); count++;
 }
 
 // 拷贝工具与数据，使站内计算器可用（en 根 + zh 双语目录各一份，工具页以 ../data/ 相对引用）
@@ -540,15 +572,17 @@ write('_headers', [
 ].join('\n'));
 
 // 404 兜底页（绝对链接，防止任何相对链接在错误路径下继续叠层）
+const hotCoins = [...COIN_LIST].sort((a, b) => a.rank - b.rank).slice(0, 10).map((c) => `<a href="/where-to-buy/${c.symbol.toLowerCase()}.html">${c.symbol}</a>`).join(' · ');
 write('404.html', `<!doctype html>
 <html lang="en">
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Page not found — FeeEye</title>
-<style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",Arial,sans-serif;background:#f7f8fa;color:#1c2430;text-align:center;padding:80px 20px;line-height:1.7}
+<style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",Arial,sans-serif;background:#f7f8fa;color:#1c2430;text-align:center;padding:80px 20px;line-height:1.9}
 h1{font-size:26px;margin-bottom:8px}a{color:#2563eb;text-decoration:none;font-weight:600;margin:0 8px}</style></head>
 <body>
 <h1>404 — Page not found / 页面未找到</h1>
 <p>The page you are looking for does not exist.<br>您访问的页面不存在。</p>
+<p>试试这些热门币 / Try a popular coin:<br>${hotCoins}</p>
 <p><a href="/">English Home</a> · <a href="/zh/">中文首页</a> · <a href="/tools/fee-calculator.html">Fee Calculator</a> · <a href="/zh/tools/fee-calculator.zh.html">手续费计算器</a></p>
 </body></html>`);
 
