@@ -35,7 +35,6 @@
   table{width:100%;border-collapse:collapse;margin-top:16px;font-size:14px}
   th,td{border:1px solid var(--line);padding:10px 12px;text-align:left}
   th{background:#f1f5f9;font-weight:600;white-space:nowrap}
-  tr.bestrow{outline:2px solid var(--ok)}
   .cta{display:inline-block;background:var(--brand);color:#fff;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:700;text-decoration:none;min-height:36px}
   .cta.aff{border:1px solid #eab308}
   .ad,.dyn{display:inline-block;margin-left:6px;padding:1px 6px;border-radius:6px;background:#fef3c7;color:#92400e;font-size:10px;font-weight:600;vertical-align:1px}
@@ -332,7 +331,7 @@
     var ex = window.EXCHANGES[slug];
     var url = ex.affiliate_link || ex.official_url || "#";
     var rel = ex.affiliate_link ? ' rel="sponsored nofollow"' : ' rel="noopener"';
-    if(ex.affiliate_link){ return '<a class="cta aff" href="'+url+'"'+rel+' target="_blank">'+LABEL.signup+'<span class="ad">返佣</span></a>'; }
+    if(ex.affiliate_link){ return '<a class="cta" href="'+url+'"'+rel+' target="_blank">'+LABEL.signup+'</a>'; }
     return '<a class="cta" href="'+url+'"'+rel+' target="_blank">'+LABEL.signup+'</a>';
   }
   function getAmt(){
@@ -369,8 +368,9 @@
     if(skipped>0) html += '<p class="detail" style="margin-top:4px">'+skipped+' 家交易所不支持此入金方式。</p>';
     html += tableHead(['交易所','入金费率','入金费（'+fmt(amt)+' USDT）','']);
     var min = rows.length?rows[0].costMin:0;
+    var minCount = rows.length ? rows.filter(function(r){return Math.abs(r.costMin-min)<0.001;}).length : 0;
     rows.forEach(function(r){
-      var best = (Math.abs(r.costMin-min)<0.001);
+      var best = (minCount===1 && Math.abs(r.costMin-min)<0.001);
       var feeCell = (r.feeMin===r.feeMax) ? pct(r.feeMin)+(r.premium>0?" + "+pct(r.premium)+" 溢价":"") : pct(r.feeMin)+'–'+pct(r.feeMax);
       var costCell = (r.costMin===r.costMax) ? fmt(r.costMin)+' USDT' : fmt(r.costMin)+'–'+fmt(r.costMax)+' USDT';
       html += '<tr'+rowClass(best)+'><td><b>'+r.name+'</b></td><td>'+feeCell+'</td><td><b>'+costCell+'</b>'+markBest(best)+'</td><td>'+ctaCell(r.slug)+'</td></tr>';
@@ -392,8 +392,9 @@
     var html = '<h3>② 交易成本对比 —— 现货 '+zhMethod(state.order==="taker"?"吃单":"挂单")+'，'+fmt(amt)+' USDT × '+trades+' 次</h3>';
     html += tableHead(['交易所','费率','单次交易费',trades+' 次总交易费','']);
     var min = rows.length?rows[0].costN:0;
+    var minCount = rows.length ? rows.filter(function(r){return Math.abs(r.costN-min)<0.001;}).length : 0;
     rows.forEach(function(r){
-      var best = (Math.abs(r.costN-min)<0.001);
+      var best = (minCount===1 && Math.abs(r.costN-min)<0.001);
       html += '<tr'+rowClass(best)+'><td><b>'+r.name+'</b></td><td>'+pct(r.rate)+'</td><td>'+fmt(r.cost1)+' USDT</td><td><b>'+fmt(r.costN)+' USDT</b>'+markBest(best)+'</td><td>'+ctaCell(r.slug)+'</td></tr>';
     });
     html += tableFoot();
@@ -413,8 +414,9 @@
     if(dyn) html += '<p class="detail" style="margin-top:4px">'+net+' 提币费为<b>动态值</b>（随链上 gas 波动），下表为参考快照，请以交易所实时显示为准。</p>';
     html += tableHead(['交易所','提币费（'+net+'）','']);
     var min = null; rows.forEach(function(r){ if(r.fee!=null && (min==null || r.fee<min)) min = r.fee; });
+    var minCount = rows.filter(function(r){return r.fee!=null && min!=null && Math.abs(r.fee-min)<0.001;}).length;
     rows.forEach(function(r){
-      var best = (r.fee!=null && Math.abs(r.fee-min)<0.001);
+      var best = (minCount===1 && r.fee!=null && Math.abs(r.fee-min)<0.001);
       var cell = (r.fee==null) ? '<span class="na">不支持</span>' : '<b>'+(dyn?'~':'')+fmt(r.fee)+' USDT</b>'+markBest(best);
       html += '<tr'+rowClass(best)+'><td><b>'+r.name+'</b></td><td>'+cell+'</td><td>'+ctaCell(r.slug)+'</td></tr>';
     });
@@ -448,8 +450,9 @@
     if(skipped>0) html += '<p class="detail" style="margin-top:4px">'+skipped+' 家交易所不支持此入金方式。</p>';
     html += tableHead(['交易所','入金费','交易费 ×'+trades,'提币费','价差','<b>总成本</b>','']);
     var minMid = rows.length?rows[0].mid:0;
+    var minCount = rows.length ? rows.filter(function(r){return r.mid>0 && Math.abs(r.mid-minMid)<0.001;}).length : 0;
     rows.forEach(function(r){
-      var best = (r.mid>0 && Math.abs(r.mid-minMid)<0.001);
+      var best = (minCount===1 && r.mid>0 && Math.abs(r.mid-minMid)<0.001);
       var depCell = (r.depMin===r.depMax) ? fmt(r.depMin)+' USDT' : fmt(r.depMin)+'–'+fmt(r.depMax)+' USDT';
       var totalCell = (r.totalMin===r.totalMax) ? '<b>'+fmt(r.totalMin)+' USDT</b>' : '<b>'+fmt(r.totalMin)+'–'+fmt(r.totalMax)+' USDT</b>';
       html += '<tr'+rowClass(best)+'><td><b>'+r.name+'</b></td><td>'+depCell+'</td><td>'+fmt(r.tradeCost)+' USDT</td><td>'+fmt(r.wdCost)+' USDT</td><td>'+fmt(r.spreadCost)+' USDT</td><td>'+totalCell+markBest(best)+'</td><td>'+ctaCell(r.slug)+'</td></tr>';

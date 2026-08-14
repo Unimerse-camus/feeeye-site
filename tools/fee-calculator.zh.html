@@ -183,7 +183,7 @@ document.getElementById("upd").textContent = window.EXCHANGES.kucoin.last_update
     var ex = window.EXCHANGES[slug];
     var url = ex.affiliate_link || ex.official_url || "#";
     var rel = ex.affiliate_link ? ' rel="sponsored nofollow"' : ' rel="noopener"';
-    if(ex.affiliate_link){ return '<a class="cta aff" href="'+url+'"'+rel+' target="_blank">'+LABEL.signup+'<span class="ad">返佣</span></a>'; }
+    if(ex.affiliate_link){ return '<a class="cta" href="'+url+'"'+rel+' target="_blank">'+LABEL.signup+'</a>'; }
     return '<a class="cta" href="'+url+'"'+rel+' target="_blank">'+LABEL.signup+'</a>';
   }
 
