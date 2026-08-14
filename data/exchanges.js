@@ -20,7 +20,7 @@ window.EXCHANGES = {
     "affiliate_link": "https://www.kucoin.com/r/af/HODL100",
     "spot":      { "maker": 0.0010, "taker": 0.0010 },
     "futures":   { "maker": 0.0002, "taker": 0.0006 },
-    "usdt_withdrawal": { "TRC20": 1.5, "ERC20": 5.5, "BSC": 1.0, "SOL": 1.5, "Arbitrum": 1.0, "Base": 0.6, "Optimism": 1.0, "Polygon": 0.8, "TON": 0.5, "NEAR": 0.5, "PLASMA": 0.4 },
+    "usdt_withdrawal": { "TRC20": 1.5, "ERC20": 12.0, "BSC": 1.0, "SOL": 1.5, "Arbitrum": 1.0, "Base": 0.6, "Optimism": 1.0, "Polygon": 0.8, "TON": 0.5, "NEAR": 0.5, "PLASMA": 0.4 },
     "withdrawal_note": "TRC20=1.5 (2026-08 实锤); ERC20 动态 ~5.5; 最便宜 PLASMA 0.4",
     "deposit_methods": [
       { "m": "Bank transfer", "fee": 0, "fee_max": 0.015, "note": "0-1.5% via partners" },
@@ -42,12 +42,12 @@ window.EXCHANGES = {
     "affiliate_link": "https://www.binance.com/register?ref=BTCANDSOL",
     "affiliate_rate": { "spot": 0.20, "futures": 0.10 },
     "spot":      { "maker": 0.0010, "taker": 0.0010 },
-    "futures":   { "maker": 0.0002, "taker": 0.0004 },
+    "futures":   { "maker": 0.0002, "taker": 0.0005 },
     "usdt_withdrawal": { "TRC20": 1.0, "ERC20": 4.0, "BSC": 0.3, "SOL": 0.01, "Arbitrum": 0.1, "Base": 0.5, "Optimism": 0.1, "Polygon": 0.1 },
     "withdrawal_note": "TRC20=1 fixed; ERC20 dynamic 1.2-20 (gas); BEP20 ~0.29",
     "deposit_methods": [
       { "m": "Bank transfer", "fee": 0, "note": "ACH/SEPA free; SWIFT bank fee" },
-      { "m": "Credit/Debit card", "fee": 0.036, "fee_max": 0.041, "note": "3.6-4.1% (2026-08 user-verified)" },
+      { "m": "Credit/Debit card", "fee": 0.018, "fee_max": 0.035, "note": "1.8-3.5% via third-party" },
       { "m": "Apple Pay", "fee": 0.036, "note": "2026-08 user-verified 3.6%" },
       { "m": "Google Pay", "fee": 0.036, "fee_max": 0.041, "note": "3.6-4.1% (2026-08 user-verified via Bpay)" },
       { "m": "Bpay", "fee": 0, "note": "AU bank payment, 0 fee" },
@@ -67,13 +67,13 @@ window.EXCHANGES = {
     "official_url": "https://www.bybit.com",
     "spot":      { "maker": 0.0010, "taker": 0.0010 },
     "futures":   { "maker": 0.0002, "taker": 0.00055 },
-    "usdt_withdrawal": { "TRC20": 1.0, "ERC20": 10.0, "BSC": 0.8, "SOL": 0.01, "Arbitrum": 0.1, "Base": 0.1, "Optimism": 0.1 },
+    "usdt_withdrawal": { "TRC20": 1.0, "ERC20": 4.0, "BSC": 0.8, "SOL": 0.01, "Arbitrum": 0.1, "Base": 0.1, "Optimism": 0.1 },
     "withdrawal_note": "TRC20=1; ERC20 ~10",
     "deposit_methods": [
       { "m": "Bank transfer", "fee": 0, "note": "SEPA free; local varies" },
-      { "m": "Credit/Debit card", "fee": 0.02, "fee_max": 0.05, "note": "2-5% via Simplex/Banxa" },
-      { "m": "Apple Pay", "fee": 0.02, "fee_max": 0.05, "note": "card channel, 2-5%" },
-      { "m": "Google Pay", "fee": 0.02, "fee_max": 0.05, "note": "card channel, 2-5%" },
+      { "m": "Credit/Debit card", "fee": 0.015, "fee_max": 0.035, "note": "1.5-3.5% via Simplex/Banxa" },
+      { "m": "Apple Pay", "fee": 0.015, "fee_max": 0.035, "note": "card channel, 1.5-3.5%" },
+      { "m": "Google Pay", "fee": 0.015, "fee_max": 0.035, "note": "card channel, 1.5-3.5%" },
       { "m": "P2P", "fee": 0, "premium": 0.008, "note": "0% fee + spread in price" }
     ],
     "supported_networks": ["TRC20", "ERC20", "BSC", "SOL", "Arbitrum", "Base", "Optimism"],
@@ -91,7 +91,7 @@ window.EXCHANGES = {
     "affiliate_link": "https://www.okx.com/account/register?channelid=1897959",
     "spot":      { "maker": 0.0008, "taker": 0.0010 },
     "futures":   { "maker": 0.0002, "taker": 0.0005 },
-    "usdt_withdrawal": { "TRC20": 1.0, "ERC20": 10.0, "BSC": 0.5, "SOL": 0.05, "Arbitrum": 0.1, "Base": 0.1, "Optimism": 0.1, "Polygon": 0.2 },
+    "usdt_withdrawal": { "TRC20": 1.0, "ERC20": 5.0, "BSC": 0.5, "SOL": 0.05, "Arbitrum": 0.1, "Base": 0.1, "Optimism": 0.1, "Polygon": 0.2 },
     "withdrawal_note": "TRC20=1; ERC20 ~10",
     "deposit_methods": [
       { "m": "Bank transfer", "fee": 0, "note": "SEPA free; varies by region" },
@@ -113,11 +113,11 @@ window.EXCHANGES = {
     "official_url": "https://www.bitget.com",
     "spot":      { "maker": 0.0010, "taker": 0.0010 },
     "futures":   { "maker": 0.0002, "taker": 0.0006 },
-    "usdt_withdrawal": { "TRC20": 1.5, "ERC20": 10.0, "BSC": 0.6, "SOL": 0.5, "Arbitrum": 0.2, "Base": 0.2, "Optimism": 0.2 },
+    "usdt_withdrawal": { "TRC20": 1.5, "ERC20": 5.0, "BSC": 0.6, "SOL": 0.5, "Arbitrum": 0.2, "Base": 0.2, "Optimism": 0.2 },
     "withdrawal_note": "TRC20=1.5 (bitcoinmarket 2026 guide); some sources list 1 — verify",
     "deposit_methods": [
       { "m": "Bank transfer", "fee": 0, "note": "SEPA free" },
-      { "m": "Credit/Debit card", "fee": 0.03, "fee_max": 0.04, "note": "3-4% (processor-dependent)" },
+      { "m": "Credit/Debit card", "fee": 0.02, "fee_max": 0.035, "note": "2-3.5% (processor-dependent)" },
       { "m": "PayPal", "fee": 0.03, "fee_max": 0.05, "note": "3-5%" },
       { "m": "P2P", "fee": 0, "premium": 0.008, "note": "0% fee + premium" }
     ],
@@ -135,12 +135,12 @@ window.EXCHANGES = {
     "official_url": "https://www.kraken.com",
     "spot":      { "maker": 0.0025, "taker": 0.0040 },
     "futures":   { "maker": 0.0002, "taker": 0.0005 },
-    "usdt_withdrawal": { "TRC20": 2.0, "ERC20": 0.5, "BSC": 0.8, "SOL": 0.01, "Arbitrum": 0.25, "Polygon": 0.8 },
+    "usdt_withdrawal": { "TRC20": 2.0, "ERC20": 2.5, "BSC": 0.8, "SOL": 0.01, "Arbitrum": 0.25, "Polygon": 0.8 },
     "withdrawal_note": "TRC20 ~2 (dynamic); ERC20 ~0.5 — Kraken ERC20 cheaper than TRC20!",
     "deposit_methods": [
       { "m": "Bank transfer", "fee": 0, "note": "ACH/SEPA/FPS free" },
       { "m": "Wire transfer", "fee": 0.005, "note": "$5-10 per transfer" },
-      { "m": "Credit/Debit card", "fee": 0.0375, "fee_max": 0.0495, "note": "3.75-4.95% via 3rd-party" }
+      { "m": "Credit/Debit card", "fee": 0.03, "fee_max": 0.04, "note": "3-4% via 3rd-party" }
     ],
     "supported_networks": ["TRC20", "ERC20", "BSC", "SOL", "Arbitrum", "Polygon"],
     "has_trading_bot": false,
@@ -155,19 +155,19 @@ window.EXCHANGES = {
     "name": "Coinbase",
     "official_url": "https://www.coinbase.com",
     "spot":      { "maker": 0.0040, "taker": 0.0060 },
-    "futures":   { "maker": 0.0002, "taker": 0.0005 },
-    "usdt_withdrawal": { "TRC20": 2.4, "ERC20": 3.0, "BSC": 0.5, "Base": 0.2, "Arbitrum": 0.2 },
-    "withdrawal_note": "TRC20=2.40 (eco.com Q1 2026); USDC→USD 1:1 free on-ramp",
+    "futures":   { "maker": 0.0000, "taker": 0.0003 },
+    "usdt_withdrawal": { "ERC20": 3.0, "BSC": 0.5, "Base": 0.2, "Arbitrum": 0.2 },
+    "withdrawal_note": "No TRC20 USDT; ERC20/Base/SOL only. USDC→USD 1:1 free on-ramp",
     "deposit_methods": [
       { "m": "Bank transfer", "fee": 0, "note": "ACH free" },
       { "m": "Wire transfer", "fee": 0.01, "note": "$10-25 outbound" },
       { "m": "Credit/Debit card", "fee": 0.0399, "note": "3.99%" }
     ],
-    "supported_networks": ["TRC20", "ERC20", "BSC", "Base", "Arbitrum", "Polygon"],
+    "supported_networks": ["ERC20", "BSC", "Base", "Arbitrum", "Polygon"],
     "has_trading_bot": false,
     "has_api": true,
     "has_copy_trading": false,
-    "new_user_note": "Coinbase Advanced spot 0.40%/0.60%. USDT-TRC20 2.40 USDT. No P2P.",
+    "new_user_note": "Coinbase Advanced spot 0.40%/0.60%. No TRC20 USDT (ERC20/Base/SOL only). No P2P.",
     "source": "https://www.coinbase.com/fees",
     "last_updated": "2026-08-13"
   }
@@ -192,12 +192,12 @@ window.getAllDepositMethods = function () {
 // 费率/提币/入金 从 EXCHANGES 读；币种数/流动性/信任/安全/KYC/牌照/储备率/冷存储/事件 在此
 window.EXCHANGE_COMPARE = {
   "kucoin": {
-    "coins": 1027, "volume": "≈$0.9B", "trust": 9, "security": 9,
+    "coins": 1027, "volume": "≈$0.66B", "trust": 9, "security": 9,
     "kyc": "Mandatory", "licenses": "Seychelles + UAE + EU (MiCA)",
     "reserve": ">105%", "cold": "90%+", "incident": "No major hack"
   },
   "binance": {
-    "coins": 820, "volume": "≈$6B", "trust": 10, "security": 9,
+    "coins": 820, "volume": "≈$5.2B", "trust": 10, "security": 9,
     "kyc": "Mandatory", "licenses": "Global + multiple jurisdictions",
     "reserve": "PoR (monthly)", "cold": "Not disclosed", "incident": "2019 $40M hack (compensated)"
   },
@@ -222,7 +222,7 @@ window.EXCHANGE_COMPARE = {
     "reserve": "PoR", "cold": "95%", "incident": "No major hack"
   },
   "coinbase": {
-    "coins": 405, "volume": "≈$1.0B", "trust": 10, "security": 10,
+    "coins": 405, "volume": "≈$0.75B", "trust": 10, "security": 10,
     "kyc": "Strict (US-listed)", "licenses": "US (NYSE) + EU + UK",
     "reserve": "Public audits (no PoR)", "cold": "98%+", "incident": "No major hack"
   }
