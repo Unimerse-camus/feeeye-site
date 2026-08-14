@@ -6,11 +6,11 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>交易所综合对比 — 12 个业务维度横向对比</title>
+<title>交易所综合对比 — 14 个业务维度横向对比</title>
 <link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
-<meta name="description" content="从 12 个业务维度对比主流加密货币交易所：杠杆、期权、币种、流动性、跟单/机器人、KYC、合规牌照、法币入金等（费率对比见专门的费率工具）。免费、无需注册。">
+<meta name="description" content="从 14 个业务维度对比主流加密货币交易所：法币入金、现货/杠杆/合约/期权交易、杠杆倍数、币种、流动性、跟单/机器人、KYC、合规牌照、储备证明、冷存储等（费率对比见专门的费率工具）。免费、无需注册。">
 <style>
   :root{--bg:#f7f8fa;--card:#fff;--ink:#1c2430;--sub:#5b6776;--line:#e4e8ee;--brand:#2563eb;--brand2:#0ea5a4;--ok:#16a34a;--bad:#dc2626;--warn:#d97706}
   *{box-sizing:border-box;margin:0;padding:0}
@@ -59,7 +59,7 @@
   <header><nav><a class="logo" href="/zh/" aria-label="FeeEye 首页"><img src="/assets/logo.svg" alt="FeeEye" width="26" height="26">FeeEye</a><span><a href="exchange-comparator.html">English</a></span></nav></header>
 
   <h1>交易所综合对比</h1>
-  <p class="intro">从 <b>12 个业务维度</b>对比主流加密货币交易所，包括杠杆、期权、币种、流动性、跟单/机器人、KYC、合规牌照、法币入金等。<b>费率对比</b>请使用专门的费率工具。</p>
+  <p class="intro">从 <b>14 个业务维度</b>对比主流加密货币交易所，包括法币入金、现货/杠杆/合约/期权交易、杠杆倍数、币种、流动性、跟单/机器人、KYC、合规牌照、储备证明、冷存储等。<b>费率对比</b>请使用专门的费率工具。</p>
 
   <div class="panel">
     <label>选择要对比的交易所（点击切换）</label>
@@ -161,9 +161,12 @@
     if(!slugs.length){ document.getElementById("result").innerHTML = '<p class="warn">请至少选择一个交易所。</p>'; return; }
 
     var rows = [
+      { dim:"法币入金", val:function(ex){ return (ex.deposit_methods||[]).map(function(m){return zhMethod(m.m);}).join(" · "); } },
+      { dim:"现货交易", val:function(ex){ return ex.spot ? '<span class="good">✓</span> 现货' : '<span class="bad">✗</span> 无'; } },
+      { dim:"杠杆交易", val:function(ex){ var m=window.EXCHANGE_COMPARE[ex.slug].has_margin; return m===true ? '<span class="good">✓</span> 杠杆' : (m===false ? '<span class="bad">✗</span> 无' : '<span title="数据可能未加载，硬刷新可获取">—</span>'); } },
+      { dim:"合约交易", val:function(ex){ return ex.futures ? '<span class="good">✓</span> 合约' : '<span class="bad">✗</span> 仅现货'; } },
+      { dim:"期权交易", val:function(ex){ var o=window.EXCHANGE_COMPARE[ex.slug].has_options; return o===true ? '<span class="good">✓</span> 有' : (o===false ? '<span class="bad">�</span> 无' : '<span title="数据可能未加载，硬刷新可获取">—</span>'); } },
       { dim:"最高杠杆", val:function(ex){ var m=window.EXCHANGE_COMPARE[ex.slug].max_leverage; return typeof m==="number" ? m+"x" : (m || '<span title="数据可能未加载，硬刷新（Ctrl+Shift+R / Cmd+Shift+R）可获取">N/A</span>'); } },
-      { dim:"期权交易", val:function(ex){ var o=window.EXCHANGE_COMPARE[ex.slug].has_options; return o===true ? '<span class="good">✓</span> 有' : (o===false ? '<span class="bad">✗</span> 无' : '<span title="数据可能未加载，硬刷新可获取">—</span>'); } },
-      { dim:"杠杆代币", val:function(ex){ var l=window.EXCHANGE_COMPARE[ex.slug].has_leveraged_tokens; return l===true ? '<span class="good">✓</span> 有' : (l===false ? '<span class="bad">✗</span> 无' : '<span title="数据可能未加载，硬刷新可获取">—</span>'); } },
       { dim:"币种覆盖", val:function(ex){ return (window.EXCHANGE_COMPARE[ex.slug].coins).toLocaleString()+" 个币"+'<span class="tip" data-tip="CoinGecko 追踪的现货币种数（有活跃市场的币种），各所口径统一可横向对比">ⓘ</span>'; } },
       { dim:"24h 流动性", val:function(ex){ return window.EXCHANGE_COMPARE[ex.slug].volume+'<span class="tip" data-tip="现货+合约合计，按 BTC 计价">ⓘ</span>'; } },
       { dim:"跟单 / 机器人", val:function(ex){ return (ex.has_copy_trading ? '<span class="good">✓</span> 跟单' : "—") + " · " + (ex.has_trading_bot ? '<span class="good">✓</span> 机器人' : "—"); } },
@@ -171,8 +174,7 @@
       { dim:"储备证明", val:function(ex){ return window.EXCHANGE_COMPARE[ex.slug].reserve+'<span class="tip" data-tip="交易所披露的链上资产/用户负债比例。>100% 表示储备充裕，<100% 存在风险。">ⓘ</span>'; } },
       { dim:"冷存储", val:function(ex){ return window.EXCHANGE_COMPARE[ex.slug].cold+'<span class="tip" data-tip="离线钱包存储的用户资产比例。越高越安全（联网热钱包风险更高）。">ⓘ</span>'; } },
       { dim:"KYC", val:function(ex){ return KYC_ZH[window.EXCHANGE_COMPARE[ex.slug].kyc] || window.EXCHANGE_COMPARE[ex.slug].kyc; } },
-      { dim:"合规牌照", val:function(ex){ return window.EXCHANGE_COMPARE[ex.slug].licenses; } },
-      { dim:"法币入金", val:function(ex){ return (ex.deposit_methods||[]).map(function(m){return zhMethod(m.m);}).join(" · "); } }
+      { dim:"合规牌照", val:function(ex){ return window.EXCHANGE_COMPARE[ex.slug].licenses; } }
     ];
 
     var html = '<div class="scroll"><table><thead><tr><th>维度</th>';

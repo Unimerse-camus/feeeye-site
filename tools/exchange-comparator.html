@@ -6,11 +6,11 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>Exchange Comparison — 12 Business Dimensions Across Exchanges</title>
+<title>Exchange Comparison — 14 Business Dimensions Across Exchanges</title>
 <link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
-<meta name="description" content="Compare 12 business dimensions across major crypto exchanges: leverage, options, coins, liquidity, copy-trading/bots, KYC, licenses, fiat deposits (fees compared in the dedicated fee tool). Free, no signup.">
+<meta name="description" content="Compare 14 business dimensions across major crypto exchanges: fiat deposits, spot/margin/futures/options trading, max leverage, coins, liquidity, copy-trading/bots, KYC, licenses, proof of reserves, cold storage (fees compared in the dedicated fee tool). Free, no signup.">
 <style>
   :root{--bg:#f7f8fa;--card:#fff;--ink:#1c2430;--sub:#5b6776;--line:#e4e8ee;--brand:#2563eb;--brand2:#0ea5a4;--ok:#16a34a;--bad:#dc2626;--warn:#d97706}
   *{box-sizing:border-box;margin:0;padding:0}
@@ -59,7 +59,7 @@
   <header><nav><a class="logo" href="/" aria-label="FeeEye home"><img src="/assets/logo.svg" alt="FeeEye" width="26" height="26">FeeEye</a><span><a href="exchange-comparator.zh.html">中文</a></span></nav></header>
 
   <h1>Comprehensive Exchange Comparison</h1>
-<p class="intro">Compare <b>12 business dimensions</b> across major crypto exchanges: leverage, options, coins, liquidity, copy-trading/bots, KYC, licenses, fiat deposits. <b>Fee comparison</b> is in the dedicated fee tool.</p>
+<p class="intro">Compare <b>14 business dimensions</b> across major crypto exchanges: fiat deposits, spot/margin/futures/options trading, max leverage, coins, liquidity, copy-trading/bots, KYC, licenses, proof of reserves, cold storage. <b>Fee comparison</b> is in the dedicated fee tool.</p>
 
   <div class="panel">
     <label>Choose exchanges to compare (tap to toggle)</label>
@@ -126,9 +126,12 @@
     if(!slugs.length){ document.getElementById("result").innerHTML = '<p class="warn">Select at least one exchange.</p>'; return; }
 
     var rows = [
-      { dim:"Max leverage", val:function(ex){ var m=window.EXCHANGE_COMPARE[ex.slug].max_leverage; return typeof m==="number" ? m+"x" : (m || '<span title="数据可能未加载，硬刷新（Ctrl+Shift+R / Cmd+Shift+R）可获取">N/A</span>'); } },
-      { dim:"Options", val:function(ex){ var o=window.EXCHANGE_COMPARE[ex.slug].has_options; return o===true ? '<span class="good">✓</span> Yes' : (o===false ? '<span class="bad">✗</span> No' : '<span title="Data may not be loaded; hard refresh (Ctrl+Shift+R / Cmd+Shift+R) to fetch">—</span>'); } },
-      { dim:"Leveraged tokens", val:function(ex){ var l=window.EXCHANGE_COMPARE[ex.slug].has_leveraged_tokens; return l===true ? '<span class="good">✓</span> Yes' : (l===false ? '<span class="bad">✗</span> No' : '<span title="Data may not be loaded; hard refresh to fetch">—</span>'); } },
+      { dim:"Fiat deposits", val:function(ex){ return (ex.deposit_methods||[]).map(function(m){return m.m;}).join(" · "); } },
+      { dim:"Spot trading", val:function(ex){ return ex.spot ? '<span class="good">✓</span> Spot' : '<span class="bad">✗</span> No'; } },
+      { dim:"Margin trading", val:function(ex){ var m=window.EXCHANGE_COMPARE[ex.slug].has_margin; return m===true ? '<span class="good">✓</span> Margin' : (m===false ? '<span class="bad">✗</span> No' : '<span title="Data may not be loaded; hard refresh to fetch">—</span>'); } },
+      { dim:"Futures", val:function(ex){ return ex.futures ? '<span class="good">✓</span> Futures' : '<span class="bad">✗</span> Spot only'; } },
+      { dim:"Options", val:function(ex){ var o=window.EXCHANGE_COMPARE[ex.slug].has_options; return o===true ? '<span class="good">✓</span> Yes' : (o===false ? '<span class="bad">✗</span> No' : '<span title="Data may not be loaded; hard refresh to fetch">—</span>'); } },
+      { dim:"Max leverage", val:function(ex){ var m=window.EXCHANGE_COMPARE[ex.slug].max_leverage; return typeof m==="number" ? m+"x" : (m || '<span title="Data may not be loaded; hard refresh (Ctrl+Shift+R / Cmd+Shift+R) to fetch">N/A</span>'); } },
       { dim:"Coin coverage", val:function(ex){ return (window.EXCHANGE_COMPARE[ex.slug].coins).toLocaleString()+" coins"+'<span class="tip" data-tip="CoinGecko-tracked spot coins (with active markets), consistent across exchanges">ⓘ</span>'; } },
       { dim:"24h liquidity", val:function(ex){ return window.EXCHANGE_COMPARE[ex.slug].volume+'<span class="tip" data-tip="Spot + futures combined, denominated in BTC">ⓘ</span>'; } },
       { dim:"Copy trading / bots", val:function(ex){ return (ex.has_copy_trading ? '<span class="good">✓</span> Copy' : "—") + " · " + (ex.has_trading_bot ? '<span class="good">✓</span> Bots' : "—"); } },
@@ -136,8 +139,7 @@
       { dim:"Proof of reserves", val:function(ex){ return window.EXCHANGE_COMPARE[ex.slug].reserve+'<span class="tip" data-tip="On-chain assets / user liabilities ratio. >100% = surplus; <100% = risk.">ⓘ</span>'; } },
       { dim:"Cold storage", val:function(ex){ return window.EXCHANGE_COMPARE[ex.slug].cold+'<span class="tip" data-tip="Share of user assets held offline. Higher = safer (online hot wallets are more exposed).">ⓘ</span>'; } },
       { dim:"KYC", val:function(ex){ return window.EXCHANGE_COMPARE[ex.slug].kyc; } },
-      { dim:"Licenses", val:function(ex){ return window.EXCHANGE_COMPARE[ex.slug].licenses; } },
-      { dim:"Fiat deposits", val:function(ex){ return (ex.deposit_methods||[]).map(function(m){return m.m;}).join(" · "); } }
+      { dim:"Licenses", val:function(ex){ return window.EXCHANGE_COMPARE[ex.slug].licenses; } }
     ];
 
     var html = '<div class="scroll"><table><thead><tr><th>Dimension</th>';

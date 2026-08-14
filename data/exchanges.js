@@ -198,37 +198,37 @@ window.getAllDepositMethods = function () {
 //   security（安全）= 编辑综合（历史事件 + 储备/冷存储），非官方评级
 window.EXCHANGE_COMPARE = {
   "kucoin": {
-    "max_leverage": 100, "has_options": true, "has_leveraged_tokens": true, "coins": 848, "volume": "≈$0.65B", "trust": 9, "security": 8,
+    "max_leverage": 100, "has_options": true, "has_leveraged_tokens": true, "has_margin": true, "coins": 848, "volume": "≈$0.65B", "trust": 9, "security": 8,
     "kyc": "Mandatory", "licenses": "Seychelles + AU + EU (Estonia) + Bermuda",
     "reserve": "100%+ (PoR)", "cold": "95%+", "incident": "2020 $281M hack (fully compensated)"
   },
   "binance": {
-    "max_leverage": 125, "has_options": true, "has_leveraged_tokens": true, "coins": 486, "volume": "≈$5.5B", "trust": 10, "security": 9,
+    "max_leverage": 125, "has_options": true, "has_leveraged_tokens": true, "has_margin": true, "coins": 486, "volume": "≈$5.5B", "trust": 10, "security": 9,
     "kyc": "Mandatory", "licenses": "ADGM Abu Dhabi + VARA Dubai + multiple (no EU MiCA)",
     "reserve": "~101% (PoR)", "cold": "~95% (est.)", "incident": "2019 $40M hack (compensated); 2023 US DOJ AML settlement"
   },
   "bybit": {
-    "max_leverage": 100, "has_options": true, "has_leveraged_tokens": false, "coins": 411, "volume": "≈$1.1B", "trust": 9, "security": 7,
+    "max_leverage": 100, "has_options": true, "has_leveraged_tokens": false, "has_margin": true, "coins": 411, "volume": "≈$1.1B", "trust": 9, "security": 7,
     "kyc": "Mandatory", "licenses": "VARA Dubai + EU (MiCA)",
     "reserve": ">100% (Hacken)", "cold": "95%", "incident": "2025 Feb $1.46B hack (fully compensated)"
   },
   "okx": {
-    "max_leverage": 100, "has_options": true, "has_leveraged_tokens": true, "coins": 306, "volume": "≈$1.15B", "trust": 10, "security": 9,
+    "max_leverage": 100, "has_options": true, "has_leveraged_tokens": true, "has_margin": true, "coins": 306, "volume": "≈$1.15B", "trust": 10, "security": 9,
     "kyc": "Mandatory", "licenses": "Malta (EU MiCA) + VARA Dubai + Singapore MAS + HK SFC",
     "reserve": "105% / 112%", "cold": "95%+", "incident": "No hack; 2025 US DOJ settlement (AML)"
   },
   "bitget": {
-    "max_leverage": 125, "has_options": true, "has_leveraged_tokens": true, "coins": 538, "volume": "≈$0.44B", "trust": 10, "security": 8,
+    "max_leverage": 125, "has_options": true, "has_leveraged_tokens": true, "has_margin": true, "coins": 538, "volume": "≈$0.44B", "trust": 10, "security": 8,
     "kyc": "Tiered (≤$10K no-KYC)", "licenses": "Seychelles + Lithuania + Australia",
     "reserve": "123–163%", "cold": "95%", "incident": "No external hack"
   },
   "kraken": {
-    "max_leverage": 50, "has_options": false, "has_leveraged_tokens": false, "coins": 735, "volume": "≈$0.7B", "trust": 10, "security": 10,
+    "max_leverage": 50, "has_options": false, "has_leveraged_tokens": false, "has_margin": true, "coins": 735, "volume": "≈$0.7B", "trust": 10, "security": 10,
     "kyc": "Strict (US-licensed)", "licenses": "US + EU (MiCA) + UK + Canada",
     "reserve": "~101% (PoR)", "cold": "95%", "incident": "No major hack"
   },
   "coinbase": {
-    "max_leverage": 10, "has_options": false, "has_leveraged_tokens": false, "coins": 404, "volume": "≈$0.80B", "trust": 10, "security": 9,
+    "max_leverage": 10, "has_options": false, "has_leveraged_tokens": false, "has_margin": true, "coins": 404, "volume": "≈$0.80B", "trust": 10, "security": 9,
     "kyc": "Strict (US-listed)", "licenses": "US (NYSE) + EU + UK",
     "reserve": "Public audits (no PoR)", "cold": "98%+", "incident": "No hack; 2024 customer data breach"
   }
