@@ -199,7 +199,7 @@ window.EXCHANGE_COMPARE = {
   "binance": {
     "coins": 820, "volume": "≈$5.2B", "trust": 10, "security": 9,
     "kyc": "Mandatory", "licenses": "Global + multiple jurisdictions",
-    "reserve": "PoR (monthly)", "cold": "Not disclosed", "incident": "2019 $40M hack (compensated)"
+    "reserve": "PoR (monthly)", "cold": "Not disclosed", "incident": "2019 $40M hack (compensated); 2023 US DOJ AML settlement"
   },
   "bybit": {
     "coins": 764, "volume": "≈$1.1B", "trust": 9, "security": 7,
@@ -222,8 +222,8 @@ window.EXCHANGE_COMPARE = {
     "reserve": "PoR", "cold": "95%", "incident": "No major hack"
   },
   "coinbase": {
-    "coins": 405, "volume": "≈$0.75B", "trust": 10, "security": 10,
+    "coins": 405, "volume": "≈$0.75B", "trust": 10, "security": 9,
     "kyc": "Strict (US-listed)", "licenses": "US (NYSE) + EU + UK",
-    "reserve": "Public audits (no PoR)", "cold": "98%+", "incident": "No major hack"
+    "reserve": "Public audits (no PoR)", "cold": "98%+", "incident": "No hack; 2024 customer data breach"
   }
 };
