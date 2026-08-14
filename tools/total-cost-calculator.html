@@ -38,7 +38,7 @@
   tr.bestrow{outline:2px solid var(--ok)}
   .cta{display:inline-block;background:var(--brand);color:#fff;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:700;text-decoration:none;min-height:36px}
   .cta.aff{border:1px solid #eab308}
-  .ad{display:inline-block;margin-left:6px;padding:1px 6px;border-radius:6px;background:#fef3c7;color:#92400e;font-size:10px;font-weight:600;vertical-align:1px}
+  .ad,.dyn{display:inline-block;margin-left:6px;padding:1px 6px;border-radius:6px;background:#fef3c7;color:#92400e;font-size:10px;font-weight:600;vertical-align:1px}
   .cta:hover{opacity:.9}
   .na{color:var(--bad);font-weight:600}
   .best{color:var(--ok);font-weight:700}
@@ -101,7 +101,7 @@
             <option value="Bpay">Bpay (AU)</option>
             <option value="Wire transfer">Wire transfer</option>
           </select>
-          <div class="updated">Pick a deposit method to compare fees across 7 exchanges.</div>
+          <div class="updated">Pick a deposit method to compare fees across major exchanges.</div>
         </div>
       </div>
       <div id="result-d"></div>
@@ -211,6 +211,7 @@
 (function(){
   var state = { deposit:"Bank transfer", coin:"USDT", usdIntent:1000, order:"taker", trades:3, network:"TRC20", slip:0.1, view:"deposit" };
   var LABEL = { cheapest:"← cheapest", signup:"Sign up", save:"save", note:"Note" };
+  var DYNAMIC_NET = { ERC20: true };
   var METHOD = {
     "Bank transfer": "Bank transfer", "Credit/Debit card": "Credit/Debit card", "P2P": "P2P", "Wire transfer": "Wire transfer",
     "Apple Pay": "Apple Pay", "Google Pay": "Google Pay", "PayPal": "PayPal", "Bpay": "Bpay (AU)"
@@ -333,7 +334,7 @@
     var amt = getAmt(), method = state.deposit;
     if(!amt){ resultD.innerHTML = '<p class="warn">Enter an amount.</p>'; return; }
     if(!method){ resultD.innerHTML = '<p class="warn">Select a deposit method.</p>'; return; }
-    var rows = [], note = "", skipped = 0, total = Object.keys(window.EXCHANGES).length;
+    var rows = [], note = "", skipped = 0;
     Object.keys(window.EXCHANGES).forEach(function(slug){
       var ex = window.EXCHANGES[slug];
       var dep = depositInfo(ex, method);
@@ -345,7 +346,7 @@
     rows.sort(function(a,b){ return (a.costMin+a.costMax)/2-(b.costMin+b.costMax)/2; });
     var html = '<h3>① Deposit cost — '+method+', '+fmt(amt)+' USDT</h3>';
     if(note) html += '<p class="detail" style="margin-top:4px">Note: '+note+'</p>';
-    if(skipped>0) html += '<p class="detail" style="margin-top:4px">'+skipped+' of '+total+' exchanges don\'t support this method.</p>';
+    if(skipped>0) html += '<p class="detail" style="margin-top:4px">'+skipped+' exchange(s) don\'t support this method.</p>';
     html += tableHead(['Exchange','Deposit rate','Deposit fee ('+fmt(amt)+' USDT)','']);
     var min = rows.length?rows[0].costMin:0;
     rows.forEach(function(r){
@@ -380,7 +381,7 @@
   }
 
   function renderWithdraw(){
-    var net = state.network;
+    var net = state.network, dyn = DYNAMIC_NET[net];
     var rows = [];
     Object.keys(window.EXCHANGES).forEach(function(slug){
       var ex = window.EXCHANGES[slug];
@@ -388,12 +389,13 @@
       rows.push({ slug:slug, name:ex.name, fee:(fee==null)?null:fee });
     });
     rows.sort(function(a,b){ return (a.fee==null?1e9:a.fee)-(b.fee==null?1e9:b.fee); });
-    var html = '<h3>③ USDT withdrawal cost — '+net+' network</h3>';
+    var html = '<h3>③ USDT withdrawal cost — '+net+' network'+(dyn?' <span class="dyn">Dynamic</span>':'')+'</h3>';
+    if(dyn) html += '<p class="detail" style="margin-top:4px">'+net+' fees are <b>dynamic</b> (gas-based) — shown as a snapshot; always confirm on the exchange.</p>';
     html += tableHead(['Exchange','Withdrawal fee ('+net+')','']);
     var min = null; rows.forEach(function(r){ if(r.fee!=null && (min==null || r.fee<min)) min = r.fee; });
     rows.forEach(function(r){
       var best = (r.fee!=null && Math.abs(r.fee-min)<0.001);
-      var cell = (r.fee==null) ? '<span class="na">Not supported</span>' : '<b>'+fmt(r.fee)+' USDT</b>'+markBest(best);
+      var cell = (r.fee==null) ? '<span class="na">Not supported</span>' : '<b>'+(dyn?'~':'')+fmt(r.fee)+' USDT</b>'+markBest(best);
       html += '<tr'+rowClass(best)+'><td><b>'+r.name+'</b></td><td>'+cell+'</td><td>'+ctaCell(r.slug)+'</td></tr>';
     });
     html += tableFoot();
@@ -404,7 +406,7 @@
     var amt = getAmt(), slip = state.slip/100, net = state.network, method = state.deposit, trades = state.trades;
     if(!amt){ resultA.innerHTML = '<p class="warn">Enter an amount.</p>'; return; }
     if(!method){ resultA.innerHTML = '<p class="warn">Select a deposit method.</p>'; return; }
-    var rows = [], note = "", skipped = 0, totalEx = Object.keys(window.EXCHANGES).length;
+    var rows = [], note = "", skipped = 0;
     Object.keys(window.EXCHANGES).forEach(function(slug){
       var ex = window.EXCHANGES[slug];
       var dep = depositInfo(ex, method);
@@ -423,7 +425,7 @@
     var amountLabel = (state.coin === "USDT") ? fmt(amt)+' USDT' : fmt(parseFloat(amountEl.value)||0)+' '+state.coin+' ≈ '+fmt(amt)+' USDT';
     var html = '<h3>④ Total cost — '+method+' deposit '+amountLabel+', spot × '+trades+' trades, withdraw '+net+'</h3>';
     if(note) html += '<p class="detail" style="margin-top:4px">Note: '+note+'</p>';
-    if(skipped>0) html += '<p class="detail" style="margin-top:4px">'+skipped+' of '+totalEx+' exchanges don\'t support this method.</p>';
+    if(skipped>0) html += '<p class="detail" style="margin-top:4px">'+skipped+' exchange(s) don\'t support this method.</p>';
     html += tableHead(['Exchange','Deposit fee','Trading fee ×'+trades,'Withdrawal','Spread','<b>Total cost</b>','']);
     var minMid = rows.length?rows[0].mid:0;
     rows.forEach(function(r){

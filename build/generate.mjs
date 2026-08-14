@@ -156,11 +156,11 @@ const I18N = {
     wbIntro: 'Compare where {n} is listed, spot fees, and USDT (TRC20) withdrawal costs across major exchanges.',
     wbTitle: 'Where to Buy {n} ({s}) — Compare Exchanges',
     wbDesc: 'Find where to buy {n} ({s}) in 2026. Compare listings, spot fees and withdrawal costs across major exchanges.',
-    wbQ1: 'Where can I buy {n} ({s})?', wbA1: '{n} ({s}) is listed on {c} exchanges including KuCoin, subject to regional availability. Compare fees above.',
+    wbQ1: 'Where can I buy {n} ({s})?', wbA1: '{n} ({s}) is listed on major exchanges including KuCoin, subject to regional availability. Compare fees above.',
     exH1: '{n} — Fees, Networks & Tools (2026)',
     exIntro: 'Snapshot of {n} trading fees, USDT withdrawal costs, supported networks and features. Data {u}.',
     exSpot: 'Spot fee', exFutures: 'Futures fee', exWd: 'USDT withdrawal', exCoins: 'Coins listed', exBot: 'Trading bot', exApi: 'API',
-    exOf: '{t} listed · {a} of {c} tracked', exBotYes: 'Available', exBotNo: 'No',
+    exOf: '{t} listed', exBotYes: 'Available', exBotNo: 'No',
     exTitle: '{n} Fees & Data 2026',
     exDesc: '{n} fees, USDT withdrawal costs, supported networks and trading features. Compare with other exchanges.',
     exCompare: 'Compare: ',
@@ -178,15 +178,15 @@ const I18N = {
     cyDesc: 'Compare crypto exchanges available in {n}: spot fees, USDT withdrawal costs and regional availability.',
     cyUse: 'Use the Fee Calculator to compare your exact trade size across these exchanges.',
     idxH1: 'Free Crypto Tools & Exchange Data',
-    idxIntro: 'Compare exchange fees, find where to buy a token, and check withdrawal costs — free, no signup. Tracking {c} coins across {e} exchanges.',
+    idxIntro: 'Compare exchange fees, find where to buy a token, and check withdrawal costs — free, no signup.',
     idxTcT: 'Cost Calculator', idxTcB: 'Deposit / trading / withdrawal / total cost in one tool — see which exchange is cheapest.', idxTcC: 'Open tool →',
-    idxFeeT: 'Fee Calculator', idxFeeB: 'Compare trading & withdrawal fees across {e} exchanges.', idxOpen: 'Open tool →',
+    idxFeeT: 'Fee Calculator', idxFeeB: 'Compare trading & withdrawal fees across major exchanges.', idxOpen: 'Open tool →',
     idxCmpT: 'Exchange Comparator', idxCmpB: 'Compare 14 dimensions: fees, coins, liquidity, security, KYC.', idxCmpC: 'Compare 14 dimensions →',
     idxWbT: 'Where to Buy', idxWbB: 'Find which exchange lists a token.', idxEx: 'Example: PEPE →',
     idxExT: 'Exchange Pages', idxExB: 'Fees & features per exchange.',
     idxCpB: 'KuCoin vs others.',
     idxCpT: 'Comparisons',
-    idxPopular: 'Popular tokens ({c} tracked)',
+    idxPopular: 'Popular tokens',
     idxTitle: 'FeeEye — Free Crypto Fee Calculator & Exchange Data',
     idxDesc: 'Free crypto tools: compare exchange fees, find where to buy tokens, check withdrawal costs. No signup.'
   },
@@ -203,11 +203,11 @@ const I18N = {
     wbIntro: '对比 {n} 的上架平台、现货费率及 USDT（TRC20）提币成本。',
     wbTitle: '在哪里购买 {n}（{s}）——交易所对比',
     wbDesc: '查找 2026 年在哪里购买 {n}（{s}）。对比各大交易所的上架情况、现货费率与提币成本。',
-    wbQ1: '我可以在哪里购买 {n}（{s}）？', wbA1: '{n}（{s}）已在 {c} 家交易所上架（含 KuCoin），具体取决于地区可用性。请对比上方费率。',
+    wbQ1: '我可以在哪里购买 {n}（{s}）？', wbA1: '{n}（{s}）已在多家交易所上架（含 KuCoin），具体取决于地区可用性。请对比上方费率。',
     exH1: '{n}——费率、网络与工具（2026）',
     exIntro: '{n} 交易费率、USDT 提币成本、支持网络与功能快照。数据更新至 {u}。',
     exSpot: '现货费率', exFutures: '合约费率', exWd: 'USDT 提币', exCoins: '上架币种', exBot: '交易机器人', exApi: 'API',
-    exOf: '上架 {t} 个 · 追踪 {a}/{c}', exBotYes: '支持', exBotNo: '不支持',
+    exOf: '上架 {t} 个', exBotYes: '支持', exBotNo: '不支持',
     exTitle: '{n} 费率与数据 2026',
     exDesc: '{n} 费率、USDT 提币成本、支持网络与交易功能。与其他交易所对比。',
     exCompare: '对比：',
@@ -225,15 +225,15 @@ const I18N = {
     cyDesc: '对比 {n} 可用的加密货币交易所：现货费率、USDT 提币成本与地区可用性。',
     cyUse: '使用手续费计算器对比你在这些交易所的具体交易成本。',
     idxH1: '免费加密货币工具与交易所数据',
-    idxIntro: '对比交易所费率、查找代币在哪里购买、查看提币成本——免费、无需注册。追踪 {c} 个币种、{e} 家交易所。',
+    idxIntro: '对比交易所费率、查找代币在哪里购买、查看提币成本——免费、无需注册。',
     idxTcT: '成本计算器', idxTcB: '入金 / 交易 / 提币 / 全成本四合一，看清哪家交易所最便宜。', idxTcC: '打开工具 →',
-    idxFeeT: '手续费计算器', idxFeeB: '对比 {e} 家交易所的交易与提币费率。', idxOpen: '打开工具 →',
+    idxFeeT: '手续费计算器', idxFeeB: '对比主流交易所的交易与提币费率。', idxOpen: '打开工具 →',
     idxCmpT: '智能交易所对比', idxCmpB: '14 维度对比：费率、币种、流动性、安全、KYC。', idxCmpC: '14 维度对比 →',
     idxWbT: '在哪里购买', idxWbB: '查找某代币在哪些交易所上架。', idxEx: '示例：PEPE →',
     idxExT: '交易所页面', idxExB: '每家交易所的费率与功能。',
     idxCpB: 'KuCoin 与其他交易所对比。',
     idxCpT: '对比',
-    idxPopular: '热门代币（已追踪 {c} 个）',
+    idxPopular: '热门代币',
     idxTitle: 'FeeEye——免费加密货币费率计算器与交易所数据',
     idxDesc: '免费加密货币工具：对比交易所费率、查找代币在哪里购买、查看提币成本。无需注册。',
   }
@@ -307,13 +307,13 @@ function legalPage(key, lang) {
 function coinsPage(lang) {
   const zh = lang === 'zh';
   const title = zh ? '全部币种 — 在哪里购买' : 'All Coins — Where to Buy';
-  const desc = zh ? `全部 ${coinCount} 个追踪币种，搜索并找到每个币在哪里买。` : `Browse all ${coinCount} tracked coins and find where to buy each.`;
+  const desc = zh ? `浏览全部追踪币种，搜索并找到每个币在哪里买。` : `Browse all tracked coins and find where to buy each.`;
   const items = [...COIN_LIST].sort((a, b) => a.rank - b.rank)
     .map((c) => `<a class="pill" data-sym="${c.symbol.toLowerCase()}" href="${lang === 'zh' ? '/zh/' : '/'}where-to-buy/${c.symbol.toLowerCase()}.html">${esc(c.name)} (${esc(c.symbol)})</a>`)
     .join('');
   const body = `
   <h1>${zh ? '全部币种' : 'All Coins'}</h1>
-  <p class="intro">${zh ? `追踪 ${coinCount} 个币种。点击任意币查看在哪些交易所可以买到。` : `Tracking ${coinCount} coins. Click any coin to see where to buy it.`}</p>
+  <p class="intro">${zh ? `点击任意币查看在哪些交易所可以买到。` : `Click any coin to see where to buy it.`}</p>
   <input type="search" id="coinSearch" placeholder="${zh ? '搜索币种（如 BTC、PEPE）…' : 'Search coins (e.g. BTC, PEPE)…'}" style="width:100%;padding:10px 14px;border:1px solid var(--line);border-radius:10px;font-size:15px;margin-bottom:14px">
   <div class="pills" id="coinList">${items}</div>
   <script>
@@ -447,7 +447,6 @@ function whereToBuy(c, lang) {
 
 function exchangePage(slug, lang) {
   const ex = EX[slug];
-  const supportedCoins = COIN_LIST.filter((c) => c.exchanges.includes(slug)).length;
   const totalListed = (EXCHANGE_COMPARE[slug] && EXCHANGE_COMPARE[slug].coins) || null;
   const cmp = ['bybit', 'okx', 'binance'].filter((s) => s !== slug);
   const cmpLinks = cmp.map((s) => `<a href="${absPath(lang, 'compare/kucoin-vs-' + s + '.html')}">KuCoin vs ${EX[s].name}</a>`).join(' · ');
@@ -458,7 +457,7 @@ function exchangePage(slug, lang) {
     <div class="card"><b>${esc(T(lang, 'exSpot'))}</b><br>${esc(T(lang, 'thTaker'))} ${pct(ex.spot.taker)} · ${esc(lang === 'zh' ? '挂单' : 'Maker')} ${pct(ex.spot.maker)}</div>
     <div class="card"><b>${esc(T(lang, 'exFutures'))}</b><br>${esc(T(lang, 'thTakerFut'))} ${pct(ex.futures.taker)} · ${esc(lang === 'zh' ? '挂单' : 'Maker')} ${pct(ex.futures.maker)}</div>
     <div class="card"><b>${esc(T(lang, 'exWd'))}</b><br>TRC20 ${usd(getFee(slug, 'TRC20'))} · ERC20 ${usd(getFee(slug, 'ERC20'))}</div>
-    <div class="card"><b>${esc(T(lang, 'exCoins'))}</b><br>${esc(T(lang, 'exOf', { t: totalListed != null ? totalListed.toLocaleString() : '—', a: supportedCoins, c: coinCount }))}</div>
+    <div class="card"><b>${esc(T(lang, 'exCoins'))}</b><br>${esc(T(lang, 'exOf', { t: totalListed != null ? totalListed.toLocaleString() : '—' }))}</div>
     <div class="card"><b>${esc(T(lang, 'exBot'))}</b><br>${ex.has_trading_bot ? T(lang, 'exBotYes') : T(lang, 'exBotNo')}</div>
     <div class="card"><b>${esc(T(lang, 'exApi'))}</b><br>${ex.has_api ? T(lang, 'exBotYes') : T(lang, 'exBotNo')}</div>
   </div>
@@ -528,7 +527,7 @@ function indexPage(lang) {
   });
   const body = `
   <h1>${esc(T(lang, 'idxH1'))}</h1>
-  <p class="intro">${esc(T(lang, 'idxIntro', { c: coinCount, e: Object.keys(EX).length }))}</p>
+  <p class="intro">${esc(T(lang, 'idxIntro'))}</p>
   <div class="grid">
     <div class="card"><a class="card-title" href="${p(tcPath(lang))}"><span class="ic">${ICON.receipt}</span><b>${esc(T(lang, 'idxTcT'))}</b></a><br>${esc(T(lang, 'idxTcB'))}<br><a href="${p(tcPath(lang))}">${esc(T(lang, 'idxTcC'))}</a></div>
     <div class="card"><a class="card-title" href="${p(cmpPath(lang))}"><span class="ic">${ICON.scale}</span><b>${esc(T(lang, 'idxCmpT'))}</b></a><br>${esc(T(lang, 'idxCmpB'))}<br><a href="${p(cmpPath(lang))}">${esc(T(lang, 'idxCmpC'))}</a></div>
@@ -536,9 +535,9 @@ function indexPage(lang) {
     <div class="card"><a class="card-title" href="${p('exchanges/kucoin.html')}"><span class="ic">${ICON.landmark}</span><b>${esc(T(lang, 'idxExT'))}</b></a><br>${esc(T(lang, 'idxExB'))}<br><a href="${p('exchanges/kucoin.html')}">KuCoin →</a></div>
     <div class="card"><a class="card-title" href="${p('compare/kucoin-vs-bybit.html')}"><span class="ic">${ICON.scale}</span><b>${esc(T(lang, 'idxCpT'))}</b></a><br>${esc(T(lang, 'idxCpB'))}<br><a href="${p('compare/kucoin-vs-bybit.html')}">vs Bybit →</a></div>
   </div>
-  <h3>${esc(T(lang, 'idxPopular', { c: coinCount }))}</h3>
+  <h3>${esc(T(lang, 'idxPopular'))}</h3>
   ${groupedHtml}
-  <p style="margin-top:12px"><a href="${p('coins.html')}">${lang === 'zh' ? `查看全部 ${coinCount} 个币种 →` : `View all ${coinCount} coins →`}</a></p>`;
+  <p style="margin-top:12px"><a href="${p('coins.html')}">${lang === 'zh' ? `查看全部币种 →` : `View all coins →`}</a></p>`;
   return page({ lang, title: T(lang, 'idxTitle'), desc: T(lang, 'idxDesc'), body, path: `${lang === 'zh' ? 'zh/' : ''}index.html`, affiliate: false });
 }
 

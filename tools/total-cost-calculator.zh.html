@@ -38,7 +38,7 @@
   tr.bestrow{outline:2px solid var(--ok)}
   .cta{display:inline-block;background:var(--brand);color:#fff;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:700;text-decoration:none;min-height:36px}
   .cta.aff{border:1px solid #eab308}
-  .ad{display:inline-block;margin-left:6px;padding:1px 6px;border-radius:6px;background:#fef3c7;color:#92400e;font-size:10px;font-weight:600;vertical-align:1px}
+  .ad,.dyn{display:inline-block;margin-left:6px;padding:1px 6px;border-radius:6px;background:#fef3c7;color:#92400e;font-size:10px;font-weight:600;vertical-align:1px}
   .cta:hover{opacity:.9}
   .na{color:var(--bad);font-weight:600}
   .best{color:var(--ok);font-weight:700}
@@ -101,7 +101,7 @@
             <option value="Bpay">Bpay（澳洲银行支付）</option>
             <option value="Wire transfer">电汇</option>
           </select>
-          <div class="updated">选择入金方式，对比 7 家交易所的入金费率。</div>
+          <div class="updated">选择入金方式，对比主流交易所的入金费率。</div>
         </div>
       </div>
       <div id="result-d"></div>
@@ -136,7 +136,7 @@
             <option>TRC20</option><option>ERC20</option><option>BSC</option>
             <option>SOL</option><option>Arbitrum</option><option>Base</option>
           </select>
-          <div class="updated">选链，对比 7 家交易所的 USDT 提币费。</div>
+          <div class="updated">选链，对比主流交易所的 USDT 提币费。</div>
         </div>
       </div>
       <div id="result-w"></div>
@@ -211,6 +211,7 @@
 (function(){
   var state = { deposit:"Bank transfer", coin:"USDT", usdIntent:1000, order:"taker", trades:3, network:"TRC20", slip:0.1, view:"deposit" };
   var LABEL = { cheapest:"← 最低", signup:"注册", save:"节省", note:"备注" };
+  var DYNAMIC_NET = { ERC20: true };
   var METHOD_ZH = {
     "Bank transfer": "银行转账", "Credit/Debit card": "信用卡/借记卡", "P2P": "C2C", "Wire transfer": "电汇",
     "Apple Pay": "Apple Pay", "Google Pay": "Google Pay", "PayPal": "PayPal", "Bpay": "Bpay（澳洲银行支付）"
@@ -353,7 +354,7 @@
     var amt = getAmt(), method = state.deposit;
     if(!amt){ resultD.innerHTML = '<p class="warn">请输入金额。</p>'; return; }
     if(!method){ resultD.innerHTML = '<p class="warn">请选择入金方式。</p>'; return; }
-    var rows = [], note = "", skipped = 0, total = Object.keys(window.EXCHANGES).length;
+    var rows = [], note = "", skipped = 0;
     Object.keys(window.EXCHANGES).forEach(function(slug){
       var ex = window.EXCHANGES[slug];
       var dep = depositInfo(ex, method);
@@ -365,7 +366,7 @@
     rows.sort(function(a,b){ return (a.costMin+a.costMax)/2-(b.costMin+b.costMax)/2; });
     var html = '<h3>① 入金成本对比 —— '+zhMethod(method)+'，'+fmt(amt)+' USDT</h3>';
     if(note) html += '<p class="detail" style="margin-top:4px">'+LABEL.note+'：'+zhNote(note)+'</p>';
-    if(skipped>0) html += '<p class="detail" style="margin-top:4px">'+skipped+' / '+total+' 家交易所不支持此入金方式。</p>';
+    if(skipped>0) html += '<p class="detail" style="margin-top:4px">'+skipped+' 家交易所不支持此入金方式。</p>';
     html += tableHead(['交易所','入金费率','入金费（'+fmt(amt)+' USDT）','']);
     var min = rows.length?rows[0].costMin:0;
     rows.forEach(function(r){
@@ -400,7 +401,7 @@
   }
 
   function renderWithdraw(){
-    var net = state.network;
+    var net = state.network, dyn = DYNAMIC_NET[net];
     var rows = [];
     Object.keys(window.EXCHANGES).forEach(function(slug){
       var ex = window.EXCHANGES[slug];
@@ -408,12 +409,13 @@
       rows.push({ slug:slug, name:ex.name, fee:(fee==null)?null:fee });
     });
     rows.sort(function(a,b){ return (a.fee==null?1e9:a.fee)-(b.fee==null?1e9:b.fee); });
-    var html = '<h3>③ USDT 提币成本对比 —— '+net+' 网络</h3>';
+    var html = '<h3>③ USDT 提币成本对比 —— '+net+' 网络'+(dyn?' <span class="dyn">动态费</span>':'')+'</h3>';
+    if(dyn) html += '<p class="detail" style="margin-top:4px">'+net+' 提币费为<b>动态值</b>（随链上 gas 波动），下表为参考快照，请以交易所实时显示为准。</p>';
     html += tableHead(['交易所','提币费（'+net+'）','']);
     var min = null; rows.forEach(function(r){ if(r.fee!=null && (min==null || r.fee<min)) min = r.fee; });
     rows.forEach(function(r){
       var best = (r.fee!=null && Math.abs(r.fee-min)<0.001);
-      var cell = (r.fee==null) ? '<span class="na">不支持</span>' : '<b>'+fmt(r.fee)+' USDT</b>'+markBest(best);
+      var cell = (r.fee==null) ? '<span class="na">不支持</span>' : '<b>'+(dyn?'~':'')+fmt(r.fee)+' USDT</b>'+markBest(best);
       html += '<tr'+rowClass(best)+'><td><b>'+r.name+'</b></td><td>'+cell+'</td><td>'+ctaCell(r.slug)+'</td></tr>';
     });
     html += tableFoot();
@@ -424,7 +426,7 @@
     var amt = getAmt(), slip = state.slip/100, net = state.network, method = state.deposit, trades = state.trades;
     if(!amt){ resultA.innerHTML = '<p class="warn">请输入金额。</p>'; return; }
     if(!method){ resultA.innerHTML = '<p class="warn">请选择入金方式。</p>'; return; }
-    var rows = [], note = "", skipped = 0, totalEx = Object.keys(window.EXCHANGES).length;
+    var rows = [], note = "", skipped = 0;
     Object.keys(window.EXCHANGES).forEach(function(slug){
       var ex = window.EXCHANGES[slug];
       var dep = depositInfo(ex, method);
@@ -443,7 +445,7 @@
     var amountLabel = (state.coin === "USDT") ? fmt(amt)+' USDT' : fmt(parseFloat(amountEl.value)||0)+' '+state.coin+' ≈ '+fmt(amt)+' USDT';
     var html = '<h3>④ 全成本对比 —— '+zhMethod(method)+'入金 '+amountLabel+'，现货 '+trades+' 次，提币 '+net+'</h3>';
     if(note) html += '<p class="detail" style="margin-top:4px">'+LABEL.note+'：'+zhNote(note)+'</p>';
-    if(skipped>0) html += '<p class="detail" style="margin-top:4px">'+skipped+' / '+totalEx+' 家交易所不支持此入金方式。</p>';
+    if(skipped>0) html += '<p class="detail" style="margin-top:4px">'+skipped+' 家交易所不支持此入金方式。</p>';
     html += tableHead(['交易所','入金费','交易费 ×'+trades,'提币费','价差','<b>总成本</b>','']);
     var minMid = rows.length?rows[0].mid:0;
     rows.forEach(function(r){
