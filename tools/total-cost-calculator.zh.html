@@ -247,11 +247,12 @@ document.getElementById("upd").textContent = window.EXCHANGES.kucoin.last_update
     if(!amt){ document.getElementById("result").innerHTML = '<p class="warn">请输入金额后再计算。</p>'; return; }
     if(!method){ document.getElementById("result").innerHTML = '<p class="warn">请选择入金方式后再计算。</p>'; return; }
 
-    var rows = [], methodNote = "";
+    var rows = [], methodNote = "", skippedCount = 0;
+    var totalExchanges = Object.keys(window.EXCHANGES).length;
     Object.keys(window.EXCHANGES).forEach(function(slug){
       var ex = window.EXCHANGES[slug];
       var dep = depositInfo(ex, method);
-      if(!dep) return;
+      if(!dep){ skippedCount++; return; }
       if(!methodNote) methodNote = dep.note || "";
       var premium = dep.premium || 0;
       var feeMin = dep.fee || 0;
@@ -270,6 +271,7 @@ document.getElementById("upd").textContent = window.EXCHANGES.kucoin.last_update
 
     var html = '<h3>总成本对比 —— '+zhMethod(method)+'入金，'+fmt(amt)+' USDT</h3>';
     if(methodNote) html += '<p class="detail" style="margin-top:4px">'+LABEL.note+'：'+zhNote(methodNote)+'</p>';
+    if(skippedCount > 0) html += '<p class="detail" style="margin-top:4px">'+skippedCount+' / '+totalExchanges+' 家交易所不支持此入金方式，已自动排除。</p>';
     html += '<table><thead><tr><th>交易所</th><th>'+LABEL.depositFee+'</th><th>'+LABEL.tradeFee+'</th><th>'+(state.withdraw==="yes"?LABEL.wdFee+" ("+net+")":"—")+'</th><th>'+LABEL.spread+'</th><th><b>'+LABEL.total+'</b></th><th>'+LABEL.effRate+'</th><th></th></tr></thead><tbody>';
     rows.forEach(function(r, idx){
       var cls = r.slug==="kucoin"?"kc":"";

@@ -199,11 +199,12 @@ document.getElementById("upd").textContent = window.EXCHANGES.kucoin.last_update
     if(!amt){ document.getElementById("result").innerHTML = '<p class="warn">Enter an amount to calculate.</p>'; return; }
     if(!method){ document.getElementById("result").innerHTML = '<p class="warn">Select a deposit method to calculate.</p>'; return; }
 
-    var rows = [], methodNote = "";
+    var rows = [], methodNote = "", skippedCount = 0;
+    var totalExchanges = Object.keys(window.EXCHANGES).length;
     Object.keys(window.EXCHANGES).forEach(function(slug){
       var ex = window.EXCHANGES[slug];
       var dep = depositInfo(ex, method);
-      if(!dep) return; // 该所不支持此通道
+      if(!dep){ skippedCount++; return; } // 该所不支持此通道
       if(!methodNote) methodNote = dep.note || "";
       var premium = dep.premium || 0;
       var feeMin = dep.fee || 0;
@@ -222,6 +223,7 @@ document.getElementById("upd").textContent = window.EXCHANGES.kucoin.last_update
 
     var html = '<h3>Total cost comparison — '+method+' deposit, '+fmt(amt)+' USDT</h3>';
     if(methodNote) html += '<p class="detail" style="margin-top:4px">Note: '+methodNote+'</p>';
+    if(skippedCount > 0) html += '<p class="detail" style="margin-top:4px">'+skippedCount+' of '+totalExchanges+' exchanges don\'t support this deposit method (excluded).</p>';
     html += '<table><thead><tr><th>Exchange</th><th>Deposit fee</th><th>Trading fee</th><th>'+(state.withdraw==="yes"?"Withdrawal ("+net+")":"—")+'</th><th>Spread</th><th><b>Total cost</b></th><th>Effective rate</th><th></th></tr></thead><tbody>';
     rows.forEach(function(r, idx){
       var cls = r.slug==="kucoin"?"kc":"";

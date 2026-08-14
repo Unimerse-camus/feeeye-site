@@ -536,6 +536,14 @@ fs.cpSync(toolsDir, path.join(distDir, 'tools'), { recursive: true });
 fs.cpSync(dataDir, path.join(distDir, 'data'), { recursive: true });
 fs.cpSync(toolsDir, path.join(distDir, 'zh', 'tools'), { recursive: true });
 fs.cpSync(dataDir, path.join(distDir, 'zh', 'data'), { recursive: true });
+// 生成 coin-prices.js：供工具页做币种计价（价格来自 coins.json 的 CoinGecko 快照）
+const priceMap = {};
+for (const c of COIN_LIST) {
+  if (c.price != null && c.price > 0) priceMap[c.symbol] = { name: c.name, price: c.price, rank: c.rank };
+}
+const coinPricesJs = `window.COIN_PRICES = ${JSON.stringify(priceMap)};`;
+fs.writeFileSync(path.join(distDir, 'data', 'coin-prices.js'), coinPricesJs);
+fs.writeFileSync(path.join(distDir, 'zh', 'data', 'coin-prices.js'), coinPricesJs);
 // 拷贝 logo / favicon 到 dist 根（en + zh 通过绝对路径 /assets/ 共用一份）
 fs.cpSync(assetsDir, path.join(distDir, 'assets'), { recursive: true });
 
