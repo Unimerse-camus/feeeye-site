@@ -10,7 +10,7 @@
 <link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
-<meta name="description" content="从 14 个维度对比加密货币交易所：费率、提币、币种覆盖、流动性、安全、KYC、牌照、声誉。免费、无需注册。">
+<meta name="description" content="从 14 个业务维度对比加密货币交易所：费率、杠杆、提币、币种、流动性、跟单/机器人、储备/冷存储、法币入金等。免费、无需注册。">
 <style>
   :root{--bg:#f7f8fa;--card:#fff;--ink:#1c2430;--sub:#5b6776;--line:#e4e8ee;--brand:#2563eb;--brand2:#0ea5a4;--ok:#16a34a;--bad:#dc2626;--warn:#d97706}
   *{box-sizing:border-box;margin:0;padding:0}
@@ -53,8 +53,8 @@
 <div class="wrap">
   <header><nav><a class="logo" href="/zh/" aria-label="FeeEye 首页"><img src="/assets/logo.svg" alt="FeeEye" width="26" height="26">FeeEye</a><span><a href="exchange-comparator.html">English</a></span></nav></header>
 
-  <h1>智能交易所对比</h1>
-  <p class="intro">从 <b>14 个维度</b>对比交易所——不止看费率。费率、提币、币种覆盖、流动性、安全、KYC、牌照、声誉。</p>
+  <h1>交易所综合对比</h1>
+  <p class="intro">从 <b>14 个维度</b>对比交易所——聚焦业务而非历史。<b>业务向</b>：合约费率/杠杆/流动性/币种/跟单/储备等。储备与冷存储等术语已加备注（hover 单元格 <sup>?</sup>）。</p>
 
   <div class="panel">
     <label>选择要对比的交易所（点击切换）</label>
@@ -75,8 +75,7 @@
       <li><b>Coinbase</b>：印度尼西亚、越南、泰国等</li>
     </ul>
     <p style="margin:6px 0 0"><b>③</b> 注册前请查各所 Terms of Use 确认你所在国家/地区可用。</p>
-    <p style="margin:6px 0 0"><b>④ 评分来源</b>：「安全」基于各所公开信息（储备/冷存储/历史事件）的编辑综合；「声誉（信任分）」来自 CoinGecko 信任分。两者均为编辑参考，<b>非官方评级</b>。</p>
-    <p style="margin:6px 0 0"><b>④ 评分来源</b>：「安全」基于各所公开信息（储备/冷存储/历史事件）的编辑综合；「声誉（信任分）」来自 CoinGecko 信任分。两者均为编辑参考，<b>非官方评级</b>。</p>
+    <p style="margin:6px 0 0"><b>④ 术语备注</b>：表中「储备证明」「冷存储」「24h 流动性」等为业内常用概念，hover 单元格 <sup>?</sup> 可查看简短解释；具体定义以各交易所官方文档为准。</p>
   </div>
 
   <div class="foot">仅供学习参考，不构成投资建议。请以各交易所官方页面核实数据。</div>
@@ -88,25 +87,6 @@
   var CHIP_ORDER = ['binance','okx','kucoin','bybit','bitget','kraken','coinbase'];
   var state = { selected: ['binance','okx','kucoin'] };
 
-  var KYC_ZH = {
-    "Mandatory": "强制",
-    "Tiered (≤$10K no-KYC)": "分级（≤$1万免KYC）",
-    "Strict (US-licensed)": "严格（美国持牌）",
-    "Strict (US-listed)": "严格（美国上市）"
-  };
-  var INCIDENT_ZH = {
-    "No major hack": "无重大黑客",
-    "2020 $281M hack (fully compensated)": "2020年9月 $2.81亿 黑客（已全额赔付）",
-    "2020 $281M hack (fully compensated)": "2020年9月 $2.81亿 黑客（已全额赔付）",
-    "2019 $40M hack (compensated)": "2019 年 $4000万 黑客（已赔付）",
-    "2019 $40M hack (compensated); 2023 US DOJ AML settlement": "2019 年 $4000万 黑客（已赔付）；2023 美国司法部 AML 和解",
-    "No hack; 2024 customer data breach": "无黑客；2024 客户数据泄露",
-    "2019 $40M hack (compensated); 2023 US DOJ AML settlement": "2019 年 $4000万 黑客（已赔付）；2023 美国司法部 AML 和解",
-    "No hack; 2024 customer data breach": "无黑客；2024 客户数据泄露",
-    "2025 Feb $1.46B hack (fully compensated)": "2025年2月 $14.6亿 黑客（已全额赔付）",
-    "No hack; 2025 US DOJ settlement (AML)": "无黑客；2025 美国司法部和解（AML）",
-    "No external hack": "无外部黑客"
-  };
 
   document.getElementById("upd").textContent = window.EXCHANGES.kucoin.last_updated;
 
@@ -134,7 +114,6 @@
     return '<a class="cta" href="'+url+'"'+rel+' target="_blank">注册</a>';
   }
 
-  function stars(n){ return "★".repeat(n) + "☆".repeat(10-n); }
 
   function render(){
     var slugs = state.selected;
@@ -142,19 +121,19 @@
 
     var rows = [
       { dim:"现货费率（吃单）", val:function(ex){ return (ex.spot.taker*100).toFixed(2)+"%"; } },
+      { dim:"现货费率（挂单）", val:function(ex){ return (ex.spot.maker*100).toFixed(2)+"%"; } },
       { dim:"合约费率（吃单）", val:function(ex){ return (ex.futures.taker*100).toFixed(3)+"%"; } },
+      { dim:"合约费率（挂单）", val:function(ex){ return (ex.futures.maker*100).toFixed(3)+"%"; } },
+      { dim:"最高杠杆", val:function(ex){ var m=window.EXCHANGE_COMPARE[ex.slug].max_leverage; return typeof m==="number" ? m+"x" : m; } },
       { dim:"USDT 提币费（TRC20）", val:function(ex){ return ex.usdt_withdrawal.TRC20 + " USDT"; } },
       { dim:"币种覆盖", val:function(ex){ return (window.EXCHANGE_COMPARE[ex.slug].coins).toLocaleString()+" 个币"; } },
-      { dim:"24h 流动性（现货）", val:function(ex){ return window.EXCHANGE_COMPARE[ex.slug].volume; } },
-      { dim:"安全", val:function(ex){ var s=window.EXCHANGE_COMPARE[ex.slug].security; return (s>=10?'<span class="good">':s>=8?'<span class="good">':s>=7?'<span class="mid">':'<span class="bad">')+stars(s)+'</span> <span class="num">'+s+'/10</span>'; } },
-      { dim:"储备证明", val:function(ex){ return window.EXCHANGE_COMPARE[ex.slug].reserve; } },
-      { dim:"冷存储", val:function(ex){ return window.EXCHANGE_COMPARE[ex.slug].cold; } },
-      { dim:"KYC", val:function(ex){ return KYC_ZH[window.EXCHANGE_COMPARE[ex.slug].kyc] || window.EXCHANGE_COMPARE[ex.slug].kyc; } },
-      { dim:"合规牌照", val:function(ex){ return window.EXCHANGE_COMPARE[ex.slug].licenses; } },
+      { dim:"24h 流动性", val:function(ex){ return window.EXCHANGE_COMPARE[ex.slug].volume+'<sup title="现货+合约合计，按 BTC 计价">?</sup>'; } },
       { dim:"跟单 / 机器人", val:function(ex){ return (ex.has_copy_trading ? '<span class="good">✓</span> 跟单' : "—") + " · " + (ex.has_trading_bot ? '<span class="good">✓</span> 机器人' : "—"); } },
       { dim:"API", val:function(ex){ return ex.has_api ? '<span class="good">✓</span> REST + WS' : "—"; } },
-      { dim:"声誉（信任分）", val:function(ex){ var t=window.EXCHANGE_COMPARE[ex.slug].trust; return (t>=10?'<span class="good">':t>=9?'<span class="good">':'<span class="mid">')+stars(t)+'</span> <span class="num">'+t+'/10</span>'; } },
-      { dim:"安全事件", val:function(ex){ return INCIDENT_ZH[window.EXCHANGE_COMPARE[ex.slug].incident] || window.EXCHANGE_COMPARE[ex.slug].incident; } }
+      { dim:"储备证明", val:function(ex){ return window.EXCHANGE_COMPARE[ex.slug].reserve+'<sup title="交易所披露的链上资产/用户负债比例。>100% 表示储备充裕，<100% 存在风险。">?</sup>'; } },
+      { dim:"冷存储", val:function(ex){ return window.EXCHANGE_COMPARE[ex.slug].cold+'<sup title="离线钱包存储的用户资产比例。越高越安全（联网热钱包风险更高）。">?</sup>'; } },
+      { dim:"法币入金", val:function(ex){ return (ex.deposit_methods||[]).map(function(m){return m.m;}).join(" · "); } },
+      { dim:"现货+合约", val:function(ex){ return ex.futures ? '<span class="good">✓</span> 现货+合约' : '<span class="bad">✗</span> 仅现货'; } }
     ];
 
     var html = '<div class="scroll"><table><thead><tr><th>维度</th>';
@@ -174,7 +153,7 @@
     html += '</tr></tbody></table></div>';
 
 
-    html += '<p class="foot" style="text-align:left;margin-top:12px">费率/流动性为快照值（更新于 <span id="upd2"></span>）。安全/信任分为我们对公开来源的编辑性综合，交易前请以交易所为准。本表仅供对比，不构成安全保证。</p>';
+    html += '<p class="foot" style="text-align:left;margin-top:12px">费率/杠杆/流动性为快照值（更新于 <span id="upd2"></span>），交易前请以各所实时显示为准。储备证明/冷存储等专业术语见 hover <sup>?</sup>。</p>';
     document.getElementById("result").innerHTML = html;
     document.getElementById("upd2").textContent = window.EXCHANGES.kucoin.last_updated;
   }

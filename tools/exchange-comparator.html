@@ -53,7 +53,7 @@
 <div class="wrap">
   <header><nav><a class="logo" href="/" aria-label="FeeEye home"><img src="/assets/logo.svg" alt="FeeEye" width="26" height="26">FeeEye</a><span><a href="exchange-comparator.zh.html">中文</a></span></nav></header>
 
-  <h1>Exchange Comparator</h1>
+  <h1>Comprehensive Exchange Comparison</h1>
   <p class="intro">Compare exchanges across <b>14 dimensions</b> — not just fees. Fees, withdrawal, coins, liquidity, security, KYC, licenses, reputation.</p>
 
   <div class="panel">
@@ -75,8 +75,8 @@
       <li><b>Coinbase</b>: Indonesia, Vietnam, Thailand, ...</li>
     </ul>
     <p style="margin:6px 0 0"><b>③</b> Before signing up, check each exchange's Terms of Use to confirm your country/region is supported.</p>
-    <p style="margin:6px 0 0"><b>④ Score sources</b>: "Security" is our editorial synthesis of public info (reserves/cold storage/incidents); "Reputation (Trust)" is the CoinGecko trust score. Both are <b>editorial references</b>, not official ratings.</p>
-    <p style="margin:6px 0 0"><b>④ Score sources</b>: "Security" is our editorial synthesis of public info (reserves/cold storage/incidents); "Reputation (Trust)" is the CoinGecko trust score. Both are <b>editorial references</b>, not official ratings.</p>
+    <p style="margin:6px 0 0"><b>④ Term notes</b>: "Proof of reserves", "Cold storage", "24h liquidity" etc. are industry terms. Hover any <sup>?</sup> in the table for a brief explanation; authoritative definitions are in each exchange's docs.</p>
+    <p style="margin:6px 0 0"><b>④ Term notes</b>: "Proof of reserves", "Cold storage", "24h liquidity" etc. are industry terms. Hover any <sup>?</sup> in the table for a brief explanation; authoritative definitions are in each exchange's docs.</p>
   </div>
 
   <div class="foot">Educational tool only. Not financial advice. Verify all data on official exchange pages.</div>
@@ -115,7 +115,6 @@
     return '<a class="cta" href="'+url+'"'+rel+' target="_blank">Sign up</a>';
   }
 
-  function stars(n){ return "★".repeat(n) + "☆".repeat(10-n); }
 
   function render(){
     var slugs = state.selected;
@@ -123,11 +122,20 @@
 
     var rows = [
       { dim:"Spot fee (taker)", val:function(ex){ return (ex.spot.taker*100).toFixed(2)+"%"; } },
+      { dim:"Spot fee (maker)", val:function(ex){ return (ex.spot.maker*100).toFixed(2)+"%"; } },
       { dim:"Futures fee (taker)", val:function(ex){ return (ex.futures.taker*100).toFixed(3)+"%"; } },
-      { dim:"USDT withdraw (TRC20)", val:function(ex){ return ex.usdt_withdrawal.TRC20 + " USDT"; } },
+      { dim:"Futures fee (maker)", val:function(ex){ return (ex.futures.maker*100).toFixed(3)+"%"; } },
+      { dim:"Max leverage", val:function(ex){ var m=window.EXCHANGE_COMPARE[ex.slug].max_leverage; return typeof m==="number" ? m+"x" : m; } },
+      { dim:"USDT withdrawal (TRC20)", val:function(ex){ return ex.usdt_withdrawal.TRC20 + " USDT"; } },
       { dim:"Coin coverage", val:function(ex){ return (window.EXCHANGE_COMPARE[ex.slug].coins).toLocaleString()+" coins"; } },
-      { dim:"24h liquidity (spot)", val:function(ex){ return window.EXCHANGE_COMPARE[ex.slug].volume; } },
-      { dim:"Security", val:function(ex){ var c=window.EXCHANGE_COMPARE[ex.slug]; var s=c.security; return (s>=10?'<span class="good">':s>=8?'<span class="good">':s>=7?'<span class="mid">':'<span class="bad">')+stars(s)+'</span> <span class="num">'+s+'/10</span>'; } },
+      { dim:"24h liquidity", val:function(ex){ return window.EXCHANGE_COMPARE[ex.slug].volume+'<sup title="Spot + futures combined, denominated in BTC">?</sup>'; } },
+      { dim:"Copy trading / bots", val:function(ex){ return (ex.has_copy_trading ? '<span class="good">✓</span> Copy' : "—") + " · " + (ex.has_trading_bot ? '<span class="good">✓</span> Bots' : "—"); } },
+      { dim:"API", val:function(ex){ return ex.has_api ? '<span class="good">✓</span> REST + WS' : "—"; } },
+      { dim:"Proof of reserves", val:function(ex){ return window.EXCHANGE_COMPARE[ex.slug].reserve+'<sup title="On-chain assets / user liabilities ratio. >100% = surplus; <100% = risk.">?</sup>'; } },
+      { dim:"Cold storage", val:function(ex){ return window.EXCHANGE_COMPARE[ex.slug].cold+'<sup title="Share of user assets held offline. Higher = safer (online hot wallets are more exposed).">?</sup>'; } },
+      { dim:"Fiat deposits", val:function(ex){ return (ex.deposit_methods||[]).map(function(m){return m.m;}).join(" · "); } },
+      { dim:"Spot + Futures", val:function(ex){ return ex.futures ? '<span class="good">✓</span> Spot + Futures' : '<span class="bad">✗</span> Spot only'; } }
+    ]; var s=c.security; return (s>=10?'<span class="good">':s>=8?'<span class="good">':s>=7?'<span class="mid">':'<span class="bad">')+stars(s)+'</span> <span class="num">'+s+'/10</span>'; } },
       { dim:"Proof of reserves", val:function(ex){ return window.EXCHANGE_COMPARE[ex.slug].reserve; } },
       { dim:"Cold storage", val:function(ex){ return window.EXCHANGE_COMPARE[ex.slug].cold; } },
       { dim:"KYC", val:function(ex){ return window.EXCHANGE_COMPARE[ex.slug].kyc; } },
