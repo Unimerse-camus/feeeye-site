@@ -199,7 +199,7 @@ window.EXCHANGE_COMPARE = {
   "binance": {
     "max_leverage": 125, "has_options": true, "has_leveraged_tokens": true, "coins": 820, "volume": "≈$5.2B", "trust": 10, "security": 9,
     "kyc": "Mandatory", "licenses": "Global + multiple jurisdictions",
-    "reserve": "PoR (monthly)", "cold": "Not disclosed", "incident": "2019 $40M hack (compensated); 2023 US DOJ AML settlement"
+    "reserve": "~101% (PoR)", "cold": "97%+", "incident": "2019 $40M hack (compensated); 2023 US DOJ AML settlement"
   },
   "bybit": {
     "max_leverage": 100, "has_options": true, "has_leveraged_tokens": false, "coins": 764, "volume": "≈$1.1B", "trust": 9, "security": 7,
