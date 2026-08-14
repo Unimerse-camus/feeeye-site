@@ -168,7 +168,7 @@
       { dim:"最高杠杆", val:function(ex){ var m=window.EXCHANGE_COMPARE[ex.slug].max_leverage; return typeof m==="number" ? m+"x" : (m || '<span title="数据可能未加载，硬刷新（Ctrl+Shift+R / Cmd+Shift+R）可获取">N/A</span>'); } },
       { dim:"期权交易", val:function(ex){ var o=window.EXCHANGE_COMPARE[ex.slug].has_options; return o===true ? '<span class="good">✓</span> 有' : (o===false ? '<span class="bad">✗</span> 无' : '<span title="数据可能未加载，硬刷新可获取">—</span>'); } },
       { dim:"杠杆代币", val:function(ex){ var l=window.EXCHANGE_COMPARE[ex.slug].has_leveraged_tokens; return l===true ? '<span class="good">✓</span> 有' : (l===false ? '<span class="bad">✗</span> 无' : '<span title="数据可能未加载，硬刷新可获取">—</span>'); } },
-      { dim:"币种覆盖", val:function(ex){ return (window.EXCHANGE_COMPARE[ex.slug].coins).toLocaleString()+" 个币"; } },
+      { dim:"币种覆盖", val:function(ex){ return (window.EXCHANGE_COMPARE[ex.slug].coins).toLocaleString()+" 个币"+'<span class="tip" data-tip="CoinGecko 追踪的现货币种数（有活跃市场的币种），各所口径统一可横向对比">ⓘ</span>'; } },
       { dim:"24h 流动性", val:function(ex){ return window.EXCHANGE_COMPARE[ex.slug].volume+'<span class="tip" data-tip="现货+合约合计，按 BTC 计价">ⓘ</span>'; } },
       { dim:"跟单 / 机器人", val:function(ex){ return (ex.has_copy_trading ? '<span class="good">✓</span> 跟单' : "—") + " · " + (ex.has_trading_bot ? '<span class="good">✓</span> 机器人' : "—"); } },
       { dim:"API", val:function(ex){ return ex.has_api ? '<span class="good">✓</span> REST + WS' : "—"; } },

@@ -133,7 +133,7 @@
       { dim:"Max leverage", val:function(ex){ var m=window.EXCHANGE_COMPARE[ex.slug].max_leverage; return typeof m==="number" ? m+"x" : (m || '<span title="数据可能未加载，硬刷新（Ctrl+Shift+R / Cmd+Shift+R）可获取">N/A</span>'); } },
       { dim:"Options", val:function(ex){ var o=window.EXCHANGE_COMPARE[ex.slug].has_options; return o===true ? '<span class="good">✓</span> Yes' : (o===false ? '<span class="bad">✗</span> No' : '<span title="Data may not be loaded; hard refresh (Ctrl+Shift+R / Cmd+Shift+R) to fetch">—</span>'); } },
       { dim:"Leveraged tokens", val:function(ex){ var l=window.EXCHANGE_COMPARE[ex.slug].has_leveraged_tokens; return l===true ? '<span class="good">✓</span> Yes' : (l===false ? '<span class="bad">✗</span> No' : '<span title="Data may not be loaded; hard refresh to fetch">—</span>'); } },
-      { dim:"Coin coverage", val:function(ex){ return (window.EXCHANGE_COMPARE[ex.slug].coins).toLocaleString()+" coins"; } },
+      { dim:"Coin coverage", val:function(ex){ return (window.EXCHANGE_COMPARE[ex.slug].coins).toLocaleString()+" coins"+'<span class="tip" data-tip="CoinGecko-tracked spot coins (with active markets), consistent across exchanges">ⓘ</span>'; } },
       { dim:"24h liquidity", val:function(ex){ return window.EXCHANGE_COMPARE[ex.slug].volume+'<span class="tip" data-tip="Spot + futures combined, denominated in BTC">ⓘ</span>'; } },
       { dim:"Copy trading / bots", val:function(ex){ return (ex.has_copy_trading ? '<span class="good">✓</span> Copy' : "—") + " · " + (ex.has_trading_bot ? '<span class="good">✓</span> Bots' : "—"); } },
       { dim:"API", val:function(ex){ return ex.has_api ? '<span class="good">✓</span> REST + WS' : "—"; } },
