@@ -38,6 +38,25 @@ const getFee = ctx.window.getUsdtWithdrawalFee;
 const UPD = EX.kucoin.last_updated;
 const RESTRICTED_LABEL = ['US', 'CN', 'HK', 'SG'].join(', ');
 
+// 币种分类（首页 Popular tokens 分组用）。人工维护热门币，覆盖前 60 名左右；其余归"其他"。
+// 远期：可接 CoinGecko categories 自动标注全部 121 币。
+const COIN_CATEGORY = {
+  en: {
+    'Layer 1 / Smart Contracts': ['BTC','ETH','BNB','XRP','SOL','ADA','AVAX','DOT','NEAR','SUI','APT','TON','LINK','HBAR','TRX','BCH','LTC','XLM','XMR','ZEC'],
+    'Meme': ['PEPE','DOGE','SHIB','BONK','FLOKI','WIF'],
+    'Exchange Token': ['LEO','OKB','CRO','KCS','BGB'],
+    'DeFi / DEX': ['UNI','HYPE'],
+    'RWA / Tokenized': ['PAXG','XAUT','USYC']
+  },
+  zh: {
+    '公链': ['BTC','ETH','BNB','XRP','SOL','ADA','AVAX','DOT','NEAR','SUI','APT','TON','LINK','HBAR','TRX','BCH','LTC','XLM','XMR','ZEC'],
+    'Meme': ['PEPE','DOGE','SHIB','BONK','FLOKI','WIF'],
+    '平台币': ['LEO','OKB','CRO','KCS','BGB'],
+    'DeFi/DEX': ['UNI','HYPE'],
+    'RWA/代币化资产': ['PAXG','XAUT','USYC']
+  }
+};
+
 // CTA 链接规则：有 affiliate 用 affiliate（rel=sponsored nofollow），否则用官网（rel=noopener）
 function linkFor(slug) {
   const ex = EX[slug];
@@ -380,6 +399,8 @@ input[type=number]{font-size:16px}
 .foot a:hover{text-decoration:underline}
 .note{background:#eef4ff;border:1px solid #c7d8ff;border-radius:10px;padding:10px 14px;font-size:13px;color:#1e40af;margin:14px 0}
 .pills{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.cat-group{margin-bottom:16px}
+.cat-label{font-size:11px;font-weight:600;color:var(--sub);margin-bottom:6px;text-transform:uppercase;letter-spacing:.6px}
 .pill{background:#eef4ff;border:1px solid #c7d8ff;color:#1e40af;border-radius:999px;padding:3px 10px;font-size:12.5px;text-decoration:none}
 </style>
 </head>
@@ -483,9 +504,25 @@ function countryPage(cc, lang) {
 }
 
 function indexPage(lang) {
-  const top = [...COIN_LIST].sort((a, b) => a.rank - b.rank).slice(0, 48);
   const p = (rel) => absPath(lang, rel);
-  const coins = top.map((c) => `<a class="pill" href="${p('where-to-buy/' + c.symbol.toLowerCase() + '.html')}">${esc(c.name)} (${esc(c.symbol)})</a>`).join('');
+  // 热门币按 category 分组（公链/Meme/平台币/DeFi/RWA/其他）
+  const sorted = [...COIN_LIST].sort((a, b) => a.rank - b.rank).slice(0, 60);
+  const cats = COIN_CATEGORY[lang];
+  const placed = new Set();
+  let groupedHtml = '';
+  for (const [cat, symbols] of Object.entries(cats)) {
+    const group = sorted.filter((c) => symbols.includes(c.symbol));
+    if (!group.length) continue;
+    group.forEach((c) => placed.add(c.symbol));
+    const pills = group.map((c) => `<a class="pill" href="${p('where-to-buy/' + c.symbol.toLowerCase() + '.html')}">${esc(c.name)} (${esc(c.symbol)})</a>`).join('');
+    groupedHtml += `<div class="cat-group"><div class="cat-label">${esc(cat)}</div><div class="pills">${pills}</div></div>`;
+  }
+  // 未分类的币（前 60 内）归"其他"
+  const others = sorted.filter((c) => !placed.has(c.symbol));
+  if (others.length) {
+    const pills = others.map((c) => `<a class="pill" href="${p('where-to-buy/' + c.symbol.toLowerCase() + '.html')}">${esc(c.name)} (${esc(c.symbol)})</a>`).join('');
+    groupedHtml += `<div class="cat-group"><div class="cat-label">${lang === 'zh' ? '其他' : 'Other'}</div><div class="pills">${pills}</div></div>`;
+  }
   const body = `
   <h1>${esc(T(lang, 'idxH1'))}</h1>
   <p class="intro">${esc(T(lang, 'idxIntro', { c: coinCount, e: Object.keys(EX).length }))}</p>
@@ -498,7 +535,7 @@ function indexPage(lang) {
     <div class="card"><b><span class="ic">${ICON.scale}</span>${esc(T(lang, 'idxCpT'))}</b><br>${esc(T(lang, 'idxCpB'))}<br><a href="${p('compare/kucoin-vs-bybit.html')}">vs Bybit →</a></div>
   </div>
   <h3>${esc(T(lang, 'idxPopular', { c: coinCount }))}</h3>
-  <div class="pills">${coins}</div>
+  ${groupedHtml}
   <p style="margin-top:12px"><a href="${p('coins.html')}">${lang === 'zh' ? `查看全部 ${coinCount} 个币种 →` : `View all ${coinCount} coins →`}</a></p>`;
   return page({ lang, title: T(lang, 'idxTitle'), desc: T(lang, 'idxDesc'), body, path: `${lang === 'zh' ? 'zh/' : ''}index.html`, affiliate: false });
 }
