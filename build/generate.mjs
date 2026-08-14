@@ -123,6 +123,7 @@ const I18N = {
     navZh: '中文',
     discHtml: '<div style="text-align:left"><div style="margin:0 0 6px"><b>\u2460 Fee snapshot</b>: recently updated 2026-08-13 \u2014 verify each rate on the exchange\'s official page before trading.</div><div style="margin:0 0 4px"><b>\u2461 Compliance-restricted regions</b> by exchange (representative examples; <b>all exchanges do not serve</b> residents of Mainland China, Hong Kong, Singapore, the United States and other Restricted Locations):</div><ul style="margin:0 0 0 20px;padding:0"><li><b>KuCoin</b>: EU new-client onboarding paused (Germany, France, Italy, Spain, Poland, ...)</li><li><b>Binance</b>: Japan, Ontario (Canada), India, Turkey, UAE, Korea, Thailand, ...</li><li><b>Bybit / OKX</b>: no specific countries publicly listed</li><li><b>Bitget</b>: Japan, Korea, ...</li><li><b>Kraken</b>: Brazil, India, Indonesia, Vietnam, Thailand, ...</li><li><b>Coinbase</b>: Indonesia, Vietnam, Thailand, ...</li></ul><div style="margin:6px 0 0"><b>\u2462</b> Before signing up, check each exchange\'s Terms of Use to confirm your country/region is supported.</div></div>',
     foot: 'Educational only. Not financial advice. Verify all data on official exchange pages. Data snapshot ',
+    footPrivacy: 'Privacy', footTerms: 'Terms', footDisclosure: 'Disclosure',
     thExchange: 'Exchange', thLists: 'Lists {s}', thTaker: 'Spot taker', thTakerFut: 'Futures taker', thFee20: 'USDT TRC20 fee',
     ctaBuy: 'Buy {n} on {x}', ctaOpen: 'Open KuCoin', ctaOpenOn: 'Open {x}', ctaAcct: 'Open a {x} account',
     alsoOn: '{n} is also available on: {o}. Use the Fee Calculator to compare your exact trade size.',
@@ -168,6 +169,7 @@ const I18N = {
     navZh: 'English',
     discHtml: '<div style="text-align:left"><div style="margin:0 0 6px"><b>① 费率快照</b>：最近更新 2026-08-13 —— 交易前请以各交易所官方页面为准。</div><div style="margin:0 0 4px"><b>② 各所合规受限地区</b>（代表性示例；<b>所有交易所均不接受</b>中国大陆、中国香港、新加坡、美国等 Restricted Locations 用户）：</div><ul style="margin:0 0 0 20px;padding:0"><li><b>KuCoin</b>：欧盟新客户暂停（含德国、法国、意大利、西班牙、波兰等）</li><li><b>Binance</b>：日本、加拿大（安大略）、印度、土耳其、阿联酋、韩国、泰国等</li><li><b>Bybit / OKX</b>：未明确公开列示特定国家限制</li><li><b>Bitget</b>：日本、韩国等</li><li><b>Kraken</b>：巴西、印度、印度尼西亚、越南、泰国等</li><li><b>Coinbase</b>：印度尼西亚、越南、泰国等</li></ul><div style="margin:6px 0 0"><b>③</b> 注册前请查各所 Terms of Use 确认你所在国家/地区可用。</div></div>',
     foot: '仅供教育参考，不构成投资建议。请以各交易所官方页面核实所有数据。数据快照 ',
+    footPrivacy: '隐私政策', footTerms: '使用条款', footDisclosure: '返佣披露',
     thExchange: '交易所', thLists: '上架 {s}', thTaker: '现货吃单费率', thTakerFut: '合约吃单费率', thFee20: 'USDT TRC20 提币费',
     ctaBuy: '在 {x} 购买 {n}', ctaOpen: '打开 KuCoin', ctaOpenOn: '打开 {x}', ctaAcct: '注册 {x} 账户',
     alsoOn: '{n} 还可在以下平台购买：{o}。使用手续费计算器对比你的具体交易成本。',
@@ -229,6 +231,50 @@ function tcPath(lang) {
 }
 function cmpPath(lang) {
   return 'tools/exchange-comparator' + (lang === 'zh' ? '.zh' : '') + '.html';
+}
+
+// ---- 合规页面（Privacy / Terms / Affiliate Disclosure）----
+const LEGAL_HTML = {
+  en: {
+    privacy: {
+      title: 'Privacy Policy',
+      desc: 'How FeeEye handles your information.',
+      body: `<h1>Privacy Policy</h1><p class="intro">Last reviewed: 2026-08-14</p><h3>Who we are</h3><p>This policy describes how FeeEye ("we", "us") handles information on this website.</p><h3>What we collect</h3><ul><li><b>Tool inputs:</b> Amounts, deposit methods and other values you enter into our calculators stay in your browser and are never transmitted to or stored by us.</li><li><b>Analytics:</b> We use privacy-friendly, aggregated analytics (page views) to understand traffic. No personally identifiable data is collected; IP addresses are anonymized where possible.</li><li><b>Affiliate referrals:</b> When you click an affiliate link, the exchange may set a referral cookie under its own domain. We do not control that; see each exchange's privacy policy.</li></ul><h3>What we do NOT collect</h3><p>We do not require accounts and do not collect names, emails, or other personal data. We do not sell personal data.</p><h3>Cookies</h3><p>We use minimal cookies for analytics. You can disable cookies in your browser without losing core tool functionality.</p><h3>Data retention</h3><p>Aggregated analytics are retained for a reasonable period (up to 90 days). Tool inputs are never persisted.</p><h3>Your rights</h3><p>Depending on your jurisdiction (e.g. GDPR for EEA/UK residents), you may request access, correction, or deletion of any personal data we hold. Contact: <a href="mailto:official@feeeye.com">official@feeeye.com</a>.</p><h3>Changes</h3><p>We will update this policy and the "last reviewed" date when practices change.</p>`
+    },
+    terms: {
+      title: 'Terms of Use',
+      desc: 'The terms that govern use of FeeEye.',
+      body: `<h1>Terms of Use</h1><p class="intro">Last reviewed: 2026-08-14</p><h3>Acceptance</h3><p>By using this website you agree to these terms. If you do not agree, do not use the site.</p><h3>Not financial advice</h3><p>All content (fee calculators, comparisons, data, articles) is <b>educational/informational only</b> and is <b>not</b> financial, investment, legal, or tax advice. Crypto involves substantial risk; you may lose your entire capital. Consult a qualified professional.</p><h3>No warranty on data</h3><p>Fee, withdrawal, network, and availability data is provided as a snapshot and may be outdated or inaccurate. <b>Always verify on each exchange's official sources before acting.</b> We disclaim liability for decisions based on this site.</p><h3>Geographic restrictions</h3><p>This site is <b>not intended for, and must not be used by, residents of restricted regions</b> (including, without limitation, the United States, Mainland China, Hong Kong, and Singapore, as defined by each exchange's Terms of Use). If you are in such a region, you must not use any signup links. You are responsible for complying with laws applicable to you.</p><h3>Affiliate links</h3><p>Some links are affiliate links (<code>rel="sponsored"</code>). We may earn a commission. This does not affect your costs. Each exchange's own terms govern your relationship with it.</p><h3>Intellectual property</h3><p>Site content, design, and data compilations are owned by FeeEye unless stated. You may not republish large portions without permission.</p><h3>Limitation of liability</h3><p>To the maximum extent permitted by law, we are not liable for any loss arising from use of this site.</p><h3>Governing law</h3><p>These terms are governed by the laws of the jurisdiction where the operator is established, excluding conflict-of-law rules.</p><h3>Contact</h3><p><a href="mailto:official@feeeye.com">official@feeeye.com</a></p>`
+    },
+    disclosure: {
+      title: 'Affiliate Disclosure',
+      desc: 'How FeeEye earns from affiliate links.',
+      body: `<h1>Affiliate Disclosure</h1><p class="intro">Last reviewed: 2026-08-14</p><h3>Our affiliate relationship</h3><p>This website participates in affiliate / referral programs of the cryptocurrency exchanges listed below (collectively, "Partners"):</p><ul><li><b>KuCoin</b> — referral/affiliate link: <code>https://www.kucoin.com/r/af/HODL100</code></li><li><b>Binance</b> — referral link: <code>https://www.binance.com/register?ref=BTCANDSOL</code></li><li>Bybit, OKX, Bitget, Kraken, Coinbase — informational comparison only; affiliate links added where a program is joined.</li></ul><p>When you click an affiliate link and open an account or trade, we may receive a commission from the Partner <b>at no additional cost to you</b>.</p><h3>How links are marked</h3><p>All affiliate links on this site carry the HTML attribute <code>rel="sponsored nofollow"</code> so they are not presented as editorial endorsements.</p><h3>No extra cost</h3><p>Any commission we earn is paid by the exchange out of its own fee revenue. Your trading fees are <b>not</b> increased by using our links.</p><h3>Not financial advice</h3><p>Nothing on this site is financial, investment, legal, or tax advice. Fee comparisons are informational only. Always verify current fees on each exchange's official fee schedule before trading.</p><h3>Independence</h3><p>We aim to present data objectively. Where a comparison might be influenced by affiliate relationships, we disclose it. We do <b>not</b> recommend an exchange solely because it pays a higher commission.</p><h3>Contact</h3><p>Questions about this disclosure: <a href="mailto:official@feeeye.com">official@feeeye.com</a></p>`
+    }
+  },
+  zh: {
+    privacy: {
+      title: '隐私政策',
+      desc: 'FeeEye 如何处理你的信息。',
+      body: `<h1>隐私政策</h1><p class="intro">最近审阅：2026-08-14</p><h3>我们是谁</h3><p>本政策说明 FeeEye（"我们"）如何处理本网站的信息。</p><h3>我们收集什么</h3><ul><li><b>工具输入：</b>你在计算器里输入的金额、入金方式等只在你的浏览器内处理，绝不会上传或存储到我们服务器。</li><li><b>分析：</b>我们使用注重隐私的聚合分析（页面浏览量）来了解流量，不收集可识别个人身份的数据，IP 地址尽可能匿名化。</li><li><b>返佣链接：</b>点击返佣链接时，交易所会在其自身域名下设置推荐 cookie。我们无法控制这一点，详见各交易所的隐私政策。</li></ul><h3>我们不收集什么</h3><p>我们不要求注册账号，不收集姓名、邮箱等个人数据，不出售个人数据。</p><h3>Cookie</h3><p>我们仅使用少量分析 cookie。你可以在浏览器中禁用，不影响核心工具功能。</p><h3>数据保留</h3><p>聚合分析数据保留合理期限（最长 90 天）。工具输入从不持久化。</p><h3>你的权利</h3><p>根据你所在司法辖区（如 EEA/英国居民的 GDPR），你可要求访问、更正或删除我们持有的个人数据。联系：<a href="mailto:official@feeeye.com">official@feeeye.com</a>。</p><h3>变更</h3><p>实践发生变化时，我们会更新本政策及"最近审阅"日期。</p>`
+    },
+    terms: {
+      title: '使用条款',
+      desc: '规范 FeeEye 使用的条款。',
+      body: `<h1>使用条款</h1><p class="intro">最近审阅：2026-08-14</p><h3>接受</h3><p>使用本网站即表示你同意这些条款。若不同意，请勿使用本网站。</p><h3>非财务建议</h3><p>本站全部内容（费率计算器、对比、数据、文章）<b>仅供教育/信息参考</b>，<b>不构成</b>财务、投资、法律或税务建议。加密货币风险极高，你可能损失全部本金。请咨询合格专业人士。</p><h3>数据不作保证</h3><p>费率、提币、网络与可用性数据以快照形式提供，可能过时或不准确。<b>请在操作前务必以各交易所官方来源核实。</b>我们对基于本站做出的决策不承担责任。</p><h3>地区限制</h3><p>本站<b>不面向、也禁止受限地区居民使用</b>（包括但不限于美国、中国大陆、中国香港、新加坡，以各交易所使用条款定义为准）。若你处于此类地区，不得使用任何注册链接。你有责任遵守适用于你的法律。</p><h3>返佣链接</h3><p>部分链接为返佣链接（<code>rel="sponsored"</code>）。我们可能获得佣金，但这不会增加你的成本。你与交易所的关系受各交易所自身条款约束。</p><h3>知识产权</h3><p>除非另有说明，网站内容、设计与数据汇编归 FeeEye 所有。未经许可不得大量转载。</p><h3>责任限制</h3><p>在法律允许的最大范围内，我们对因使用本网站产生的任何损失不承担责任。</p><h3>管辖法律</h3><p>本条款受运营方所在地司法辖区法律管辖（排除法律冲突规则）。</p><h3>联系方式</h3><p><a href="mailto:official@feeeye.com">official@feeeye.com</a></p>`
+    },
+    disclosure: {
+      title: '返佣披露',
+      desc: 'FeeEye 如何通过返佣链接获得收入。',
+      body: `<h1>返佣披露</h1><p class="intro">最近审阅：2026-08-14</p><h3>我们的返佣关系</h3><p>本网站参与以下加密货币交易所的返佣/推荐计划（统称"合作伙伴"）：</p><ul><li><b>KuCoin</b> — 返佣链接：<code>https://www.kucoin.com/r/af/HODL100</code></li><li><b>Binance</b> — 推荐链接：<code>https://www.binance.com/register?ref=BTCANDSOL</code></li><li>Bybit、OKX、Bitget、Kraken、Coinbase — 仅信息对比；加入相应计划后再添加返佣链接。</li></ul><p>当你点击返佣链接并开户或交易时，我们可能从合作伙伴处获得佣金，<b>不会给你带来额外成本</b>。</p><h3>链接如何标注</h3><p>本站所有返佣链接均带 <code>rel="sponsored nofollow"</code> 属性，不会伪装成编辑推荐。</p><h3>无额外成本</h3><p>我们获得的任何佣金均由交易所从其自有手续费收入中支付。使用我们的链接<b>不会</b>提高你的交易手续费。</p><h3>非财务建议</h3><p>本站任何内容均非财务、投资、法律或税务建议。费率对比仅供参考，交易前请务必在交易所官方费率表核实。</p><h3>独立性</h3><p>我们力求客观呈现数据。若对比可能受返佣关系影响，我们会予以披露。我们<b>不会</b>仅因某交易所佣金更高而推荐它。</p><h3>联系方式</h3><p>关于本披露的问题：<a href="mailto:official@feeeye.com">official@feeeye.com</a></p>`
+    }
+  }
+};
+
+function legalPage(key, lang) {
+  const c = LEGAL_HTML[lang][key];
+  const rel = `${lang === 'zh' ? 'zh/' : ''}${key}.html`;
+  return page({ lang, title: c.title, desc: c.desc, body: c.body, path: rel, affiliate: false });
 }
 
 function page({ lang, title, desc, body, jsonLd, depth = 0, path, affiliate = false }) {
@@ -293,6 +339,8 @@ input[type=number]{font-size:16px}
 .ic{display:inline-flex;vertical-align:-3px;margin-right:7px;color:var(--brand)}
 .ic svg{display:block}
 .foot{color:var(--sub);font-size:12px;margin-top:22px;text-align:center}
+.foot a{color:var(--sub);text-decoration:none}
+.foot a:hover{text-decoration:underline}
 .note{background:#eef4ff;border:1px solid #c7d8ff;border-radius:10px;padding:10px 14px;font-size:13px;color:#1e40af;margin:14px 0}
 .pills{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
 .pill{background:#eef4ff;border:1px solid #c7d8ff;color:#1e40af;border-radius:999px;padding:3px 10px;font-size:12.5px;text-decoration:none}
@@ -302,7 +350,7 @@ input[type=number]{font-size:16px}
 <div class="wrap">
 <header><nav><a class="logo" href="${lang === 'zh' ? '/zh/' : '/'}" aria-label="FeeEye home"><img src="/assets/logo.svg" alt="FeeEye" width="26" height="26">${SITE}</a><span><a href="${lang === 'zh' ? '/' : '/zh/'}">${esc(i.navZh)}</a></span></nav></header>
 ${body}
-<div class="foot">${discLine}${esc(i.foot)} ${esc(UPD)}.</div>
+<div class="foot">${discLine}${esc(i.foot)} ${esc(UPD)}.<br><a href="${absPath(lang, 'privacy.html')}">${esc(i.footPrivacy)}</a> · <a href="${absPath(lang, 'terms.html')}">${esc(i.footTerms)}</a> · <a href="${absPath(lang, 'disclosure.html')}">${esc(i.footDisclosure)}</a></div>
 </div>
 </body>
 </html>`;
@@ -445,6 +493,9 @@ for (const lang of ['en', 'zh']) {
   for (const cc of Object.keys(CA)) {
     if (CA[cc].restricted) continue;
     write(`${lang === 'zh' ? 'zh/' : ''}${cc.toLowerCase()}/exchanges.html`, countryPage(cc, lang)); count++;
+  }
+  for (const key of ['privacy', 'terms', 'disclosure']) {
+    write(`${lang === 'zh' ? 'zh/' : ''}${key}.html`, legalPage(key, lang)); count++;
   }
 }
 

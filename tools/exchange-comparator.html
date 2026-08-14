@@ -42,8 +42,6 @@
   .cta{display:inline-block;background:var(--brand);color:#fff;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:700;text-decoration:none;min-height:36px}
   .cta:hover{opacity:.9}
   .na{color:var(--bad);font-weight:600}
-  .sticky{position:sticky;bottom:0;background:linear-gradient(135deg,#1e3a8a,#0ea5a4);color:#fff;border-radius:12px;padding:14px 18px;margin-top:18px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding-bottom:max(14px,env(safe-area-inset-bottom))}
-  .sticky a{background:#fff;color:var(--brand);padding:9px 16px;border-radius:9px;font-weight:800;text-decoration:none;font-size:14px}
   .foot{color:var(--sub);font-size:12px;margin-top:18px;text-align:center}
   .num{font-variant-numeric:tabular-nums;font-feature-settings:"tnum"}
   .scroll{overflow-x:auto}
@@ -66,11 +64,6 @@
   </div>
 
   <div id="result"></div>
-
-  <div class="sticky" id="sticky" style="display:none">
-    <div><b>New to KuCoin?</b> Sign up via our link — same fees as direct signup.</div>
-    <a id="stickyLink" href="#" rel="sponsored nofollow" target="_blank">Open KuCoin →</a>
-  </div>
 
   <div class="disclaimer">
     <p style="margin:0 0 6px"><b>① Data snapshot</b>: last updated <span id="upd"></span> — verify on each exchange's official page.</p>
@@ -111,12 +104,6 @@
     });
     chipsEl.appendChild(b);
   });
-
-  function refreshSticky(){
-    var st = document.getElementById("sticky");
-    st.style.display="flex";
-    document.getElementById("stickyLink").href = window.EXCHANGES.kucoin.affiliate_link;
-  }
 
   function ctaCell(slug){
     var ex = window.EXCHANGES[slug];
@@ -167,13 +154,12 @@
 
     // 推荐区（KuCoin 是唯一 affiliate，客观标注）
     if(slugs.indexOf("kucoin")>-1){
-      html = '<div class="rec"><b>★ Recommended for broad coin coverage:</b> KuCoin lists ~'+(window.EXCHANGE_COMPARE.kucoin.coins).toLocaleString()+' coins (more than Binance/OKX) with 0.10% spot fees and a clean security record. <a class="cta" href="'+window.EXCHANGES.kucoin.affiliate_link+'" rel="sponsored nofollow" target="_blank">Open KuCoin →</a></div>' + html;
+      html += '<div class="rec"><b>Editor\'s pick:</b> KuCoin lists ~'+(window.EXCHANGE_COMPARE.kucoin.coins).toLocaleString()+' coins (more than Binance/OKX) with 0.10% spot fees and a clean security record. <a class="cta" href="'+window.EXCHANGES.kucoin.affiliate_link+'" rel="sponsored nofollow" target="_blank">Open KuCoin →</a></div>';
     }
 
     html += '<p class="foot" style="text-align:left;margin-top:12px">Fees/volumes are snapshot values (last updated <span id="upd2"></span>). Security/trust scores are our editorial synthesis of public sources — always verify on the exchange. This table is for comparison, not a guarantee of safety.</p>';
     document.getElementById("result").innerHTML = html;
     document.getElementById("upd2").textContent = window.EXCHANGES.kucoin.last_updated;
-    refreshSticky();
   }
 
   render();

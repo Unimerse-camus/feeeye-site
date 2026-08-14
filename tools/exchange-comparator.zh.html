@@ -42,8 +42,6 @@
   .cta{display:inline-block;background:var(--brand);color:#fff;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:700;text-decoration:none;min-height:36px}
   .cta:hover{opacity:.9}
   .na{color:var(--bad);font-weight:600}
-  .sticky{position:sticky;bottom:0;background:linear-gradient(135deg,#1e3a8a,#0ea5a4);color:#fff;border-radius:12px;padding:14px 18px;margin-top:18px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding-bottom:max(14px,env(safe-area-inset-bottom))}
-  .sticky a{background:#fff;color:var(--brand);padding:9px 16px;border-radius:9px;font-weight:800;text-decoration:none;font-size:14px}
   .foot{color:var(--sub);font-size:12px;margin-top:18px;text-align:center}
   .num{font-variant-numeric:tabular-nums;font-feature-settings:"tnum"}
   .scroll{overflow-x:auto}
@@ -66,11 +64,6 @@
   </div>
 
   <div id="result"></div>
-
-  <div class="sticky" id="sticky" style="display:none">
-    <div><b>还没有 KuCoin 账户？</b>通过我们的链接注册——费率与直接注册相同。</div>
-    <a id="stickyLink" href="#" rel="sponsored nofollow" target="_blank">打开 KuCoin →</a>
-  </div>
 
   <div class="disclaimer">
     <p style="margin:0 0 6px"><b>① 数据快照</b>：最近更新 <span id="upd"></span>——以各交易所官方页面为准。</p>
@@ -125,12 +118,6 @@
     chipsEl.appendChild(b);
   });
 
-  function refreshSticky(){
-    var st = document.getElementById("sticky");
-    st.style.display="flex";
-    document.getElementById("stickyLink").href = window.EXCHANGES.kucoin.affiliate_link;
-  }
-
   function ctaCell(slug){
     var ex = window.EXCHANGES[slug];
     var url = ex.affiliate_link || ex.official_url || "#";
@@ -178,13 +165,12 @@
     html += '</tr></tbody></table></div>';
 
     if(slugs.indexOf("kucoin")>-1){
-      html = '<div class="rec"><b>★ 币种覆盖推荐：</b>KuCoin 上架约 '+(window.EXCHANGE_COMPARE.kucoin.coins).toLocaleString()+' 个币（比 Binance/OKX 多），现货费率 0.10%，安全记录干净。 <a class="cta" href="'+window.EXCHANGES.kucoin.affiliate_link+'" rel="sponsored nofollow" target="_blank">打开 KuCoin →</a></div>' + html;
+      html += '<div class="rec"><b>编辑精选：</b>KuCoin 上架约 '+(window.EXCHANGE_COMPARE.kucoin.coins).toLocaleString()+' 个币（比 Binance/OKX 多），现货费率 0.10%，安全记录干净。 <a class="cta" href="'+window.EXCHANGES.kucoin.affiliate_link+'" rel="sponsored nofollow" target="_blank">打开 KuCoin →</a></div>';
     }
 
     html += '<p class="foot" style="text-align:left;margin-top:12px">费率/流动性为快照值（更新于 <span id="upd2"></span>）。安全/信任分为我们对公开来源的编辑性综合，交易前请以交易所为准。本表仅供对比，不构成安全保证。</p>';
     document.getElementById("result").innerHTML = html;
     document.getElementById("upd2").textContent = window.EXCHANGES.kucoin.last_updated;
-    refreshSticky();
   }
 
   render();
