@@ -116,8 +116,9 @@ function isJunkCoin(symbol, name) {
   return false;
 }
 
-// 热门币白名单：市值排名可能 > Top 阈值，但搜索意图高（meme/L2 生态）。
-// 在拉取 Top N 后额外补充这些币，保证"用户会搜的币"一定在列表里。
+// 硬编码兜底白名单：市值排名可能 > Top 阈值、但搜索意图持久的币（meme/L2 生态）。
+// 主信号是 /search/trending（自动捕获新热门币）；本清单兜底"掉出 trending 后仍是常青"的币。
+// 新热门币应主要靠 trending 自动进入，而非手工加进这里。
 const HOT_COINS = [
   { cg_id: 'dogwifcoin', symbol: 'WIF' },
   { cg_id: 'bonk', symbol: 'BONK' },
@@ -176,24 +177,29 @@ async function main() {
     });
   }
 
-  // 补充热门币白名单（市值排名可能 > TOP，但搜索意图高）
+  // 补充"搜索意图"币：市值 Top N 之外但用户会搜的币
+  //   1) 自动 trending（CoinGecko 7 天热搜）—— 捕获新崛起的热门币
+  //   2) HOT_COINS 硬编码白名单 —— 兜底常青热门币（trending 掉出后仍在）
   const existingSyms = new Set(coins.map((c) => c.symbol));
-  for (const h of HOT_COINS) {
-    if (existingSyms.has(h.symbol)) continue;
+
+  async function addCoin(cgId, source) {
     try {
-      const m = await cgGet(`${CG}/coins/${h.cg_id}?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false`);
+      const m = await cgGet(`${CG}/coins/${cgId}?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false`);
+      const sym = m.symbol.toUpperCase();
+      if (existingSyms.has(sym)) return;
+      if (isJunkCoin(sym, m.name)) { console.log(`  - skip junk ${sym} (${m.name})`); return; }
       let exchanges;
       if (doCoverage && online) {
-        const t = await cgGet(`${CG}/coins/${h.cg_id}/tickers?depth=false`);
+        const t = await cgGet(`${CG}/coins/${cgId}/tickers?depth=false`);
         const ids = new Set((t.tickers || []).map((x) => x.market && x.market.identifier).filter(Boolean));
         exchanges = OUR_SLUGS.filter((s) => ids.has(Object.keys(CG_TO_SLUG).find((k) => CG_TO_SLUG[k] === s)));
         await sleep(2000);
       } else {
-        exchanges = heuristicCoverage(m.market_data.market_cap_rank, h.symbol);
+        exchanges = heuristicCoverage(m.market_data.market_cap_rank, sym);
       }
       coins.push({
-        cg_id: h.cg_id,
-        symbol: h.symbol,
+        cg_id: cgId,
+        symbol: sym,
         name: m.name,
         rank: m.market_data.market_cap_rank,
         price: m.market_data.current_price.usd,
@@ -202,13 +208,33 @@ async function main() {
         networks: [],
         last_updated: new Date().toISOString().slice(0, 10),
         coverage_source: online && doCoverage ? 'coingecko' : 'heuristic',
-        hotlist: true
+        [source]: true
       });
-      console.log(`  + hotlist ${h.symbol} (rank ${m.market_data.market_cap_rank})`);
+      existingSyms.add(sym);
+      console.log(`  + ${source} ${sym} (rank ${m.market_data.market_cap_rank})`);
     } catch (e) {
-      console.warn(`  ⚠️ hotlist ${h.symbol} fetch failed: ${e.message}`);
+      console.warn(`  ⚠️ ${source} ${cgId} fetch failed: ${e.message}`);
     }
   }
+
+  // 1) 自动 trending（搜索意图主信号）
+  let trendingIds = [];
+  try {
+    const tr = await cgGet(`${CG}/search/trending`);
+    trendingIds = (tr.coins || []).map((x) => x.item && x.item.id).filter(Boolean);
+    console.log(`  trending: ${trendingIds.length} coins`);
+  } catch (e) {
+    console.warn(`  ⚠️ trending fetch failed: ${e.message}`);
+  }
+  for (const id of trendingIds) {
+    await addCoin(id, 'trending');
+  }
+
+  // 2) HOT_COINS 硬编码兜底
+  for (const h of HOT_COINS) {
+    await addCoin(h.cg_id, 'hotlist');
+  }
+
   coins.sort((a, b) => a.rank - b.rank);
 
   const meta = {
@@ -218,7 +244,10 @@ async function main() {
     coverage_mode: doCoverage && online ? 'coingecko-tickers' : 'heuristic',
     note: doCoverage && online
       ? 'Exchange coverage verified via CoinGecko tickers.'
-      : 'Exchange coverage is INDICATIVE (rank-based heuristic). Verify on each exchange before relying on it.'
+      : 'Exchange coverage is INDICATIVE (rank-based heuristic). Verify on each exchange before relying on it.',
+    hot_strategy: 'market_cap_top_N ∪ /search/trending ∪ HOT_COINS (dedup, junk-filtered)',
+    trending_count: coins.filter((c) => c.trending).length,
+    hotlist_count: coins.filter((c) => c.hotlist).length
   };
   fs.writeFileSync(outPath, JSON.stringify({ meta, coins }, null, 2));
   console.log(`✅ Wrote ${coins.length} coins → data/coins.json (removed ${skipped} junk: stablecoins/RWA funds/bad symbols)`);
