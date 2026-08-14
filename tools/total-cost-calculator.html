@@ -27,11 +27,11 @@
   @media(max-width:640px){.grid{grid-template-columns:1fr}}
   label{display:block;font-size:13px;color:var(--sub);margin-bottom:5px;font-weight:600}
   input,select{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:9px;font-size:15px;background:#fff}
-  .tabs{display:flex;gap:4px;margin-bottom:18px;border-bottom:1px solid var(--line);overflow-x:auto}
+  .tabs{display:flex;gap:4px;margin:18px 0 16px;border-bottom:1px solid var(--line);overflow-x:auto}
   .tab{flex:1;min-width:76px;padding:10px 6px;border:none;background:transparent;border-bottom:2px solid transparent;cursor:pointer;font-weight:600;color:var(--sub);font-size:14px;white-space:nowrap}
   .tab.on{color:var(--brand);border-bottom-color:var(--brand)}
-  .btn{margin-top:16px;background:var(--brand);color:#fff;border:none;padding:12px 18px;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;width:100%}
-  .btn:hover{opacity:.92}
+  .tabpane{display:none}
+  .tabpane.on{display:block}
   table{width:100%;border-collapse:collapse;margin-top:16px;font-size:14px}
   th,td{border:1px solid var(--line);padding:10px 12px;text-align:left}
   th{background:#f1f5f9;font-weight:600;white-space:nowrap}
@@ -63,13 +63,7 @@
   </header>
 
   <div class="panel">
-    <div class="tabs">
-      <button class="tab" data-view="deposit">Deposit</button>
-      <button class="tab" data-view="trade">Trading</button>
-      <button class="tab" data-view="withdraw">Withdraw</button>
-      <button class="tab on" data-view="total">Total cost</button>
-    </div>
-
+    <!-- Common inputs: always visible -->
     <div class="grid">
       <div>
         <label for="coin">Quote currency</label>
@@ -81,49 +75,117 @@
         <input id="amount" type="number" inputmode="decimal" value="1000" min="0">
         <div class="updated" id="amountHint">≈ 1000 USDT</div>
       </div>
-      <div>
-        <label for="deposit">Deposit method</label>
-        <select id="deposit">
-          <option value="" disabled>Select deposit method</option>
-          <option value="Bank transfer">Bank transfer</option>
-          <option value="Credit/Debit card">Credit/Debit card</option>
-          <option value="P2P">P2P</option>
-          <option value="Apple Pay">Apple Pay</option>
-          <option value="Google Pay">Google Pay</option>
-          <option value="PayPal">PayPal</option>
-          <option value="Bpay">Bpay (AU)</option>
-          <option value="Wire transfer">Wire transfer</option>
-        </select>
+    </div>
+
+    <!-- 4 tabs -->
+    <div class="tabs">
+      <button class="tab on" data-view="deposit">① Deposit</button>
+      <button class="tab" data-view="trade">② Trading</button>
+      <button class="tab" data-view="withdraw">③ Withdraw</button>
+      <button class="tab" data-view="total">④ Total cost</button>
+    </div>
+
+    <!-- Deposit tab -->
+    <div class="tabpane on" data-view="deposit">
+      <div class="grid">
+        <div>
+          <label for="deposit-d">Deposit method</label>
+          <select id="deposit-d">
+            <option value="" disabled>Select deposit method</option>
+            <option value="Bank transfer">Bank transfer</option>
+            <option value="Credit/Debit card">Credit/Debit card</option>
+            <option value="P2P">P2P</option>
+            <option value="Apple Pay">Apple Pay</option>
+            <option value="Google Pay">Google Pay</option>
+            <option value="PayPal">PayPal</option>
+            <option value="Bpay">Bpay (AU)</option>
+            <option value="Wire transfer">Wire transfer</option>
+          </select>
+          <div class="updated">Pick a deposit method to compare fees across 7 exchanges.</div>
+        </div>
       </div>
-      <div>
-        <label for="order">Order type</label>
-        <select id="order">
-          <option value="taker">Taker (market order)</option>
-          <option value="maker">Maker (limit order)</option>
-        </select>
-        <div class="updated">Taker fills instantly at a higher fee; maker waits for a lower fee.</div>
+      <div id="result-d"></div>
+    </div>
+
+    <!-- Trading tab -->
+    <div class="tabpane" data-view="trade">
+      <div class="grid">
+        <div>
+          <label for="order-t">Order type</label>
+          <select id="order-t">
+            <option value="taker">Taker (market)</option>
+            <option value="maker">Maker (limit)</option>
+          </select>
+          <div class="updated">Taker fills instantly at higher fee; maker waits for lower fee.</div>
+        </div>
+        <div>
+          <label for="trades-t">Number of trades</label>
+          <input id="trades-t" type="number" inputmode="numeric" value="3" min="1">
+          <div class="updated">Estimates fee assuming each trade uses the full amount.</div>
+        </div>
       </div>
-      <div>
-        <label for="trades">Number of trades</label>
-        <input id="trades" type="number" inputmode="numeric" value="3" min="1">
-        <div class="updated">Total cost assumes each trade uses the full amount.</div>
+      <div id="result-t"></div>
+    </div>
+
+    <!-- Withdraw tab -->
+    <div class="tabpane" data-view="withdraw">
+      <div class="grid">
+        <div>
+          <label for="network-w">Withdrawal network</label>
+          <select id="network-w">
+            <option>TRC20</option><option>ERC20</option><option>BSC</option>
+            <option>SOL</option><option>Arbitrum</option><option>Base</option>
+          </select>
+          <div class="updated">Pick a network to compare USDT withdrawal fees.</div>
+        </div>
       </div>
-      <div>
-        <label for="network">Withdrawal network</label>
-        <select id="network">
-          <option>TRC20</option><option>ERC20</option><option>BSC</option>
-          <option>SOL</option><option>Arbitrum</option><option>Base</option>
-        </select>
+      <div id="result-w"></div>
+    </div>
+
+    <!-- Total cost tab: all parameters -->
+    <div class="tabpane" data-view="total">
+      <div class="grid">
+        <div>
+          <label for="deposit-a">Deposit method</label>
+          <select id="deposit-a">
+            <option value="" disabled>Select deposit method</option>
+            <option value="Bank transfer">Bank transfer</option>
+            <option value="Credit/Debit card">Credit/Debit card</option>
+            <option value="P2P">P2P</option>
+            <option value="Apple Pay">Apple Pay</option>
+            <option value="Google Pay">Google Pay</option>
+            <option value="PayPal">PayPal</option>
+            <option value="Bpay">Bpay (AU)</option>
+            <option value="Wire transfer">Wire transfer</option>
+          </select>
+        </div>
+        <div>
+          <label for="order-a">Order type</label>
+          <select id="order-a">
+            <option value="taker">Taker</option>
+            <option value="maker">Maker</option>
+          </select>
+        </div>
+        <div>
+          <label for="trades-a">Number of trades</label>
+          <input id="trades-a" type="number" inputmode="numeric" value="3" min="1">
+        </div>
+        <div>
+          <label for="network-a">Withdrawal network</label>
+          <select id="network-a">
+            <option>TRC20</option><option>ERC20</option><option>BSC</option>
+            <option>SOL</option><option>Arbitrum</option><option>Base</option>
+          </select>
+        </div>
+        <div>
+          <label for="slip-a">Price spread estimate (%)</label>
+          <input id="slip-a" type="number" inputmode="decimal" value="0.1" min="0" step="0.05">
+          <div class="updated">Major coins ~0.1%, small-caps ~1–3%.</div>
+        </div>
       </div>
-      <div>
-        <label for="slip">Price spread estimate (%)</label>
-        <input id="slip" type="number" inputmode="decimal" value="0.1" min="0" step="0.05">
-        <div class="updated">How much above market price you pay. Major coins ~0.1%, small-caps ~1–3%.</div>
-      </div>
+      <div id="result-a"></div>
     </div>
   </div>
-
-  <div id="result"></div>
 
   <div class="disclaimer">
     <p style="margin:0 0 6px"><b>① Fee snapshot</b>: last updated <span id="upd"></span> — verify each rate on the exchange's official page before trading.</p>
@@ -147,8 +209,8 @@
 <script src="../data/coin-prices.js"></script>
 <script>
 (function(){
-  var state = { deposit:"Bank transfer", coin:"USDT", usdIntent:1000, order:"taker", trades:3, view:"total" };
-  var LABEL = { depositFee:"Deposit fee", tradeFee:"Trading fee", wdFee:"Withdrawal fee", spread:"Spread", total:"Total cost", cheapest:"← cheapest", signup:"Sign up", save:"save", note:"Note" };
+  var state = { deposit:"Bank transfer", coin:"USDT", usdIntent:1000, order:"taker", trades:3, network:"TRC20", slip:0.1, view:"deposit" };
+  var LABEL = { cheapest:"← cheapest", signup:"Sign up", save:"save", note:"Note" };
   var METHOD = {
     "Bank transfer": "Bank transfer", "Credit/Debit card": "Credit/Debit card", "P2P": "P2P", "Wire transfer": "Wire transfer",
     "Apple Pay": "Apple Pay", "Google Pay": "Google Pay", "PayPal": "PayPal", "Bpay": "Bpay (AU)"
@@ -157,23 +219,65 @@
 
   document.getElementById("upd").textContent = window.EXCHANGES.kucoin.last_updated;
 
-  var dsel = document.getElementById("deposit");
-  while (dsel.options.length > 1) dsel.remove(1);
-  window.getAllDepositMethods().forEach(function(m){
-    var o = document.createElement("option"); o.value = m; o.textContent = zhMethod(m); dsel.appendChild(o);
-  });
-  dsel.value = state.deposit;
-  dsel.addEventListener("change", function(){ state.deposit = dsel.value; render(); });
+  function $(id){ return document.getElementById(id); }
+
+  var csel = $("coin");
+  var amountEl = $("amount");
+  var hintEl = $("amountHint");
+
+  var depositSel_d = $("deposit-d");
+  var orderSel_t = $("order-t");
+  var tradesIn_t = $("trades-t");
+  var networkSel_w = $("network-w");
+  var depositSel_a = $("deposit-a");
+  var orderSel_a = $("order-a");
+  var tradesIn_a = $("trades-a");
+  var networkSel_a = $("network-a");
+  var slipIn_a = $("slip-a");
+
+  function populateDeposit(sel){
+    while (sel.options.length > 1) sel.remove(1);
+    window.getAllDepositMethods().forEach(function(m){
+      var o = document.createElement("option"); o.value = m; o.textContent = zhMethod(m); sel.appendChild(o);
+    });
+  }
+  populateDeposit(depositSel_d);
+  populateDeposit(depositSel_a);
+  depositSel_d.value = state.deposit;
+  depositSel_a.value = state.deposit;
+
+  function syncDeposit(v){
+    state.deposit = v;
+    if(depositSel_d.value !== v) depositSel_d.value = v;
+    if(depositSel_a.value !== v) depositSel_a.value = v;
+  }
+  function syncOrder(v){
+    state.order = v;
+    if(orderSel_t.value !== v) orderSel_t.value = v;
+    if(orderSel_a.value !== v) orderSel_a.value = v;
+  }
+  function syncTrades(v){
+    state.trades = v;
+    if(tradesIn_t.value !== v) tradesIn_t.value = v;
+    if(tradesIn_a.value !== v) tradesIn_a.value = v;
+  }
+  function syncNetwork(v){
+    state.network = v;
+    if(networkSel_w.value !== v) networkSel_w.value = v;
+    if(networkSel_a.value !== v) networkSel_a.value = v;
+  }
+
+  depositSel_d.addEventListener("change", function(){ syncDeposit(depositSel_d.value); render(); });
+  depositSel_a.addEventListener("change", function(){ syncDeposit(depositSel_a.value); render(); });
+  orderSel_t.addEventListener("change", function(){ syncOrder(orderSel_t.value); render(); });
+  orderSel_a.addEventListener("change", function(){ syncOrder(orderSel_a.value); render(); });
+  tradesIn_t.addEventListener("input", function(){ syncTrades(parseInt(tradesIn_t.value)||1); render(); });
+  tradesIn_a.addEventListener("input", function(){ syncTrades(parseInt(tradesIn_a.value)||1); render(); });
+  networkSel_w.addEventListener("change", function(){ syncNetwork(networkSel_w.value); render(); });
+  networkSel_a.addEventListener("change", function(){ syncNetwork(networkSel_a.value); render(); });
+  slipIn_a.addEventListener("change", render);
 
   var PRICES = window.COIN_PRICES || {};
-  var MAJOR = { USDT:1, USDC:1, BTC:1, ETH:1, BNB:1, SOL:1, XRP:1 };
-  var csel = document.getElementById("coin");
-  var slipEl = document.getElementById("slip");
-  var amountEl = document.getElementById("amount");
-  var hintEl = document.getElementById("amountHint");
-  var orderEl = document.getElementById("order");
-  var tradesEl = document.getElementById("trades");
-  var netEl = document.getElementById("network");
   Object.keys(PRICES).sort(function(a,b){ return (PRICES[a].rank||9999)-(PRICES[b].rank||9999); }).forEach(function(sym){
     var o = document.createElement("option"); o.value = sym; o.textContent = sym + ' — ' + PRICES[sym].name; csel.appendChild(o);
   });
@@ -182,7 +286,6 @@
     var newPrice = (newCoin === "USDT") ? 1 : ((PRICES[newCoin] && PRICES[newCoin].price) || 0);
     if(newPrice > 0) amountEl.value = Math.round(state.usdIntent / newPrice * 100000) / 100000;
     state.coin = newCoin;
-    slipEl.value = (newCoin === "USDT" || MAJOR[newCoin]) ? 0.1 : 1;
     render();
   });
   function currentPrice(){
@@ -196,10 +299,6 @@
     hintEl.textContent = (state.coin === "USDT") ? '' : ('≈ ' + fmt(state.usdIntent) + ' USDT');
     render();
   });
-  orderEl.addEventListener("change", function(){ state.order = orderEl.value; render(); });
-  tradesEl.addEventListener("input", function(){ state.trades = parseInt(tradesEl.value)||1; render(); });
-  netEl.addEventListener("change", render);
-  slipEl.addEventListener("change", render);
 
   function fmt(n){ return n.toLocaleString(undefined,{maximumFractionDigits:2}); }
   function pct(x){ return (x*100).toFixed(2)+"%"; }
@@ -225,10 +324,15 @@
   function markBest(isBest){ return isBest ? ' <span class="best">'+LABEL.cheapest+'</span>' : ''; }
   function rowClass(isBest){ return isBest ? ' class="bestrow"' : ''; }
 
+  var resultD = $("result-d");
+  var resultT = $("result-t");
+  var resultW = $("result-w");
+  var resultA = $("result-a");
+
   function renderDeposit(){
     var amt = getAmt(), method = state.deposit;
-    if(!amt){ result.innerHTML = '<p class="warn">Enter an amount to calculate.</p>'; return; }
-    if(!method){ result.innerHTML = '<p class="warn">Select a deposit method.</p>'; return; }
+    if(!amt){ resultD.innerHTML = '<p class="warn">Enter an amount.</p>'; return; }
+    if(!method){ resultD.innerHTML = '<p class="warn">Select a deposit method.</p>'; return; }
     var rows = [], note = "", skipped = 0, total = Object.keys(window.EXCHANGES).length;
     Object.keys(window.EXCHANGES).forEach(function(slug){
       var ex = window.EXCHANGES[slug];
@@ -239,10 +343,10 @@
       rows.push({ slug:slug, name:ex.name, feeMin:feeMin, feeMax:feeMax, premium:premium, costMin:amt*feeMin+amt*premium, costMax:amt*feeMax+amt*premium });
     });
     rows.sort(function(a,b){ return (a.costMin+a.costMax)/2-(b.costMin+b.costMax)/2; });
-    var html = '<h3>Deposit cost — '+method+', '+fmt(amt)+' USDT</h3>';
+    var html = '<h3>① Deposit cost — '+method+', '+fmt(amt)+' USDT</h3>';
     if(note) html += '<p class="detail" style="margin-top:4px">Note: '+note+'</p>';
-    if(skipped>0) html += '<p class="detail" style="margin-top:4px">'+skipped+' of '+total+' exchanges don\'t support this deposit method (excluded).</p>';
-    html += tableHead(['Exchange','Deposit fee rate','Deposit fee ('+fmt(amt)+' USDT)','']);
+    if(skipped>0) html += '<p class="detail" style="margin-top:4px">'+skipped+' of '+total+' exchanges don\'t support this method.</p>';
+    html += tableHead(['Exchange','Deposit rate','Deposit fee ('+fmt(amt)+' USDT)','']);
     var min = rows.length?rows[0].costMin:0;
     rows.forEach(function(r){
       var best = (Math.abs(r.costMin-min)<0.001);
@@ -251,12 +355,12 @@
       html += '<tr'+rowClass(best)+'><td><b>'+r.name+'</b></td><td>'+feeCell+'</td><td><b>'+costCell+'</b>'+markBest(best)+'</td><td>'+ctaCell(r.slug)+'</td></tr>';
     });
     html += tableFoot();
-    result.innerHTML = html;
+    resultD.innerHTML = html;
   }
 
   function renderTrade(){
     var amt = getAmt(), trades = state.trades;
-    if(!amt){ result.innerHTML = '<p class="warn">Enter an amount to calculate.</p>'; return; }
+    if(!amt){ resultT.innerHTML = '<p class="warn">Enter an amount.</p>'; return; }
     var rows = [];
     Object.keys(window.EXCHANGES).forEach(function(slug){
       var ex = window.EXCHANGES[slug];
@@ -264,19 +368,19 @@
       rows.push({ slug:slug, name:ex.name, rate:r, cost1:amt*r, costN:amt*r*trades });
     });
     rows.sort(function(a,b){ return a.costN-b.costN; });
-    var html = '<h3>Trading cost — spot '+state.order+', '+fmt(amt)+' USDT × '+trades+' trades</h3>';
-    html += tableHead(['Exchange','Rate ('+state.order+')','Per trade',trades+' trades total','']);
+    var html = '<h3>② Trading cost — spot '+state.order+', '+fmt(amt)+' USDT × '+trades+' trades</h3>';
+    html += tableHead(['Exchange','Rate','Per trade',trades+' trades total','']);
     var min = rows.length?rows[0].costN:0;
     rows.forEach(function(r){
       var best = (Math.abs(r.costN-min)<0.001);
       html += '<tr'+rowClass(best)+'><td><b>'+r.name+'</b></td><td>'+pct(r.rate)+'</td><td>'+fmt(r.cost1)+' USDT</td><td><b>'+fmt(r.costN)+' USDT</b>'+markBest(best)+'</td><td>'+ctaCell(r.slug)+'</td></tr>';
     });
     html += tableFoot();
-    result.innerHTML = html;
+    resultT.innerHTML = html;
   }
 
   function renderWithdraw(){
-    var net = netEl.value;
+    var net = state.network;
     var rows = [];
     Object.keys(window.EXCHANGES).forEach(function(slug){
       var ex = window.EXCHANGES[slug];
@@ -284,7 +388,7 @@
       rows.push({ slug:slug, name:ex.name, fee:(fee==null)?null:fee });
     });
     rows.sort(function(a,b){ return (a.fee==null?1e9:a.fee)-(b.fee==null?1e9:b.fee); });
-    var html = '<h3>USDT withdrawal cost — '+net+' network</h3>';
+    var html = '<h3>③ USDT withdrawal cost — '+net+' network</h3>';
     html += tableHead(['Exchange','Withdrawal fee ('+net+')','']);
     var min = null; rows.forEach(function(r){ if(r.fee!=null && (min==null || r.fee<min)) min = r.fee; });
     rows.forEach(function(r){
@@ -293,13 +397,13 @@
       html += '<tr'+rowClass(best)+'><td><b>'+r.name+'</b></td><td>'+cell+'</td><td>'+ctaCell(r.slug)+'</td></tr>';
     });
     html += tableFoot();
-    result.innerHTML = html;
+    resultW.innerHTML = html;
   }
 
   function renderTotal(){
-    var amt = getAmt(), slip = (parseFloat(slipEl.value)||0)/100, net = netEl.value, method = state.deposit, trades = state.trades;
-    if(!amt){ result.innerHTML = '<p class="warn">Enter an amount to calculate.</p>'; return; }
-    if(!method){ result.innerHTML = '<p class="warn">Select a deposit method.</p>'; return; }
+    var amt = getAmt(), slip = state.slip/100, net = state.network, method = state.deposit, trades = state.trades;
+    if(!amt){ resultA.innerHTML = '<p class="warn">Enter an amount.</p>'; return; }
+    if(!method){ resultA.innerHTML = '<p class="warn">Select a deposit method.</p>'; return; }
     var rows = [], note = "", skipped = 0, totalEx = Object.keys(window.EXCHANGES).length;
     Object.keys(window.EXCHANGES).forEach(function(slug){
       var ex = window.EXCHANGES[slug];
@@ -317,9 +421,9 @@
     });
     rows.sort(function(a,b){ return a.mid-b.mid; });
     var amountLabel = (state.coin === "USDT") ? fmt(amt)+' USDT' : fmt(parseFloat(amountEl.value)||0)+' '+state.coin+' ≈ '+fmt(amt)+' USDT';
-    var html = '<h3>Total cost — '+method+' deposit '+amountLabel+', spot × '+trades+' trades, withdraw '+net+'</h3>';
+    var html = '<h3>④ Total cost — '+method+' deposit '+amountLabel+', spot × '+trades+' trades, withdraw '+net+'</h3>';
     if(note) html += '<p class="detail" style="margin-top:4px">Note: '+note+'</p>';
-    if(skipped>0) html += '<p class="detail" style="margin-top:4px">'+skipped+' of '+totalEx+' exchanges don\'t support this deposit method (excluded).</p>';
+    if(skipped>0) html += '<p class="detail" style="margin-top:4px">'+skipped+' of '+totalEx+' exchanges don\'t support this method.</p>';
     html += tableHead(['Exchange','Deposit fee','Trading fee ×'+trades,'Withdrawal','Spread','<b>Total cost</b>','']);
     var minMid = rows.length?rows[0].mid:0;
     rows.forEach(function(r){
@@ -334,12 +438,11 @@
       var diff = worstRow.mid - bestRow.mid;
       html += '<p class="intro" style="margin-top:12px;font-size:14px">For the full deposit → '+trades+' trades → withdrawal flow, the cheapest (<b>'+bestRow.name+'</b>) beats the priciest ('+worstRow.name+') by about <b class="best">'+fmt(diff)+' USDT</b> (midpoint).</p>';
     }
-    html += '<div class="formula"><b>Formula:</b><br><code>Total = deposit fee + trading fee (amount × '+pct(window.EXCHANGES.kucoin.spot[state.order])+' × '+trades+' trades) + withdrawal fee ('+net+') + spread (amount × '+pct(slip)+')</code>. Fees show a range when they vary by region/card. Snapshot <span id="upd2"></span> — verify on the exchange before trading.</div>';
-    result.innerHTML = html;
+    html += '<div class="formula"><b>Formula:</b><br><code>Total = deposit fee + trading fee (amount × '+pct(window.EXCHANGES.kucoin.spot[state.order])+' × '+trades+' trades) + withdrawal fee ('+net+') + spread (amount × '+pct(slip)+')</code>. Snapshot <span id="upd2"></span> — verify on the exchange before trading.</div>';
+    resultA.innerHTML = html;
     document.getElementById("upd2").textContent = window.EXCHANGES.kucoin.last_updated;
   }
 
-  var result = document.getElementById("result");
   function render(){
     if(state.view === "deposit") renderDeposit();
     else if(state.view === "trade") renderTrade();
@@ -352,6 +455,7 @@
       state.view = t.getAttribute("data-view");
       document.querySelectorAll(".tab").forEach(function(x){ x.classList.remove("on"); });
       t.classList.add("on");
+      document.querySelectorAll(".tabpane").forEach(function(p){ p.classList.toggle("on", p.getAttribute("data-view") === state.view); });
       render();
     });
   });
