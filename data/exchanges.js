@@ -192,9 +192,9 @@ window.getAllDepositMethods = function () {
 // 费率/提币/入金 从 EXCHANGES 读；币种数/流动性/信任/安全/KYC/牌照/储备率/冷存储/事件 在此
 window.EXCHANGE_COMPARE = {
   "kucoin": {
-    "coins": 1027, "volume": "≈$0.66B", "trust": 9, "security": 9,
+    "coins": 1027, "volume": "≈$0.66B", "trust": 9, "security": 8,
     "kyc": "Mandatory", "licenses": "Seychelles + UAE + EU (MiCA)",
-    "reserve": ">105%", "cold": "90%+", "incident": "No major hack"
+    "reserve": ">105%", "cold": "90%+", "incident": "2020 $281M hack (fully compensated)"
   },
   "binance": {
     "coins": 820, "volume": "≈$5.2B", "trust": 10, "security": 9,
