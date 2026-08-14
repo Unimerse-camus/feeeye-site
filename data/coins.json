@@ -474,7 +474,7 @@
       "symbol": "SHIB",
       "name": "Shiba Inu",
       "rank": 36,
-      "price": 0.00000442,
+      "price": 4.42e-06,
       "market_cap": 2604059449,
       "exchanges": [
         "kucoin",
@@ -625,7 +625,7 @@
       "symbol": "HTX",
       "name": "HTX DAO",
       "rank": 45,
-      "price": 0.00000183,
+      "price": 1.83e-06,
       "market_cap": 1639280282,
       "exchanges": [
         "kucoin",
@@ -847,7 +847,7 @@
       "symbol": "PEPE",
       "name": "Pepe",
       "rank": 63,
-      "price": 0.00000271,
+      "price": 2.71e-06,
       "market_cap": 1140625921,
       "exchanges": [
         "kucoin",
@@ -1138,6 +1138,20 @@
       "coverage_source": "coingecko"
     },
     {
+      "cg_id": "bitway",
+      "symbol": "BTW",
+      "name": "Bitway",
+      "rank": 86,
+      "price": 0.236892,
+      "market_cap": 642901276,
+      "exchanges": [
+        "bitget"
+      ],
+      "networks": [],
+      "last_updated": "2026-08-13",
+      "coverage_source": "coingecko"
+    },
+    {
       "cg_id": "render-token",
       "symbol": "RENDER",
       "name": "Render",
@@ -1152,20 +1166,6 @@
         "bitget",
         "kraken",
         "coinbase"
-      ],
-      "networks": [],
-      "last_updated": "2026-08-13",
-      "coverage_source": "coingecko"
-    },
-    {
-      "cg_id": "bitway",
-      "symbol": "BTW",
-      "name": "Bitway",
-      "rank": 86,
-      "price": 0.236892,
-      "market_cap": 642901276,
-      "exchanges": [
-        "bitget"
       ],
       "networks": [],
       "last_updated": "2026-08-13",
@@ -1605,20 +1605,6 @@
       "coverage_source": "coingecko"
     },
     {
-      "cg_id": "antfun",
-      "symbol": "ANTFUN",
-      "name": "AntFun",
-      "rank": 137,
-      "price": 0.0416488,
-      "market_cap": 314555893,
-      "exchanges": [
-        "kucoin"
-      ],
-      "networks": [],
-      "last_updated": "2026-08-13",
-      "coverage_source": "coingecko"
-    },
-    {
       "cg_id": "apxusd",
       "symbol": "APXUSD",
       "name": "apxUSD",
@@ -1681,6 +1667,25 @@
       "coverage_source": "coingecko"
     },
     {
+      "cg_id": "midnight-3",
+      "symbol": "NIGHT",
+      "name": "Midnight",
+      "rank": 125,
+      "price": 0.01786864,
+      "market_cap": 296903854,
+      "exchanges": [
+        "kucoin",
+        "binance",
+        "okx",
+        "bybit",
+        "bitget",
+        "kraken"
+      ],
+      "networks": [],
+      "last_updated": "2026-08-13",
+      "coverage_source": "coingecko"
+    },
+    {
       "cg_id": "jito-governance-token",
       "symbol": "JTO",
       "name": "Jito",
@@ -1695,25 +1700,6 @@
         "bitget",
         "kraken",
         "coinbase"
-      ],
-      "networks": [],
-      "last_updated": "2026-08-13",
-      "coverage_source": "coingecko"
-    },
-    {
-      "cg_id": "midnight-3",
-      "symbol": "NIGHT",
-      "name": "Midnight",
-      "rank": 125,
-      "price": 0.01786864,
-      "market_cap": 296903854,
-      "exchanges": [
-        "kucoin",
-        "binance",
-        "okx",
-        "bybit",
-        "bitget",
-        "kraken"
       ],
       "networks": [],
       "last_updated": "2026-08-13",
@@ -1820,7 +1806,7 @@
       "symbol": "NFT",
       "name": "AINFT",
       "rank": 133,
-      "price": 2.80719e-7,
+      "price": 2.80719e-07,
       "market_cap": 278159260,
       "exchanges": [
         "kucoin",
@@ -1874,7 +1860,7 @@
       "symbol": "LUNC",
       "name": "Terra Luna Classic",
       "rank": 136,
-      "price": 0.00004936,
+      "price": 4.936e-05,
       "market_cap": 272498294,
       "exchanges": [
         "kucoin",
@@ -1888,13 +1874,15 @@
       "coverage_source": "coingecko"
     },
     {
-      "cg_id": "quantixai",
-      "symbol": "QFI",
-      "name": "Quantix Finance",
-      "rank": 211,
-      "price": 53.34,
-      "market_cap": 266668648,
-      "exchanges": [],
+      "cg_id": "antfun",
+      "symbol": "ANTFUN",
+      "name": "AntFun",
+      "rank": 137,
+      "price": 0.0416488,
+      "market_cap": 314555893,
+      "exchanges": [
+        "kucoin"
+      ],
       "networks": [],
       "last_updated": "2026-08-13",
       "coverage_source": "coingecko"
@@ -1919,7 +1907,7 @@
       "symbol": "BTT",
       "name": "BitTorrent",
       "rank": 139,
-      "price": 2.61146e-7,
+      "price": 2.61146e-07,
       "market_cap": 257991836,
       "exchanges": [
         "kucoin",
@@ -2034,22 +2022,6 @@
       "coverage_source": "coingecko"
     },
     {
-      "cg_id": "quack-ai",
-      "symbol": "Q",
-      "name": "Quack AI",
-      "rank": 271,
-      "price": 0.02287347,
-      "market_cap": 228730345,
-      "exchanges": [
-        "kucoin",
-        "bitget",
-        "kraken"
-      ],
-      "networks": [],
-      "last_updated": "2026-08-13",
-      "coverage_source": "coingecko"
-    },
-    {
       "cg_id": "pendle",
       "symbol": "PENDLE",
       "name": "Pendle",
@@ -2080,6 +2052,118 @@
         "kucoin",
         "binance",
         "okx",
+        "bitget",
+        "kraken"
+      ],
+      "networks": [],
+      "last_updated": "2026-08-13",
+      "coverage_source": "coingecko"
+    },
+    {
+      "cg_id": "bonk",
+      "symbol": "BONK",
+      "name": "Bonk",
+      "rank": 158,
+      "price": 2.33e-06,
+      "market_cap": 205280013,
+      "exchanges": [
+        "kucoin",
+        "binance",
+        "okx",
+        "bybit",
+        "bitget",
+        "kraken",
+        "coinbase"
+      ],
+      "networks": [],
+      "last_updated": "2026-08-14",
+      "coverage_source": "coingecko",
+      "hotlist": true
+    },
+    {
+      "cg_id": "optimism",
+      "symbol": "OP",
+      "name": "Optimism",
+      "rank": 160,
+      "price": 0.0881,
+      "market_cap": 201601078,
+      "exchanges": [
+        "kucoin",
+        "binance",
+        "okx",
+        "bybit",
+        "bitget",
+        "kraken",
+        "coinbase"
+      ],
+      "networks": [],
+      "last_updated": "2026-08-14",
+      "coverage_source": "coingecko",
+      "hotlist": true
+    },
+    {
+      "cg_id": "floki",
+      "symbol": "FLOKI",
+      "name": "FLOKI",
+      "rank": 163,
+      "price": 2.045e-05,
+      "market_cap": 197402561,
+      "exchanges": [
+        "kucoin",
+        "binance",
+        "okx",
+        "bybit",
+        "bitget",
+        "kraken",
+        "coinbase"
+      ],
+      "networks": [],
+      "last_updated": "2026-08-14",
+      "coverage_source": "coingecko",
+      "hotlist": true
+    },
+    {
+      "cg_id": "dogwifcoin",
+      "symbol": "WIF",
+      "name": "dogwifhat",
+      "rank": 207,
+      "price": 0.137127,
+      "market_cap": 136965677,
+      "exchanges": [
+        "kucoin",
+        "binance",
+        "okx",
+        "bybit",
+        "bitget",
+        "kraken",
+        "coinbase"
+      ],
+      "networks": [],
+      "last_updated": "2026-08-14",
+      "coverage_source": "coingecko",
+      "hotlist": true
+    },
+    {
+      "cg_id": "quantixai",
+      "symbol": "QFI",
+      "name": "Quantix Finance",
+      "rank": 211,
+      "price": 53.34,
+      "market_cap": 266668648,
+      "exchanges": [],
+      "networks": [],
+      "last_updated": "2026-08-13",
+      "coverage_source": "coingecko"
+    },
+    {
+      "cg_id": "quack-ai",
+      "symbol": "Q",
+      "name": "Quack AI",
+      "rank": 271,
+      "price": 0.02287347,
+      "market_cap": 228730345,
+      "exchanges": [
+        "kucoin",
         "bitget",
         "kraken"
       ],

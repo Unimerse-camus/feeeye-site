@@ -116,6 +116,15 @@ function isJunkCoin(symbol, name) {
   return false;
 }
 
+// 热门币白名单：市值排名可能 > Top 阈值，但搜索意图高（meme/L2 生态）。
+// 在拉取 Top N 后额外补充这些币，保证"用户会搜的币"一定在列表里。
+const HOT_COINS = [
+  { cg_id: 'dogwifcoin', symbol: 'WIF' },
+  { cg_id: 'bonk', symbol: 'BONK' },
+  { cg_id: 'optimism', symbol: 'OP' },
+  { cg_id: 'floki', symbol: 'FLOKI' }
+];
+
 async function main() {
   console.log(`🔄 Fetching top ${TOP} coins from CoinGecko...`);
   const markets = [];
@@ -166,6 +175,41 @@ async function main() {
       coverage_source: online && doCoverage ? 'coingecko' : 'heuristic'
     });
   }
+
+  // 补充热门币白名单（市值排名可能 > TOP，但搜索意图高）
+  const existingSyms = new Set(coins.map((c) => c.symbol));
+  for (const h of HOT_COINS) {
+    if (existingSyms.has(h.symbol)) continue;
+    try {
+      const m = await cgGet(`${CG}/coins/${h.cg_id}?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false`);
+      let exchanges;
+      if (doCoverage && online) {
+        const t = await cgGet(`${CG}/coins/${h.cg_id}/tickers?depth=false`);
+        const ids = new Set((t.tickers || []).map((x) => x.market && x.market.identifier).filter(Boolean));
+        exchanges = OUR_SLUGS.filter((s) => ids.has(Object.keys(CG_TO_SLUG).find((k) => CG_TO_SLUG[k] === s)));
+        await sleep(2000);
+      } else {
+        exchanges = heuristicCoverage(m.market_data.market_cap_rank, h.symbol);
+      }
+      coins.push({
+        cg_id: h.cg_id,
+        symbol: h.symbol,
+        name: m.name,
+        rank: m.market_data.market_cap_rank,
+        price: m.market_data.current_price.usd,
+        market_cap: m.market_data.market_cap.usd,
+        exchanges,
+        networks: [],
+        last_updated: new Date().toISOString().slice(0, 10),
+        coverage_source: online && doCoverage ? 'coingecko' : 'heuristic',
+        hotlist: true
+      });
+      console.log(`  + hotlist ${h.symbol} (rank ${m.market_data.market_cap_rank})`);
+    } catch (e) {
+      console.warn(`  ⚠️ hotlist ${h.symbol} fetch failed: ${e.message}`);
+    }
+  }
+  coins.sort((a, b) => a.rank - b.rank);
 
   const meta = {
     source: 'CoinGecko',
