@@ -131,10 +131,7 @@
       <div class="grid">
         <div>
           <label for="network-w">提币网络</label>
-          <select id="network-w">
-            <option>TRC20</option><option>ERC20</option><option>BSC</option>
-            <option>SOL</option><option>Arbitrum</option><option>Base</option>
-          </select>
+          <select id="network-w"></select>
           <div class="updated">选链，对比主流交易所的 USDT 提币费。</div>
         </div>
       </div>
@@ -171,10 +168,7 @@
         </div>
         <div>
           <label for="network-a">提币网络</label>
-          <select id="network-a">
-            <option>TRC20</option><option>ERC20</option><option>BSC</option>
-            <option>SOL</option><option>Arbitrum</option><option>Base</option>
-          </select>
+          <select id="network-a"></select>
         </div>
         <div>
           <label for="slip-a">价格价差估算（%）</label>
@@ -259,6 +253,33 @@
   }
   populateDeposit(depositSel_d);
   populateDeposit(depositSel_a);
+  // 数据驱动：合并所有所的 usdt_withdrawal 字段，去重后生成 USDT 提币网络下拉
+  function getAllNetworks(){
+    var count = {};
+    Object.keys(window.EXCHANGES).forEach(function(slug){
+      Object.keys((window.EXCHANGES[slug] && window.EXCHANGES[slug].usdt_withdrawal) || {}).forEach(function(n){
+        count[n] = (count[n]||0) + 1;
+      });
+    });
+    var priority = ['TRC20','ERC20','BSC','SOL','Arbitrum','Base','Optimism','Polygon','TON','NEAR','Avalanche','PLASMA','Linea','Scroll'];
+    return Object.keys(count).sort(function(a,b){
+      var pa = priority.indexOf(a), pb = priority.indexOf(b);
+      if(pa === -1 && pb === -1) return a.localeCompare(b);
+      if(pa === -1) return 1;
+      if(pb === -1) return -1;
+      return pa - pb;
+    });
+  }
+  function populateNetwork(sel){
+    while (sel.options.length > 0) sel.remove(0);
+    getAllNetworks().forEach(function(n){
+      var o = document.createElement("option"); o.value = n; o.textContent = n; sel.appendChild(o);
+    });
+  }
+  populateNetwork(networkSel_w);
+  populateNetwork(networkSel_a);
+  networkSel_w.value = state.network;
+  networkSel_a.value = state.network;
   depositSel_d.value = state.deposit;
   depositSel_a.value = state.deposit;
 
