@@ -126,6 +126,25 @@ const HOT_COINS = [
   { cg_id: 'floki', symbol: 'FLOKI' }
 ];
 
+// 币种分类映射：CoinGecko 的 categories 是细粒度英文数组，映射成中性大类 key。
+// 优先级从最具体到最泛；第一个命中的即为主分类，都不命中归 'other'。
+const CATEGORY_PRIORITY = [
+  { re: /stablecoin|fiat-backed|wrapped.*usd/i, cat: 'stable' },
+  { re: /meme/i, cat: 'meme' },
+  { re: /real world asset|rwa|tokenized/i, cat: 'rwa' },
+  { re: /exchange-based|centralized exchange|\bcex\b/i, cat: 'exchange' },
+  { re: /defi|dex|lending|yield|liquid staking|restaking|derivatives|perpetuals/i, cat: 'defi' },
+  { re: /layer 1|layer 2|smart contract platform|ecosystem/i, cat: 'l1' }
+];
+
+function mapCategory(categories) {
+  if (!Array.isArray(categories)) return 'other';
+  for (const p of CATEGORY_PRIORITY) {
+    if (categories.some((c) => p.re.test(c))) return p.cat;
+  }
+  return 'other';
+}
+
 async function main() {
   console.log(`🔄 Fetching top ${TOP} coins from CoinGecko...`);
   const markets = [];
@@ -163,6 +182,17 @@ async function main() {
     } else {
       exchanges = heuristicCoverage(m.market_cap_rank, sym);
     }
+    // 分类：独立拉取 categories，失败不影响主流程（保持 'other'）
+    let category = 'other';
+    if (online) {
+      try {
+        const d = await cgGet(`${CG}/coins/${m.id}?localization=false&tickers=false&market_data=false&community_data=false&developer_data=false`);
+        category = mapCategory(d.categories || []);
+        await sleep(1200);
+      } catch (e) {
+        /* categories 拉取失败，忽略，category 保持 other */
+      }
+    }
     coins.push({
       cg_id: m.id,
       symbol: sym,
@@ -171,6 +201,7 @@ async function main() {
       price: m.current_price,
       market_cap: m.market_cap,
       exchanges,
+      category,
       networks: [],
       last_updated: new Date().toISOString().slice(0, 10),
       coverage_source: online && doCoverage ? 'coingecko' : 'heuristic'
@@ -205,6 +236,7 @@ async function main() {
         price: m.market_data.current_price.usd,
         market_cap: m.market_data.market_cap.usd,
         exchanges,
+        category: mapCategory(m.categories || []),
         networks: [],
         last_updated: new Date().toISOString().slice(0, 10),
         coverage_source: online && doCoverage ? 'coingecko' : 'heuristic',

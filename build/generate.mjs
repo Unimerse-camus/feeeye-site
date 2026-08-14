@@ -38,24 +38,25 @@ const getFee = ctx.window.getUsdtWithdrawalFee;
 const UPD = EX.kucoin.last_updated;
 const RESTRICTED_LABEL = ['US', 'CN', 'HK', 'SG'].join(', ');
 
-// 币种分类（首页 Popular tokens 分组用）。人工维护热门币，覆盖前 60 名左右；其余归"其他"。
-// 远期：可接 CoinGecko categories 自动标注全部 121 币。
-const COIN_CATEGORY = {
-  en: {
-    'Layer 1 / Smart Contracts': ['BTC','ETH','BNB','XRP','SOL','ADA','AVAX','DOT','NEAR','SUI','APT','TON','LINK','HBAR','TRX','BCH','LTC','XLM','XMR','ZEC'],
-    'Meme': ['PEPE','DOGE','SHIB','BONK','FLOKI','WIF'],
-    'Exchange Token': ['LEO','OKB','CRO','KCS','BGB'],
-    'DeFi / DEX': ['UNI','HYPE'],
-    'RWA / Tokenized': ['PAXG','XAUT','USYC']
-  },
-  zh: {
-    '公链': ['BTC','ETH','BNB','XRP','SOL','ADA','AVAX','DOT','NEAR','SUI','APT','TON','LINK','HBAR','TRX','BCH','LTC','XLM','XMR','ZEC'],
-    'Meme': ['PEPE','DOGE','SHIB','BONK','FLOKI','WIF'],
-    '平台币': ['LEO','OKB','CRO','KCS','BGB'],
-    'DeFi/DEX': ['UNI','HYPE'],
-    'RWA/代币化资产': ['PAXG','XAUT','USYC']
-  }
+// 币种分类：coins.json 的 category 字段（fetch_coins.mjs 从 CoinGecko categories 映射）→ 显示文字。
+// 中性 key 排序 + 双语标签。coins.json 无 category 时回退 'other'。
+const CATEGORY_LABEL = {
+  en: { l1: 'Layer 1 / Smart Contracts', meme: 'Meme', exchange: 'Exchange Token', rwa: 'RWA / Tokenized', defi: 'DeFi / DEX', stable: 'Stablecoin', other: 'Other' },
+  zh: { l1: '公链', meme: 'Meme', exchange: '平台币', rwa: 'RWA/代币化资产', defi: 'DeFi/DEX', stable: '稳定币', other: '其他' }
 };
+const CATEGORY_ORDER = ['l1', 'meme', 'exchange', 'rwa', 'defi', 'stable', 'other'];
+// 兜底：coins.json 尚无 category 字段时，用人工字典按 symbol 归类（热门币）。
+// 一旦 fetch 拉取 category 后，此字典自动失效（category 字段优先）。
+const COIN_CATEGORY_FALLBACK = {
+  BTC: 'l1', ETH: 'l1', BNB: 'l1', XRP: 'l1', SOL: 'l1', ADA: 'l1', AVAX: 'l1', DOT: 'l1', NEAR: 'l1', SUI: 'l1', APT: 'l1', TON: 'l1', LINK: 'l1', HBAR: 'l1', TRX: 'l1', BCH: 'l1', LTC: 'l1', XLM: 'l1', XMR: 'l1', ZEC: 'l1',
+  DOGE: 'meme', SHIB: 'meme', PEPE: 'meme', BONK: 'meme', FLOKI: 'meme', WIF: 'meme',
+  LEO: 'exchange', OKB: 'exchange', CRO: 'exchange', KCS: 'exchange', BGB: 'exchange',
+  UNI: 'defi', HYPE: 'defi',
+  PAXG: 'rwa', XAUT: 'rwa', USYC: 'rwa'
+};
+function catOf(c) {
+  return (c.category && c.category !== 'other') ? c.category : (COIN_CATEGORY_FALLBACK[c.symbol] || 'other');
+}
 
 // CTA 链接规则：有 affiliate 用 affiliate（rel=sponsored nofollow），否则用官网（rel=noopener）
 function linkFor(slug) {
@@ -109,6 +110,7 @@ if (fs.existsSync(coinJsonPath)) {
     rank: c.rank,
     price: c.price,
     market_cap: c.market_cap,
+    category: c.category || 'other',
     exchanges: (c.exchanges && c.exchanges.length) ? c.exchanges : heuristicCoverage(c.rank, c.symbol)
   }));
 } else {
@@ -505,24 +507,22 @@ function countryPage(cc, lang) {
 
 function indexPage(lang) {
   const p = (rel) => absPath(lang, rel);
-  // 热门币按 category 分组（公链/Meme/平台币/DeFi/RWA/其他）
+  // 热门币按 category 分组（coins.json 的 category 字段，fetch 时从 CoinGecko categories 映射）
   const sorted = [...COIN_LIST].sort((a, b) => a.rank - b.rank).slice(0, 60);
-  const cats = COIN_CATEGORY[lang];
-  const placed = new Set();
+  const labels = CATEGORY_LABEL[lang];
+  const groups = {};
+  sorted.forEach((c) => {
+    const cat = catOf(c);
+    if (!groups[cat]) groups[cat] = [];
+    groups[cat].push(c);
+  });
   let groupedHtml = '';
-  for (const [cat, symbols] of Object.entries(cats)) {
-    const group = sorted.filter((c) => symbols.includes(c.symbol));
-    if (!group.length) continue;
-    group.forEach((c) => placed.add(c.symbol));
+  CATEGORY_ORDER.forEach((cat) => {
+    const group = groups[cat];
+    if (!group || !group.length) return;
     const pills = group.map((c) => `<a class="pill" href="${p('where-to-buy/' + c.symbol.toLowerCase() + '.html')}">${esc(c.name)} (${esc(c.symbol)})</a>`).join('');
-    groupedHtml += `<div class="cat-group"><div class="cat-label">${esc(cat)}</div><div class="pills">${pills}</div></div>`;
-  }
-  // 未分类的币（前 60 内）归"其他"
-  const others = sorted.filter((c) => !placed.has(c.symbol));
-  if (others.length) {
-    const pills = others.map((c) => `<a class="pill" href="${p('where-to-buy/' + c.symbol.toLowerCase() + '.html')}">${esc(c.name)} (${esc(c.symbol)})</a>`).join('');
-    groupedHtml += `<div class="cat-group"><div class="cat-label">${lang === 'zh' ? '其他' : 'Other'}</div><div class="pills">${pills}</div></div>`;
-  }
+    groupedHtml += `<div class="cat-group"><div class="cat-label">${esc(labels[cat])}</div><div class="pills">${pills}</div></div>`;
+  });
   const body = `
   <h1>${esc(T(lang, 'idxH1'))}</h1>
   <p class="intro">${esc(T(lang, 'idxIntro', { c: coinCount, e: Object.keys(EX).length }))}</p>
