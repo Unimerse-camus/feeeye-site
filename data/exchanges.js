@@ -88,6 +88,7 @@ window.EXCHANGES = {
     "slug": "okx",
     "name": "OKX",
     "official_url": "https://www.okx.com",
+    "affiliate_link": "https://www.okx.com/account/register?channelid=1897959",
     "spot":      { "maker": 0.0008, "taker": 0.0010 },
     "futures":   { "maker": 0.0002, "taker": 0.0005 },
     "usdt_withdrawal": { "TRC20": 1.0, "ERC20": 10.0, "BSC": 0.5, "SOL": 0.05, "Arbitrum": 0.1, "Base": 0.1, "Optimism": 0.1, "Polygon": 0.2 },
