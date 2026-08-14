@@ -170,11 +170,6 @@
           <label for="network-a">提币网络</label>
           <select id="network-a"></select>
         </div>
-        <div>
-          <label for="slip-a">价格价差估算（%）</label>
-          <input id="slip-a" type="number" inputmode="decimal" value="0.1" min="0" step="0.05">
-          <div class="updated">主流币约 0.1%，小市值币约 1–3%。</div>
-        </div>
       </div>
       <div id="result-a"></div>
     </div>
@@ -202,7 +197,7 @@
 <script src="../data/coin-prices.js"></script>
 <script>
 (function(){
-  var state = { deposit:"Bank transfer", coin:"USDT", usdIntent:1000, order:"taker", trades:3, network:"TRC20", slip:0.1, view:"deposit" };
+  var state = { deposit:"Bank transfer", coin:"USDT", usdIntent:1000, order:"taker", trades:3, network:"TRC20", view:"deposit" };
   var LABEL = { cheapest:"← 最低", signup:"注册", save:"节省", note:"备注" };
   var DYNAMIC_NET = { ERC20: true };
   var METHOD_ZH = {
@@ -242,7 +237,6 @@
   var orderSel_a = $("order-a");
   var tradesIn_a = $("trades-a");
   var networkSel_a = $("network-a");
-  var slipIn_a = $("slip-a");
 
   // 入金方式下拉（数据驱动覆盖，两个 tab 都同步）
   function populateDeposit(sel){
@@ -313,7 +307,6 @@
   tradesIn_a.addEventListener("input", function(){ syncTrades(parseInt(tradesIn_a.value)||1); render(); });
   networkSel_w.addEventListener("change", function(){ syncNetwork(networkSel_w.value); render(); });
   networkSel_a.addEventListener("change", function(){ syncNetwork(networkSel_a.value); render(); });
-  slipIn_a.addEventListener("change", render);
 
   // 币种计价
   var PRICES = window.COIN_PRICES || {};
@@ -446,7 +439,7 @@
   }
 
   function renderTotal(){
-    var amt = getAmt(), slip = state.slip/100, net = state.network, method = state.deposit, trades = state.trades;
+    var amt = getAmt(), net = state.network, method = state.deposit, trades = state.trades;
     if(!amt){ resultA.innerHTML = '<p class="warn">请输入金额。</p>'; return; }
     if(!method){ resultA.innerHTML = '<p class="warn">请选择入金方式。</p>'; return; }
     var rows = [], note = "", skipped = 0;
@@ -459,24 +452,23 @@
       var depMin = amt*feeMin + amt*premium, depMax = amt*feeMax + amt*premium;
       var tradeCost = amt * ex.spot[state.order] * trades;
       var wdCost = window.getUsdtWithdrawalFee(slug, net)||0;
-      var spreadCost = amt * slip;
-      var totalMin = depMin + tradeCost + wdCost + spreadCost;
-      var totalMax = depMax + tradeCost + wdCost + spreadCost;
-      rows.push({ slug:slug, name:ex.name, depMin:depMin, depMax:depMax, tradeCost:tradeCost, wdCost:wdCost, spreadCost:spreadCost, totalMin:totalMin, totalMax:totalMax, mid:(totalMin+totalMax)/2 });
+      var totalMin = depMin + tradeCost + wdCost;
+      var totalMax = depMax + tradeCost + wdCost;
+      rows.push({ slug:slug, name:ex.name, depMin:depMin, depMax:depMax, tradeCost:tradeCost, wdCost:wdCost, totalMin:totalMin, totalMax:totalMax, mid:(totalMin+totalMax)/2 });
     });
     rows.sort(function(a,b){ return a.mid-b.mid; });
     var amountLabel = (state.coin === "USDT") ? fmt(amt)+' USDT' : fmt(parseFloat(amountEl.value)||0)+' '+state.coin+' ≈ '+fmt(amt)+' USDT';
     var html = '<h3>④ 全成本对比 —— '+zhMethod(method)+'入金 '+amountLabel+'，现货 '+trades+' 次，提币 '+net+'</h3>';
     if(note) html += '<p class="detail" style="margin-top:4px">'+LABEL.note+'：'+zhNote(note)+'</p>';
     if(skipped>0) html += '<p class="detail" style="margin-top:4px">'+skipped+' 家交易所不支持此入金方式。</p>';
-    html += tableHead(['交易所','入金费','交易费 ×'+trades,'提币费','价差','<b>总成本</b>','']);
+    html += tableHead(['交易所','入金费','交易费 ×'+trades,'提币费','<b>总成本</b>','']);
     var minMid = rows.length?rows[0].mid:0;
     var minCount = rows.length ? rows.filter(function(r){return r.mid>0 && Math.abs(r.mid-minMid)<0.001;}).length : 0;
     rows.forEach(function(r){
       var best = (minCount===1 && r.mid>0 && Math.abs(r.mid-minMid)<0.001);
       var depCell = (r.depMin===r.depMax) ? fmt(r.depMin)+' USDT' : fmt(r.depMin)+'–'+fmt(r.depMax)+' USDT';
       var totalCell = (r.totalMin===r.totalMax) ? '<b>'+fmt(r.totalMin)+' USDT</b>' : '<b>'+fmt(r.totalMin)+'–'+fmt(r.totalMax)+' USDT</b>';
-      html += '<tr'+rowClass(best)+'><td><b>'+r.name+'</b></td><td>'+depCell+'</td><td>'+fmt(r.tradeCost)+' USDT</td><td>'+fmt(r.wdCost)+' USDT</td><td>'+fmt(r.spreadCost)+' USDT</td><td>'+totalCell+markBest(best)+'</td><td>'+ctaCell(r.slug)+'</td></tr>';
+      html += '<tr'+rowClass(best)+'><td><b>'+r.name+'</b></td><td>'+depCell+'</td><td>'+fmt(r.tradeCost)+' USDT</td><td>'+fmt(r.wdCost)+' USDT</td><td>'+totalCell+markBest(best)+'</td><td>'+ctaCell(r.slug)+'</td></tr>';
     });
     html += tableFoot();
     var bestRow = rows[0], worstRow = rows[rows.length-1];
@@ -484,7 +476,7 @@
       var diff = worstRow.mid - bestRow.mid;
       html += '<p class="intro" style="margin-top:12px;font-size:14px">走完「入金 → 交易 '+trades+' 次 → 提币」全流程，最便宜（<b>'+bestRow.name+'</b>）比最贵（'+worstRow.name+'）约<b class="best">'+LABEL.save+' '+fmt(diff)+' USDT</b>（取区间中值）。</p>';
     }
-    html += '<div class="formula"><b>计算方式：</b><br><code>总成本 = 入金费 + 交易费（金额 × '+pct(window.EXCHANGES.kucoin.spot[state.order])+' × '+trades+' 次）+ 提币费（'+net+'）+ 价差（金额 × '+pct(slip)+'）</code>。费率随地区/卡种浮动时显示区间。快照 <span id="upd2"></span>——交易前请以交易所实时显示为准。</div>';
+    html += '<div class="formula"><b>计算方式：</b><br><code>总成本 = 入金费 + 交易费（金额 × '+pct(window.EXCHANGES.kucoin.spot[state.order])+' × '+trades+' 次）+ 提币费（'+net+'）</code>。费率随地区/卡种浮动时显示区间。快照 <span id="upd2"></span>——交易前请以交易所实时显示为准。</div>';
     resultA.innerHTML = html;
     document.getElementById("upd2").textContent = window.EXCHANGES.kucoin.last_updated;
   }
