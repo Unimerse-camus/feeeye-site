@@ -16,10 +16,10 @@
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;font-size:15px}
   .wrap{max-width:880px;margin:0 auto;padding:22px 18px 60px}
-  header{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);padding:6px 0 14px;margin-bottom:20px;flex-wrap:wrap}
+  header nav{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);padding:6px 0 14px;margin-bottom:20px;flex-wrap:wrap}
   h1{font-size:25px;margin-bottom:6px}
   .intro{color:var(--sub);margin-bottom:18px}
-  .logo{display:flex;align-items:center;gap:8px;font-weight:800;color:#2563eb;font-size:18px}
+  .logo{display:flex;align-items:center;gap:8px;font-weight:800;color:var(--brand);font-size:18px}
   .logo img{height:26px;width:26px;border-radius:7px;display:block}
   .langlink{float:right;font-size:13px;color:var(--brand);text-decoration:none;font-weight:600}
   .disclaimer{margin:14px 0;font-size:14px;color:var(--ink)}
@@ -53,10 +53,7 @@
 </head>
 <body>
 <div class="wrap">
-  <header>
-    <span class="logo"><a href="/zh/" aria-label="FeeEye 首页" style="display:flex;align-items:center;gap:8px;color:inherit;text-decoration:none"><img src="/assets/logo.svg" alt="FeeEye" width="26" height="26">FeeEye</a></span>
-    <a href="fee-calculator.html" style="font-size:13px;color:#2563eb;text-decoration:none;font-weight:600">English ↗</a>
-  </header>
+  <header><nav><a class="logo" href="/zh/" aria-label="FeeEye 首页"><img src="/assets/logo.svg" alt="FeeEye" width="26" height="26">FeeEye</a><span><a href="fee-calculator.html">English</a></span></nav></header>
 
   <h1>加密货币手续费计算器</h1>
   <p class="intro">对比主流交易所的交易与提币费率——免费、无需注册。</p>
