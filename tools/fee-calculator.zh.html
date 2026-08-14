@@ -254,7 +254,7 @@ document.getElementById("upd").textContent = window.EXCHANGES.kucoin.last_update
         var cb = (b.dm.fee||0) + (b.dm.premium||0);
         return ca - cb;
       });
-      html += '<table><thead><tr><th>'+LABEL.exchange+'</th><th>'+method+' '+LABEL.rate+'</th><th>'+LABEL.estCost+'（'+amt+' USDT）</th><th></th></tr></thead><tbody>';
+      html += '<table><thead><tr><th>'+LABEL.exchange+'</th><th>'+zhMethod(method)+' '+LABEL.rate+'</th><th>'+LABEL.estCost+'（'+amt+' USDT）</th><th></th></tr></thead><tbody>';
       rows.forEach(function(r){
         if(!r.methodSupported){
           html += '<tr><td><b>'+r.name+'</b></td><td colspan="2" class="na">'+method+' '+LABEL.noMethod+'</td><td>'+ctaCell(r.slug)+'</td></tr>';
