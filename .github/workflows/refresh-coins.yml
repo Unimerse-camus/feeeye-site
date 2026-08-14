@@ -25,8 +25,9 @@ jobs:
           node-version: 20
 
       # --top 150：≤150 才抓逐币 tickers（真实覆盖）；250 会退回启发式
+      # 收录策略 = 市值 Top150 ∪ /search/trending（自动捕获新热门币）∪ HOT_COINS 兜底
       # COINGECKO_API_KEY：仓库 Secret（Demo key），大幅降低 429 限流
-      - name: Fetch CoinGecko data (top 150, real exchange coverage)
+      - name: Fetch CoinGecko data (top 150 + trending + hotlist)
         env:
           COINGECKO_API_KEY: ${{ secrets.COINGECKO_API_KEY }}
         run: node build/fetch_coins.mjs --top 150
