@@ -43,6 +43,10 @@
   .foot{color:var(--sub);font-size:12px;margin-top:18px;text-align:center}
   .num{font-variant-numeric:tabular-nums;font-feature-settings:"tnum"}
   .scroll{overflow-x:auto}
+  .scroll table th:first-child,.scroll table td:first-child{position:sticky;left:0;z-index:1;background:var(--card);border-right:1px solid var(--line)}
+  .scroll table th:first-child{z-index:2}
+  .scroll table th:first-child,.scroll table td:first-child{position:sticky;left:0;z-index:1;background:var(--card);border-right:1px solid var(--line)}
+  .scroll table th:first-child{z-index:2}
 </style>
 </head>
 <body>
@@ -71,6 +75,8 @@
       <li><b>Coinbase</b>: Indonesia, Vietnam, Thailand, ...</li>
     </ul>
     <p style="margin:6px 0 0"><b>③</b> Before signing up, check each exchange's Terms of Use to confirm your country/region is supported.</p>
+    <p style="margin:6px 0 0"><b>④ Score sources</b>: "Security" is our editorial synthesis of public info (reserves/cold storage/incidents); "Reputation (Trust)" is the CoinGecko trust score. Both are <b>editorial references</b>, not official ratings.</p>
+    <p style="margin:6px 0 0"><b>④ Score sources</b>: "Security" is our editorial synthesis of public info (reserves/cold storage/incidents); "Reputation (Trust)" is the CoinGecko trust score. Both are <b>editorial references</b>, not official ratings.</p>
   </div>
 
   <div class="foot">Educational tool only. Not financial advice. Verify all data on official exchange pages.</div>
@@ -79,13 +85,15 @@
 <script src="../data/exchanges.js"></script>
 <script>
 (function(){
-  var state = { selected: ['kucoin','binance','bybit','okx'] };
+  var CHIP_ORDER = ['binance','okx','kucoin','bybit','bitget','kraken','coinbase'];
+  var state = { selected: ['binance','okx','kucoin'] };
 
   document.getElementById("upd").textContent = window.EXCHANGES.kucoin.last_updated;
 
   // 交易所多选 chips
   var chipsEl = document.getElementById("chips");
-  Object.keys(window.EXCHANGES).forEach(function(slug){
+  CHIP_ORDER.forEach(function(slug){
+    if(!window.EXCHANGES[slug]) return;
     var ex = window.EXCHANGES[slug];
     var b = document.createElement("button");
     b.className = "chip" + (state.selected.indexOf(slug)>-1 ? " on" : "");

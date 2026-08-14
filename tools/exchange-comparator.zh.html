@@ -43,6 +43,10 @@
   .foot{color:var(--sub);font-size:12px;margin-top:18px;text-align:center}
   .num{font-variant-numeric:tabular-nums;font-feature-settings:"tnum"}
   .scroll{overflow-x:auto}
+  .scroll table th:first-child,.scroll table td:first-child{position:sticky;left:0;z-index:1;background:var(--card);border-right:1px solid var(--line)}
+  .scroll table th:first-child{z-index:2}
+  .scroll table th:first-child,.scroll table td:first-child{position:sticky;left:0;z-index:1;background:var(--card);border-right:1px solid var(--line)}
+  .scroll table th:first-child{z-index:2}
 </style>
 </head>
 <body>
@@ -71,6 +75,8 @@
       <li><b>Coinbase</b>：印度尼西亚、越南、泰国等</li>
     </ul>
     <p style="margin:6px 0 0"><b>③</b> 注册前请查各所 Terms of Use 确认你所在国家/地区可用。</p>
+    <p style="margin:6px 0 0"><b>④ 评分来源</b>：「安全」基于各所公开信息（储备/冷存储/历史事件）的编辑综合；「声誉（信任分）」来自 CoinGecko 信任分。两者均为编辑参考，<b>非官方评级</b>。</p>
+    <p style="margin:6px 0 0"><b>④ 评分来源</b>：「安全」基于各所公开信息（储备/冷存储/历史事件）的编辑综合；「声誉（信任分）」来自 CoinGecko 信任分。两者均为编辑参考，<b>非官方评级</b>。</p>
   </div>
 
   <div class="foot">仅供学习参考，不构成投资建议。请以各交易所官方页面核实数据。</div>
@@ -79,7 +85,8 @@
 <script src="../data/exchanges.js"></script>
 <script>
 (function(){
-  var state = { selected: ['kucoin','binance','bybit','okx'] };
+  var CHIP_ORDER = ['binance','okx','kucoin','bybit','bitget','kraken','coinbase'];
+  var state = { selected: ['binance','okx','kucoin'] };
 
   var KYC_ZH = {
     "Mandatory": "强制",
@@ -98,7 +105,8 @@
   document.getElementById("upd").textContent = window.EXCHANGES.kucoin.last_updated;
 
   var chipsEl = document.getElementById("chips");
-  Object.keys(window.EXCHANGES).forEach(function(slug){
+  CHIP_ORDER.forEach(function(slug){
+    if(!window.EXCHANGES[slug]) return;
     var ex = window.EXCHANGES[slug];
     var b = document.createElement("button");
     b.className = "chip" + (state.selected.indexOf(slug)>-1 ? " on" : "");
