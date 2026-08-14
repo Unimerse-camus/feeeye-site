@@ -32,14 +32,22 @@ jobs:
           COINGECKO_API_KEY: ${{ secrets.COINGECKO_API_KEY }}
         run: node build/fetch_coins.mjs --top 150
 
+      # 自动校准交易所「快变」元数据：币种数 / 24h 交易量 / 信任分
+      # 只改 EXCHANGE_COMPARE 的 coins/volume/trust 三个字段，绝不覆盖人工核实的
+      # reserve/cold/licenses/security/incident 等编辑字段
+      - name: Fetch exchange meta (coins/volume/trust)
+        env:
+          COINGECKO_API_KEY: ${{ secrets.COINGECKO_API_KEY }}
+        run: node build/fetch_exchange_meta.mjs
+
       - name: Commit and push if changed
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/coins.json
+          git add data/coins.json data/exchanges.js
           if git diff --cached --quiet; then
-            echo "::notice::coins.json unchanged, nothing to push"
+            echo "::notice::data unchanged, nothing to push"
           else
-            git commit -m "chore: refresh CoinGecko coin data ($(date -u +%Y-%m-%d))"
+            git commit -m "chore: refresh CoinGecko data ($(date -u +%Y-%m-%d))"
             git push
           fi
