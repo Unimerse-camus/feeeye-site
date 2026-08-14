@@ -4,10 +4,11 @@
     "generated_at": "2026-08-14T15:15:23.055Z",
     "top": 150,
     "coverage_mode": "coingecko-tickers",
-    "note": "Exchange coverage verified via CoinGecko tickers.",
+    "note": "Exchange coverage verified via CoinGecko tickers. | category_fix_l1=2026-08-14 (L1/L2 公链从 defi 重新归类)",
     "hot_strategy": "market_cap_top_N ∪ /search/trending ∪ HOT_COINS (dedup, junk-filtered)",
     "trending_count": 5,
-    "hotlist_count": 4
+    "hotlist_count": 4,
+    "category_fixed_at": "2026-08-14"
   },
   "coins": [
     {
@@ -26,7 +27,7 @@
         "kraken",
         "coinbase"
       ],
-      "category": "defi",
+      "category": "l1",
       "networks": [],
       "last_updated": "2026-08-14",
       "coverage_source": "coingecko"
@@ -47,7 +48,7 @@
         "kraken",
         "coinbase"
       ],
-      "category": "defi",
+      "category": "l1",
       "networks": [],
       "last_updated": "2026-08-14",
       "coverage_source": "coingecko"
@@ -68,7 +69,7 @@
         "kraken",
         "coinbase"
       ],
-      "category": "exchange",
+      "category": "l1",
       "networks": [],
       "last_updated": "2026-08-14",
       "coverage_source": "coingecko"
@@ -89,7 +90,7 @@
         "kraken",
         "coinbase"
       ],
-      "category": "defi",
+      "category": "l1",
       "networks": [],
       "last_updated": "2026-08-14",
       "coverage_source": "coingecko"
@@ -110,7 +111,7 @@
         "kraken",
         "coinbase"
       ],
-      "category": "defi",
+      "category": "l1",
       "networks": [],
       "last_updated": "2026-08-14",
       "coverage_source": "coingecko"
@@ -130,7 +131,7 @@
         "bitget",
         "kraken"
       ],
-      "category": "defi",
+      "category": "l1",
       "networks": [],
       "last_updated": "2026-08-14",
       "coverage_source": "coingecko"
@@ -221,7 +222,7 @@
         "kraken",
         "coinbase"
       ],
-      "category": "defi",
+      "category": "l1",
       "networks": [],
       "last_updated": "2026-08-14",
       "coverage_source": "coingecko"
@@ -258,7 +259,7 @@
         "kraken",
         "coinbase"
       ],
-      "category": "defi",
+      "category": "l1",
       "networks": [],
       "last_updated": "2026-08-14",
       "coverage_source": "coingecko"
@@ -279,7 +280,7 @@
         "kraken",
         "coinbase"
       ],
-      "category": "rwa",
+      "category": "l1",
       "networks": [],
       "last_updated": "2026-08-14",
       "coverage_source": "coingecko"
@@ -315,7 +316,7 @@
         "kraken",
         "coinbase"
       ],
-      "category": "rwa",
+      "category": "l1",
       "networks": [],
       "last_updated": "2026-08-14",
       "coverage_source": "coingecko"
@@ -336,7 +337,7 @@
         "kraken",
         "coinbase"
       ],
-      "category": "defi",
+      "category": "l1",
       "networks": [],
       "last_updated": "2026-08-14",
       "coverage_source": "coingecko"
@@ -395,7 +396,7 @@
         "bitget",
         "kraken"
       ],
-      "category": "defi",
+      "category": "l1",
       "networks": [],
       "last_updated": "2026-08-14",
       "coverage_source": "coingecko"
@@ -429,7 +430,7 @@
         "kraken",
         "coinbase"
       ],
-      "category": "defi",
+      "category": "l1",
       "networks": [],
       "last_updated": "2026-08-14",
       "coverage_source": "coingecko"
@@ -450,7 +451,7 @@
         "kraken",
         "coinbase"
       ],
-      "category": "defi",
+      "category": "l1",
       "networks": [],
       "last_updated": "2026-08-14",
       "coverage_source": "coingecko"
@@ -471,7 +472,7 @@
         "kraken",
         "coinbase"
       ],
-      "category": "defi",
+      "category": "l1",
       "networks": [],
       "last_updated": "2026-08-14",
       "coverage_source": "coingecko"
@@ -501,7 +502,7 @@
       "symbol": "SHIB",
       "name": "Shiba Inu",
       "rank": 36,
-      "price": 0.00000451,
+      "price": 4.51e-06,
       "market_cap": 2658714804,
       "exchanges": [
         "kucoin",
@@ -568,7 +569,7 @@
         "kraken",
         "coinbase"
       ],
-      "category": "defi",
+      "category": "l1",
       "networks": [],
       "last_updated": "2026-08-14",
       "coverage_source": "coingecko"
@@ -660,7 +661,7 @@
       "symbol": "HTX",
       "name": "HTX DAO",
       "rank": 46,
-      "price": 0.0000018,
+      "price": 1.8e-06,
       "market_cap": 1620612254,
       "exchanges": [
         "kucoin",
@@ -741,7 +742,7 @@
         "kraken",
         "coinbase"
       ],
-      "category": "defi",
+      "category": "l1",
       "networks": [],
       "last_updated": "2026-08-14",
       "coverage_source": "coingecko"
@@ -783,7 +784,7 @@
         "kraken",
         "coinbase"
       ],
-      "category": "defi",
+      "category": "l1",
       "networks": [],
       "last_updated": "2026-08-14",
       "coverage_source": "coingecko"
@@ -867,7 +868,7 @@
         "kraken",
         "coinbase"
       ],
-      "category": "defi",
+      "category": "l1",
       "networks": [],
       "last_updated": "2026-08-14",
       "coverage_source": "coingecko"
@@ -893,7 +894,7 @@
       "symbol": "PEPE",
       "name": "Pepe",
       "rank": 64,
-      "price": 0.00000262,
+      "price": 2.62e-06,
       "market_cap": 1100147222,
       "exchanges": [
         "kucoin",
@@ -975,7 +976,7 @@
         "kraken",
         "coinbase"
       ],
-      "category": "defi",
+      "category": "l1",
       "networks": [],
       "last_updated": "2026-08-14",
       "coverage_source": "coingecko"
@@ -1105,7 +1106,7 @@
         "kraken",
         "coinbase"
       ],
-      "category": "defi",
+      "category": "l1",
       "networks": [],
       "last_updated": "2026-08-14",
       "coverage_source": "coingecko"
@@ -1147,7 +1148,7 @@
         "kraken",
         "coinbase"
       ],
-      "category": "rwa",
+      "category": "l1",
       "networks": [],
       "last_updated": "2026-08-14",
       "coverage_source": "coingecko"
@@ -1288,7 +1289,7 @@
         "kraken",
         "coinbase"
       ],
-      "category": "exchange",
+      "category": "l1",
       "networks": [],
       "last_updated": "2026-08-14",
       "coverage_source": "coingecko"
@@ -1309,7 +1310,7 @@
         "kraken",
         "coinbase"
       ],
-      "category": "defi",
+      "category": "l1",
       "networks": [],
       "last_updated": "2026-08-14",
       "coverage_source": "coingecko"
@@ -1367,7 +1368,7 @@
         "kraken",
         "coinbase"
       ],
-      "category": "defi",
+      "category": "l1",
       "networks": [],
       "last_updated": "2026-08-14",
       "coverage_source": "coingecko"
@@ -1401,7 +1402,7 @@
         "kraken",
         "coinbase"
       ],
-      "category": "defi",
+      "category": "l1",
       "networks": [],
       "last_updated": "2026-08-14",
       "coverage_source": "coingecko"
@@ -1441,7 +1442,7 @@
         "bitget",
         "kraken"
       ],
-      "category": "rwa",
+      "category": "l1",
       "networks": [],
       "last_updated": "2026-08-14",
       "coverage_source": "coingecko"
@@ -1702,7 +1703,7 @@
         "kraken",
         "coinbase"
       ],
-      "category": "defi",
+      "category": "l1",
       "networks": [],
       "last_updated": "2026-08-14",
       "coverage_source": "coingecko"
@@ -1860,7 +1861,7 @@
         "kraken",
         "coinbase"
       ],
-      "category": "defi",
+      "category": "l1",
       "networks": [],
       "last_updated": "2026-08-14",
       "coverage_source": "coingecko"
@@ -1870,7 +1871,7 @@
       "symbol": "NFT",
       "name": "AINFT",
       "rank": 131,
-      "price": 2.80615e-7,
+      "price": 2.80615e-07,
       "market_cap": 277198845,
       "exchanges": [
         "kucoin",
@@ -1938,7 +1939,7 @@
         "kraken",
         "coinbase"
       ],
-      "category": "defi",
+      "category": "l1",
       "networks": [],
       "last_updated": "2026-08-14",
       "coverage_source": "coingecko"
@@ -1948,7 +1949,7 @@
       "symbol": "LUNC",
       "name": "Terra Luna Classic",
       "rank": 135,
-      "price": 0.00004761,
+      "price": 4.761e-05,
       "market_cap": 262840259,
       "exchanges": [
         "kucoin",
@@ -1967,7 +1968,7 @@
       "symbol": "BTT",
       "name": "BitTorrent",
       "rank": 137,
-      "price": 2.57556e-7,
+      "price": 2.57556e-07,
       "market_cap": 254285848,
       "exchanges": [
         "kucoin",
@@ -2118,7 +2119,7 @@
         "kraken",
         "coinbase"
       ],
-      "category": "defi",
+      "category": "l1",
       "networks": [],
       "last_updated": "2026-08-14",
       "coverage_source": "coingecko"
@@ -2166,7 +2167,7 @@
       "symbol": "BONK",
       "name": "Bonk",
       "rank": 156,
-      "price": 0.00000235,
+      "price": 2.35e-06,
       "market_cap": 206479322,
       "exchanges": [
         "kucoin",
@@ -2188,7 +2189,7 @@
       "symbol": "FLOKI",
       "name": "FLOKI",
       "rank": 162,
-      "price": 0.00002021,
+      "price": 2.021e-05,
       "market_cap": 194854549,
       "exchanges": [
         "kucoin",
@@ -2221,7 +2222,7 @@
         "kraken",
         "coinbase"
       ],
-      "category": "defi",
+      "category": "l1",
       "networks": [],
       "last_updated": "2026-08-14",
       "coverage_source": "coingecko",
