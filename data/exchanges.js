@@ -193,22 +193,22 @@ window.EXCHANGE_COMPARE = {
   "kucoin": {
     "coins": 1027, "volume": "≈$0.9B", "trust": 9, "security": 9,
     "kyc": "Mandatory", "licenses": "Seychelles + UAE + EU (MiCA)",
-    "reserve": ">105% BTC/USDT", "cold": "90%+", "incident": "No major hack"
+    "reserve": ">105%", "cold": "90%+", "incident": "No major hack"
   },
   "binance": {
     "coins": 820, "volume": "≈$6B", "trust": 10, "security": 9,
     "kyc": "Mandatory", "licenses": "Global + multiple jurisdictions",
-    "reserve": "PoR monthly", "cold": "majority", "incident": "2019 $40M hack (compensated)"
+    "reserve": "PoR (monthly)", "cold": "Not disclosed", "incident": "2019 $40M hack (compensated)"
   },
   "bybit": {
     "coins": 764, "volume": "≈$1.1B", "trust": 9, "security": 7,
     "kyc": "Mandatory", "licenses": "VARA Dubai + EU (MiCA)",
-    "reserve": "Hacken attested", "cold": "95%", "incident": "2025 Feb $1.46B hack (fully compensated)"
+    "reserve": "Hacken-audited PoR", "cold": "95%", "incident": "2025 Feb $1.46B hack (fully compensated)"
   },
   "okx": {
     "coins": 569, "volume": "≈$1.1B", "trust": 10, "security": 9,
     "kyc": "Mandatory", "licenses": "VARA Dubai + Malta + Bahamas + EU VASP",
-    "reserve": "105% BTC / 112% USDT", "cold": "95%+", "incident": "No hack; 2025 US DOJ settlement (AML)"
+    "reserve": "105% / 112%", "cold": "95%+", "incident": "No hack; 2025 US DOJ settlement (AML)"
   },
   "bitget": {
     "coins": 877, "volume": "≈$0.5B", "trust": 10, "security": 8,
@@ -223,6 +223,6 @@ window.EXCHANGE_COMPARE = {
   "coinbase": {
     "coins": 405, "volume": "≈$1.0B", "trust": 10, "security": 10,
     "kyc": "Strict (US-listed)", "licenses": "US (NYSE) + EU + UK",
-    "reserve": "Public, audited", "cold": "98%+", "incident": "No major hack"
+    "reserve": "Public audits (no PoR)", "cold": "98%+", "incident": "No major hack"
   }
 };
