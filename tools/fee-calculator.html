@@ -6,11 +6,11 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>Crypto Fee Calculator — Compare Exchange Trading & Withdrawal Fees</title>
+<title>Crypto Exchange Fee Tool — Trading, Withdrawal & Deposit Fees</title>
 <link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
-<meta name="description" content="Compare spot, futures and USDT withdrawal fees across major crypto exchanges. Free, no signup.">
+<meta name="description" content="Compare spot/futures trading fees, USDT withdrawal fees (multi-chain), and deposit fees (multi-channel) across 7 major crypto exchanges. Free, no signup.">
 <style>
   :root{--bg:#f7f8fa;--card:#fff;--ink:#1c2430;--sub:#5b6776;--line:#e4e8ee;--brand:#2563eb;--brand2:#0ea5a4;--ok:#16a34a;--bad:#dc2626;--warn:#d97706}
   *{box-sizing:border-box;margin:0;padding:0}
@@ -54,16 +54,17 @@
 <div class="wrap">
   <header><nav><a class="logo" href="/" aria-label="FeeEye home"><img src="/assets/logo.svg" alt="FeeEye" width="26" height="26">FeeEye</a><span><a href="fee-calculator.zh.html">中文</a></span></nav></header>
 
-  <h1>Crypto Fee Calculator</h1>
-  <p class="intro">Compare trading &amp; withdrawal fees across major exchanges — free, no signup required.</p>
+  <h1>Crypto Exchange Fee Tool</h1>
+  <p class="intro">Compare <strong>trading, withdrawal &amp; deposit</strong> fees across major exchanges — free, no signup required.</p>
 
 
 
   <!-- Country selector -->
 
   <div class="tabs">
-    <div class="tab active" data-tab="trading">Trading Fee</div>
-    <div class="tab" data-tab="withdrawal">USDT Withdrawal Fee</div>
+    <div class="tab active" data-tab="trading">① Trading Fee</div>
+    <div class="tab" data-tab="withdrawal">② USDT Withdrawal Fee</div>
+    <div class="tab" data-tab="deposit">③ Deposit Fee</div>
   </div>
 
   <!-- Trading panel -->
@@ -117,6 +118,20 @@
     <button class="btn" id="calcWithdrawal">Calculate withdrawal fees</button>
   </div>
 
+  <!-- Deposit panel -->
+  <div class="panel" id="p-deposit" style="display:none">
+    <div class="grid">
+      <div>
+        <label for="damount">Deposit amount (USDT)</label>
+        <input id="damount" type="number" inputmode="decimal" value="1000" min="1">
+      </div>
+      <div>
+        <label for="dmethod">Deposit method</label>
+        <select id="dmethod"></select>
+      </div>
+    </div>
+  </div>
+
   <div id="result"></div>
 
 
@@ -153,6 +168,7 @@ document.getElementById("upd").textContent = window.EXCHANGES.kucoin.last_update
       var which = t.getAttribute("data-tab");
       document.getElementById("p-trading").style.display = which==="trading"?"block":"none";
       document.getElementById("p-withdrawal").style.display = which==="withdrawal"?"block":"none";
+      document.getElementById("p-deposit").style.display = which==="deposit"?"block":"none";
     });
   });
   // segmented
@@ -165,6 +181,16 @@ document.getElementById("upd").textContent = window.EXCHANGES.kucoin.last_update
     });
   }
   seg("market","market"); seg("order","order");
+
+  // populate deposit method select (union of all 7 exchanges' deposit_methods.m, dedup)
+  var dmsel = document.getElementById("dmethod");
+  window.getAllDepositMethods().forEach(function(m){
+    var opt = document.createElement("option");
+    opt.value = m; opt.textContent = m;
+    dmsel.appendChild(opt);
+  });
+  dmsel.addEventListener("change", render);
+  document.getElementById("damount").addEventListener("input", render);
 
   function fmt(n){ return n.toLocaleString(undefined,{maximumFractionDigits:2}); }
 
@@ -198,6 +224,37 @@ document.getElementById("upd").textContent = window.EXCHANGES.kucoin.last_update
         var cls = "";
         var bestMark = (r.fee===best && best>0)?' <span class="best">← lowest</span>':"";
         html += '<tr class="'+cls+'"><td><b>'+r.name+'</b></td><td>'+(ex[state.market][state.order]*100).toFixed(3)+'%</td><td>'+fmt(r.fee)+' USDT'+bestMark+'</td><td>'+ctaCell(r.slug)+'</td></tr>';
+      });
+      html += '</tbody></table>';
+    } else if (document.querySelector(".tab.active").getAttribute("data-tab")==="deposit") {
+      var amt = parseFloat(document.getElementById("damount").value)||0;
+      var method = document.getElementById("dmethod").value;
+      var rows = [];
+      Object.keys(window.EXCHANGES).forEach(function(slug){
+        var ex = window.EXCHANGES[slug];
+        var dm = (ex.deposit_methods||[]).find(function(d){ return d.m===method; });
+        rows.push({slug:slug, name:ex.name, dm:dm, methodSupported: !!dm});
+      });
+      rows.sort(function(a,b){
+        if(!a.methodSupported) return 1; if(!b.methodSupported) return -1;
+        var ca = (a.dm.fee||0) + (a.dm.premium||0);
+        var cb = (b.dm.fee||0) + (b.dm.premium||0);
+        return ca - cb;
+      });
+      html += '<table><thead><tr><th>Exchange</th><th>'+method+' fee</th><th>Est. cost ('+amt+' USDT)</th><th></th></tr></thead><tbody>';
+      rows.forEach(function(r){
+        if(!r.methodSupported){
+          html += '<tr><td><b>'+r.name+'</b></td><td colspan="2" class="na">'+method+' not offered</td><td>'+ctaCell(r.slug)+'</td></tr>';
+          return;
+        }
+        var fee = r.dm.fee || 0;
+        var feeMax = r.dm.fee_max;
+        var premium = r.dm.premium || 0;
+        var rateStr = feeMax ? (fee*100).toFixed(1)+'%–'+(feeMax*100).toFixed(1)+'%' : (fee*100).toFixed(2)+'%';
+        var est = amt * (fee + premium);
+        var first = rows.filter(function(x){return x.methodSupported;})[0];
+        var bestMark = (r===first)?' <span class="best">← lowest</span>':"";
+        html += '<tr><td><b>'+r.name+'</b></td><td>'+rateStr+(premium>0?'<span class="updated"> +premium '+(premium*100).toFixed(1)+'%</span>':'')+'</td><td>'+fmt(est)+' USDT'+bestMark+'</td><td>'+ctaCell(r.slug)+'</td></tr>';
       });
       html += '</tbody></table>';
     } else {

@@ -6,11 +6,11 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>加密货币手续费计算器 — 对比交易所交易与提币费率</title>
+<title>加密货币交易所费率工具 — 交易/提币/入金费率对比</title>
 <link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
-<meta name="description" content="对比主流加密货币交易所的现货、合约与 USDT 提币费率。免费、无需注册。">
+<meta name="description" content="对比 7 家主流加密货币交易所的现货/合约交易费率、USDT 提币费率（多链）、入金费率（多通道）。免费、无需注册。">
 <style>
   :root{--bg:#f7f8fa;--card:#fff;--ink:#1c2430;--sub:#5b6776;--line:#e4e8ee;--brand:#2563eb;--brand2:#0ea5a4;--ok:#16a34a;--bad:#dc2626;--warn:#d97706}
   *{box-sizing:border-box;margin:0;padding:0}
@@ -54,16 +54,17 @@
 <div class="wrap">
   <header><nav><a class="logo" href="/zh/" aria-label="FeeEye 首页"><img src="/assets/logo.svg" alt="FeeEye" width="26" height="26">FeeEye</a><span><a href="fee-calculator.html">English</a></span></nav></header>
 
-  <h1>加密货币手续费计算器</h1>
-  <p class="intro">对比主流交易所的交易与提币费率——免费、无需注册。</p>
+  <h1>加密货币交易所费率工具</h1>
+  <p class="intro">对比主流交易所的<strong>交易/提币/入金</strong>费率——免费、无需注册。</p>
 
 
 
   <!-- 地区选择器 -->
 
   <div class="tabs">
-    <div class="tab active" data-tab="trading">交易费率</div>
-    <div class="tab" data-tab="withdrawal">USDT 提币费率</div>
+    <div class="tab active" data-tab="trading">① 交易费率</div>
+    <div class="tab" data-tab="withdrawal">② USDT 提币费率</div>
+    <div class="tab" data-tab="deposit">③ 入金费率</div>
   </div>
 
   <!-- 交易面板 -->
@@ -117,6 +118,21 @@
     <button class="btn" id="calcWithdrawal">计算提币费率</button>
   </div>
 
+  <!-- 入金面板 -->
+  <div class="panel" id="p-deposit" style="display:none">
+    <div class="grid">
+      <div>
+        <label for="damount">入金金额（USDT）</label>
+        <input id="damount" type="number" inputmode="decimal" value="1000" min="1">
+      </div>
+      <div>
+        <label for="dmethod">入金方式</label>
+        <select id="dmethod"></select>
+      </div>
+    </div>
+    <div class="updated" id="dmethod-note" style="margin-top:10px"></div>
+  </div>
+
   <div id="result"></div>
 
 
@@ -145,7 +161,8 @@
   var LABEL = {
     spot:"现货", futures:"合约", taker:"吃单", maker:"挂单",
     exchange:"交易所", rate:"费率", estFee:"预计费用", months:"个月",
-    lowest:"← 最低", receive:"到账", notSupported:"不支持该网络", signup:"注册"
+    lowest:"← 最低", receive:"到账", notSupported:"不支持该网络", signup:"注册",
+    depositMethod:"入金方式", depositFee:"入金费率", estCost:"预计入金费", premium:"价格溢价", noMethod:"无此通道"
   };
 
   // 填充国家下拉
@@ -158,6 +175,7 @@ document.getElementById("upd").textContent = window.EXCHANGES.kucoin.last_update
       var which = t.getAttribute("data-tab");
       document.getElementById("p-trading").style.display = which==="trading"?"block":"none";
       document.getElementById("p-withdrawal").style.display = which==="withdrawal"?"block":"none";
+      document.getElementById("p-deposit").style.display = which==="deposit"?"block":"none";
     });
   });
   // 分段按钮
@@ -170,6 +188,21 @@ document.getElementById("upd").textContent = window.EXCHANGES.kucoin.last_update
     });
   }
   seg("market","market"); seg("order","order");
+
+  // 填充入金方式下拉（合并 7 所的所有 deposit_methods.m 去重）
+  var METHOD_ZH = {
+    "Bank transfer":"银行转账", "Credit/Debit card":"信用卡/借记卡", "Apple Pay":"Apple Pay",
+    "Google Pay":"Google Pay", "PayPal":"PayPal", "Bpay":"Bpay", "Wire transfer":"电汇", "P2P":"C2C"
+  };
+  function zhMethod(en){ return METHOD_ZH[en] || en; }
+  var dmsel = document.getElementById("dmethod");
+  window.getAllDepositMethods().forEach(function(m){
+    var opt = document.createElement("option");
+    opt.value = m; opt.textContent = zhMethod(m);
+    dmsel.appendChild(opt);
+  });
+  dmsel.addEventListener("change", render);
+  document.getElementById("damount").addEventListener("input", render);
 
   function fmt(n){ return n.toLocaleString(undefined,{maximumFractionDigits:2}); }
 
@@ -203,6 +236,37 @@ document.getElementById("upd").textContent = window.EXCHANGES.kucoin.last_update
         var cls = "";
         var bestMark = (r.fee===best && best>0)?' <span class="best">'+LABEL.lowest+'</span>':"";
         html += '<tr class="'+cls+'"><td><b>'+r.name+'</b></td><td>'+(ex[state.market][state.order]*100).toFixed(3)+'%</td><td>'+fmt(r.fee)+' USDT'+bestMark+'</td><td>'+ctaCell(r.slug)+'</td></tr>';
+      });
+      html += '</tbody></table>';
+    } else if (document.querySelector(".tab.active").getAttribute("data-tab")==="deposit") {
+      var amt = parseFloat(document.getElementById("damount").value)||0;
+      var method = document.getElementById("dmethod").value;
+      var rows = [];
+      Object.keys(window.EXCHANGES).forEach(function(slug){
+        var ex = window.EXCHANGES[slug];
+        var dm = (ex.deposit_methods||[]).find(function(d){ return d.m===method; });
+        rows.push({slug:slug, name:ex.name, dm:dm, methodSupported: !!dm});
+      });
+      rows.sort(function(a,b){
+        if(!a.methodSupported) return 1; if(!b.methodSupported) return -1;
+        var ca = (a.dm.fee||0) + (a.dm.premium||0);
+        var cb = (b.dm.fee||0) + (b.dm.premium||0);
+        return ca - cb;
+      });
+      html += '<table><thead><tr><th>'+LABEL.exchange+'</th><th>'+method+' '+LABEL.rate+'</th><th>'+LABEL.estCost+'（'+amt+' USDT）</th><th></th></tr></thead><tbody>';
+      rows.forEach(function(r){
+        if(!r.methodSupported){
+          html += '<tr><td><b>'+r.name+'</b></td><td colspan="2" class="na">'+method+' '+LABEL.noMethod+'</td><td>'+ctaCell(r.slug)+'</td></tr>';
+          return;
+        }
+        var fee = r.dm.fee || 0;
+        var feeMax = r.dm.fee_max;
+        var premium = r.dm.premium || 0;
+        var rateStr = feeMax ? (fee*100).toFixed(1)+'%–'+(feeMax*100).toFixed(1)+'%' : (fee*100).toFixed(2)+'%';
+        var est = amt * (fee + premium);
+        var first = rows.filter(function(x){return x.methodSupported;})[0];
+        var bestMark = (r===first)?' <span class="best">'+LABEL.lowest+'</span>':"";
+        html += '<tr><td><b>'+r.name+'</b></td><td>'+rateStr+(premium>0?'<span class="updated"> +'+LABEL.premium+' '+(premium*100).toFixed(1)+'%</span>':'')+'</td><td>'+fmt(est)+' USDT'+bestMark+'</td><td>'+ctaCell(r.slug)+'</td></tr>';
       });
       html += '</tbody></table>';
     } else {

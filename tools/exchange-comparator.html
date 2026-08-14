@@ -6,11 +6,11 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>Exchange Comparison — 16 Business Dimensions Across Exchanges</title>
+<title>Exchange Comparison — 12 Business Dimensions Across Exchanges</title>
 <link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
-<meta name="description" content="Compare 16 business dimensions across major crypto exchanges: spot/futures fees, leverage, options, liquidity, coins, copy-trading/bots, KYC, licenses, fiat deposits. Free, no signup.">
+<meta name="description" content="Compare 12 business dimensions across major crypto exchanges: leverage, options, coins, liquidity, copy-trading/bots, KYC, licenses, fiat deposits (fees compared in the dedicated fee tool). Free, no signup.">
 <style>
   :root{--bg:#f7f8fa;--card:#fff;--ink:#1c2430;--sub:#5b6776;--line:#e4e8ee;--brand:#2563eb;--brand2:#0ea5a4;--ok:#16a34a;--bad:#dc2626;--warn:#d97706}
   *{box-sizing:border-box;margin:0;padding:0}
@@ -59,7 +59,7 @@
   <header><nav><a class="logo" href="/" aria-label="FeeEye home"><img src="/assets/logo.svg" alt="FeeEye" width="26" height="26">FeeEye</a><span><a href="exchange-comparator.zh.html">中文</a></span></nav></header>
 
   <h1>Comprehensive Exchange Comparison</h1>
-<p class="intro">Compare <b>16 business dimensions</b> across major crypto exchanges: spot/futures fees, leverage, options, liquidity, coins, copy-trading/bots, KYC, licenses, fiat deposits.</p>
+<p class="intro">Compare <b>12 business dimensions</b> across major crypto exchanges: leverage, options, coins, liquidity, copy-trading/bots, KYC, licenses, fiat deposits. <b>Fee comparison</b> is in the dedicated fee tool.</p>
 
   <div class="panel">
     <label>Choose exchanges to compare (tap to toggle)</label>
@@ -126,10 +126,6 @@
     if(!slugs.length){ document.getElementById("result").innerHTML = '<p class="warn">Select at least one exchange.</p>'; return; }
 
     var rows = [
-      { dim:"Spot fee (taker)", val:function(ex){ return (ex.spot.taker*100).toFixed(2)+"%"; } },
-      { dim:"Spot fee (maker)", val:function(ex){ return (ex.spot.maker*100).toFixed(2)+"%"; } },
-      { dim:"Futures fee (taker)", val:function(ex){ return (ex.futures.taker*100).toFixed(3)+"%"; } },
-      { dim:"Futures fee (maker)", val:function(ex){ return (ex.futures.maker*100).toFixed(3)+"%"; } },
       { dim:"Max leverage", val:function(ex){ var m=window.EXCHANGE_COMPARE[ex.slug].max_leverage; return typeof m==="number" ? m+"x" : (m || '<span title="数据可能未加载，硬刷新（Ctrl+Shift+R / Cmd+Shift+R）可获取">N/A</span>'); } },
       { dim:"Options", val:function(ex){ var o=window.EXCHANGE_COMPARE[ex.slug].has_options; return o===true ? '<span class="good">✓</span> Yes' : (o===false ? '<span class="bad">✗</span> No' : '<span title="Data may not be loaded; hard refresh (Ctrl+Shift+R / Cmd+Shift+R) to fetch">—</span>'); } },
       { dim:"Leveraged tokens", val:function(ex){ var l=window.EXCHANGE_COMPARE[ex.slug].has_leveraged_tokens; return l===true ? '<span class="good">✓</span> Yes' : (l===false ? '<span class="bad">✗</span> No' : '<span title="Data may not be loaded; hard refresh to fetch">—</span>'); } },

@@ -6,11 +6,11 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>交易所综合对比 — 16 个业务维度横向对比</title>
+<title>交易所综合对比 — 12 个业务维度横向对比</title>
 <link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
-<meta name="description" content="从 16 个业务维度对比主流加密货币交易所：现货/合约费率、杠杆、期权、流动性、币种、跟单/机器人、KYC、合规牌照、法币入金等。免费、无需注册。">
+<meta name="description" content="从 12 个业务维度对比主流加密货币交易所：杠杆、期权、币种、流动性、跟单/机器人、KYC、合规牌照、法币入金等（费率对比见专门的费率工具）。免费、无需注册。">
 <style>
   :root{--bg:#f7f8fa;--card:#fff;--ink:#1c2430;--sub:#5b6776;--line:#e4e8ee;--brand:#2563eb;--brand2:#0ea5a4;--ok:#16a34a;--bad:#dc2626;--warn:#d97706}
   *{box-sizing:border-box;margin:0;padding:0}
@@ -59,7 +59,7 @@
   <header><nav><a class="logo" href="/zh/" aria-label="FeeEye 首页"><img src="/assets/logo.svg" alt="FeeEye" width="26" height="26">FeeEye</a><span><a href="exchange-comparator.html">English</a></span></nav></header>
 
   <h1>交易所综合对比</h1>
-  <p class="intro">从 <b>16 个业务维度</b>对比主流加密货币交易所，包括现货/合约费率、杠杆、期权、流动性、币种、跟单/机器人、KYC、合规牌照、法币入金等。</p>
+  <p class="intro">从 <b>12 个业务维度</b>对比主流加密货币交易所，包括杠杆、期权、币种、流动性、跟单/机器人、KYC、合规牌照、法币入金等。<b>费率对比</b>请使用专门的费率工具。</p>
 
   <div class="panel">
     <label>选择要对比的交易所（点击切换）</label>
@@ -161,10 +161,6 @@
     if(!slugs.length){ document.getElementById("result").innerHTML = '<p class="warn">请至少选择一个交易所。</p>'; return; }
 
     var rows = [
-      { dim:"现货费率（吃单）", val:function(ex){ return (ex.spot.taker*100).toFixed(2)+"%"; } },
-      { dim:"现货费率（挂单）", val:function(ex){ return (ex.spot.maker*100).toFixed(2)+"%"; } },
-      { dim:"合约费率（吃单）", val:function(ex){ return (ex.futures.taker*100).toFixed(3)+"%"; } },
-      { dim:"合约费率（挂单）", val:function(ex){ return (ex.futures.maker*100).toFixed(3)+"%"; } },
       { dim:"最高杠杆", val:function(ex){ var m=window.EXCHANGE_COMPARE[ex.slug].max_leverage; return typeof m==="number" ? m+"x" : (m || '<span title="数据可能未加载，硬刷新（Ctrl+Shift+R / Cmd+Shift+R）可获取">N/A</span>'); } },
       { dim:"期权交易", val:function(ex){ var o=window.EXCHANGE_COMPARE[ex.slug].has_options; return o===true ? '<span class="good">✓</span> 有' : (o===false ? '<span class="bad">✗</span> 无' : '<span title="数据可能未加载，硬刷新可获取">—</span>'); } },
       { dim:"杠杆代币", val:function(ex){ var l=window.EXCHANGE_COMPARE[ex.slug].has_leveraged_tokens; return l===true ? '<span class="good">✓</span> 有' : (l===false ? '<span class="bad">✗</span> 无' : '<span title="数据可能未加载，硬刷新可获取">—</span>'); } },
