@@ -32,7 +32,9 @@
   th{background:#f1f5f9;font-weight:600;font-size:12.5px;white-space:nowrap}
   td.dim{font-weight:600;color:var(--sub);white-space:nowrap;min-width:130px}
   td.kc{background:#eef4ff}
-  .tip{color:#94a3b8;font-size:11px;cursor:help;margin-left:4px;vertical-align:1px}
+  .tip{display:inline-block;position:relative;color:var(--ink);background:#f1f5f9;font-size:10px;font-weight:700;cursor:help;margin-left:4px;vertical-align:middle;border:1px solid var(--line);border-radius:50%;width:14px;height:14px;line-height:12px;text-align:center;user-select:none}
+  .tip:hover::after{content:attr(data-tip);position:absolute;bottom:130%;left:50%;transform:translateX(-50%);background:#1c2430;color:#fff;padding:6px 10px;border-radius:6px;font-size:12px;font-weight:400;white-space:nowrap;z-index:100;margin-bottom:6px;box-shadow:0 2px 8px rgba(0,0,0,0.15);pointer-events:none}
+  .tip:hover::before{content:'';position:absolute;bottom:124%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:#1c2430;z-index:100;pointer-events:none}
   .good{color:var(--ok);font-weight:700}
   .mid{color:var(--warn);font-weight:600}
   .bad{color:var(--bad);font-weight:700}
@@ -126,15 +128,15 @@
       { dim:"Spot fee (maker)", val:function(ex){ return (ex.spot.maker*100).toFixed(2)+"%"; } },
       { dim:"Futures fee (taker)", val:function(ex){ return (ex.futures.taker*100).toFixed(3)+"%"; } },
       { dim:"Futures fee (maker)", val:function(ex){ return (ex.futures.maker*100).toFixed(3)+"%"; } },
-      { dim:"Max leverage", val:function(ex){ var m=window.EXCHANGE_COMPARE[ex.slug].max_leverage; return typeof m==="number" ? m+"x" : (m || "N/A"); } },
-      { dim:"Options", val:function(ex){ var o=window.EXCHANGE_COMPARE[ex.slug].has_options; return o===true ? '<span class="good">✓</span> Yes' : (o===false ? '<span class="bad">✗</span> No' : "—"); } },
-      { dim:"Leveraged tokens", val:function(ex){ var l=window.EXCHANGE_COMPARE[ex.slug].has_leveraged_tokens; return l===true ? '<span class="good">✓</span> Yes' : (l===false ? '<span class="bad">✗</span> No' : "—"); } },
+      { dim:"Max leverage", val:function(ex){ var m=window.EXCHANGE_COMPARE[ex.slug].max_leverage; return typeof m==="number" ? m+"x" : (m || '<span title="数据可能未加载，硬刷新（Ctrl+Shift+R / Cmd+Shift+R）可获取">N/A</span>'); } },
+      { dim:"Options", val:function(ex){ var o=window.EXCHANGE_COMPARE[ex.slug].has_options; return o===true ? '<span class="good">✓</span> Yes' : (o===false ? '<span class="bad">✗</span> No' : '<span title="Data may not be loaded; hard refresh (Ctrl+Shift+R / Cmd+Shift+R) to fetch">—</span>'); } },
+      { dim:"Leveraged tokens", val:function(ex){ var l=window.EXCHANGE_COMPARE[ex.slug].has_leveraged_tokens; return l===true ? '<span class="good">✓</span> Yes' : (l===false ? '<span class="bad">✗</span> No' : '<span title="Data may not be loaded; hard refresh to fetch">—</span>'); } },
       { dim:"Coin coverage", val:function(ex){ return (window.EXCHANGE_COMPARE[ex.slug].coins).toLocaleString()+" coins"; } },
-      { dim:"24h liquidity", val:function(ex){ return window.EXCHANGE_COMPARE[ex.slug].volume+'<span class="tip" title="Spot + futures combined, denominated in BTC">ⓘ</span>'; } },
+      { dim:"24h liquidity", val:function(ex){ return window.EXCHANGE_COMPARE[ex.slug].volume+'<span class="tip" data-tip="Spot + futures combined, denominated in BTC">ⓘ</span>'; } },
       { dim:"Copy trading / bots", val:function(ex){ return (ex.has_copy_trading ? '<span class="good">✓</span> Copy' : "—") + " · " + (ex.has_trading_bot ? '<span class="good">✓</span> Bots' : "—"); } },
       { dim:"API", val:function(ex){ return ex.has_api ? '<span class="good">✓</span> REST + WS' : "—"; } },
-      { dim:"Proof of reserves", val:function(ex){ return window.EXCHANGE_COMPARE[ex.slug].reserve+'<span class="tip" title="On-chain assets / user liabilities ratio. >100% = surplus; <100% = risk.">ⓘ</span>'; } },
-      { dim:"Cold storage", val:function(ex){ return window.EXCHANGE_COMPARE[ex.slug].cold+'<span class="tip" title="Share of user assets held offline. Higher = safer (online hot wallets are more exposed).">ⓘ</span>'; } },
+      { dim:"Proof of reserves", val:function(ex){ return window.EXCHANGE_COMPARE[ex.slug].reserve+'<span class="tip" data-tip="On-chain assets / user liabilities ratio. >100% = surplus; <100% = risk.">ⓘ</span>'; } },
+      { dim:"Cold storage", val:function(ex){ return window.EXCHANGE_COMPARE[ex.slug].cold+'<span class="tip" data-tip="Share of user assets held offline. Higher = safer (online hot wallets are more exposed).">ⓘ</span>'; } },
       { dim:"KYC", val:function(ex){ return window.EXCHANGE_COMPARE[ex.slug].kyc; } },
       { dim:"Licenses", val:function(ex){ return window.EXCHANGE_COMPARE[ex.slug].licenses; } },
       { dim:"Fiat deposits", val:function(ex){ return (ex.deposit_methods||[]).map(function(m){return m.m;}).join(" · "); } }

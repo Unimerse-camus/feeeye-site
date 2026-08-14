@@ -32,7 +32,9 @@
   th{background:#f1f5f9;font-weight:600;font-size:12.5px;white-space:nowrap}
   td.dim{font-weight:600;color:var(--sub);white-space:nowrap;min-width:130px}
   td.kc{background:#eef4ff}
-  .tip{color:#94a3b8;font-size:11px;cursor:help;margin-left:4px;vertical-align:1px}
+  .tip{display:inline-block;position:relative;color:var(--ink);background:#f1f5f9;font-size:10px;font-weight:700;cursor:help;margin-left:4px;vertical-align:middle;border:1px solid var(--line);border-radius:50%;width:14px;height:14px;line-height:12px;text-align:center;user-select:none}
+  .tip:hover::after{content:attr(data-tip);position:absolute;bottom:130%;left:50%;transform:translateX(-50%);background:#1c2430;color:#fff;padding:6px 10px;border-radius:6px;font-size:12px;font-weight:400;white-space:nowrap;z-index:100;margin-bottom:6px;box-shadow:0 2px 8px rgba(0,0,0,0.15);pointer-events:none}
+  .tip:hover::before{content:'';position:absolute;bottom:124%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:#1c2430;z-index:100;pointer-events:none}
   .good{color:var(--ok);font-weight:700}
   .mid{color:var(--warn);font-weight:600}
   .bad{color:var(--bad);font-weight:700}
@@ -161,15 +163,15 @@
       { dim:"现货费率（挂单）", val:function(ex){ return (ex.spot.maker*100).toFixed(2)+"%"; } },
       { dim:"合约费率（吃单）", val:function(ex){ return (ex.futures.taker*100).toFixed(3)+"%"; } },
       { dim:"合约费率（挂单）", val:function(ex){ return (ex.futures.maker*100).toFixed(3)+"%"; } },
-      { dim:"最高杠杆", val:function(ex){ var m=window.EXCHANGE_COMPARE[ex.slug].max_leverage; return typeof m==="number" ? m+"x" : (m || "N/A"); } },
-      { dim:"期权交易", val:function(ex){ var o=window.EXCHANGE_COMPARE[ex.slug].has_options; return o===true ? '<span class="good">✓</span> 有' : (o===false ? '<span class="bad">✗</span> 无' : "—"); } },
-      { dim:"杠杆代币", val:function(ex){ var l=window.EXCHANGE_COMPARE[ex.slug].has_leveraged_tokens; return l===true ? '<span class="good">✓</span> 有' : (l===false ? '<span class="bad">✗</span> 无' : "—"); } },
+      { dim:"最高杠杆", val:function(ex){ var m=window.EXCHANGE_COMPARE[ex.slug].max_leverage; return typeof m==="number" ? m+"x" : (m || '<span title="数据可能未加载，硬刷新（Ctrl+Shift+R / Cmd+Shift+R）可获取">N/A</span>'); } },
+      { dim:"期权交易", val:function(ex){ var o=window.EXCHANGE_COMPARE[ex.slug].has_options; return o===true ? '<span class="good">✓</span> 有' : (o===false ? '<span class="bad">✗</span> 无' : '<span title="数据可能未加载，硬刷新可获取">—</span>'); } },
+      { dim:"杠杆代币", val:function(ex){ var l=window.EXCHANGE_COMPARE[ex.slug].has_leveraged_tokens; return l===true ? '<span class="good">✓</span> 有' : (l===false ? '<span class="bad">✗</span> 无' : '<span title="数据可能未加载，硬刷新可获取">—</span>'); } },
       { dim:"币种覆盖", val:function(ex){ return (window.EXCHANGE_COMPARE[ex.slug].coins).toLocaleString()+" 个币"; } },
-      { dim:"24h 流动性", val:function(ex){ return window.EXCHANGE_COMPARE[ex.slug].volume+'<span class="tip" title="现货+合约合计，按 BTC 计价">ⓘ</span>'; } },
+      { dim:"24h 流动性", val:function(ex){ return window.EXCHANGE_COMPARE[ex.slug].volume+'<span class="tip" data-tip="现货+合约合计，按 BTC 计价">ⓘ</span>'; } },
       { dim:"跟单 / 机器人", val:function(ex){ return (ex.has_copy_trading ? '<span class="good">✓</span> 跟单' : "—") + " · " + (ex.has_trading_bot ? '<span class="good">✓</span> 机器人' : "—"); } },
       { dim:"API", val:function(ex){ return ex.has_api ? '<span class="good">✓</span> REST + WS' : "—"; } },
-      { dim:"储备证明", val:function(ex){ return window.EXCHANGE_COMPARE[ex.slug].reserve+'<span class="tip" title="交易所披露的链上资产/用户负债比例。>100% 表示储备充裕，<100% 存在风险。">ⓘ</span>'; } },
-      { dim:"冷存储", val:function(ex){ return window.EXCHANGE_COMPARE[ex.slug].cold+'<span class="tip" title="离线钱包存储的用户资产比例。越高越安全（联网热钱包风险更高）。">ⓘ</span>'; } },
+      { dim:"储备证明", val:function(ex){ return window.EXCHANGE_COMPARE[ex.slug].reserve+'<span class="tip" data-tip="交易所披露的链上资产/用户负债比例。>100% 表示储备充裕，<100% 存在风险。">ⓘ</span>'; } },
+      { dim:"冷存储", val:function(ex){ return window.EXCHANGE_COMPARE[ex.slug].cold+'<span class="tip" data-tip="离线钱包存储的用户资产比例。越高越安全（联网热钱包风险更高）。">ⓘ</span>'; } },
       { dim:"KYC", val:function(ex){ return KYC_ZH[window.EXCHANGE_COMPARE[ex.slug].kyc] || window.EXCHANGE_COMPARE[ex.slug].kyc; } },
       { dim:"合规牌照", val:function(ex){ return window.EXCHANGE_COMPARE[ex.slug].licenses; } },
       { dim:"法币入金", val:function(ex){ return (ex.deposit_methods||[]).map(function(m){return zhMethod(m.m);}).join(" · "); } }
