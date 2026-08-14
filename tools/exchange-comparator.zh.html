@@ -32,6 +32,7 @@
   th{background:#f1f5f9;font-weight:600;font-size:12.5px;white-space:nowrap}
   td.dim{font-weight:600;color:var(--sub);white-space:nowrap;min-width:130px}
   td.kc{background:#eef4ff}
+  .tip{color:#94a3b8;font-size:11px;cursor:help;margin-left:4px;vertical-align:1px}
   .good{color:var(--ok);font-weight:700}
   .mid{color:var(--warn);font-weight:600}
   .bad{color:var(--bad);font-weight:700}
@@ -84,6 +85,42 @@
 <script src="../data/exchanges.js"></script>
 <script>
 (function(){
+  var KYC_ZH = {
+    "Mandatory": "强制",
+    "Tiered (≤$10K no-KYC)": "分级（≤$1万免KYC）",
+    "Strict (US-licensed)": "严格（美国持牌）",
+    "Strict (US-listed)": "严格（美国上市）"
+  };
+  var METHOD_ZH = {
+    "Bank transfer": "银行转账",
+    "Credit/Debit card": "信用卡/借记卡",
+    "Apple Pay": "Apple Pay",
+    "Google Pay": "Google Pay",
+    "PayPal": "PayPal",
+    "Bpay": "Bpay",
+    "Wire transfer": "电汇",
+    "P2P": "C2C"
+  };
+  function zhMethod(en){ return METHOD_ZH[en] || en; }
+
+  var KYC_ZH = {
+    "Mandatory": "强制",
+    "Tiered (≤$10K no-KYC)": "分级（≤$1万免KYC）",
+    "Strict (US-licensed)": "严格（美国持牌）",
+    "Strict (US-listed)": "严格（美国上市）"
+  };
+  var METHOD_ZH = {
+    "Bank transfer": "银行转账",
+    "Credit/Debit card": "信用卡/借记卡",
+    "Apple Pay": "Apple Pay",
+    "Google Pay": "Google Pay",
+    "PayPal": "PayPal",
+    "Bpay": "Bpay",
+    "Wire transfer": "电汇",
+    "P2P": "C2C"
+  };
+  function zhMethod(en){ return METHOD_ZH[en] || en; }
+
   var CHIP_ORDER = ['binance','okx','kucoin','bybit','bitget','kraken','coinbase'];
   var state = { selected: ['binance','okx','kucoin'] };
 
@@ -125,15 +162,15 @@
       { dim:"合约费率（吃单）", val:function(ex){ return (ex.futures.taker*100).toFixed(3)+"%"; } },
       { dim:"合约费率（挂单）", val:function(ex){ return (ex.futures.maker*100).toFixed(3)+"%"; } },
       { dim:"最高杠杆", val:function(ex){ var m=window.EXCHANGE_COMPARE[ex.slug].max_leverage; return typeof m==="number" ? m+"x" : m; } },
-      { dim:"USDT 提币费（TRC20）", val:function(ex){ return ex.usdt_withdrawal.TRC20 + " USDT"; } },
       { dim:"币种覆盖", val:function(ex){ return (window.EXCHANGE_COMPARE[ex.slug].coins).toLocaleString()+" 个币"; } },
-      { dim:"24h 流动性", val:function(ex){ return window.EXCHANGE_COMPARE[ex.slug].volume+'<sup title="现货+合约合计，按 BTC 计价">?</sup>'; } },
+      { dim:"24h 流动性", val:function(ex){ return window.EXCHANGE_COMPARE[ex.slug].volume+'<span class="tip" title="现货+合约合计，按 BTC 计价">ⓘ</span>'; } },
       { dim:"跟单 / 机器人", val:function(ex){ return (ex.has_copy_trading ? '<span class="good">✓</span> 跟单' : "—") + " · " + (ex.has_trading_bot ? '<span class="good">✓</span> 机器人' : "—"); } },
       { dim:"API", val:function(ex){ return ex.has_api ? '<span class="good">✓</span> REST + WS' : "—"; } },
-      { dim:"储备证明", val:function(ex){ return window.EXCHANGE_COMPARE[ex.slug].reserve+'<sup title="交易所披露的链上资产/用户负债比例。>100% 表示储备充裕，<100% 存在风险。">?</sup>'; } },
-      { dim:"冷存储", val:function(ex){ return window.EXCHANGE_COMPARE[ex.slug].cold+'<sup title="离线钱包存储的用户资产比例。越高越安全（联网热钱包风险更高）。">?</sup>'; } },
-      { dim:"法币入金", val:function(ex){ return (ex.deposit_methods||[]).map(function(m){return m.m;}).join(" · "); } },
-      { dim:"现货+合约", val:function(ex){ return ex.futures ? '<span class="good">✓</span> 现货+合约' : '<span class="bad">✗</span> 仅现货'; } }
+      { dim:"储备证明", val:function(ex){ return window.EXCHANGE_COMPARE[ex.slug].reserve+'<span class="tip" title="交易所披露的链上资产/用户负债比例。>100% 表示储备充裕，<100% 存在风险。">ⓘ</span>'; } },
+      { dim:"冷存储", val:function(ex){ return window.EXCHANGE_COMPARE[ex.slug].cold+'<span class="tip" title="离线钱包存储的用户资产比例。越高越安全（联网热钱包风险更高）。">ⓘ</span>'; } },
+      { dim:"KYC", val:function(ex){ return KYC_ZH[window.EXCHANGE_COMPARE[ex.slug].kyc] || window.EXCHANGE_COMPARE[ex.slug].kyc; } },
+      { dim:"合规牌照", val:function(ex){ return window.EXCHANGE_COMPARE[ex.slug].licenses; } },
+      { dim:"法币入金", val:function(ex){ return (ex.deposit_methods||[]).map(function(m){return zhMethod(m.m);}).join(" · "); } }
     ];
 
     var html = '<div class="scroll"><table><thead><tr><th>维度</th>';
