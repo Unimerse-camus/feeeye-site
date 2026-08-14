@@ -179,7 +179,7 @@ const I18N = {
     cyUse: 'Use the Fee Calculator to compare your exact trade size across these exchanges.',
     idxH1: 'Free Crypto Tools & Exchange Data',
     idxIntro: 'Compare exchange fees, find where to buy a token, and check withdrawal costs — free, no signup. Tracking {c} coins across {e} exchanges.',
-    idxTcT: 'Total Cost Calculator', idxTcB: 'The REAL all-in cost of buying crypto (deposit + trading + spread + withdrawal).', idxTcC: 'Example: $1,000 buy →',
+    idxTcT: 'Deposit Cost Calculator', idxTcB: 'See the full deposit-to-withdrawal cost: deposit fee + trading + spread + withdrawal.', idxTcC: 'Example: $1,000 buy →',
     idxFeeT: 'Fee Calculator', idxFeeB: 'Compare trading & withdrawal fees across {e} exchanges.', idxOpen: 'Open tool →',
     idxCmpT: 'Exchange Comparator', idxCmpB: 'Compare 14 dimensions: fees, coins, liquidity, security, KYC.', idxCmpC: 'Compare 14 dimensions →',
     idxWbT: 'Where to Buy', idxWbB: 'Find which exchange lists a token.', idxEx: 'Example: PEPE →',
@@ -226,7 +226,7 @@ const I18N = {
     cyUse: '使用手续费计算器对比你在这些交易所的具体交易成本。',
     idxH1: '免费加密货币工具与交易所数据',
     idxIntro: '对比交易所费率、查找代币在哪里购买、查看提币成本——免费、无需注册。追踪 {c} 个币种、{e} 家交易所。',
-    idxTcT: '全成本计算器', idxTcB: '看清购买加密货币的真实总花费（入金 + 交易 + 价差 + 提现）。', idxTcC: '示例：$1,000 买入 →',
+    idxTcT: '入金成本计算器', idxTcB: '看清从入金到提币的完整成本（入金费 + 交易 + 价差 + 提币费）。', idxTcC: '示例：$1,000 买入 →',
     idxFeeT: '手续费计算器', idxFeeB: '对比 {e} 家交易所的交易与提币费率。', idxOpen: '打开工具 →',
     idxCmpT: '智能交易所对比', idxCmpB: '14 维度对比：费率、币种、流动性、安全、KYC。', idxCmpC: '14 维度对比 →',
     idxWbT: '在哪里购买', idxWbB: '查找某代币在哪些交易所上架。', idxEx: '示例：PEPE →',
@@ -394,6 +394,9 @@ input[type=number]{font-size:16px}
 .scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
 .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
 .card a{color:var(--brand);text-decoration:none;font-weight:600}
+.card-title{display:inline-block;color:var(--ink);font-weight:700;margin-bottom:6px;text-decoration:none}
+.card-title:hover b{color:var(--brand)}
+.card-title b{display:inline-flex;align-items:center;gap:6px}
 .ic{display:inline-flex;vertical-align:-3px;margin-right:7px;color:var(--brand)}
 .ic svg{display:block}
 .foot{color:var(--sub);font-size:12px;margin-top:22px;text-align:center}
@@ -527,12 +530,12 @@ function indexPage(lang) {
   <h1>${esc(T(lang, 'idxH1'))}</h1>
   <p class="intro">${esc(T(lang, 'idxIntro', { c: coinCount, e: Object.keys(EX).length }))}</p>
   <div class="grid">
-    <div class="card"><b><span class="ic">${ICON.receipt}</span>${esc(T(lang, 'idxTcT'))}</b><br>${esc(T(lang, 'idxTcB'))}<br><a href="${p(tcPath(lang))}">${esc(T(lang, 'idxTcC'))}</a></div>
-    <div class="card"><b><span class="ic">${ICON.calculator}</span>${esc(T(lang, 'idxFeeT'))}</b><br>${esc(T(lang, 'idxFeeB', { e: Object.keys(EX).length }))}<br><a href="${p(toolPath(lang))}">${esc(T(lang, 'idxOpen'))}</a></div>
-    <div class="card"><b><span class="ic">${ICON.scale}</span>${esc(T(lang, 'idxCmpT'))}</b><br>${esc(T(lang, 'idxCmpB'))}<br><a href="${p(cmpPath(lang))}">${esc(T(lang, 'idxCmpC'))}</a></div>
-    <div class="card"><b><span class="ic">${ICON.coins}</span>${esc(T(lang, 'idxWbT'))}</b><br>${esc(T(lang, 'idxWbB'))}<br><a href="${p('where-to-buy/pepe.html')}">${esc(T(lang, 'idxEx'))}</a></div>
-    <div class="card"><b><span class="ic">${ICON.landmark}</span>${esc(T(lang, 'idxExT'))}</b><br>${esc(T(lang, 'idxExB'))}<br><a href="${p('exchanges/kucoin.html')}">KuCoin →</a></div>
-    <div class="card"><b><span class="ic">${ICON.scale}</span>${esc(T(lang, 'idxCpT'))}</b><br>${esc(T(lang, 'idxCpB'))}<br><a href="${p('compare/kucoin-vs-bybit.html')}">vs Bybit →</a></div>
+    <div class="card"><a class="card-title" href="${p(tcPath(lang))}"><span class="ic">${ICON.receipt}</span><b>${esc(T(lang, 'idxTcT'))}</b></a><br>${esc(T(lang, 'idxTcB'))}<br><a href="${p(tcPath(lang))}">${esc(T(lang, 'idxTcC'))}</a></div>
+    <div class="card"><a class="card-title" href="${p(toolPath(lang))}"><span class="ic">${ICON.calculator}</span><b>${esc(T(lang, 'idxFeeT'))}</b></a><br>${esc(T(lang, 'idxFeeB', { e: Object.keys(EX).length }))}<br><a href="${p(toolPath(lang))}">${esc(T(lang, 'idxOpen'))}</a></div>
+    <div class="card"><a class="card-title" href="${p(cmpPath(lang))}"><span class="ic">${ICON.scale}</span><b>${esc(T(lang, 'idxCmpT'))}</b></a><br>${esc(T(lang, 'idxCmpB'))}<br><a href="${p(cmpPath(lang))}">${esc(T(lang, 'idxCmpC'))}</a></div>
+    <div class="card"><a class="card-title" href="${p('where-to-buy/pepe.html')}"><span class="ic">${ICON.coins}</span><b>${esc(T(lang, 'idxWbT'))}</b></a><br>${esc(T(lang, 'idxWbB'))}<br><a href="${p('where-to-buy/pepe.html')}">${esc(T(lang, 'idxEx'))}</a></div>
+    <div class="card"><a class="card-title" href="${p('exchanges/kucoin.html')}"><span class="ic">${ICON.landmark}</span><b>${esc(T(lang, 'idxExT'))}</b></a><br>${esc(T(lang, 'idxExB'))}<br><a href="${p('exchanges/kucoin.html')}">KuCoin →</a></div>
+    <div class="card"><a class="card-title" href="${p('compare/kucoin-vs-bybit.html')}"><span class="ic">${ICON.scale}</span><b>${esc(T(lang, 'idxCpT'))}</b></a><br>${esc(T(lang, 'idxCpB'))}<br><a href="${p('compare/kucoin-vs-bybit.html')}">vs Bybit →</a></div>
   </div>
   <h3>${esc(T(lang, 'idxPopular', { c: coinCount }))}</h3>
   ${groupedHtml}
