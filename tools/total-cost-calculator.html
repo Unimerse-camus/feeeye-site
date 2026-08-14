@@ -66,8 +66,14 @@
   <div class="panel">
     <div class="grid">
       <div>
-        <label for="amount">Buy amount (USDT)</label>
-        <input id="amount" type="number" inputmode="decimal" value="1000" min="1">
+        <label for="coin">Quote currency</label>
+        <select id="coin"><option value="USDT">USDT (USD quote)</option></select>
+        <div class="updated">Pick a coin and enter an amount; it converts to USDT automatically.</div>
+      </div>
+      <div>
+        <label for="amount">Amount</label>
+        <input id="amount" type="number" inputmode="decimal" value="1000" min="0">
+        <div class="updated" id="amountHint">≈ 1000 USDT</div>
       </div>
       <div>
         <label for="deposit">Deposit method</label>
@@ -133,9 +139,10 @@
 
 <script src="../data/exchanges.js"></script>
 <script src="../data/coins.js"></script>
+<script src="../data/coin-prices.js"></script>
 <script>
 (function(){
-  var state = { deposit:"Bank transfer", withdraw:false, allowed:[], restricted:false };
+  var state = { deposit:"Bank transfer", withdraw:false, allowed:[], restricted:false, coin:"USDT", usdIntent:1000 };
 
 document.getElementById("upd").textContent = window.EXCHANGES.kucoin.last_updated;
 
@@ -149,7 +156,42 @@ document.getElementById("upd").textContent = window.EXCHANGES.kucoin.last_update
     o.value = m; o.textContent = m;
     dsel.appendChild(o);
   });
-  dsel.addEventListener("change", function(){ state.deposit = dsel.value; render(); });function refreshSticky(){
+  dsel.addEventListener("change", function(){ state.deposit = dsel.value; render(); });
+
+  // Coin-denominated input: read coin-prices.js (CoinGecko snapshot), auto-convert to USDT + adjust default spread
+  var PRICES = window.COIN_PRICES || {};
+  var MAJOR = { USDT:1, USDC:1, BTC:1, ETH:1, BNB:1, SOL:1, XRP:1 };
+  var csel = document.getElementById("coin");
+  var slipEl = document.getElementById("slip");
+  var amountEl = document.getElementById("amount");
+  var hintEl = document.getElementById("amountHint");
+  Object.keys(PRICES).sort(function(a,b){ return (PRICES[a].rank||9999)-(PRICES[b].rank||9999); }).forEach(function(sym){
+    var o = document.createElement("option");
+    o.value = sym;
+    o.textContent = sym + ' — ' + PRICES[sym].name;
+    csel.appendChild(o);
+  });
+  csel.addEventListener("change", function(){
+    var newCoin = csel.value;
+    var newPrice = (newCoin === "USDT") ? 1 : ((PRICES[newCoin] && PRICES[newCoin].price) || 0);
+    if(newPrice > 0) amountEl.value = Math.round(state.usdIntent / newPrice * 100000) / 100000; // keep USD intent, back-solve coin amount
+    state.coin = newCoin;
+    slipEl.value = (newCoin === "USDT" || MAJOR[newCoin]) ? 0.1 : 1;
+    render();
+  });
+  function currentPrice(){
+    if(state.coin === "USDT") return 1;
+    var p = PRICES[state.coin];
+    return (p && p.price) ? p.price : 0;
+  }
+  amountEl.addEventListener("input", function(){
+    var qty = parseFloat(amountEl.value)||0;
+    state.usdIntent = qty * currentPrice();
+    hintEl.textContent = (state.coin === "USDT") ? '' : ('≈ ' + fmt(state.usdIntent) + ' USDT');
+    render();
+  });
+
+  function refreshSticky(){
     var st = document.getElementById("sticky");
     var link = document.getElementById("stickyLink");
     if(state.restricted || state.allowed.indexOf("kucoin")===-1){
@@ -192,7 +234,9 @@ document.getElementById("upd").textContent = window.EXCHANGES.kucoin.last_update
   }
 
   function render(){
-    var amt = parseFloat(document.getElementById("amount").value)||0;
+    var qty = parseFloat(document.getElementById("amount").value)||0;
+    var price = currentPrice();
+    var amt = qty * price; // convert to USDT (price=1 when USDT selected)
     var slip = (parseFloat(document.getElementById("slip").value)||0)/100;
     var net = document.getElementById("network").value;
     var method = state.deposit;
@@ -221,7 +265,8 @@ document.getElementById("upd").textContent = window.EXCHANGES.kucoin.last_update
     rows.sort(function(a,b){ return a.mid-b.mid; }); // 按区间中值排序
     var minMid = rows.length ? rows[0].mid : 0;
 
-    var html = '<h3>Total cost comparison — '+method+' deposit, '+fmt(amt)+' USDT</h3>';
+    var amountLabel = (state.coin === "USDT") ? fmt(amt)+' USDT' : fmt(qty)+' '+state.coin+' ≈ '+fmt(amt)+' USDT';
+    var html = '<h3>Total cost comparison — '+method+' deposit, '+amountLabel+'</h3>';
     if(methodNote) html += '<p class="detail" style="margin-top:4px">Note: '+methodNote+'</p>';
     if(skippedCount > 0) html += '<p class="detail" style="margin-top:4px">'+skippedCount+' of '+totalExchanges+' exchanges don\'t support this deposit method (excluded).</p>';
     html += '<table><thead><tr><th>Exchange</th><th>Deposit fee</th><th>Trading fee</th><th>'+(state.withdraw==="yes"?"Withdrawal ("+net+")":"—")+'</th><th>Spread</th><th><b>Total cost</b></th><th>Effective rate</th><th></th></tr></thead><tbody>';

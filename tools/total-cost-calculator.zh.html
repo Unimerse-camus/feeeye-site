@@ -66,8 +66,14 @@
   <div class="panel">
     <div class="grid">
       <div>
-        <label for="amount">买入金额（USDT）</label>
-        <input id="amount" type="number" inputmode="decimal" value="1000" min="1">
+        <label for="coin">计价币种</label>
+        <select id="coin"><option value="USDT">USDT（美元计价）</option></select>
+        <div class="updated">选币种后输入币数量，自动换算成 USDT。</div>
+      </div>
+      <div>
+        <label for="amount">买入数量</label>
+        <input id="amount" type="number" inputmode="decimal" value="1000" min="0">
+        <div class="updated" id="amountHint">≈ 1000 USDT</div>
       </div>
       <div>
         <label for="deposit">入金方式</label>
@@ -133,9 +139,10 @@
 
 <script src="../data/exchanges.js"></script>
 <script src="../data/coins.js"></script>
+<script src="../data/coin-prices.js"></script>
 <script>
 (function(){
-  var state = { deposit:"Bank transfer", withdraw:false, allowed:[], restricted:false };
+  var state = { deposit:"Bank transfer", withdraw:false, allowed:[], restricted:false, coin:"USDT", usdIntent:1000 };
   var LABEL = { depositFee:"入金费", tradeFee:"交易费", wdFee:"提现费", spread:"价差", total:"总成本", effRate:"实际成本率", cheapest:"← 最低", signup:"注册", save:"节省", note:"备注" };
   // 通道名中文化（贴近用户语言：中文币圈叫 C2C 而非 P2P）
   var METHOD_ZH = {
@@ -197,7 +204,42 @@ document.getElementById("upd").textContent = window.EXCHANGES.kucoin.last_update
     o.value = m; o.textContent = zhMethod(m);
     dsel.appendChild(o);
   });
-  dsel.addEventListener("change", function(){ state.deposit = dsel.value; render(); });function refreshSticky(){
+  dsel.addEventListener("change", function(){ state.deposit = dsel.value; render(); });
+
+  // 币种计价：读 coin-prices.js（CoinGecko 快照），选币后自动换算 USDT + 调整 spread 默认值
+  var PRICES = window.COIN_PRICES || {};
+  var MAJOR = { USDT:1, USDC:1, BTC:1, ETH:1, BNB:1, SOL:1, XRP:1 };
+  var csel = document.getElementById("coin");
+  var slipEl = document.getElementById("slip");
+  var amountEl = document.getElementById("amount");
+  var hintEl = document.getElementById("amountHint");
+  Object.keys(PRICES).sort(function(a,b){ return (PRICES[a].rank||9999)-(PRICES[b].rank||9999); }).forEach(function(sym){
+    var o = document.createElement("option");
+    o.value = sym;
+    o.textContent = sym + ' — ' + PRICES[sym].name;
+    csel.appendChild(o);
+  });
+  csel.addEventListener("change", function(){
+    var newCoin = csel.value;
+    var newPrice = (newCoin === "USDT") ? 1 : ((PRICES[newCoin] && PRICES[newCoin].price) || 0);
+    if(newPrice > 0) amountEl.value = Math.round(state.usdIntent / newPrice * 100000) / 100000; // 保持 USDT 意图，反推币数量
+    state.coin = newCoin;
+    slipEl.value = (newCoin === "USDT" || MAJOR[newCoin]) ? 0.1 : 1;
+    render();
+  });
+  function currentPrice(){
+    if(state.coin === "USDT") return 1;
+    var p = PRICES[state.coin];
+    return (p && p.price) ? p.price : 0;
+  }
+  amountEl.addEventListener("input", function(){
+    var qty = parseFloat(amountEl.value)||0;
+    state.usdIntent = qty * currentPrice();
+    hintEl.textContent = (state.coin === "USDT") ? '' : ('≈ ' + fmt(state.usdIntent) + ' USDT');
+    render();
+  });
+
+  function refreshSticky(){
     var st = document.getElementById("sticky");
     var link = document.getElementById("stickyLink");
     if(state.restricted || state.allowed.indexOf("kucoin")===-1){
@@ -240,7 +282,9 @@ document.getElementById("upd").textContent = window.EXCHANGES.kucoin.last_update
   }
 
   function render(){
-    var amt = parseFloat(document.getElementById("amount").value)||0;
+    var qty = parseFloat(document.getElementById("amount").value)||0;
+    var price = currentPrice();
+    var amt = qty * price; // 换算成 USDT（选 USDT 时 price=1，amt=qty）
     var slip = (parseFloat(document.getElementById("slip").value)||0)/100;
     var net = document.getElementById("network").value;
     var method = state.deposit;
@@ -269,7 +313,8 @@ document.getElementById("upd").textContent = window.EXCHANGES.kucoin.last_update
     rows.sort(function(a,b){ return a.mid-b.mid; });
     var minMid = rows.length ? rows[0].mid : 0;
 
-    var html = '<h3>总成本对比 —— '+zhMethod(method)+'入金，'+fmt(amt)+' USDT</h3>';
+    var amountLabel = (state.coin === "USDT") ? fmt(amt)+' USDT' : fmt(qty)+' '+state.coin+' ≈ '+fmt(amt)+' USDT';
+    var html = '<h3>总成本对比 —— '+zhMethod(method)+'入金，'+amountLabel+'</h3>';
     if(methodNote) html += '<p class="detail" style="margin-top:4px">'+LABEL.note+'：'+zhNote(methodNote)+'</p>';
     if(skippedCount > 0) html += '<p class="detail" style="margin-top:4px">'+skippedCount+' / '+totalExchanges+' 家交易所不支持此入金方式，已自动排除。</p>';
     html += '<table><thead><tr><th>交易所</th><th>'+LABEL.depositFee+'</th><th>'+LABEL.tradeFee+'</th><th>'+(state.withdraw==="yes"?LABEL.wdFee+" ("+net+")":"—")+'</th><th>'+LABEL.spread+'</th><th><b>'+LABEL.total+'</b></th><th>'+LABEL.effRate+'</th><th></th></tr></thead><tbody>';
