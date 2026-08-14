@@ -373,7 +373,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC
 header nav{display:flex;align-items:center;justify-content:space-between;padding:6px 0 14px;border-bottom:1px solid var(--line);margin-bottom:20px;flex-wrap:wrap}
 .logo{display:flex;align-items:center;gap:8px;font-weight:800;color:var(--brand);font-size:18px}
 .logo img{height:26px;width:26px;display:block}
-nav a{color:var(--sub);text-decoration:none;font-size:13.5px;margin-left:14px}
+nav > span > a{color:var(--sub);text-decoration:none;font-size:13.5px}
 h1{font-size:25px;margin-bottom:6px}
 h3{margin-top:22px;font-size:18px}
 .intro{color:var(--sub);margin-bottom:18px}
