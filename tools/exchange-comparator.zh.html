@@ -46,10 +46,12 @@
   .foot{color:var(--sub);font-size:12px;margin-top:18px;text-align:center}
   .num{font-variant-numeric:tabular-nums;font-feature-settings:"tnum"}
   .scroll{overflow-x:auto}
-  .scroll table th:first-child,.scroll table td:first-child{position:sticky;left:0;z-index:1;background:var(--card);border-right:1px solid var(--line)}
+  .scroll table{width:100%;table-layout:fixed;border-collapse:collapse}
+  .scroll table th,.scroll table td{padding:10px 12px;word-wrap:break-word;overflow-wrap:break-word;vertical-align:top}
+  .scroll table th:first-child,.scroll table td:first-child{position:sticky;left:0;z-index:1;background:var(--card);border-right:1px solid var(--line);width:110px}
   .scroll table th:first-child{z-index:2}
-  .scroll table th:first-child,.scroll table td:first-child{position:sticky;left:0;z-index:1;background:var(--card);border-right:1px solid var(--line)}
-  .scroll table th:first-child{z-index:2}
+    .scroll table th,.scroll table td{padding:10px 12px;word-wrap:break-word;overflow-wrap:break-word;vertical-align:top}
+  .scroll table th:first-child,.scroll table td:first-child{position:sticky;left:0;z-index:1;background:var(--card);border-right:1px solid var(--line);width:110px}
 </style>
 </head>
 <body>
