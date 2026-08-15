@@ -109,9 +109,7 @@
   <!-- 各交易所合约费率 -->
   <div class="panel" id="p-fee" style="display:none">
     <div class="grid">
-      <div><label for="fee-notional">单笔交易金额（USDT）<span class="tip" data-tip="单次交易的合约名义价值（不是保证金）。10x 杠杆下单笔 10000 USDT 名义值，需要约 1000 USDT 保证金。">ⓘ</span></label><input id="fee-notional" type="number" inputmode="decimal" value="10000" min="1"></div>
-      <div><label>订单类型</label><div class="seg" id="fee-order"><button data-v="taker" class="on">吃单（Taker）</button><button data-v="maker">挂单（Maker）</button></div></div>
-      <div><label for="fee-times">每月交易次数（开+平）</label><input id="fee-times" type="number" inputmode="decimal" value="20" min="1"></div>
+      <div><label>订单类型</label><div class="seg" id="fee-order"><button data-v="taker" class="active">吃单（Taker）</button><button data-v="maker">挂单（Maker）</button></div></div>
     </div>
     <div class="result" id="result-fee"></div>
   </div>
@@ -265,33 +263,28 @@
     return '<a class="cta" href="'+url+'"'+rel+' target="_blank">注册</a>';
   }
   function renderFee(){
-    var notional = parseFloat(document.getElementById("fee-notional").value)||0;
-    var times = parseFloat(document.getElementById("fee-times").value)||0;
     var order = state.feeOrder;
     var el = document.getElementById("result-fee");
 
-    if(!notional || !times){
-      el.innerHTML = '<div class="hint">请填写交易金额与交易次数。</div>';
-      return;
-    }
     var rows = [];
     Object.keys(window.EXCHANGES).forEach(function(slug){
       var ex = window.EXCHANGES[slug];
       if(!ex.futures) return;  // 无合约的所跳过
-      var rate = ex.futures[order];
-      var fee = notional * rate * times;
-      rows.push({slug:slug, name:ex.name, rate:rate, fee:fee});
+      rows.push({slug:slug, name:ex.name, maker:ex.futures.maker, taker:ex.futures.taker});
     });
-    rows.sort(function(a,b){return a.fee-b.fee;});
-    var best = rows.length ? rows[0].fee : 0;
+    // 按 taker 升序排序（最便宜的在上面）
+    rows.sort(function(a,b){return a.taker-b.taker;});
+    // 唯一最低才标（并列不标）
+    var minTaker = rows.length ? rows[0].taker : 0;
+    var minCount = rows.filter(function(r){return Math.abs(r.taker-minTaker)<0.00001;}).length;
 
-    var html = '<table><thead><tr><th>交易所</th><th>合约'+ (order==="taker"?"吃单":"挂单") +'费率</th><th>预计月费（'+fmt(times)+' 次）</th><th></th></tr></thead><tbody>';
+    var html = '<table><thead><tr><th>交易所</th><th>挂单（Maker）</th><th>吃单（Taker）</th><th></th></tr></thead><tbody>';
     rows.forEach(function(r){
-      var bestMark = (r.fee===best && best>0)?' <span class="best">← 最低</span>':"";
-      html += '<tr><td><b>'+r.name+'</b></td><td>'+pct(r.rate)+'</td><td>'+fmt(r.fee)+' USDT'+bestMark+'</td><td>'+ctaCell(r.slug)+'</td></tr>';
+      var bestMark = (minCount===1 && r.taker===minTaker)?' <span class="best">← 最低</span>':"";
+      html += '<tr><td><b>'+r.name+'</b></td><td>'+pct(r.maker)+'</td><td>'+pct(r.taker)+bestMark+'</td><td>'+ctaCell(r.slug)+'</td></tr>';
     });
     html += '</tbody></table>';
-    html += '<div class="hint">为基础档合约费率（'+ (order==="taker"?"吃单":"挂单") +'），未含资金费率。费率随 VIP 等级/平台币抵扣下降，以交易所为准。</div>';
+    html += '<div class="hint">基础档合约费率（按现显示订单类型高亮，未含资金费率）。费率随 VIP 等级/平台币抵扣下降，以交易所为准。</div>';
     el.innerHTML = html;
   }
 
@@ -304,7 +297,7 @@
   }
 
   // 输入绑定
-  ["bal","lossAmt","entry","stop","lev","liq-entry","liq-lev","mmr","pnl-qty","pnl-entry","pnl-exit","pnl-lev","pnl-fee","fee-notional","fee-times"].forEach(function(id){
+  ["bal","lossAmt","entry","stop","lev","liq-entry","liq-lev","mmr","pnl-qty","pnl-entry","pnl-exit","pnl-lev","pnl-fee"].forEach(function(id){
     document.getElementById(id).addEventListener("input", render);
   });
 

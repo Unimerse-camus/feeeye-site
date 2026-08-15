@@ -109,9 +109,7 @@
   <!-- Futures fees -->
   <div class="panel" id="p-fee" style="display:none">
     <div class="grid">
-      <div><label for="fee-notional">Trade notional (USDT)<span class="tip" data-tip="Contract notional value per trade (not margin). 10x leverage on 10000 USDT notional requires ~1000 USDT margin.">ⓘ</span></label><input id="fee-notional" type="number" inputmode="decimal" value="10000" min="1"></div>
-      <div><label>Order type</label><div class="seg" id="fee-order"><button data-v="taker" class="on">Taker</button><button data-v="maker">Maker</button></div></div>
-      <div><label for="fee-times">Trades per month (open+close)</label><input id="fee-times" type="number" inputmode="decimal" value="20" min="1"></div>
+      <div><label>Order type</label><div class="seg" id="fee-order"><button data-v="taker" class="active">Taker</button><button data-v="maker">Maker</button></div></div>
     </div>
     <div class="result" id="result-fee"></div>
   </div>
@@ -253,33 +251,26 @@
     return '<a class="cta" href="'+url+'"'+rel+' target="_blank">Sign up</a>';
   }
   function renderFee(){
-    var notional = parseFloat(document.getElementById("fee-notional").value)||0;
-    var times = parseFloat(document.getElementById("fee-times").value)||0;
     var order = state.feeOrder;
     var el = document.getElementById("result-fee");
 
-    if(!notional || !times){
-      el.innerHTML = '<div class="hint">Fill in notional and trade count.</div>';
-      return;
-    }
     var rows = [];
     Object.keys(window.EXCHANGES).forEach(function(slug){
       var ex = window.EXCHANGES[slug];
       if(!ex.futures) return;
-      var rate = ex.futures[order];
-      var fee = notional * rate * times;
-      rows.push({slug:slug, name:ex.name, rate:rate, fee:fee});
+      rows.push({slug:slug, name:ex.name, maker:ex.futures.maker, taker:ex.futures.taker});
     });
-    rows.sort(function(a,b){return a.fee-b.fee;});
-    var best = rows.length ? rows[0].fee : 0;
+    rows.sort(function(a,b){return a.taker-b.taker;});
+    var minTaker = rows.length ? rows[0].taker : 0;
+    var minCount = rows.filter(function(r){return Math.abs(r.taker-minTaker)<0.00001;}).length;
 
-    var html = '<table><thead><tr><th>Exchange</th><th>Futures '+ (order==="taker"?"taker":"maker") +' fee</th><th>Est. monthly fee ('+fmt(times)+' trades)</th><th></th></tr></thead><tbody>';
+    var html = '<table><thead><tr><th>Exchange</th><th>Maker</th><th>Taker</th><th></th></tr></thead><tbody>';
     rows.forEach(function(r){
-      var bestMark = (r.fee===best && best>0)?' <span class="best">← lowest</span>':"";
-      html += '<tr><td><b>'+r.name+'</b></td><td>'+pct(r.rate)+'</td><td>'+fmt(r.fee)+' USDT'+bestMark+'</td><td>'+ctaCell(r.slug)+'</td></tr>';
+      var bestMark = (minCount===1 && r.taker===minTaker)?' <span class="best">← lowest</span>':"";
+      html += '<tr><td><b>'+r.name+'</b></td><td>'+pct(r.maker)+'</td><td>'+pct(r.taker)+bestMark+'</td><td>'+ctaCell(r.slug)+'</td></tr>';
     });
     html += '</tbody></table>';
-    html += '<div class="hint">Base-tier futures fees ('+ (order==="taker"?"taker":"maker") +'), excluding funding. Fees drop with VIP tiers / platform-token discounts; verify on the exchange.</div>';
+    html += '<div class="hint">Base-tier futures fees. Fees drop with VIP tiers / platform-token discounts; verify on the exchange.</div>';
     el.innerHTML = html;
   }
 
@@ -291,7 +282,7 @@
     else renderFee();
   }
 
-  ["bal","lossAmt","entry","stop","lev","liq-entry","liq-lev","mmr","pnl-qty","pnl-entry","pnl-exit","pnl-lev","pnl-fee","fee-notional","fee-times"].forEach(function(id){
+  ["bal","lossAmt","entry","stop","lev","liq-entry","liq-lev","mmr","pnl-qty","pnl-entry","pnl-exit","pnl-lev","pnl-fee"].forEach(function(id){
     document.getElementById(id).addEventListener("input", render);
   });
 
