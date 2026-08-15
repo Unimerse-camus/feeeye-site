@@ -58,10 +58,6 @@
   <h1>Crypto Exchange Fee Tool</h1>
   <p class="intro">Compare <strong>trading, withdrawal &amp; deposit</strong> fees across major exchanges — free, no signup required.</p>
 
-
-
-  <!-- Country selector -->
-
   <div class="tabs">
     <div class="tab active" data-tab="trading">① Trading Fee</div>
     <div class="tab" data-tab="withdrawal">② USDT Withdrawal Fee</div>
@@ -159,8 +155,7 @@
 (function(){
   var state = { market:"spot", order:"taker", allowed:[], restricted:false };
 
-  // populate country select
-document.getElementById("upd").textContent = window.EXCHANGES.kucoin.last_updated;
+  document.getElementById("upd").textContent = window.EXCHANGES.kucoin.last_updated;
   // tabs
   document.querySelectorAll(".tab").forEach(function(t){
     t.addEventListener("click", function(){

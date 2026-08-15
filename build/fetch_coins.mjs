@@ -191,15 +191,17 @@ async function main() {
     } else {
       exchanges = heuristicCoverage(m.market_cap_rank, sym);
     }
-    // 分类：独立拉取 categories，失败不影响主流程（保持 'other'）
+    // 分类 + 合约地址（顺便用同一 endpoint 拿，零额外请求）
     let category = 'other';
+    let platforms = {};
     if (online) {
       try {
         const d = await cgGet(`${CG}/coins/${m.id}?localization=false&tickers=false&market_data=false&community_data=false&developer_data=false`);
         category = mapCategory(d.categories || []);
+        platforms = d.platforms || {};
         await sleep(1200);
       } catch (e) {
-        /* categories 拉取失败，忽略，category 保持 other */
+        /* categories / platforms 拉取失败，忽略 */
       }
     }
     coins.push({
@@ -211,6 +213,7 @@ async function main() {
       market_cap: m.market_cap,
       exchanges,
       category,
+      platforms,
       networks: [],
       last_updated: new Date().toISOString().slice(0, 10),
       coverage_source: online && doCoverage ? 'coingecko' : 'heuristic'
@@ -246,6 +249,7 @@ async function main() {
         market_cap: m.market_data.market_cap.usd,
         exchanges,
         category: mapCategory(m.categories || []),
+        platforms: m.platforms || {},
         networks: [],
         last_updated: new Date().toISOString().slice(0, 10),
         coverage_source: online && doCoverage ? 'coingecko' : 'heuristic',

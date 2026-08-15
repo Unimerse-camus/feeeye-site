@@ -37,6 +37,12 @@ const COUNTRY_NAMES = ctx.window.COUNTRY_NAMES || {};
 const getFee = ctx.window.getUsdtWithdrawalFee;
 const UPD = EX.kucoin.last_updated;
 const RESTRICTED_LABEL = ['US', 'CN', 'HK', 'SG'].join(', ');
+// Token Security 快照（GoPlus）— fail-soft：缺文件时回退 no_data，页面渲染"No data"
+let SECURITY = { meta: { generated_at: '1970-01-01' }, tokens: {} };
+const secPath = path.join(dataDir, 'security.json');
+if (fs.existsSync(secPath)) {
+  try { SECURITY = JSON.parse(fs.readFileSync(secPath, 'utf8')); } catch (_) {}
+}
 
 // 币种分类：coins.json 的 category 字段（fetch_coins.mjs 从 CoinGecko categories 映射）→ 显示文字。
 // 中性 key 排序 + 双语标签。coins.json 无 category 时回退 'other'。
@@ -79,10 +85,7 @@ function ctaHtml(slug, label, lang) {
 const SVG_ATTR = 'width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"';
 const ICON = {
   receipt: `<svg ${SVG_ATTR}><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 17.5v-11"/></svg>`,
-  calculator: `<svg ${SVG_ATTR}><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="16" y1="14" x2="16" y2="18"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/><path d="M12 14h.01"/><path d="M8 14h.01"/><path d="M12 18h.01"/><path d="M8 18h.01"/></svg>`,
-  scale: `<svg ${SVG_ATTR}><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/></svg>`,
   coins: `<svg ${SVG_ATTR}><circle cx="8" cy="8" r="6"/><path d="M18.09 10.37A6 6 0 1 1 10.34 18"/><path d="M7 6h1v4"/><path d="m16.71 13.88.7.71-2.82 2.82"/></svg>`,
-  landmark: `<svg ${SVG_ATTR}><line x1="3" y1="22" x2="21" y2="22"/><line x1="6" y1="18" x2="6" y2="11"/><line x1="10" y1="18" x2="10" y2="11"/><line x1="14" y1="18" x2="14" y2="11"/><line x1="18" y1="18" x2="18" y2="11"/><polygon points="12 2 20 7 4 7"/></svg>`,
   trend: `<svg ${SVG_ATTR}><polyline points="3 17 9 11 13 15 21 7"/><polyline points="15 7 21 7 21 13"/></svg>`
 };
 
@@ -182,12 +185,9 @@ const I18N = {
     idxIntro: 'Compare exchange fees, find where to buy a token, and check withdrawal costs — free, no signup.',
     idxTcT: 'Spot Cost Calculator', idxTcB: 'Spot trading: deposit / trading / withdrawal / total cost in one tool — see which exchange is cheapest.', idxTcC: 'Open tool →',
     idxFutT: 'Futures Toolbox', idxFutB: 'Four futures trading tools: position sizing, liquidation price, PnL estimate, cross-exchange futures fee comparison.', idxFutC: 'Open tool →',
-    idxFeeT: 'Fee Calculator', idxFeeB: 'Compare trading & withdrawal fees across major exchanges.', idxOpen: 'Open tool →',
     idxCmpT: 'Exchange Comparison', idxCmpB: 'Compare 14 business dimensions: leverage, options, coins, liquidity, copy-trading/bots, reserves/cold storage, KYC, licenses, fiat deposits.', idxCmpC: 'Compare 14 dimensions →',
     idxGloT: 'Crypto Glossary', idxGloB: '40+ plain-language definitions of common crypto terms — from spot trading to wallet security.', idxGloC: 'Browse terms →',
-    idxExT: 'Exchange Pages', idxExB: 'Fees & features per exchange.',
-    idxCpB: 'KuCoin vs others.',
-    idxCpT: 'Comparisons',
+    secT: 'Token security check', secNoData: 'Security data not yet loaded — refresh daily.', secNA: 'Native chain coin (no ERC20 contract). Security checks apply to ERC20 tokens only.', secUnavail: 'Security data temporarily unavailable for this token.', secHoneypot: 'Not a honeypot', secBuyTax: 'Buy tax', secSellTax: 'Sell tax', secRenounced: 'Owner renounced', secMint: 'Fixed supply', secTrust: 'Verified by GoPlus', secWarn: 'High risk detected — review carefully before buying.', secSrc: 'Source: {s} · snapshot {u}',
     idxPopular: 'Popular tokens',
     idxTitle: 'FeeEye — Free Crypto Fee Calculator & Exchange Data',
     idxDesc: 'Free crypto tools: compare exchange fees, find where to buy tokens, check withdrawal costs. No signup.'
@@ -230,12 +230,9 @@ const I18N = {
     idxIntro: '对比交易所费率、查找代币在哪里购买、查看提币成本——免费、无需注册。',
     idxTcT: '现货成本计算器', idxTcB: '聚焦现货：入金 / 交易 / 提币 / 全成本四合一，看清哪家交易所最便宜。', idxTcC: '打开工具 →',
     idxFutT: '合约工具箱', idxFutB: '合约交易 4 个工具：仓位计算 / 强平价 / 盈亏预估 / 各所合约费率对比。', idxFutC: '打开工具 →',
-    idxFeeT: '手续费计算器', idxFeeB: '对比主流交易所的交易与提币费率。', idxOpen: '打开工具 →',
     idxCmpT: '交易所综合对比', idxCmpB: '14 个业务维度对比交易所：杠杆/期权/流动性/币种/跟单/储备/法币入金等。', idxCmpC: '14 维度对比 →',
     idxGloT: '数字货币术语解释', idxGloB: '40+ 数字货币常用术语通俗解释，从现货交易到钱包安全全覆盖。', idxGloC: '查术语 →',
-    idxExT: '交易所页面', idxExB: '每家交易所的费率与功能。',
-    idxCpB: 'KuCoin 与其他交易所对比。',
-    idxCpT: '对比',
+    secT: '代币安全检查', secNoData: '安全数据尚未加载，将每日自动更新。', secNA: '原生链币种（无 ERC20 合约）。安全检查仅适用于 ERC20 代币。', secUnavail: '该代币安全数据暂不可用。', secHoneypot: '非貔貅盘', secBuyTax: '买入税', secSellTax: '卖出税', secRenounced: 'Owner 已放弃权限', secMint: '不可增发', secTrust: 'GoPlus 已验证', secWarn: '检测到高风险——购买前请仔细核查。', secSrc: '数据源：{s} · 快照 {u}',
     idxPopular: '热门代币',
     idxTitle: 'FeeEye——免费加密货币费率计算器与交易所数据',
     idxDesc: '免费加密货币工具：对比交易所费率、查找代币在哪里购买、查看提币成本。无需注册。',
@@ -416,6 +413,19 @@ input[type=number]{font-size:16px}
 .cat-group{margin-bottom:16px}
 .cat-label{font-size:11px;font-weight:600;color:var(--sub);margin-bottom:6px;text-transform:uppercase;letter-spacing:.6px}
 .pill{background:#eef4ff;border:1px solid #c7d8ff;color:#1e40af;border-radius:999px;padding:3px 10px;font-size:12.5px;text-decoration:none}
+.security{background:#f7fdf9;border:1px solid #cce8d4;border-radius:10px;padding:14px 16px;margin:14px 0;font-size:13.5px}
+.security.risky{background:#fef2f2;border-color:#fecaca}
+.security.nodata{background:#f3f4f6;border-color:#e4e8ee}
+.security h3{margin:0 0 6px;font-size:15px;color:#06532a;display:flex;align-items:center;gap:6px}
+.security.risky h3{color:#991b1b}
+.security .sec-warn{color:#991b1b;font-weight:600;margin:0 0 8px;font-size:13px}
+.security .sec-row{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}
+.security .sec-row span{display:inline-block;padding:3px 9px;border-radius:6px;font-size:12.5px;font-weight:600;white-space:nowrap}
+.security .sec-row span.ok{background:#d1f4e0;color:#06532a}
+.security .sec-row span.warn{background:#fef3c7;color:#92400e}
+.security .sec-row span.bad{background:#fee2e2;color:#991b1b}
+.security .sec-na{color:var(--sub);margin:0 0 6px;font-size:13px}
+.security .src{font-size:11.5px;color:var(--sub);margin:8px 0 0}
 </style>
 </head>
 <body>
@@ -426,6 +436,34 @@ ${body}
 </div>
 </body>
 </html>`;
+}
+
+// 币种页"安全检查"区块渲染（6 个核心指标，按"做产品不要自嗨"原则）
+function renderSecurity(symbol, lang) {
+  const sec = SECURITY.tokens[symbol];
+  const u = (SECURITY.meta.generated_at || '').slice(0, 10);
+  const src = SECURITY.meta.source || 'GoPlus';
+  if (!sec) {
+    return `<div class="security nodata"><h3>🛡 ${esc(T(lang, 'secT'))}</h3><p class="sec-na">${esc(T(lang, 'secNoData'))}</p></div>`;
+  }
+  if (sec.status === 'not_applicable') {
+    return `<div class="security"><h3>🛡 ${esc(T(lang, 'secT'))}</h3><p class="sec-na">${esc(sec.reason || T(lang, 'secNA'))}</p><p class="src">${esc(T(lang, 'secSrc', { u, s: src }))}</p></div>`;
+  }
+  if (sec.status === 'not_found' || sec.status === 'error') {
+    return `<div class="security"><h3>🛡 ${esc(T(lang, 'secT'))}</h3><p class="sec-na">${esc(T(lang, 'secUnavail'))}</p><p class="src">${esc(T(lang, 'secSrc', { u, s: src }))}</p></div>`;
+  }
+  const checks = [
+    { ok: !sec.is_honeypot, label: T(lang, 'secHoneypot') },
+    { ok: sec.buy_tax === 0, label: `${T(lang, 'secBuyTax')} ${sec.buy_tax}%` },
+    { ok: sec.sell_tax === 0, label: `${T(lang, 'secSellTax')} ${sec.sell_tax}%` },
+    { ok: sec.owner_renounced, label: T(lang, 'secRenounced') },
+    { ok: !sec.is_mintable, label: T(lang, 'secMint') },
+    { ok: sec.trust_list, label: T(lang, 'secTrust') }
+  ];
+  const isRisky = sec.is_honeypot || sec.buy_tax > 10 || sec.sell_tax > 10;
+  const tags = checks.map((c) => `<span class="${c.ok ? 'ok' : (isRisky ? 'bad' : 'warn')}">${c.ok ? '✓' : '✗'} ${esc(c.label)}</span>`).join('');
+  const warn = isRisky ? `<p class="sec-warn">⚠️ ${esc(T(lang, 'secWarn'))}</p>` : '';
+  return `<div class="security${isRisky ? ' risky' : ''}"><h3>🛡 ${esc(T(lang, 'secT'))}</h3>${warn}<div class="sec-row">${tags}</div><p class="src">${esc(T(lang, 'secSrc', { u, s: src }))}</p></div>`;
 }
 
 // ---- 区块构建（en / zh 双语言）----
@@ -444,6 +482,7 @@ function whereToBuy(c, lang) {
   <h1>${esc(T(lang, 'wbH1', { n: name, s: symbol }))}</h1>
   <p class="intro">${esc(T(lang, 'wbIntro', { n: name }))}</p>
   ${priceLine}
+  ${renderSecurity(c.symbol, lang)}
   <div class="scroll"><table><thead><tr><th>${esc(T(lang, 'thExchange'))}</th><th>${esc(T(lang, 'thLists', { s: symbol }))}</th><th>${esc(T(lang, 'thTaker'))}</th><th>${esc(T(lang, 'thFee20'))}</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>`;
   const jsonLd = {
     '@context': 'https://schema.org', '@type': 'FAQPage',
@@ -542,8 +581,6 @@ function indexPage(lang) {
     <div class="card"><a class="card-title" href="${p(futPath(lang))}"><span class="ic">${ICON.trend}</span><b>${esc(T(lang, 'idxFutT'))}</b></a><br>${esc(T(lang, 'idxFutB'))}<br><a href="${p(futPath(lang))}">${esc(T(lang, 'idxFutC'))}</a></div>
     <div class="card"><a class="card-title" href="${p(cmpPath(lang))}"><span class="ic">${ICON.scale}</span><b>${esc(T(lang, 'idxCmpT'))}</b></a><br>${esc(T(lang, 'idxCmpB'))}<br><a href="${p(cmpPath(lang))}">${esc(T(lang, 'idxCmpC'))}</a></div>
     <div class="card"><a class="card-title" href="${p(gloPath(lang))}"><span class="ic">${ICON.coins}</span><b>${esc(T(lang, 'idxGloT'))}</b></a><br>${esc(T(lang, 'idxGloB'))}<br><a href="${p(gloPath(lang))}">${esc(T(lang, 'idxGloC'))}</a></div>
-    <div class="card"><a class="card-title" href="${p('exchanges/kucoin.html')}"><span class="ic">${ICON.landmark}</span><b>${esc(T(lang, 'idxExT'))}</b></a><br>${esc(T(lang, 'idxExB'))}<br><a href="${p('exchanges/kucoin.html')}">KuCoin →</a></div>
-    <div class="card"><a class="card-title" href="${p('compare/kucoin-vs-bybit.html')}"><span class="ic">${ICON.scale}</span><b>${esc(T(lang, 'idxCpT'))}</b></a><br>${esc(T(lang, 'idxCpB'))}<br><a href="${p('compare/kucoin-vs-bybit.html')}">vs Bybit →</a></div>
   </div>
   <h3>${esc(T(lang, 'idxPopular'))}</h3>
   ${groupedHtml}
