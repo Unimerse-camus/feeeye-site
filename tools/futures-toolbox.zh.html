@@ -53,7 +53,7 @@
   .disclaimer{background:#fffbeb;border:1px solid #fde68a;color:#92400e;border-radius:10px;padding:14px 16px;margin-top:18px;font-size:13px}
   .disclaimer p{margin:0 0 6px}
   .disclaimer p:last-child{margin-bottom:0}
-  td.note{font-size:12.5px;color:var(--sub);line-height:1.5}
+  .fees-note{font-size:12px;color:var(--sub);text-align:center;margin-top:10px;line-height:1.6}
   .foot{color:var(--sub);font-size:12px;margin-top:18px;text-align:center}
 </style>
 </head>
@@ -119,6 +119,7 @@
   </div>
 
   <div class="foot">仅供教育参考，不构成投资建议。请以各交易所官方页面核实所有费率与规则。</div>
+  <div class="fees-note">本页面只展示基础费率，交易所VIP等级提升或持有平台币后，交易费率会下降，具体请以各交易所实际展示为准。</div>
 </div>
 
 <script src="../data/exchanges.js"></script>
@@ -267,7 +268,7 @@
     Object.keys(window.EXCHANGES).forEach(function(slug){
       var ex = window.EXCHANGES[slug];
       if(!ex.futures) return;  // 无合约的所跳过
-      rows.push({slug:slug, name:ex.name, maker:ex.futures.maker, taker:ex.futures.taker, notes:ex.futures_notes || ""});
+      rows.push({slug:slug, name:ex.name, maker:ex.futures.maker, taker:ex.futures.taker});
     });
     // 按 taker 升序排序（最便宜的在上面）
     rows.sort(function(a,b){return a.taker-b.taker;});
@@ -275,10 +276,10 @@
     var minTaker = rows.length ? rows[0].taker : 0;
     var minCount = rows.filter(function(r){return Math.abs(r.taker-minTaker)<0.00001;}).length;
 
-    var html = '<table><thead><tr><th>交易所</th><th>挂单（Maker）</th><th>吃单（Taker）</th><th>备注</th><th></th></tr></thead><tbody>';
+    var html = '<table><thead><tr><th>交易所</th><th>挂单（Maker）</th><th>吃单（Taker）</th><th></th></tr></thead><tbody>';
     rows.forEach(function(r){
       var bestMark = (minCount===1 && r.taker===minTaker)?' <span class="best">← 最低</span>':"";
-      html += '<tr><td><b>'+r.name+'</b></td><td>'+pct(r.maker)+'</td><td>'+pct(r.taker)+bestMark+'</td><td class="note">'+r.notes+'</td><td>'+ctaCell(r.slug)+'</td></tr>';
+      html += '<tr><td><b>'+r.name+'</b></td><td>'+pct(r.maker)+'</td><td>'+pct(r.taker)+bestMark+'</td><td>'+ctaCell(r.slug)+'</td></tr>';
     });
     html += '</tbody></table>';
     el.innerHTML = html;
