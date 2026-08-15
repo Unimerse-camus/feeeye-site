@@ -37,12 +37,6 @@ const COUNTRY_NAMES = ctx.window.COUNTRY_NAMES || {};
 const getFee = ctx.window.getUsdtWithdrawalFee;
 const UPD = EX.kucoin.last_updated;
 const RESTRICTED_LABEL = ['US', 'CN', 'HK', 'SG'].join(', ');
-// Token Security 快照（GoPlus）— fail-soft：缺文件时回退 no_data，页面渲染"No data"
-let SECURITY = { meta: { generated_at: '1970-01-01' }, tokens: {} };
-const secPath = path.join(dataDir, 'security.json');
-if (fs.existsSync(secPath)) {
-  try { SECURITY = JSON.parse(fs.readFileSync(secPath, 'utf8')); } catch (_) {}
-}
 
 // 币种分类：coins.json 的 category 字段（fetch_coins.mjs 从 CoinGecko categories 映射）→ 显示文字。
 // 中性 key 排序 + 双语标签。coins.json 无 category 时回退 'other'。
@@ -87,7 +81,8 @@ const ICON = {
   receipt: `<svg ${SVG_ATTR}><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 17.5v-11"/></svg>`,
   scale: `<svg ${SVG_ATTR}><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/></svg>`,
   coins: `<svg ${SVG_ATTR}><circle cx="8" cy="8" r="6"/><path d="M18.09 10.37A6 6 0 1 1 10.34 18"/><path d="M7 6h1v4"/><path d="m16.71 13.88.7.71-2.82 2.82"/></svg>`,
-  trend: `<svg ${SVG_ATTR}><polyline points="3 17 9 11 13 15 21 7"/><polyline points="15 7 21 7 21 13"/></svg>`
+  trend: `<svg ${SVG_ATTR}><polyline points="3 17 9 11 13 15 21 7"/><polyline points="15 7 21 7 21 13"/></svg>`,
+  shield: `<svg ${SVG_ATTR}><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>`
 };
 
 // ---- 币种：优先 coins.json，回退 coins.js ----
@@ -188,7 +183,7 @@ const I18N = {
     idxFutT: 'Futures Toolbox', idxFutB: 'Four futures trading tools: position sizing, liquidation price, PnL estimate, cross-exchange futures fee comparison.', idxFutC: 'Open tool →',
     idxCmpT: 'Exchange Comparison', idxCmpB: 'Compare 14 business dimensions: leverage, options, coins, liquidity, copy-trading/bots, reserves/cold storage, KYC, licenses, fiat deposits.', idxCmpC: 'Compare 14 dimensions →',
     idxGloT: 'Crypto Glossary', idxGloB: '40+ plain-language definitions of common crypto terms — from spot trading to wallet security.', idxGloC: 'Browse terms →',
-    secT: 'Token security check', secNoData: 'Security data not yet loaded — refresh daily.', secNA: 'Native chain coin (no ERC20 contract). Security checks apply to ERC20 tokens only.', secUnavail: 'Security data temporarily unavailable for this token.', secHoneypot: 'Not a honeypot', secBuyTax: 'Buy tax', secSellTax: 'Sell tax', secRenounced: 'Owner renounced', secMint: 'Fixed supply', secTrust: 'Verified by GoPlus', secWarn: 'High risk detected — review carefully before buying.', secSrc: 'Source: {s} · snapshot {u}',
+    idxSecT: 'Token Security Check', idxSecB: 'Paste any Ethereum contract address to instantly detect honeypots, buy/sell tax, owner privileges and mint risk.', idxSecC: 'Check a token →',
     idxPopular: 'Popular tokens',
     idxTitle: 'FeeEye — Free Crypto Fee Calculator & Exchange Data',
     idxDesc: 'Free crypto tools: compare exchange fees, find where to buy tokens, check withdrawal costs. No signup.'
@@ -233,7 +228,7 @@ const I18N = {
     idxFutT: '合约工具箱', idxFutB: '合约交易 4 个工具：仓位计算 / 强平价 / 盈亏预估 / 各所合约费率对比。', idxFutC: '打开工具 →',
     idxCmpT: '交易所综合对比', idxCmpB: '14 个业务维度对比交易所：杠杆/期权/流动性/币种/跟单/储备/法币入金等。', idxCmpC: '14 维度对比 →',
     idxGloT: '数字货币术语解释', idxGloB: '40+ 数字货币常用术语通俗解释，从现货交易到钱包安全全覆盖。', idxGloC: '查术语 →',
-    secT: '代币安全检查', secNoData: '安全数据尚未加载，将每日自动更新。', secNA: '原生链币种（无 ERC20 合约）。安全检查仅适用于 ERC20 代币。', secUnavail: '该代币安全数据暂不可用。', secHoneypot: '非貔貅盘', secBuyTax: '买入税', secSellTax: '卖出税', secRenounced: 'Owner 已放弃权限', secMint: '不可增发', secTrust: 'GoPlus 已验证', secWarn: '检测到高风险——购买前请仔细核查。', secSrc: '数据源：{s} · 快照 {u}',
+    idxSecT: '代币安全检查', idxSecB: '粘贴任意以太坊合约地址，立即检测貔貅盘、买卖税、Owner 权限和增发风险。', idxSecC: '查一个代币 →',
     idxPopular: '热门代币',
     idxTitle: 'FeeEye——免费加密货币费率计算器与交易所数据',
     idxDesc: '免费加密货币工具：对比交易所费率、查找代币在哪里购买、查看提币成本。无需注册。',
@@ -264,6 +259,9 @@ function futPath(lang) {
 }
 function gloPath(lang) {
   return 'tools/glossary' + (lang === 'zh' ? '.zh' : '') + '.html';
+}
+function secPath(lang) {
+  return 'tools/token-security-checker' + (lang === 'zh' ? '.zh' : '') + '.html';
 }
 
 // ---- 合规页面（Privacy / Terms / Affiliate Disclosure）----
@@ -311,77 +309,31 @@ function legalPage(key, lang) {
 }
 
 // 把 GoPlus 安全数据浓缩为 6 个风险等级（首页 coins 列表过滤用）
-function riskLabel(sec) {
-  if (!sec) return 'unknown';
-  if (sec.status === 'not_applicable') return 'native';
-  if (sec.status === 'not_found' || sec.status === 'error') return 'unknown';
-  if (sec.is_honeypot || sec.buy_tax > 10 || sec.sell_tax > 10) return 'risky';
-  if (!sec.is_honeypot && sec.buy_tax === 0 && sec.sell_tax === 0 && sec.owner_renounced && !sec.is_mintable && sec.trust_list) return 'safe';
-  return 'caution';
-}
-
-// ---- 币种列表页（全部币种 + 搜索 + 风险等级过滤）----
+// ---- 币种列表页（全部币种 + 搜索过滤）----
 function coinsPage(lang) {
   const zh = lang === 'zh';
-  const title = zh ? '全部币种 — 6 项安全检查 + 在哪里购买' : 'All Coins — 6-Point Security + Where to Buy';
-  const desc = zh ? `浏览全部追踪币种，按风险等级过滤，点击查看 6 项 GoPlus 安全检查。` : `Browse all tracked coins, filter by risk, click to see 6-point GoPlus security check.`;
+  const title = zh ? '全部币种 — 在哪里购买' : 'All Coins — Where to Buy';
+  const desc = zh ? `浏览全部追踪币种，搜索并找到每个币在哪里买。` : `Browse all tracked coins and find where to buy each.`;
   const items = [...COIN_LIST].sort((a, b) => a.rank - b.rank)
-    .map((c) => {
-      const risk = riskLabel(SECURITY.tokens[c.symbol]);
-      return `<a class="pill" data-sym="${c.symbol.toLowerCase()}" data-risk="${risk}" href="${lang === 'zh' ? '/zh/' : '/'}where-to-buy/${c.symbol.toLowerCase()}.html">${esc(c.name)} (${esc(c.symbol)})</a>`;
-    })
+    .map((c) => `<a class="pill" data-sym="${c.symbol.toLowerCase()}" href="${lang === 'zh' ? '/zh/' : '/'}where-to-buy/${c.symbol.toLowerCase()}.html">${esc(c.name)} (${esc(c.symbol)})</a>`)
     .join('');
-  const filters = [
-    { id: 'all', label: zh ? '全部' : 'All' },
-    { id: 'safe', label: zh ? '🟢 安全' : '🟢 Safe' },
-    { id: 'caution', label: zh ? '🟡 注意' : '🟡 Caution' },
-    { id: 'risky', label: zh ? '🔴 风险' : '� Risky' },
-    { id: 'native', label: zh ? '⚪ 原生链' : '⚪ Native' },
-    { id: 'unknown', label: zh ? '❓ 未收录' : '❓ Unknown' }
-  ];
-  const chips = filters.map(f => `<button class="filter-chip" data-filter="${f.id}">${f.label}</button>`).join('');
   const body = `
   <h1>${zh ? '全部币种' : 'All Coins'}</h1>
-  <p class="intro">${zh ? `点击任意币查看在哪些交易所可以买到 + 6 项 GoPlus 安全检查（貔貅盘 / 买卖税 / Owner 权限 / 增发 / 验证）。` : `Click any coin to see where to buy + 6-point GoPlus security check (honeypot / tax / owner / mintable / verified).`}</p>
-  <input type="search" id="coinSearch" placeholder="${zh ? '搜索币种（如 BTC、PEPE）…' : 'Search coins (e.g. BTC, PEPE)…'}" style="width:100%;padding:10px 14px;border:1px solid var(--line);border-radius:10px;font-size:15px;margin-bottom:10px">
-  <div class="filter-chips">${chips}</div>
-  <p class="filter-note" id="filterNote"></p>
+  <p class="intro">${zh ? `点击任意币查看在哪些交易所可以买到。` : `Click any coin to see where to buy it.`}</p>
+  <input type="search" id="coinSearch" placeholder="${zh ? '搜索币种（如 BTC、PEPE）…' : 'Search coins (e.g. BTC, PEPE)…'}" style="width:100%;padding:10px 14px;border:1px solid var(--line);border-radius:10px;font-size:15px;margin-bottom:14px">
   <div class="pills" id="coinList">${items}</div>
   <script>
   (function(){
     var input = document.getElementById('coinSearch');
     var list = document.getElementById('coinList');
-    var note = document.getElementById('filterNote');
-    var pills = list.querySelectorAll('.pill');
-    var state = { q: '', filter: 'all' };
-    function apply(){
-      var shown = 0;
+    input.addEventListener('input', function(){
+      var q = input.value.trim().toLowerCase();
+      var pills = list.querySelectorAll('.pill');
       pills.forEach(function(p){
         var sym = (p.getAttribute('data-sym') || '') + ' ' + p.textContent.toLowerCase();
-        var risk = p.getAttribute('data-risk');
-        var matchQ = !state.q || sym.indexOf(state.q) > -1;
-        var matchF = state.filter === 'all' || state.filter === risk;
-        var vis = matchQ && matchF;
-        p.style.display = vis ? '' : 'none';
-        if (vis) shown++;
-      });
-      var hasFilter = state.q || state.filter !== 'all';
-      note.textContent = hasFilter ? (${zh ? "'显示 '" : "'Showing '"} + shown + ' / ' + pills.length + ${zh ? "' 个币种'" : "' coins'"}) : '';
-    }
-    input.addEventListener('input', function(){
-      state.q = input.value.trim().toLowerCase();
-      apply();
-    });
-    document.querySelectorAll('.filter-chip').forEach(function(b){
-      b.addEventListener('click', function(){
-        document.querySelectorAll('.filter-chip').forEach(function(x){ x.classList.remove('active'); });
-        b.classList.add('active');
-        state.filter = b.getAttribute('data-filter');
-        apply();
+        p.style.display = (!q || sym.indexOf(q) > -1) ? '' : 'none';
       });
     });
-    var def = document.querySelector('.filter-chip[data-filter="all"]');
-    if (def) def.classList.add('active');
   })();
   </script>`;
   return page({ lang, title, desc, body, path: `${lang === 'zh' ? 'zh/' : ''}coins.html`, affiliate: false });
@@ -461,23 +413,6 @@ input[type=number]{font-size:16px}
 .cat-group{margin-bottom:16px}
 .cat-label{font-size:11px;font-weight:600;color:var(--sub);margin-bottom:6px;text-transform:uppercase;letter-spacing:.6px}
 .pill{background:#eef4ff;border:1px solid #c7d8ff;color:#1e40af;border-radius:999px;padding:3px 10px;font-size:12.5px;text-decoration:none}
-.filter-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
-.filter-chip{padding:5px 12px;border:1px solid var(--line);background:#fff;border-radius:999px;cursor:pointer;font-size:12.5px;color:var(--sub);font-weight:600}
-.filter-chip.active{background:var(--brand);color:#fff;border-color:var(--brand)}
-.filter-note{font-size:12px;color:var(--sub);margin:0 0 8px}
-.security{background:#f7fdf9;border:1px solid #cce8d4;border-radius:10px;padding:14px 16px;margin:14px 0;font-size:13.5px}
-.security.risky{background:#fef2f2;border-color:#fecaca}
-.security.nodata{background:#f3f4f6;border-color:#e4e8ee}
-.security h3{margin:0 0 6px;font-size:15px;color:#06532a;display:flex;align-items:center;gap:6px}
-.security.risky h3{color:#991b1b}
-.security .sec-warn{color:#991b1b;font-weight:600;margin:0 0 8px;font-size:13px}
-.security .sec-row{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}
-.security .sec-row span{display:inline-block;padding:3px 9px;border-radius:6px;font-size:12.5px;font-weight:600;white-space:nowrap}
-.security .sec-row span.ok{background:#d1f4e0;color:#06532a}
-.security .sec-row span.warn{background:#fef3c7;color:#92400e}
-.security .sec-row span.bad{background:#fee2e2;color:#991b1b}
-.security .sec-na{color:var(--sub);margin:0 0 6px;font-size:13px}
-.security .src{font-size:11.5px;color:var(--sub);margin:8px 0 0}
 </style>
 </head>
 <body>
@@ -488,34 +423,6 @@ ${body}
 </div>
 </body>
 </html>`;
-}
-
-// 币种页"安全检查"区块渲染（6 个核心指标，按"做产品不要自嗨"原则）
-function renderSecurity(symbol, lang) {
-  const sec = SECURITY.tokens[symbol];
-  const u = (SECURITY.meta.generated_at || '').slice(0, 10);
-  const src = SECURITY.meta.source || 'GoPlus';
-  if (!sec) {
-    return `<div class="security nodata"><h3>🛡 ${esc(T(lang, 'secT'))}</h3><p class="sec-na">${esc(T(lang, 'secNoData'))}</p></div>`;
-  }
-  if (sec.status === 'not_applicable') {
-    return `<div class="security"><h3>🛡 ${esc(T(lang, 'secT'))}</h3><p class="sec-na">${esc(sec.reason || T(lang, 'secNA'))}</p><p class="src">${esc(T(lang, 'secSrc', { u, s: src }))}</p></div>`;
-  }
-  if (sec.status === 'not_found' || sec.status === 'error') {
-    return `<div class="security"><h3>🛡 ${esc(T(lang, 'secT'))}</h3><p class="sec-na">${esc(T(lang, 'secUnavail'))}</p><p class="src">${esc(T(lang, 'secSrc', { u, s: src }))}</p></div>`;
-  }
-  const checks = [
-    { ok: !sec.is_honeypot, label: T(lang, 'secHoneypot') },
-    { ok: sec.buy_tax === 0, label: `${T(lang, 'secBuyTax')} ${sec.buy_tax}%` },
-    { ok: sec.sell_tax === 0, label: `${T(lang, 'secSellTax')} ${sec.sell_tax}%` },
-    { ok: sec.owner_renounced, label: T(lang, 'secRenounced') },
-    { ok: !sec.is_mintable, label: T(lang, 'secMint') },
-    { ok: sec.trust_list, label: T(lang, 'secTrust') }
-  ];
-  const isRisky = sec.is_honeypot || sec.buy_tax > 10 || sec.sell_tax > 10;
-  const tags = checks.map((c) => `<span class="${c.ok ? 'ok' : (isRisky ? 'bad' : 'warn')}">${c.ok ? '✓' : '✗'} ${esc(c.label)}</span>`).join('');
-  const warn = isRisky ? `<p class="sec-warn">⚠️ ${esc(T(lang, 'secWarn'))}</p>` : '';
-  return `<div class="security${isRisky ? ' risky' : ''}"><h3>🛡 ${esc(T(lang, 'secT'))}</h3>${warn}<div class="sec-row">${tags}</div><p class="src">${esc(T(lang, 'secSrc', { u, s: src }))}</p></div>`;
 }
 
 // ---- 区块构建（en / zh 双语言）----
@@ -534,7 +441,6 @@ function whereToBuy(c, lang) {
   <h1>${esc(T(lang, 'wbH1', { n: name, s: symbol }))}</h1>
   <p class="intro">${esc(T(lang, 'wbIntro', { n: name }))}</p>
   ${priceLine}
-  ${renderSecurity(c.symbol, lang)}
   <div class="scroll"><table><thead><tr><th>${esc(T(lang, 'thExchange'))}</th><th>${esc(T(lang, 'thLists', { s: symbol }))}</th><th>${esc(T(lang, 'thTaker'))}</th><th>${esc(T(lang, 'thFee20'))}</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>`;
   const jsonLd = {
     '@context': 'https://schema.org', '@type': 'FAQPage',
@@ -633,6 +539,7 @@ function indexPage(lang) {
     <div class="card"><a class="card-title" href="${p(futPath(lang))}"><span class="ic">${ICON.trend}</span><b>${esc(T(lang, 'idxFutT'))}</b></a><br>${esc(T(lang, 'idxFutB'))}<br><a href="${p(futPath(lang))}">${esc(T(lang, 'idxFutC'))}</a></div>
     <div class="card"><a class="card-title" href="${p(cmpPath(lang))}"><span class="ic">${ICON.scale}</span><b>${esc(T(lang, 'idxCmpT'))}</b></a><br>${esc(T(lang, 'idxCmpB'))}<br><a href="${p(cmpPath(lang))}">${esc(T(lang, 'idxCmpC'))}</a></div>
     <div class="card"><a class="card-title" href="${p(gloPath(lang))}"><span class="ic">${ICON.coins}</span><b>${esc(T(lang, 'idxGloT'))}</b></a><br>${esc(T(lang, 'idxGloB'))}<br><a href="${p(gloPath(lang))}">${esc(T(lang, 'idxGloC'))}</a></div>
+    <div class="card"><a class="card-title" href="${p(secPath(lang))}"><span class="ic">${ICON.shield}</span><b>${esc(T(lang, 'idxSecT'))}</b></a><br>${esc(T(lang, 'idxSecB'))}<br><a href="${p(secPath(lang))}">${esc(T(lang, 'idxSecC'))}</a></div>
   </div>
   <h3>${esc(T(lang, 'idxPopular'))}</h3>
   ${groupedHtml}
