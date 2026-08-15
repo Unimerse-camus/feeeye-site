@@ -39,7 +39,7 @@
   .kv{background:#f8fafc;border:1px solid var(--line);border-radius:10px;padding:12px 14px}
   .kv .k{font-size:12px;color:var(--sub);margin-bottom:4px}
   .kv .v{font-size:20px;font-weight:800;line-height:1.3}
-  .kv .v.good{color:var(--ok)} .kv .v.bad{color:var(--bad)} .kv .v.warn{color:var(--warn)}
+  .kv .v.good{color:var(--ok)} .kv .v.bad{color:var(--bad)} .kv .v.warn{color:var(--warn)} .kv .v.info{color:var(--brand2)}
   table{width:100%;border-collapse:collapse;margin-top:16px;font-size:14px}
   th,td{border:1px solid var(--line);padding:10px 12px;text-align:left}
   th{background:#f1f5f9;font-weight:600;white-space:nowrap}
@@ -74,7 +74,7 @@
   <div class="panel" id="p-position">
     <div class="grid">
       <div><label for="bal">账户余额（USDT）</label><input id="bal" type="number" inputmode="decimal" value="10000" min="1"></div>
-      <div><label for="risk">可接受最大损失（%）<span class="tip" data-tip="你这笔交易最多愿意亏多少（占账户余额的比例）。例：10000 USDT 账户填 1% = 最多亏 100 USDT。专业交易者通常 0.5-2%，新人建议 ≤1%。">ⓘ</span></label><input id="risk" type="number" inputmode="decimal" value="1" min="0.1" step="0.1"></div>
+      <div><label for="lossAmt">可接受最大损失（USDT）<span class="tip" data-tip="你这笔交易最多愿意亏多少金额（USDT）。例：10000 USDT 账户填 100 = 账户的 1%。专业交易者通常 0.5%-2%（10000 USDT 账户即 50-200 USDT），新人建议 ≤1%。">ⓘ</span></label><input id="lossAmt" type="number" inputmode="decimal" value="100" min="0.1" step="1"></div>
       <div><label for="entry">开仓价<span class="tip" data-tip="你计划买入/做多的价格（或卖出/做空的价格）。">ⓘ</span></label><input id="entry" type="number" inputmode="decimal" value="100" min="0.000001"></div>
       <div><label for="stop">止损价<span class="tip" data-tip="价格触发这个价位就止损平仓。仓位大小 = 可接受最大损失 / 止损距离，所以止损越远仓位越小。">ⓘ</span></label><input id="stop" type="number" inputmode="decimal" value="95" min="0.000001"></div>
       <div><label for="lev">杠杆（x）<span class="tip" data-tip="借入放大倍数。10x = 用 1 USDT 保证金撬动 10 USDT 名义价值。杠杆越高风险越大（强平越近）。">ⓘ</span></label><input id="lev" type="number" inputmode="decimal" value="10" min="1"></div>
@@ -164,19 +164,20 @@
   // ① 仓位计算
   function renderPosition(){
     var bal = parseFloat(document.getElementById("bal").value)||0;
-    var risk = (parseFloat(document.getElementById("risk").value)||0)/100;
+    var lossAmt = parseFloat(document.getElementById("lossAmt").value)||0;
     var entry = parseFloat(document.getElementById("entry").value)||0;
     var stop = parseFloat(document.getElementById("stop").value)||0;
     var lev = parseFloat(document.getElementById("lev").value)||1;
     var el = document.getElementById("result-position");
 
-    if(!bal || !risk || !entry || !stop || entry===stop){
+    if(!bal || !lossAmt || !entry || !stop || entry===stop){
       el.innerHTML = '<div class="hint">请填写完整参数（开仓价 ≠ 止损价）。</div>';
       return;
     }
-    var riskAmt = bal * risk;                     // 风险金额
+    var riskAmt = lossAmt;                       // 可接受最大损失（USDT）
+    var riskPct = bal > 0 ? lossAmt / bal : 0;     // 等效风险百分比
     var dist = Math.abs(entry - stop);            // 止损距离
-    var qty = riskAmt / dist;                     // 仓位数量（风控导向：先定风险再定仓位）
+    var qty = riskAmt / dist;                     // 仓位数量 = 损失金额 / 止损距离
     var notional = qty * entry;                   // 仓位名义价值
     var margin = notional / lev;                  // 所需保证金
     var maxLoss = qty * dist;                     // 最大亏损（=风险金额）
@@ -190,8 +191,9 @@
     html += kv("仓位名义价值", fmt(notional)+" USDT");
     html += kv("所需保证金", fmt(margin)+" USDT");
     html += kv("最大亏损（止损触发）", fmt(maxLoss)+" USDT", "bad");
+    html += kv("等效风险 %", (riskPct*100).toFixed(2)+"% 账户", "info");
     html += '</div>';
-    html += '<div class="hint">仓位 = 可接受最大损失 ÷ 止损距离 → 先定可承受损失再定仓位。本工具默认「风控模式」（只亏你预设的'+fmt(riskAmt)+' USDT）。如果改成全仓梭哈（不设止损），最多能开 <b>'+fmt(maxQty)+' 币</b>（名义 '+fmt(bal*lev)+' USDT），但反向 5% 即亏 <b>'+fmt(maxQtyLoss)+' USDT（'+(maxQtyLoss/bal*100).toFixed(0)+'% 账户）</b>，远超可承受范围。</div>';
+    html += '<div class="hint">仓位 = 可接受最大损失（USDT）÷ 止损距离 → 先定可承受损失再定仓位。本工具默认「风控模式」（只亏你预设的'+fmt(riskAmt)+' USDT）。如果改成全仓梭哈（不设止损），最多能开 <b>'+fmt(maxQty)+' 币</b>（名义 '+fmt(bal*lev)+' USDT），但反向 5% 即亏 <b>'+fmt(maxQtyLoss)+' USDT（'+(maxQtyLoss/bal*100).toFixed(0)+'% 账户）</b>，远超可承受范围。</div>';
     el.innerHTML = html;
   }
 
@@ -304,7 +306,7 @@
   }
 
   // 输入绑定
-  ["bal","risk","entry","stop","lev","liq-entry","liq-lev","mmr","pnl-qty","pnl-entry","pnl-exit","pnl-lev","pnl-fee","fee-notional","fee-times"].forEach(function(id){
+  ["bal","lossAmt","entry","stop","lev","liq-entry","liq-lev","mmr","pnl-qty","pnl-entry","pnl-exit","pnl-lev","pnl-fee","fee-notional","fee-times"].forEach(function(id){
     document.getElementById(id).addEventListener("input", render);
   });
 

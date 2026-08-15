@@ -39,7 +39,7 @@
   .kv{background:#f8fafc;border:1px solid var(--line);border-radius:10px;padding:12px 14px}
   .kv .k{font-size:12px;color:var(--sub);margin-bottom:4px}
   .kv .v{font-size:20px;font-weight:800;line-height:1.3}
-  .kv .v.good{color:var(--ok)} .kv .v.bad{color:var(--bad)} .kv .v.warn{color:var(--warn)}
+  .kv .v.good{color:var(--ok)} .kv .v.bad{color:var(--bad)} .kv .v.warn{color:var(--warn)} .kv .v.info{color:var(--brand2)}
   table{width:100%;border-collapse:collapse;margin-top:16px;font-size:14px}
   th,td{border:1px solid var(--line);padding:10px 12px;text-align:left}
   th{background:#f1f5f9;font-weight:600;white-space:nowrap}
@@ -74,7 +74,7 @@
   <div class="panel" id="p-position">
     <div class="grid">
       <div><label for="bal">Account balance (USDT)</label><input id="bal" type="number" inputmode="decimal" value="10000" min="1"></div>
-      <div><label for="risk">Maximum acceptable loss (%)<span class="tip" data-tip="The maximum you are willing to lose on this trade, as % of account balance. Example: 10000 USDT account at 1% = max loss 100 USDT. Pros typically 0.5-2%, beginners ≤1%.">ⓘ</span></label><input id="risk" type="number" inputmode="decimal" value="1" min="0.1" step="0.1"></div>
+      <div><label for="lossAmt">Maximum acceptable loss (USDT)<span class="tip" data-tip="The maximum you are willing to lose on this trade (in USDT). Example: 100 USDT on a 10000 USDT account = 1% of account. Pros typically 0.5%-2% (50-200 USDT on a 10000 USDT account); beginners ≤1%.">ⓘ</span></label><input id="lossAmt" type="number" inputmode="decimal" value="100" min="0.1" step="1"></div>
       <div><label for="entry">Entry price<span class="tip" data-tip="The price you plan to buy/go long (or sell/go short).">ⓘ</span></label><input id="entry" type="number" inputmode="decimal" value="100" min="0.000001"></div>
       <div><label for="stop">Stop-loss price<span class="tip" data-tip="Position will auto-close if price hits this level. Position size = acceptable loss / stop distance, so a wider stop means a smaller position.">ⓘ</span></label><input id="stop" type="number" inputmode="decimal" value="95" min="0.000001"></div>
       <div><label for="lev">Leverage (x)<span class="tip" data-tip="Borrowing multiplier. 10x = 1 USDT margin controls 10 USDT notional. Higher leverage = riskier (liquidation closer).">ⓘ</span></label><input id="lev" type="number" inputmode="decimal" value="10" min="1"></div>
@@ -161,17 +161,18 @@
 
   function renderPosition(){
     var bal = parseFloat(document.getElementById("bal").value)||0;
-    var risk = (parseFloat(document.getElementById("risk").value)||0)/100;
+    var lossAmt = parseFloat(document.getElementById("lossAmt").value)||0;
     var entry = parseFloat(document.getElementById("entry").value)||0;
     var stop = parseFloat(document.getElementById("stop").value)||0;
     var lev = parseFloat(document.getElementById("lev").value)||1;
     var el = document.getElementById("result-position");
 
-    if(!bal || !risk || !entry || !stop || entry===stop){
+    if(!bal || !lossAmt || !entry || !stop || entry===stop){
       el.innerHTML = '<div class="hint">Fill in all fields (entry price ≠ stop-loss price).</div>';
       return;
     }
-    var riskAmt = bal * risk;
+    var riskAmt = lossAmt;
+    var riskPct = bal > 0 ? lossAmt / bal : 0;
     var dist = Math.abs(entry - stop);
     var qty = riskAmt / dist;
     var notional = qty * entry;
@@ -187,8 +188,9 @@
     html += kv("Position notional", fmt(notional)+" USDT");
     html += kv("Required margin", fmt(margin)+" USDT");
     html += kv("Max loss (if stopped)", fmt(maxLoss)+" USDT", "bad");
+    html += kv("Equivalent risk %", (riskPct*100).toFixed(2)+"% of account", "info");
     html += '</div>';
-    html += '<div class="hint">Position = acceptable loss ÷ stop distance → size by what you can afford to lose. This tool defaults to <b>risk-controlled sizing</b> (you only ever lose '+fmt(riskAmt)+' USDT). If you instead go all-in (no stop), you could open up to <b>'+fmt(maxQty)+' coins</b> (notional '+fmt(bal*lev)+' USDT), but a 5% adverse move at that size would lose <b>'+fmt(maxQtyLoss)+' USDT ('+(maxQtyLoss/bal*100).toFixed(0)+'% of account)</b> — far beyond any reasonable loss budget.</div>';
+    html += '<div class="hint">Position = acceptable loss (USDT) ÷ stop distance → size by what you can afford to lose. This tool defaults to <b>risk-controlled sizing</b> (you only ever lose '+fmt(riskAmt)+' USDT). If you instead go all-in (no stop), you could open up to <b>'+fmt(maxQty)+' coins</b> (notional '+fmt(bal*lev)+' USDT), but a 5% adverse move at that size would lose <b>'+fmt(maxQtyLoss)+' USDT ('+(maxQtyLoss/bal*100).toFixed(0)+'% of account)</b> — far beyond any reasonable loss budget.</div>';
     el.innerHTML = html;
   }
 
@@ -291,7 +293,7 @@
     else renderFee();
   }
 
-  ["bal","risk","entry","stop","lev","liq-entry","liq-lev","mmr","pnl-qty","pnl-entry","pnl-exit","pnl-lev","pnl-fee","fee-notional","fee-times"].forEach(function(id){
+  ["bal","lossAmt","entry","stop","lev","liq-entry","liq-lev","mmr","pnl-qty","pnl-entry","pnl-exit","pnl-lev","pnl-fee","fee-notional","fee-times"].forEach(function(id){
     document.getElementById(id).addEventListener("input", render);
   });
 
