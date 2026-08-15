@@ -27,4 +27,4 @@ To the maximum extent permitted by law, we are not liable for any loss arising f
 `[Specify jurisdiction and governing law, e.g. "laws of [Country], excluding conflict-of-law rules."]`
 
 ## Contact
-`official@feeeye.com`
+`feeeyeofficial@gmail.com`

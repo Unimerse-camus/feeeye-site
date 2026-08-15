@@ -20,7 +20,7 @@ We use minimal cookies for analytics and to remember tool preferences. You can d
 Aggregated analytics are retained per `[retention period]`. Region selection is never persisted.
 
 ## Your rights
-Depending on your jurisdiction (e.g. GDPR/UK GDPR for EEA/UK residents), you may request access, correction, or deletion of any personal data we hold. Contact: `official@feeeye.com`.
+Depending on your jurisdiction (e.g. GDPR/UK GDPR for EEA/UK residents), you may request access, correction, or deletion of any personal data we hold. Contact: `feeeyeofficial@gmail.com`.
 
 ## Changes
 We will update this policy and the "last reviewed" date when practices change.

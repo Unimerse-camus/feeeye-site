@@ -23,4 +23,4 @@ Nothing on this site is financial, investment, legal, or tax advice. Fee compari
 We aim to present data objectively. Where a comparison might be influenced by affiliate relationships, we disclose it. We do **not** recommend an exchange solely because it pays a higher commission.
 
 ## Contact
-Questions about this disclosure: `official@feeeye.com`
+Questions about this disclosure: `feeeyeofficial@gmail.com`
