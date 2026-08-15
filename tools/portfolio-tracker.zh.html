@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Pragma" no-cache>
 <meta http-equiv="Expires" content="0">
 <title>持仓记账本 — 记录你的加密货币持仓（无需 API Key）</title>
 <link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
@@ -26,7 +26,8 @@
   .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
   @media(max-width:640px){.grid3{grid-template-columns:1fr}}
   label{display:block;font-size:13px;color:var(--sub);margin-bottom:5px;font-weight:600}
-  input,select{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:9px;font-size:15px;background:#fff}
+  input{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:9px;font-size:15px;background:#fff}
+  .coin-input{text-transform:uppercase;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
   .btn{margin-top:14px;background:var(--brand);color:#fff;border:none;padding:12px 18px;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;width:100%}
   .btn:hover{opacity:.92}
   .err{background:#fef2f2;border:1px solid #fecaca;color:#991b1b;border-radius:10px;padding:10px 14px;margin-top:10px;font-size:14px;display:none}
@@ -64,8 +65,9 @@
   <div class="panel">
     <div class="grid3">
       <div>
-        <label for="coin">币种</label>
-        <select id="coin"></select>
+        <label for="coin">币种（输入可搜索）</label>
+        <input id="coin" class="coin-input" type="text" list="coinList" autocomplete="off" placeholder="如 BTC、ETH、SOL" maxlength="12">
+        <datalist id="coinList"></datalist>
       </div>
       <div>
         <label for="qty">数量</label>
@@ -99,7 +101,8 @@
 <script>
 (function(){
   var STORE = 'feeeye_holdings_v1';
-  var coinSel = document.getElementById('coin');
+  var coinInput = document.getElementById('coin');
+  var datalist = document.getElementById('coinList');
   var qty = document.getElementById('qty');
   var cost = document.getElementById('cost');
   var addBtn = document.getElementById('addBtn');
@@ -116,8 +119,8 @@
   coins.forEach(function(c){
     var o = document.createElement('option');
     o.value = c.sym;
-    o.textContent = c.sym + ' — ' + (c.info.name || c.sym);
-    coinSel.appendChild(o);
+    o.label = c.sym + ' — ' + (c.info.name || c.sym);
+    datalist.appendChild(o);
   });
 
   function load(){
@@ -127,9 +130,12 @@
   function save(d){ localStorage.setItem(STORE, JSON.stringify(d)); }
   function showErr(m){ err.textContent = m; err.style.display = 'block'; }
   function hideErr(){ err.style.display = 'none'; }
-  function fmt(n, dp){
+  // 自适应精度：>1000 → 2 位，1-1000 → 4 位，<1 → 6 位（小价格不丢精度）
+  function fmt(n, forceDp){
     if (n == null || !Number.isFinite(n)) return '—';
-    return Number(n).toLocaleString(undefined, { maximumFractionDigits: dp == null ? 2 : dp, minimumFractionDigits: 0 });
+    var abs = Math.abs(n);
+    var dp = forceDp != null ? forceDp : (abs >= 1000 ? 2 : abs >= 1 ? 4 : 6);
+    return Number(n).toLocaleString(undefined, { maximumFractionDigits: dp, minimumFractionDigits: 0 });
   }
   function priceOf(sym){
     if (livePrices[sym] != null) return livePrices[sym];
@@ -138,17 +144,18 @@
   }
 
   function addHolding(){
-    var sym = coinSel.value;
+    var sym = (coinInput.value || '').trim().toUpperCase();
+    if (!sym) { showErr('请输入币种。'); return; }
+    if (!window.COIN_PRICES || !window.COIN_PRICES[sym]) { showErr('暂不支持该币种，请从下拉列表选择（输入可看到候选）。'); return; }
     var q = parseFloat(qty.value);
     var c = parseFloat(cost.value);
-    if (!sym) { showErr('请选择币种。'); return; }
     if (!q || q <= 0) { showErr('请输入有效的数量。'); return; }
     if (!c || c <= 0) { showErr('请输入有效的买入价。'); return; }
     hideErr();
     var d = load();
     d.holdings.push({ id: Date.now().toString(36) + Math.random().toString(36).slice(2,6), symbol: sym, qty: q, cost: c });
     save(d);
-    qty.value = ''; cost.value = '';
+    coinInput.value = ''; qty.value = ''; cost.value = '';
     render();
   }
 
