@@ -312,31 +312,78 @@ function legalPage(key, lang) {
   return page({ lang, title: c.title, desc: c.desc, body: c.body, path: rel, affiliate: false });
 }
 
-// ---- 币种列表页（全部币种 + 搜索过滤）----
+// 把 GoPlus 安全数据浓缩为 6 个风险等级（首页 coins 列表过滤用）
+function riskLabel(sec) {
+  if (!sec) return 'unknown';
+  if (sec.status === 'not_applicable') return 'native';
+  if (sec.status === 'not_found' || sec.status === 'error') return 'unknown';
+  if (sec.is_honeypot || sec.buy_tax > 10 || sec.sell_tax > 10) return 'risky';
+  if (!sec.is_honeypot && sec.buy_tax === 0 && sec.sell_tax === 0 && sec.owner_renounced && !sec.is_mintable && sec.trust_list) return 'safe';
+  return 'caution';
+}
+
+// ---- 币种列表页（全部币种 + 搜索 + 风险等级过滤）----
 function coinsPage(lang) {
   const zh = lang === 'zh';
-  const title = zh ? '全部币种 — 在哪里购买' : 'All Coins — Where to Buy';
-  const desc = zh ? `浏览全部追踪币种，搜索并找到每个币在哪里买。` : `Browse all tracked coins and find where to buy each.`;
+  const title = zh ? '全部币种 — 6 项安全检查 + 在哪里购买' : 'All Coins — 6-Point Security + Where to Buy';
+  const desc = zh ? `浏览全部追踪币种，按风险等级过滤，点击查看 6 项 GoPlus 安全检查。` : `Browse all tracked coins, filter by risk, click to see 6-point GoPlus security check.`;
   const items = [...COIN_LIST].sort((a, b) => a.rank - b.rank)
-    .map((c) => `<a class="pill" data-sym="${c.symbol.toLowerCase()}" href="${lang === 'zh' ? '/zh/' : '/'}where-to-buy/${c.symbol.toLowerCase()}.html">${esc(c.name)} (${esc(c.symbol)})</a>`)
+    .map((c) => {
+      const risk = riskLabel(SECURITY.tokens[c.symbol]);
+      return `<a class="pill" data-sym="${c.symbol.toLowerCase()}" data-risk="${risk}" href="${lang === 'zh' ? '/zh/' : '/'}where-to-buy/${c.symbol.toLowerCase()}.html">${esc(c.name)} (${esc(c.symbol)})</a>`;
+    })
     .join('');
+  const filters = [
+    { id: 'all', label: zh ? '全部' : 'All' },
+    { id: 'safe', label: zh ? '🟢 安全' : '🟢 Safe' },
+    { id: 'caution', label: zh ? '🟡 注意' : '🟡 Caution' },
+    { id: 'risky', label: zh ? '🔴 风险' : '� Risky' },
+    { id: 'native', label: zh ? '⚪ 原生链' : '⚪ Native' },
+    { id: 'unknown', label: zh ? '❓ 未收录' : '❓ Unknown' }
+  ];
+  const chips = filters.map(f => `<button class="filter-chip" data-filter="${f.id}">${f.label}</button>`).join('');
   const body = `
   <h1>${zh ? '全部币种' : 'All Coins'}</h1>
-  <p class="intro">${zh ? `点击任意币查看在哪些交易所可以买到。` : `Click any coin to see where to buy it.`}</p>
-  <input type="search" id="coinSearch" placeholder="${zh ? '搜索币种（如 BTC、PEPE）…' : 'Search coins (e.g. BTC, PEPE)…'}" style="width:100%;padding:10px 14px;border:1px solid var(--line);border-radius:10px;font-size:15px;margin-bottom:14px">
+  <p class="intro">${zh ? `点击任意币查看在哪些交易所可以买到 + 6 项 GoPlus 安全检查（貔貅盘 / 买卖税 / Owner 权限 / 增发 / 验证）。` : `Click any coin to see where to buy + 6-point GoPlus security check (honeypot / tax / owner / mintable / verified).`}</p>
+  <input type="search" id="coinSearch" placeholder="${zh ? '搜索币种（如 BTC、PEPE）…' : 'Search coins (e.g. BTC, PEPE)…'}" style="width:100%;padding:10px 14px;border:1px solid var(--line);border-radius:10px;font-size:15px;margin-bottom:10px">
+  <div class="filter-chips">${chips}</div>
+  <p class="filter-note" id="filterNote"></p>
   <div class="pills" id="coinList">${items}</div>
   <script>
   (function(){
     var input = document.getElementById('coinSearch');
     var list = document.getElementById('coinList');
-    input.addEventListener('input', function(){
-      var q = input.value.trim().toLowerCase();
-      var pills = list.querySelectorAll('.pill');
+    var note = document.getElementById('filterNote');
+    var pills = list.querySelectorAll('.pill');
+    var state = { q: '', filter: 'all' };
+    function apply(){
+      var shown = 0;
       pills.forEach(function(p){
         var sym = (p.getAttribute('data-sym') || '') + ' ' + p.textContent.toLowerCase();
-        p.style.display = (!q || sym.indexOf(q) > -1) ? '' : 'none';
+        var risk = p.getAttribute('data-risk');
+        var matchQ = !state.q || sym.indexOf(state.q) > -1;
+        var matchF = state.filter === 'all' || state.filter === risk;
+        var vis = matchQ && matchF;
+        p.style.display = vis ? '' : 'none';
+        if (vis) shown++;
+      });
+      var hasFilter = state.q || state.filter !== 'all';
+      note.textContent = hasFilter ? (${zh ? "'显示 '" : "'Showing '"} + shown + ' / ' + pills.length + ${zh ? "' 个币种'" : "' coins'"}) : '';
+    }
+    input.addEventListener('input', function(){
+      state.q = input.value.trim().toLowerCase();
+      apply();
+    });
+    document.querySelectorAll('.filter-chip').forEach(function(b){
+      b.addEventListener('click', function(){
+        document.querySelectorAll('.filter-chip').forEach(function(x){ x.classList.remove('active'); });
+        b.classList.add('active');
+        state.filter = b.getAttribute('data-filter');
+        apply();
       });
     });
+    var def = document.querySelector('.filter-chip[data-filter="all"]');
+    if (def) def.classList.add('active');
   })();
   </script>`;
   return page({ lang, title, desc, body, path: `${lang === 'zh' ? 'zh/' : ''}coins.html`, affiliate: false });
@@ -416,6 +463,10 @@ input[type=number]{font-size:16px}
 .cat-group{margin-bottom:16px}
 .cat-label{font-size:11px;font-weight:600;color:var(--sub);margin-bottom:6px;text-transform:uppercase;letter-spacing:.6px}
 .pill{background:#eef4ff;border:1px solid #c7d8ff;color:#1e40af;border-radius:999px;padding:3px 10px;font-size:12.5px;text-decoration:none}
+.filter-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.filter-chip{padding:5px 12px;border:1px solid var(--line);background:#fff;border-radius:999px;cursor:pointer;font-size:12.5px;color:var(--sub);font-weight:600}
+.filter-chip.active{background:var(--brand);color:#fff;border-color:var(--brand)}
+.filter-note{font-size:12px;color:var(--sub);margin:0 0 8px}
 .security{background:#f7fdf9;border:1px solid #cce8d4;border-radius:10px;padding:14px 16px;margin:14px 0;font-size:13.5px}
 .security.risky{background:#fef2f2;border-color:#fecaca}
 .security.nodata{background:#f3f4f6;border-color:#e4e8ee}
