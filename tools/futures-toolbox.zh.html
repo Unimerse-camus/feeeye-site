@@ -74,9 +74,9 @@
   <div class="panel" id="p-position">
     <div class="grid">
       <div><label for="bal">账户余额（USDT）</label><input id="bal" type="number" inputmode="decimal" value="10000" min="1"></div>
-      <div><label for="risk">单笔风险（%）<span class="tip" data-tip="你这笔交易最多愿意亏多少（占账户余额的比例）。例：10000 USDT 账户填 1% = 最多亏 100 USDT。专业交易者通常 0.5-2%，新人建议 ≤1%。">ⓘ</span></label><input id="risk" type="number" inputmode="decimal" value="1" min="0.1" step="0.1"></div>
+      <div><label for="risk">可接受最大损失（%）<span class="tip" data-tip="你这笔交易最多愿意亏多少（占账户余额的比例）。例：10000 USDT 账户填 1% = 最多亏 100 USDT。专业交易者通常 0.5-2%，新人建议 ≤1%。">ⓘ</span></label><input id="risk" type="number" inputmode="decimal" value="1" min="0.1" step="0.1"></div>
       <div><label for="entry">开仓价<span class="tip" data-tip="你计划买入/做多的价格（或卖出/做空的价格）。">ⓘ</span></label><input id="entry" type="number" inputmode="decimal" value="100" min="0.000001"></div>
-      <div><label for="stop">止损价<span class="tip" data-tip="价格触发这个价位就止损平仓。仓位大小 = 风险金额 / 止损距离，所以止损越远仓位越小。">ⓘ</span></label><input id="stop" type="number" inputmode="decimal" value="95" min="0.000001"></div>
+      <div><label for="stop">止损价<span class="tip" data-tip="价格触发这个价位就止损平仓。仓位大小 = 可接受最大损失 / 止损距离，所以止损越远仓位越小。">ⓘ</span></label><input id="stop" type="number" inputmode="decimal" value="95" min="0.000001"></div>
       <div><label for="lev">杠杆（x）<span class="tip" data-tip="借入放大倍数。10x = 用 1 USDT 保证金撬动 10 USDT 名义价值。杠杆越高风险越大（强平越近）。">ⓘ</span></label><input id="lev" type="number" inputmode="decimal" value="10" min="1"></div>
     </div>
     <div class="result" id="result-position"></div>
@@ -186,14 +186,12 @@
     var maxQtyLoss = maxQty * dist;               // 全仓触发止损的亏损
 
     var html = '<div class="kv-grid">';
-    html += kv("风险金额", fmt(riskAmt)+" USDT", "warn");
-    html += kv("止损距离", fmt(dist));
-    html += kv("仓位数量（风控）", fmt(qty)+" 币");
+    html += kv("可开仓位", fmt(qty)+" 币");
     html += kv("仓位名义价值", fmt(notional)+" USDT");
     html += kv("所需保证金", fmt(margin)+" USDT");
     html += kv("最大亏损（止损触发）", fmt(maxLoss)+" USDT", "bad");
     html += '</div>';
-    html += '<div class="hint">仓位 = 风险金额 ÷ 止损距离 → 先定风险再定仓位。本工具默认「风控模式」（只亏你预设的'+fmt(riskAmt)+' USDT）。如果改成全仓梭哈（不设止损），最多能开 <b>'+fmt(maxQty)+' 币</b>（名义 '+fmt(bal*lev)+' USDT），但反向 5% 即亏 <b>'+fmt(maxQtyLoss)+' USDT（'+(maxQtyLoss/bal*100).toFixed(0)+'% 账户）</b>，远超可承受范围。</div>';
+    html += '<div class="hint">仓位 = 可接受最大损失 ÷ 止损距离 → 先定可承受损失再定仓位。本工具默认「风控模式」（只亏你预设的'+fmt(riskAmt)+' USDT）。如果改成全仓梭哈（不设止损），最多能开 <b>'+fmt(maxQty)+' 币</b>（名义 '+fmt(bal*lev)+' USDT），但反向 5% 即亏 <b>'+fmt(maxQtyLoss)+' USDT（'+(maxQtyLoss/bal*100).toFixed(0)+'% 账户）</b>，远超可承受范围。</div>';
     el.innerHTML = html;
   }
 
