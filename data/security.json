@@ -1,7 +1,7 @@
 {
   "meta": {
     "source": "GoPlus Security API",
-    "generated_at": "2026-08-15T06:45:12.774Z",
+    "generated_at": "2026-08-15T13:31:09.792Z",
     "chain": "ethereum-mainnet",
     "note": "ETH mainnet only. Native chain coins (no ERC20 contract) are marked not_applicable. This is a snapshot — not a substitute for your own research."
   },
@@ -28,7 +28,7 @@
       "is_mintable": false,
       "owner_renounced": false,
       "trust_list": true,
-      "holder_count": 336675,
+      "holder_count": 336702,
       "cannot_buy": false,
       "cannot_sell_all": false,
       "transfer_pausable": false,
@@ -102,7 +102,7 @@
       "is_mintable": false,
       "owner_renounced": true,
       "trust_list": true,
-      "holder_count": 911287,
+      "holder_count": 911352,
       "cannot_buy": false,
       "cannot_sell_all": false,
       "transfer_pausable": false,
@@ -127,7 +127,7 @@
       "is_mintable": false,
       "owner_renounced": false,
       "trust_list": false,
-      "holder_count": 803,
+      "holder_count": 804,
       "cannot_buy": false,
       "cannot_sell_all": false,
       "transfer_pausable": true,
@@ -218,7 +218,7 @@
       "is_mintable": false,
       "owner_renounced": true,
       "trust_list": true,
-      "holder_count": 1683145,
+      "holder_count": 1683293,
       "cannot_buy": false,
       "cannot_sell_all": false,
       "transfer_pausable": false,
@@ -239,7 +239,7 @@
       "is_mintable": false,
       "owner_renounced": true,
       "trust_list": false,
-      "holder_count": 60554,
+      "holder_count": 60561,
       "cannot_buy": false,
       "cannot_sell_all": false,
       "transfer_pausable": false,
@@ -260,7 +260,7 @@
       "is_mintable": true,
       "owner_renounced": false,
       "trust_list": false,
-      "holder_count": 345103,
+      "holder_count": 345114,
       "cannot_buy": false,
       "cannot_sell_all": false,
       "transfer_pausable": false,
@@ -281,7 +281,7 @@
       "is_mintable": false,
       "owner_renounced": false,
       "trust_list": true,
-      "holder_count": 19904,
+      "holder_count": 19906,
       "cannot_buy": false,
       "cannot_sell_all": false,
       "transfer_pausable": false,
@@ -364,11 +364,11 @@
       "status": "not_applicable",
       "reason": "Native chain coin (no ERC20 contract)"
     },
-    "PI": {
+    "ETC": {
       "status": "not_applicable",
       "reason": "Native chain coin (no ERC20 contract)"
     },
-    "ETC": {
+    "PI": {
       "status": "not_applicable",
       "reason": "Native chain coin (no ERC20 contract)"
     },
@@ -392,13 +392,13 @@
       "status": "not_found",
       "contract": "0x57e114b691db790c35207b2e685d4a43181e6061"
     },
-    "BTW": {
-      "status": "not_found",
-      "contract": "0x3a63de3572c69a1307ff08394f3ee7702c16d25d"
-    },
     "POL": {
       "status": "not_found",
       "contract": "0x455e53cbb86018ac2b8092fdcd39d8444affc3f6"
+    },
+    "BTW": {
+      "status": "not_found",
+      "contract": "0x3a63de3572c69a1307ff08394f3ee7702c16d25d"
     },
     "STABLE": {
       "status": "not_applicable",
@@ -424,21 +424,21 @@
       "status": "not_applicable",
       "reason": "Native chain coin (no ERC20 contract)"
     },
-    "BDX": {
-      "status": "not_applicable",
-      "reason": "Native chain coin (no ERC20 contract)"
-    },
     "RENDER": {
       "status": "not_found",
       "contract": "0x6de037ef9ad2725eb40118bb1702ebb27e4aeb24"
     },
-    "LIT": {
-      "status": "not_found",
-      "contract": "0x232ce3bd40fcd6f80f3d55a522d03f25df784ee2"
+    "BDX": {
+      "status": "not_applicable",
+      "reason": "Native chain coin (no ERC20 contract)"
     },
     "FIL": {
       "status": "not_applicable",
       "reason": "Native chain coin (no ERC20 contract)"
+    },
+    "LIT": {
+      "status": "not_found",
+      "contract": "0x232ce3bd40fcd6f80f3d55a522d03f25df784ee2"
     },
     "JUP": {
       "status": "not_applicable",
@@ -464,21 +464,21 @@
       "status": "not_applicable",
       "reason": "Native chain coin (no ERC20 contract)"
     },
-    "APT": {
-      "status": "not_applicable",
-      "reason": "Native chain coin (no ERC20 contract)"
+    "ETHFI": {
+      "status": "not_found",
+      "contract": "0xfe0c30065b384f05761f15d0cc899d4f9f9cc0eb"
     },
     "A7A5": {
       "status": "not_found",
       "contract": "0x6fa0be17e4bea2fcfa22ef89bf8ac9aab0ab0fc9"
     },
+    "APT": {
+      "status": "not_applicable",
+      "reason": "Native chain coin (no ERC20 contract)"
+    },
     "CAKE": {
       "status": "not_found",
       "contract": "0x152649ea73beab28c5b49b26eb48f7ead6d4c898"
-    },
-    "ETHFI": {
-      "status": "not_found",
-      "contract": "0xfe0c30065b384f05761f15d0cc899d4f9f9cc0eb"
     },
     "INJ": {
       "status": "not_found",
@@ -524,13 +524,13 @@
       "status": "not_found",
       "contract": "0x14dab79fd7b7b3f748d434812fd6a9aac460ea52"
     },
-    "UB": {
-      "status": "not_found",
-      "contract": "0x6944e1df6bf5972305f9ab25df47ef10de01bcc8"
-    },
     "PYTH": {
       "status": "not_applicable",
       "reason": "Native chain coin (no ERC20 contract)"
+    },
+    "UB": {
+      "status": "not_found",
+      "contract": "0x6944e1df6bf5972305f9ab25df47ef10de01bcc8"
     },
     "BSV": {
       "status": "not_applicable",
@@ -540,23 +540,11 @@
       "status": "not_found",
       "contract": "0x98a878b1cd98131b271883b390f68d2c90674665"
     },
-    "GLIDR": {
-      "status": "not_applicable",
-      "reason": "Native chain coin (no ERC20 contract)"
-    },
-    "FET": {
-      "status": "not_found",
-      "contract": "0xaea46a60368a7bd060eec7df8cba43b7ef41ad85"
-    },
-    "JTO": {
-      "status": "not_applicable",
-      "reason": "Native chain coin (no ERC20 contract)"
-    },
     "SPX": {
       "status": "not_found",
       "contract": "0xe0f63a424a4439cbe457d80e4f4b51ad25b2c56c"
     },
-    "TIA": {
+    "JTO": {
       "status": "not_applicable",
       "reason": "Native chain coin (no ERC20 contract)"
     },
@@ -568,9 +556,17 @@
       "status": "not_applicable",
       "reason": "Native chain coin (no ERC20 contract)"
     },
-    "ZRO": {
+    "FET": {
       "status": "not_found",
-      "contract": "0x6985884c4392d348587b19cb9eaaf157f13271cd"
+      "contract": "0xaea46a60368a7bd060eec7df8cba43b7ef41ad85"
+    },
+    "TIA": {
+      "status": "not_applicable",
+      "reason": "Native chain coin (no ERC20 contract)"
+    },
+    "H": {
+      "status": "not_found",
+      "contract": "0xe76c5b78f93909d34404e9eb4c1f19e7582a5de1"
     },
     "OHM": {
       "status": "not_found",
@@ -579,6 +575,10 @@
     "NFT": {
       "status": "not_found",
       "contract": "0x198d14f2ad9ce69e76ea330b374de4957c3f850a"
+    },
+    "ZRO": {
+      "status": "not_found",
+      "contract": "0x6985884c4392d348587b19cb9eaaf157f13271cd"
     },
     "GNO": {
       "status": "not_found",
@@ -600,35 +600,35 @@
       "status": "not_found",
       "contract": "0x5a98fcbea516cf06857215779fd812ca3bef1b32"
     },
-    "KAG": {
-      "status": "not_found",
-      "contract": "0x56ba8b58b7d1f6d384a1c4dd553f39ebc8741b8e"
-    },
     "MON": {
       "status": "not_applicable",
       "reason": "Native chain coin (no ERC20 contract)"
+    },
+    "KAG": {
+      "status": "not_found",
+      "contract": "0x56ba8b58b7d1f6d384a1c4dd553f39ebc8741b8e"
     },
     "REAL": {
       "status": "not_applicable",
       "reason": "Native chain coin (no ERC20 contract)"
     },
-    "H": {
-      "status": "not_found",
-      "contract": "0xe76c5b78f93909d34404e9eb4c1f19e7582a5de1"
+    "CYS": {
+      "status": "not_applicable",
+      "reason": "Native chain coin (no ERC20 contract)"
     },
-    "PIEVERSE": {
-      "status": "not_found",
-      "contract": "0x0e63b9c287e32a05e6b9ab8ee8df88a2760225a9"
+    "AKE": {
+      "status": "not_applicable",
+      "reason": "Native chain coin (no ERC20 contract)"
     },
     "KITE": {
       "status": "not_found",
       "contract": "0x904567252d8f48555b7447c67dca23f0372e16be"
     },
-    "STX": {
-      "status": "not_applicable",
-      "reason": "Native chain coin (no ERC20 contract)"
+    "PIEVERSE": {
+      "status": "not_found",
+      "contract": "0x0e63b9c287e32a05e6b9ab8ee8df88a2760225a9"
     },
-    "CYS": {
+    "STX": {
       "status": "not_applicable",
       "reason": "Native chain coin (no ERC20 contract)"
     },
@@ -640,7 +640,7 @@
       "status": "not_applicable",
       "reason": "Native chain coin (no ERC20 contract)"
     },
-    "AKE": {
+    "GRASS": {
       "status": "not_applicable",
       "reason": "Native chain coin (no ERC20 contract)"
     },
@@ -648,13 +648,13 @@
       "status": "not_found",
       "contract": "0x1151cb3d861920e07a38e03eead12c32178567f6"
     },
-    "OP": {
-      "status": "not_applicable",
-      "reason": "Native chain coin (no ERC20 contract)"
-    },
     "FLOKI": {
       "status": "not_found",
       "contract": "0xcf0c122c6b73ff809c693db761e7baebe62b6a2e"
+    },
+    "OP": {
+      "status": "not_applicable",
+      "reason": "Native chain coin (no ERC20 contract)"
     },
     "WIF": {
       "status": "not_applicable",
@@ -668,11 +668,15 @@
       "status": "not_applicable",
       "reason": "Native chain coin (no ERC20 contract)"
     },
-    "ROBO": {
+    "COW": {
       "status": "not_found",
-      "contract": "0x32b4d049fe4c888d2b92eecaf729f44df6b1f36e"
+      "contract": "0xdef1ca1fb7fbcdc777520aa7f396b4e015f497ab"
     },
-    "ACE": {
+    "PLUME": {
+      "status": "not_found",
+      "contract": "0x4c1746a800d224393fe2470c70a35717ed4ea5f1"
+    },
+    "WAL": {
       "status": "not_applicable",
       "reason": "Native chain coin (no ERC20 contract)"
     },
@@ -680,9 +684,9 @@
       "status": "not_applicable",
       "reason": "Native chain coin (no ERC20 contract)"
     },
-    "EPIC": {
-      "status": "not_found",
-      "contract": "0x94314a14df63779c99c0764a30e0cd22fa78fc0e"
+    "ACE": {
+      "status": "not_applicable",
+      "reason": "Native chain coin (no ERC20 contract)"
     }
   }
 }
