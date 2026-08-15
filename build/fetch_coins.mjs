@@ -134,16 +134,18 @@ const HOT_COINS = [
 const CATEGORY_PRIORITY = [
   // 稳定币：先匹配（最特定）
   { re: /stablecoin|fiat-backed|^usd$|wrapped.*usd/i, cat: 'stable' },
-  // L1/L2 公链：必须在 DeFi 之前
-  { re: /^l1$|^l2$|^layer 1$|^layer 2$|smart contract platform|bitcoin ecosystem|ethereum ecosystem|solana ecosystem|cosmos ecosystem|polkadot ecosystem|^pow$|^pos$|^proof of work$|store of value/i, cat: 'l1' },
-  // Meme
-  { re: /^meme$|^memecoin$/i, cat: 'meme' },
+  // Meme（必须在 L1 之前：meme 币也常被打 "Layer 1 (L1)" / "Smart Contract Platform" 子标签）
+  { re: /^meme$|^memecoin$|^dog coin ecosystem$/i, cat: 'meme' },
   // RWA / 代币化
-  { re: /^rwa$|real world asset/i, cat: 'rwa' },
-  // 交易所平台币
-  { re: /exchange-based|^cex$|centralized exchange/i, cat: 'exchange' },
-  // DeFi（收紧：只匹配纯 DeFi 关键词，避免被 L1 的 "Decentralized Finance" 子标签误匹配）
-  { re: /^defi$|^dex$|^decentralized exchange$|yield farming|^lending$|liquid staking$|^amm$|automated market maker/i, cat: 'defi' }
+  { re: /^rwa$|real world asset|tokenized asset/i, cat: 'rwa' },
+  // 交易所平台币（必须在 L1 之前：平台币也常被打 "Smart Contract Platform"）
+  { re: /exchange-based|^cex$|^centralized exchange$/i, cat: 'exchange' },
+  // L1/L2 公链：严格只匹配主分类，避免宽匹配吞掉 meme/RWA/平台币
+  // ⚠️ 不要加 "smart contract platform"/"store of value"/"ecosystem"/"pow"/"pos" 这些宽匹配
+  //    —— CoinGecko 给几乎所有币都打了这些子标签，会把 meme/RWA/平台币全部误归 L1
+  { re: /^l1$|^l2$|^layer 1$|^layer 2$|^smart contract platform$/i, cat: 'l1' },
+  // DeFi（收紧：只匹配纯 DeFi 关键词）
+  { re: /^defi$|^dex$|^decentralized exchange$|yield farming|^lending$|liquid staking|^amm$|automated market maker|^oracle$/i, cat: 'defi' }
 ];
 
 function mapCategory(categories) {

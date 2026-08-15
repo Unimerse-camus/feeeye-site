@@ -85,6 +85,7 @@ function ctaHtml(slug, label, lang) {
 const SVG_ATTR = 'width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"';
 const ICON = {
   receipt: `<svg ${SVG_ATTR}><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 17.5v-11"/></svg>`,
+  scale: `<svg ${SVG_ATTR}><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/></svg>`,
   coins: `<svg ${SVG_ATTR}><circle cx="8" cy="8" r="6"/><path d="M18.09 10.37A6 6 0 1 1 10.34 18"/><path d="M7 6h1v4"/><path d="m16.71 13.88.7.71-2.82 2.82"/></svg>`,
   trend: `<svg ${SVG_ATTR}><polyline points="3 17 9 11 13 15 21 7"/><polyline points="15 7 21 7 21 13"/></svg>`
 };
@@ -188,6 +189,7 @@ const I18N = {
     idxCmpT: 'Exchange Comparison', idxCmpB: 'Compare 14 business dimensions: leverage, options, coins, liquidity, copy-trading/bots, reserves/cold storage, KYC, licenses, fiat deposits.', idxCmpC: 'Compare 14 dimensions →',
     idxGloT: 'Crypto Glossary', idxGloB: '40+ plain-language definitions of common crypto terms — from spot trading to wallet security.', idxGloC: 'Browse terms →',
     secT: 'Token security check', secNoData: 'Security data not yet loaded — refresh daily.', secNA: 'Native chain coin (no ERC20 contract). Security checks apply to ERC20 tokens only.', secUnavail: 'Security data temporarily unavailable for this token.', secHoneypot: 'Not a honeypot', secBuyTax: 'Buy tax', secSellTax: 'Sell tax', secRenounced: 'Owner renounced', secMint: 'Fixed supply', secTrust: 'Verified by GoPlus', secWarn: 'High risk detected — review carefully before buying.', secSrc: 'Source: {s} · snapshot {u}',
+    idxSecT: 'Token Security Check', idxSecB: 'On any coin page, see 6 safety indicators: honeypot, buy/sell tax, owner renounced, mintable, GoPlus verified.', idxSecC: 'Browse coins →',
     idxPopular: 'Popular tokens',
     idxTitle: 'FeeEye — Free Crypto Fee Calculator & Exchange Data',
     idxDesc: 'Free crypto tools: compare exchange fees, find where to buy tokens, check withdrawal costs. No signup.'
@@ -233,6 +235,7 @@ const I18N = {
     idxCmpT: '交易所综合对比', idxCmpB: '14 个业务维度对比交易所：杠杆/期权/流动性/币种/跟单/储备/法币入金等。', idxCmpC: '14 维度对比 →',
     idxGloT: '数字货币术语解释', idxGloB: '40+ 数字货币常用术语通俗解释，从现货交易到钱包安全全覆盖。', idxGloC: '查术语 →',
     secT: '代币安全检查', secNoData: '安全数据尚未加载，将每日自动更新。', secNA: '原生链币种（无 ERC20 合约）。安全检查仅适用于 ERC20 代币。', secUnavail: '该代币安全数据暂不可用。', secHoneypot: '非貔貅盘', secBuyTax: '买入税', secSellTax: '卖出税', secRenounced: 'Owner 已放弃权限', secMint: '不可增发', secTrust: 'GoPlus 已验证', secWarn: '检测到高风险——购买前请仔细核查。', secSrc: '数据源：{s} · 快照 {u}',
+    idxSecT: '代币安全检查', idxSecB: '在任意币种页查看 6 项安全指标：貔貅盘 / 买卖税 / Owner 权限 / 增发 / GoPlus 验证。', idxSecC: '查看全部币种 →',
     idxPopular: '热门代币',
     idxTitle: 'FeeEye——免费加密货币费率计算器与交易所数据',
     idxDesc: '免费加密货币工具：对比交易所费率、查找代币在哪里购买、查看提币成本。无需注册。',
@@ -580,6 +583,7 @@ function indexPage(lang) {
     <div class="card"><a class="card-title" href="${p(tcPath(lang))}"><span class="ic">${ICON.receipt}</span><b>${esc(T(lang, 'idxTcT'))}</b></a><br>${esc(T(lang, 'idxTcB'))}<br><a href="${p(tcPath(lang))}">${esc(T(lang, 'idxTcC'))}</a></div>
     <div class="card"><a class="card-title" href="${p(futPath(lang))}"><span class="ic">${ICON.trend}</span><b>${esc(T(lang, 'idxFutT'))}</b></a><br>${esc(T(lang, 'idxFutB'))}<br><a href="${p(futPath(lang))}">${esc(T(lang, 'idxFutC'))}</a></div>
     <div class="card"><a class="card-title" href="${p(cmpPath(lang))}"><span class="ic">${ICON.scale}</span><b>${esc(T(lang, 'idxCmpT'))}</b></a><br>${esc(T(lang, 'idxCmpB'))}<br><a href="${p(cmpPath(lang))}">${esc(T(lang, 'idxCmpC'))}</a></div>
+    <div class="card"><a class="card-title" href="${p('coins.html')}"><span class="ic">🛡</span><b>${esc(T(lang, 'idxSecT'))}</b></a><br>${esc(T(lang, 'idxSecB'))}<br><a href="${p('coins.html')}">${esc(T(lang, 'idxSecC'))}</a></div>
     <div class="card"><a class="card-title" href="${p(gloPath(lang))}"><span class="ic">${ICON.coins}</span><b>${esc(T(lang, 'idxGloT'))}</b></a><br>${esc(T(lang, 'idxGloB'))}<br><a href="${p(gloPath(lang))}">${esc(T(lang, 'idxGloC'))}</a></div>
   </div>
   <h3>${esc(T(lang, 'idxPopular'))}</h3>
