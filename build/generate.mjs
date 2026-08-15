@@ -82,7 +82,8 @@ const ICON = {
   scale: `<svg ${SVG_ATTR}><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/></svg>`,
   coins: `<svg ${SVG_ATTR}><circle cx="8" cy="8" r="6"/><path d="M18.09 10.37A6 6 0 1 1 10.34 18"/><path d="M7 6h1v4"/><path d="m16.71 13.88.7.71-2.82 2.82"/></svg>`,
   trend: `<svg ${SVG_ATTR}><polyline points="3 17 9 11 13 15 21 7"/><polyline points="15 7 21 7 21 13"/></svg>`,
-  shield: `<svg ${SVG_ATTR}><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>`
+  shield: `<svg ${SVG_ATTR}><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>`,
+  wallet: `<svg ${SVG_ATTR}><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4Z"/></svg>`
 };
 
 // ---- 币种：优先 coins.json，回退 coins.js ----
@@ -111,6 +112,7 @@ if (fs.existsSync(coinJsonPath)) {
     price: c.price,
     market_cap: c.market_cap,
     category: c.category || 'other',
+    cg_id: c.cg_id || '',
     exchanges: (c.exchanges && c.exchanges.length) ? c.exchanges : heuristicCoverage(c.rank, c.symbol)
   }));
 } else {
@@ -184,6 +186,7 @@ const I18N = {
     idxCmpT: 'Exchange Comparison', idxCmpB: 'Compare 14 business dimensions: leverage, options, coins, liquidity, copy-trading/bots, reserves/cold storage, KYC, licenses, fiat deposits.', idxCmpC: 'Compare 14 dimensions →',
     idxGloT: 'Crypto Glossary', idxGloB: '40+ plain-language definitions of common crypto terms — from spot trading to wallet security.', idxGloC: 'Browse terms →',
     idxSecT: 'Token Security Check', idxSecB: 'Paste an Ethereum or Solana contract address to instantly detect honeypots, rug risks, tax, mint & freeze authority.', idxSecC: 'Check a token →',
+    idxPfT: 'Portfolio Tracker', idxPfB: 'Log your holdings manually and auto-track profit & loss with live prices. No API key needed — data stays in your browser.', idxPfC: 'Track holdings →',
     idxPopular: 'Popular tokens',
     idxTitle: 'FeeEye — Free Crypto Fee Calculator & Exchange Data',
     idxDesc: 'Free crypto tools: compare exchange fees, find where to buy tokens, check withdrawal costs. No signup.'
@@ -229,6 +232,7 @@ const I18N = {
     idxCmpT: '交易所综合对比', idxCmpB: '14 个业务维度对比交易所：杠杆/期权/流动性/币种/跟单/储备/法币入金等。', idxCmpC: '14 维度对比 →',
     idxGloT: '数字货币术语解释', idxGloB: '40+ 数字货币常用术语通俗解释，从现货交易到钱包安全全覆盖。', idxGloC: '查术语 →',
     idxSecT: '代币安全检查', idxSecB: '粘贴以太坊或 Solana 合约地址，立即检测貔貅盘、Rug 风险、买卖税、增发与冻结权限。', idxSecC: '查一个代币 →',
+    idxPfT: '持仓记账本', idxPfB: '手动记录你的持仓，自动拉取实时价格算盈亏。无需 API Key，数据只存在浏览器本地。', idxPfC: '记一笔持仓 →',
     idxPopular: '热门代币',
     idxTitle: 'FeeEye——免费加密货币费率计算器与交易所数据',
     idxDesc: '免费加密货币工具：对比交易所费率、查找代币在哪里购买、查看提币成本。无需注册。',
@@ -262,6 +266,9 @@ function gloPath(lang) {
 }
 function secPath(lang) {
   return 'tools/token-security-checker' + (lang === 'zh' ? '.zh' : '') + '.html';
+}
+function pfPath(lang) {
+  return 'tools/portfolio-tracker' + (lang === 'zh' ? '.zh' : '') + '.html';
 }
 
 // ---- 合规页面（Privacy / Terms / Affiliate Disclosure）----
@@ -540,6 +547,7 @@ function indexPage(lang) {
     <div class="card"><a class="card-title" href="${p(cmpPath(lang))}"><span class="ic">${ICON.scale}</span><b>${esc(T(lang, 'idxCmpT'))}</b></a><br>${esc(T(lang, 'idxCmpB'))}<br><a href="${p(cmpPath(lang))}">${esc(T(lang, 'idxCmpC'))}</a></div>
     <div class="card"><a class="card-title" href="${p(gloPath(lang))}"><span class="ic">${ICON.coins}</span><b>${esc(T(lang, 'idxGloT'))}</b></a><br>${esc(T(lang, 'idxGloB'))}<br><a href="${p(gloPath(lang))}">${esc(T(lang, 'idxGloC'))}</a></div>
     <div class="card"><a class="card-title" href="${p(secPath(lang))}"><span class="ic">${ICON.shield}</span><b>${esc(T(lang, 'idxSecT'))}</b></a><br>${esc(T(lang, 'idxSecB'))}<br><a href="${p(secPath(lang))}">${esc(T(lang, 'idxSecC'))}</a></div>
+    <div class="card"><a class="card-title" href="${p(pfPath(lang))}"><span class="ic">${ICON.wallet}</span><b>${esc(T(lang, 'idxPfT'))}</b></a><br>${esc(T(lang, 'idxPfB'))}<br><a href="${p(pfPath(lang))}">${esc(T(lang, 'idxPfC'))}</a></div>
   </div>
   <h3>${esc(T(lang, 'idxPopular'))}</h3>
   ${groupedHtml}
@@ -588,11 +596,19 @@ fs.cpSync(dataDir, path.join(distDir, 'zh', 'data'), { recursive: true });
 // 生成 coin-prices.js：供工具页做币种计价（价格来自 coins.json 的 CoinGecko 快照）
 const priceMap = {};
 for (const c of COIN_LIST) {
-  if (c.price != null && c.price > 0) priceMap[c.symbol] = { name: c.name, price: c.price, rank: c.rank };
+  if (c.price != null && c.price > 0) priceMap[c.symbol] = { name: c.name, price: c.price, rank: c.rank, cg_id: c.cg_id || '' };
 }
 const coinPricesJs = `window.COIN_PRICES = ${JSON.stringify(priceMap)};`;
+// 生成 coin-ids.js：symbol → cg_id 映射（供记账本等工具拉实时价格）
+const coinIds = {};
+for (const c of COIN_LIST) {
+  if (c.cg_id) coinIds[c.symbol] = c.cg_id;
+}
+const coinIdsJs = `window.COIN_IDS = ${JSON.stringify(coinIds)};`;
 fs.writeFileSync(path.join(distDir, 'data', 'coin-prices.js'), coinPricesJs);
 fs.writeFileSync(path.join(distDir, 'zh', 'data', 'coin-prices.js'), coinPricesJs);
+fs.writeFileSync(path.join(distDir, 'data', 'coin-ids.js'), coinIdsJs);
+fs.writeFileSync(path.join(distDir, 'zh', 'data', 'coin-ids.js'), coinIdsJs);
 // 拷贝 logo / favicon 到 dist 根（en + zh 通过绝对路径 /assets/ 共用一份）
 fs.cpSync(assetsDir, path.join(distDir, 'assets'), { recursive: true });
 
