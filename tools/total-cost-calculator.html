@@ -188,7 +188,6 @@
   </div>
 
   <div class="foot">Educational only. Not financial advice. Verify all data on official exchange pages.</div>
-  <div class="fees-note">Base-tier fees only. Actual rates may decrease with VIP tier upgrades or holding platform tokens — see each exchange for current rates.</div>
 </div>
 
 <script src="../data/exchanges.js"></script>
@@ -370,6 +369,7 @@
     });
     html += tableFoot();
     resultD.innerHTML = html;
+    resultD.innerHTML += '<div class="fees-note">Base-tier fees only. Actual rates may decrease with VIP tier upgrades or holding platform tokens — see each exchange for current rates.</div>';
   }
 
   function renderTrade(){
@@ -392,6 +392,7 @@
     });
     html += tableFoot();
     resultT.innerHTML = html;
+    resultT.innerHTML += '<div class="fees-note">Base-tier fees only. Actual rates may decrease with VIP tier upgrades or holding platform tokens — see each exchange for current rates.</div>';
   }
 
   function renderWithdraw(){
@@ -415,6 +416,7 @@
     });
     html += tableFoot();
     resultW.innerHTML = html;
+    resultW.innerHTML += '<div class="fees-note">Base-tier fees only. Actual rates may decrease with VIP tier upgrades or holding platform tokens — see each exchange for current rates.</div>';
   }
 
   function renderTotal(){
@@ -457,6 +459,7 @@
     }
     html += '<div class="formula"><b>Formula:</b><br><code>Total = deposit fee + trading fee (amount × '+pct(window.EXCHANGES.kucoin.spot[state.order])+' × '+trades+' trades) + withdrawal fee ('+net+') </code>. Snapshot <span id="upd2"></span> — verify on the exchange before trading.</div>';
     resultA.innerHTML = html;
+    resultA.innerHTML += '<div class="fees-note">Base-tier fees only. Actual rates may decrease with VIP tier upgrades or holding platform tokens — see each exchange for current rates.</div>';
     document.getElementById("upd2").textContent = window.EXCHANGES.kucoin.last_updated;
   }
 

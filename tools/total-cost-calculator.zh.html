@@ -188,7 +188,6 @@
   </div>
 
   <div class="foot">仅供教育参考，不构成投资建议。请以各交易所官方页面核实所有费率。</div>
-  <div class="fees-note">本页面只展示基础费率，交易所VIP等级提升或持有平台币后，交易费率会下降，具体请以各交易所实际展示为准。</div>
 </div>
 
 <script src="../data/exchanges.js"></script>
@@ -390,6 +389,7 @@
     });
     html += tableFoot();
     resultD.innerHTML = html;
+    resultD.innerHTML += '<div class="fees-note">本页面只展示基础费率，交易所VIP等级提升或持有平台币后，交易费率会下降，具体请以各交易所实际展示为准。</div>';
   }
 
   function renderTrade(){
@@ -412,6 +412,7 @@
     });
     html += tableFoot();
     resultT.innerHTML = html;
+    resultT.innerHTML += '<div class="fees-note">本页面只展示基础费率，交易所VIP等级提升或持有平台币后，交易费率会下降，具体请以各交易所实际展示为准。</div>';
   }
 
   function renderWithdraw(){
@@ -435,6 +436,7 @@
     });
     html += tableFoot();
     resultW.innerHTML = html;
+    resultW.innerHTML += '<div class="fees-note">本页面只展示基础费率，交易所VIP等级提升或持有平台币后，交易费率会下降，具体请以各交易所实际展示为准。</div>';
   }
 
   function renderTotal(){
@@ -477,6 +479,7 @@
     }
     html += '<div class="formula"><b>计算方式：</b><br><code>总成本 = 入金费 + 交易费（金额 × '+pct(window.EXCHANGES.kucoin.spot[state.order])+' × '+trades+' 次）+ 提币费（'+net+'）</code>。费率随地区/卡种浮动时显示区间。快照 <span id="upd2"></span>——交易前请以交易所实时显示为准。</div>';
     resultA.innerHTML = html;
+    resultA.innerHTML += '<div class="fees-note">本页面只展示基础费率，交易所VIP等级提升或持有平台币后，交易费率会下降，具体请以各交易所实际展示为准。</div>';
     document.getElementById("upd2").textContent = window.EXCHANGES.kucoin.last_updated;
   }
 

@@ -151,7 +151,6 @@
   </div>
 
   <div class="foot">Educational tool only. Not financial advice. Verify all fees on official exchange pages.</div>
-  <div class="fees-note">Base-tier fees only. Actual rates may decrease with VIP tier upgrades or holding platform tokens — see each exchange for current rates.</div>
 </div>
 
 <script src="../data/exchanges.js"></script>
@@ -280,6 +279,7 @@ document.getElementById("upd").textContent = window.EXCHANGES.kucoin.last_update
       html += '</tbody></table>';
     }
     document.getElementById("result").innerHTML = html;
+    document.getElementById("result").innerHTML += '<div class="fees-note">Base-tier fees only. Actual rates may decrease with VIP tier upgrades or holding platform tokens — see each exchange for current rates.</div>';
   }
 
   document.getElementById("calcTrading").addEventListener("click", render);
