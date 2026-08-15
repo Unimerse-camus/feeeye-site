@@ -47,7 +47,9 @@
   .cta:hover{opacity:.9}
   .na{color:var(--bad);font-weight:600}
   .best{color:var(--ok);font-weight:700}
-  .tip{display:inline-block;color:#94a3b8;font-size:11px;cursor:help;margin-left:4px}
+  .tip{display:inline-block;position:relative;color:var(--ink);background:#f1f5f9;font-size:10px;font-weight:700;cursor:help;margin-left:4px;vertical-align:middle;border:1px solid var(--line);border-radius:50%;width:14px;height:14px;line-height:12px;text-align:center;user-select:none}
+  .tip:hover::after{content:attr(data-tip);position:absolute;bottom:130%;left:50%;transform:translateX(-50%);background:#1c2430;color:#fff;padding:6px 10px;border-radius:6px;font-size:12px;font-weight:400;white-space:nowrap;z-index:100;margin-bottom:6px;box-shadow:0 2px 8px rgba(0,0,0,0.15);pointer-events:none}
+  .tip:hover::before{content:'';position:absolute;bottom:124%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:#1c2430;z-index:100;pointer-events:none}
   .disclaimer{background:#fffbeb;border:1px solid #fde68a;color:#92400e;border-radius:10px;padding:14px 16px;margin-top:18px;font-size:13px}
   .disclaimer p{margin:0 0 6px}
   .disclaimer p:last-child{margin-bottom:0}
@@ -72,10 +74,10 @@
   <div class="panel" id="p-position">
     <div class="grid">
       <div><label for="bal">账户余额（USDT）</label><input id="bal" type="number" inputmode="decimal" value="10000" min="1"></div>
-      <div><label for="risk">单笔风险（%）</label><input id="risk" type="number" inputmode="decimal" value="1" min="0.1" step="0.1"></div>
-      <div><label for="entry">开仓价</label><input id="entry" type="number" inputmode="decimal" value="100" min="0.000001"></div>
-      <div><label for="stop">止损价</label><input id="stop" type="number" inputmode="decimal" value="95" min="0.000001"></div>
-      <div><label for="lev">杠杆（x）</label><input id="lev" type="number" inputmode="decimal" value="10" min="1"></div>
+      <div><label for="risk">单笔风险（%）<span class="tip" data-tip="你这笔交易最多愿意亏多少（占账户余额的比例）。例：10000 USDT 账户填 1% = 最多亏 100 USDT。专业交易者通常 0.5-2%，新人建议 ≤1%。">ⓘ</span></label><input id="risk" type="number" inputmode="decimal" value="1" min="0.1" step="0.1"></div>
+      <div><label for="entry">开仓价<span class="tip" data-tip="你计划买入/做多的价格（或卖出/做空的价格）。">ⓘ</span></label><input id="entry" type="number" inputmode="decimal" value="100" min="0.000001"></div>
+      <div><label for="stop">止损价<span class="tip" data-tip="价格触发这个价位就止损平仓。仓位大小 = 风险金额 / 止损距离，所以止损越远仓位越小。">ⓘ</span></label><input id="stop" type="number" inputmode="decimal" value="95" min="0.000001"></div>
+      <div><label for="lev">杠杆（x）<span class="tip" data-tip="借入放大倍数。10x = 用 1 USDT 保证金撬动 10 USDT 名义价值。杠杆越高风险越大（强平越近）。">ⓘ</span></label><input id="lev" type="number" inputmode="decimal" value="10" min="1"></div>
     </div>
     <div class="result" id="result-position"></div>
   </div>
@@ -84,9 +86,9 @@
   <div class="panel" id="p-liquidation" style="display:none">
     <div class="grid">
       <div><label>方向</label><div class="seg" id="liq-dir"><button data-v="long" class="on">做多</button><button data-v="short">做空</button></div></div>
-      <div><label for="liq-entry">开仓价</label><input id="liq-entry" type="number" inputmode="decimal" value="100" min="0.000001"></div>
-      <div><label for="liq-lev">杠杆（x）</label><input id="liq-lev" type="number" inputmode="decimal" value="10" min="1"></div>
-      <div><label for="mmr">维持保证金率（%）<span class="tip" title="各交易所维持保证金率不同（主流币约 0.4%~1%，小币种更高），请以交易所为准">ⓘ</span></label><input id="mmr" type="number" inputmode="decimal" value="0.5" min="0.1" step="0.1"></div>
+      <div><label for="liq-entry">开仓价<span class="tip" data-tip="你计划买入/做多（或卖出/做空）的起始价格。">ⓘ</span></label><input id="liq-entry" type="number" inputmode="decimal" value="100" min="0.000001"></div>
+      <div><label for="liq-lev">杠杆（x）<span class="tip" data-tip="杠杆越高，强平价距离开仓越近（风险越大）。10x 杠杆下价格反向 10% 即接近强平。">ⓘ</span></label><input id="liq-lev" type="number" inputmode="decimal" value="10" min="1"></div>
+      <div><label for="mmr">维持保证金率（%）<span class="tip" data-tip="维持仓位不被强平所需的最低保证金率。主流币约 0.4%~1%，小币种更高，各所规则不同，请以交易所为准。">ⓘ</span></label><input id="mmr" type="number" inputmode="decimal" value="0.5" min="0.1" step="0.1"></div>
     </div>
     <div class="result" id="result-liquidation"></div>
   </div>
@@ -96,10 +98,10 @@
     <div class="grid">
       <div><label>方向</label><div class="seg" id="pnl-dir"><button data-v="long" class="on">做多</button><button data-v="short">做空</button></div></div>
       <div><label for="pnl-qty">数量（币）</label><input id="pnl-qty" type="number" inputmode="decimal" value="1" min="0.000001"></div>
-      <div><label for="pnl-entry">开仓价</label><input id="pnl-entry" type="number" inputmode="decimal" value="100" min="0.000001"></div>
-      <div><label for="pnl-exit">平仓价</label><input id="pnl-exit" type="number" inputmode="decimal" value="110" min="0.000001"></div>
+      <div><label for="pnl-entry">开仓价<span class="tip" data-tip="建仓时的成交价格。">ⓘ</span></label><input id="pnl-entry" type="number" inputmode="decimal" value="100" min="0.000001"></div>
+      <div><label for="pnl-exit">平仓价<span class="tip" data-tip="你计划止盈/止损的退出价格。">ⓘ</span></label><input id="pnl-exit" type="number" inputmode="decimal" value="110" min="0.000001"></div>
       <div><label for="pnl-lev">杠杆（x）</label><input id="pnl-lev" type="number" inputmode="decimal" value="10" min="1"></div>
-      <div><label for="pnl-fee">手续费率（%，吃单）</label><input id="pnl-fee" type="number" inputmode="decimal" value="0.05" min="0" step="0.01"></div>
+      <div><label for="pnl-fee">手续费率（%，吃单）<span class="tip" data-tip="吃单（Taker，市价）费率。挂单（Maker，限价）通常更低（如 Binance 0.02% vs 0.05%）。总手续费=开仓+平仓两笔。">ⓘ</span></label><input id="pnl-fee" type="number" inputmode="decimal" value="0.05" min="0" step="0.01"></div>
     </div>
     <div class="result" id="result-pnl"></div>
   </div>
@@ -107,7 +109,7 @@
   <!-- 各交易所合约费率 -->
   <div class="panel" id="p-fee" style="display:none">
     <div class="grid">
-      <div><label for="fee-notional">单笔交易金额（USDT）</label><input id="fee-notional" type="number" inputmode="decimal" value="10000" min="1"></div>
+      <div><label for="fee-notional">单笔交易金额（USDT）<span class="tip" data-tip="单次交易的合约名义价值（不是保证金）。10x 杠杆下单笔 10000 USDT 名义值，需要约 1000 USDT 保证金。">ⓘ</span></label><input id="fee-notional" type="number" inputmode="decimal" value="10000" min="1"></div>
       <div><label>订单类型</label><div class="seg" id="fee-order"><button data-v="taker" class="on">吃单（Taker）</button><button data-v="maker">挂单（Maker）</button></div></div>
       <div><label for="fee-times">每月交易次数（开+平）</label><input id="fee-times" type="number" inputmode="decimal" value="20" min="1"></div>
     </div>

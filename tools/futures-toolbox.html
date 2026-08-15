@@ -47,7 +47,9 @@
   .cta:hover{opacity:.9}
   .na{color:var(--bad);font-weight:600}
   .best{color:var(--ok);font-weight:700}
-  .tip{display:inline-block;color:#94a3b8;font-size:11px;cursor:help;margin-left:4px}
+  .tip{display:inline-block;position:relative;color:var(--ink);background:#f1f5f9;font-size:10px;font-weight:700;cursor:help;margin-left:4px;vertical-align:middle;border:1px solid var(--line);border-radius:50%;width:14px;height:14px;line-height:12px;text-align:center;user-select:none}
+  .tip:hover::after{content:attr(data-tip);position:absolute;bottom:130%;left:50%;transform:translateX(-50%);background:#1c2430;color:#fff;padding:6px 10px;border-radius:6px;font-size:12px;font-weight:400;white-space:nowrap;z-index:100;margin-bottom:6px;box-shadow:0 2px 8px rgba(0,0,0,0.15);pointer-events:none}
+  .tip:hover::before{content:'';position:absolute;bottom:124%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:#1c2430;z-index:100;pointer-events:none}
   .disclaimer{background:#fffbeb;border:1px solid #fde68a;color:#92400e;border-radius:10px;padding:14px 16px;margin-top:18px;font-size:13px}
   .disclaimer p{margin:0 0 6px}
   .disclaimer p:last-child{margin-bottom:0}
@@ -72,10 +74,10 @@
   <div class="panel" id="p-position">
     <div class="grid">
       <div><label for="bal">Account balance (USDT)</label><input id="bal" type="number" inputmode="decimal" value="10000" min="1"></div>
-      <div><label for="risk">Risk per trade (%)</label><input id="risk" type="number" inputmode="decimal" value="1" min="0.1" step="0.1"></div>
-      <div><label for="entry">Entry price</label><input id="entry" type="number" inputmode="decimal" value="100" min="0.000001"></div>
-      <div><label for="stop">Stop-loss price</label><input id="stop" type="number" inputmode="decimal" value="95" min="0.000001"></div>
-      <div><label for="lev">Leverage (x)</label><input id="lev" type="number" inputmode="decimal" value="10" min="1"></div>
+      <div><label for="risk">Risk per trade (%)<span class="tip" data-tip="The maximum you are willing to lose on this trade, as % of account balance. Example: 10000 USDT account at 1% = max loss 100 USDT. Pros typically 0.5-2%, beginners ≤1%.">ⓘ</span></label><input id="risk" type="number" inputmode="decimal" value="1" min="0.1" step="0.1"></div>
+      <div><label for="entry">Entry price<span class="tip" data-tip="The price you plan to buy/go long (or sell/go short).">ⓘ</span></label><input id="entry" type="number" inputmode="decimal" value="100" min="0.000001"></div>
+      <div><label for="stop">Stop-loss price<span class="tip" data-tip="Position will auto-close if price hits this level. Position size = risk amount / stop distance, so a wider stop means a smaller position.">ⓘ</span></label><input id="stop" type="number" inputmode="decimal" value="95" min="0.000001"></div>
+      <div><label for="lev">Leverage (x)<span class="tip" data-tip="Borrowing multiplier. 10x = 1 USDT margin controls 10 USDT notional. Higher leverage = riskier (liquidation closer).">ⓘ</span></label><input id="lev" type="number" inputmode="decimal" value="10" min="1"></div>
     </div>
     <div class="result" id="result-position"></div>
   </div>
@@ -84,9 +86,9 @@
   <div class="panel" id="p-liquidation" style="display:none">
     <div class="grid">
       <div><label>Direction</label><div class="seg" id="liq-dir"><button data-v="long" class="on">Long</button><button data-v="short">Short</button></div></div>
-      <div><label for="liq-entry">Entry price</label><input id="liq-entry" type="number" inputmode="decimal" value="100" min="0.000001"></div>
-      <div><label for="liq-lev">Leverage (x)</label><input id="liq-lev" type="number" inputmode="decimal" value="10" min="1"></div>
-      <div><label for="mmr">Maintenance margin rate (%)<span class="tip" title="Differs by exchange (major coins ~0.4%-1%, altcoins higher). Verify on the exchange.">ⓘ</span></label><input id="mmr" type="number" inputmode="decimal" value="0.5" min="0.1" step="0.1"></div>
+      <div><label for="liq-entry">Entry price<span class="tip" data-tip="Your starting position price (long or short).">ⓘ</span></label><input id="liq-entry" type="number" inputmode="decimal" value="100" min="0.000001"></div>
+      <div><label for="liq-lev">Leverage (x)<span class="tip" data-tip="Higher leverage = liquidation price closer to entry. At 10x, a 10% move against you approaches liquidation.">ⓘ</span></label><input id="liq-lev" type="number" inputmode="decimal" value="10" min="1"></div>
+      <div><label for="mmr">Maintenance margin rate (%)<span class="tip" data-tip="Minimum margin ratio required to keep the position open. ~0.4-1% for major coins, higher for altcoins. Rules vary by exchange — verify on the exchange.">ⓘ</span></label><input id="mmr" type="number" inputmode="decimal" value="0.5" min="0.1" step="0.1"></div>
     </div>
     <div class="result" id="result-liquidation"></div>
   </div>
@@ -96,10 +98,10 @@
     <div class="grid">
       <div><label>Direction</label><div class="seg" id="pnl-dir"><button data-v="long" class="on">Long</button><button data-v="short">Short</button></div></div>
       <div><label for="pnl-qty">Quantity (coins)</label><input id="pnl-qty" type="number" inputmode="decimal" value="1" min="0.000001"></div>
-      <div><label for="pnl-entry">Entry price</label><input id="pnl-entry" type="number" inputmode="decimal" value="100" min="0.000001"></div>
-      <div><label for="pnl-exit">Exit price</label><input id="pnl-exit" type="number" inputmode="decimal" value="110" min="0.000001"></div>
+      <div><label for="pnl-entry">Entry price<span class="tip" data-tip="Price at which you opened the position.">ⓘ</span></label><input id="pnl-entry" type="number" inputmode="decimal" value="100" min="0.000001"></div>
+      <div><label for="pnl-exit">Exit price<span class="tip" data-tip="Your planned take-profit or stop-loss exit price.">ⓘ</span></label><input id="pnl-exit" type="number" inputmode="decimal" value="110" min="0.000001"></div>
       <div><label for="pnl-lev">Leverage (x)</label><input id="pnl-lev" type="number" inputmode="decimal" value="10" min="1"></div>
-      <div><label for="pnl-fee">Fee rate (%, taker)</label><input id="pnl-fee" type="number" inputmode="decimal" value="0.05" min="0" step="0.01"></div>
+      <div><label for="pnl-fee">Fee rate (%, taker)<span class="tip" data-tip="Taker (market order) fee rate. Maker (limit order) is usually lower (e.g. Binance 0.02% vs 0.05%). Total fees = open + close.">ⓘ</span></label><input id="pnl-fee" type="number" inputmode="decimal" value="0.05" min="0" step="0.01"></div>
     </div>
     <div class="result" id="result-pnl"></div>
   </div>
@@ -107,7 +109,7 @@
   <!-- Futures fees -->
   <div class="panel" id="p-fee" style="display:none">
     <div class="grid">
-      <div><label for="fee-notional">Trade notional (USDT)</label><input id="fee-notional" type="number" inputmode="decimal" value="10000" min="1"></div>
+      <div><label for="fee-notional">Trade notional (USDT)<span class="tip" data-tip="Contract notional value per trade (not margin). 10x leverage on 10000 USDT notional requires ~1000 USDT margin.">ⓘ</span></label><input id="fee-notional" type="number" inputmode="decimal" value="10000" min="1"></div>
       <div><label>Order type</label><div class="seg" id="fee-order"><button data-v="taker" class="on">Taker</button><button data-v="maker">Maker</button></div></div>
       <div><label for="fee-times">Trades per month (open+close)</label><input id="fee-times" type="number" inputmode="decimal" value="20" min="1"></div>
     </div>
