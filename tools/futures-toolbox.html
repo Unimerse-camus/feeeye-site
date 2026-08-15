@@ -35,7 +35,7 @@
   .seg button.on{background:var(--brand2);color:#fff;border-color:var(--brand2)}
   .hint{font-size:12px;color:var(--sub);margin-top:6px}
   .result{margin-top:16px}
-  .kv-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-top:12px}
+  .kv-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
   .kv{background:#f8fafc;border:1px solid var(--line);border-radius:10px;padding:12px 14px}
   .kv .k{font-size:12px;color:var(--sub);margin-bottom:4px}
   .kv .v{font-size:20px;font-weight:800;line-height:1.3}
@@ -185,8 +185,8 @@
     var html = '<div class="kv-grid">';
     html += kv("Position size", fmt(qty)+" coins");
     html += kv("Position notional", fmt(notional)+" USDT");
-    html += kv("Required margin", fmt(margin)+" USDT");
     html += kv("Max loss (if stopped)", fmt(maxLoss)+" USDT", "bad");
+    html += kv("Required margin", fmt(margin)+" USDT");
     html += '</div>';
     html += '<div class="hint">Position = acceptable loss (USDT) ÷ stop distance → size by what you can afford to lose. This tool defaults to <b>risk-controlled sizing</b> (you only ever lose '+fmt(riskAmt)+' USDT). If you instead go all-in (no stop), you could open up to <b>'+fmt(maxQty)+' coins</b> (notional '+fmt(bal*lev)+' USDT), but a 5% adverse move at that size would lose <b>'+fmt(maxQtyLoss)+' USDT ('+(maxQtyLoss/bal*100).toFixed(0)+'% of account)</b> — far beyond any reasonable loss budget.</div>';
     el.innerHTML = html;
