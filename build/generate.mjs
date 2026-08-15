@@ -183,7 +183,7 @@ const I18N = {
     idxFutT: 'Futures Toolbox', idxFutB: 'Four futures trading tools: position sizing, liquidation price, PnL estimate, cross-exchange futures fee comparison.', idxFutC: 'Open tool →',
     idxCmpT: 'Exchange Comparison', idxCmpB: 'Compare 14 business dimensions: leverage, options, coins, liquidity, copy-trading/bots, reserves/cold storage, KYC, licenses, fiat deposits.', idxCmpC: 'Compare 14 dimensions →',
     idxGloT: 'Crypto Glossary', idxGloB: '40+ plain-language definitions of common crypto terms — from spot trading to wallet security.', idxGloC: 'Browse terms →',
-    idxSecT: 'Token Security Check', idxSecB: 'Paste any Ethereum contract address to instantly detect honeypots, buy/sell tax, owner privileges and mint risk.', idxSecC: 'Check a token →',
+    idxSecT: 'Token Security Check', idxSecB: 'Paste an Ethereum or Solana contract address to instantly detect honeypots, rug risks, tax, mint & freeze authority.', idxSecC: 'Check a token →',
     idxPopular: 'Popular tokens',
     idxTitle: 'FeeEye — Free Crypto Fee Calculator & Exchange Data',
     idxDesc: 'Free crypto tools: compare exchange fees, find where to buy tokens, check withdrawal costs. No signup.'
@@ -228,7 +228,7 @@ const I18N = {
     idxFutT: '合约工具箱', idxFutB: '合约交易 4 个工具：仓位计算 / 强平价 / 盈亏预估 / 各所合约费率对比。', idxFutC: '打开工具 →',
     idxCmpT: '交易所综合对比', idxCmpB: '14 个业务维度对比交易所：杠杆/期权/流动性/币种/跟单/储备/法币入金等。', idxCmpC: '14 维度对比 →',
     idxGloT: '数字货币术语解释', idxGloB: '40+ 数字货币常用术语通俗解释，从现货交易到钱包安全全覆盖。', idxGloC: '查术语 →',
-    idxSecT: '代币安全检查', idxSecB: '粘贴任意以太坊合约地址，立即检测貔貅盘、买卖税、Owner 权限和增发风险。', idxSecC: '查一个代币 →',
+    idxSecT: '代币安全检查', idxSecB: '粘贴以太坊或 Solana 合约地址，立即检测貔貅盘、Rug 风险、买卖税、增发与冻结权限。', idxSecC: '查一个代币 →',
     idxPopular: '热门代币',
     idxTitle: 'FeeEye——免费加密货币费率计算器与交易所数据',
     idxDesc: '免费加密货币工具：对比交易所费率、查找代币在哪里购买、查看提币成本。无需注册。',

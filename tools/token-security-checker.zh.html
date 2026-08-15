@@ -6,11 +6,11 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>代币安全检查 — 检测貔貅盘与诈骗代币</title>
+<title>代币安全检查 — 检测貔貅盘与诈骗代币（以太坊 & Solana）</title>
 <link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
-<meta name="description" content="粘贴任意以太坊代币合约地址，立即检测貔貅盘、买卖税、Owner 权限和增发风险。数据源 GoPlus Security API。免费、无需注册。">
+<meta name="description" content="粘贴以太坊或 Solana 代币合约地址，立即检测貔貅盘、Rug 风险、买卖税、增发与冻结权限。数据源 GoPlus + RugCheck。免费、无需注册。">
 <style>
   :root{--bg:#f7f8fa;--card:#fff;--ink:#1c2430;--sub:#5b6776;--line:#e4e8ee;--brand:#2563eb;--brand2:#0ea5a4;--ok:#16a34a;--bad:#dc2626;--warn:#d97706}
   *{box-sizing:border-box;margin:0;padding:0}
@@ -25,6 +25,9 @@
   .panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;margin-top:10px}
   label{display:block;font-size:13px;color:var(--sub);margin-bottom:5px;font-weight:600}
   input{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:9px;font-size:15px;background:#fff;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+  .seg{display:flex;gap:8px;margin-bottom:14px}
+  .seg button{flex:1;padding:9px;border:1px solid var(--line);background:#fff;border-radius:9px;cursor:pointer;font-weight:600;color:var(--sub)}
+  .seg button.on{background:var(--brand);color:#fff;border-color:var(--brand)}
   .btn{margin-top:14px;background:var(--brand);color:#fff;border:none;padding:12px 18px;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;width:100%}
   .btn:hover{opacity:.92}
   .btn:disabled{opacity:.6;cursor:not-allowed}
@@ -46,6 +49,12 @@
   .check .v.warn{color:var(--warn)}
   .check .v.bad{color:var(--bad)}
   .check .sub{font-size:11.5px;color:var(--sub);margin-top:3px}
+  .risks{margin-top:12px}
+  .risk{padding:8px 10px;border-radius:8px;font-size:13px;margin-bottom:6px}
+  .risk.danger{background:#fef2f2;border:1px solid #fecaca;color:#991b1b}
+  .risk.warn{background:#fffbeb;border:1px solid #fde68a;color:#92400e}
+  .risk.info{background:#f3f4f6;border:1px solid #e4e8ee;color:#5b6776}
+  .risk b{display:block}
   .meta{margin-top:14px;font-size:12.5px;color:var(--sub);border-top:1px solid var(--line);padding-top:12px}
   .meta div{margin-bottom:3px}
   .meta b{color:var(--ink)}
@@ -60,22 +69,27 @@
   <header><nav><a class="logo" href="/zh/" aria-label="FeeEye home"><img src="/assets/logo.svg" alt="FeeEye" width="26" height="26">FeeEye</a><span><a href="token-security-checker.html">English</a></span></nav></header>
 
   <h1>代币安全检查</h1>
-  <p class="intro">粘贴任意以太坊代币合约地址，立即检测<strong>貔貅盘、买卖税、Owner 权限和增发风险</strong>——买陌生币之前先查一查。</p>
+  <p class="intro">粘贴<strong>以太坊</strong>或 <strong>Solana</strong> 代币合约地址，立即检测<strong>貔貅盘、Rug 风险、买卖税、增发与冻结权限</strong>——买陌生币之前先查一查。</p>
 
   <div class="panel">
-    <label for="addr">以太坊合约地址</label>
+    <label>链</label>
+    <div class="seg" id="chainSeg">
+      <button data-chain="eth" class="on">以太坊</button>
+      <button data-chain="sol">Solana</button>
+    </div>
+
+    <label for="addr">合约 / Mint 地址</label>
     <input id="addr" type="text" placeholder="0x…" autocomplete="off" spellcheck="false">
     <button class="btn" id="checkBtn">检查安全性</button>
-    <p class="hint">示例：<a data-example="0xdac17f958d2ee523a2206206994597c13d831ec7">USDT</a> · <a data-example="0x95ad61b0a150d79219dcf64e1e6cc01f0b64c4ce">SHIB</a> · <a data-example="0x6982508145454ce325ddbe47a25d4ec3d2311933">PEPE</a></p>
+    <p class="hint" id="examples"></p>
   </div>
 
   <div class="loading" id="loading">正在查询安全数据…</div>
   <div class="err" id="err"></div>
-
   <div class="panel" id="result" style="display:none"></div>
 
   <div class="foot">
-    数据源：GoPlus Security API（实时，以太坊主网）。本工具帮你识别明显骗局特征——<b>不构成</b>安全保证，也<b>不构成</b>投资建议。请自行做好研究。<br>
+    数据源：GoPlus（以太坊）+ RugCheck（Solana），实时。本工具帮你识别明显骗局特征——<b>不构成</b>安全保证，也<b>不构成</b>投资建议。请自行做好研究。<br>
     <a href="/zh/">首页</a> · <a href="/zh/privacy.html">隐私政策</a> · <a href="/zh/terms.html">使用条款</a> · <a href="/zh/disclosure.html">返佣披露</a>
   </div>
 </div>
@@ -87,90 +101,152 @@
   var loading = document.getElementById('loading');
   var err = document.getElementById('err');
   var result = document.getElementById('result');
+  var examples = document.getElementById('examples');
+  var chain = 'eth';
+
+  var EXAMPLES = {
+    eth: [
+      { label: 'USDT', a: '0xdac17f958d2ee523a2206206994597c13d831ec7' },
+      { label: 'SHIB', a: '0x95ad61b0a150d79219dcf64e1e6cc01f0b64c4ce' },
+      { label: 'PEPE', a: '0x6982508145454ce325ddbe47a25d4ec3d2311933' }
+    ],
+    sol: [
+      { label: 'WIF', a: 'EKpQGSJtjMFqKZ9KQanSqYXRcF8fBopzLHYxdM65zcjm' },
+      { label: 'POPCAT', a: '7GCihgDB8fe6KNjn2MYtkzZcRjQy3t9GHdC8uHYmW2hr' },
+      { label: 'BONK', a: 'DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263' }
+    ]
+  };
 
   function b(v){ return v === '1' || v === 1 || v === true; }
   function pct(v){ var n = parseFloat(v); return Number.isFinite(n) ? n : 0; }
-
+  function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
   function showErr(msg){ err.textContent = msg; err.style.display = 'block'; result.style.display = 'none'; }
   function hideErr(){ err.style.display = 'none'; }
 
+  function renderExamples(){
+    examples.innerHTML = '示例：' + EXAMPLES[chain].map(function(x){
+      return '<a data-example="' + x.a + '">' + x.label + '</a>';
+    }).join(' · ');
+    document.querySelectorAll('[data-example]').forEach(function(a){
+      a.onclick = function(){ addr.value = a.getAttribute('data-example'); check(); };
+    });
+  }
+
+  function switchChain(c){
+    chain = c;
+    document.querySelectorAll('#chainSeg button').forEach(function(x){ x.classList.toggle('on', x.getAttribute('data-chain') === c); });
+    addr.value = '';
+    addr.placeholder = chain === 'sol' ? 'Base58 mint 地址（如 EKpQGSJt…）' : '0x…（40 位十六进制）';
+    renderExamples();
+    hideErr();
+    result.style.display = 'none';
+  }
+
+  function validAddr(a){
+    if (chain === 'sol') return /^[1-9A-HJ-NP-Za-km-z]{32,44}$/.test(a);
+    return /^0x[a-fA-F0-9]{40}$/.test(a);
+  }
+
   function check(){
     var a = addr.value.trim();
-    if (!/^0x[a-fA-F0-9]{40}$/.test(a)) { showErr('请输入有效的以太坊合约地址（0x 开头 + 40 位十六进制字符）。'); return; }
+    if (!validAddr(a)) {
+      showErr(chain === 'sol' ? '请输入有效的 Solana mint 地址（base58，32–44 位）。' : '请输入有效的以太坊合约地址（0x 开头 + 40 位十六进制）。');
+      return;
+    }
     hideErr();
     btn.disabled = true;
     loading.style.display = 'block';
     result.style.display = 'none';
-    fetch('https://api.gopluslabs.io/api/v1/token_security/1?contract_addresses=' + a)
-      .then(function(r){ return r.json(); })
+    var url = chain === 'sol'
+      ? 'https://api.rugcheck.xyz/v1/tokens/' + a + '/report'
+      : 'https://api.gopluslabs.io/api/v1/token_security/1?contract_addresses=' + a;
+    fetch(url)
+      .then(function(r){ if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
       .then(function(data){
-        var d = data.result && (data.result[a.toLowerCase()] || data.result[a]);
-        if (!d || Object.keys(d).length === 0) {
-          showErr('未找到该合约的安全数据（可能不是以太坊主网代币，或 GoPlus 尚未收录）。');
-          return;
-        }
-        render(d);
+        if (chain === 'sol') renderSol(data, a); else renderEth(data, a);
       })
       .catch(function(e){ showErr('查询失败：' + e.message + '，请重试。'); })
       .finally(function(){ btn.disabled = false; loading.style.display = 'none'; });
   }
 
-  function render(d){
-    var honeypot = b(d.is_honeypot);
-    var buyTax = pct(d.buy_tax);
-    var sellTax = pct(d.sell_tax);
+  function renderEth(data, a){
+    var d = data.result && (data.result[a.toLowerCase()] || data.result[a]);
+    if (!d || Object.keys(d).length === 0) { showErr('未找到该合约的安全数据（可能不是以太坊主网代币，或 GoPlus 尚未收录）。'); return; }
+    var honeypot = b(d.is_honeypot), buyTax = pct(d.buy_tax), sellTax = pct(d.sell_tax);
     var canTakeBack = b(d.can_take_back_ownership);
     var hasOwner = d.owner_address && d.owner_address !== '' && d.owner_address !== '0x0000000000000000000000000000000000000000';
-    var renounced = !canTakeBack && !hasOwner;
-    var mintable = b(d.is_mintable);
-    var trust = b(d.trust_list);
-    var openSource = b(d.is_open_source);
-    var proxy = b(d.is_proxy);
-    var blacklisted = b(d.is_blacklisted);
-    var pausable = b(d.transfer_pausable);
-
+    var renounced = !canTakeBack && !hasOwner, mintable = b(d.is_mintable), trust = b(d.trust_list);
     var level, levelLabel, badge;
-    if (honeypot) { level = 'high'; levelLabel = '极高风险——该代币被标记为貔貅盘（可能无法卖出）。'; badge = '🔴'; }
-    else if (buyTax > 20 || sellTax > 20) { level = 'high'; levelLabel = '高风险——买卖税极高（' + Math.max(buyTax, sellTax) + '%）。'; badge = '🔴'; }
-    else if (buyTax > 10 || sellTax > 10) { level = 'med'; levelLabel = '中等风险——买卖税较高（' + Math.max(buyTax, sellTax) + '%）。'; badge = '🟡'; }
-    else if (mintable || (canTakeBack && hasOwner)) { level = 'med'; levelLabel = '中等风险——Owner 仍保留权限（可增发 / 可改合约）。'; badge = '🟡'; }
-    else { level = 'low'; levelLabel = '低风险——未发现明显骗局特征。'; badge = '🟢'; }
-
+    if (honeypot) { level='high'; levelLabel='极高风险——被标记为貔貅盘（可能无法卖出）。'; badge='🔴'; }
+    else if (buyTax>20||sellTax>20) { level='high'; levelLabel='高风险——买卖税极高（'+Math.max(buyTax,sellTax)+'%）。'; badge='🔴'; }
+    else if (buyTax>10||sellTax>10) { level='med'; levelLabel='中等风险——买卖税较高（'+Math.max(buyTax,sellTax)+'%）。'; badge='🟡'; }
+    else if (mintable||(canTakeBack&&hasOwner)) { level='med'; levelLabel='中等风险——Owner 仍保留权限（可增发 / 可改合约）。'; badge='🟡'; }
+    else { level='low'; levelLabel='低风险——未发现明显骗局特征。'; badge='🟢'; }
     var checks = [
-      { k: '貔貅盘', v: honeypot ? '⚠️ 是（无法卖出）' : '否', cls: honeypot ? 'bad' : 'ok', sub: honeypot ? '该代币可能阻止卖出' : '转账功能正常' },
-      { k: '买入税', v: buyTax + '%', cls: buyTax > 10 ? 'bad' : (buyTax > 0 ? 'warn' : 'ok'), sub: buyTax > 10 ? '买入成本高' : (buyTax > 0 ? '买入有少量税' : '无买入税') },
-      { k: '卖出税', v: sellTax + '%', cls: sellTax > 10 ? 'bad' : (sellTax > 0 ? 'warn' : 'ok'), sub: sellTax > 10 ? '卖出成本高' : (sellTax > 0 ? '卖出有少量税' : '无卖出税') },
-      { k: 'Owner 权限', v: renounced ? '已放弃 ✓' : '仍有效', cls: renounced ? 'ok' : 'warn', sub: renounced ? 'Owner 无法修改合约' : 'Owner 仍可修改' },
-      { k: '可增发', v: mintable ? '是（供应可增）' : '否（供应固定）', cls: mintable ? 'warn' : 'ok', sub: mintable ? 'Owner 可增发更多代币' : '供应量固定' },
-      { k: 'GoPlus 验证', v: trust ? '已验证 ✓' : '未验证', cls: trust ? 'ok' : 'warn', sub: trust ? '已列入 GoPlus 信任名单' : '不在信任名单' }
+      { k:'貔貅盘', v: honeypot?'⚠️ 是（无法卖出）':'否', cls: honeypot?'bad':'ok', sub: honeypot?'该代币可能阻止卖出':'转账功能正常' },
+      { k:'买入税', v: buyTax+'%', cls: buyTax>10?'bad':(buyTax>0?'warn':'ok'), sub: buyTax>10?'买入成本高':(buyTax>0?'买入有少量税':'无买入税') },
+      { k:'卖出税', v: sellTax+'%', cls: sellTax>10?'bad':(sellTax>0?'warn':'ok'), sub: sellTax>10?'卖出成本高':(sellTax>0?'卖出有少量税':'无卖出税') },
+      { k:'Owner 权限', v: renounced?'已放弃 ✓':'仍有效', cls: renounced?'ok':'warn', sub: renounced?'Owner 无法修改合约':'Owner 仍可修改' },
+      { k:'可增发', v: mintable?'是（供应可增）':'否（固定）', cls: mintable?'warn':'ok', sub: mintable?'Owner 可增发更多':'供应量固定' },
+      { k:'GoPlus 验证', v: trust?'已验证 ✓':'未验证', cls: trust?'ok':'warn', sub: trust?'在 GoPlus 信任名单':'不在信任名单' }
     ];
-
-    var checksHtml = checks.map(function(c){
-      return '<div class="check"><div class="k">' + c.k + '</div><div class="v ' + c.cls + '">' + c.v + '</div><div class="sub">' + c.sub + '</div></div>';
-    }).join('');
-
-    var meta = '';
-    meta += '<div><b>代币</b>：' + esc(d.token_name || '—') + '（' + esc(d.token_symbol || '—') + '）</div>';
-    meta += '<div><b>合约</b>：<span class="mono">' + esc(d.contract_address || addr.value.trim()) + '</span></div>';
-    if (d.holder_count) meta += '<div><b>持币地址数</b>：' + Number(d.holder_count).toLocaleString() + '</div>';
-    if (d.total_supply != null) meta += '<div><b>总供应量</b>：' + Number(d.total_supply).toLocaleString() + '</div>';
-    meta += '<div><b>开源</b>：' + (openSource ? '是' : '否') + ' · <b>代理合约</b>：' + (proxy ? '是' : '否') + ' · <b>黑名单</b>：' + (blacklisted ? '是' : '否') + ' · <b>可暂停转账</b>：' + (pausable ? '是' : '否') + '</div>';
-    if (hasOwner) meta += '<div><b>Owner</b>：<span class="mono">' + esc(d.owner_address) + '</span></div>';
-
-    result.innerHTML =
-      '<div class="verdict ' + level + '"><span class="badge">' + badge + '</span><span>' + levelLabel + '</span></div>' +
-      '<div class="checks">' + checksHtml + '</div>' +
-      '<div class="meta">' + meta + '</div>';
-    result.style.display = 'block';
+    var meta = '<div><b>链</b>：以太坊 · <b>代币</b>：'+esc(d.token_name||'—')+'（'+esc(d.token_symbol||'—')+'）</div>';
+    meta += '<div><b>合约</b>：<span class="mono">'+esc(a)+'</span></div>';
+    if (d.holder_count) meta += '<div><b>持币地址数</b>：'+Number(d.holder_count).toLocaleString()+'</div>';
+    meta += '<div><b>开源</b>：'+(b(d.is_open_source)?'是':'否')+' · <b>代理合约</b>：'+(b(d.is_proxy)?'是':'否')+' · <b>黑名单</b>：'+(b(d.is_blacklisted)?'是':'否')+' · <b>可暂停转账</b>：'+(b(d.transfer_pausable)?'是':'否')+'</div>';
+    if (hasOwner) meta += '<div><b>Owner</b>：<span class="mono">'+esc(d.owner_address)+'</span></div>';
+    result.innerHTML = '<div class="verdict '+level+'"><span class="badge">'+badge+'</span><span>'+levelLabel+'</span></div>' +
+      '<div class="checks">'+checks.map(function(c){ return '<div class="check"><div class="k">'+c.k+'</div><div class="v '+c.cls+'">'+c.v+'</div><div class="sub">'+c.sub+'</div></div>'; }).join('')+'</div>' +
+      '<div class="meta">'+meta+'</div>';
+    result.style.display='block';
   }
 
-  function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+  function renderSol(d, a){
+    if (!d || !d.mint) { showErr('未找到该 mint 的安全数据（可能不是有效的 Solana 代币，或 RugCheck 尚未收录）。'); return; }
+    var risks = d.risks || [];
+    var dangerCount = risks.filter(function(r){ return r.level === 'danger'; }).length;
+    var warnCount = risks.filter(function(r){ return r.level === 'warn'; }).length;
+    var mintAuth = d.mintAuthority && d.mintAuthority !== null;
+    var freezeAuth = d.freezeAuthority && d.freezeAuthority !== null;
+    var top10pct = 0;
+    (d.topHolders||[]).slice(0,10).forEach(function(h){ top10pct += (h.pct||0); });
+    var liq = d.totalMarketLiquidity || 0;
+    var markets = (d.markets||[]).length;
+    var level, levelLabel, badge;
+    if (dangerCount > 0) { level='high'; levelLabel='高风险——RugCheck 检测到 '+dangerCount+' 个危险标记。'; badge='🔴'; }
+    else if (warnCount > 0 || mintAuth || freezeAuth || top10pct > 50) { level='med'; levelLabel='中等风险——检测到警告或特权权限。'; badge='🟡'; }
+    else { level='low'; levelLabel='低风险——未发现明显 Rug 特征。'; badge='🟢'; }
+    var checks = [
+      { k:'RugCheck 分数', v: (d.score==null?'—':d.score), cls: (d.score!=null && d.score>100)?'bad':((d.score!=null && d.score>10)?'warn':'ok'), sub: '越低越安全' },
+      { k:'增发权限', v: mintAuth?'仍有效':'已放弃 ✓', cls: mintAuth?'bad':'ok', sub: mintAuth?'可增发更多代币':'供应量固定' },
+      { k:'冻结权限', v: freezeAuth?'仍有效':'无 ✓', cls: freezeAuth?'bad':'ok', sub: freezeAuth?'代币可被冻结':'无法冻结' },
+      { k:'前 10 持仓集中度', v: top10pct.toFixed(1)+'%', cls: top10pct>50?'bad':(top10pct>30?'warn':'ok'), sub: top10pct>50?'高度集中':(top10pct>30?'较集中':'分布良好') },
+      { k:'流动性', v: liq>0 ? '$'+Math.round(liq).toLocaleString() : '—', cls: liq>100000?'ok':(liq>10000?'warn':'bad'), sub: '链上池子流动性' },
+      { k:'DEX 市场', v: markets+' 个池子', cls: markets>0?'ok':'warn', sub: markets>0?'已上 DEX':'尚无 DEX 市场' }
+    ];
+    var meta = '<div><b>链</b>：Solana · <b>代币</b>：'+esc(d.tokenMeta && d.tokenMeta.name ? d.tokenMeta.name : '—')+'（'+esc(d.tokenMeta && d.tokenMeta.symbol ? d.tokenMeta.symbol : '—')+'）</div>';
+    meta += '<div><b>Mint</b>：<span class="mono">'+esc(a)+'</span></div>';
+    meta += '<div><b>代币程序</b>：'+(d.tokenProgram === 'TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA' ? '标准 SPL' : '非标准')+'</div>';
+    var risksHtml = '';
+    if (risks.length) {
+      risksHtml = '<div class="risks">' + risks.slice(0,8).map(function(r){
+        var lv = r.level === 'danger' ? 'danger' : (r.level === 'warn' ? 'warn' : 'info');
+        return '<div class="risk '+lv+'"><b>'+esc(r.name||'')+'</b>'+(r.description?esc(r.description):'')+'</div>';
+      }).join('') + '</div>';
+    }
+    result.innerHTML = '<div class="verdict '+level+'"><span class="badge">'+badge+'</span><span>'+levelLabel+'</span></div>' +
+      '<div class="checks">'+checks.map(function(c){ return '<div class="check"><div class="k">'+c.k+'</div><div class="v '+c.cls+'">'+c.v+'</div><div class="sub">'+c.sub+'</div></div>'; }).join('')+'</div>' +
+      risksHtml +
+      '<div class="meta">'+meta+'</div>';
+    result.style.display='block';
+  }
 
+  document.querySelectorAll('#chainSeg button').forEach(function(x){
+    x.addEventListener('click', function(){ switchChain(x.getAttribute('data-chain')); });
+  });
   btn.addEventListener('click', check);
   addr.addEventListener('keydown', function(e){ if (e.key === 'Enter') check(); });
-  document.querySelectorAll('[data-example]').forEach(function(a){
-    a.addEventListener('click', function(){ addr.value = a.getAttribute('data-example'); check(); });
-  });
+  renderExamples();
 })();
 </script>
 </body>
