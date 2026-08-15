@@ -232,7 +232,7 @@ const I18N = {
     idxFutT: '合约工具箱', idxFutB: '合约交易 4 个工具：仓位计算 / 强平价 / 盈亏预估 / 各所合约费率对比。', idxFutC: '打开工具 →',
     idxFeeT: '手续费计算器', idxFeeB: '对比主流交易所的交易与提币费率。', idxOpen: '打开工具 →',
     idxCmpT: '交易所综合对比', idxCmpB: '14 个业务维度对比交易所：杠杆/期权/流动性/币种/跟单/储备/法币入金等。', idxCmpC: '14 维度对比 →',
-    idxGloT: '术语解释', idxGloB: '40+ 数字货币常用术语通俗解释，从现货交易到钱包安全全覆盖。', idxGloC: '查术语 →',
+    idxGloT: '数字货币术语解释', idxGloB: '40+ 数字货币常用术语通俗解释，从现货交易到钱包安全全覆盖。', idxGloC: '查术语 →',
     idxExT: '交易所页面', idxExB: '每家交易所的费率与功能。',
     idxCpB: 'KuCoin 与其他交易所对比。',
     idxCpT: '对比',
