@@ -6,11 +6,11 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>Portfolio Tracker — Track Your Crypto Holdings (No API Key Needed)</title>
+<title>Portfolio Tracker — Track Any Crypto Holding (No API Key)</title>
 <link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
-<meta name="description" content="Manually log your crypto holdings and automatically track profit & loss with live prices. No API key needed — data stays in your browser. Free, no signup.">
+<meta name="description" content="Log any crypto you hold — even small caps. Auto-fetch live prices and track profit & loss. No API key needed, data stays in your browser.">
 <style>
   :root{--bg:#f7f8fa;--card:#fff;--ink:#1c2430;--sub:#5b6776;--line:#e4e8ee;--brand:#2563eb;--brand2:#0ea5a4;--up:#dc2626;--down:#16a34a}
   *{box-sizing:border-box;margin:0;padding:0}
@@ -30,7 +30,9 @@
   .coin-input{text-transform:uppercase;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
   .btn{margin-top:14px;background:var(--brand);color:#fff;border:none;padding:12px 18px;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;width:100%}
   .btn:hover{opacity:.92}
+  .btn:disabled{opacity:.6;cursor:not-allowed}
   .err{background:#fef2f2;border:1px solid #fecaca;color:#991b1b;border-radius:10px;padding:10px 14px;margin-top:10px;font-size:14px;display:none}
+  .hint{font-size:12px;color:var(--sub);margin-top:8px}
   .summary{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:14px}
   @media(max-width:640px){.summary{grid-template-columns:1fr}}
   .sum{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;text-align:center}
@@ -60,13 +62,13 @@
   <header><nav><a class="logo" href="/" aria-label="FeeEye home"><img src="/assets/logo.svg" alt="FeeEye" width="26" height="26">FeeEye</a><span><a href="portfolio-tracker.zh.html">中文</a></span></nav></header>
 
   <h1>Portfolio Tracker</h1>
-  <p class="intro">Manually log what you bought and how much — we <strong>auto-fetch live prices</strong> and calculate your profit &amp; loss. <strong>No API key needed.</strong> Your data stays in your browser.</p>
+  <p class="intro">Log <strong>any</strong> coin you hold — even small caps. We auto-fetch live prices and calculate your P&amp;L. <strong>No API key needed.</strong> Data stays in your browser.</p>
 
   <div class="panel">
     <div class="grid3">
       <div>
-        <label for="coin">Coin (type to search)</label>
-        <input id="coin" class="coin-input" type="text" list="coinList" autocomplete="off" placeholder="e.g. BTC, ETH, SOL" maxlength="12">
+        <label for="coin">Coin symbol</label>
+        <input id="coin" class="coin-input" type="text" list="coinList" autocomplete="off" placeholder="e.g. BTC, PEPE, BOME" maxlength="20">
         <datalist id="coinList"></datalist>
       </div>
       <div>
@@ -80,6 +82,7 @@
     </div>
     <button class="btn" id="addBtn">Add holding</button>
     <div class="err" id="err"></div>
+    <p class="hint">Any CoinGecko-listed coin works — just type its symbol.</p>
   </div>
 
   <div class="summary" id="summary" style="display:none"></div>
@@ -101,6 +104,7 @@
 <script>
 (function(){
   var STORE = 'feeeye_holdings_v1';
+  var CACHE = 'feeeye_symbol_cache_v1';
   var coinInput = document.getElementById('coin');
   var datalist = document.getElementById('coinList');
   var qty = document.getElementById('qty');
@@ -111,8 +115,9 @@
   var table = document.getElementById('table');
   var empty = document.getElementById('empty');
   var refreshBtn = document.getElementById('refreshBtn');
-  var livePrices = {};
+  var livePrices = {}; // cg_id -> usd
 
+  // 预置热门币 datalist（快速选择），但自由输入任意 symbol 也能记
   var coins = Object.keys(window.COIN_PRICES || {}).map(function(sym){
     return { sym: sym, info: window.COIN_PRICES[sym] };
   }).sort(function(a,b){ return (a.info.rank||9999) - (b.info.rank||9999); });
@@ -128,35 +133,63 @@
     catch(e){ return { holdings: [] }; }
   }
   function save(d){ localStorage.setItem(STORE, JSON.stringify(d)); }
+  function loadCache(){ try { return JSON.parse(localStorage.getItem(CACHE)) || {}; } catch(e){ return {}; } }
+  function saveCache(c){ localStorage.setItem(CACHE, JSON.stringify(c)); }
   function showErr(m){ err.textContent = m; err.style.display = 'block'; }
   function hideErr(){ err.style.display = 'none'; }
-  // 自适应精度：>1000 → 2 位，1-1000 → 4 位，<1 → 6 位（DOGE/XRP 这种小价格不丢精度）
   function fmt(n, forceDp){
     if (n == null || !Number.isFinite(n)) return '—';
     var abs = Math.abs(n);
     var dp = forceDp != null ? forceDp : (abs >= 1000 ? 2 : abs >= 1 ? 4 : 6);
     return Number(n).toLocaleString(undefined, { maximumFractionDigits: dp, minimumFractionDigits: 0 });
   }
-  function priceOf(sym){
-    if (livePrices[sym] != null) return livePrices[sym];
-    var info = window.COIN_PRICES && window.COIN_PRICES[sym];
-    return info && info.price != null ? info.price : null;
+
+  // 解析 symbol → cg_id：本地 → 缓存 → CoinGecko search（支持任意币种）
+  async function resolveCgId(sym){
+    var local = (window.COIN_IDS && window.COIN_IDS[sym]) || (window.COIN_PRICES && window.COIN_PRICES[sym] && window.COIN_PRICES[sym].cg_id);
+    if (local) return local;
+    var cache = loadCache();
+    if (cache[sym]) return cache[sym];
+    try {
+      var res = await fetch('https://api.coingecko.com/api/v3/search?query=' + encodeURIComponent(sym));
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      var data = await res.json();
+      var coins = (data.coins || []).filter(function(c){ return c.symbol && c.symbol.toUpperCase() === sym; });
+      if (!coins.length) coins = data.coins || [];
+      if (coins.length) {
+        var cg = coins[0].id;
+        cache[sym] = cg;
+        saveCache(cache);
+        return cg;
+      }
+    } catch(e){ /* ignore */ }
+    return null;
   }
 
-  function addHolding(){
+  async function addHolding(){
     var sym = (coinInput.value || '').trim().toUpperCase();
     if (!sym) { showErr('Please enter a coin symbol.'); return; }
-    if (!window.COIN_PRICES || !window.COIN_PRICES[sym]) { showErr('Unsupported coin. Please pick one from the dropdown (start typing to see suggestions).'); return; }
     var q = parseFloat(qty.value);
     var c = parseFloat(cost.value);
     if (!q || q <= 0) { showErr('Please enter a valid amount.'); return; }
     if (!c || c <= 0) { showErr('Please enter a valid buy price.'); return; }
     hideErr();
+    addBtn.disabled = true;
+    addBtn.textContent = 'Looking up coin…';
+    var cgId = await resolveCgId(sym);
+    if (!cgId) {
+      showErr('Coin not found. Check the symbol — any CoinGecko-listed coin should work.');
+      addBtn.disabled = false;
+      addBtn.textContent = 'Add holding';
+      return;
+    }
     var d = load();
-    d.holdings.push({ id: Date.now().toString(36) + Math.random().toString(36).slice(2,6), symbol: sym, qty: q, cost: c });
+    d.holdings.push({ id: Date.now().toString(36) + Math.random().toString(36).slice(2,6), symbol: sym, cg_id: cgId, qty: q, cost: c });
     save(d);
     coinInput.value = ''; qty.value = ''; cost.value = '';
-    render();
+    addBtn.disabled = false;
+    addBtn.textContent = 'Add holding';
+    await refresh();
   }
 
   function del(id){
@@ -164,6 +197,12 @@
     d.holdings = d.holdings.filter(function(h){ return h.id !== id; });
     save(d);
     render();
+  }
+
+  function priceOf(h){
+    if (h.cg_id && livePrices[h.cg_id] != null) return livePrices[h.cg_id];
+    var info = window.COIN_PRICES && window.COIN_PRICES[h.symbol];
+    return info && info.price != null ? info.price : null;
   }
 
   function render(){
@@ -179,7 +218,7 @@
     var totalCost = 0, totalValue = 0;
     var html = '';
     rows.forEach(function(h){
-      var p = priceOf(h.symbol);
+      var p = priceOf(h);
       var costVal = h.cost * h.qty;
       var value = p != null ? p * h.qty : null;
       var pnl = value != null ? value - costVal : null;
@@ -216,24 +255,25 @@
 
   async function refresh(){
     var d = load();
+    var changed = false;
+    // 兼容旧数据：无 cg_id 的持仓自动解析补上
+    for (var i = 0; i < d.holdings.length; i++) {
+      var h = d.holdings[i];
+      if (!h.cg_id) {
+        var cg = await resolveCgId(h.symbol);
+        if (cg) { h.cg_id = cg; changed = true; }
+      }
+    }
+    if (changed) save(d);
     var ids = [];
     var seen = {};
-    d.holdings.forEach(function(h){
-      var info = window.COIN_PRICES && window.COIN_PRICES[h.symbol];
-      var cg = info && info.cg_id;
-      if (cg && !seen[cg]) { seen[cg] = 1; ids.push(cg); }
-    });
+    d.holdings.forEach(function(h){ if (h.cg_id && !seen[h.cg_id]) { seen[h.cg_id] = 1; ids.push(h.cg_id); } });
     if (!ids.length) { render(); return; }
     try {
       var res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=' + ids.join(',') + '&vs_currencies=usd');
       if (!res.ok) throw new Error('HTTP ' + res.status);
       var p = await res.json();
-      var map = {};
-      for (var sym in window.COIN_PRICES) {
-        var cg = window.COIN_PRICES[sym].cg_id;
-        if (cg && p[cg] && p[cg].usd != null) map[sym] = p[cg].usd;
-      }
-      livePrices = map;
+      livePrices = p;
     } catch(e){
       livePrices = {};
     }
