@@ -175,7 +175,6 @@
       return;
     }
     var riskAmt = lossAmt;                       // 可接受最大损失（USDT）
-    var riskPct = bal > 0 ? lossAmt / bal : 0;     // 等效风险百分比
     var dist = Math.abs(entry - stop);            // 止损距离
     var qty = riskAmt / dist;                     // 仓位数量 = 损失金额 / 止损距离
     var notional = qty * entry;                   // 仓位名义价值
@@ -191,7 +190,6 @@
     html += kv("仓位名义价值", fmt(notional)+" USDT");
     html += kv("所需保证金", fmt(margin)+" USDT");
     html += kv("最大亏损（止损触发）", fmt(maxLoss)+" USDT", "bad");
-    html += kv("等效风险 %", (riskPct*100).toFixed(2)+"% 账户", "info");
     html += '</div>';
     html += '<div class="hint">仓位 = 可接受最大损失（USDT）÷ 止损距离 → 先定可承受损失再定仓位。本工具默认「风控模式」（只亏你预设的'+fmt(riskAmt)+' USDT）。如果改成全仓梭哈（不设止损），最多能开 <b>'+fmt(maxQty)+' 币</b>（名义 '+fmt(bal*lev)+' USDT），但反向 5% 即亏 <b>'+fmt(maxQtyLoss)+' USDT（'+(maxQtyLoss/bal*100).toFixed(0)+'% 账户）</b>，远超可承受范围。</div>';
     el.innerHTML = html;

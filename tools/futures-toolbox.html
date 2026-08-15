@@ -172,7 +172,6 @@
       return;
     }
     var riskAmt = lossAmt;
-    var riskPct = bal > 0 ? lossAmt / bal : 0;
     var dist = Math.abs(entry - stop);
     var qty = riskAmt / dist;
     var notional = qty * entry;
@@ -188,7 +187,6 @@
     html += kv("Position notional", fmt(notional)+" USDT");
     html += kv("Required margin", fmt(margin)+" USDT");
     html += kv("Max loss (if stopped)", fmt(maxLoss)+" USDT", "bad");
-    html += kv("Equivalent risk %", (riskPct*100).toFixed(2)+"% of account", "info");
     html += '</div>';
     html += '<div class="hint">Position = acceptable loss (USDT) ÷ stop distance → size by what you can afford to lose. This tool defaults to <b>risk-controlled sizing</b> (you only ever lose '+fmt(riskAmt)+' USDT). If you instead go all-in (no stop), you could open up to <b>'+fmt(maxQty)+' coins</b> (notional '+fmt(bal*lev)+' USDT), but a 5% adverse move at that size would lose <b>'+fmt(maxQtyLoss)+' USDT ('+(maxQtyLoss/bal*100).toFixed(0)+'% of account)</b> — far beyond any reasonable loss budget.</div>';
     el.innerHTML = html;
