@@ -82,7 +82,8 @@ const ICON = {
   calculator: `<svg ${SVG_ATTR}><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="16" y1="14" x2="16" y2="18"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/><path d="M12 14h.01"/><path d="M8 14h.01"/><path d="M12 18h.01"/><path d="M8 18h.01"/></svg>`,
   scale: `<svg ${SVG_ATTR}><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/></svg>`,
   coins: `<svg ${SVG_ATTR}><circle cx="8" cy="8" r="6"/><path d="M18.09 10.37A6 6 0 1 1 10.34 18"/><path d="M7 6h1v4"/><path d="m16.71 13.88.7.71-2.82 2.82"/></svg>`,
-  landmark: `<svg ${SVG_ATTR}><line x1="3" y1="22" x2="21" y2="22"/><line x1="6" y1="18" x2="6" y2="11"/><line x1="10" y1="18" x2="10" y2="11"/><line x1="14" y1="18" x2="14" y2="11"/><line x1="18" y1="18" x2="18" y2="11"/><polygon points="12 2 20 7 4 7"/></svg>`
+  landmark: `<svg ${SVG_ATTR}><line x1="3" y1="22" x2="21" y2="22"/><line x1="6" y1="18" x2="6" y2="11"/><line x1="10" y1="18" x2="10" y2="11"/><line x1="14" y1="18" x2="14" y2="11"/><line x1="18" y1="18" x2="18" y2="11"/><polygon points="12 2 20 7 4 7"/></svg>`,
+  trend: `<svg ${SVG_ATTR}><polyline points="3 17 9 11 13 15 21 7"/><polyline points="15 7 21 7 21 13"/></svg>`
 };
 
 // ---- 币种：优先 coins.json，回退 coins.js ----
@@ -180,6 +181,7 @@ const I18N = {
     idxH1: 'Free Crypto Tools & Exchange Data',
     idxIntro: 'Compare exchange fees, find where to buy a token, and check withdrawal costs — free, no signup.',
     idxTcT: 'Spot Cost Calculator', idxTcB: 'Spot trading: deposit / trading / withdrawal / total cost in one tool — see which exchange is cheapest.', idxTcC: 'Open tool →',
+    idxFutT: 'Futures Toolbox', idxFutB: 'Position size, liquidation price, PnL estimate & futures fee comparison for futures traders.', idxFutC: 'Open tool →',
     idxFeeT: 'Fee Calculator', idxFeeB: 'Compare trading & withdrawal fees across major exchanges.', idxOpen: 'Open tool →',
     idxCmpT: 'Exchange Comparison', idxCmpB: 'Compare 16 business dimensions: spot/futures fees, leverage, options, coins, liquidity, copy-trading/bots, reserves/cold storage, KYC, licenses, fiat deposits.', idxCmpC: 'Compare 16 dimensions →',
     idxWbT: 'Where to Buy', idxWbB: 'Find which exchange lists a token.', idxEx: 'Example: PEPE →',
@@ -227,6 +229,7 @@ const I18N = {
     idxH1: '免费加密货币工具与交易所数据',
     idxIntro: '对比交易所费率、查找代币在哪里购买、查看提币成本——免费、无需注册。',
     idxTcT: '现货成本计算器', idxTcB: '聚焦现货：入金 / 交易 / 提币 / 全成本四合一，看清哪家交易所最便宜。', idxTcC: '打开工具 →',
+    idxFutT: '合约工具箱', idxFutB: '仓位计算 / 强平价 / 盈亏预估 / 各所合约费率，合约交易者的四合一工具。', idxFutC: '打开工具 →',
     idxFeeT: '手续费计算器', idxFeeB: '对比主流交易所的交易与提币费率。', idxOpen: '打开工具 →',
     idxCmpT: '交易所综合对比', idxCmpB: '16 个业务维度对比交易所：合约费率/杠杆/期权/流动性/币种/跟单/储备/法币入金等。', idxCmpC: '16 维度对比 →',
     idxWbT: '在哪里购买', idxWbB: '查找某代币在哪些交易所上架。', idxEx: '示例：PEPE →',
@@ -257,6 +260,9 @@ function tcPath(lang) {
 }
 function cmpPath(lang) {
   return 'tools/exchange-comparator' + (lang === 'zh' ? '.zh' : '') + '.html';
+}
+function futPath(lang) {
+  return 'tools/futures-toolbox' + (lang === 'zh' ? '.zh' : '') + '.html';
 }
 
 // ---- 合规页面（Privacy / Terms / Affiliate Disclosure）----
@@ -530,6 +536,7 @@ function indexPage(lang) {
   <p class="intro">${esc(T(lang, 'idxIntro'))}</p>
   <div class="grid">
     <div class="card"><a class="card-title" href="${p(tcPath(lang))}"><span class="ic">${ICON.receipt}</span><b>${esc(T(lang, 'idxTcT'))}</b></a><br>${esc(T(lang, 'idxTcB'))}<br><a href="${p(tcPath(lang))}">${esc(T(lang, 'idxTcC'))}</a></div>
+    <div class="card"><a class="card-title" href="${p(futPath(lang))}"><span class="ic">${ICON.trend}</span><b>${esc(T(lang, 'idxFutT'))}</b></a><br>${esc(T(lang, 'idxFutB'))}<br><a href="${p(futPath(lang))}">${esc(T(lang, 'idxFutC'))}</a></div>
     <div class="card"><a class="card-title" href="${p(cmpPath(lang))}"><span class="ic">${ICON.scale}</span><b>${esc(T(lang, 'idxCmpT'))}</b></a><br>${esc(T(lang, 'idxCmpB'))}<br><a href="${p(cmpPath(lang))}">${esc(T(lang, 'idxCmpC'))}</a></div>
     <div class="card"><a class="card-title" href="${p('where-to-buy/pepe.html')}"><span class="ic">${ICON.coins}</span><b>${esc(T(lang, 'idxWbT'))}</b></a><br>${esc(T(lang, 'idxWbB'))}<br><a href="${p('where-to-buy/pepe.html')}">${esc(T(lang, 'idxEx'))}</a></div>
     <div class="card"><a class="card-title" href="${p('exchanges/kucoin.html')}"><span class="ic">${ICON.landmark}</span><b>${esc(T(lang, 'idxExT'))}</b></a><br>${esc(T(lang, 'idxExB'))}<br><a href="${p('exchanges/kucoin.html')}">KuCoin →</a></div>

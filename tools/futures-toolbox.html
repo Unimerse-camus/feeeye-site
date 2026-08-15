@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>Futures Toolbox — Position, Liquidation, PnL & Fee Calculator</title>
+<link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
+<meta name="description" content="Futures trading toolbox: position size, liquidation price, PnL estimate, and futures fee comparison across major exchanges. Free, no signup.">
+<style>
+  :root{--bg:#f7f8fa;--card:#fff;--ink:#1c2430;--sub:#5b6776;--line:#e4e8ee;--brand:#2563eb;--brand2:#0ea5a4;--ok:#16a34a;--bad:#dc2626;--warn:#d97706}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;font-size:15px}
+  .wrap{max-width:880px;margin:0 auto;padding:22px 18px 60px}
+  header nav{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);padding:6px 0 14px;margin-bottom:20px;flex-wrap:wrap}
+  h1{font-size:25px;margin-bottom:6px}
+  .intro{color:var(--sub);margin-bottom:18px}
+  .logo{display:flex;align-items:center;gap:8px;font-weight:800;color:var(--brand);font-size:18px;text-decoration:none}
+  .logo img{height:26px;width:26px;display:block}
+  nav > span > a{color:var(--sub);text-decoration:none;font-size:13.5px}
+  .tabs{display:flex;gap:8px;margin:18px 0 6px;flex-wrap:wrap}
+  .tab{padding:9px 16px;border:1px solid var(--line);background:#fff;border-radius:9px;cursor:pointer;font-weight:600;color:var(--sub)}
+  .tab.active{background:var(--brand);color:#fff;border-color:var(--brand)}
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;margin-top:10px}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  label{display:block;font-size:13px;color:var(--sub);margin-bottom:5px;font-weight:600}
+  input,select{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:9px;font-size:15px;background:#fff}
+  .seg{display:flex;gap:8px}
+  .seg button{flex:1;padding:9px;border:1px solid var(--line);background:#fff;border-radius:9px;cursor:pointer;font-weight:600;color:var(--sub)}
+  .seg button.on{background:var(--brand2);color:#fff;border-color:var(--brand2)}
+  .hint{font-size:12px;color:var(--sub);margin-top:6px}
+  .result{margin-top:16px}
+  .kv-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-top:12px}
+  .kv{background:#f8fafc;border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+  .kv .k{font-size:12px;color:var(--sub);margin-bottom:4px}
+  .kv .v{font-size:20px;font-weight:800;line-height:1.3}
+  .kv .v.good{color:var(--ok)} .kv .v.bad{color:var(--bad)} .kv .v.warn{color:var(--warn)}
+  table{width:100%;border-collapse:collapse;margin-top:16px;font-size:14px}
+  th,td{border:1px solid var(--line);padding:10px 12px;text-align:left}
+  th{background:#f1f5f9;font-weight:600;white-space:nowrap}
+  .cta{display:inline-block;background:var(--brand);color:#fff;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:700;text-decoration:none;min-height:36px;text-align:center}
+  .cta:hover{opacity:.9}
+  .na{color:var(--bad);font-weight:600}
+  .best{color:var(--ok);font-weight:700}
+  .tip{display:inline-block;color:#94a3b8;font-size:11px;cursor:help;margin-left:4px}
+  .disclaimer{background:#fffbeb;border:1px solid #fde68a;color:#92400e;border-radius:10px;padding:14px 16px;margin-top:18px;font-size:13px}
+  .disclaimer p{margin:0 0 6px}
+  .disclaimer p:last-child{margin-bottom:0}
+  .foot{color:var(--sub);font-size:12px;margin-top:18px;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header><nav><a class="logo" href="/" aria-label="FeeEye home"><img src="/assets/logo.svg" alt="FeeEye" width="26" height="26">FeeEye</a><span><a href="futures-toolbox.zh.html">中文</a></span></nav></header>
+
+  <h1>Futures Toolbox</h1>
+  <p class="intro">Position sizing · liquidation price · PnL estimate · futures fee comparison — four high-frequency tools for futures traders.</p>
+
+  <div class="tabs">
+    <div class="tab active" data-tab="position">① Position Size</div>
+    <div class="tab" data-tab="liquidation">② Liquidation Price</div>
+    <div class="tab" data-tab="pnl">③ PnL Estimate</div>
+    <div class="tab" data-tab="fee">④ Futures Fees</div>
+  </div>
+
+  <!-- Position sizing -->
+  <div class="panel" id="p-position">
+    <div class="grid">
+      <div><label for="bal">Account balance (USDT)</label><input id="bal" type="number" inputmode="decimal" value="10000" min="1"></div>
+      <div><label for="risk">Risk per trade (%)</label><input id="risk" type="number" inputmode="decimal" value="1" min="0.1" step="0.1"></div>
+      <div><label for="entry">Entry price</label><input id="entry" type="number" inputmode="decimal" value="100" min="0.000001"></div>
+      <div><label for="stop">Stop-loss price</label><input id="stop" type="number" inputmode="decimal" value="95" min="0.000001"></div>
+      <div><label for="lev">Leverage (x)</label><input id="lev" type="number" inputmode="decimal" value="10" min="1"></div>
+    </div>
+    <div class="result" id="result-position"></div>
+  </div>
+
+  <!-- Liquidation -->
+  <div class="panel" id="p-liquidation" style="display:none">
+    <div class="grid">
+      <div><label>Direction</label><div class="seg" id="liq-dir"><button data-v="long" class="on">Long</button><button data-v="short">Short</button></div></div>
+      <div><label for="liq-entry">Entry price</label><input id="liq-entry" type="number" inputmode="decimal" value="100" min="0.000001"></div>
+      <div><label for="liq-lev">Leverage (x)</label><input id="liq-lev" type="number" inputmode="decimal" value="10" min="1"></div>
+      <div><label for="mmr">Maintenance margin rate (%)<span class="tip" title="Differs by exchange (major coins ~0.4%-1%, altcoins higher). Verify on the exchange.">ⓘ</span></label><input id="mmr" type="number" inputmode="decimal" value="0.5" min="0.1" step="0.1"></div>
+    </div>
+    <div class="result" id="result-liquidation"></div>
+  </div>
+
+  <!-- PnL -->
+  <div class="panel" id="p-pnl" style="display:none">
+    <div class="grid">
+      <div><label>Direction</label><div class="seg" id="pnl-dir"><button data-v="long" class="on">Long</button><button data-v="short">Short</button></div></div>
+      <div><label for="pnl-qty">Quantity (coins)</label><input id="pnl-qty" type="number" inputmode="decimal" value="1" min="0.000001"></div>
+      <div><label for="pnl-entry">Entry price</label><input id="pnl-entry" type="number" inputmode="decimal" value="100" min="0.000001"></div>
+      <div><label for="pnl-exit">Exit price</label><input id="pnl-exit" type="number" inputmode="decimal" value="110" min="0.000001"></div>
+      <div><label for="pnl-lev">Leverage (x)</label><input id="pnl-lev" type="number" inputmode="decimal" value="10" min="1"></div>
+      <div><label for="pnl-fee">Fee rate (%, taker)</label><input id="pnl-fee" type="number" inputmode="decimal" value="0.05" min="0" step="0.01"></div>
+    </div>
+    <div class="result" id="result-pnl"></div>
+  </div>
+
+  <!-- Futures fees -->
+  <div class="panel" id="p-fee" style="display:none">
+    <div class="grid">
+      <div><label for="fee-notional">Trade notional (USDT)</label><input id="fee-notional" type="number" inputmode="decimal" value="10000" min="1"></div>
+      <div><label>Order type</label><div class="seg" id="fee-order"><button data-v="taker" class="on">Taker</button><button data-v="maker">Maker</button></div></div>
+      <div><label for="fee-times">Trades per month (open+close)</label><input id="fee-times" type="number" inputmode="decimal" value="20" min="1"></div>
+    </div>
+    <div class="result" id="result-fee"></div>
+  </div>
+
+  <div class="disclaimer">
+    <p><b>⚠️ Risk warning</b>: Leveraged (futures) trading carries extreme risk and you may lose your entire capital in moments. Results above are <b>simplified estimates</b> (isolated-margin, idealized formulas) and do not account for funding fees, post-liquidation losses, or exchange-specific rules. <b>Always verify on the exchange's live UI.</b></p>
+    <p>Liquidation formula (isolated, simplified): Long = entry × (1 − 1/leverage + MMR); Short = entry × (1 + 1/leverage − MMR).</p>
+    <p>Educational only — not financial advice.</p>
+  </div>
+
+  <div class="foot">Educational only. Not financial advice. Verify all fees and rules on each exchange's official page.</div>
+</div>
+
+<script src="../data/exchanges.js"></script>
+<script>
+(function(){
+  var state = { liqDir:"long", pnlDir:"long", feeOrder:"taker" };
+
+  function fmt(n){ if(n==null || isNaN(n)) return "—"; return Number(n).toLocaleString(undefined,{maximumFractionDigits:4}); }
+  function pct(n){ return (n*100).toFixed(3)+"%"; }
+
+  document.querySelectorAll(".tab").forEach(function(t){
+    t.addEventListener("click", function(){
+      document.querySelectorAll(".tab").forEach(function(x){x.classList.remove("active");});
+      t.classList.add("active");
+      var w = t.getAttribute("data-tab");
+      ["position","liquidation","pnl","fee"].forEach(function(k){
+        document.getElementById("p-"+k).style.display = (k===w)?"block":"none";
+      });
+      render();
+    });
+  });
+
+  function seg(id, key){
+    document.querySelectorAll("#"+id+" button").forEach(function(b){
+      b.addEventListener("click", function(){
+        document.querySelectorAll("#"+id+" button").forEach(function(x){x.classList.remove("on");});
+        b.classList.add("on"); state[key]=b.getAttribute("data-v"); render();
+      });
+    });
+  }
+  seg("liq-dir","liqDir"); seg("pnl-dir","pnlDir"); seg("fee-order","feeOrder");
+
+  function kv(k, v, cls){
+    return '<div class="kv"><div class="k">'+k+'</div><div class="v '+(cls||"")+'">'+v+'</div></div>';
+  }
+
+  function renderPosition(){
+    var bal = parseFloat(document.getElementById("bal").value)||0;
+    var risk = (parseFloat(document.getElementById("risk").value)||0)/100;
+    var entry = parseFloat(document.getElementById("entry").value)||0;
+    var stop = parseFloat(document.getElementById("stop").value)||0;
+    var lev = parseFloat(document.getElementById("lev").value)||1;
+    var el = document.getElementById("result-position");
+
+    if(!bal || !risk || !entry || !stop || entry===stop){
+      el.innerHTML = '<div class="hint">Fill in all fields (entry price ≠ stop-loss price).</div>';
+      return;
+    }
+    var riskAmt = bal * risk;
+    var dist = Math.abs(entry - stop);
+    var qty = riskAmt / dist;
+    var notional = qty * entry;
+    var margin = notional / lev;
+    var maxLoss = qty * dist;
+
+    var html = '<div class="kv-grid">';
+    html += kv("Risk amount", fmt(riskAmt)+" USDT", "warn");
+    html += kv("Stop distance", fmt(dist));
+    html += kv("Position quantity", fmt(qty)+" coins");
+    html += kv("Position notional", fmt(notional)+" USDT");
+    html += kv("Required margin", fmt(margin)+" USDT");
+    html += kv("Max loss (if stopped)", fmt(maxLoss)+" USDT", "bad");
+    html += '</div>';
+    html += '<div class="hint">Risk amount = balance × risk %. Position size is set by "how much you are willing to lose ÷ stop distance" — size the risk first, not the position.</div>';
+    el.innerHTML = html;
+  }
+
+  function renderLiquidation(){
+    var entry = parseFloat(document.getElementById("liq-entry").value)||0;
+    var lev = parseFloat(document.getElementById("liq-lev").value)||1;
+    var mmr = (parseFloat(document.getElementById("mmr").value)||0)/100;
+    var dir = state.liqDir;
+    var el = document.getElementById("result-liquidation");
+
+    if(!entry || lev<=0){
+      el.innerHTML = '<div class="hint">Fill in entry price and leverage.</div>';
+      return;
+    }
+    var liq = dir==="long" ? entry*(1 - 1/lev + mmr) : entry*(1 + 1/lev - mmr);
+    var distance = dir==="long" ? ((entry - liq)/entry*100) : ((liq - entry)/entry*100);
+
+    var html = '<div class="kv-grid">';
+    html += kv("Liquidation price", fmt(liq), "warn");
+    html += kv("Distance to liquidation", fmt(distance)+"%", "warn");
+    html += kv("Initial margin rate", fmt(1/lev*100)+"%");
+    html += kv("Maintenance margin rate", fmt(mmr*100)+"%");
+    html += '</div>';
+    html += '<div class="hint">Isolated-margin simplified formula. MMR differs by exchange (major coins ~0.4%-1%, altcoins higher); liquidation price is also affected by funding and position tiers.</div>';
+    el.innerHTML = html;
+  }
+
+  function renderPnl(){
+    var qty = parseFloat(document.getElementById("pnl-qty").value)||0;
+    var entry = parseFloat(document.getElementById("pnl-entry").value)||0;
+    var exit = parseFloat(document.getElementById("pnl-exit").value)||0;
+    var lev = parseFloat(document.getElementById("pnl-lev").value)||1;
+    var feeRate = (parseFloat(document.getElementById("pnl-fee").value)||0)/100;
+    var dir = state.pnlDir;
+    var el = document.getElementById("result-pnl");
+
+    if(!qty || !entry || !exit){
+      el.innerHTML = '<div class="hint">Fill in quantity, entry and exit price.</div>';
+      return;
+    }
+    var gross = dir==="long" ? (exit-entry)*qty : (entry-exit)*qty;
+    var fee = entry*qty*feeRate*2;
+    var net = gross - fee;
+    var margin = entry*qty/lev;
+    var roi = margin ? net/margin*100 : 0;
+
+    var html = '<div class="kv-grid">';
+    html += kv("Gross PnL", (gross>=0?"+":"")+fmt(gross)+" USDT", gross>=0?"good":"bad");
+    html += kv("Fees (open+close)", fmt(fee)+" USDT");
+    html += kv("Net PnL", (net>=0?"+":"")+fmt(net)+" USDT", net>=0?"good":"bad");
+    html += kv("Margin", fmt(margin)+" USDT");
+    html += kv("ROI (net PnL / margin)", (roi>=0?"+":"")+fmt(roi)+"%", roi>=0?"good":"bad");
+    html += '</div>';
+    html += '<div class="hint">Fees estimated as "entry × quantity × rate × 2" (taker default 0.05%, editable). Excludes funding fees — long holds deduct additional funding.</div>';
+    el.innerHTML = html;
+  }
+
+  function ctaCell(slug){
+    var ex = window.EXCHANGES[slug];
+    var url = ex.affiliate_link || ex.official_url || "#";
+    var rel = ex.affiliate_link ? ' rel="sponsored nofollow"' : ' rel="noopener"';
+    return '<a class="cta" href="'+url+'"'+rel+' target="_blank">Sign up</a>';
+  }
+  function renderFee(){
+    var notional = parseFloat(document.getElementById("fee-notional").value)||0;
+    var times = parseFloat(document.getElementById("fee-times").value)||0;
+    var order = state.feeOrder;
+    var el = document.getElementById("result-fee");
+
+    if(!notional || !times){
+      el.innerHTML = '<div class="hint">Fill in notional and trade count.</div>';
+      return;
+    }
+    var rows = [];
+    Object.keys(window.EXCHANGES).forEach(function(slug){
+      var ex = window.EXCHANGES[slug];
+      if(!ex.futures) return;
+      var rate = ex.futures[order];
+      var fee = notional * rate * times;
+      rows.push({slug:slug, name:ex.name, rate:rate, fee:fee});
+    });
+    rows.sort(function(a,b){return a.fee-b.fee;});
+    var best = rows.length ? rows[0].fee : 0;
+
+    var html = '<table><thead><tr><th>Exchange</th><th>Futures '+ (order==="taker"?"taker":"maker") +' fee</th><th>Est. monthly fee ('+fmt(times)+' trades)</th><th></th></tr></thead><tbody>';
+    rows.forEach(function(r){
+      var bestMark = (r.fee===best && best>0)?' <span class="best">← lowest</span>':"";
+      html += '<tr><td><b>'+r.name+'</b></td><td>'+pct(r.rate)+'</td><td>'+fmt(r.fee)+' USDT'+bestMark+'</td><td>'+ctaCell(r.slug)+'</td></tr>';
+    });
+    html += '</tbody></table>';
+    html += '<div class="hint">Base-tier futures fees ('+ (order==="taker"?"taker":"maker") +'), excluding funding. Fees drop with VIP tiers / platform-token discounts; verify on the exchange.</div>';
+    el.innerHTML = html;
+  }
+
+  function render(){
+    var w = document.querySelector(".tab.active").getAttribute("data-tab");
+    if(w==="position") renderPosition();
+    else if(w==="liquidation") renderLiquidation();
+    else if(w==="pnl") renderPnl();
+    else renderFee();
+  }
+
+  ["bal","risk","entry","stop","lev","liq-entry","liq-lev","mmr","pnl-qty","pnl-entry","pnl-exit","pnl-lev","pnl-fee","fee-notional","fee-times"].forEach(function(id){
+    document.getElementById(id).addEventListener("input", render);
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>
