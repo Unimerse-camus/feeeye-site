@@ -61,7 +61,7 @@
   <header><nav><a class="logo" href="/zh/" aria-label="FeeEye 首页"><img src="/assets/logo.svg" alt="FeeEye" width="26" height="26">FeeEye</a><span><a href="futures-toolbox.html">English</a></span></nav></header>
 
   <h1>合约工具箱</h1>
-  <p class="intro">仓位计算 · 强平价计算 · 盈亏预估 · 各交易所合约费率对比——合约交易者的四个高频工具。</p>
+  <p class="intro">合约交易 4 个高频工具：仓位计算 · 强平价计算 · 盈亏预估 · 各交易所合约费率对比。</p>
 
   <div class="tabs">
     <div class="tab active" data-tab="position">① 仓位计算</div>
@@ -284,7 +284,6 @@
       html += '<tr><td><b>'+r.name+'</b></td><td>'+pct(r.maker)+'</td><td>'+pct(r.taker)+bestMark+'</td><td>'+ctaCell(r.slug)+'</td></tr>';
     });
     html += '</tbody></table>';
-    html += '<div class="hint">基础档合约费率（按现显示订单类型高亮，未含资金费率）。费率随 VIP 等级/平台币抵扣下降，以交易所为准。</div>';
     el.innerHTML = html;
   }
 
