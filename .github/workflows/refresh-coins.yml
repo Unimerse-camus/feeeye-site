@@ -61,5 +61,12 @@ jobs:
             echo "::notice::data unchanged, nothing to push"
           else
             git commit -m "chore: refresh CoinGecko + GoPlus data ($(date -u +%Y-%m-%d))"
-            git push
+            # 同步远程（防 non-fast-forward：CI 跑 fetch 期间用户/AI 可能 push 新代码）
+            git fetch origin main
+            if ! git rebase origin/main; then
+              echo "::error::Rebase conflict — remote has diverged, manual intervention needed"
+              git status
+              exit 1
+            fi
+            git push origin main
           fi
