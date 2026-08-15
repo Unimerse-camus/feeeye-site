@@ -3,6 +3,13 @@
 name: refresh-coin-data
 
 on:
+  push:
+    branches:
+      - main
+    # CI 自己 push 的是 data/** 文件，忽略避免无限循环；其余代码变更都会触发
+    paths-ignore:
+      - 'data/**'
+      - 'dist/**'
   schedule:
     # UTC 01:17 = 北京时间 09:17，每天一次（避开 CoinGecko 高峰）
     - cron: '17 1 * * *'
