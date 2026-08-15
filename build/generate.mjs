@@ -184,7 +184,7 @@ const I18N = {
     idxFutT: 'Futures Toolbox', idxFutB: 'Four futures trading tools: position sizing, liquidation price, PnL estimate, cross-exchange futures fee comparison.', idxFutC: 'Open tool →',
     idxFeeT: 'Fee Calculator', idxFeeB: 'Compare trading & withdrawal fees across major exchanges.', idxOpen: 'Open tool →',
     idxCmpT: 'Exchange Comparison', idxCmpB: 'Compare 14 business dimensions: leverage, options, coins, liquidity, copy-trading/bots, reserves/cold storage, KYC, licenses, fiat deposits.', idxCmpC: 'Compare 14 dimensions →',
-    idxWbT: 'Where to Buy', idxWbB: 'Find which exchange lists a token.', idxEx: 'Example: PEPE →',
+    idxGloT: 'Crypto Glossary', idxGloB: '40+ plain-language definitions of common crypto terms — from spot trading to wallet security.', idxGloC: 'Browse terms →',
     idxExT: 'Exchange Pages', idxExB: 'Fees & features per exchange.',
     idxCpB: 'KuCoin vs others.',
     idxCpT: 'Comparisons',
@@ -232,7 +232,7 @@ const I18N = {
     idxFutT: '合约工具箱', idxFutB: '合约交易 4 个工具：仓位计算 / 强平价 / 盈亏预估 / 各所合约费率对比。', idxFutC: '打开工具 →',
     idxFeeT: '手续费计算器', idxFeeB: '对比主流交易所的交易与提币费率。', idxOpen: '打开工具 →',
     idxCmpT: '交易所综合对比', idxCmpB: '14 个业务维度对比交易所：杠杆/期权/流动性/币种/跟单/储备/法币入金等。', idxCmpC: '14 维度对比 →',
-    idxWbT: '在哪里购买', idxWbB: '查找某代币在哪些交易所上架。', idxEx: '示例：PEPE →',
+    idxGloT: '术语解释', idxGloB: '40+ 数字货币常用术语通俗解释，从现货交易到钱包安全全覆盖。', idxGloC: '查术语 →',
     idxExT: '交易所页面', idxExB: '每家交易所的费率与功能。',
     idxCpB: 'KuCoin 与其他交易所对比。',
     idxCpT: '对比',
@@ -263,6 +263,9 @@ function cmpPath(lang) {
 }
 function futPath(lang) {
   return 'tools/futures-toolbox' + (lang === 'zh' ? '.zh' : '') + '.html';
+}
+function gloPath(lang) {
+  return 'tools/glossary' + (lang === 'zh' ? '.zh' : '') + '.html';
 }
 
 // ---- 合规页面（Privacy / Terms / Affiliate Disclosure）----
@@ -538,7 +541,7 @@ function indexPage(lang) {
     <div class="card"><a class="card-title" href="${p(tcPath(lang))}"><span class="ic">${ICON.receipt}</span><b>${esc(T(lang, 'idxTcT'))}</b></a><br>${esc(T(lang, 'idxTcB'))}<br><a href="${p(tcPath(lang))}">${esc(T(lang, 'idxTcC'))}</a></div>
     <div class="card"><a class="card-title" href="${p(futPath(lang))}"><span class="ic">${ICON.trend}</span><b>${esc(T(lang, 'idxFutT'))}</b></a><br>${esc(T(lang, 'idxFutB'))}<br><a href="${p(futPath(lang))}">${esc(T(lang, 'idxFutC'))}</a></div>
     <div class="card"><a class="card-title" href="${p(cmpPath(lang))}"><span class="ic">${ICON.scale}</span><b>${esc(T(lang, 'idxCmpT'))}</b></a><br>${esc(T(lang, 'idxCmpB'))}<br><a href="${p(cmpPath(lang))}">${esc(T(lang, 'idxCmpC'))}</a></div>
-    <div class="card"><a class="card-title" href="${p('where-to-buy/pepe.html')}"><span class="ic">${ICON.coins}</span><b>${esc(T(lang, 'idxWbT'))}</b></a><br>${esc(T(lang, 'idxWbB'))}<br><a href="${p('where-to-buy/pepe.html')}">${esc(T(lang, 'idxEx'))}</a></div>
+    <div class="card"><a class="card-title" href="${p(gloPath(lang))}"><span class="ic">${ICON.coins}</span><b>${esc(T(lang, 'idxGloT'))}</b></a><br>${esc(T(lang, 'idxGloB'))}<br><a href="${p(gloPath(lang))}">${esc(T(lang, 'idxGloC'))}</a></div>
     <div class="card"><a class="card-title" href="${p('exchanges/kucoin.html')}"><span class="ic">${ICON.landmark}</span><b>${esc(T(lang, 'idxExT'))}</b></a><br>${esc(T(lang, 'idxExB'))}<br><a href="${p('exchanges/kucoin.html')}">KuCoin →</a></div>
     <div class="card"><a class="card-title" href="${p('compare/kucoin-vs-bybit.html')}"><span class="ic">${ICON.scale}</span><b>${esc(T(lang, 'idxCpT'))}</b></a><br>${esc(T(lang, 'idxCpB'))}<br><a href="${p('compare/kucoin-vs-bybit.html')}">vs Bybit →</a></div>
   </div>

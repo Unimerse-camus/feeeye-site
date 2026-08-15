@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Expires" content="0">
+<title>Crypto Glossary — Plain-language Definitions of Common Crypto Terms</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Plain-language definitions of 40+ crypto terms: spot, futures, leverage, liquidation, taker/maker, funding rate, PoR, DeFi, NFT, wallet, 2FA. Each with definition + example. Free, no signup.">
+<link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<link rel="stylesheet" href="../assets/coin-finder.css">
+<style>
+  :root{--bg:#f7f8fa;--card:#fff;--ink:#1c2430;--sub:#5b6776;--line:#e4e8ee;--brand:#2563eb;--brand2:#0ea5a4;--ok:#16a34a;--bad:#dc2626;--warn:#d97706}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;font-size:15px}
+  .wrap{max-width:880px;margin:0 auto;padding:22px 18px 60px}
+  header nav{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);padding:6px 0 14px;margin-bottom:20px;flex-wrap:wrap}
+  .logo{display:flex;align-items:center;gap:8px;font-weight:800;color:var(--brand);font-size:18px;text-decoration:none}
+  .logo img{height:26px;width:26px;display:block}
+  h1{font-size:25px;margin-bottom:6px}
+  .intro{color:var(--sub);margin-bottom:18px}
+  .search{margin-bottom:14px}
+  .search input{width:100%;padding:11px 14px;border:1px solid var(--line);border-radius:10px;font-size:15px;outline:none;background:var(--card)}
+  .search input:focus{border-color:var(--brand);box-shadow:0 0 0 3px rgba(37,99,235,.12)}
+  .filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+  .filter{padding:7px 14px;border:1px solid var(--line);border-radius:999px;background:var(--card);font-size:13px;color:var(--sub);cursor:pointer;user-select:none;font-weight:600}
+  .filter.on{background:var(--brand);color:#fff;border-color:var(--brand)}
+  .result-count{font-size:13px;color:var(--sub);margin-bottom:12px}
+  .grid{display:grid;grid-template-columns:1fr;gap:12px}
+  @media(min-width:700px){.grid{grid-template-columns:1fr 1fr}}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+  .card-head{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:6px;flex-wrap:wrap}
+  .term{font-size:18px;font-weight:800;color:var(--brand)}
+  .cat{font-size:11px;padding:2px 8px;border-radius:6px;background:#f1f5f9;color:var(--sub);font-weight:600}
+  .def{font-size:14px;color:var(--ink);margin-bottom:6px}
+  .ex{font-size:13px;color:var(--sub);font-style:italic;padding-top:6px;border-top:1px dashed var(--line);margin-top:6px}
+  .empty{padding:40px;text-align:center;color:var(--sub)}
+  .disclaimer{background:#fffbeb;border:1px solid #fde68a;color:#92400e;border-radius:10px;padding:14px 16px;margin-top:18px;font-size:13px}
+  .disclaimer p{margin:0 0 6px}
+  .disclaimer p:last-child{margin-bottom:0}
+  .foot{color:var(--sub);font-size:12px;margin-top:18px;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <nav>
+      <a class="logo" href="/" aria-label="FeeEye home">
+        <img src="/assets/logo.svg" alt="FeeEye" width="26" height="26">FeeEye
+      </a>
+      <span><a href="/zh/tools/glossary.zh.html">中文</a></span>
+    </nav>
+  </header>
+
+  <h1>Crypto Glossary</h1>
+  <p class="intro">Plain-language definitions of crypto terms — from spot trading to DeFi to wallet security. 40+ entries, each with a definition and example.</p>
+
+  <div class="search">
+    <input id="q" type="search" placeholder="Search terms (e.g. spot, taker, PoR, 2FA...)" autocomplete="off">
+  </div>
+
+  <div class="filters" id="filters">
+    <span class="filter on" data-cat="all">All</span>
+    <span class="filter" data-cat="basic">Basics</span>
+    <span class="filter" data-cat="trading">Trading</span>
+    <span class="filter" data-cat="defi">DeFi</span>
+    <span class="filter" data-cat="nft">NFT</span>
+    <span class="filter" data-cat="wallet">Wallet</span>
+    <span class="filter" data-cat="security">Security</span>
+    <span class="filter" data-cat="chain">Chain / L2</span>
+    <span class="filter" data-cat="common">Slang</span>
+  </div>
+
+  <div class="result-count" id="rc">Loading…</div>
+  <div class="grid" id="grid"></div>
+
+  <div class="disclaimer">
+    <p><b>Note</b>: Aimed at beginners. Explanations prioritize clarity over precision. For production trading, consult each exchange's official docs.</p>
+    <p><b>Feedback</b>: Spot an error or want a term added? Contact us.</p>
+  </div>
+
+  <div class="foot">Educational only. Not financial advice. Terms curated from public sources.</div>
+</div>
+
+<script src="../data/glossary.js"></script>
+<script>
+(function(){
+  var DATA = window.GLOSSARY || [];
+  var CAT_LABEL = {basic:"Basics", trading:"Trading", defi:"DeFi", nft:"NFT", wallet:"Wallet", security:"Security", chain:"Chain / L2", common:"Slang"};
+  var state = { q: "", cat: "all" };
+
+  function cardHtml(item){
+    return '<div class="card">'+
+      '<div class="card-head">'+
+        '<div><span class="term">'+esc(item.en.term)+'</span></div>'+
+        '<span class="cat">'+esc(CAT_LABEL[item.cat] || item.cat)+'</span>'+
+      '</div>'+
+      '<div class="def">'+esc(item.en.def)+'</div>'+
+      '<div class="ex">e.g. '+esc(item.en.ex)+'</div>'+
+    '</div>';
+  }
+  function esc(s){ if(s==null) return ""; return String(s).replace(/[&<>"']/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]; }); }
+
+  function render(){
+    var q = state.q.trim().toLowerCase();
+    var items = DATA.filter(function(it){
+      if(state.cat !== "all" && it.cat !== state.cat) return false;
+      if(!q) return true;
+      var blob = (it.zh.term + " " + it.en.term + " " + it.key + " " + it.zh.def + " " + it.en.def).toLowerCase();
+      return blob.indexOf(q) > -1;
+    });
+    document.getElementById("rc").textContent = items.length + " term(s)";
+    if(items.length === 0){
+      document.getElementById("grid").innerHTML = '<div class="empty">No matches. Try another keyword.</div>';
+      return;
+    }
+    document.getElementById("grid").innerHTML = items.map(cardHtml).join("");
+  }
+
+  document.getElementById("q").addEventListener("input", function(){ state.q = this.value; render(); });
+  document.querySelectorAll("#filters .filter").forEach(function(b){
+    b.addEventListener("click", function(){
+      state.cat = this.getAttribute("data-cat");
+      document.querySelectorAll("#filters .filter").forEach(function(x){ x.classList.remove("on"); });
+      this.classList.add("on");
+      render();
+    });
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>
