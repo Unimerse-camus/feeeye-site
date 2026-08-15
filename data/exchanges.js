@@ -57,6 +57,7 @@ window.EXCHANGES = {
     "has_trading_bot": true,
     "has_api": true,
     "has_copy_trading": true,
+    "futures_notes": "VIP 等级提升费率降低；持有 BNB 手续费 75 折",
     "new_user_note": "Binance base spot 0.10% (25% off with BNB). USDT-TRC20 1 USDT. Fiat deposit methods vary by region.",
     "source": "https://www.binance.com/en/fee/schedule",
     "last_updated": "2026-08-13"
@@ -205,7 +206,8 @@ window.EXCHANGE_COMPARE = {
   "binance": {
     "max_leverage": 125, "has_options": true, "has_leveraged_tokens": true, "has_margin": true, "coins": 486, "volume": "≈$5.5B", "trust": 10, "security": 9,
     "kyc": "Mandatory", "licenses": "ADGM Abu Dhabi + VARA Dubai + multiple (no EU MiCA)",
-    "reserve": "~101% (PoR)", "cold": "~95% (est.)", "incident": "2019 $40M hack (compensated); 2023 US DOJ AML settlement"
+    "reserve": "~101% (PoR)", "cold": "~95% (est.)", "incident": "2019 $40M hack (compensated); 2023 US DOJ AML settlement",
+    "futures_notes": "VIP 等级提升费率降低；持有 BNB 手续费 75 折"
   },
   "bybit": {
     "max_leverage": 100, "has_options": true, "has_leveraged_tokens": false, "has_margin": true, "coins": 411, "volume": "≈$1.1B", "trust": 9, "security": 7,
