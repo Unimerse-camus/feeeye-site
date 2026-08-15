@@ -1,7 +1,7 @@
 {
   "meta": {
     "source": "GoPlus Security API",
-    "generated_at": "2026-08-15T13:44:03.961Z",
+    "generated_at": "2026-08-15T14:01:51.008Z",
     "chain": "ethereum-mainnet",
     "note": "ETH mainnet only. Native chain coins (no ERC20 contract) are marked not_applicable. This is a snapshot — not a substitute for your own research."
   },
@@ -329,36 +329,155 @@
       "contract": "0x3c3a81e81dc49a522a592e7622a7e711c06bf354"
     },
     "AAVE": {
-      "status": "not_found",
-      "contract": "0x7fc66500c84a76ad7e9c93437bfc5ac33e2ddae9"
+      "status": "ok",
+      "contract": "0x7fc66500c84a76ad7e9c93437bfc5ac33e2ddae9",
+      "token_name": "Aave Token",
+      "token_symbol": "AAVE",
+      "is_honeypot": false,
+      "buy_tax": 0,
+      "sell_tax": 0,
+      "transfer_tax": 0,
+      "is_open_source": true,
+      "is_proxy": true,
+      "is_mintable": false,
+      "owner_renounced": true,
+      "trust_list": false,
+      "holder_count": 202779,
+      "cannot_buy": false,
+      "cannot_sell_all": false,
+      "transfer_pausable": false,
+      "is_blacklisted": false,
+      "slippage_modifiable": false
     },
     "DOT": {
       "status": "not_applicable",
       "reason": "Native chain coin (no ERC20 contract)"
     },
     "MORPHO": {
-      "status": "not_found",
-      "contract": "0x58d97b57bb95320f9a05dc918aef65434969c2b2"
+      "status": "ok",
+      "contract": "0x58d97b57bb95320f9a05dc918aef65434969c2b2",
+      "token_name": "Morpho Token",
+      "token_symbol": "MORPHO",
+      "is_honeypot": false,
+      "buy_tax": 0,
+      "sell_tax": 0,
+      "transfer_tax": 0,
+      "is_open_source": true,
+      "is_proxy": true,
+      "is_mintable": false,
+      "owner_renounced": true,
+      "trust_list": false,
+      "holder_count": 21501,
+      "cannot_buy": false,
+      "cannot_sell_all": false,
+      "transfer_pausable": false,
+      "is_blacklisted": false,
+      "slippage_modifiable": false
     },
     "ICP": {
-      "status": "not_found",
-      "contract": "0x00f3c42833c3170159af4e92dbb451fb3f708917"
+      "status": "ok",
+      "contract": "0x00f3c42833c3170159af4e92dbb451fb3f708917",
+      "token_name": "ICP",
+      "token_symbol": "ICP",
+      "is_honeypot": false,
+      "buy_tax": 0,
+      "sell_tax": 0,
+      "transfer_tax": 0,
+      "is_open_source": true,
+      "is_proxy": false,
+      "is_mintable": false,
+      "owner_renounced": false,
+      "trust_list": false,
+      "holder_count": 1658,
+      "cannot_buy": false,
+      "cannot_sell_all": false,
+      "transfer_pausable": false,
+      "is_blacklisted": false,
+      "slippage_modifiable": false
     },
     "WLD": {
-      "status": "not_found",
-      "contract": "0x163f8c2467924be0ae7b5347228cabf260318753"
+      "status": "ok",
+      "contract": "0x163f8c2467924be0ae7b5347228cabf260318753",
+      "token_name": "Worldcoin",
+      "token_symbol": "WLD",
+      "is_honeypot": false,
+      "buy_tax": 0,
+      "sell_tax": 0,
+      "transfer_tax": 0,
+      "is_open_source": true,
+      "is_proxy": false,
+      "is_mintable": false,
+      "owner_renounced": false,
+      "trust_list": false,
+      "holder_count": 62841,
+      "cannot_buy": false,
+      "cannot_sell_all": false,
+      "transfer_pausable": false,
+      "is_blacklisted": false,
+      "slippage_modifiable": false
     },
     "SKY": {
-      "status": "not_found",
-      "contract": "0x56072c95faa701256059aa122697b133aded9279"
+      "status": "ok",
+      "contract": "0x56072c95faa701256059aa122697b133aded9279",
+      "token_name": "SKY Governance Token",
+      "token_symbol": "SKY",
+      "is_honeypot": false,
+      "buy_tax": 0,
+      "sell_tax": 0,
+      "transfer_tax": 0,
+      "is_open_source": true,
+      "is_proxy": false,
+      "is_mintable": true,
+      "owner_renounced": true,
+      "trust_list": false,
+      "holder_count": 14780,
+      "cannot_buy": false,
+      "cannot_sell_all": false,
+      "transfer_pausable": false,
+      "is_blacklisted": false,
+      "slippage_modifiable": false
     },
     "BGB": {
-      "status": "not_found",
-      "contract": "0x54d2252757e1672eead234d27b1270728ff90581"
+      "status": "ok",
+      "contract": "0x54d2252757e1672eead234d27b1270728ff90581",
+      "token_name": "BitgetToken",
+      "token_symbol": "BGB",
+      "is_honeypot": false,
+      "buy_tax": 0,
+      "sell_tax": 0,
+      "transfer_tax": 0,
+      "is_open_source": true,
+      "is_proxy": false,
+      "is_mintable": false,
+      "owner_renounced": true,
+      "trust_list": false,
+      "holder_count": 23239,
+      "cannot_buy": false,
+      "cannot_sell_all": false,
+      "transfer_pausable": false,
+      "is_blacklisted": false,
+      "slippage_modifiable": false
     },
     "PEPE": {
-      "status": "not_found",
-      "contract": "0x6982508145454ce325ddbe47a25d4ec3d2311933"
+      "status": "ok",
+      "contract": "0x6982508145454ce325ddbe47a25d4ec3d2311933",
+      "token_name": "Pepe",
+      "token_symbol": "PEPE",
+      "is_honeypot": false,
+      "buy_tax": 0,
+      "sell_tax": 0,
+      "transfer_tax": 0,
+      "is_open_source": true,
+      "is_proxy": false,
+      "is_mintable": false,
+      "owner_renounced": true,
+      "trust_list": false,
+      "holder_count": 576448,
+      "cannot_buy": false,
+      "cannot_sell_all": false,
+      "transfer_pausable": true,
+      "is_blacklisted": true,
+      "slippage_modifiable": false
     },
     "PUMP": {
       "status": "not_applicable",
@@ -373,8 +492,25 @@
       "reason": "Native chain coin (no ERC20 contract)"
     },
     "BCAP": {
-      "status": "not_found",
-      "contract": "0x8347fffb3abeb2fae5c21b09e983bdefa1a047dc"
+      "status": "ok",
+      "contract": "0x8347fffb3abeb2fae5c21b09e983bdefa1a047dc",
+      "token_name": "Blockchain Capital Token",
+      "token_symbol": "BCAP",
+      "is_honeypot": false,
+      "buy_tax": 0,
+      "sell_tax": 0,
+      "transfer_tax": 0,
+      "is_open_source": true,
+      "is_proxy": true,
+      "is_mintable": false,
+      "owner_renounced": true,
+      "trust_list": false,
+      "holder_count": 19,
+      "cannot_buy": false,
+      "cannot_sell_all": false,
+      "transfer_pausable": false,
+      "is_blacklisted": false,
+      "slippage_modifiable": false
     },
     "KCS": {
       "status": "not_applicable",
@@ -385,12 +521,46 @@
       "reason": "Native chain coin (no ERC20 contract)"
     },
     "QNT": {
-      "status": "not_found",
-      "contract": "0x4a220e6096b25eadb88358cb44068a3248254675"
+      "status": "ok",
+      "contract": "0x4a220e6096b25eadb88358cb44068a3248254675",
+      "token_name": "Quant",
+      "token_symbol": "QNT",
+      "is_honeypot": false,
+      "buy_tax": 0,
+      "sell_tax": 0,
+      "transfer_tax": 0,
+      "is_open_source": true,
+      "is_proxy": false,
+      "is_mintable": true,
+      "owner_renounced": false,
+      "trust_list": false,
+      "holder_count": 169284,
+      "cannot_buy": false,
+      "cannot_sell_all": false,
+      "transfer_pausable": false,
+      "is_blacklisted": false,
+      "slippage_modifiable": false
     },
     "ENA": {
-      "status": "not_found",
-      "contract": "0x57e114b691db790c35207b2e685d4a43181e6061"
+      "status": "ok",
+      "contract": "0x57e114b691db790c35207b2e685d4a43181e6061",
+      "token_name": "ENA",
+      "token_symbol": "ENA",
+      "is_honeypot": false,
+      "buy_tax": 0,
+      "sell_tax": 0,
+      "transfer_tax": 0,
+      "is_open_source": true,
+      "is_proxy": false,
+      "is_mintable": true,
+      "owner_renounced": false,
+      "trust_list": false,
+      "holder_count": 99990,
+      "cannot_buy": false,
+      "cannot_sell_all": false,
+      "transfer_pausable": false,
+      "is_blacklisted": false,
+      "slippage_modifiable": false
     },
     "POL": {
       "status": "not_found",
@@ -424,15 +594,19 @@
       "status": "not_applicable",
       "reason": "Native chain coin (no ERC20 contract)"
     },
-    "BDX": {
-      "status": "not_applicable",
-      "reason": "Native chain coin (no ERC20 contract)"
-    },
     "RENDER": {
       "status": "not_found",
       "contract": "0x6de037ef9ad2725eb40118bb1702ebb27e4aeb24"
     },
+    "BDX": {
+      "status": "not_applicable",
+      "reason": "Native chain coin (no ERC20 contract)"
+    },
     "FIL": {
+      "status": "not_applicable",
+      "reason": "Native chain coin (no ERC20 contract)"
+    },
+    "VVV": {
       "status": "not_applicable",
       "reason": "Native chain coin (no ERC20 contract)"
     },
@@ -444,10 +618,6 @@
       "status": "not_applicable",
       "reason": "Native chain coin (no ERC20 contract)"
     },
-    "VVV": {
-      "status": "not_applicable",
-      "reason": "Native chain coin (no ERC20 contract)"
-    },
     "XDC": {
       "status": "not_applicable",
       "reason": "Native chain coin (no ERC20 contract)"
@@ -456,13 +626,13 @@
       "status": "not_applicable",
       "reason": "Native chain coin (no ERC20 contract)"
     },
-    "ARB": {
-      "status": "not_found",
-      "contract": "0xb50721bcf8d664c30412cfbc6cf7a15145234ad1"
-    },
     "VELVET": {
       "status": "not_applicable",
       "reason": "Native chain coin (no ERC20 contract)"
+    },
+    "ARB": {
+      "status": "not_found",
+      "contract": "0xb50721bcf8d664c30412cfbc6cf7a15145234ad1"
     },
     "ETHFI": {
       "status": "not_found",
@@ -544,41 +714,41 @@
       "status": "not_applicable",
       "reason": "Native chain coin (no ERC20 contract)"
     },
-    "JTO": {
-      "status": "not_applicable",
-      "reason": "Native chain coin (no ERC20 contract)"
-    },
     "SPX": {
       "status": "not_found",
       "contract": "0xe0f63a424a4439cbe457d80e4f4b51ad25b2c56c"
     },
-    "FET": {
-      "status": "not_found",
-      "contract": "0xaea46a60368a7bd060eec7df8cba43b7ef41ad85"
+    "JTO": {
+      "status": "not_applicable",
+      "reason": "Native chain coin (no ERC20 contract)"
     },
     "NIGHT": {
       "status": "not_applicable",
       "reason": "Native chain coin (no ERC20 contract)"
     },
-    "TIA": {
-      "status": "not_applicable",
-      "reason": "Native chain coin (no ERC20 contract)"
+    "FET": {
+      "status": "not_found",
+      "contract": "0xaea46a60368a7bd060eec7df8cba43b7ef41ad85"
     },
     "H": {
       "status": "not_found",
       "contract": "0xe76c5b78f93909d34404e9eb4c1f19e7582a5de1"
     },
+    "TIA": {
+      "status": "not_applicable",
+      "reason": "Native chain coin (no ERC20 contract)"
+    },
     "OHM": {
       "status": "not_found",
       "contract": "0x64aa3364f17a4d01c6f1751fd97c2bd3d7e7f1d5"
     },
-    "ZRO": {
-      "status": "not_found",
-      "contract": "0x6985884c4392d348587b19cb9eaaf157f13271cd"
-    },
     "NFT": {
       "status": "not_found",
       "contract": "0x198d14f2ad9ce69e76ea330b374de4957c3f850a"
+    },
+    "ZRO": {
+      "status": "not_found",
+      "contract": "0x6985884c4392d348587b19cb9eaaf157f13271cd"
     },
     "GNO": {
       "status": "not_found",
@@ -592,10 +762,6 @@
       "status": "not_applicable",
       "reason": "Native chain coin (no ERC20 contract)"
     },
-    "CYS": {
-      "status": "not_applicable",
-      "reason": "Native chain coin (no ERC20 contract)"
-    },
     "BTT": {
       "status": "not_found",
       "contract": "0xc669928185dbce49d2230cc9b0979be6dc797957"
@@ -605,6 +771,10 @@
       "contract": "0x5a98fcbea516cf06857215779fd812ca3bef1b32"
     },
     "MON": {
+      "status": "not_applicable",
+      "reason": "Native chain coin (no ERC20 contract)"
+    },
+    "CYS": {
       "status": "not_applicable",
       "reason": "Native chain coin (no ERC20 contract)"
     },
