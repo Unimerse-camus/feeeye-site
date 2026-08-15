@@ -190,7 +190,7 @@
     html += kv("Required margin", fmt(margin)+" USDT");
     html += kv("Max loss (if stopped)", fmt(maxLoss)+" USDT", "bad");
     html += '</div>';
-    html += '<div class="hint">Position = risk amount ÷ stop distance → size the risk first. This tool defaults to <b>risk-based sizing</b> (you only ever lose "+fmt(riskAmt)+" USDT). If you instead go all-in (no stop), you could open up to <b>"+fmt(maxQty)+" coins</b> (notional "+fmt(bal*lev)+" USDT), but a 5% adverse move at that size would lose <b>"+fmt(maxQtyLoss)+" USDT ("+(maxQtyLoss/bal*100).toFixed(0)+"% of account)</b> — far beyond any reasonable risk budget.</div>';
+    html += '<div class="hint">Position = risk amount ÷ stop distance → size the risk first. This tool defaults to <b>risk-based sizing</b> (you only ever lose '+fmt(riskAmt)+' USDT). If you instead go all-in (no stop), you could open up to <b>'+fmt(maxQty)+' coins</b> (notional '+fmt(bal*lev)+' USDT), but a 5% adverse move at that size would lose <b>'+fmt(maxQtyLoss)+' USDT ('+(maxQtyLoss/bal*100).toFixed(0)+'% of account)</b> — far beyond any reasonable risk budget.</div>';
     el.innerHTML = html;
   }
 

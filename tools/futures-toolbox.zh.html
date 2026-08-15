@@ -193,7 +193,7 @@
     html += kv("所需保证金", fmt(margin)+" USDT");
     html += kv("最大亏损（止损触发）", fmt(maxLoss)+" USDT", "bad");
     html += '</div>';
-    html += '<div class="hint">仓位 = 风险金额 ÷ 止损距离 → 先定风险再定仓位。本工具默认「风控模式」（只亏你预设的"+fmt(riskAmt)+" USDT）。如果改成全仓梭哈（不设止损），最多能开 <b>"+fmt(maxQty)+" 币</b>（名义 "+fmt(bal*lev)+" USDT），但反向 5% 即亏 <b>"+fmt(maxQtyLoss)+" USDT（"+(maxQtyLoss/bal*100).toFixed(0)+"% 账户）</b>，远超可承受范围。</div>';
+    html += '<div class="hint">仓位 = 风险金额 ÷ 止损距离 → 先定风险再定仓位。本工具默认「风控模式」（只亏你预设的'+fmt(riskAmt)+' USDT）。如果改成全仓梭哈（不设止损），最多能开 <b>'+fmt(maxQty)+' 币</b>（名义 '+fmt(bal*lev)+' USDT），但反向 5% 即亏 <b>'+fmt(maxQtyLoss)+' USDT（'+(maxQtyLoss/bal*100).toFixed(0)+'% 账户）</b>，远超可承受范围。</div>';
     el.innerHTML = html;
   }
 
