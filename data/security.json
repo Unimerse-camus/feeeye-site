@@ -1,7 +1,7 @@
 {
   "meta": {
     "source": "GoPlus Security API",
-    "generated_at": "2026-08-15T06:35:22.211Z",
+    "generated_at": "2026-08-15T06:45:12.774Z",
     "chain": "ethereum-mainnet",
     "note": "ETH mainnet only. Native chain coins (no ERC20 contract) are marked not_applicable. This is a snapshot — not a substitute for your own research."
   },
@@ -308,13 +308,13 @@
       "status": "not_found",
       "contract": "0xda5e1988097297dcdc1f90d4dfe7909e847cbef6"
     },
-    "HTX": {
-      "status": "not_found",
-      "contract": "0x61ec85ab89377db65762e234c946b5c25a56e99e"
-    },
     "ASTER": {
       "status": "not_applicable",
       "reason": "Native chain coin (no ERC20 contract)"
+    },
+    "HTX": {
+      "status": "not_found",
+      "contract": "0x61ec85ab89377db65762e234c946b5c25a56e99e"
     },
     "ONDO": {
       "status": "not_found",
@@ -540,6 +540,10 @@
       "status": "not_found",
       "contract": "0x98a878b1cd98131b271883b390f68d2c90674665"
     },
+    "GLIDR": {
+      "status": "not_applicable",
+      "reason": "Native chain coin (no ERC20 contract)"
+    },
     "FET": {
       "status": "not_found",
       "contract": "0xaea46a60368a7bd060eec7df8cba43b7ef41ad85"
@@ -624,6 +628,10 @@
       "status": "not_applicable",
       "reason": "Native chain coin (no ERC20 contract)"
     },
+    "CYS": {
+      "status": "not_applicable",
+      "reason": "Native chain coin (no ERC20 contract)"
+    },
     "PENDLE": {
       "status": "not_found",
       "contract": "0x808507121b80c02388fad14726482e061b8da827"
@@ -633,10 +641,6 @@
       "reason": "Native chain coin (no ERC20 contract)"
     },
     "AKE": {
-      "status": "not_applicable",
-      "reason": "Native chain coin (no ERC20 contract)"
-    },
-    "CYS": {
       "status": "not_applicable",
       "reason": "Native chain coin (no ERC20 contract)"
     },
