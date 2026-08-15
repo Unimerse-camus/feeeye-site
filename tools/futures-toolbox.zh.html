@@ -176,20 +176,24 @@
     }
     var riskAmt = bal * risk;                     // 风险金额
     var dist = Math.abs(entry - stop);            // 止损距离
-    var qty = riskAmt / dist;                     // 仓位数量
+    var qty = riskAmt / dist;                     // 仓位数量（风控导向：先定风险再定仓位）
     var notional = qty * entry;                   // 仓位名义价值
     var margin = notional / lev;                  // 所需保证金
     var maxLoss = qty * dist;                     // 最大亏损（=风险金额）
 
+    // 对比：如果全仓梭哈（不用止损，把账户当风险），最多能开多少
+    var maxQty = (bal * lev) / entry;             // 全仓名义价值/价格
+    var maxQtyLoss = maxQty * dist;               // 全仓触发止损的亏损
+
     var html = '<div class="kv-grid">';
     html += kv("风险金额", fmt(riskAmt)+" USDT", "warn");
     html += kv("止损距离", fmt(dist));
-    html += kv("仓位数量", fmt(qty)+" 币");
+    html += kv("仓位数量（风控）", fmt(qty)+" 币");
     html += kv("仓位名义价值", fmt(notional)+" USDT");
     html += kv("所需保证金", fmt(margin)+" USDT");
     html += kv("最大亏损（止损触发）", fmt(maxLoss)+" USDT", "bad");
     html += '</div>';
-    html += '<div class="hint">风险金额 = 账户余额 × 风险%。仓位大小由「愿意亏多少钱 / 止损距离」决定，先定风险再定仓位，避免重仓爆仓。</div>';
+    html += '<div class="hint">仓位 = 风险金额 ÷ 止损距离 → 先定风险再定仓位。本工具默认「风控模式」（只亏你预设的"+fmt(riskAmt)+" USDT）。如果改成全仓梭哈（不设止损），最多能开 <b>"+fmt(maxQty)+" 币</b>（名义 "+fmt(bal*lev)+" USDT），但反向 5% 即亏 <b>"+fmt(maxQtyLoss)+" USDT（"+(maxQtyLoss/bal*100).toFixed(0)+"% 账户）</b>，远超可承受范围。</div>';
     el.innerHTML = html;
   }
 
