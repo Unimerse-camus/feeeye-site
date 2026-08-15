@@ -156,6 +156,17 @@ function mapCategory(categories) {
   return 'other';
 }
 
+// 硬编码纠正：CoinGecko 的次要标签会把个别币误分，这里按常识逐个纠偏。
+// 键 = 大写 symbol，值 = 正确分类。优先级高于 CATEGORY_PRIORITY 规则。
+const CATEGORY_OVERRIDE = {
+  LINK: 'defi',   // Chainlink = 预言机 / DeFi 基础设施（不是 RWA）
+  XLM: 'l1',      // Stellar = L1 公链（不是 RWA）
+  UNI: 'defi',    // Uniswap = DEX（不是平台币）
+  HYPE: 'defi',   // Hyperliquid = 去中心化衍生品 DEX（不是平台币）
+  XMR: 'l1',      // Monero = 隐私币（PoW 公链）
+  ZEC: 'l1'       // Zcash = 隐私币（PoW 公链）
+};
+
 async function main() {
   console.log(`🔄 Fetching top ${TOP} coins from CoinGecko...`);
   const markets = [];
@@ -199,7 +210,7 @@ async function main() {
     if (online) {
       try {
         const d = await cgGet(`${CG}/coins/${m.id}?localization=false&tickers=false&market_data=false&community_data=false&developer_data=false`);
-        category = mapCategory(d.categories || []);
+        category = CATEGORY_OVERRIDE[sym] || mapCategory(d.categories || []);
         platforms = d.platforms || {};
         await sleep(1200);
       } catch (e) {
@@ -250,7 +261,7 @@ async function main() {
         price: m.market_data.current_price.usd,
         market_cap: m.market_data.market_cap.usd,
         exchanges,
-        category: mapCategory(m.categories || []),
+        category: CATEGORY_OVERRIDE[sym] || mapCategory(m.categories || []),
         platforms: m.platforms || {},
         networks: [],
         last_updated: new Date().toISOString().slice(0, 10),
