@@ -443,10 +443,6 @@ input[type=number]{font-size:16px}
 .foot a{color:var(--sub);text-decoration:none}
 .foot a:hover{text-decoration:underline}
 .note{background:#eef4ff;border:1px solid #c7d8ff;border-radius:10px;padding:10px 14px;font-size:13px;color:#1e40af;margin:14px 0}
-.pills{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
-.cat-group{margin-bottom:16px}
-.cat-label{font-size:11px;font-weight:600;color:var(--sub);margin-bottom:6px;text-transform:uppercase;letter-spacing:.6px}
-.pill{background:#eef4ff;border:1px solid #c7d8ff;color:#1e40af;border-radius:999px;padding:3px 10px;font-size:12.5px;text-decoration:none}
 </style>
 </head>
 <body>
@@ -555,25 +551,21 @@ function countryPage(cc, lang) {
 
 function indexPage(lang) {
   const p = (rel) => absPath(lang, rel);
-  // 热门币按 category 分组（coins.json 的 category 字段，fetch 时从 CoinGecko categories 映射）
-  const sorted = [...COIN_LIST].sort((a, b) => a.rank - b.rank).slice(0, 60);
-  const labels = CATEGORY_LABEL[lang];
-  const groups = {};
-  sorted.forEach((c) => {
-    const cat = catOf(c);
-    if (!groups[cat]) groups[cat] = [];
-    groups[cat].push(c);
-  });
-  let groupedHtml = '';
-  CATEGORY_ORDER.forEach((cat) => {
-    const group = groups[cat];
-    if (!group || !group.length) return;
-    const pills = group.map((c) => `<a class="pill" href="${p('where-to-buy/' + c.symbol.toLowerCase() + '.html')}">${esc(c.name)} (${esc(c.symbol)})</a>`).join('');
-    groupedHtml += `<div class="cat-group"><div class="cat-label">${esc(labels[cat])}</div><div class="pills">${pills}</div></div>`;
-  });
+  // 搜索框：symbol 集合（校验）+ datalist（补全）
+  const symSet = {};
+  COIN_LIST.forEach((c) => { symSet[c.symbol] = 1; });
+  const coinOptions = COIN_LIST.map((c) => `<option value="${esc(c.symbol)}">${esc(c.symbol)} — ${esc(c.name)}</option>`).join('');
+  const searchPh = lang === 'zh' ? '搜索币种，如 BTC、ETH、SOL' : 'Search a coin, e.g. BTC, ETH, SOL';
+  const searchBtn = lang === 'zh' ? '搜索' : 'Search';
+  const searchNf = lang === 'zh' ? '未找到该币种，请检查币种代号' : 'Coin not found — check the ticker';
   const body = `
   <h1>${esc(T(lang, 'idxH1'))}</h1>
   <p class="intro">${esc(T(lang, 'idxIntro'))}</p>
+  <div style="display:flex;gap:8px;margin:0 0 18px">
+    <input id="idxCoinInput" type="text" list="idxCoinList" placeholder="${searchPh}" autocomplete="off" style="flex:1;padding:12px 14px;border:1px solid var(--line);border-radius:10px;font-size:15px;background:#fff;text-transform:uppercase;font-family:ui-monospace,Menlo,Consolas,monospace">
+    <button id="idxSearchBtn" type="button" style="background:var(--brand);color:#fff;border:none;padding:0 22px;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;white-space:nowrap">${searchBtn}</button>
+  </div>
+  <datalist id="idxCoinList">${coinOptions}</datalist>
   <div class="grid">
     <div class="card"><a class="card-title" href="${p(tcPath(lang))}"><span class="ic">${ICON.receipt}</span><b>${esc(T(lang, 'idxTcT'))}</b></a><br>${esc(T(lang, 'idxTcB'))}<br><a href="${p(tcPath(lang))}">${esc(T(lang, 'idxTcC'))}</a></div>
     <div class="card"><a class="card-title" href="${p(futPath(lang))}"><span class="ic">${ICON.trend}</span><b>${esc(T(lang, 'idxFutT'))}</b></a><br>${esc(T(lang, 'idxFutB'))}<br><a href="${p(futPath(lang))}">${esc(T(lang, 'idxFutC'))}</a></div>
@@ -582,9 +574,21 @@ function indexPage(lang) {
     <div class="card"><a class="card-title" href="${p(secPath(lang))}"><span class="ic">${ICON.shield}</span><b>${esc(T(lang, 'idxSecT'))}</b></a><br>${esc(T(lang, 'idxSecB'))}<br><a href="${p(secPath(lang))}">${esc(T(lang, 'idxSecC'))}</a></div>
     <div class="card"><a class="card-title" href="${p(pfPath(lang))}"><span class="ic">${ICON.wallet}</span><b>${esc(T(lang, 'idxPfT'))}</b></a><br>${esc(T(lang, 'idxPfB'))}<br><a href="${p(pfPath(lang))}">${esc(T(lang, 'idxPfC'))}</a></div>
   </div>
-  <h3>${esc(T(lang, 'idxPopular'))}</h3>
-  ${groupedHtml}
-  <p style="margin-top:12px"><a href="${p('coins.html')}">${lang === 'zh' ? `查看全部币种 →` : `View all coins →`}</a></p>`;
+  <script>
+  (function(){
+    var SYMS = ${JSON.stringify(symSet)};
+    var PREFIX = ${JSON.stringify(p('where-to-buy/'))};
+    var NF = ${JSON.stringify(searchNf)};
+    function go(){
+      var v = (document.getElementById('idxCoinInput').value||'').trim().toUpperCase();
+      if(!v) return;
+      if(SYMS[v]) { location.href = PREFIX + v.toLowerCase() + '.html'; }
+      else { alert(NF); }
+    }
+    document.getElementById('idxSearchBtn').addEventListener('click', go);
+    document.getElementById('idxCoinInput').addEventListener('keydown', function(e){ if(e.key==='Enter') go(); });
+  })();
+  </script>`;
   return page({ lang, title: T(lang, 'idxTitle'), desc: T(lang, 'idxDesc'), body, path: `${lang === 'zh' ? 'zh/' : ''}index.html`, affiliate: false });
 }
 
