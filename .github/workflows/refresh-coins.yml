@@ -11,8 +11,8 @@ on:
       - 'data/**'
       - 'dist/**'
   schedule:
-    # UTC 01:17 = 北京时间 09:17，每天一次（避开 CoinGecko 高峰）
-    - cron: '17 1 * * *'
+    # UTC 16:00 = 北京时间 00:00，每天一次
+    - cron: '0 16 * * *'
   workflow_dispatch: {}   # 支持手动触发：Actions 页 → Run workflow
 
 permissions:
