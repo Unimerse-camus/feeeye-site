@@ -149,7 +149,7 @@ const I18N = {
   en: {
     navZh: '中文',
     navTools: 'Tools', navExchanges: 'Exchanges', navCoins: 'Coins', navCompare: 'Compare', navGlossary: 'Glossary',
-    discHtml: '<div class="note" style="text-align:left"><p style="margin:0 0 4px">① Fee snapshot: 2026-08-13 — verify each rate on the exchange\'s official page before trading.</p><p style="margin:0">② Compliance varies by exchange — always check each exchange\'s Terms of Use to confirm your country/region is supported before signing up.</p></div>',
+    discHtml: '<div class="note" style="text-align:left"><p style="margin:0 0 4px">① Fee snapshot: {SNAPSHOT} — verify each rate on the exchange\'s official page before trading.</p><p style="margin:0">② Compliance varies by exchange — always check each exchange\'s Terms of Use to confirm your country/region is supported before signing up.</p></div>',
     foot: 'Educational only. Not financial advice. Verify all data on official exchange pages. Data snapshot ', footContact: 'For feature requests or bug reports, contact ',
     footPrivacy: 'Privacy', footTerms: 'Terms', footAbout: 'About',
     thExchange: 'Exchange', thLists: 'Lists {s}', thTaker: 'Spot taker', thTakerFut: 'Futures taker', thFee20: 'USDT TRC20 fee',
@@ -196,7 +196,7 @@ const I18N = {
   zh: {
     navZh: 'English',
     navTools: '工具', navExchanges: '交易所', navCoins: '币种', navCompare: '对比', navGlossary: '术语',
-    discHtml: '<div class="note" style="text-align:left"><p style="margin:0 0 4px">① 费率快照：最近更新 2026-08-13—— 交易前请以各交易所官方页面为准。</p><p style="margin:0">② 合规受限地区因交易所而异——注册前请查各所 Terms of Use 确认你所在国家/地区可用。</p></div>',
+    discHtml: '<div class="note" style="text-align:left"><p style="margin:0 0 4px">① 费率快照：最近更新 {SNAPSHOT}—— 交易前请以各交易所官方页面为准。</p><p style="margin:0">② 合规受限地区因交易所而异——注册前请查各所 Terms of Use 确认你所在国家/地区可用。</p></div>',
     foot: '仅供教育参考，不构成投资建议。请以各交易所官方页面核实所有数据。数据快照 ', footContact: '如有任何功能需求和建议，或网页有错误需要修正，请联系 ',
     footPrivacy: '隐私政策', footTerms: '使用条款', footAbout: '关于我们',
     thExchange: '交易所', thLists: '上架 {s}', thTaker: '现货吃单费率', thTakerFut: '合约吃单费率', thFee20: 'USDT TRC20 提币费',
@@ -315,7 +315,7 @@ const LEGAL_HTML = {
 function legalPage(key, lang) {
   const c = LEGAL_HTML[lang][key];
   const rel = `${lang === 'zh' ? 'zh/' : ''}${key}.html`;
-  return page({ lang, title: c.title, desc: c.desc, body: c.body, path: rel, affiliate: false });
+  return page({ lang, title: c.title, desc: c.desc, body: c.body, path: rel, affiliate: false, noDisc: true });
 }
 
 // About / Contact 页面
@@ -335,7 +335,7 @@ const ABOUT_HTML = {
 function aboutPage(lang) {
   const c = ABOUT_HTML[lang];
   const rel = `${lang === 'zh' ? 'zh/' : ''}about.html`;
-  return page({ lang, title: c.title, desc: c.desc, body: c.body, path: rel, affiliate: false });
+  return page({ lang, title: c.title, desc: c.desc, body: c.body, path: rel, affiliate: false, noDisc: true });
 }
 
 // 把 GoPlus 安全数据浓缩为 6 个风险等级（首页 coins 列表过滤用）
@@ -366,15 +366,15 @@ function coinsPage(lang) {
     });
   })();
   </script>`;
-  return page({ lang, title, desc, body, path: `${lang === 'zh' ? 'zh/' : ''}coins.html`, affiliate: false });
+  return page({ lang, title, desc, body, path: `${lang === 'zh' ? 'zh/' : ''}coins.html`, affiliate: false, noDisc: true });
 }
 
-function page({ lang, title, desc, body, jsonLd, depth = 0, path, affiliate = false }) {
+function page({ lang, title, desc, body, jsonLd, depth = 0, path, affiliate = false, noDisc = false }) {
   const i = I18N[lang];
   const canonical = `${SITE_URL}/${path}`;
   const ld = jsonLd ? `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>` : '';
-  // 仅在页面有 affiliate CTA 的页面显示合规披露（首页/对比/国家/交易所页 = 纯工具/数据，不挂）
-  const discLine = i.discHtml;
+  // 仅在显式传 noDisc 时才隐藏（如首页/legal/about/coins 等纯信息页）
+  const discLine = noDisc ? '' : i.discHtml.replace(/\{SNAPSHOT\}/g, COIN_SNAPSHOT);
   return `<!doctype html>
 <html lang="${lang === 'zh' ? 'zh-CN' : 'en'}">
 <head>
@@ -586,7 +586,7 @@ function indexPage(lang) {
     document.getElementById('idxCoinInput').addEventListener('keydown', function(e){ if(e.key==='Enter') go(); });
   })();
   </script>`;
-  return page({ lang, title: T(lang, 'idxTitle'), desc: T(lang, 'idxDesc'), body, path: `${lang === 'zh' ? 'zh/' : ''}index.html`, affiliate: false });
+  return page({ lang, title: T(lang, 'idxTitle'), desc: T(lang, 'idxDesc'), body, path: `${lang === 'zh' ? 'zh/' : ''}index.html`, affiliate: false, noDisc: true });
 }
 
 // ---- 写入 ----
