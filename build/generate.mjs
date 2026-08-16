@@ -157,7 +157,7 @@ const I18N = {
     alsoOn: '{s} is also available on: {o}. Use the Fee Calculator to compare your exact trade size.',
     priceLine: '{s} price: {p} · Market cap: {m} · Rank #{r} (CoinGecko snapshot {d}).',
     wbH1: 'Buy {s}',
-    wbIntro: 'Compare where {s} is listed, spot fees, and USDT (TRC20) withdrawal costs across major exchanges.',
+    wbIntro: '',
     wbTitle: 'Where to Buy {s} — Compare Exchanges',
     wbDesc: 'Find where to buy {s} in 2026. Compare listings, spot fees and withdrawal costs across major exchanges.',
     wbQ1: 'Where can I buy {s}?', wbA1: '{s} is listed on major exchanges including KuCoin, subject to regional availability. Compare fees above.',
@@ -204,7 +204,7 @@ const I18N = {
     alsoOn: '{s} 还可在以下平台购买：{o}。使用手续费计算器对比你的具体交易成本。',
     priceLine: '{s} 价格：{p} · 市值：{m} · 排名 #{r}（CoinGecko 快照 {d}）。',
     wbH1: '购买 {s}',
-    wbIntro: '对比 {s} 的上架平台、现货费率及 USDT（TRC20）提币成本。',
+    wbIntro: '',
     wbTitle: '在哪里购买 {s}——交易所对比',
     wbDesc: '查找 2026 年在哪里购买 {s}。对比各大交易所的上架情况、现货费率与提币成本。',
     wbQ1: '我可以在哪里购买 {s}？', wbA1: '{s} 已在多家交易所上架（含 KuCoin），具体取决于地区可用性。请对比上方费率。',
@@ -497,7 +497,6 @@ function whereToBuy(c, lang) {
   const priceLine = `<p class="intro">${esc(T(lang, 'priceLine', { n: name, s: symbol, p: fmtPrice(c.price), m: fmtCap(c.market_cap), r: c.rank, d: COIN_SNAPSHOT }))}${changeHtml}</p>`;
   const body = `
   <h1>${esc(T(lang, 'wbH1', { n: name, s: symbol }))}</h1>
-  <p class="intro">${esc(T(lang, 'wbIntro', { n: name }))}</p>
   ${priceLine}
   <div class="scroll"><table><thead><tr><th>${esc(T(lang, 'thExchange'))}</th><th>${esc(T(lang, 'thLists', { s: symbol }))}</th><th>${esc(T(lang, 'thTaker'))}</th><th>${esc(T(lang, 'thFee20'))}</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>`;
   const jsonLd = {
