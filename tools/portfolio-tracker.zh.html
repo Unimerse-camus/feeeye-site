@@ -85,7 +85,7 @@
     </div>
     <button class="btn" id="addBtn">添加持仓</button>
     <div class="err" id="err"></div>
-    <p class="hint">CoinGecko 收录的任何币种都可以，直接输入 symbol 即可。数据只存在你的浏览器。</p>
+    <p class="hint">KuCoin 收录的任何币种都可以，直接输入 symbol 即可。数据只存在你的浏览器。</p>
   </div>
 
   <div class="summary" id="summary" style="display:none"></div>
@@ -97,7 +97,7 @@
   <div class="refresh"><span id="priceNote"></span> · <a id="refreshBtn">↻ 刷新价格</a></div>
 
   <div class="foot">
-    实时价格来自 CoinGecko。你的持仓<b>只存在浏览器本地</b>（localStorage），绝不上传。本工具<b>不构成</b>投资建议。<br>
+    实时价格来自 KuCoin。你的持仓<b>只存在浏览器本地</b>（localStorage），绝不上传。本工具<b>不构成</b>投资建议。<br>
     <a href="/zh/">首页</a> · <a href="/zh/privacy.html">隐私政策</a> · <a href="/zh/terms.html">使用条款</a> · <a href="/zh/disclosure.html">返佣披露</a>
   </div>
 </div>
@@ -107,7 +107,6 @@
 <script>
 (function(){
   var STORE = 'feeeye_holdings_v1';
-  var CACHE = 'feeeye_symbol_cache_v1';
   var coinInput = document.getElementById('coin');
   var datalist = document.getElementById('coinList');
   var qty = document.getElementById('qty');
@@ -119,7 +118,7 @@
   var empty = document.getElementById('empty');
   var priceNote = document.getElementById('priceNote');
   var refreshBtn = document.getElementById('refreshBtn');
-  var livePrices = {}; // cg_id -> usd（实时，来自同域 /api/price 代理）
+  var livePrices = {}; // symbol -> usd（实时，来自同域 /api/price 代理，KuCoin 源）
 
   var coins = Object.keys(window.COIN_PRICES || {}).map(function(sym){
     return { sym: sym, info: window.COIN_PRICES[sym] };
@@ -136,8 +135,6 @@
     catch(e){ return { holdings: [] }; }
   }
   function save(d){ localStorage.setItem(STORE, JSON.stringify(d)); }
-  function loadCache(){ try { return JSON.parse(localStorage.getItem(CACHE)) || {}; } catch(e){ return {}; } }
-  function saveCache(c){ localStorage.setItem(CACHE, JSON.stringify(c)); }
   function showErr(m){ err.textContent = m; err.style.display = 'block'; }
   function hideErr(){ err.style.display = 'none'; }
   function fmt(n, forceDp){
@@ -145,28 +142,6 @@
     var abs = Math.abs(n);
     var dp = forceDp != null ? forceDp : (abs >= 1000 ? 2 : abs >= 1 ? 4 : 6);
     return Number(n).toLocaleString(undefined, { maximumFractionDigits: dp, minimumFractionDigits: 0 });
-  }
-
-  // 解析 symbol → cg_id：本地 → 缓存 → /api/search 代理（支持任意币种）
-  async function resolveCgId(sym){
-    var local = (window.COIN_IDS && window.COIN_IDS[sym]) || (window.COIN_PRICES && window.COIN_PRICES[sym] && window.COIN_PRICES[sym].cg_id);
-    if (local) return local;
-    var cache = loadCache();
-    if (cache[sym]) return cache[sym];
-    try {
-      var res = await fetch('/api/search?query=' + encodeURIComponent(sym));
-      if (!res.ok) throw new Error('HTTP ' + res.status);
-      var data = await res.json();
-      var coins = (data.coins || []).filter(function(c){ return c.symbol && c.symbol.toUpperCase() === sym; });
-      if (!coins.length) coins = data.coins || [];
-      if (coins.length) {
-        var cg = coins[0].id;
-        cache[sym] = cg;
-        saveCache(cache);
-        return cg;
-      }
-    } catch(e){ /* ignore */ }
-    return null;
   }
 
   async function addHolding(){
@@ -177,21 +152,10 @@
     if (!q || q <= 0) { showErr('请输入有效的数量。'); return; }
     if (!c || c <= 0) { showErr('请输入有效的买入价。'); return; }
     hideErr();
-    addBtn.disabled = true;
-    addBtn.textContent = '正在查找币种…';
-    var cgId = await resolveCgId(sym);
-    if (!cgId) {
-      showErr('找不到该币种，请确认 symbol 正确（CoinGecko 收录的币都能查）。');
-      addBtn.disabled = false;
-      addBtn.textContent = '添加持仓';
-      return;
-    }
     var d = load();
-    d.holdings.push({ id: Date.now().toString(36) + Math.random().toString(36).slice(2,6), symbol: sym, cg_id: cgId, qty: q, cost: c });
+    d.holdings.push({ id: Date.now().toString(36) + Math.random().toString(36).slice(2,6), symbol: sym, qty: q, cost: c });
     save(d);
     coinInput.value = ''; qty.value = ''; cost.value = '';
-    addBtn.disabled = false;
-    addBtn.textContent = '添加持仓';
     await refresh();
   }
 
@@ -203,8 +167,8 @@
   }
 
   function priceOf(h){
-    // 实时价优先（/api/price 代理），失败回退本地快照价
-    if (h.cg_id && livePrices[h.cg_id] != null) return livePrices[h.cg_id];
+    // 实时价优先（/api/price 代理，symbol 为 key），失败回退本地快照价
+    if (livePrices[h.symbol] != null) return livePrices[h.symbol];
     var info = window.COIN_PRICES && window.COIN_PRICES[h.symbol];
     return info && info.price != null ? info.price : null;
   }
@@ -258,23 +222,14 @@
   }
 
   async function refresh(){
-    // 实时价：同域 /api/price 代理（服务器端拉 CoinGecko，绕开 CORS），失败回退快照价
+    // 实时价：同域 /api/price 代理（服务器端拉 KuCoin，绕开 CORS，无需 key），失败回退快照价
     var d = load();
-    var changed = false;
-    for (var i = 0; i < d.holdings.length; i++) {
-      var h = d.holdings[i];
-      if (!h.cg_id) {
-        var cg = await resolveCgId(h.symbol);
-        if (cg) { h.cg_id = cg; changed = true; }
-      }
-    }
-    if (changed) save(d);
-    var ids = [];
+    var syms = [];
     var seen = {};
-    d.holdings.forEach(function(h){ if (h.cg_id && !seen[h.cg_id]) { seen[h.cg_id] = 1; ids.push(h.cg_id); } });
-    if (!ids.length) { render(); return; }
+    d.holdings.forEach(function(h){ if (h.symbol && !seen[h.symbol]) { seen[h.symbol] = 1; syms.push(h.symbol); } });
+    if (!syms.length) { render(); return; }
     try {
-      var res = await fetch('/api/price?ids=' + ids.join(',') + '&vs_currencies=usd');
+      var res = await fetch('/api/price?symbols=' + syms.join(','));
       if (!res.ok) throw new Error('HTTP ' + res.status);
       var p = await res.json();
       livePrices = p;

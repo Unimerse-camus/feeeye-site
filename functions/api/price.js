@@ -1,7 +1,7 @@
-// Cloudflare Pages Function — 代理 CoinGecko 实时价格
-// 前端同域请求 /api/price?ids=bitcoin,ethereum&vs_currencies=usd
-// 绕开 CoinGecko 免费 API 的 CORS 限制（服务端请求无 CORS）
-// 可选：在 Cloudflare 控制台配 COINGECKO_API_KEY 环境变量（免费 demo key），提升限频
+// Cloudflare Pages Function — 代理 KuCoin 实时价格（方案 B：无需 API key）
+// 前端同域请求 /api/price?symbols=BTC,ETH,SOL
+// 服务端请求 KuCoin 公开行情（无 CORS、无 key、限流宽松），返回 {BTC:{usd:...},...}
+// 若某币无 USDT 交易对或 KuCoin 未收录，则不返回该 symbol，前端自动回退本地快照价
 
 const CORS = { 'content-type': 'application/json;charset=utf-8', 'access-control-allow-origin': '*' };
 
@@ -11,27 +11,39 @@ function json(data, status) {
 
 export async function onRequestGet(context) {
   const url = new URL(context.request.url);
-  const ids = url.searchParams.get('ids') || '';
-  const vs = url.searchParams.get('vs_currencies') || 'usd';
-  if (!ids) return json({ error: 'missing ids' }, 400);
+  const raw = url.searchParams.get('symbols') || '';
+  const symbols = raw.toUpperCase().split(',').map(s => s.trim()).filter(Boolean);
+  if (!symbols.length) return json({ error: 'missing symbols' }, 400);
 
-  const headers = { accept: 'application/json', 'user-agent': 'FeeEye/1.0 (https://feeeye.com)' };
-  const key = context.env && context.env.COINGECKO_API_KEY;
-  if (key) headers['x-cg-demo-api-key'] = key;
+  const wanted = {};
+  symbols.forEach(s => { wanted[s] = true; });
 
   try {
-    const cg = await fetch(
-      `https://api.coingecko.com/api/v3/simple/price?ids=${encodeURIComponent(ids)}&vs_currencies=${encodeURIComponent(vs)}`,
-      { headers }
-    );
-    const data = await cg.json();
-    // 短缓存 30s，减轻 CoinGecko 限频压力
-    const resp = new Response(JSON.stringify(data), {
-      status: cg.status,
+    const kc = await fetch('https://api.kucoin.com/api/v1/market/allTickers', {
+      headers: { accept: 'application/json', 'user-agent': 'FeeEye/1.0 (https://feeeye.com)' }
+    });
+    if (!kc.ok) return json({ error: 'upstream status ' + kc.status }, 502);
+    const data = await kc.json();
+    const tickers = (data && data.data && data.data.ticker) || [];
+
+    const result = {};
+    tickers.forEach(t => {
+      const sym = t.symbol || '';
+      // 只取 USDT 计价交易对（BTC-USDT → BTC）
+      if (sym.endsWith('-USDT')) {
+        const base = sym.slice(0, -5);
+        if (wanted[base] && !(base in result)) {
+          const last = parseFloat(t.last);
+          if (last > 0) result[base] = { usd: last };
+        }
+      }
+    });
+
+    return new Response(JSON.stringify(result), {
+      status: 200,
       headers: { ...CORS, 'cache-control': 'public, max-age=30' }
     });
-    return resp;
   } catch (e) {
-    return json({ error: 'upstream failed', ids }, 502);
+    return json({ error: 'upstream failed' }, 502);
   }
 }
