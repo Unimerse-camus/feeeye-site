@@ -153,14 +153,14 @@ const I18N = {
     foot: 'Educational only. Not financial advice. Verify all data on official exchange pages. Data snapshot ', footContact: 'For feature requests or bug reports, contact ',
     footPrivacy: 'Privacy', footTerms: 'Terms', footAbout: 'About',
     thExchange: 'Exchange', thLists: 'Lists {s}', thTaker: 'Spot taker', thTakerFut: 'Futures taker', thFee20: 'USDT TRC20 fee',
-    ctaBuy: 'Buy {n} on {x}', ctaOpen: 'Open KuCoin', ctaOpenOn: 'Open {x}', ctaAcct: 'Open a {x} account',
-    alsoOn: '{n} is also available on: {o}. Use the Fee Calculator to compare your exact trade size.',
-    priceLine: '{n} ({s}) price: {p} · Market cap: {m} · Rank #{r} (CoinGecko snapshot {d}).',
-    wbH1: 'Buy {n} ({s})',
-    wbIntro: 'Compare where {n} is listed, spot fees, and USDT (TRC20) withdrawal costs across major exchanges.',
-    wbTitle: 'Where to Buy {n} ({s}) — Compare Exchanges',
-    wbDesc: 'Find where to buy {n} ({s}) in 2026. Compare listings, spot fees and withdrawal costs across major exchanges.',
-    wbQ1: 'Where can I buy {n} ({s})?', wbA1: '{n} ({s}) is listed on major exchanges including KuCoin, subject to regional availability. Compare fees above.',
+    ctaBuy: 'Buy {s} on {x}', ctaOpen: 'Open KuCoin', ctaOpenOn: 'Open {x}', ctaAcct: 'Open a {x} account',
+    alsoOn: '{s} is also available on: {o}. Use the Fee Calculator to compare your exact trade size.',
+    priceLine: '{s} price: {p} · Market cap: {m} · Rank #{r} (CoinGecko snapshot {d}).',
+    wbH1: 'Buy {s}',
+    wbIntro: 'Compare where {s} is listed, spot fees, and USDT (TRC20) withdrawal costs across major exchanges.',
+    wbTitle: 'Where to Buy {s} — Compare Exchanges',
+    wbDesc: 'Find where to buy {s} in 2026. Compare listings, spot fees and withdrawal costs across major exchanges.',
+    wbQ1: 'Where can I buy {s}?', wbA1: '{s} is listed on major exchanges including KuCoin, subject to regional availability. Compare fees above.',
     exH1: '{n} — Fees, Networks & Tools (2026)',
     exIntro: 'Snapshot of {n} trading fees, USDT withdrawal costs, supported networks and features. Data {u}.',
     exSpot: 'Spot fee', exFutures: 'Futures fee', exWd: 'USDT withdrawal', exCoins: 'Coins listed', exBot: 'Trading bot', exApi: 'API',
@@ -200,14 +200,14 @@ const I18N = {
     foot: '仅供教育参考，不构成投资建议。请以各交易所官方页面核实所有数据。数据快照 ', footContact: '如有任何功能需求和建议，或网页有错误需要修正，请联系 ',
     footPrivacy: '隐私政策', footTerms: '使用条款', footAbout: '关于我们',
     thExchange: '交易所', thLists: '上架 {s}', thTaker: '现货吃单费率', thTakerFut: '合约吃单费率', thFee20: 'USDT TRC20 提币费',
-    ctaBuy: '在 {x} 购买 {n}', ctaOpen: '打开 KuCoin', ctaOpenOn: '打开 {x}', ctaAcct: '注册 {x} 账户',
-    alsoOn: '{n} 还可在以下平台购买：{o}。使用手续费计算器对比你的具体交易成本。',
-    priceLine: '{n}（{s}）价格：{p} · 市值：{m} · 排名 #{r}（CoinGecko 快照 {d}）。',
-    wbH1: '购买 {n}（{s}）',
-    wbIntro: '对比 {n} 的上架平台、现货费率及 USDT（TRC20）提币成本。',
-    wbTitle: '在哪里购买 {n}（{s}）——交易所对比',
-    wbDesc: '查找 2026 年在哪里购买 {n}（{s}）。对比各大交易所的上架情况、现货费率与提币成本。',
-    wbQ1: '我可以在哪里购买 {n}（{s}）？', wbA1: '{n}（{s}）已在多家交易所上架（含 KuCoin），具体取决于地区可用性。请对比上方费率。',
+    ctaBuy: '在 {x} 购买 {s}', ctaOpen: '打开 KuCoin', ctaOpenOn: '打开 {x}', ctaAcct: '注册 {x} 账户',
+    alsoOn: '{s} 还可在以下平台购买：{o}。使用手续费计算器对比你的具体交易成本。',
+    priceLine: '{s} 价格：{p} · 市值：{m} · 排名 #{r}（CoinGecko 快照 {d}）。',
+    wbH1: '购买 {s}',
+    wbIntro: '对比 {s} 的上架平台、现货费率及 USDT（TRC20）提币成本。',
+    wbTitle: '在哪里购买 {s}——交易所对比',
+    wbDesc: '查找 2026 年在哪里购买 {s}。对比各大交易所的上架情况、现货费率与提币成本。',
+    wbQ1: '我可以在哪里购买 {s}？', wbA1: '{s} 已在多家交易所上架（含 KuCoin），具体取决于地区可用性。请对比上方费率。',
     exH1: '{n}——费率、网络与工具（2026）',
     exIntro: '{n} 交易费率、USDT 提币成本、支持网络与功能快照。数据更新至 {u}。',
     exSpot: '现货费率', exFutures: '合约费率', exWd: 'USDT 提币', exCoins: '上架币种', exBot: '交易机器人', exApi: 'API',
@@ -488,7 +488,7 @@ function whereToBuy(c, lang) {
     const ex = EX[slug];
     const supported = c.exchanges.includes(slug);
     const cta = supported
-      ? ctaHtml(slug, esc(T(lang, 'ctaBuy', { n: name, x: ex.name })), lang)
+      ? ctaHtml(slug, esc(T(lang, 'ctaBuy', { s: symbol, x: ex.name })), lang)
       : '<span class="na">—</span>';
     return `<tr><td><b>${ex.name}</b></td><td>${supported ? '✓' : '<span class="na">✗</span>'}</td><td>${supported ? pct(ex.spot.taker) : '—'}</td><td>${supported ? usd(getFee(slug, 'TRC20')) : '—'}</td><td>${cta}</td></tr>`;
   }).join('');
