@@ -159,6 +159,10 @@ const I18N = {
     exDeposit: 'Deposit', exFut: 'Futures', exFeat: 'Features',
     wbH1: 'Buy {s}',
     wbIntro: '',
+    wbToggle: 'Tap a column to add or remove it',
+    wbColSpotTaker: 'Spot taker', wbColSpotMaker: 'Spot maker', wbColFutTaker: 'Futures taker', wbColFutMaker: 'Futures maker', wbColDeposit: 'Deposit', wbColUsdt: 'USDT fee (TRC20)', wbColFeat: 'Features',
+    wbNotesTitle: 'Regional & account notes',
+    wbEmpty: 'No exchange listing data is available for {s} yet.',
     wbTitle: 'Where to Buy {s} — Compare Exchanges',
     wbDesc: 'Find where to buy {s} in 2026. Compare listings, spot fees and withdrawal costs across major exchanges.',
     wbQ1: 'Where can I buy {s}?', wbA1: '{s} is listed on major exchanges including KuCoin, subject to regional availability. Compare fees above.',
@@ -207,6 +211,10 @@ const I18N = {
     exDeposit: '入金', exFut: '合约', exFeat: '能力',
     wbH1: '购买 {s}',
     wbIntro: '',
+    wbToggle: '点击选项添加或移除对比列',
+    wbColSpotTaker: '现货吃单', wbColSpotMaker: '现货挂单', wbColFutTaker: '合约吃单', wbColFutMaker: '合约挂单', wbColDeposit: '入金方式', wbColUsdt: 'USDT 提币费 (TRC20)', wbColFeat: '能力',
+    wbNotesTitle: '地区与账户提示',
+    wbEmpty: '暂未获取到 {s} 的交易所上架数据。',
     wbTitle: '在哪里购买 {s}——交易所对比',
     wbDesc: '查找 2026 年在哪里购买 {s}。对比各大交易所的上架情况、现货费率与提币成本。',
     wbQ1: '我可以在哪里购买 {s}？', wbA1: '{s} 已在多家交易所上架（含 KuCoin），具体取决于地区可用性。请对比上方费率。',
@@ -458,10 +466,16 @@ input[type=number]{font-size:16px}
 .foot a:hover{color:var(--brand)}
 .foot a.mail{color:var(--brand);font-weight:600;text-decoration:underline}
 .note{font-size:12px;color:var(--sub);margin:14px 0 28px;padding:0;text-align:left;line-height:1.6}
-.ex-detail{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:12px}
-.ex-detail-title{font-weight:600;margin-bottom:8px;font-size:14px}
-.ex-detail-row{font-size:13px;color:var(--sub);margin-bottom:6px;line-height:1.6}
-.ex-detail-warn{font-size:12.5px;color:#b45309;background:#fef3c7;border-radius:6px;padding:6px 10px;margin-top:8px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 14px}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:7px 13px;border:1px solid var(--line);border-radius:8px;background:var(--card);cursor:pointer;font-weight:600;font-size:13px;user-select:none;min-height:36px;color:var(--ink)}
+.chip:hover{border-color:var(--brand);color:var(--brand)}
+.chip.on{background:var(--brand);color:#fff;border-color:var(--brand)}
+.wb-toggle-tip{font-size:12px;color:var(--sub);margin:0 0 4px}
+.scroll table.wb-table th.ex-sticky,.scroll table.wb-table td.ex-sticky{position:sticky;left:0;z-index:1;background:var(--card);border-right:1px solid var(--line)}
+.scroll table.wb-table th.ex-sticky{z-index:2;background:#f1f5f9}
+.ex-notes{font-size:12px;color:var(--sub);margin:8px 0 0}
+.ex-notes summary{cursor:pointer;font-weight:600}
+.ex-notes ul{margin:6px 0 0 18px;padding:0}
 </style>
 </head>
 <body>
@@ -490,38 +504,81 @@ ${body}
 // ---- 区块构建（en / zh 双语言）----
 function whereToBuy(c, lang) {
   const name = c.name, symbol = c.symbol;
-  const rows = Object.keys(EX).map((slug) => {
-    const ex = EX[slug];
-    const supported = c.exchanges.includes(slug);
-    const cta = supported
-      ? ctaHtml(slug, esc(T(lang, 'ctaBuy', { s: symbol, x: ex.name })), lang)
-      : '<span class="na">—</span>';
-    return `<tr><td><b>${ex.name}</b></td><td>${supported ? '✓' : '<span class="na">✗</span>'}</td><td>${supported ? pct(ex.spot.taker) : '—'}</td><td>${supported ? usd(getFee(slug, 'TRC20')) : '—'}</td><td>${cta}</td></tr>`;
-  }).join('');
   const DMAP_ZH = { 'Bank transfer': '银行转账', 'Wire transfer': '电汇', 'Credit/Debit card': '信用卡/借记卡', 'P2P': 'P2P', 'Apple Pay': 'Apple Pay', 'Google Pay': 'Google Pay', 'Bpay': 'Bpay', 'PayPal': 'PayPal' };
-  const detailCards = Object.keys(EX).filter((slug) => c.exchanges.includes(slug)).map((slug) => {
-    const ex = EX[slug];
-    const methods = (ex.deposit_methods || []).map((d) => {
-      const m = lang === 'zh' ? (DMAP_ZH[d.m] || d.m) : d.m;
-      const fee = d.fee_max != null ? `${d.fee === 0 ? '0' : (d.fee * 100).toFixed(1)}-${(d.fee_max * 100).toFixed(1)}%` : (d.fee === 0 ? '0%' : `${(d.fee * 100).toFixed(1)}%`);
-      return `${m} ${fee}`;
-    }).join(' · ');
-    const fut = `${pct(ex.futures.maker)} / ${pct(ex.futures.taker)}`;
+  const depositCell = (ex) => (ex.deposit_methods || []).map((d) => {
+    const m = lang === 'zh' ? (DMAP_ZH[d.m] || d.m) : d.m;
+    const fee = d.fee_max != null ? `${d.fee === 0 ? '0' : (d.fee * 100).toFixed(1)}-${(d.fee_max * 100).toFixed(1)}%` : (d.fee === 0 ? '0%' : `${(d.fee * 100).toFixed(1)}%`);
+    return `${m} ${fee}`;
+  }).join(' · ');
+  const featCell = (ex) => {
     const caps = [];
     if (ex.has_trading_bot) caps.push(lang === 'zh' ? '机器人' : 'Bot');
     if (ex.has_api) caps.push('API');
     if (ex.has_copy_trading) caps.push(lang === 'zh' ? '跟单' : 'Copy');
-    const warn = ex.new_user_note ? `<div class="ex-detail-warn">${esc(ex.new_user_note)}</div>` : '';
-    return `<div class="ex-detail"><div class="ex-detail-title">${ex.name}</div><div class="ex-detail-row">${esc(T(lang, 'exDeposit'))}: ${methods}</div><div class="ex-detail-row">${esc(T(lang, 'exFut'))}: ${fut}</div><div class="ex-detail-row">${esc(T(lang, 'exFeat'))}: ${caps.join(' · ')}</div>${warn}</div>`;
+    return caps.join(' · ');
+  };
+  // 维度定义：key / 默认是否选中 / 列头 / 单元格渲染。非默认列内联 display:none，爬虫仍可抓取全文。
+  const dims = [
+    { key: 'spotTaker', def: true, label: T(lang, 'wbColSpotTaker'), cell: (ex) => pct(ex.spot.taker) },
+    { key: 'spotMaker', def: false, label: T(lang, 'wbColSpotMaker'), cell: (ex) => pct(ex.spot.maker) },
+    { key: 'futTaker', def: false, label: T(lang, 'wbColFutTaker'), cell: (ex) => pct(ex.futures.taker) },
+    { key: 'futMaker', def: false, label: T(lang, 'wbColFutMaker'), cell: (ex) => pct(ex.futures.maker) },
+    { key: 'deposit', def: true, label: T(lang, 'wbColDeposit'), cell: depositCell },
+    { key: 'usdtWd', def: true, label: T(lang, 'wbColUsdt'), cell: (ex) => usd(getFee(ex.slug, 'TRC20')) },
+    { key: 'feat', def: true, label: T(lang, 'wbColFeat'), cell: featCell }
+  ];
+  // 只展示上架该币的交易所（首列固定，末列 CTA 固定展示）
+  const slugs = Object.keys(EX).filter((slug) => c.exchanges.includes(slug));
+  const ths = `<th class="ex-sticky">${esc(T(lang, 'thExchange'))}</th>` + dims.map((d) => `<th data-col="${d.key}"${d.def ? '' : ' style="display:none"'}>${esc(d.label)}</th>`).join('') + '<th></th>';
+  const rows = slugs.map((slug) => {
+    const ex = EX[slug];
+    const note = ex.new_user_note ? ` title="${esc(ex.new_user_note)}"` : '';
+    const cells = dims.map((d) => `<td data-col="${d.key}"${d.def ? '' : ' style="display:none"'}>${d.cell(ex)}</td>`).join('');
+    const cta = ctaHtml(slug, esc(T(lang, 'ctaBuy', { s: symbol, x: ex.name })), lang);
+    return `<tr><td class="ex-sticky"><b${note}>${ex.name}</b></td>${cells}<td style="text-align:center">${cta}</td></tr>`;
   }).join('');
+  const chips = dims.map((d) => `<button type="button" class="chip${d.def ? ' on' : ''}" data-col="${d.key}">${esc(d.label)}</button>`).join('');
+  const sep = lang === 'zh' ? '：' : ': ';
+  const notes = slugs.map((slug) => {
+    const ex = EX[slug];
+    return ex.new_user_note ? `<li><b>${ex.name}</b>${sep}${esc(ex.new_user_note)}</li>` : '';
+  }).filter(Boolean).join('');
+  const notesHtml = notes ? `<details class="ex-notes"><summary>${esc(T(lang, 'wbNotesTitle'))}</summary><ul>${notes}</ul></details>` : '';
   const change = c.change_24h;
   const changeHtml = change != null ? ` · 24h: <span style="color:${change >= 0 ? '#dc2626' : '#16a34a'};font-weight:600">${change >= 0 ? '+' : ''}${change.toFixed(2)}%</span>` : '';
   const priceLine = `<p class="intro">${esc(T(lang, 'priceLine', { n: name, s: symbol, p: fmtPrice(c.price), m: fmtCap(c.market_cap), r: c.rank, d: COIN_SNAPSHOT }))}${changeHtml}</p>`;
+  // 无上架数据时降级为空态提示（不渲染空表格），其余渲染可切换列的对比表
+  const toggleBlock = slugs.length === 0
+    ? `<p class="intro">${esc(T(lang, 'wbEmpty', { s: symbol }))}</p>`
+    : `<p class="wb-toggle-tip">${esc(T(lang, 'wbToggle'))}</p>
+  <div class="chips">${chips}</div>
+  <div class="scroll"><table class="wb-table"><thead><tr>${ths}</tr></thead><tbody>${rows}</tbody></table></div>
+  ${notesHtml}
+  <script>
+  (function(){
+    var chips = document.querySelectorAll('.chips .chip');
+    function apply(){
+      for (var i = 0; i < chips.length; i++) {
+        var ch = chips[i];
+        var key = ch.getAttribute('data-col');
+        var on = ch.classList.contains('on');
+        var els = document.querySelectorAll('th[data-col="' + key + '"],td[data-col="' + key + '"]');
+        for (var j = 0; j < els.length; j++) els[j].style.display = on ? '' : 'none';
+      }
+    }
+    for (var i = 0; i < chips.length; i++) {
+      chips[i].addEventListener('click', function(){
+        this.classList.toggle('on');
+        apply();
+      });
+    }
+    apply();
+  })();
+  </script>`;
   const body = `
   <h1>${esc(T(lang, 'wbH1', { n: name, s: symbol }))}</h1>
   ${priceLine}
-  <div class="scroll"><table><thead><tr><th>${esc(T(lang, 'thExchange'))}</th><th>${esc(T(lang, 'thLists', { s: symbol }))}</th><th>${esc(T(lang, 'thTaker'))}</th><th>${esc(T(lang, 'thFee20'))}</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>
-  ${detailCards}`;
+  ${toggleBlock}`;
   const jsonLd = {
     '@context': 'https://schema.org', '@type': 'FAQPage',
     mainEntity: [
