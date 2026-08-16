@@ -56,12 +56,23 @@
   .fees-note{font-size:12px;color:var(--sub);text-align:center;margin-top:10px;line-height:1.6}
   .disclaimer p:last-child{margin-bottom:0}
   .foot{color:var(--sub);font-size:12px;margin-top:18px;text-align:center}
-.nav{display:flex;gap:14px;align-items:center;flex-wrap:wrap}.nav a{color:var(--sub);text-decoration:none;font-size:13.5px;white-space:nowrap}.nav a:hover{color:var(--brand)}
+.nav{display:flex;gap:14px;align-items:center;flex-wrap:wrap;background:#f1f5f9;border-bottom:1px solid #e2e8f0;padding:10px 16px;margin:0 -18px 16px}.nav a{color:#1e293b;text-decoration:none;font-size:13.5px;white-space:nowrap;border-bottom:2px dashed transparent;padding-bottom:2px}.nav a:hover{color:var(--brand);border-bottom-color:var(--brand)}.nav a.active{color:var(--brand);border-bottom:2px solid var(--brand);font-weight:600}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <header><nav><a class="logo" href="/" aria-label="FeeEye home"><img src="/assets/logo.svg" alt="FeeEye" width="26" height="26">FeeEye</a><span class="nav"><a href="/">Tools</a><a href="/exchanges/kucoin.html">Exchanges</a><a href="/coins.html">Coins</a><a href="/compare/kucoin-vs-bybit.html">Compare</a><a href="/tools/glossary.html">Glossary</a></span><span><a href="futures-toolbox.zh.html">中文</a></span></nav></header>
+  <header>
+<div class="topbar"><a class="logo" href="/" aria-label="FeeEye home"><img src="/assets/logo.svg" alt="FeeEye" width="26" height="26">FeeEye</a><span><a href="{}">中文</a></span></div>
+<nav class="nav" id="toolNav">
+<a href="/tools/total-cost-calculator.html" data-key="tc">Spot Toolbox</a>
+<a href="/tools/futures-toolbox.html" data-key="fut">Futures Toolbox</a>
+<a href="/tools/exchange-comparator.html" data-key="cmp">Exchanges</a>
+<a href="/tools/glossary.html" data-key="glo">Glossary</a>
+<a href="/tools/token-security-checker.html" data-key="sec">Token Check</a>
+<a href="/tools/portfolio-tracker.html" data-key="pf">Portfolio</a>
+</nav>
+</header>
+<script>(function(){var m={tc:"total-cost-calculator",fut:"futures-toolbox",cmp:"exchange-comparator",glo:"glossary",sec:"token-security-checker",pf:"portfolio-tracker"};var p=location.pathname;document.querySelectorAll("#toolNav a").forEach(function(a){var k=a.getAttribute("data-key");if(k&&p.indexOf("/"+m[k])>-1)a.classList.add("active");});})();</script>
 
   <h1>Futures Toolbox</h1>
   <p class="intro">Four high-frequency futures tools: position sizing · liquidation price · PnL estimate · cross-exchange futures fee comparison.</p>

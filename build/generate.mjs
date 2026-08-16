@@ -148,7 +148,7 @@ const SITE_URL = 'https://feeeye.com';
 const I18N = {
   en: {
     navZh: '中文',
-    navTools: 'Tools', navExchanges: 'Exchanges', navCoins: 'Coins', navCompare: 'Compare', navGlossary: 'Glossary',
+    navTc: 'Spot Toolbox', navFut: 'Futures Toolbox', navCmp: 'Exchanges', navGlo: 'Glossary', navSec: 'Token Check', navPf: 'Portfolio',
     discHtml: '<div class="note" style="text-align:left"><p style="margin:0 0 4px">① Fee snapshot: {SNAPSHOT} — verify each rate on the exchange\'s official page before trading.</p><p style="margin:0">② Compliance varies by exchange — always check each exchange\'s Terms of Use to confirm your country/region is supported before signing up.</p></div>',
     foot: 'Educational only. Not financial advice. Verify all data on official exchange pages. Data snapshot ', footContact: 'For feature requests or bug reports, contact ',
     footPrivacy: 'Privacy', footTerms: 'Terms', footAbout: 'About',
@@ -195,7 +195,7 @@ const I18N = {
   },
   zh: {
     navZh: 'English',
-    navTools: '工具', navExchanges: '交易所', navCoins: '币种', navCompare: '对比', navGlossary: '术语',
+    navTc: '现货工具', navFut: '合约工具', navCmp: '交易所对比', navGlo: '术语', navSec: '代币检查', navPf: '持仓记账',
     discHtml: '<div class="note" style="text-align:left"><p style="margin:0 0 4px">① 费率快照：最近更新 {SNAPSHOT}—— 交易前请以各交易所官方页面为准。</p><p style="margin:0">② 合规受限地区因交易所而异——注册前请查各所 Terms of Use 确认你所在国家/地区可用。</p></div>',
     foot: '仅供教育参考，不构成投资建议。请以各交易所官方页面核实所有数据。数据快照 ', footContact: '如有任何功能需求和建议，或网页有错误需要修正，请联系 ',
     footPrivacy: '隐私政策', footTerms: '使用条款', footAbout: '关于我们',
@@ -250,6 +250,17 @@ function T(lang, key, vars) {
 // 根路径绝对链接（修复：zh 页面相对链接叠层导致 404 / 跳错语言）
 function absPath(lang, rel) {
   return (lang === 'zh' ? '/zh/' : '/') + rel;
+}
+
+function matchActiveNav(path) {
+  if (!path) return null;
+  if (/total-cost-calculator|fee-calculator/.test(path)) return 'tc';
+  if (/futures-toolbox/.test(path)) return 'fut';
+  if (/exchange-comparator|^compare\//.test(path)) return 'cmp';
+  if (/glossary/.test(path)) return 'glo';
+  if (/token-security-checker/.test(path)) return 'sec';
+  if (/portfolio-tracker/.test(path)) return 'pf';
+  return null;
 }
 // 工具页：zh 用中文版，en 用英文版
 function toolPath(lang) {
@@ -370,6 +381,7 @@ function coinsPage(lang) {
 }
 
 function page({ lang, title, desc, body, jsonLd, depth = 0, path, affiliate = false, noDisc = false }) {
+  const active = matchActiveNav(path);
   const i = I18N[lang];
   const canonical = `${SITE_URL}/${path}`;
   const ld = jsonLd ? `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>` : '';
@@ -410,9 +422,10 @@ header nav{display:flex;align-items:center;justify-content:space-between;padding
 .logo{display:flex;align-items:center;gap:8px;font-weight:800;color:var(--brand);font-size:18px;text-decoration:none}
 .logo img{height:26px;width:26px;display:block}
 nav > span > a{color:var(--sub);text-decoration:none;font-size:13.5px}
-.nav{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
-.nav a{color:var(--sub);text-decoration:none;font-size:13.5px;white-space:nowrap}
-.nav a:hover{color:var(--brand)}
+.nav{display:flex;gap:14px;align-items:center;flex-wrap:wrap;background:#f1f5f9;border-bottom:1px solid #e2e8f0;padding:10px 16px;margin:0 -16px 16px}
+.nav a{color:#1e293b;text-decoration:none;font-size:13.5px;white-space:nowrap;border-bottom:2px dashed transparent;padding-bottom:2px}
+.nav a:hover{color:var(--brand);border-bottom-color:var(--brand)}
+.nav a.active{color:var(--brand);border-bottom:2px solid var(--brand);font-weight:600}
 h1{font-size:25px;margin-bottom:6px}
 h3{margin-top:22px;font-size:18px}
 .intro{color:var(--sub);margin-bottom:18px}
@@ -445,11 +458,17 @@ input[type=number]{font-size:16px}
 </head>
 <body>
 <div class="wrap">
-<header><nav>
-<a class="logo" href="${lang === 'zh' ? '/zh/' : '/'}" aria-label="FeeEye home"><img src="/assets/logo.svg" alt="FeeEye" width="26" height="26">${SITE}</a>
-<span class="nav"><a href="${lang === 'zh' ? '/zh/' : '/'}">${esc(i.navTools)}</a><a href="${absPath(lang, 'exchanges/kucoin.html')}">${esc(i.navExchanges)}</a><a href="${absPath(lang, 'coins.html')}">${esc(i.navCoins)}</a><a href="${absPath(lang, 'compare/kucoin-vs-bybit.html')}">${esc(i.navCompare)}</a><a href="${absPath(lang, 'tools/glossary' + (lang === 'zh' ? '.zh' : '') + '.html')}">${esc(i.navGlossary)}</a></span>
-<span><a href="${lang === 'zh' ? '/' : '/zh/'}">${esc(i.navZh)}</a></span>
-</nav></header>
+<header>
+<div class="topbar"><a class="logo" href="${lang === 'zh' ? '/zh/' : '/'}" aria-label="FeeEye home"><img src="/assets/logo.svg" alt="FeeEye" width="26" height="26">${SITE}</a><span><a href="${lang === 'zh' ? '/' : '/zh/'}">${esc(i.navZh)}</a></span></div>
+<nav class="nav">
+<a href="${absPath(lang, tcPath(lang))}" class="${active==='tc'?'active':''}">${esc(i.navTc)}</a>
+<a href="${absPath(lang, futPath(lang))}" class="${active==='fut'?'active':''}">${esc(i.navFut)}</a>
+<a href="${absPath(lang, cmpPath(lang))}" class="${active==='cmp'?'active':''}">${esc(i.navCmp)}</a>
+<a href="${absPath(lang, gloPath(lang))}" class="${active==='glo'?'active':''}">${esc(i.navGlo)}</a>
+<a href="${absPath(lang, secPath(lang))}" class="${active==='sec'?'active':''}">${esc(i.navSec)}</a>
+<a href="${absPath(lang, pfPath(lang))}" class="${active==='pf'?'active':''}">${esc(i.navPf)}</a>
+</nav>
+</header>
 ${body}
 <div class="foot">${discLine}${esc(i.foot)} ${esc(UPD)}.<br>${esc(i.footContact)}<a class="mail" href="mailto:feeeyeofficial@gmail.com">feeeyeofficial@gmail.com</a><br><a href="${absPath(lang, 'about.html')}">${esc(i.footAbout)}</a> · <a href="${absPath(lang, 'privacy.html')}">${esc(i.footPrivacy)}</a> · <a href="${absPath(lang, 'terms.html')}">${esc(i.footTerms)}</a></div>
 </div>
