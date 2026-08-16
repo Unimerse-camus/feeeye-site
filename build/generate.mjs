@@ -420,7 +420,7 @@ table{width:100%;border-collapse:collapse;margin:14px 0;font-size:14px}
 th,td{border:1px solid var(--line);padding:10px 12px;text-align:left}
 th{background:#f1f5f9;font-weight:600;white-space:nowrap}
 tr.kc{background:#eef4ff}
-.cta{display:inline-block;background:var(--brand);color:#fff;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:700;text-decoration:none;min-height:36px}
+.cta{display:inline-block;background:var(--brand);color:#fff;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:700;text-decoration:none;min-height:36px;text-align:center;min-width:11.5rem}
 .cta:hover{opacity:.9}
 .num{font-variant-numeric:tabular-nums;font-feature-settings:"tnum"}
 input[type=number]{font-size:16px}
