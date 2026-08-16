@@ -156,6 +156,7 @@ const I18N = {
     ctaBuy: 'Buy {s} on {x}', ctaOpen: 'Open KuCoin', ctaOpenOn: 'Open {x}', ctaAcct: 'Open a {x} account',
     alsoOn: '{s} is also available on: {o}. Use the Fee Calculator to compare your exact trade size.',
     priceLine: '{s} price: {p} · Market cap: {m} · Rank #{r} (CoinGecko snapshot {d}).',
+    exDeposit: 'Deposit', exFut: 'Futures', exNets: 'Networks', exFeat: 'Features',
     wbH1: 'Buy {s}',
     wbIntro: '',
     wbTitle: 'Where to Buy {s} — Compare Exchanges',
@@ -203,6 +204,7 @@ const I18N = {
     ctaBuy: '在 {x} 购买 {s}', ctaOpen: '打开 KuCoin', ctaOpenOn: '打开 {x}', ctaAcct: '注册 {x} 账户',
     alsoOn: '{s} 还可在以下平台购买：{o}。使用手续费计算器对比你的具体交易成本。',
     priceLine: '{s} 价格：{p} · 市值：{m} · 排名 #{r}（CoinGecko 快照 {d}）。',
+    exDeposit: '入金', exFut: '合约', exNets: '提币网络', exFeat: '能力',
     wbH1: '购买 {s}',
     wbIntro: '',
     wbTitle: '在哪里购买 {s}——交易所对比',
@@ -456,6 +458,10 @@ input[type=number]{font-size:16px}
 .foot a:hover{color:var(--brand)}
 .foot a.mail{color:var(--brand);font-weight:600;text-decoration:underline}
 .note{font-size:12px;color:var(--sub);margin:14px 0 28px;padding:0;text-align:left;line-height:1.6}
+.ex-detail{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:12px}
+.ex-detail-title{font-weight:600;margin-bottom:8px;font-size:14px}
+.ex-detail-row{font-size:13px;color:var(--sub);margin-bottom:6px;line-height:1.6}
+.ex-detail-warn{font-size:12.5px;color:#b45309;background:#fef3c7;border-radius:6px;padding:6px 10px;margin-top:8px}
 </style>
 </head>
 <body>
@@ -492,13 +498,31 @@ function whereToBuy(c, lang) {
       : '<span class="na">—</span>';
     return `<tr><td><b>${ex.name}</b></td><td>${supported ? '✓' : '<span class="na">✗</span>'}</td><td>${supported ? pct(ex.spot.taker) : '—'}</td><td>${supported ? usd(getFee(slug, 'TRC20')) : '—'}</td><td>${cta}</td></tr>`;
   }).join('');
+  const DMAP_ZH = { 'Bank transfer': '银行转账', 'Wire transfer': '电汇', 'Credit/Debit card': '信用卡/借记卡', 'P2P': 'P2P', 'Apple Pay': 'Apple Pay', 'Google Pay': 'Google Pay', 'Bpay': 'Bpay', 'PayPal': 'PayPal' };
+  const detailCards = Object.keys(EX).filter((slug) => c.exchanges.includes(slug)).map((slug) => {
+    const ex = EX[slug];
+    const methods = (ex.deposit_methods || []).map((d) => {
+      const m = lang === 'zh' ? (DMAP_ZH[d.m] || d.m) : d.m;
+      const fee = d.fee_max != null ? `${d.fee === 0 ? '0' : (d.fee * 100).toFixed(1)}-${(d.fee_max * 100).toFixed(1)}%` : (d.fee === 0 ? '0%' : `${(d.fee * 100).toFixed(1)}%`);
+      return `${m} ${fee}`;
+    }).join(' · ');
+    const fut = `${pct(ex.futures.maker)} / ${pct(ex.futures.taker)}`;
+    const nets = (ex.supported_networks || []).slice(0, 8).join(' · ');
+    const caps = [];
+    if (ex.has_trading_bot) caps.push(lang === 'zh' ? '机器人' : 'Bot');
+    if (ex.has_api) caps.push('API');
+    if (ex.has_copy_trading) caps.push(lang === 'zh' ? '跟单' : 'Copy');
+    const warn = ex.new_user_note ? `<div class="ex-detail-warn">${esc(ex.new_user_note)}</div>` : '';
+    return `<div class="ex-detail"><div class="ex-detail-title">${ex.name}</div><div class="ex-detail-row">${esc(T(lang, 'exDeposit'))}: ${methods}</div><div class="ex-detail-row">${esc(T(lang, 'exFut'))}: ${fut}</div><div class="ex-detail-row">${esc(T(lang, 'exNets'))}: ${nets}</div><div class="ex-detail-row">${esc(T(lang, 'exFeat'))}: ${caps.join(' · ')}</div>${warn}</div>`;
+  }).join('');
   const change = c.change_24h;
   const changeHtml = change != null ? ` · 24h: <span style="color:${change >= 0 ? '#dc2626' : '#16a34a'};font-weight:600">${change >= 0 ? '+' : ''}${change.toFixed(2)}%</span>` : '';
   const priceLine = `<p class="intro">${esc(T(lang, 'priceLine', { n: name, s: symbol, p: fmtPrice(c.price), m: fmtCap(c.market_cap), r: c.rank, d: COIN_SNAPSHOT }))}${changeHtml}</p>`;
   const body = `
   <h1>${esc(T(lang, 'wbH1', { n: name, s: symbol }))}</h1>
   ${priceLine}
-  <div class="scroll"><table><thead><tr><th>${esc(T(lang, 'thExchange'))}</th><th>${esc(T(lang, 'thLists', { s: symbol }))}</th><th>${esc(T(lang, 'thTaker'))}</th><th>${esc(T(lang, 'thFee20'))}</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>`;
+  <div class="scroll"><table><thead><tr><th>${esc(T(lang, 'thExchange'))}</th><th>${esc(T(lang, 'thLists', { s: symbol }))}</th><th>${esc(T(lang, 'thTaker'))}</th><th>${esc(T(lang, 'thFee20'))}</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>
+  ${detailCards}`;
   const jsonLd = {
     '@context': 'https://schema.org', '@type': 'FAQPage',
     mainEntity: [
