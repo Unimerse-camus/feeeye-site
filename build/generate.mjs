@@ -147,9 +147,10 @@ const SITE_URL = 'https://feeeye.com';
 const I18N = {
   en: {
     navZh: '中文',
+    navTools: 'Tools', navExchanges: 'Exchanges', navCoins: 'Coins', navCompare: 'Compare', navGlossary: 'Glossary',
     discHtml: '<div style="text-align:left"><div style="margin:0 0 6px"><b>\u2460 Fee snapshot</b>: recently updated 2026-08-13 \u2014 verify each rate on the exchange\'s official page before trading.</div><div style="margin:0 0 4px"><b>\u2461 Compliance-restricted regions</b> by exchange (representative examples; <b>restricted regions vary by exchange</b> — some serve the US or Hong Kong; always check each exchange\'s Terms of Use):</div><ul style="margin:0 0 0 20px;padding:0"><li><b>KuCoin</b>: EU new-client onboarding paused (Germany, France, Italy, Spain, Poland, ...)</li><li><b>Binance</b>: Japan, Ontario (Canada), India, Turkey, UAE, Korea, Thailand, ...</li><li><b>Bybit / OKX</b>: no specific countries publicly listed</li><li><b>Bitget</b>: Japan, Korea, ...</li><li><b>Kraken</b>: Brazil, India, Indonesia, Vietnam, Thailand, ...</li><li><b>Coinbase</b>: Indonesia, Vietnam, Thailand, ...</li></ul><div style="margin:6px 0 0"><b>\u2462</b> Before signing up, check each exchange\'s Terms of Use to confirm your country/region is supported.</div></div>',
     foot: 'Educational only. Not financial advice. Verify all data on official exchange pages. Data snapshot ',
-    footPrivacy: 'Privacy', footTerms: 'Terms', footDisclosure: 'Disclosure',
+    footPrivacy: 'Privacy', footTerms: 'Terms', footDisclosure: 'Disclosure', footAbout: 'About',
     thExchange: 'Exchange', thLists: 'Lists {s}', thTaker: 'Spot taker', thTakerFut: 'Futures taker', thFee20: 'USDT TRC20 fee',
     ctaBuy: 'Buy {n} on {x}', ctaOpen: 'Open KuCoin', ctaOpenOn: 'Open {x}', ctaAcct: 'Open a {x} account',
     alsoOn: '{n} is also available on: {o}. Use the Fee Calculator to compare your exact trade size.',
@@ -193,9 +194,10 @@ const I18N = {
   },
   zh: {
     navZh: 'English',
+    navTools: '工具', navExchanges: '交易所', navCoins: '币种', navCompare: '对比', navGlossary: '术语',
     discHtml: '<div style="text-align:left"><div style="margin:0 0 6px"><b>① 费率快照</b>：最近更新 2026-08-13 —— 交易前请以各交易所官方页面为准。</div><div style="margin:0 0 4px"><b>② 各所合规受限地区</b>（代表性示例；<b>各所受限地区各不相同</b>——部分服务美国或香港，请以各交易所 Terms of Use 为准）：</div><ul style="margin:0 0 0 20px;padding:0"><li><b>KuCoin</b>：欧盟新客户暂停（含德国、法国、意大利、西班牙、波兰等）</li><li><b>Binance</b>：日本、加拿大（安大略）、印度、土耳其、阿联酋、韩国、泰国等</li><li><b>Bybit / OKX</b>：未明确公开列示特定国家限制</li><li><b>Bitget</b>：日本、韩国等</li><li><b>Kraken</b>：巴西、印度、印度尼西亚、越南、泰国等</li><li><b>Coinbase</b>：印度尼西亚、越南、泰国等</li></ul><div style="margin:6px 0 0"><b>③</b> 注册前请查各所 Terms of Use 确认你所在国家/地区可用。</div></div>',
     foot: '仅供教育参考，不构成投资建议。请以各交易所官方页面核实所有数据。数据快照 ',
-    footPrivacy: '隐私政策', footTerms: '使用条款', footDisclosure: '返佣披露',
+    footPrivacy: '隐私政策', footTerms: '使用条款', footDisclosure: '返佣披露', footAbout: '关于我们',
     thExchange: '交易所', thLists: '上架 {s}', thTaker: '现货吃单费率', thTakerFut: '合约吃单费率', thFee20: 'USDT TRC20 提币费',
     ctaBuy: '在 {x} 购买 {n}', ctaOpen: '打开 KuCoin', ctaOpenOn: '打开 {x}', ctaAcct: '注册 {x} 账户',
     alsoOn: '{n} 还可在以下平台购买：{o}。使用手续费计算器对比你的具体交易成本。',
@@ -315,6 +317,26 @@ function legalPage(key, lang) {
   return page({ lang, title: c.title, desc: c.desc, body: c.body, path: rel, affiliate: false });
 }
 
+// About / Contact 页面
+const ABOUT_HTML = {
+  en: {
+    title: 'About FeeEye — Free Crypto Tools & Exchange Data',
+    desc: 'What FeeEye is, the free tools we offer, how we make money, and how to contact us.',
+    body: `<h1>About FeeEye</h1><p class="intro">Free crypto tools &amp; exchange data — built for beginners.</p><h3>What we do</h3><p>FeeEye is a free website that helps you use crypto without getting ripped off on fees. We compare exchange fees, find where to buy any token, check withdrawal costs, and flag scam tokens — all free, no signup required.</p><h3>Our tools</h3><ul><li><b>Spot Cost Calculator</b> — see the full deposit → trading → withdrawal cost in one place.</li><li><b>Futures Toolbox</b> — position sizing, liquidation price and P&amp;L estimate.</li><li><b>Exchange Comparison</b> — 14 dimensions of exchanges side by side.</li><li><b>Token Security Check</b> — detect honeypots and scam tokens (Ethereum &amp; Solana).</li><li><b>Portfolio Tracker</b> — log your holdings and track profit &amp; loss, no API key needed.</li><li><b>Crypto Glossary</b> — plain-language definitions of common crypto terms.</li></ul><h3>How we make money</h3><p>Some exchange links on this site are affiliate links (visibly marked "Affiliate"). If you open an account through one, we may earn a commission at no extra cost to you. This is how we keep the tools free. See our <a href="/disclosure.html">Affiliate Disclosure</a>.</p><h3>Contact</h3><p>Questions, feedback or bug reports: <a href="mailto:feeeyeofficial@gmail.com">feeeyeofficial@gmail.com</a></p><h3>Disclaimer</h3><p>FeeEye is educational only — not financial advice. Crypto is high-risk and you may lose your capital. Always do your own research and verify data on official exchange pages.</p>`
+  },
+  zh: {
+    title: '关于 FeeEye — 免费加密货币工具与交易所数据',
+    desc: 'FeeEye 是什么、提供的免费工具、如何盈利、以及联系方式。',
+    body: `<h1>关于 FeeEye</h1><p class="intro">免费加密货币工具与交易所数据——为新手打造。</p><h3>我们做什么</h3><p>FeeEye 是一个免费网站，帮你在用加密货币时不被手续费坑。我们对比交易所费率、查找任意代币在哪里买、核查提币成本、识别诈骗代币——全部免费，无需注册。</p><h3>我们的工具</h3><ul><li><b>现货成本计算器</b>——入金 / 交易 / 提币全成本一目了然。</li><li><b>合约工具箱</b>——仓位计算、强平价、盈亏预估。</li><li><b>交易所综合对比</b>——14 个维度并列对比。</li><li><b>代币安全检查</b>——检测貔貅盘与诈骗代币（以太坊 &amp; Solana）。</li><li><b>持仓记账本</b>——记录持仓、追踪盈亏，无需 API Key。</li><li><b>数字货币术语解释</b>——常用术语通俗解释。</li></ul><h3>我们如何盈利</h3><p>本站部分交易所链接为返佣链接（可见标注"返佣"）。你通过链接开户，我们可能获得佣金，不会给你增加任何成本。这是工具保持免费的方式。详见<a href="/zh/disclosure.html">返佣披露</a>。</p><h3>联系方式</h3><p>问题、反馈或 bug 报告：<a href="mailto:feeeyeofficial@gmail.com">feeeyeofficial@gmail.com</a></p><h3>免责声明</h3><p>FeeEye 仅供教育参考，不构成投资建议。加密货币风险极高，你可能损失全部本金。请自行做好研究，并以交易所官方页面核实数据。</p>`
+  }
+};
+
+function aboutPage(lang) {
+  const c = ABOUT_HTML[lang];
+  const rel = `${lang === 'zh' ? 'zh/' : ''}about.html`;
+  return page({ lang, title: c.title, desc: c.desc, body: c.body, path: rel, affiliate: false });
+}
+
 // 把 GoPlus 安全数据浓缩为 6 个风险等级（首页 coins 列表过滤用）
 // ---- 币种列表页（全部币种 + 搜索过滤）----
 function coinsPage(lang) {
@@ -387,6 +409,9 @@ header nav{display:flex;align-items:center;justify-content:space-between;padding
 .logo{display:flex;align-items:center;gap:8px;font-weight:800;color:var(--brand);font-size:18px;text-decoration:none}
 .logo img{height:26px;width:26px;display:block}
 nav > span > a{color:var(--sub);text-decoration:none;font-size:13.5px}
+.nav{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.nav a{color:var(--sub);text-decoration:none;font-size:13.5px;white-space:nowrap}
+.nav a:hover{color:var(--brand)}
 h1{font-size:25px;margin-bottom:6px}
 h3{margin-top:22px;font-size:18px}
 .intro{color:var(--sub);margin-bottom:18px}
@@ -424,9 +449,13 @@ input[type=number]{font-size:16px}
 </head>
 <body>
 <div class="wrap">
-<header><nav><a class="logo" href="${lang === 'zh' ? '/zh/' : '/'}" aria-label="FeeEye home"><img src="/assets/logo.svg" alt="FeeEye" width="26" height="26">${SITE}</a><span><a href="${lang === 'zh' ? '/' : '/zh/'}">${esc(i.navZh)}</a></span></nav></header>
+<header><nav>
+<a class="logo" href="${lang === 'zh' ? '/zh/' : '/'}" aria-label="FeeEye home"><img src="/assets/logo.svg" alt="FeeEye" width="26" height="26">${SITE}</a>
+<span class="nav"><a href="${lang === 'zh' ? '/zh/' : '/'}">${esc(i.navTools)}</a><a href="${absPath(lang, 'exchanges/kucoin.html')}">${esc(i.navExchanges)}</a><a href="${absPath(lang, 'coins.html')}">${esc(i.navCoins)}</a><a href="${absPath(lang, 'compare/kucoin-vs-bybit.html')}">${esc(i.navCompare)}</a><a href="${absPath(lang, 'tools/glossary' + (lang === 'zh' ? '.zh' : '') + '.html')}">${esc(i.navGlossary)}</a></span>
+<span><a href="${lang === 'zh' ? '/' : '/zh/'}">${esc(i.navZh)}</a></span>
+</nav></header>
 ${body}
-<div class="foot">${discLine}${esc(i.foot)} ${esc(UPD)}.<br><a href="${absPath(lang, 'privacy.html')}">${esc(i.footPrivacy)}</a> · <a href="${absPath(lang, 'terms.html')}">${esc(i.footTerms)}</a> · <a href="${absPath(lang, 'disclosure.html')}">${esc(i.footDisclosure)}</a></div>
+<div class="foot">${discLine}${esc(i.foot)} ${esc(UPD)}.<br><a href="${absPath(lang, 'about.html')}">${esc(i.footAbout)}</a> · <a href="${absPath(lang, 'privacy.html')}">${esc(i.footPrivacy)}</a> · <a href="${absPath(lang, 'terms.html')}">${esc(i.footTerms)}</a> · <a href="${absPath(lang, 'disclosure.html')}">${esc(i.footDisclosure)}</a></div>
 </div>
 </body>
 </html>`;
@@ -585,6 +614,7 @@ for (const lang of ['en', 'zh']) {
   for (const key of ['privacy', 'terms', 'disclosure']) {
     write(`${lang === 'zh' ? 'zh/' : ''}${key}.html`, legalPage(key, lang)); count++;
   }
+  write(`${lang === 'zh' ? 'zh/' : ''}about.html`, aboutPage(lang)); count++;
   write(`${lang === 'zh' ? 'zh/' : ''}coins.html`, coinsPage(lang)); count++;
 }
 

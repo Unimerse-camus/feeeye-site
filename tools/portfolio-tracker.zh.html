@@ -55,11 +55,12 @@
   .foot{color:var(--sub);font-size:12px;margin-top:22px;text-align:center;line-height:1.7}
   .foot a{color:var(--sub);text-decoration:none}
   .foot a:hover{text-decoration:underline}
+.nav{display:flex;gap:14px;align-items:center;flex-wrap:wrap}.nav a{color:var(--sub);text-decoration:none;font-size:13.5px;white-space:nowrap}.nav a:hover{color:var(--brand)}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <header><nav><a class="logo" href="/zh/" aria-label="FeeEye home"><img src="/assets/logo.svg" alt="FeeEye" width="26" height="26">FeeEye</a><span><a href="portfolio-tracker.html">English</a></span></nav></header>
+  <header><nav><a class="logo" href="/zh/" aria-label="FeeEye home"><img src="/assets/logo.svg" alt="FeeEye" width="26" height="26">FeeEye</a><span class="nav"><a href="/zh/">工具</a><a href="/zh/exchanges/kucoin.html">交易所</a><a href="/zh/coins.html">币种</a><a href="/zh/compare/kucoin-vs-bybit.html">对比</a><a href="/zh/tools/glossary.zh.html">术语</a></span><span><a href="portfolio-tracker.html">English</a></span></nav></header>
 
   <h1>持仓记账本</h1>
   <p class="intro">记录<strong>任意</strong>币种持仓——包括小币种。自动拉取实时价格算盈亏。<strong>无需 API Key。</strong>数据只存在你的浏览器里。</p>

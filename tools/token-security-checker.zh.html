@@ -56,17 +56,19 @@
   .risk.info{background:#f3f4f6;border:1px solid #e4e8ee;color:#5b6776}
   .risk b{display:block}
   .meta{margin-top:14px;font-size:12.5px;color:var(--sub);border-top:1px solid var(--line);padding-top:12px}
+  .disc{margin-top:12px;font-size:12.5px;color:#92400e;background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:10px 12px;line-height:1.6}
   .meta div{margin-bottom:3px}
   .meta b{color:var(--ink)}
   .foot{color:var(--sub);font-size:12px;margin-top:22px;text-align:center;line-height:1.7}
   .foot a{color:var(--sub);text-decoration:none}
   .foot a:hover{text-decoration:underline}
   .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;word-break:break-all}
+.nav{display:flex;gap:14px;align-items:center;flex-wrap:wrap}.nav a{color:var(--sub);text-decoration:none;font-size:13.5px;white-space:nowrap}.nav a:hover{color:var(--brand)}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <header><nav><a class="logo" href="/zh/" aria-label="FeeEye home"><img src="/assets/logo.svg" alt="FeeEye" width="26" height="26">FeeEye</a><span><a href="token-security-checker.html">English</a></span></nav></header>
+  <header><nav><a class="logo" href="/zh/" aria-label="FeeEye home"><img src="/assets/logo.svg" alt="FeeEye" width="26" height="26">FeeEye</a><span class="nav"><a href="/zh/">工具</a><a href="/zh/exchanges/kucoin.html">交易所</a><a href="/zh/coins.html">币种</a><a href="/zh/compare/kucoin-vs-bybit.html">对比</a><a href="/zh/tools/glossary.zh.html">术语</a></span><span><a href="token-security-checker.html">English</a></span></nav></header>
 
   <h1>代币安全检查</h1>
   <p class="intro">粘贴<strong>以太坊</strong>或 <strong>Solana</strong> 代币合约地址，立即检测<strong>貔貅盘、Rug 风险、买卖税、增发与冻结权限</strong>——买陌生币之前先查一查。</p>
@@ -197,7 +199,8 @@
     if (hasOwner) meta += '<div><b>Owner</b>：<span class="mono">'+esc(d.owner_address)+'</span></div>';
     result.innerHTML = '<div class="verdict '+level+'"><span class="badge">'+badge+'</span><span>'+levelLabel+'</span></div>' +
       '<div class="checks">'+checks.map(function(c){ return '<div class="check"><div class="k">'+c.k+'</div><div class="v '+c.cls+'">'+c.v+'</div><div class="sub">'+c.sub+'</div></div>'; }).join('')+'</div>' +
-      '<div class="meta">'+meta+'</div>';
+      '<div class="meta">'+meta+'</div>' +
+      '<div class="disc">注意："Owner 权限"和"可增发"对中心化稳定币（如 USDT、USDC）是<b>设计特性</b>——发行方需要冻结违规账户、按需增发。它们本身不是骗局信号。判断骗局重点看<b>貔貅盘</b>和<b>买卖税</b>。</div>';
     result.style.display='block';
   }
 
