@@ -422,7 +422,9 @@ header nav{display:flex;align-items:center;justify-content:space-between;padding
 .logo{display:flex;align-items:center;gap:8px;font-weight:800;color:var(--brand);font-size:18px;text-decoration:none}
 .logo img{height:26px;width:26px;display:block}
 nav > span > a{color:var(--sub);text-decoration:none;font-size:13.5px}
-.nav{display:flex;gap:14px;align-items:center;flex-wrap:wrap;background:#f1f5f9;border-bottom:1px solid #e2e8f0;padding:10px 16px;margin:0 -16px 16px}
+.topbar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;background:#f1f5f9;border-bottom:1px solid #e2e8f0;padding:10px 16px;margin:0 -16px 16px}
+.topbar .logo{flex-shrink:0}
+.nav{flex:1;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
 .nav a{color:#1e293b;text-decoration:none;font-size:13.5px;white-space:nowrap;border-bottom:2px dashed transparent;padding-bottom:2px}
 .nav a:hover{color:var(--brand);border-bottom-color:var(--brand)}
 .nav a.active{color:var(--brand);border-bottom:2px solid var(--brand);font-weight:600}
@@ -459,7 +461,8 @@ input[type=number]{font-size:16px}
 <body>
 <div class="wrap">
 <header>
-<div class="topbar"><a class="logo" href="${lang === 'zh' ? '/zh/' : '/'}" aria-label="FeeEye home"><img src="/assets/logo.svg" alt="FeeEye" width="26" height="26">${SITE}</a><span><a href="${lang === 'zh' ? '/' : '/zh/'}">${esc(i.navZh)}</a></span></div>
+<div class="topbar">
+<a class="logo" href="${lang === 'zh' ? '/zh/' : '/'}" aria-label="FeeEye home"><img src="/assets/logo.svg" alt="FeeEye" width="26" height="26">${SITE}</a>
 <nav class="nav">
 <a href="${absPath(lang, tcPath(lang))}" class="${active==='tc'?'active':''}">${esc(i.navTc)}</a>
 <a href="${absPath(lang, futPath(lang))}" class="${active==='fut'?'active':''}">${esc(i.navFut)}</a>
@@ -468,6 +471,8 @@ input[type=number]{font-size:16px}
 <a href="${absPath(lang, secPath(lang))}" class="${active==='sec'?'active':''}">${esc(i.navSec)}</a>
 <a href="${absPath(lang, pfPath(lang))}" class="${active==='pf'?'active':''}">${esc(i.navPf)}</a>
 </nav>
+<span><a href="${lang === 'zh' ? '/' : '/zh/'}">${esc(i.navZh)}</a></span>
+</div>
 </header>
 ${body}
 <div class="foot">${discLine}${esc(i.foot)} ${esc(UPD)}.<br>${esc(i.footContact)}<a class="mail" href="mailto:feeeyeofficial@gmail.com">feeeyeofficial@gmail.com</a><br><a href="${absPath(lang, 'about.html')}">${esc(i.footAbout)}</a> · <a href="${absPath(lang, 'privacy.html')}">${esc(i.footPrivacy)}</a> · <a href="${absPath(lang, 'terms.html')}">${esc(i.footTerms)}</a></div>

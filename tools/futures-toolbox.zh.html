@@ -55,23 +55,26 @@
   .disclaimer p:last-child{margin-bottom:0}
   .fees-note{font-size:12px;color:var(--sub);text-align:center;margin-top:10px;line-height:1.6}
   .foot{color:var(--sub);font-size:12px;margin-top:18px;text-align:center}
-.nav{display:flex;gap:14px;align-items:center;flex-wrap:wrap;background:#f1f5f9;border-bottom:1px solid #e2e8f0;padding:10px 16px;margin:0 -18px 16px}.nav a{color:#1e293b;text-decoration:none;font-size:13.5px;white-space:nowrap;border-bottom:2px dashed transparent;padding-bottom:2px}.nav a:hover{color:var(--brand);border-bottom-color:var(--brand)}.nav a.active{color:var(--brand);border-bottom:2px solid var(--brand);font-weight:600}
+.topbar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;background:#f1f5f9;border-bottom:1px solid #e2e8f0;padding:10px 16px;margin:0 -18px 16px}.nav{flex:1;display:flex;gap:14px;align-items:center;flex-wrap:wrap}.nav a{color:#1e293b;text-decoration:none;font-size:13.5px;white-space:nowrap;border-bottom:2px dashed transparent;padding-bottom:2px}.nav a:hover{color:var(--brand);border-bottom-color:var(--brand)}.nav a.active{color:var(--brand);border-bottom:2px solid var(--brand);font-weight:600}
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
-<div class="topbar"><a class="logo" href="/zh/" aria-label="FeeEye 首页"><img src="/assets/logo.svg" alt="FeeEye" width="26" height="26">FeeEye</a><span><a href="{}">English</a></span></div>
-<nav class="nav" id="toolNav">
-<a href="/zh/tools/total-cost-calculator.zh.html" data-key="tc">现货工具</a>
-<a href="/zh/tools/futures-toolbox.zh.html" data-key="fut">合约工具</a>
-<a href="/zh/tools/exchange-comparator.zh.html" data-key="cmp">交易所对比</a>
-<a href="/zh/tools/glossary.zh.html" data-key="glo">术语</a>
-<a href="/zh/tools/token-security-checker.zh.html" data-key="sec">代币检查</a>
-<a href="/zh/tools/portfolio-tracker.zh.html" data-key="pf">持仓记账</a>
-</nav>
-</header>
-<script>(function(){var m={tc:"total-cost-calculator",fut:"futures-toolbox",cmp:"exchange-comparator",glo:"glossary",sec:"token-security-checker",pf:"portfolio-tracker"};var p=location.pathname;document.querySelectorAll("#toolNav a").forEach(function(a){var k=a.getAttribute("data-key");if(k&&p.indexOf("/"+m[k])>-1)a.classList.add("active");});})();</script>
+    <div class="topbar">
+      <a class="logo" href="/zh/" aria-label="FeeEye 首页"><img src="/assets/logo.svg" alt="FeeEye" width="26" height="26">FeeEye</a>
+      <nav class="nav" id="toolNav">
+        <a href="/zh/tools/total-cost-calculator.zh.html" data-key="tc">现货工具</a>
+        <a href="/zh/tools/futures-toolbox.zh.html" data-key="fut">合约工具</a>
+        <a href="/zh/tools/exchange-comparator.zh.html" data-key="cmp">交易所对比</a>
+        <a href="/zh/tools/glossary.zh.html" data-key="glo">术语</a>
+        <a href="/zh/tools/token-security-checker.zh.html" data-key="sec">代币检查</a>
+        <a href="/zh/tools/portfolio-tracker.zh.html" data-key="pf">持仓记账</a>
+      </nav>
+      <span><a href="futures-toolbox.html">English</a></span>
+    </div>
+  </header>
+  <script>(function(){var m={tc:"total-cost-calculator",fut:"futures-toolbox",cmp:"exchange-comparator",glo:"glossary",sec:"token-security-checker",pf:"portfolio-tracker"};var p=location.pathname;document.querySelectorAll("#toolNav a").forEach(function(a){var k=a.getAttribute("data-key");if(k&&p.indexOf("/"+m[k])>-1)a.classList.add("active");});})();</script>
 
   <h1>合约工具箱</h1>
   <p class="intro">合约交易 4 个高频工具：仓位计算 · 强平价计算 · 盈亏预估 · 各交易所合约费率对比。</p>
