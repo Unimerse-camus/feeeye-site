@@ -65,9 +65,8 @@ function linkFor(slug) {
 }
 function ctaHtml(slug, label, lang) {
   const ex = EX[slug];
-  const ad = lang === 'zh' ? '返佣' : 'Affiliate';
   if (ex.affiliate_link) {
-    return `<a class="cta aff" href="${ex.affiliate_link}" rel="sponsored nofollow" target="_blank" title="Affiliate link — we may earn a commission at no extra cost to you">${label}<span class="ad">${ad}</span></a>`;
+    return `<a class="cta" href="${ex.affiliate_link}" rel="sponsored nofollow" target="_blank">${label}</a>`;
   }
   if (ex.official_url) {
     return `<a class="cta" href="${ex.official_url}" rel="noopener" target="_blank">${label}</a>`;
@@ -422,8 +421,6 @@ th,td{border:1px solid var(--line);padding:10px 12px;text-align:left}
 th{background:#f1f5f9;font-weight:600;white-space:nowrap}
 tr.kc{background:#eef4ff}
 .cta{display:inline-block;background:var(--brand);color:#fff;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:700;text-decoration:none;min-height:36px}
-.cta.aff{border:1px solid #eab308}
-.ad{display:inline-block;margin-left:6px;padding:1px 6px;border-radius:6px;background:#fef3c7;color:#92400e;font-size:10px;font-weight:600;vertical-align:1px}
 .cta:hover{opacity:.9}
 .num{font-variant-numeric:tabular-nums;font-feature-settings:"tnum"}
 input[type=number]{font-size:16px}
