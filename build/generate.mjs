@@ -280,7 +280,7 @@ const LEGAL_HTML = {
     privacy: {
       title: 'Privacy Policy',
       desc: 'How FeeEye handles your information.',
-      body: `<h1>Privacy Policy</h1><p class="intro">Last reviewed: 2026-08-16</p><h3>Who we are</h3><p>This policy describes how FeeEye ("we", "us") handles information on this website.</p><h3>We do not collect personal data</h3><p>We do not require accounts and do not collect names, emails, or other personal data. We do not sell personal data.</p><h3>Tool inputs stay in your browser</h3><p>Amounts, deposit methods and other values you enter into our calculators stay in your browser and are never transmitted to or stored by us.</p><h3>Cookies</h3><p>We do not set cookies ourselves. When you click an affiliate link, the exchange may set a referral cookie under its own domain — we do not control that; see each exchange's privacy policy.</p><h3>Your rights</h3><p>Depending on your jurisdiction (e.g. GDPR for EEA/UK residents), you may request access, correction, or deletion of any personal data we hold. Contact: <a class="mail" href="mailto:feeeyeofficial@gmail.com">feeeyeofficial@gmail.com</a>.</p><h3>Changes</h3><p>We will update this policy and the "last reviewed" date when practices change.</p>`,
+      body: `<h1>Privacy Policy</h1><p class="intro">Last reviewed: 2026-08-16</p><h3>Who we are</h3><p>This policy describes how FeeEye ("we", "us") handles information on this website.</p><h3>We don\'t collect your data</h3><p>We don\'t require accounts. We don\'t collect names, emails, or any personal data. We don\'t sell data. Tool inputs (amounts, deposit methods, etc.) stay in your browser and are never transmitted to or stored by us.</p><h3>Changes</h3><p>We will update this policy and the "last reviewed" date when practices change.</p>`,
     },
     terms: {
       title: 'Terms of Use',
@@ -297,7 +297,7 @@ const LEGAL_HTML = {
     privacy: {
       title: '隐私政策',
       desc: 'FeeEye 如何处理你的信息。',
-      body: `<h1>隐私政策</h1><p class="intro">最近审阅：2026-08-16</p><h3>我们是谁</h3><p>本政策说明 FeeEye（"我们"）如何处理本网站的信息。</p><h3>我们不收集个人数据</h3><p>我们不要求注册账号，不收集姓名、邮箱等个人数据，不出售个人数据。</p><h3>工具输入只存在你的浏览器</h3><p>你在计算器里输入的金额、入金方式等只在你的浏览器内处理，绝不会上传或存储到我们服务器。</p><h3>Cookie</h3><p>我们自身不设置 cookie。点击返佣链接时，交易所会在其自身域名下设置推荐 cookie——我们无法控制这一点，详见各交易所的隐私政策。</p><h3>你的权利</h3><p>根据你所在司法辖区（如 EEA/英国居民的 GDPR），你可要求访问、更正或删除我们持有的个人数据。联系：<a class="mail" href="mailto:feeeyeofficial@gmail.com">feeeyeofficial@gmail.com</a>。</p><h3>变更</h3><p>实践发生变化时，我们会更新本政策及"最近审阅"日期。</p>`,
+      body: `<h1>隐私政策</h1><p class="intro">最近审阅：2026-08-16</p><h3>我们是谁</h3><p>本政策说明 FeeEye（"我们"）如何处理本网站的信息。</p><h3>我们不收集你的数据</h3><p>我们不要求注册账号。不收集姓名、邮箱等任何个人数据。不出售数据。工具输入（金额、入金方式等）只存在你的浏览器内，绝不会上传或存储到我们服务器。</p><h3>变更</h3><p>实践发生变化时，我们会更新本政策及"最近审阅"日期。</p>`,
     },
     terms: {
       title: '使用条款',
