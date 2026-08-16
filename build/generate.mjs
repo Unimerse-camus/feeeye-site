@@ -156,7 +156,7 @@ const I18N = {
     ctaBuy: 'Buy {s} on {x}', ctaOpen: 'Open KuCoin', ctaOpenOn: 'Open {x}', ctaAcct: 'Open a {x} account',
     alsoOn: '{s} is also available on: {o}. Use the Fee Calculator to compare your exact trade size.',
     priceLine: '{s} price: {p} · Market cap: {m} · Rank #{r} (CoinGecko snapshot {d}).',
-    exDeposit: 'Deposit', exFut: 'Futures', exNets: 'Networks', exFeat: 'Features',
+    exDeposit: 'Deposit', exFut: 'Futures', exFeat: 'Features',
     wbH1: 'Buy {s}',
     wbIntro: '',
     wbTitle: 'Where to Buy {s} — Compare Exchanges',
@@ -204,7 +204,7 @@ const I18N = {
     ctaBuy: '在 {x} 购买 {s}', ctaOpen: '打开 KuCoin', ctaOpenOn: '打开 {x}', ctaAcct: '注册 {x} 账户',
     alsoOn: '{s} 还可在以下平台购买：{o}。使用手续费计算器对比你的具体交易成本。',
     priceLine: '{s} 价格：{p} · 市值：{m} · 排名 #{r}（CoinGecko 快照 {d}）。',
-    exDeposit: '入金', exFut: '合约', exNets: '提币网络', exFeat: '能力',
+    exDeposit: '入金', exFut: '合约', exFeat: '能力',
     wbH1: '购买 {s}',
     wbIntro: '',
     wbTitle: '在哪里购买 {s}——交易所对比',
@@ -507,13 +507,12 @@ function whereToBuy(c, lang) {
       return `${m} ${fee}`;
     }).join(' · ');
     const fut = `${pct(ex.futures.maker)} / ${pct(ex.futures.taker)}`;
-    const nets = (ex.supported_networks || []).slice(0, 8).join(' · ');
     const caps = [];
     if (ex.has_trading_bot) caps.push(lang === 'zh' ? '机器人' : 'Bot');
     if (ex.has_api) caps.push('API');
     if (ex.has_copy_trading) caps.push(lang === 'zh' ? '跟单' : 'Copy');
     const warn = ex.new_user_note ? `<div class="ex-detail-warn">${esc(ex.new_user_note)}</div>` : '';
-    return `<div class="ex-detail"><div class="ex-detail-title">${ex.name}</div><div class="ex-detail-row">${esc(T(lang, 'exDeposit'))}: ${methods}</div><div class="ex-detail-row">${esc(T(lang, 'exFut'))}: ${fut}</div><div class="ex-detail-row">${esc(T(lang, 'exNets'))}: ${nets}</div><div class="ex-detail-row">${esc(T(lang, 'exFeat'))}: ${caps.join(' · ')}</div>${warn}</div>`;
+    return `<div class="ex-detail"><div class="ex-detail-title">${ex.name}</div><div class="ex-detail-row">${esc(T(lang, 'exDeposit'))}: ${methods}</div><div class="ex-detail-row">${esc(T(lang, 'exFut'))}: ${fut}</div><div class="ex-detail-row">${esc(T(lang, 'exFeat'))}: ${caps.join(' · ')}</div>${warn}</div>`;
   }).join('');
   const change = c.change_24h;
   const changeHtml = change != null ? ` · 24h: <span style="color:${change >= 0 ? '#dc2626' : '#16a34a'};font-weight:600">${change >= 0 ? '+' : ''}${change.toFixed(2)}%</span>` : '';
