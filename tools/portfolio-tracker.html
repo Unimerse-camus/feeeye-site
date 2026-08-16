@@ -65,7 +65,7 @@
   <header><nav><a class="logo" href="/" aria-label="FeeEye home"><img src="/assets/logo.svg" alt="FeeEye" width="26" height="26">FeeEye</a><span class="nav"><a href="/">Tools</a><a href="/exchanges/kucoin.html">Exchanges</a><a href="/coins.html">Coins</a><a href="/compare/kucoin-vs-bybit.html">Compare</a><a href="/tools/glossary.html">Glossary</a></span><span><a href="portfolio-tracker.zh.html">中文</a></span></nav></header>
 
   <h1>Portfolio Tracker</h1>
-  <p class="intro">Log your holdings and track profit &amp; loss. Prices update daily. <strong>No API key needed.</strong> Data stays in your browser.</p>
+  <p class="intro">Log <strong>any</strong> coin you hold — even small caps. Live prices auto-fetch and your P&amp;L updates instantly. <strong>No API key needed.</strong> Data stays in your browser.</p>
 
   <div class="panel">
     <div class="grid3">
@@ -85,7 +85,7 @@
     </div>
     <button class="btn" id="addBtn">Add holding</button>
     <div class="err" id="err"></div>
-    <p class="hint">Pick a coin from the list — prices update daily. Data stays in your browser.</p>
+    <p class="hint">Any CoinGecko-listed coin works — just type its symbol. Data stays in your browser.</p>
   </div>
 
   <div class="summary" id="summary" style="display:none"></div>
@@ -94,10 +94,10 @@
     <div class="empty" id="empty">No holdings yet. Add your first coin above.<br><a class="try" id="tryExample">Try an example: 0.1 BTC @ $60,000 →</a></div>
     <table id="table" style="display:none"></table>
   </div>
-  <div class="refresh" id="priceNote"></div>
+  <div class="refresh"><span id="priceNote"></span> · <a id="refreshBtn">↻ Refresh prices</a></div>
 
   <div class="foot">
-    Prices are CoinGecko snapshots, updated daily. Your holdings are stored <b>only in your browser</b> (localStorage) — never uploaded. This is <b>not</b> financial advice.<br>
+    Live prices via CoinGecko. Your holdings are stored <b>only in your browser</b> (localStorage) — never uploaded. This is <b>not</b> financial advice.<br>
     <a href="/">Home</a> · <a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a> · <a href="/disclosure.html">Disclosure</a>
   </div>
 </div>
@@ -118,6 +118,8 @@
   var table = document.getElementById('table');
   var empty = document.getElementById('empty');
   var priceNote = document.getElementById('priceNote');
+  var refreshBtn = document.getElementById('refreshBtn');
+  var livePrices = {}; // cg_id -> usd（实时，来自同域 /api/price 代理）
 
   // 预置币种 datalist（快速选择）
   var coins = Object.keys(window.COIN_PRICES || {}).map(function(sym){
@@ -146,12 +148,25 @@
     return Number(n).toLocaleString(undefined, { maximumFractionDigits: dp, minimumFractionDigits: 0 });
   }
 
-  // 解析 symbol → cg_id：仅本地映射（CoinGecko 免费 API 不支持浏览器 CORS，无法前端直连）
-  function resolveCgId(sym){
+  // 解析 symbol → cg_id：本地 → 缓存 → /api/search 代理（支持任意币种）
+  async function resolveCgId(sym){
     var local = (window.COIN_IDS && window.COIN_IDS[sym]) || (window.COIN_PRICES && window.COIN_PRICES[sym] && window.COIN_PRICES[sym].cg_id);
     if (local) return local;
     var cache = loadCache();
     if (cache[sym]) return cache[sym];
+    try {
+      var res = await fetch('/api/search?query=' + encodeURIComponent(sym));
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      var data = await res.json();
+      var coins = (data.coins || []).filter(function(c){ return c.symbol && c.symbol.toUpperCase() === sym; });
+      if (!coins.length) coins = data.coins || [];
+      if (coins.length) {
+        var cg = coins[0].id;
+        cache[sym] = cg;
+        saveCache(cache);
+        return cg;
+      }
+    } catch(e){ /* ignore */ }
     return null;
   }
 
@@ -163,17 +178,22 @@
     if (!q || q <= 0) { showErr('Please enter a valid amount.'); return; }
     if (!c || c <= 0) { showErr('Please enter a valid buy price.'); return; }
     hideErr();
-    var cgId = resolveCgId(sym);
-    var info = window.COIN_PRICES && window.COIN_PRICES[sym];
-    if (!info || info.price == null) {
-      showErr(sym + ' is not supported yet. Please pick a coin from the list (e.g. BTC, ETH, SOL, DOGE).');
+    addBtn.disabled = true;
+    addBtn.textContent = 'Looking up coin…';
+    var cgId = await resolveCgId(sym);
+    if (!cgId) {
+      showErr('Coin not found. Check the symbol — any CoinGecko-listed coin works.');
+      addBtn.disabled = false;
+      addBtn.textContent = 'Add holding';
       return;
     }
     var d = load();
-    d.holdings.push({ id: Date.now().toString(36) + Math.random().toString(36).slice(2,6), symbol: sym, cg_id: cgId || '', qty: q, cost: c });
+    d.holdings.push({ id: Date.now().toString(36) + Math.random().toString(36).slice(2,6), symbol: sym, cg_id: cgId, qty: q, cost: c });
     save(d);
     coinInput.value = ''; qty.value = ''; cost.value = '';
-    render();
+    addBtn.disabled = false;
+    addBtn.textContent = 'Add holding';
+    await refresh();
   }
 
   function del(id){
@@ -184,7 +204,8 @@
   }
 
   function priceOf(h){
-    // 价格来自本地快照（coin-prices.js，每日更新）
+    // 实时价优先（/api/price 代理），失败回退本地快照价
+    if (h.cg_id && livePrices[h.cg_id] != null) return livePrices[h.cg_id];
     var info = window.COIN_PRICES && window.COIN_PRICES[h.symbol];
     return info && info.price != null ? info.price : null;
   }
@@ -238,30 +259,41 @@
   }
 
   async function refresh(){
-    // 价格来源：本地快照 coin-prices.js（CI 每日从 CoinGecko 拉取），
-    // 纯静态站无法可靠前端直连 CoinGecko（无 CORS），故不再发网络请求。
+    // 实时价：同域 /api/price 代理（服务器端拉 CoinGecko，绕开 CORS），失败回退快照价
     var d = load();
     var changed = false;
-    // 兼容旧数据：无 cg_id 的持仓用本地映射补上（仅用于展示，不影响计价）
-    d.holdings.forEach(function(h){
+    for (var i = 0; i < d.holdings.length; i++) {
+      var h = d.holdings[i];
       if (!h.cg_id) {
-        var cg = (window.COIN_IDS && window.COIN_IDS[h.symbol]) ||
-                 (window.COIN_PRICES && window.COIN_PRICES[h.symbol] && window.COIN_PRICES[h.symbol].cg_id);
+        var cg = await resolveCgId(h.symbol);
         if (cg) { h.cg_id = cg; changed = true; }
       }
-    });
+    }
     if (changed) save(d);
+    var ids = [];
+    var seen = {};
+    d.holdings.forEach(function(h){ if (h.cg_id && !seen[h.cg_id]) { seen[h.cg_id] = 1; ids.push(h.cg_id); } });
+    if (!ids.length) { render(); return; }
+    try {
+      var res = await fetch('/api/price?ids=' + ids.join(',') + '&vs_currencies=usd');
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      var p = await res.json();
+      livePrices = p;
+      if (priceNote) priceNote.textContent = 'Live prices';
+    } catch(e){
+      livePrices = {};
+      var meta = window.COIN_PRICE_META || {};
+      if (priceNote) priceNote.textContent = meta.updated ? ('Snapshot · ' + meta.updated) : 'Snapshot prices';
+    }
     render();
   }
 
   addBtn.addEventListener('click', addHolding);
+  refreshBtn.addEventListener('click', refresh);
   var tryBtn = document.getElementById('tryExample');
   if (tryBtn) tryBtn.addEventListener('click', function(){
     coinInput.value = 'BTC'; qty.value = '0.1'; cost.value = '60000'; addHolding();
   });
-  // 显示价格更新时间
-  var meta = window.COIN_PRICE_META || {};
-  if (priceNote && meta.updated) priceNote.textContent = 'Prices updated: ' + meta.updated + ' (daily)';
   render();
   refresh();
 })();
