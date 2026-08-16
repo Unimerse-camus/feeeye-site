@@ -422,10 +422,10 @@ header nav{display:flex;align-items:center;justify-content:space-between;padding
 .logo{display:flex;align-items:center;gap:8px;font-weight:800;color:var(--brand);font-size:18px;text-decoration:none}
 .logo img{height:26px;width:26px;display:block}
 nav > span > a{color:var(--sub);text-decoration:none;font-size:13.5px}
-.topbar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;background:#f1f5f9;border-bottom:1px solid #e2e8f0;padding:10px 16px;margin:0 -16px 16px}
+.topbar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;background:#fff;border-bottom:1px solid #e2e8f0;padding:10px 16px;margin:0 -16px 16px}
 .topbar .logo{flex-shrink:0}
 .nav{flex:1;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
-.nav a{color:#1e293b;text-decoration:none;font-size:13.5px;white-space:nowrap;border-bottom:2px dashed transparent;padding-bottom:2px}
+.nav a{color:#1e293b;text-decoration:none;font-size:13.5px;white-space:nowrap;border-bottom:2px solid transparent;padding-bottom:2px}
 .nav a:hover{color:var(--brand);border-bottom-color:var(--brand)}
 .nav a.active{color:var(--brand);border-bottom:2px solid var(--brand);font-weight:600}
 h1{font-size:25px;margin-bottom:6px}
