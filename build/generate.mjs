@@ -35,7 +35,7 @@ const EXCHANGE_COMPARE = ctx.window.EXCHANGE_COMPARE || {};
 const CA = ctx.window.COUNTRY_AVAILABILITY;
 const COUNTRY_NAMES = ctx.window.COUNTRY_NAMES || {};
 const getFee = ctx.window.getUsdtWithdrawalFee;
-const UPD = EX.kucoin.last_updated;
+let UPD = ''; // 在 coins.json 读取后赋值（line 107）
 const RESTRICTED_LABEL = ['US', 'CN', 'HK', 'SG'].join(', ');
 
 // 币种分类：coins.json 的 category 字段（fetch_coins.mjs 从 CoinGecko categories 映射）→ 显示文字。
@@ -105,6 +105,7 @@ if (fs.existsSync(coinJsonPath)) {
   const cj = JSON.parse(fs.readFileSync(coinJsonPath, 'utf8'));
   COVERAGE_MODE = cj.meta.coverage_mode;
   COIN_SNAPSHOT = (cj.meta.generated_at || '').slice(0, 10);
+  UPD = COIN_SNAPSHOT; // 数据快照时间统一用 coins.json 的时间（保证每日新鲜）
   COIN_LIST = cj.coins.map((c) => ({
     symbol: c.symbol,
     name: c.name,
@@ -150,7 +151,7 @@ const I18N = {
     navZh: '中文',
     navTools: 'Tools', navExchanges: 'Exchanges', navCoins: 'Coins', navCompare: 'Compare', navGlossary: 'Glossary',
     discHtml: '<div style="text-align:left"><div style="margin:0 0 6px"><b>\u2460 Fee snapshot</b>: recently updated 2026-08-13 \u2014 verify each rate on the exchange\'s official page before trading.</div><div style="margin:0 0 4px"><b>\u2461 Compliance-restricted regions</b> by exchange (representative examples; <b>restricted regions vary by exchange</b> — some serve the US or Hong Kong; always check each exchange\'s Terms of Use):</div><ul style="margin:0 0 0 20px;padding:0"><li><b>KuCoin</b>: EU new-client onboarding paused (Germany, France, Italy, Spain, Poland, ...)</li><li><b>Binance</b>: Japan, Ontario (Canada), India, Turkey, UAE, Korea, Thailand, ...</li><li><b>Bybit / OKX</b>: no specific countries publicly listed</li><li><b>Bitget</b>: Japan, Korea, ...</li><li><b>Kraken</b>: Brazil, India, Indonesia, Vietnam, Thailand, ...</li><li><b>Coinbase</b>: Indonesia, Vietnam, Thailand, ...</li></ul><div style="margin:6px 0 0"><b>\u2462</b> Before signing up, check each exchange\'s Terms of Use to confirm your country/region is supported.</div></div>',
-    foot: 'Educational only. Not financial advice. Verify all data on official exchange pages. Data snapshot ',
+    foot: 'Educational only. Not financial advice. Verify all data on official exchange pages. Data snapshot ', footContact: 'For feature requests or bug reports, contact ',
     footPrivacy: 'Privacy', footTerms: 'Terms', footAbout: 'About',
     thExchange: 'Exchange', thLists: 'Lists {s}', thTaker: 'Spot taker', thTakerFut: 'Futures taker', thFee20: 'USDT TRC20 fee',
     ctaBuy: 'Buy {n} on {x}', ctaOpen: 'Open KuCoin', ctaOpenOn: 'Open {x}', ctaAcct: 'Open a {x} account',
@@ -197,7 +198,7 @@ const I18N = {
     navZh: 'English',
     navTools: '工具', navExchanges: '交易所', navCoins: '币种', navCompare: '对比', navGlossary: '术语',
     discHtml: '<div style="text-align:left"><div style="margin:0 0 6px"><b>① 费率快照</b>：最近更新 2026-08-13 —— 交易前请以各交易所官方页面为准。</div><div style="margin:0 0 4px"><b>② 各所合规受限地区</b>（代表性示例；<b>各所受限地区各不相同</b>——部分服务美国或香港，请以各交易所 Terms of Use 为准）：</div><ul style="margin:0 0 0 20px;padding:0"><li><b>KuCoin</b>：欧盟新客户暂停（含德国、法国、意大利、西班牙、波兰等）</li><li><b>Binance</b>：日本、加拿大（安大略）、印度、土耳其、阿联酋、韩国、泰国等</li><li><b>Bybit / OKX</b>：未明确公开列示特定国家限制</li><li><b>Bitget</b>：日本、韩国等</li><li><b>Kraken</b>：巴西、印度、印度尼西亚、越南、泰国等</li><li><b>Coinbase</b>：印度尼西亚、越南、泰国等</li></ul><div style="margin:6px 0 0"><b>③</b> 注册前请查各所 Terms of Use 确认你所在国家/地区可用。</div></div>',
-    foot: '仅供教育参考，不构成投资建议。请以各交易所官方页面核实所有数据。数据快照 ',
+    foot: '仅供教育参考，不构成投资建议。请以各交易所官方页面核实所有数据。数据快照 ', footContact: '如有任何功能需求和建议，或网页有错误需要修正，请联系 ',
     footPrivacy: '隐私政策', footTerms: '使用条款', footAbout: '关于我们',
     thExchange: '交易所', thLists: '上架 {s}', thTaker: '现货吃单费率', thTakerFut: '合约吃单费率', thFee20: 'USDT TRC20 提币费',
     ctaBuy: '在 {x} 购买 {n}', ctaOpen: '打开 KuCoin', ctaOpenOn: '打开 {x}', ctaAcct: '注册 {x} 账户',
@@ -456,7 +457,7 @@ input[type=number]{font-size:16px}
 <span><a href="${lang === 'zh' ? '/' : '/zh/'}">${esc(i.navZh)}</a></span>
 </nav></header>
 ${body}
-<div class="foot">${discLine}${esc(i.foot)} ${esc(UPD)}.<br><a href="${absPath(lang, 'about.html')}">${esc(i.footAbout)}</a> · <a href="${absPath(lang, 'privacy.html')}">${esc(i.footPrivacy)}</a> · <a href="${absPath(lang, 'terms.html')}">${esc(i.footTerms)}</a></div>
+<div class="foot">${discLine}${esc(i.foot)} ${esc(UPD)}.<br>${esc(i.footContact)}<a href="mailto:feeeyeofficial@gmail.com">feeeyeofficial@gmail.com</a><br><a href="${absPath(lang, 'about.html')}">${esc(i.footAbout)}</a> · <a href="${absPath(lang, 'privacy.html')}">${esc(i.footPrivacy)}</a> · <a href="${absPath(lang, 'terms.html')}">${esc(i.footTerms)}</a></div>
 </div>
 </body>
 </html>`;
@@ -668,6 +669,9 @@ write('_headers', [
   '',
   '/assets/*',
   '  Cache-Control: public, max-age=31536000, immutable',
+  '',
+  '/data/*',
+  '  Cache-Control: public, max-age=300',
   '',
   '/',
   '  Cache-Control: no-cache, no-store, must-revalidate',
