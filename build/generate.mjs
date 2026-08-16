@@ -439,7 +439,7 @@ input[type=number]{font-size:16px}
 .foot{color:var(--sub);font-size:12px;margin-top:22px;text-align:center}
 .foot a{color:var(--sub);text-decoration:none}
 .foot a:hover{text-decoration:underline}
-.note{background:#eef4ff;border:1px solid #c7d8ff;border-radius:10px;padding:10px 14px;font-size:13px;color:#1e40af;margin:14px 0}
+.note{background:#eef4ff;border:1px solid #c7d8ff;border-radius:10px;padding:10px 14px;font-size:13px;color:#1e40af;margin:14px 0 28px}
 </style>
 </head>
 <body>
