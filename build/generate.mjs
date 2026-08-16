@@ -151,7 +151,7 @@ const I18N = {
     navTools: 'Tools', navExchanges: 'Exchanges', navCoins: 'Coins', navCompare: 'Compare', navGlossary: 'Glossary',
     discHtml: '<div style="text-align:left"><div style="margin:0 0 6px"><b>\u2460 Fee snapshot</b>: recently updated 2026-08-13 \u2014 verify each rate on the exchange\'s official page before trading.</div><div style="margin:0 0 4px"><b>\u2461 Compliance-restricted regions</b> by exchange (representative examples; <b>restricted regions vary by exchange</b> — some serve the US or Hong Kong; always check each exchange\'s Terms of Use):</div><ul style="margin:0 0 0 20px;padding:0"><li><b>KuCoin</b>: EU new-client onboarding paused (Germany, France, Italy, Spain, Poland, ...)</li><li><b>Binance</b>: Japan, Ontario (Canada), India, Turkey, UAE, Korea, Thailand, ...</li><li><b>Bybit / OKX</b>: no specific countries publicly listed</li><li><b>Bitget</b>: Japan, Korea, ...</li><li><b>Kraken</b>: Brazil, India, Indonesia, Vietnam, Thailand, ...</li><li><b>Coinbase</b>: Indonesia, Vietnam, Thailand, ...</li></ul><div style="margin:6px 0 0"><b>\u2462</b> Before signing up, check each exchange\'s Terms of Use to confirm your country/region is supported.</div></div>',
     foot: 'Educational only. Not financial advice. Verify all data on official exchange pages. Data snapshot ',
-    footPrivacy: 'Privacy', footTerms: 'Terms', footDisclosure: 'Disclosure', footAbout: 'About',
+    footPrivacy: 'Privacy', footTerms: 'Terms', footAbout: 'About',
     thExchange: 'Exchange', thLists: 'Lists {s}', thTaker: 'Spot taker', thTakerFut: 'Futures taker', thFee20: 'USDT TRC20 fee',
     ctaBuy: 'Buy {n} on {x}', ctaOpen: 'Open KuCoin', ctaOpenOn: 'Open {x}', ctaAcct: 'Open a {x} account',
     alsoOn: '{n} is also available on: {o}. Use the Fee Calculator to compare your exact trade size.',
@@ -198,7 +198,7 @@ const I18N = {
     navTools: '工具', navExchanges: '交易所', navCoins: '币种', navCompare: '对比', navGlossary: '术语',
     discHtml: '<div style="text-align:left"><div style="margin:0 0 6px"><b>① 费率快照</b>：最近更新 2026-08-13 —— 交易前请以各交易所官方页面为准。</div><div style="margin:0 0 4px"><b>② 各所合规受限地区</b>（代表性示例；<b>各所受限地区各不相同</b>——部分服务美国或香港，请以各交易所 Terms of Use 为准）：</div><ul style="margin:0 0 0 20px;padding:0"><li><b>KuCoin</b>：欧盟新客户暂停（含德国、法国、意大利、西班牙、波兰等）</li><li><b>Binance</b>：日本、加拿大（安大略）、印度、土耳其、阿联酋、韩国、泰国等</li><li><b>Bybit / OKX</b>：未明确公开列示特定国家限制</li><li><b>Bitget</b>：日本、韩国等</li><li><b>Kraken</b>：巴西、印度、印度尼西亚、越南、泰国等</li><li><b>Coinbase</b>：印度尼西亚、越南、泰国等</li></ul><div style="margin:6px 0 0"><b>③</b> 注册前请查各所 Terms of Use 确认你所在国家/地区可用。</div></div>',
     foot: '仅供教育参考，不构成投资建议。请以各交易所官方页面核实所有数据。数据快照 ',
-    footPrivacy: '隐私政策', footTerms: '使用条款', footDisclosure: '返佣披露', footAbout: '关于我们',
+    footPrivacy: '隐私政策', footTerms: '使用条款', footAbout: '关于我们',
     thExchange: '交易所', thLists: '上架 {s}', thTaker: '现货吃单费率', thTakerFut: '合约吃单费率', thFee20: 'USDT TRC20 提币费',
     ctaBuy: '在 {x} 购买 {n}', ctaOpen: '打开 KuCoin', ctaOpenOn: '打开 {x}', ctaAcct: '注册 {x} 账户',
     alsoOn: '{n} 还可在以下平台购买：{o}。使用手续费计算器对比你的具体交易成本。',
@@ -456,7 +456,7 @@ input[type=number]{font-size:16px}
 <span><a href="${lang === 'zh' ? '/' : '/zh/'}">${esc(i.navZh)}</a></span>
 </nav></header>
 ${body}
-<div class="foot">${discLine}${esc(i.foot)} ${esc(UPD)}.<br><a href="${absPath(lang, 'about.html')}">${esc(i.footAbout)}</a> · <a href="${absPath(lang, 'privacy.html')}">${esc(i.footPrivacy)}</a> · <a href="${absPath(lang, 'terms.html')}">${esc(i.footTerms)}</a> · <a href="${absPath(lang, 'disclosure.html')}">${esc(i.footDisclosure)}</a></div>
+<div class="foot">${discLine}${esc(i.foot)} ${esc(UPD)}.<br><a href="${absPath(lang, 'about.html')}">${esc(i.footAbout)}</a> · <a href="${absPath(lang, 'privacy.html')}">${esc(i.footPrivacy)}</a> · <a href="${absPath(lang, 'terms.html')}">${esc(i.footTerms)}</a></div>
 </div>
 </body>
 </html>`;
