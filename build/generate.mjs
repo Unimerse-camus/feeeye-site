@@ -418,10 +418,6 @@ ${ld}
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.65;font-size:15px}
 .wrap{max-width:880px;margin:0 auto;padding:22px 18px 60px}
-header nav{display:flex;align-items:center;justify-content:space-between;padding:6px 0 14px;border-bottom:1px solid var(--line);margin-bottom:20px;flex-wrap:wrap}
-.logo{display:flex;align-items:center;gap:8px;font-weight:800;color:var(--brand);font-size:18px;text-decoration:none}
-.logo img{height:26px;width:26px;display:block}
-nav > span > a{color:var(--sub);text-decoration:none;font-size:13.5px}
 .topbar{display:flex;align-items:center;gap:14px;flex-wrap:nowrap;padding:0 0 12px;margin:0 -16px 14px}
 .topbar .logo{display:flex;align-items:center;gap:8px;flex-shrink:0;color:var(--brand);font-weight:800;font-size:18px;text-decoration:none}
 .topbar .logo img{height:26px;width:26px;display:block}
