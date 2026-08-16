@@ -10,12 +10,12 @@
 <link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
-<meta name="description" content="Log any crypto you hold — even small caps. Auto-fetch live prices and track profit & loss. No API key needed, data stays in your browser.">
+<meta name="description" content="Log any crypto you hold — even small caps. Auto-fetch live prices and track profit & loss with trading fees. No API key needed, data stays in your browser.">
 <style>
   :root{--bg:#f7f8fa;--card:#fff;--ink:#1c2430;--sub:#5b6776;--line:#e4e8ee;--brand:#2563eb;--brand2:#0ea5a4;--up:#dc2626;--down:#16a34a}
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.65;font-size:15px}
-  .wrap{max-width:880px;margin:0 auto;padding:22px 18px 60px}
+  .wrap{max-width:920px;margin:0 auto;padding:22px 18px 60px}
   header nav{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);padding:6px 0 14px;margin-bottom:20px;flex-wrap:wrap}
   .logo{display:flex;align-items:center;gap:8px;font-weight:800;color:var(--brand);font-size:18px;text-decoration:none}
   .logo img{height:26px;width:26px;display:block}
@@ -28,26 +28,35 @@
   label{display:block;font-size:13px;color:var(--sub);margin-bottom:5px;font-weight:600}
   input{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:9px;font-size:15px;background:#fff}
   .coin-input{text-transform:uppercase;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+  .fee-row{display:flex;align-items:center;gap:8px;margin-top:14px;flex-wrap:wrap}
+  .fee-row input{width:110px}
+  .fee-row .pct{font-weight:700;color:var(--sub)}
+  .fee-hint{font-size:12px;color:var(--sub);margin-top:6px;line-height:1.5}
   .btn{margin-top:14px;background:var(--brand);color:#fff;border:none;padding:12px 18px;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;width:100%}
   .btn:hover{opacity:.92}
   .btn:disabled{opacity:.6;cursor:not-allowed}
   .err{background:#fef2f2;border:1px solid #fecaca;color:#991b1b;border-radius:10px;padding:10px 14px;margin-top:10px;font-size:14px;display:none}
   .hint{font-size:12px;color:var(--sub);margin-top:8px}
-  .summary{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:14px}
-  @media(max-width:640px){.summary{grid-template-columns:1fr}}
-  .sum{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;text-align:center}
+  .summary{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px;margin-top:14px}
+  @media(max-width:800px){.summary{grid-template-columns:1fr 1fr}}
+  @media(max-width:480px){.summary{grid-template-columns:1fr}}
+  .sum{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 12px;text-align:center}
   .sum .k{font-size:12px;color:var(--sub);font-weight:600}
-  .sum .v{font-size:20px;font-weight:800;margin-top:4px}
+  .sum .v{font-size:18px;font-weight:800;margin-top:4px}
   .sum .v.up{color:var(--up)}
   .sum .v.down{color:var(--down)}
-  table{width:100%;border-collapse:collapse;margin-top:14px;font-size:14px}
-  th,td{border:1px solid var(--line);padding:10px 12px;text-align:right}
+  table{width:100%;border-collapse:collapse;margin-top:14px;font-size:13.5px}
+  th,td{border:1px solid var(--line);padding:8px 10px;text-align:right;white-space:nowrap}
   th{background:#f1f5f9;font-weight:600;white-space:nowrap;text-align:right}
   th:first-child,td:first-child{text-align:left}
   .up{color:var(--up);font-weight:700}
   .down{color:var(--down);font-weight:700}
   .del{color:var(--sub);cursor:pointer;text-decoration:none;font-size:13px}
   .del:hover{color:var(--bad)}
+  tr.closed{background:#fafafa;opacity:.75}
+  tr.closed td .sym{color:var(--sub)}
+  .closed-tag{display:inline-block;background:#eef2f7;color:#5b6776;border-radius:999px;padding:1px 8px;font-size:11px;font-weight:600;margin-left:4px}
+  .sell-input{width:86px;padding:6px 8px;font-size:13px}
   .empty{text-align:center;color:var(--sub);padding:30px 0;font-size:14px}
   .try{color:var(--brand);cursor:pointer;font-weight:600;text-decoration:none}
   .try:hover{text-decoration:underline}
@@ -65,7 +74,7 @@
   <header><nav><a class="logo" href="/" aria-label="FeeEye home"><img src="/assets/logo.svg" alt="FeeEye" width="26" height="26">FeeEye</a><span class="nav"><a href="/">Tools</a><a href="/exchanges/kucoin.html">Exchanges</a><a href="/coins.html">Coins</a><a href="/compare/kucoin-vs-bybit.html">Compare</a><a href="/tools/glossary.html">Glossary</a></span><span><a href="portfolio-tracker.zh.html">中文</a></span></nav></header>
 
   <h1>Portfolio Tracker</h1>
-  <p class="intro">Log <strong>any</strong> coin you hold — even small caps. Live prices auto-fetch and your P&amp;L updates instantly. <strong>No API key needed.</strong> Data stays in your browser.</p>
+  <p class="intro">Log <strong>any</strong> coin you hold — even small caps. Live prices auto-fetch and your P&amp;L updates instantly (trading fees included). <strong>No API key needed.</strong> Data stays in your browser.</p>
 
   <div class="panel">
     <div class="grid3">
@@ -83,6 +92,11 @@
         <input id="cost" type="number" inputmode="decimal" min="0" step="any" placeholder="e.g. 60000">
       </div>
     </div>
+    <div class="fee-row">
+      <label for="feeRate" style="margin:0">Trading fee</label>
+      <input id="feeRate" type="number" inputmode="decimal" min="0" step="0.01" value="0.1"><span class="pct">%</span>
+    </div>
+    <p class="fee-hint">0.1% spot trading fee is the base rate at most exchanges. Adjust it if yours differs — it applies to both buy and sell.</p>
     <button class="btn" id="addBtn">Add holding</button>
     <div class="err" id="err"></div>
     <p class="hint">Any CoinGecko-listed coin works — just type its symbol. Data stays in your browser.</p>
@@ -113,6 +127,7 @@
   var datalist = document.getElementById('coinList');
   var qty = document.getElementById('qty');
   var cost = document.getElementById('cost');
+  var feeRateInput = document.getElementById('feeRate');
   var addBtn = document.getElementById('addBtn');
   var err = document.getElementById('err');
   var summary = document.getElementById('summary');
@@ -120,7 +135,7 @@
   var empty = document.getElementById('empty');
   var priceNote = document.getElementById('priceNote');
   var refreshBtn = document.getElementById('refreshBtn');
-  var livePrices = {}; // cg_id -> usd（实时，来自同域 /api/price 代理）
+  var livePrices = {}; // symbol -> usd（实时，来自同域 /api/price 代理，CoinGecko 源）
 
   // 预置币种 datalist（快速选择）
   var coins = Object.keys(window.COIN_PRICES || {}).map(function(sym){
@@ -134,8 +149,12 @@
   });
 
   function load(){
-    try { return JSON.parse(localStorage.getItem(STORE)) || { holdings: [] }; }
-    catch(e){ return { holdings: [] }; }
+    try {
+      var d = JSON.parse(localStorage.getItem(STORE));
+      if (!d || !Array.isArray(d.holdings)) return { holdings: [], feeRate: 0.1 };
+      if (d.feeRate == null) d.feeRate = 0.1; // 兼容旧数据（无 feeRate）
+      return d;
+    } catch(e){ return { holdings: [], feeRate: 0.1 }; }
   }
   function save(d){ localStorage.setItem(STORE, JSON.stringify(d)); }
   function loadCache(){ try { return JSON.parse(localStorage.getItem(CACHE)) || {}; } catch(e){ return {}; } }
@@ -171,6 +190,14 @@
     return null;
   }
 
+  function saveFeeRate(){
+    var d = load();
+    var r = parseFloat(feeRateInput.value);
+    d.feeRate = (Number.isFinite(r) && r >= 0) ? r : 0.1;
+    save(d);
+    render();
+  }
+
   async function addHolding(){
     var sym = (coinInput.value || '').trim().toUpperCase();
     if (!sym) { showErr('Please enter a coin symbol.'); return; }
@@ -189,7 +216,8 @@
       return;
     }
     var d = load();
-    d.holdings.push({ id: Date.now().toString(36) + Math.random().toString(36).slice(2,6), symbol: sym, cg_id: cgId, qty: q, cost: c });
+    d.holdings.push({ id: Date.now().toString(36) + Math.random().toString(36).slice(2,6), symbol: sym, cg_id: cgId, qty: q, cost: c, sellPrice: null });
+    d.feeRate = (parseFloat(feeRateInput.value) >= 0 && Number.isFinite(parseFloat(feeRateInput.value))) ? parseFloat(feeRateInput.value) : 0.1;
     save(d);
     coinInput.value = ''; qty.value = ''; cost.value = '';
     addBtn.disabled = false;
@@ -204,11 +232,19 @@
     render();
   }
 
+  function setSellPrice(id, val){
+    var d = load();
+    d.holdings.forEach(function(h){
+      if (h.id === id) { h.sellPrice = (val != null && val > 0) ? val : null; }
+    });
+    save(d);
+    render();
+  }
+
   function priceOf(h){
     // 实时价优先（/api/price 代理），失败回退本地快照价
     var lp = h.cg_id ? livePrices[h.cg_id] : null;
     if (lp != null) {
-      // CoinGecko simple/price 返回 {id: {usd: 价格}}，取 .usd
       if (typeof lp === 'object' && lp.usd != null) return lp.usd;
       return lp;
     }
@@ -226,41 +262,83 @@
       return;
     }
     empty.style.display = 'none';
-    var totalCost = 0, totalValue = 0;
+    // 初始化费率输入框
+    if (document.activeElement !== feeRateInput) feeRateInput.value = d.feeRate;
+
+    var feeRate = d.feeRate || 0;
+    var totalCost = 0, totalValue = 0, floatPnl = 0, realizedPnl = 0;
     var html = '';
     rows.forEach(function(h){
-      var p = priceOf(h);
       var costVal = h.cost * h.qty;
-      var value = p != null ? p * h.qty : null;
-      var pnl = value != null ? value - costVal : null;
-      var pnlPct = value != null && costVal > 0 ? ((value / costVal) - 1) * 100 : null;
+      var buyFee = costVal * feeRate / 100;
       totalCost += costVal;
-      if (value != null) totalValue += value;
-      var cls = pnl == null ? '' : (pnl >= 0 ? 'up' : 'down');
-      var sign = pnl == null ? '' : (pnl >= 0 ? '+' : '');
-      html += '<tr>' +
-        '<td><b>' + h.symbol + '</b></td>' +
+
+      var isClosed = (h.sellPrice != null && h.sellPrice > 0);
+      var pnl = null, pnlPct = null, value = null, cls = '', sign = '';
+
+      if (isClosed) {
+        var sellVal = h.sellPrice * h.qty;
+        var sellFee = sellVal * feeRate / 100;
+        value = sellVal;
+        pnl = sellVal - costVal - buyFee - sellFee;
+        pnlPct = costVal > 0 ? (pnl / costVal) * 100 : null;
+        realizedPnl += pnl;
+        cls = pnl >= 0 ? 'up' : 'down';
+        sign = pnl >= 0 ? '+' : '';
+      } else {
+        var p = priceOf(h);
+        value = p != null ? p * h.qty : null;
+        if (value != null) {
+          pnl = value - costVal - buyFee;
+          pnlPct = costVal > 0 ? (pnl / costVal) * 100 : null;
+          floatPnl += pnl;
+          totalValue += value;
+          cls = pnl >= 0 ? 'up' : 'down';
+          sign = pnl >= 0 ? '+' : '';
+        }
+      }
+
+      var priceCell = isClosed
+        ? fmt(h.sellPrice) + '<span class="closed-tag">Closed</span>'
+        : (p != null ? fmt(p) : '—');
+
+      var pnlCell = pnl != null
+        ? '<span class="' + cls + '">' + sign + fmt(pnl) + ' (' + sign + fmt(pnlPct, 2) + '%)</span>'
+        : '—';
+
+      html += '<tr' + (isClosed ? ' class="closed"' : '') + '>' +
+        '<td><b class="sym">' + h.symbol + '</b></td>' +
         '<td>' + fmt(h.qty, 8) + '</td>' +
         '<td>' + fmt(h.cost) + '</td>' +
-        '<td>' + (p != null ? fmt(p) : '—') + '</td>' +
+        '<td>' + priceCell + '</td>' +
         '<td>' + (value != null ? fmt(value) : '—') + '</td>' +
-        '<td class="' + cls + '">' + (pnl != null ? sign + fmt(pnl) + ' (' + sign + fmt(pnlPct, 2) + '%)' : '—') + '</td>' +
+        '<td>' + pnlCell + '</td>' +
+        '<td><input class="sell-input" type="number" inputmode="decimal" min="0" step="any" placeholder="Sell px" data-id="' + h.id + '" value="' + (isClosed ? h.sellPrice : '') + '"></td>' +
         '<td><a class="del" data-id="' + h.id + '">✕</a></td>' +
         '</tr>';
     });
-    var totalPnl = totalValue - totalCost;
-    var totalPnlPct = totalCost > 0 ? ((totalValue / totalCost) - 1) * 100 : 0;
-    var tcls = totalPnl >= 0 ? 'up' : 'down';
-    var tsign = totalPnl >= 0 ? '+' : '';
-    table.innerHTML = '<thead><tr><th>Coin</th><th>Amount</th><th>Buy price</th><th>Now</th><th>Value</th><th>P&amp;L</th><th></th></tr></thead><tbody>' + html + '</tbody>';
+
+    var tcls = floatPnl >= 0 ? 'up' : 'down';
+    var tsign = floatPnl >= 0 ? '+' : '';
+    var rcls = realizedPnl >= 0 ? 'up' : 'down';
+    var rsign = realizedPnl >= 0 ? '+' : '';
+
+    table.innerHTML = '<thead><tr><th>Coin</th><th>Amount</th><th>Buy price</th><th>Now / Sell</th><th>Value</th><th>P&amp;L (fees incl.)</th><th>Sell price</th><th></th></tr></thead><tbody>' + html + '</tbody>';
     table.style.display = 'table';
     summary.style.display = 'grid';
     summary.innerHTML =
       '<div class="sum"><div class="k">Total cost</div><div class="v">' + fmt(totalCost) + ' USDT</div></div>' +
       '<div class="sum"><div class="k">Current value</div><div class="v">' + fmt(totalValue) + ' USDT</div></div>' +
-      '<div class="sum"><div class="k">P&amp;L</div><div class="v ' + tcls + '">' + tsign + fmt(totalPnl) + ' USDT (' + tsign + fmt(totalPnlPct, 2) + '%)</div></div>';
+      '<div class="sum"><div class="k">Unrealized P&amp;L</div><div class="v ' + tcls + '">' + tsign + fmt(floatPnl) + ' USDT</div></div>' +
+      '<div class="sum"><div class="k">Realized P&amp;L</div><div class="v ' + rcls + '">' + rsign + fmt(realizedPnl) + ' USDT</div></div>';
+
     table.querySelectorAll('.del').forEach(function(a){
       a.addEventListener('click', function(){ del(a.getAttribute('data-id')); });
+    });
+    table.querySelectorAll('.sell-input').forEach(function(inp){
+      inp.addEventListener('change', function(){
+        setSellPrice(inp.getAttribute('data-id'), parseFloat(inp.value));
+      });
     });
   }
 
@@ -296,6 +374,7 @@
 
   addBtn.addEventListener('click', addHolding);
   refreshBtn.addEventListener('click', refresh);
+  feeRateInput.addEventListener('change', saveFeeRate);
   var tryBtn = document.getElementById('tryExample');
   if (tryBtn) tryBtn.addEventListener('click', function(){
     coinInput.value = 'BTC'; qty.value = '0.1'; cost.value = '60000'; addHolding();
