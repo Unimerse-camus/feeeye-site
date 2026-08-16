@@ -422,12 +422,14 @@ header nav{display:flex;align-items:center;justify-content:space-between;padding
 .logo{display:flex;align-items:center;gap:8px;font-weight:800;color:var(--brand);font-size:18px;text-decoration:none}
 .logo img{height:26px;width:26px;display:block}
 nav > span > a{color:var(--sub);text-decoration:none;font-size:13.5px}
-.topbar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:0 0 14px;margin:0 -16px 16px}
-.topbar .logo{flex-shrink:0}
-.nav{flex:1;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
-.nav a{color:#1e293b;text-decoration:none;font-size:13.5px;white-space:nowrap;border-bottom:2px solid transparent;padding-bottom:2px}
+.topbar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:0 0 12px;margin:0 -16px 14px}
+.topbar .logo{display:flex;align-items:center;gap:8px;flex-shrink:0;color:var(--brand);font-weight:800;font-size:18px;text-decoration:none}
+.topbar .logo img{height:26px;width:26px;display:block}
+.nav{flex:1;display:flex;gap:14px;align-items:center;flex-wrap:wrap;line-height:1}
+.nav a{color:#1e293b;text-decoration:none;font-size:13.5px;line-height:1;white-space:nowrap;border-bottom:2px solid transparent;padding-bottom:2px}
 .nav a:hover{color:var(--brand);border-bottom-color:var(--brand)}
 .nav a.active{color:var(--brand);border-bottom:2px solid var(--brand);font-weight:600}
+.topbar>span>a{color:var(--sub);text-decoration:none;font-size:13.5px}
 h1{font-size:25px;margin-bottom:6px}
 h3{margin-top:22px;font-size:18px}
 .intro{color:var(--sub);margin-bottom:18px}
