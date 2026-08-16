@@ -88,7 +88,7 @@
     </div>
     <div class="grid3">
       <div>
-        <label for="coin">币种（symbol）</label>
+        <label for="coin">币种代号</label>
         <input id="coin" class="coin-input" type="text" list="coinList" autocomplete="off" placeholder="如 BTC、SOL、PEPE" maxlength="20">
         <datalist id="coinList"></datalist>
       </div>
@@ -108,7 +108,7 @@
     <p class="fee-hint">0.1% 现货交易手续费为大部分交易所基础费率，如有不同，请自行填写。买卖双向均按此费率计算。</p>
     <button class="btn" id="addBtn">添加买入</button>
     <div class="err" id="err"></div>
-    <p class="hint">CoinGecko 收录的任何币种都可以，直接输入 symbol 即可。数据只存在你的浏览器。</p>
+    <p class="hint">CoinGecko 收录的任何币种都可以，输入<strong>币种代号</strong>即可（如 BTC、ETH、SOL）。数据只存在你的浏览器。</p>
   </div>
 
   <div class="summary" id="summary" style="display:none"></div>
@@ -285,7 +285,7 @@
     if (!cgId) {
       cgId = await resolveCgId(sym);
       if (!cgId) {
-        showErr('找不到该币种，请确认 symbol 正确（CoinGecko 收录的币都能查）。');
+        showErr('找不到该币种，请确认币种代号正确（CoinGecko 收录的币都能查）。');
         addBtn.disabled = false;
         return;
       }

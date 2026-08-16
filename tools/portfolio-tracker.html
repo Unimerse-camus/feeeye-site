@@ -88,7 +88,7 @@
     </div>
     <div class="grid3">
       <div>
-        <label for="coin">Coin symbol</label>
+        <label for="coin">Coin ticker</label>
         <input id="coin" class="coin-input" type="text" list="coinList" autocomplete="off" placeholder="e.g. BTC, SOL, PEPE" maxlength="20">
         <datalist id="coinList"></datalist>
       </div>
@@ -108,7 +108,7 @@
     <p class="fee-hint">0.1% spot trading fee is the base rate at most exchanges. Adjust it if yours differs — it applies to both buy and sell.</p>
     <button class="btn" id="addBtn">Add buy</button>
     <div class="err" id="err"></div>
-    <p class="hint">Any CoinGecko-listed coin works — just type its symbol. Data stays in your browser.</p>
+    <p class="hint">Any CoinGecko-listed coin works — just type its <strong>ticker</strong> (e.g. BTC, ETH, SOL). Data stays in your browser.</p>
   </div>
 
   <div class="summary" id="summary" style="display:none"></div>
@@ -289,7 +289,7 @@
     if (!cgId) {
       cgId = await resolveCgId(sym);
       if (!cgId) {
-        showErr('Coin not found. Check the symbol — any CoinGecko-listed coin works.');
+        showErr('Coin not found. Check the ticker — any CoinGecko-listed coin works.');
         addBtn.disabled = false;
         return;
       }
