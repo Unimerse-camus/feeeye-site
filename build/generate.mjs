@@ -419,7 +419,7 @@ html{scrollbar-gutter:stable}
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.65;font-size:15px}
 .wrap{max-width:880px;margin:0 auto;padding:22px 18px 60px}
-.topbar{display:flex;align-items:center;gap:24px;flex-wrap:nowrap;padding:0 0 8px;margin:8px 0 14px;border-bottom:1px solid var(--line)}
+.topbar{display:flex;align-items:center;gap:24px;flex-wrap:nowrap;padding:0 0 4px;margin:2px 0 14px;border-bottom:1px solid var(--line)}
 .topbar .logo{display:flex;align-items:center;gap:8px;flex-shrink:0;color:var(--brand);font-weight:800;font-size:20px;text-decoration:none}
 .topbar .logo img{height:30px;width:30px;display:block}
 .nav{flex:1;display:flex;gap:14px;align-items:center;flex-wrap:nowrap;justify-content:center;line-height:1;min-height:0;height:auto}
