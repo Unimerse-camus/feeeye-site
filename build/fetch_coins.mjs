@@ -13,6 +13,8 @@
  *   node build/fetch_coins.mjs                 # Top 250 + 真实 coverage（≤150 币时抓 tickers）
  *   node build/fetch_coins.mjs --top 100       # 只取前 100
  *   node build/fetch_coins.mjs --no-coverage   # 不抓 tickers，用离线启发式覆盖
+ *
+ * API key：付费 Pro 计划（pro-api 域名 + x-cg-pro-api-key 头），经 GitHub Secret COINGECKO_API_KEY 注入。
  *   node build/fetch_coins.mjs --force         # 忽略缓存强制刷新
  *
  * 注意：本脚本需要能访问 pro-api.coingecko.com 的网络（在你的主机/服务器上运行）。
