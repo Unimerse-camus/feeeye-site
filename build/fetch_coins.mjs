@@ -15,7 +15,7 @@
  *   node build/fetch_coins.mjs --no-coverage   # 不抓 tickers，用离线启发式覆盖
  *   node build/fetch_coins.mjs --force         # 忽略缓存强制刷新
  *
- * 注意：本脚本需要能访问 api.coingecko.com 的网络（在你的主机/服务器上运行）。
+ * 注意：本脚本需要能访问 pro-api.coingecko.com 的网络（在你的主机/服务器上运行）。
  *       沙箱若无法访问，会自动回退到「离线启发式覆盖」并给出警告，
  *       此时 coins.json 的 exchanges 字段为「指示性」，页面会标注需核实。
  */
@@ -28,7 +28,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, '..');
 const outPath = path.join(root, 'data', 'coins.json');
 
-const CG = 'https://api.coingecko.com/api/v3';
+const CG = 'https://pro-api.coingecko.com/api/v3';
 
 // CoinGecko 交易所 id → 本站交易所 slug
 // 注意：CoinGecko 用的是历史 identifier（OKX 在 CG 里叫 'okex'，Bybit spot 叫 'bybit_spot'）
@@ -54,14 +54,14 @@ const FORCE = args.includes('--force');
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
-// CoinGecko API key（GitHub Actions 从 Secret COINGECKO_API_KEY 注入；本地留空则匿名）
+// CoinGecko API key（付费 Pro key，pro-api 域名 + x-cg-pro-api-key 头；GitHub Actions 从 Secret COINGECKO_API_KEY 注入；本地留空则匿名）
 const API_KEY = process.env.COINGECKO_API_KEY || '';
 
 async function cgGet(url, tries = 3) {
   for (let t = 0; t < tries; t++) {
     try {
       const headers = { 'accept': 'application/json' };
-      if (API_KEY) headers['x-cg-demo-api-key'] = API_KEY;
+      if (API_KEY) headers['x-cg-pro-api-key'] = API_KEY;
       const res = await fetch(url, { headers });
       if (res.status === 429) {
         const wait = 15000 * (t + 1);

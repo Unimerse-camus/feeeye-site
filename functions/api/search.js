@@ -15,11 +15,11 @@ export async function onRequestGet(context) {
 
   const headers = { accept: 'application/json', 'user-agent': 'FeeEye/1.0 (https://feeeye.com)' };
   const key = context.env && context.env.COINGECKO_API_KEY;
-  if (key) headers['x-cg-demo-api-key'] = key;
+  if (key) headers['x-cg-pro-api-key'] = key;
 
   try {
     const cg = await fetch(
-      `https://api.coingecko.com/api/v3/search?query=${encodeURIComponent(q)}`,
+      `https://pro-api.coingecko.com/api/v3/search?query=${encodeURIComponent(q)}`,
       { headers }
     );
     const data = await cg.json();

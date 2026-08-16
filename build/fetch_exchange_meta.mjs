@@ -14,7 +14,7 @@
  *   node build/fetch_exchange_meta.mjs          # 正常拉取
  *   node build/fetch_exchange_meta.mjs --dry    # 只打印，不写回
  *
- * 依赖：api.coingecko.com 网络访问；COINGECKO_API_KEY 可选（降 429 限流）。
+ * 依赖：pro-api.coingecko.com 网络访问；COINGECKO_API_KEY 可选（降 429 限流）。
  */
 
 import fs from 'node:fs';
@@ -25,7 +25,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, '..');
 const exPath = path.join(root, 'data', 'exchanges.js');
 
-const CG = 'https://api.coingecko.com/api/v3';
+const CG = 'https://pro-api.coingecko.com/api/v3';
 const DRY = process.argv.includes('--dry');
 
 // CoinGecko 详情接口 id → 本站 slug（详情接口返回 coins/pairs/trust/volume）
@@ -46,7 +46,7 @@ async function cgGet(url, tries = 3) {
   for (let t = 0; t < tries; t++) {
     try {
       const headers = { accept: 'application/json' };
-      if (API_KEY) headers['x-cg-demo-api-key'] = API_KEY;
+      if (API_KEY) headers['x-cg-pro-api-key'] = API_KEY;
       const res = await fetch(url, { headers });
       if (res.status === 429) {
         console.warn(`  ⚠️ 429 rate limit, waiting ${15 * (t + 1)}s...`);

@@ -1,7 +1,7 @@
 // Cloudflare Pages Function — 代理 CoinGecko 实时价格
 // 前端同域请求 /api/price?ids=bitcoin,ethereum&vs_currencies=usd
 // 服务端请求 CoinGecko（CoinGecko 用 AWS 非 Cloudflare，不会被 WAF 拦截）
-// 需配 COINGECKO_API_KEY 环境变量（免费 Demo key）避免 429 限流
+// 需配 COINGECKO_API_KEY 环境变量（付费 Pro key，pro-api 域名 + x-cg-pro-api-key 头）
 
 const CORS = { 'content-type': 'application/json;charset=utf-8', 'access-control-allow-origin': '*' };
 
@@ -17,11 +17,11 @@ export async function onRequestGet(context) {
 
   const headers = { accept: 'application/json', 'user-agent': 'FeeEye/1.0 (https://feeeye.com)' };
   const key = context.env && context.env.COINGECKO_API_KEY;
-  if (key) headers['x-cg-demo-api-key'] = key;
+  if (key) headers['x-cg-pro-api-key'] = key;
 
   try {
     const cg = await fetch(
-      `https://api.coingecko.com/api/v3/simple/price?ids=${encodeURIComponent(ids)}&vs_currencies=${encodeURIComponent(vs)}`,
+      `https://pro-api.coingecko.com/api/v3/simple/price?ids=${encodeURIComponent(ids)}&vs_currencies=${encodeURIComponent(vs)}`,
       { headers }
     );
     const data = await cg.json();
