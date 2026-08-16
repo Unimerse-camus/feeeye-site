@@ -204,7 +204,12 @@
 
   function priceOf(h){
     // 实时价优先（/api/price 代理），失败回退本地快照价
-    if (h.cg_id && livePrices[h.cg_id] != null) return livePrices[h.cg_id];
+    var lp = h.cg_id ? livePrices[h.cg_id] : null;
+    if (lp != null) {
+      // CoinGecko simple/price 返回 {id: {usd: 价格}}，取 .usd
+      if (typeof lp === 'object' && lp.usd != null) return lp.usd;
+      return lp;
+    }
     var info = window.COIN_PRICES && window.COIN_PRICES[h.symbol];
     return info && info.price != null ? info.price : null;
   }
