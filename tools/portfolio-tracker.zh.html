@@ -49,6 +49,8 @@
   .del{color:var(--sub);cursor:pointer;text-decoration:none;font-size:13px}
   .del:hover{color:var(--bad)}
   .empty{text-align:center;color:var(--sub);padding:30px 0;font-size:14px}
+  .try{color:var(--brand);cursor:pointer;font-weight:600;text-decoration:none}
+  .try:hover{text-decoration:underline}
   .scroll{overflow-x:auto}
   .refresh{margin-top:12px;text-align:right}
   .refresh a{color:var(--brand);cursor:pointer;font-size:13px;text-decoration:none}
@@ -89,7 +91,7 @@
   <div class="summary" id="summary" style="display:none"></div>
 
   <div class="scroll" id="tableWrap">
-    <div class="empty" id="empty">还没有持仓。在上面添加你的第一笔。</div>
+    <div class="empty" id="empty">还没有持仓。在上面添加你的第一笔。<br><a class="try" id="tryExample">试试示例：0.1 BTC @ $60,000 →</a></div>
     <table id="table" style="display:none"></table>
   </div>
   <div class="refresh"><a id="refreshBtn">↻ 刷新实时价格</a></div>
@@ -280,6 +282,10 @@
 
   addBtn.addEventListener('click', addHolding);
   refreshBtn.addEventListener('click', refresh);
+  var tryBtn = document.getElementById('tryExample');
+  if (tryBtn) tryBtn.addEventListener('click', function(){
+    coinInput.value = 'BTC'; qty.value = '0.1'; cost.value = '60000'; addHolding();
+  });
   render();
   refresh();
 })();
