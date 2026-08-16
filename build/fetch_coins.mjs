@@ -297,6 +297,13 @@ async function main() {
 
   coins.sort((a, b) => a.rank - b.rank);
 
+  // 空数据保护：CoinGecko 限流/失败导致 0 币时，保留旧 coins.json 不覆盖，
+  // 否则会把站内 118 个 where-to-buy 页面清空（Cloudflare 构建 coins=0）。
+  if (coins.length === 0) {
+    console.error('❌ 拉取 0 币（CoinGecko 限流/失败）。保留旧 coins.json 不覆盖，避免清空 where-to-buy 页面。');
+    process.exit(1);
+  }
+
   const meta = {
     source: 'CoinGecko',
     generated_at: new Date().toISOString(),
