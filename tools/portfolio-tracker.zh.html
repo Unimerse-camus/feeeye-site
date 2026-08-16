@@ -10,7 +10,7 @@
 <link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
-<meta name="description" content="记录任意加密货币持仓，包括小币种。自动拉取实时价格算盈亏（含交易手续费）。无需 API Key，数据只存在你的浏览器。">
+<meta name="description" content="记录任意加密货币持仓，包括小币种。买入/卖出记录完整交易流水，自动拉取实时价格算盈亏（含手续费）。无需 API Key，数据只存在你的浏览器。">
 <style>
   :root{--bg:#f7f8fa;--card:#fff;--ink:#1c2430;--sub:#5b6776;--line:#e4e8ee;--brand:#2563eb;--brand2:#0ea5a4;--up:#dc2626;--down:#16a34a}
   *{box-sizing:border-box;margin:0;padding:0}
@@ -23,6 +23,10 @@
   h1{font-size:25px;margin-bottom:6px}
   .intro{color:var(--sub);margin-bottom:18px}
   .panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;margin-top:10px}
+  .side-toggle{display:flex;gap:8px;margin-bottom:14px}
+  .side-toggle button{flex:1;padding:10px;border:1px solid var(--line);background:#f7f8fa;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;color:var(--sub)}
+  .side-toggle button.active-buy{background:#eaf5ee;border-color:#16a34a;color:#16a34a}
+  .side-toggle button.active-sell{background:#fdeaea;border-color:#dc2626;color:#dc2626}
   .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
   @media(max-width:640px){.grid3{grid-template-columns:1fr}}
   label{display:block;font-size:13px;color:var(--sub);margin-bottom:5px;font-weight:600}
@@ -35,6 +39,7 @@
   .btn{margin-top:14px;background:var(--brand);color:#fff;border:none;padding:12px 18px;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;width:100%}
   .btn:hover{opacity:.92}
   .btn:disabled{opacity:.6;cursor:not-allowed}
+  .btn.sell{background:var(--down)}
   .err{background:#fef2f2;border:1px solid #fecaca;color:#991b1b;border-radius:10px;padding:10px 14px;margin-top:10px;font-size:14px;display:none}
   .hint{font-size:12px;color:var(--sub);margin-top:8px}
   .summary{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px;margin-top:14px}
@@ -45,7 +50,9 @@
   .sum .v{font-size:18px;font-weight:800;margin-top:4px}
   .sum .v.up{color:var(--up)}
   .sum .v.down{color:var(--down)}
-  table{width:100%;border-collapse:collapse;margin-top:14px;font-size:13.5px}
+  .sec-title{font-size:15px;font-weight:700;margin:22px 0 2px}
+  .sec-sub{font-size:12px;color:var(--sub);margin-bottom:8px}
+  table{width:100%;border-collapse:collapse;margin-top:8px;font-size:13.5px}
   th,td{border:1px solid var(--line);padding:8px 10px;text-align:right;white-space:nowrap}
   th{background:#f1f5f9;font-weight:600;white-space:nowrap;text-align:right}
   th:first-child,td:first-child{text-align:left}
@@ -53,10 +60,8 @@
   .down{color:var(--down);font-weight:700}
   .del{color:var(--sub);cursor:pointer;text-decoration:none;font-size:13px}
   .del:hover{color:var(--bad)}
-  tr.closed{background:#fafafa;opacity:.75}
-  tr.closed td .sym{color:var(--sub)}
-  .closed-tag{display:inline-block;background:#eef2f7;color:#5b6776;border-radius:999px;padding:1px 8px;font-size:11px;font-weight:600;margin-left:4px}
-  .sell-input{width:86px;padding:6px 8px;font-size:13px}
+  .tag-buy{display:inline-block;background:#eaf5ee;color:#16a34a;border-radius:999px;padding:1px 8px;font-size:11px;font-weight:700}
+  .tag-sell{display:inline-block;background:#fdeaea;color:#dc2626;border-radius:999px;padding:1px 8px;font-size:11px;font-weight:700}
   .empty{text-align:center;color:var(--sub);padding:30px 0;font-size:14px}
   .try{color:var(--brand);cursor:pointer;font-weight:600;text-decoration:none}
   .try:hover{text-decoration:underline}
@@ -74,13 +79,17 @@
   <header><nav><a class="logo" href="/zh/" aria-label="FeeEye home"><img src="/assets/logo.svg" alt="FeeEye" width="26" height="26">FeeEye</a><span class="nav"><a href="/zh/">工具</a><a href="/zh/exchanges/kucoin.html">交易所</a><a href="/zh/coins.html">币种</a><a href="/zh/compare/kucoin-vs-bybit.html">对比</a><a href="/zh/tools/glossary.zh.html">术语</a></span><span><a href="portfolio-tracker.html">English</a></span></nav></header>
 
   <h1>持仓记账本</h1>
-  <p class="intro">记录<strong>任意</strong>币种持仓——包括小币种。实时价格自动拉取，盈亏即时更新（已含交易手续费）。<strong>无需 API Key。</strong>数据只存在你的浏览器里。</p>
+  <p class="intro">记录<strong>任意</strong>币种持仓——包括小币种。买入/卖出记录完整交易流水，自动算盈亏（已含手续费）。<strong>无需 API Key。</strong>数据只存在你的浏览器里。</p>
 
   <div class="panel">
+    <div class="side-toggle">
+      <button id="sideBuy" class="active-buy" type="button">买入</button>
+      <button id="sideSell" type="button">卖出</button>
+    </div>
     <div class="grid3">
       <div>
         <label for="coin">币种（symbol）</label>
-        <input id="coin" class="coin-input" type="text" list="coinList" autocomplete="off" placeholder="如 BTC、PEPE、BOME" maxlength="20">
+        <input id="coin" class="coin-input" type="text" list="coinList" autocomplete="off" placeholder="如 BTC、SOL、PEPE" maxlength="20">
         <datalist id="coinList"></datalist>
       </div>
       <div>
@@ -88,8 +97,8 @@
         <input id="qty" type="number" inputmode="decimal" min="0" step="any" placeholder="如 0.1">
       </div>
       <div>
-        <label for="cost">平均买入价（USDT）</label>
-        <input id="cost" type="number" inputmode="decimal" min="0" step="any" placeholder="如 60000">
+        <label for="price" id="priceLabel">买入价（USDT）</label>
+        <input id="price" type="number" inputmode="decimal" min="0" step="any" placeholder="如 60000">
       </div>
     </div>
     <div class="fee-row">
@@ -97,17 +106,21 @@
       <input id="feeRate" type="number" inputmode="decimal" min="0" step="0.01" value="0.1"><span class="pct">%</span>
     </div>
     <p class="fee-hint">0.1% 现货交易手续费为大部分交易所基础费率，如有不同，请自行填写。买卖双向均按此费率计算。</p>
-    <button class="btn" id="addBtn">添加持仓</button>
+    <button class="btn" id="addBtn">添加买入</button>
     <div class="err" id="err"></div>
     <p class="hint">CoinGecko 收录的任何币种都可以，直接输入 symbol 即可。数据只存在你的浏览器。</p>
   </div>
 
   <div class="summary" id="summary" style="display:none"></div>
 
-  <div class="scroll" id="tableWrap">
-    <div class="empty" id="empty">还没有持仓。在上面添加你的第一笔。<br><a class="try" id="tryExample">试试示例：0.1 BTC @ $60,000 →</a></div>
-    <table id="table" style="display:none"></table>
-  </div>
+  <div class="sec-title" id="holdTitle" style="display:none">当前持仓</div>
+  <div class="scroll" id="holdWrap"><table id="holdTable" style="display:none"></table></div>
+  <div class="empty" id="empty">还没有交易记录。在上面添加你的第一笔买入。<br><a class="try" id="tryExample">试试示例：0.1 BTC @ $60,000 →</a></div>
+
+  <div class="sec-title" id="histTitle" style="display:none">交易流水</div>
+  <div class="sec-sub" id="histSub" style="display:none"></div>
+  <div class="scroll" id="histWrap"><table id="histTable" style="display:none"></table></div>
+
   <div class="refresh"><span id="priceNote"></span> · <a id="refreshBtn">↻ 刷新价格</a></div>
 
   <div class="foot">
@@ -121,21 +134,30 @@
 <script src="../data/coin-prices.js"></script>
 <script>
 (function(){
-  var STORE = 'feeeye_holdings_v1';
+  var STORE = 'feeeye_trades_v1';
+  var OLD_STORE = 'feeeye_holdings_v1';
   var CACHE = 'feeeye_symbol_cache_v1';
   var coinInput = document.getElementById('coin');
   var datalist = document.getElementById('coinList');
   var qty = document.getElementById('qty');
-  var cost = document.getElementById('cost');
+  var price = document.getElementById('price');
+  var priceLabel = document.getElementById('priceLabel');
   var feeRateInput = document.getElementById('feeRate');
   var addBtn = document.getElementById('addBtn');
+  var sideBuy = document.getElementById('sideBuy');
+  var sideSell = document.getElementById('sideSell');
   var err = document.getElementById('err');
   var summary = document.getElementById('summary');
-  var table = document.getElementById('table');
+  var holdTable = document.getElementById('holdTable');
+  var holdTitle = document.getElementById('holdTitle');
+  var histTable = document.getElementById('histTable');
+  var histTitle = document.getElementById('histTitle');
+  var histSub = document.getElementById('histSub');
   var empty = document.getElementById('empty');
   var priceNote = document.getElementById('priceNote');
   var refreshBtn = document.getElementById('refreshBtn');
-  var livePrices = {}; // cg_id -> usd（实时，来自同域 /api/price 代理，CoinGecko 源）
+  var livePrices = {};
+  var side = 'buy';
 
   // 预置币种 datalist（快速选择）
   var coins = Object.keys(window.COIN_PRICES || {}).map(function(sym){
@@ -148,13 +170,38 @@
     datalist.appendChild(o);
   });
 
+  function migrate(){
+    try {
+      var old = JSON.parse(localStorage.getItem(OLD_STORE));
+      if (old && Array.isArray(old.holdings) && old.holdings.length) {
+        var trades = [];
+        old.holdings.forEach(function(h){
+          if (!h.symbol) return;
+          trades.push({ id: h.id || uid(), symbol: h.symbol, cg_id: h.cg_id || '', side: 'buy', qty: h.qty, price: h.cost, ts: Date.now() });
+          if (h.sellPrice != null && h.sellPrice > 0) {
+            trades.push({ id: uid(), symbol: h.symbol, cg_id: h.cg_id || '', side: 'sell', qty: h.qty, price: h.sellPrice, ts: Date.now() + 1 });
+          }
+        });
+        var feeRate = (old.feeRate != null) ? old.feeRate : 0.1;
+        localStorage.setItem(STORE, JSON.stringify({ trades: trades, feeRate: feeRate }));
+        localStorage.removeItem(OLD_STORE);
+        return { trades: trades, feeRate: feeRate };
+      }
+    } catch(e){}
+    return null;
+  }
+
+  function uid(){ return Date.now().toString(36) + Math.random().toString(36).slice(2,6); }
+
   function load(){
+    var m = migrate();
+    if (m) return m;
     try {
       var d = JSON.parse(localStorage.getItem(STORE));
-      if (!d || !Array.isArray(d.holdings)) return { holdings: [], feeRate: 0.1 };
-      if (d.feeRate == null) d.feeRate = 0.1; // 兼容旧数据（无 feeRate）
+      if (!d || !Array.isArray(d.trades)) return { trades: [], feeRate: 0.1 };
+      if (d.feeRate == null) d.feeRate = 0.1;
       return d;
-    } catch(e){ return { holdings: [], feeRate: 0.1 }; }
+    } catch(e){ return { trades: [], feeRate: 0.1 }; }
   }
   function save(d){ localStorage.setItem(STORE, JSON.stringify(d)); }
   function loadCache(){ try { return JSON.parse(localStorage.getItem(CACHE)) || {}; } catch(e){ return {}; } }
@@ -168,7 +215,6 @@
     return Number(n).toLocaleString(undefined, { maximumFractionDigits: dp, minimumFractionDigits: 0 });
   }
 
-  // 解析 symbol → cg_id：本地 → 缓存 → /api/search 代理（支持任意币种）
   async function resolveCgId(sym){
     var local = (window.COIN_IDS && window.COIN_IDS[sym]) || (window.COIN_PRICES && window.COIN_PRICES[sym] && window.COIN_PRICES[sym].cg_id);
     if (local) return local;
@@ -190,6 +236,24 @@
     return null;
   }
 
+  function cgIdOf(sym, d){
+    var t = d.trades.filter(function(x){ return x.symbol === sym && x.cg_id; })[0];
+    return t ? t.cg_id : null;
+  }
+
+  function switchSide(s){
+    side = s;
+    if (s === 'buy') {
+      sideBuy.className = 'active-buy'; sideSell.className = '';
+      priceLabel.textContent = '买入价（USDT）';
+      addBtn.textContent = '添加买入'; addBtn.className = 'btn';
+    } else {
+      sideSell.className = 'active-sell'; sideBuy.className = '';
+      priceLabel.textContent = '卖出价（USDT）';
+      addBtn.textContent = '添加卖出'; addBtn.className = 'btn sell';
+    }
+  }
+
   function saveFeeRate(){
     var d = load();
     var r = parseFloat(feeRateInput.value);
@@ -198,166 +262,195 @@
     render();
   }
 
-  async function addHolding(){
+  async function addTrade(){
     var sym = (coinInput.value || '').trim().toUpperCase();
     if (!sym) { showErr('请输入币种。'); return; }
     var q = parseFloat(qty.value);
-    var c = parseFloat(cost.value);
+    var c = parseFloat(price.value);
     if (!q || q <= 0) { showErr('请输入有效的数量。'); return; }
-    if (!c || c <= 0) { showErr('请输入有效的买入价。'); return; }
+    if (!c || c <= 0) { showErr('请输入有效的价格。'); return; }
     hideErr();
-    addBtn.disabled = true;
-    addBtn.textContent = '正在查找币种…';
-    var cgId = await resolveCgId(sym);
-    if (!cgId) {
-      showErr('找不到该币种，请确认 symbol 正确（CoinGecko 收录的币都能查）。');
-      addBtn.disabled = false;
-      addBtn.textContent = '添加持仓';
-      return;
-    }
+
     var d = load();
-    d.holdings.push({ id: Date.now().toString(36) + Math.random().toString(36).slice(2,6), symbol: sym, cg_id: cgId, qty: q, cost: c, sellPrice: null });
+    if (side === 'sell') {
+      var buyQty = d.trades.filter(function(t){ return t.symbol === sym && t.side === 'buy'; }).reduce(function(s,t){ return s + t.qty; }, 0);
+      var sellQty = d.trades.filter(function(t){ return t.symbol === sym && t.side === 'sell'; }).reduce(function(s,t){ return s + t.qty; }, 0);
+      var remaining = buyQty - sellQty;
+      if (remaining <= 0) { showErr('你没有 ' + sym + ' 的可卖持仓。'); return; }
+      if (q > remaining + 1e-9) { showErr('你只持有 ' + fmt(remaining, 8) + ' ' + sym + '，无法卖出 ' + fmt(q, 8) + '。'); return; }
+    }
+
+    addBtn.disabled = true;
+    var cgId = cgIdOf(sym, d);
+    if (!cgId) {
+      cgId = await resolveCgId(sym);
+      if (!cgId) {
+        showErr('找不到该币种，请确认 symbol 正确（CoinGecko 收录的币都能查）。');
+        addBtn.disabled = false;
+        return;
+      }
+    }
+
+    d.trades.push({ id: uid(), symbol: sym, cg_id: cgId, side: side, qty: q, price: c, ts: Date.now() });
     d.feeRate = (parseFloat(feeRateInput.value) >= 0 && Number.isFinite(parseFloat(feeRateInput.value))) ? parseFloat(feeRateInput.value) : 0.1;
     save(d);
-    coinInput.value = ''; qty.value = ''; cost.value = '';
+    coinInput.value = ''; qty.value = ''; price.value = '';
     addBtn.disabled = false;
-    addBtn.textContent = '添加持仓';
     await refresh();
   }
 
-  function del(id){
+  function delTrade(id){
     var d = load();
-    d.holdings = d.holdings.filter(function(h){ return h.id !== id; });
+    d.trades = d.trades.filter(function(t){ return t.id !== id; });
     save(d);
     render();
   }
 
-  function setSellPrice(id, val){
-    var d = load();
-    d.holdings.forEach(function(h){
-      if (h.id === id) { h.sellPrice = (val != null && val > 0) ? val : null; }
-    });
-    save(d);
-    render();
-  }
-
-  function priceOf(h){
-    // 实时价优先（/api/price 代理），失败回退本地快照价
-    var lp = h.cg_id ? livePrices[h.cg_id] : null;
+  function priceOf(sym, cgId){
+    var lp = cgId ? livePrices[cgId] : null;
     if (lp != null) {
       if (typeof lp === 'object' && lp.usd != null) return lp.usd;
       return lp;
     }
-    var info = window.COIN_PRICES && window.COIN_PRICES[h.symbol];
+    var info = window.COIN_PRICES && window.COIN_PRICES[sym];
     return info && info.price != null ? info.price : null;
+  }
+
+  function aggregate(d){
+    var feeRate = d.feeRate || 0;
+    var groups = {};
+    d.trades.forEach(function(t){
+      if (!groups[t.symbol]) groups[t.symbol] = { symbol: t.symbol, cg_id: t.cg_id || '', buyQty: 0, buyAmount: 0, sellQty: 0, sellAmount: 0 };
+      var g = groups[t.symbol];
+      if (!g.cg_id && t.cg_id) g.cg_id = t.cg_id;
+      if (t.side === 'buy') { g.buyQty += t.qty; g.buyAmount += t.qty * t.price; }
+      else { g.sellQty += t.qty; g.sellAmount += t.qty * t.price; }
+    });
+
+    var positions = [];
+    var totalCost = 0, totalValue = 0, floatPnl = 0, realizedPnl = 0;
+    Object.keys(groups).forEach(function(sym){
+      var g = groups[sym];
+      var avgBuy = g.buyQty > 0 ? g.buyAmount / g.buyQty : 0;
+      var remaining = g.buyQty - g.sellQty;
+      var realized = 0;
+      if (g.sellQty > 0) {
+        var sellBuyCost = g.sellQty * avgBuy;
+        var sellBuyFee = sellBuyCost * feeRate / 100;
+        var sellFee = g.sellAmount * feeRate / 100;
+        realized = g.sellAmount - sellBuyCost - sellBuyFee - sellFee;
+        realizedPnl += realized;
+      }
+      var curPrice = priceOf(sym, g.cg_id);
+      var unrealized = null, value = null;
+      if (remaining > 1e-9) {
+        totalCost += remaining * avgBuy;
+        value = curPrice != null ? remaining * curPrice : null;
+        if (value != null) {
+          unrealized = value - remaining * avgBuy - (remaining * avgBuy * feeRate / 100);
+          floatPnl += unrealized;
+          totalValue += value;
+        }
+        positions.push({ symbol: sym, cg_id: g.cg_id, remaining: remaining, avgBuy: avgBuy, price: curPrice, value: value, pnl: unrealized, realized: realized });
+      } else if (realized !== 0) {
+        positions.push({ symbol: sym, cg_id: g.cg_id, remaining: 0, avgBuy: avgBuy, price: null, value: null, pnl: null, realized: realized });
+      }
+    });
+    return { positions: positions, totalCost: totalCost, totalValue: totalValue, floatPnl: floatPnl, realizedPnl: realizedPnl, feeRate: feeRate };
   }
 
   function render(){
     var d = load();
-    var rows = d.holdings;
-    if (!rows.length) {
+    var hasTrades = d.trades.length > 0;
+    if (!hasTrades) {
       summary.style.display = 'none';
-      table.style.display = 'none';
+      holdTable.style.display = 'none';
+      holdTitle.style.display = 'none';
+      histTable.style.display = 'none';
+      histTitle.style.display = 'none';
+      if (histSub) histSub.style.display = 'none';
       empty.style.display = 'block';
       return;
     }
     empty.style.display = 'none';
-    // 初始化费率输入框
     if (document.activeElement !== feeRateInput) feeRateInput.value = d.feeRate;
 
-    var feeRate = d.feeRate || 0;
-    var totalCost = 0, totalValue = 0, floatPnl = 0, realizedPnl = 0;
-    var html = '';
-    rows.forEach(function(h){
-      var costVal = h.cost * h.qty;
-      var buyFee = costVal * feeRate / 100;
-      totalCost += costVal;
+    var agg = aggregate(d);
 
-      var isClosed = (h.sellPrice != null && h.sellPrice > 0);
-      var pnl = null, pnlPct = null, value = null, cls = '', sign = '';
-      var p = null;
-
-      if (isClosed) {
-        var sellVal = h.sellPrice * h.qty;
-        var sellFee = sellVal * feeRate / 100;
-        value = sellVal;
-        pnl = sellVal - costVal - buyFee - sellFee;
-        pnlPct = costVal > 0 ? (pnl / costVal) * 100 : null;
-        realizedPnl += pnl;
-        cls = pnl >= 0 ? 'up' : 'down';
-        sign = pnl >= 0 ? '+' : '';
-      } else {
-        p = priceOf(h);
-        value = p != null ? p * h.qty : null;
-        if (value != null) {
-          pnl = value - costVal - buyFee;
-          pnlPct = costVal > 0 ? (pnl / costVal) * 100 : null;
-          floatPnl += pnl;
-          totalValue += value;
-          cls = pnl >= 0 ? 'up' : 'down';
-          sign = pnl >= 0 ? '+' : '';
-        }
-      }
-
-      var priceCell = isClosed
-        ? fmt(h.sellPrice) + '<span class="closed-tag">已平仓</span>'
-        : (p != null ? fmt(p) : '—');
-
-      var pnlCell = pnl != null
-        ? '<span class="' + cls + '">' + sign + fmt(pnl) + '（' + sign + fmt(pnlPct, 2) + '%）</span>'
-        : '—';
-
-      html += '<tr' + (isClosed ? ' class="closed"' : '') + '>' +
-        '<td><b class="sym">' + h.symbol + '</b></td>' +
-        '<td>' + fmt(h.qty, 8) + '</td>' +
-        '<td>' + fmt(h.cost) + '</td>' +
-        '<td>' + priceCell + '</td>' +
-        '<td>' + (value != null ? fmt(value) : '—') + '</td>' +
-        '<td>' + pnlCell + '</td>' +
-        '<td><input class="sell-input" type="number" inputmode="decimal" min="0" step="any" placeholder="平仓价" data-id="' + h.id + '" value="' + (isClosed ? h.sellPrice : '') + '"></td>' +
-        '<td><a class="del" data-id="' + h.id + '">✕</a></td>' +
-        '</tr>';
-    });
-
-    var tcls = floatPnl >= 0 ? 'up' : 'down';
-    var tsign = floatPnl >= 0 ? '+' : '';
-    var rcls = realizedPnl >= 0 ? 'up' : 'down';
-    var rsign = realizedPnl >= 0 ? '+' : '';
-
-    table.innerHTML = '<thead><tr><th>币种</th><th>数量</th><th>买入价</th><th>现价/平仓价</th><th>市值</th><th>盈亏(含手续费)</th><th>平仓价</th><th></th></tr></thead><tbody>' + html + '</tbody>';
-    table.style.display = 'table';
+    var tcls = agg.floatPnl >= 0 ? 'up' : 'down';
+    var tsign = agg.floatPnl >= 0 ? '+' : '';
+    var rcls = agg.realizedPnl >= 0 ? 'up' : 'down';
+    var rsign = agg.realizedPnl >= 0 ? '+' : '';
     summary.style.display = 'grid';
     summary.innerHTML =
-      '<div class="sum"><div class="k">总成本</div><div class="v">' + fmt(totalCost) + ' USDT</div></div>' +
-      '<div class="sum"><div class="k">当前市值</div><div class="v">' + fmt(totalValue) + ' USDT</div></div>' +
-      '<div class="sum"><div class="k">浮动盈亏</div><div class="v ' + tcls + '">' + tsign + fmt(floatPnl) + ' USDT</div></div>' +
-      '<div class="sum"><div class="k">已实现盈亏</div><div class="v ' + rcls + '">' + rsign + fmt(realizedPnl) + ' USDT</div></div>';
+      '<div class="sum"><div class="k">总成本</div><div class="v">' + fmt(agg.totalCost) + ' USDT</div></div>' +
+      '<div class="sum"><div class="k">当前市值</div><div class="v">' + fmt(agg.totalValue) + ' USDT</div></div>' +
+      '<div class="sum"><div class="k">浮动盈亏</div><div class="v ' + tcls + '">' + tsign + fmt(agg.floatPnl) + ' USDT</div></div>' +
+      '<div class="sum"><div class="k">已实现盈亏</div><div class="v ' + rcls + '">' + rsign + fmt(agg.realizedPnl) + ' USDT</div></div>';
 
-    table.querySelectorAll('.del').forEach(function(a){
-      a.addEventListener('click', function(){ del(a.getAttribute('data-id')); });
-    });
-    table.querySelectorAll('.sell-input').forEach(function(inp){
-      inp.addEventListener('change', function(){
-        setSellPrice(inp.getAttribute('data-id'), parseFloat(inp.value));
+    var openRows = agg.positions.filter(function(p){ return p.remaining > 1e-9; });
+    if (openRows.length) {
+      holdTitle.style.display = 'block';
+      var hh = '';
+      openRows.forEach(function(p){
+        var cls = p.pnl == null ? '' : (p.pnl >= 0 ? 'up' : 'down');
+        var sign = p.pnl == null ? '' : (p.pnl >= 0 ? '+' : '');
+        var pnlPct = (p.pnl != null && p.avgBuy > 0) ? (p.pnl / (p.remaining * p.avgBuy)) * 100 : null;
+        hh += '<tr>' +
+          '<td><b>' + p.symbol + '</b></td>' +
+          '<td>' + fmt(p.remaining, 8) + '</td>' +
+          '<td>' + fmt(p.avgBuy) + '</td>' +
+          '<td>' + (p.price != null ? fmt(p.price) : '—') + '</td>' +
+          '<td>' + (p.value != null ? fmt(p.value) : '—') + '</td>' +
+          '<td class="' + cls + '">' + (p.pnl != null ? sign + fmt(p.pnl) + '（' + sign + fmt(pnlPct, 2) + '%）' : '—') + '</td>' +
+          '<td class="' + (p.realized >= 0 ? 'up' : 'down') + '">' + (p.realized !== 0 ? (p.realized >= 0 ? '+' : '') + fmt(p.realized) : '—') + '</td>' +
+          '</tr>';
       });
+      holdTable.innerHTML = '<thead><tr><th>币种</th><th>数量</th><th>均价</th><th>现价</th><th>市值</th><th>浮动盈亏</th><th>已实现盈亏</th></tr></thead><tbody>' + hh + '</tbody>';
+      holdTable.style.display = 'table';
+    } else {
+      holdTitle.style.display = 'none';
+      holdTable.style.display = 'none';
+    }
+
+    histTitle.style.display = 'block';
+    if (histSub) histSub.style.display = 'block';
+    if (histSub) histSub.textContent = '每一笔买入/卖出都会记录，删除可撤销。';
+    var hist = d.trades.slice().sort(function(a,b){ return b.ts - a.ts; });
+    var hh2 = '';
+    hist.forEach(function(t){
+      var tag = t.side === 'buy' ? '<span class="tag-buy">买入</span>' : '<span class="tag-sell">卖出</span>';
+      hh2 += '<tr>' +
+        '<td>' + new Date(t.ts).toLocaleString() + '</td>' +
+        '<td>' + tag + '</td>' +
+        '<td><b>' + t.symbol + '</b></td>' +
+        '<td>' + fmt(t.qty, 8) + '</td>' +
+        '<td>' + fmt(t.price) + '</td>' +
+        '<td>' + fmt(t.qty * t.price) + '</td>' +
+        '<td><a class="del" data-id="' + t.id + '">✕</a></td>' +
+        '</tr>';
+    });
+    histTable.innerHTML = '<thead><tr><th>时间</th><th>方向</th><th>币种</th><th>数量</th><th>价格</th><th>金额</th><th></th></tr></thead><tbody>' + hh2 + '</tbody>';
+    histTable.style.display = 'table';
+
+    histTable.querySelectorAll('.del').forEach(function(a){
+      a.addEventListener('click', function(){ delTrade(a.getAttribute('data-id')); });
     });
   }
 
   async function refresh(){
-    // 实时价：同域 /api/price 代理（服务器端拉 CoinGecko，绕开 CORS），失败回退快照价
     var d = load();
     var changed = false;
-    for (var i = 0; i < d.holdings.length; i++) {
-      var h = d.holdings[i];
-      if (!h.cg_id) {
-        var cg = await resolveCgId(h.symbol);
-        if (cg) { h.cg_id = cg; changed = true; }
+    d.trades.forEach(function(t){
+      if (!t.cg_id) {
+        var local = (window.COIN_IDS && window.COIN_IDS[t.symbol]) || (window.COIN_PRICES && window.COIN_PRICES[t.symbol] && window.COIN_PRICES[t.symbol].cg_id);
+        if (local) { t.cg_id = local; changed = true; }
       }
-    }
+    });
     if (changed) save(d);
     var ids = [];
     var seen = {};
-    d.holdings.forEach(function(h){ if (h.cg_id && !seen[h.cg_id]) { seen[h.cg_id] = 1; ids.push(h.cg_id); } });
+    d.trades.forEach(function(t){ if (t.cg_id && !seen[t.cg_id]) { seen[t.cg_id] = 1; ids.push(t.cg_id); } });
     if (!ids.length) { render(); return; }
     try {
       var res = await fetch('/api/price?ids=' + ids.join(',') + '&vs_currencies=usd');
@@ -373,13 +466,16 @@
     render();
   }
 
-  addBtn.addEventListener('click', addHolding);
+  sideBuy.addEventListener('click', function(){ switchSide('buy'); });
+  sideSell.addEventListener('click', function(){ switchSide('sell'); });
+  addBtn.addEventListener('click', addTrade);
   refreshBtn.addEventListener('click', refresh);
   feeRateInput.addEventListener('change', saveFeeRate);
   var tryBtn = document.getElementById('tryExample');
   if (tryBtn) tryBtn.addEventListener('click', function(){
-    coinInput.value = 'BTC'; qty.value = '0.1'; cost.value = '60000'; addHolding();
+    coinInput.value = 'BTC'; qty.value = '0.1'; price.value = '60000'; addTrade();
   });
+  switchSide('buy');
   render();
   refresh();
 })();
