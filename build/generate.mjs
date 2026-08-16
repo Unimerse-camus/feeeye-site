@@ -631,7 +631,7 @@ const priceMap = {};
 for (const c of COIN_LIST) {
   if (c.price != null && c.price > 0) priceMap[c.symbol] = { name: c.name, price: c.price, rank: c.rank, cg_id: c.cg_id || '' };
 }
-const coinPricesJs = `window.COIN_PRICES = ${JSON.stringify(priceMap)};`;
+const coinPricesJs = `window.COIN_PRICES = ${JSON.stringify(priceMap)};\nwindow.COIN_PRICE_META = ${JSON.stringify({ updated: COIN_SNAPSHOT, source: 'CoinGecko' })};`;
 // 生成 coin-ids.js：symbol → cg_id 映射（供记账本等工具拉实时价格）
 const coinIds = {};
 for (const c of COIN_LIST) {
