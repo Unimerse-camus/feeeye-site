@@ -15,7 +15,7 @@ export async function onRequestGet(context) {
   const vs = url.searchParams.get('vs_currencies') || 'usd';
   if (!ids) return json({ error: 'missing ids' }, 400);
 
-  const headers = { accept: 'application/json' };
+  const headers = { accept: 'application/json', 'user-agent': 'FeeEye/1.0 (https://feeeye.com)' };
   const key = context.env && context.env.COINGECKO_API_KEY;
   if (key) headers['x-cg-demo-api-key'] = key;
 

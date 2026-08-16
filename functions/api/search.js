@@ -13,7 +13,7 @@ export async function onRequestGet(context) {
   const q = url.searchParams.get('query') || '';
   if (!q) return json({ error: 'missing query' }, 400);
 
-  const headers = { accept: 'application/json' };
+  const headers = { accept: 'application/json', 'user-agent': 'FeeEye/1.0 (https://feeeye.com)' };
   const key = context.env && context.env.COINGECKO_API_KEY;
   if (key) headers['x-cg-demo-api-key'] = key;
 
