@@ -184,8 +184,8 @@ const I18N = {
     cyUse: 'Use the Fee Calculator to compare your exact trade size across these exchanges.',
     idxH1: 'Free Crypto Tools & Exchange Data',
     idxIntro: 'Compare exchange fees, find where to buy a token, and check withdrawal costs — free, no signup.',
-    idxTcT: 'Spot Cost Calculator', idxTcB: 'Spot trading: deposit / trading / withdrawal / total cost in one tool — see which exchange is cheapest.', idxTcC: 'Open tool →',
-    idxFutT: 'Futures Toolbox', idxFutB: 'Four futures trading tools: position sizing, liquidation price, PnL estimate, cross-exchange futures fee comparison.', idxFutC: 'Open tool →',
+    idxTcT: 'Spot Toolbox', idxTcB: 'Spot trading tools: deposit / trading / withdrawal / total cost in one — see which exchange is cheapest.', idxTcC: 'Open tool →',
+    idxFutT: 'Futures Toolbox', idxFutB: 'Futures trading tools: position sizing, liquidation price, PnL estimate, cross-exchange futures fee comparison.', idxFutC: 'Open tool →',
     idxCmpT: 'Exchange Comparison', idxCmpB: 'Compare 14 business dimensions: leverage, options, coins, liquidity, copy-trading/bots, reserves/cold storage, KYC, licenses, fiat deposits.', idxCmpC: 'Compare 14 dimensions →',
     idxGloT: 'Crypto Glossary', idxGloB: '40+ plain-language definitions of common crypto terms — from spot trading to wallet security.', idxGloC: 'Browse terms →',
     idxSecT: 'Token Security Check', idxSecB: 'Paste an Ethereum or Solana contract address to instantly detect honeypots, rug risks, tax, mint & freeze authority.', idxSecC: 'Check a token →',
@@ -231,8 +231,8 @@ const I18N = {
     cyUse: '使用手续费计算器对比你在这些交易所的具体交易成本。',
     idxH1: '免费加密货币工具与交易所数据',
     idxIntro: '对比交易所费率、查找代币在哪里购买、查看提币成本——免费、无需注册。',
-    idxTcT: '现货成本计算器', idxTcB: '聚焦现货：入金 / 交易 / 提币 / 全成本四合一，看清哪家交易所最便宜。', idxTcC: '打开工具 →',
-    idxFutT: '合约工具箱', idxFutB: '合约交易 4 个工具：仓位计算 / 强平价 / 盈亏预估 / 各所合约费率对比。', idxFutC: '打开工具 →',
+    idxTcT: '现货工具箱', idxTcB: '现货交易工具：入金 / 交易 / 提币 / 全成本四合一，看清哪家交易所最便宜。', idxTcC: '打开工具 →',
+    idxFutT: '合约工具箱', idxFutB: '合约交易工具：仓位计算 / 强平价 / 盈亏预估 / 各所合约费率对比。', idxFutC: '打开工具 →',
     idxCmpT: '交易所综合对比', idxCmpB: '14 个业务维度对比交易所：杠杆/期权/流动性/币种/跟单/储备/法币入金等。', idxCmpC: '14 维度对比 →',
     idxGloT: '数字货币术语解释', idxGloB: '40+ 数字货币常用术语通俗解释，从现货交易到钱包安全全覆盖。', idxGloC: '查术语 →',
     idxSecT: '代币安全检查', idxSecB: '粘贴以太坊或 Solana 合约地址，立即检测貔貅盘、Rug 风险、买卖税、增发与冻结权限。', idxSecC: '查一个代币 →',
@@ -324,12 +324,12 @@ const ABOUT_HTML = {
   en: {
     title: 'About FeeEye — Free Crypto Tools & Exchange Data',
     desc: 'What FeeEye is, the free tools we offer, how we make money, and how to contact us.',
-    body: `<h1>About FeeEye</h1><p class="intro">Free crypto tools &amp; exchange data — built for beginners.</p><h3>What we do</h3><p>FeeEye is a free website that helps you use crypto without getting ripped off on fees. We compare exchange fees, find where to buy any token, check withdrawal costs, and flag scam tokens — all free, no signup required.</p><h3>Our tools</h3><ul><li><b>Spot Cost Calculator</b> — see the full deposit → trading → withdrawal cost in one place.</li><li><b>Futures Toolbox</b> — position sizing, liquidation price and P&amp;L estimate.</li><li><b>Exchange Comparison</b> — 14 dimensions of exchanges side by side.</li><li><b>Token Security Check</b> — detect honeypots and scam tokens (Ethereum &amp; Solana).</li><li><b>Portfolio Tracker</b> — log your holdings and track profit &amp; loss, no API key needed.</li><li><b>Crypto Glossary</b> — plain-language definitions of common crypto terms.</li></ul><h3>How we make money</h3><p>Some exchange links on this site are affiliate links (visibly marked "Affiliate"). If you open an account through one, we may earn a commission at no extra cost to you. This is how we keep the tools free. See our <a href="/disclosure.html">Affiliate Disclosure</a>.</p><h3>Contact</h3><p>Questions, feedback or bug reports: <a href="mailto:feeeyeofficial@gmail.com">feeeyeofficial@gmail.com</a></p><h3>Disclaimer</h3><p>FeeEye is educational only — not financial advice. Crypto is high-risk and you may lose your capital. Always do your own research and verify data on official exchange pages.</p>`
+    body: `<h1>About FeeEye</h1><p class="intro">Free crypto tools &amp; exchange data — built for beginners.</p><h3>What we do</h3><p>FeeEye is a free website that helps you use crypto without getting ripped off on fees. We compare exchange fees, find where to buy any token, check withdrawal costs, and flag scam tokens — all free, no signup required.</p><h3>Our tools</h3><ul><li><b>Spot Toolbox</b> — see the full deposit → trading → withdrawal cost in one place.</li><li><b>Futures Toolbox</b> — position sizing, liquidation price and P&amp;L estimate.</li><li><b>Exchange Comparison</b> — 14 dimensions of exchanges side by side.</li><li><b>Token Security Check</b> — detect honeypots and scam tokens (Ethereum &amp; Solana).</li><li><b>Portfolio Tracker</b> — log your holdings and track profit &amp; loss, no API key needed.</li><li><b>Crypto Glossary</b> — plain-language definitions of common crypto terms.</li></ul><h3>How we make money</h3><p>Some exchange links on this site are affiliate links (visibly marked "Affiliate"). If you open an account through one, we may earn a commission at no extra cost to you. This is how we keep the tools free. See our <a href="/disclosure.html">Affiliate Disclosure</a>.</p><h3>Contact</h3><p>Questions, feedback or bug reports: <a href="mailto:feeeyeofficial@gmail.com">feeeyeofficial@gmail.com</a></p><h3>Disclaimer</h3><p>FeeEye is educational only — not financial advice. Crypto is high-risk and you may lose your capital. Always do your own research and verify data on official exchange pages.</p>`
   },
   zh: {
     title: '关于 FeeEye — 免费加密货币工具与交易所数据',
     desc: 'FeeEye 是什么、提供的免费工具、如何盈利、以及联系方式。',
-    body: `<h1>关于 FeeEye</h1><p class="intro">免费加密货币工具与交易所数据——为新手打造。</p><h3>我们做什么</h3><p>FeeEye 是一个免费网站，帮你在用加密货币时不被手续费坑。我们对比交易所费率、查找任意代币在哪里买、核查提币成本、识别诈骗代币——全部免费，无需注册。</p><h3>我们的工具</h3><ul><li><b>现货成本计算器</b>——入金 / 交易 / 提币全成本一目了然。</li><li><b>合约工具箱</b>——仓位计算、强平价、盈亏预估。</li><li><b>交易所综合对比</b>——14 个维度并列对比。</li><li><b>代币安全检查</b>——检测貔貅盘与诈骗代币（以太坊 &amp; Solana）。</li><li><b>持仓记账本</b>——记录持仓、追踪盈亏，无需 API Key。</li><li><b>数字货币术语解释</b>——常用术语通俗解释。</li></ul><h3>我们如何盈利</h3><p>本站部分交易所链接为返佣链接（可见标注"返佣"）。你通过链接开户，我们可能获得佣金，不会给你增加任何成本。这是工具保持免费的方式。详见<a href="/zh/disclosure.html">返佣披露</a>。</p><h3>联系方式</h3><p>问题、反馈或 bug 报告：<a href="mailto:feeeyeofficial@gmail.com">feeeyeofficial@gmail.com</a></p><h3>免责声明</h3><p>FeeEye 仅供教育参考，不构成投资建议。加密货币风险极高，你可能损失全部本金。请自行做好研究，并以交易所官方页面核实数据。</p>`
+    body: `<h1>关于 FeeEye</h1><p class="intro">免费加密货币工具与交易所数据——为新手打造。</p><h3>我们做什么</h3><p>FeeEye 是一个免费网站，帮你在用加密货币时不被手续费坑。我们对比交易所费率、查找任意代币在哪里买、核查提币成本、识别诈骗代币——全部免费，无需注册。</p><h3>我们的工具</h3><ul><li><b>现货工具箱</b>——入金 / 交易 / 提币全成本一目了然。</li><li><b>合约工具箱</b>——仓位计算、强平价、盈亏预估。</li><li><b>交易所综合对比</b>——14 个维度并列对比。</li><li><b>代币安全检查</b>——检测貔貅盘与诈骗代币（以太坊 &amp; Solana）。</li><li><b>持仓记账本</b>——记录持仓、追踪盈亏，无需 API Key。</li><li><b>数字货币术语解释</b>——常用术语通俗解释。</li></ul><h3>我们如何盈利</h3><p>本站部分交易所链接为返佣链接（可见标注"返佣"）。你通过链接开户，我们可能获得佣金，不会给你增加任何成本。这是工具保持免费的方式。详见<a href="/zh/disclosure.html">返佣披露</a>。</p><h3>联系方式</h3><p>问题、反馈或 bug 报告：<a href="mailto:feeeyeofficial@gmail.com">feeeyeofficial@gmail.com</a></p><h3>免责声明</h3><p>FeeEye 仅供教育参考，不构成投资建议。加密货币风险极高，你可能损失全部本金。请自行做好研究，并以交易所官方页面核实数据。</p>`
   }
 };
 
