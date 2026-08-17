@@ -518,14 +518,15 @@ function whereToBuy(c, lang) {
     return caps.join(' · ');
   };
   // 维度定义：key / 默认是否选中 / 列头 / 单元格渲染。非默认列内联 display:none，爬虫仍可抓取全文。
+  // 排序 = 用户买币决策链（最关心的前置）：现货费率 → 入金 → 提币 → 能力 → 合约 → 挂单（低频进阶）
   const dims = [
     { key: 'spotTaker', def: true, label: T(lang, 'wbColSpotTaker'), cell: (ex) => pct(ex.spot.taker) },
-    { key: 'spotMaker', def: false, label: T(lang, 'wbColSpotMaker'), cell: (ex) => pct(ex.spot.maker) },
-    { key: 'futTaker', def: false, label: T(lang, 'wbColFutTaker'), cell: (ex) => pct(ex.futures.taker) },
-    { key: 'futMaker', def: false, label: T(lang, 'wbColFutMaker'), cell: (ex) => pct(ex.futures.maker) },
     { key: 'deposit', def: true, label: T(lang, 'wbColDeposit'), cell: depositCell },
     { key: 'usdtWd', def: true, label: T(lang, 'wbColUsdt'), cell: (ex) => usd(getFee(ex.slug, 'TRC20')) },
-    { key: 'feat', def: true, label: T(lang, 'wbColFeat'), cell: featCell }
+    { key: 'feat', def: true, label: T(lang, 'wbColFeat'), cell: featCell },
+    { key: 'futTaker', def: false, label: T(lang, 'wbColFutTaker'), cell: (ex) => pct(ex.futures.taker) },
+    { key: 'spotMaker', def: false, label: T(lang, 'wbColSpotMaker'), cell: (ex) => pct(ex.spot.maker) },
+    { key: 'futMaker', def: false, label: T(lang, 'wbColFutMaker'), cell: (ex) => pct(ex.futures.maker) }
   ];
   // 只展示上架该币的交易所；前三位固定 Binance/OKX/KuCoin（变现主力 + 用户认知），其余保持 EX 原顺序
   const PRIORITY = ['binance', 'okx', 'kucoin'];
