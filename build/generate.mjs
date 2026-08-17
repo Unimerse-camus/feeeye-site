@@ -528,12 +528,12 @@ function whereToBuy(c, lang) {
   const dims = [
     { key: 'deposit', label: T(lang, 'wbColDeposit'), options: DEPOSIT_OPTIONS.map((o, i) => ({ key: o.m, label: o.label, def: i === 0, cell: (ex) => depositFee(ex, o.m) })) },
     { key: 'spot', label: T(lang, 'wbColSpot'), options: [
-      { key: 'taker', label: T(lang, 'wbTaker'), def: true, cell: (ex) => pct(ex.spot.taker) },
-      { key: 'maker', label: T(lang, 'wbMaker'), def: false, cell: (ex) => pct(ex.spot.maker) }
+      { key: 'taker', label: zh ? '现货吃单' : 'Spot taker', def: true, cell: (ex) => pct(ex.spot.taker) },
+      { key: 'maker', label: zh ? '现货挂单' : 'Spot maker', def: false, cell: (ex) => pct(ex.spot.maker) }
     ] },
     { key: 'fut', label: T(lang, 'wbColFut'), options: [
-      { key: 'taker', label: T(lang, 'wbTaker'), def: true, cell: (ex) => pct(ex.futures.taker) },
-      { key: 'maker', label: T(lang, 'wbMaker'), def: false, cell: (ex) => pct(ex.futures.maker) }
+      { key: 'taker', label: zh ? '合约吃单' : 'Futures taker', def: true, cell: (ex) => pct(ex.futures.taker) },
+      { key: 'maker', label: zh ? '合约挂单' : 'Futures maker', def: false, cell: (ex) => pct(ex.futures.maker) }
     ] },
     { key: 'feat', label: T(lang, 'wbColFeat'), options: [
       { key: 'copy', label: T(lang, 'wbCopy'), def: true, cell: (ex) => (ex.has_copy_trading ? '✓' : '—') },
