@@ -148,7 +148,8 @@ const SITE_URL = 'https://feeeye.com';
 const I18N = {
   en: {
     navZh: '中文',
-    navTc: 'Spot Toolbox', navFut: 'Futures Toolbox', navCmp: 'Exchanges', navGlo: 'Glossary', navSec: 'Token Check', navPf: 'Portfolio',
+    navTools: 'Tools', navExchanges: 'Exchanges', navCompare: 'Compare', navLearn: 'Learn',
+    navTc: 'Spot Toolbox', navFee: 'Fee Calculator', navFut: 'Futures Toolbox', navCmp: 'Comparison', navGlo: 'Glossary', navSec: 'Token Check', navPf: 'Portfolio',
     discHtml: '<div class="note" style="text-align:left"><p style="margin:0 0 4px">① Fee snapshot: {SNAPSHOT} — verify each rate on the exchange\'s official page before trading.</p><p style="margin:0">② Compliance varies by exchange — always check each exchange\'s Terms of Use to confirm your country/region is supported before signing up.</p></div>',
     foot: 'Educational only. Not financial advice. Verify all data on official exchange pages. Data snapshot ', footContact: 'For feature requests or bug reports, contact ',
     footPrivacy: 'Privacy', footTerms: 'Terms', footAbout: 'About', footHome: 'Home',
@@ -201,7 +202,8 @@ const I18N = {
   },
   zh: {
     navZh: 'English',
-    navTc: '现货工具', navFut: '合约工具', navCmp: '交易所对比', navGlo: '术语', navSec: '代币检查', navPf: '持仓记账',
+    navTools: '工具', navExchanges: '交易所', navCompare: '对比', navLearn: '学习',
+    navTc: '现货成本', navFee: '手续费计算', navFut: '合约工具', navCmp: '综合对比', navGlo: '术语', navSec: '代币检查', navPf: '持仓记账',
     discHtml: '<div class="note" style="text-align:left"><p style="margin:0 0 4px">① 费率快照：最近更新 {SNAPSHOT}—— 交易前请以各交易所官方页面为准。</p><p style="margin:0">② 合规受限地区因交易所而异——注册前请查各所 Terms of Use 确认你所在国家/地区可用。</p></div>',
     foot: '仅供教育参考，不构成投资建议。请以各交易所官方页面核实所有数据。数据快照 ', footContact: '如有任何功能需求和建议，或网页有错误需要修正，请联系 ',
     footPrivacy: '隐私政策', footTerms: '使用条款', footAbout: '关于我们', footHome: '首页',
@@ -266,10 +268,12 @@ function absPath(lang, rel) {
 
 function matchActiveNav(path) {
   if (!path) return null;
+  if (/exchanges\//.test(path)) return 'ex';
+  if (/compare\//.test(path) && !/exchange-comparator/.test(path)) return 'cp';
+  if (/glossary/.test(path)) return 'glo';
   if (/total-cost-calculator|fee-calculator/.test(path)) return 'tc';
   if (/futures-toolbox/.test(path)) return 'fut';
-  if (/exchange-comparator|^compare\//.test(path)) return 'cmp';
-  if (/glossary/.test(path)) return 'glo';
+  if (/exchange-comparator/.test(path)) return 'cmp';
   if (/token-security-checker/.test(path)) return 'sec';
   if (/portfolio-tracker/.test(path)) return 'pf';
   return null;
@@ -295,6 +299,9 @@ function secPath(lang) {
 }
 function pfPath(lang) {
   return 'tools/portfolio-tracker' + (lang === 'zh' ? '.zh' : '') + '.html';
+}
+function feePath(lang) {
+  return 'tools/fee-calculator' + (lang === 'zh' ? '.zh' : '') + '.html';
 }
 
 // ---- 合规页面（Privacy / Terms / Affiliate Disclosure）----
@@ -399,6 +406,9 @@ function page({ lang, title, desc, body, jsonLd, depth = 0, path, affiliate = fa
   const ld = jsonLd ? `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>` : '';
   // 仅在显式传 noDisc 时才隐藏（如首页/legal/about/coins 等纯信息页）
   const discLine = noDisc ? '' : i.discHtml.replace(/\{SNAPSHOT\}/g, COIN_SNAPSHOT);
+  // 导航下拉内容：交易所 7 所 + 对比 6 组（Binance 基准）
+  const exLinks = Object.keys(EX).sort().map((s) => `<a href="${absPath(lang, 'exchanges/' + s + '.html')}">${esc(EX[s].name)}</a>`).join('');
+  const cmpPairs = ['bitget', 'bybit', 'coinbase', 'kraken', 'kucoin', 'okx'].map((s) => `<a href="${absPath(lang, 'compare/binance-vs-' + s + '.html')}">Binance vs ${esc(EX[s].name)}</a>`).join('');
   return `<!doctype html>
 <html lang="${lang === 'zh' ? 'zh-CN' : 'en'}">
 <head>
@@ -438,6 +448,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC
 .nav a{color:#1e293b;text-decoration:none;font-size:14px;line-height:1;white-space:nowrap;border-bottom:2px solid transparent;padding-bottom:2px;display:inline-flex;align-items:center}
 .nav a:hover{color:var(--brand);border-bottom-color:var(--brand)}
 .nav a.active{color:var(--brand);border-bottom:2px solid var(--brand);font-weight:600}
+.nav-item{position:relative}
+.nav-btn{background:none;border:none;color:#1e293b;font-size:14px;line-height:1;white-space:nowrap;padding:0 0 2px;cursor:pointer;border-bottom:2px solid transparent;font-family:inherit}
+.nav-btn:hover{color:var(--brand);border-bottom-color:var(--brand)}
+.nav-btn.active{color:var(--brand);border-bottom:2px solid var(--brand);font-weight:600}
+.dropdown{display:none;position:absolute;top:100%;left:50%;transform:translateX(-50%);background:#fff;border:1px solid var(--line);border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,.12);z-index:200;min-width:190px;padding:6px;white-space:nowrap;margin-top:6px}
+.nav-item:hover .dropdown,.nav-item.open .dropdown{display:block}
+.dropdown a{display:block;padding:8px 12px;color:#1e293b;font-size:13.5px;border-radius:6px;border-bottom:none;text-decoration:none}
+.dropdown a:hover{background:#f1f5f9;color:var(--brand)}
 .topbar>span{flex-shrink:0;padding-right:30px;padding-top:6px}
 .topbar>span>a{color:var(--sub);text-decoration:none;font-size:13.5px;line-height:1;white-space:nowrap}
 h1{font-size:25px;margin-bottom:6px}
@@ -483,12 +501,19 @@ input[type=number]{font-size:16px}
 <div class="topbar">
 <a class="logo" href="${lang === 'zh' ? '/zh/' : '/'}" aria-label="FeeEye home"><img src="/assets/logo.svg" alt="FeeEye" width="26" height="26">${SITE}</a>
 <nav class="nav">
-<a href="${absPath(lang, tcPath(lang))}" class="${active==='tc'?'active':''}">${esc(i.navTc)}</a>
-<a href="${absPath(lang, futPath(lang))}" class="${active==='fut'?'active':''}">${esc(i.navFut)}</a>
-<a href="${absPath(lang, cmpPath(lang))}" class="${active==='cmp'?'active':''}">${esc(i.navCmp)}</a>
-<a href="${absPath(lang, gloPath(lang))}" class="${active==='glo'?'active':''}">${esc(i.navGlo)}</a>
-<a href="${absPath(lang, secPath(lang))}" class="${active==='sec'?'active':''}">${esc(i.navSec)}</a>
-<a href="${absPath(lang, pfPath(lang))}" class="${active==='pf'?'active':''}">${esc(i.navPf)}</a>
+<div class="nav-item">
+<button type="button" class="nav-btn${['tc','fee','fut','cmp','sec','pf'].includes(active) ? ' active' : ''}">${esc(i.navTools)} ▾</button>
+<div class="dropdown"><a href="${absPath(lang, tcPath(lang))}">${esc(i.navTc)}</a><a href="${absPath(lang, feePath(lang))}">${esc(i.navFee)}</a><a href="${absPath(lang, futPath(lang))}">${esc(i.navFut)}</a><a href="${absPath(lang, cmpPath(lang))}">${esc(i.navCmp)}</a><a href="${absPath(lang, secPath(lang))}">${esc(i.navSec)}</a><a href="${absPath(lang, pfPath(lang))}">${esc(i.navPf)}</a></div>
+</div>
+<div class="nav-item">
+<button type="button" class="nav-btn${active === 'ex' ? ' active' : ''}">${esc(i.navExchanges)} ▾</button>
+<div class="dropdown">${exLinks}</div>
+</div>
+<div class="nav-item">
+<button type="button" class="nav-btn${active === 'cp' ? ' active' : ''}">${esc(i.navCompare)} ▾</button>
+<div class="dropdown">${cmpPairs}</div>
+</div>
+<a href="${absPath(lang, gloPath(lang))}" class="${active === 'glo' ? 'active' : ''}">${esc(i.navLearn)}</a>
 </nav>
 <span><a href="${lang === 'zh' ? '/' : '/zh/'}">${esc(i.navZh)}</a></span>
 </div>
@@ -496,6 +521,25 @@ input[type=number]{font-size:16px}
 ${body}
 <div class="foot">${discLine}${esc(i.foot)} ${esc(UPD)}.<br>${esc(i.footContact)}<a class="mail" href="mailto:feeeyeofficial@gmail.com">feeeyeofficial@gmail.com</a><br>${noHomeFoot ? '' : `<a href="${absPath(lang, 'index.html')}">${esc(i.footHome)}</a> · `}<a href="${absPath(lang, 'about.html')}">${esc(i.footAbout)}</a> · <a href="${absPath(lang, 'privacy.html')}">${esc(i.footPrivacy)}</a> · <a href="${absPath(lang, 'terms.html')}">${esc(i.footTerms)}</a></div>
 </div>
+<script>
+(function(){
+  var btns = document.querySelectorAll('.nav-btn');
+  for (var i = 0; i < btns.length; i++) {
+    btns[i].addEventListener('click', function(e){
+      e.stopPropagation();
+      var item = this.parentElement;
+      var wasOpen = item.classList.contains('open');
+      var opened = document.querySelectorAll('.nav-item.open');
+      for (var j = 0; j < opened.length; j++) opened[j].classList.remove('open');
+      if (!wasOpen) item.classList.add('open');
+    });
+  }
+  document.addEventListener('click', function(){
+    var opened = document.querySelectorAll('.nav-item.open');
+    for (var j = 0; j < opened.length; j++) opened[j].classList.remove('open');
+  });
+})();
+</script>
 </body>
 </html>`;
 }
