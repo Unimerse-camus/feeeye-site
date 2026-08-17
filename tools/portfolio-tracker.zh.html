@@ -333,11 +333,12 @@
     var feeRate = d.feeRate || 0;
     var groups = {};
     d.trades.forEach(function(t){
-      if (!groups[t.symbol]) groups[t.symbol] = { symbol: t.symbol, cg_id: t.cg_id || '', buyQty: 0, buyAmount: 0, sellQty: 0, sellAmount: 0 };
+      if (!groups[t.symbol]) groups[t.symbol] = { symbol: t.symbol, cg_id: t.cg_id || '', buyQty: 0, buyAmount: 0, sellQty: 0, sellAmount: 0, fee: 0 };
       var g = groups[t.symbol];
       if (!g.cg_id && t.cg_id) g.cg_id = t.cg_id;
-      if (t.side === 'buy') { g.buyQty += t.qty; g.buyAmount += t.qty * t.price; }
-      else { g.sellQty += t.qty; g.sellAmount += t.qty * t.price; }
+      // 买入和卖出都按 feeRate 扣手续费，累计到 g.fee
+      if (t.side === 'buy') { g.buyQty += t.qty; g.buyAmount += t.qty * t.price; g.fee += t.qty * t.price * feeRate / 100; }
+      else { g.sellQty += t.qty; g.sellAmount += t.qty * t.price; g.fee += t.qty * t.price * feeRate / 100; }
     });
 
     var positions = [];
@@ -364,9 +365,9 @@
           floatPnl += unrealized;
           totalValue += value;
         }
-        positions.push({ symbol: sym, cg_id: g.cg_id, remaining: remaining, avgBuy: avgBuy, price: curPrice, value: value, pnl: unrealized, realized: realized });
+        positions.push({ symbol: sym, cg_id: g.cg_id, remaining: remaining, avgBuy: avgBuy, price: curPrice, value: value, pnl: unrealized, realized: realized, fee: g.fee });
       } else if (realized !== 0) {
-        positions.push({ symbol: sym, cg_id: g.cg_id, remaining: 0, avgBuy: avgBuy, price: null, value: null, pnl: null, realized: realized });
+        positions.push({ symbol: sym, cg_id: g.cg_id, remaining: 0, avgBuy: avgBuy, price: null, value: null, pnl: null, realized: realized, fee: g.fee });
       }
     });
     return { positions: positions, totalCost: totalCost, totalValue: totalValue, floatPnl: floatPnl, realizedPnl: realizedPnl, feeRate: feeRate };
@@ -417,9 +418,10 @@
           '<td>' + (p.value != null ? fmt(p.value) : '—') + '</td>' +
           '<td class="' + cls + '">' + (p.pnl != null ? sign + fmt(p.pnl) + '（' + sign + fmt(pnlPct, 2) + '%）' : '—') + '</td>' +
           '<td class="' + (p.realized >= 0 ? 'up' : 'down') + '">' + (p.realized !== 0 ? (p.realized >= 0 ? '+' : '') + fmt(p.realized) : '—') + '</td>' +
+          '<td>' + fmt(p.fee) + '</td>' +
           '</tr>';
       });
-      holdTable.innerHTML = '<thead><tr><th>币种</th><th>数量</th><th>均价</th><th>现价</th><th>市值</th><th>浮动盈亏</th><th>已实现盈亏</th></tr></thead><tbody>' + hh + '</tbody>';
+      holdTable.innerHTML = '<thead><tr><th>币种</th><th>数量</th><th>均价</th><th>现价</th><th>市值</th><th>浮动盈亏</th><th>已实现盈亏</th><th>手续费</th></tr></thead><tbody>' + hh + '</tbody>';
       holdTable.style.display = 'table';
     } else {
       holdTitle.style.display = 'none';
