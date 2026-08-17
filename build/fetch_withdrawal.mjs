@@ -37,11 +37,12 @@ const BINANCE_API_KEY = process.env.BINANCE_API_KEY || '';
 const BINANCE_SECRET = process.env.BINANCE_SECRET || '';
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+const UA = 'Mozilla/5.0 (compatible; FeeEye/1.0; +https://feeeye.com)';
 
 async function getJson(url, headers = {}, tries = 3) {
   for (let t = 0; t < tries; t++) {
     try {
-      const res = await fetch(url, { headers: { accept: 'application/json', ...headers } });
+      const res = await fetch(url, { headers: { accept: 'application/json', 'user-agent': UA, ...headers } });
       if (res.status === 429) { await sleep(10000 * (t + 1)); continue; }
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       return await res.json();
@@ -158,17 +159,19 @@ async function main() {
 
   // 一次全量的所先拉
   let okxMap = {}, bitgetMap = {}, binanceMap = {};
-  try { okxMap = await fetchOkx(); console.log(`  ✓ OKX ${Object.keys(okxMap).length} 币`); } catch (e) { console.warn(`  ⚠️ OKX 失败: ${e.message}`); }
-  try { bitgetMap = await fetchBitget(); console.log(`  ✓ Bitget ${Object.keys(bitgetMap).length} 币`); } catch (e) { console.warn(`  ⚠️ Bitget 失败: ${e.message}`); }
-  try { binanceMap = await fetchBinance(); console.log(`  ✓ Binance ${Object.keys(binanceMap).length} 币`); } catch (e) { console.warn(`  ⚠️ Binance 失败: ${e.message}`); }
+  const errors = {};
+  try { okxMap = await fetchOkx(); console.log(`  ✓ OKX ${Object.keys(okxMap).length} 币`); } catch (e) { errors.okx = e.message; console.warn(`  ⚠️ OKX 失败: ${e.message}`); }
+  try { bitgetMap = await fetchBitget(); console.log(`  ✓ Bitget ${Object.keys(bitgetMap).length} 币`); } catch (e) { errors.bitget = e.message; console.warn(`  ⚠️ Bitget 失败: ${e.message}`); }
+  try { binanceMap = await fetchBinance(); console.log(`  ✓ Binance ${Object.keys(binanceMap).length} 币`); } catch (e) { errors.binance = e.message; console.warn(`  ⚠️ Binance 失败: ${e.message}`); }
 
+  let kcErr = null, bybitErr = null;
   const coins = {};
   for (let i = 0; i < symbols.length; i++) {
     const sym = symbols[i];
     const entry = {};
-    try { const l = await fetchKucoin(sym); if (l.length) entry.kucoin = sortChains(l); } catch (e) { /* 该所无此币或失败 */ }
+    try { const l = await fetchKucoin(sym); if (l.length) entry.kucoin = sortChains(l); } catch (e) { if (!kcErr) kcErr = `${sym}: ${e.message}`; }
     await sleep(250);
-    try { const l = await fetchBybit(sym); if (l.length) entry.bybit = sortChains(l); } catch (e) { /* 同上 */ }
+    try { const l = await fetchBybit(sym); if (l.length) entry.bybit = sortChains(l); } catch (e) { if (!bybitErr) bybitErr = `${sym}: ${e.message}`; }
     await sleep(250);
     if (okxMap[sym]) entry.okx = sortChains(okxMap[sym]);
     if (bitgetMap[sym]) entry.bitget = sortChains(bitgetMap[sym]);
@@ -176,6 +179,8 @@ async function main() {
     if (Object.keys(entry).length) coins[sym] = entry;
     if ((i + 1) % 20 === 0) console.log(`  进度 ${i + 1}/${symbols.length}`);
   }
+  if (kcErr) errors.kucoin = kcErr;
+  if (bybitErr) errors.bybit = bybitErr;
 
   const covered = Object.keys(coins).length;
   console.log(`覆盖 ${covered}/${symbols.length} 币`);
@@ -189,7 +194,8 @@ async function main() {
     meta: {
       generated_at: new Date().toISOString(),
       source: 'exchange public APIs (KuCoin/OKX/Bybit/Bitget/Binance)',
-      note: 'fee/min 为原币数量；pct 为百分比费率；Kraken/Coinbase 动态费未收录'
+      note: 'fee/min 为原币数量；pct 为百分比费率；Kraken/Coinbase 动态费未收录',
+      errors
     },
     coins
   };
