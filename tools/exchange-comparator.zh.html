@@ -211,7 +211,7 @@
     html += '</tr></tbody></table></div>';
 
 
-    html += '<div class="note" style="margin-top:0">费率/杠杆/流动性为快照值（更新于 <span id="upd2"></span>），交易前请以各所实时显示为准。储备证明/冷存储等专业术语见 hover <sup>?</sup>。</div>';
+    html += '<div class="note" style="margin-top:4px">费率/杠杆/流动性为快照值（更新于 <span id="upd2"></span>），交易前请以各所实时显示为准。储备证明/冷存储等专业术语见 hover <sup>?</sup>。</div>';
     document.getElementById("result").innerHTML = html;
     document.getElementById("upd2").textContent = window.EXCHANGES.kucoin.last_updated;
   }
