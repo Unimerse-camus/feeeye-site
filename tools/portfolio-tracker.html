@@ -57,7 +57,7 @@
   th{background:#f1f5f9;font-weight:600;white-space:nowrap;}
   .up{color:var(--up);font-weight:700}
   .down{color:var(--down);font-weight:700}
-  .del{color:var(--sub);cursor:pointer;text-decoration:underline;font-size:13px}
+  .del{color:var(--brand);cursor:pointer;text-decoration:underline;font-size:13px}
   .del:hover{color:var(--bad)}
   .tag-buy{display:inline-block;background:#eaf5ee;color:#16a34a;border-radius:999px;padding:1px 8px;font-size:11px;font-weight:700}
   .tag-sell{display:inline-block;background:#fdeaea;color:#dc2626;border-radius:999px;padding:1px 8px;font-size:11px;font-weight:700}
@@ -92,7 +92,7 @@
   <script>(function(){var m={tc:"total-cost-calculator",fut:"futures-toolbox",cmp:"exchange-comparator",glo:"glossary",sec:"token-security-checker",pf:"portfolio-tracker"};var p=location.pathname;document.querySelectorAll("#toolNav a").forEach(function(a){var k=a.getAttribute("data-key");if(k&&p.indexOf("/"+m[k])>-1)a.classList.add("active");});})();</script>
 
   <h1>Portfolio Tracker</h1>
-  <p class="intro">Log <strong>any</strong> coin you hold — even small caps. Buy &amp; sell to track real P&amp;L (trading fees included). Live prices auto-fetch. <strong>No API key needed.</strong> Data stays in your browser.</p>
+  <p class="intro">Log <strong>any</strong> coin you hold — even small caps. Buy &amp; sell to track real P&amp;L (trading fees included). Live prices auto-fetch. Data stays in your browser.</p>
 
   <div class="panel">
     <div class="side-toggle">
@@ -137,7 +137,6 @@
   <div class="refresh"><span id="priceNote"></span> · <a id="refreshBtn">↻ Refresh prices</a></div>
 
   <div class="foot">
-    Live prices via CoinGecko. Your holdings are stored <b>only in your browser</b> (localStorage) — never uploaded. This is <b>not</b> financial advice.<br>
     For feature requests or bug reports, contact <a href="mailto:feeeyeofficial@gmail.com">feeeyeofficial@gmail.com</a><br>
     <a href="/">Home</a> · <a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a>
   </div>

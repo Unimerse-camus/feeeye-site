@@ -57,7 +57,7 @@
   th{background:#f1f5f9;font-weight:600;white-space:nowrap;}
   .up{color:var(--up);font-weight:700}
   .down{color:var(--down);font-weight:700}
-  .del{color:var(--sub);cursor:pointer;text-decoration:underline;font-size:13px}
+  .del{color:var(--brand);cursor:pointer;text-decoration:underline;font-size:13px}
   .del:hover{color:var(--bad)}
   .tag-buy{display:inline-block;background:#eaf5ee;color:#16a34a;border-radius:999px;padding:1px 8px;font-size:11px;font-weight:700}
   .tag-sell{display:inline-block;background:#fdeaea;color:#dc2626;border-radius:999px;padding:1px 8px;font-size:11px;font-weight:700}
@@ -92,7 +92,7 @@
   <script>(function(){var m={tc:"total-cost-calculator",fut:"futures-toolbox",cmp:"exchange-comparator",glo:"glossary",sec:"token-security-checker",pf:"portfolio-tracker"};var p=location.pathname;document.querySelectorAll("#toolNav a").forEach(function(a){var k=a.getAttribute("data-key");if(k&&p.indexOf("/"+m[k])>-1)a.classList.add("active");});})();</script>
 
   <h1>持仓记账本</h1>
-  <p class="intro">记录<strong>任意</strong>币种持仓——包括小币种。买入/卖出记录完整交易流水，自动算盈亏（已含手续费）。<strong>无需 API Key。</strong>数据只存在你的浏览器里。</p>
+  <p class="intro">记录<strong>任意</strong>币种持仓——包括小币种。买入/卖出记录完整交易流水，自动算盈亏（已含手续费）。数据只存在你的浏览器里。</p>
 
   <div class="panel">
     <div class="side-toggle">
@@ -137,7 +137,6 @@
   <div class="refresh"><span id="priceNote"></span> · <a id="refreshBtn">↻ 刷新价格</a></div>
 
   <div class="foot">
-    实时价格来自 CoinGecko。你的持仓<b>只存在浏览器本地</b>（localStorage），绝不上传。本工具<b>不构成</b>投资建议。<br>
     如有任何功能需求和建议，或网页有错误需要修正，请联系 <a href="mailto:feeeyeofficial@gmail.com">feeeyeofficial@gmail.com</a><br>
     <a href="/zh/">首页</a> · <a href="/zh/privacy.html">隐私政策</a> · <a href="/zh/terms.html">使用条款</a>
   </div>
