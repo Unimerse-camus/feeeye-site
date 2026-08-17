@@ -423,12 +423,12 @@
           '<td>' + fmt(p.avgBuy) + '</td>' +
           '<td>' + (p.price != null ? fmt(p.price) : '—') + '</td>' +
           '<td>' + (p.value != null ? fmt(p.value) : '—') + '</td>' +
+          '<td>' + fmt(p.fee) + '</td>' +
           '<td class="' + cls + '">' + (p.pnl != null ? sign + fmt(p.pnl) + ' (' + sign + fmt(pnlPct, 2) + '%)' : '—') + '</td>' +
           '<td class="' + (p.realized >= 0 ? 'up' : 'down') + '">' + (p.realized !== 0 ? (p.realized >= 0 ? '+' : '') + fmt(p.realized) : '—') + '</td>' +
-          '<td>' + fmt(p.fee) + '</td>' +
           '</tr>';
       });
-      holdTable.innerHTML = '<thead><tr><th>Coin</th><th>Amount</th><th>Avg buy</th><th>Now</th><th>Value</th><th>Unrealized P&amp;L</th><th>Realized P&amp;L</th><th>Fees</th></tr></thead><tbody>' + hh + '</tbody>';
+      holdTable.innerHTML = '<thead><tr><th>Coin</th><th>Amount</th><th>Avg buy</th><th>Now</th><th>Value</th><th>Fees</th><th>Unrealized P&amp;L</th><th>Realized P&amp;L</th></tr></thead><tbody>' + hh + '</tbody>';
       holdTable.style.display = 'table';
     } else {
       holdTitle.style.display = 'none';

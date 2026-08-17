@@ -416,12 +416,12 @@
           '<td>' + fmt(p.avgBuy) + '</td>' +
           '<td>' + (p.price != null ? fmt(p.price) : '—') + '</td>' +
           '<td>' + (p.value != null ? fmt(p.value) : '—') + '</td>' +
+          '<td>' + fmt(p.fee) + '</td>' +
           '<td class="' + cls + '">' + (p.pnl != null ? sign + fmt(p.pnl) + '（' + sign + fmt(pnlPct, 2) + '%）' : '—') + '</td>' +
           '<td class="' + (p.realized >= 0 ? 'up' : 'down') + '">' + (p.realized !== 0 ? (p.realized >= 0 ? '+' : '') + fmt(p.realized) : '—') + '</td>' +
-          '<td>' + fmt(p.fee) + '</td>' +
           '</tr>';
       });
-      holdTable.innerHTML = '<thead><tr><th>币种</th><th>数量</th><th>均价</th><th>现价</th><th>市值</th><th>浮动盈亏</th><th>已实现盈亏</th><th>手续费</th></tr></thead><tbody>' + hh + '</tbody>';
+      holdTable.innerHTML = '<thead><tr><th>币种</th><th>数量</th><th>均价</th><th>现价</th><th>市值</th><th>手续费</th><th>浮动盈亏</th><th>已实现盈亏</th></tr></thead><tbody>' + hh + '</tbody>';
       holdTable.style.display = 'table';
     } else {
       holdTitle.style.display = 'none';
