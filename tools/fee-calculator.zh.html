@@ -165,7 +165,7 @@
     spot:"现货", futures:"合约", taker:"吃单", maker:"挂单",
     exchange:"交易所", rate:"费率", estFee:"预计费用", months:"个月",
     lowest:"← 最低", receive:"到账", notSupported:"不支持该网络", signup:"注册",
-    depositMethod:"入金方式", depositFee:"入金费率", estCost:"预计入金费", premium:"价格溢价", noMethod:"无此通道"
+    depositMethod:"入金方式", depositFee:"入金费率", estCost:"预计入金费", noMethod:"无此通道"
   };
 
   // 填充国家下拉
@@ -253,8 +253,8 @@ document.getElementById("upd").textContent = window.EXCHANGES.kucoin.last_update
       });
       rows.sort(function(a,b){
         if(!a.methodSupported) return 1; if(!b.methodSupported) return -1;
-        var ca = (a.dm.fee||0) + (a.dm.premium||0);
-        var cb = (b.dm.fee||0) + (b.dm.premium||0);
+        var ca = (a.dm.fee||0);
+        var cb = (b.dm.fee||0);
         return ca - cb;
       });
       html += '<table><thead><tr><th>'+LABEL.exchange+'</th><th>'+zhMethod(method)+' '+LABEL.rate+'</th><th>'+LABEL.estCost+'（'+amt+' USDT）</th><th></th></tr></thead><tbody>';
@@ -265,12 +265,11 @@ document.getElementById("upd").textContent = window.EXCHANGES.kucoin.last_update
         }
         var fee = r.dm.fee || 0;
         var feeMax = r.dm.fee_max;
-        var premium = r.dm.premium || 0;
         var rateStr = feeMax ? (fee*100).toFixed(1)+'%–'+(feeMax*100).toFixed(1)+'%' : (fee*100).toFixed(2)+'%';
-        var est = amt * (fee + premium);
+        var est = amt * fee;
         var first = rows.filter(function(x){return x.methodSupported;})[0];
         var bestMark = (r===first)?' <span class="best">'+LABEL.lowest+'</span>':"";
-        html += '<tr><td><b>'+r.name+'</b></td><td>'+rateStr+(premium>0?'<span class="updated"> +'+LABEL.premium+' '+(premium*100).toFixed(1)+'%</span>':'')+'</td><td>'+fmt(est)+' USDT'+bestMark+'</td><td>'+ctaCell(r.slug)+'</td></tr>';
+        html += '<tr><td><b>'+r.name+'</b></td><td>'+rateStr+'</td><td>'+fmt(est)+' USDT'+bestMark+'</td><td>'+ctaCell(r.slug)+'</td></tr>';
       });
       html += '</tbody></table>';
     } else {

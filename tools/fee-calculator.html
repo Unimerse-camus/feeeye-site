@@ -236,8 +236,8 @@
       });
       rows.sort(function(a,b){
         if(!a.methodSupported) return 1; if(!b.methodSupported) return -1;
-        var ca = (a.dm.fee||0) + (a.dm.premium||0);
-        var cb = (b.dm.fee||0) + (b.dm.premium||0);
+        var ca = (a.dm.fee||0);
+        var cb = (b.dm.fee||0);
         return ca - cb;
       });
       html += '<table><thead><tr><th>Exchange</th><th>'+method+' fee</th><th>Est. cost ('+amt+' USDT)</th><th></th></tr></thead><tbody>';
@@ -248,12 +248,11 @@
         }
         var fee = r.dm.fee || 0;
         var feeMax = r.dm.fee_max;
-        var premium = r.dm.premium || 0;
         var rateStr = feeMax ? (fee*100).toFixed(1)+'%–'+(feeMax*100).toFixed(1)+'%' : (fee*100).toFixed(2)+'%';
-        var est = amt * (fee + premium);
+        var est = amt * fee;
         var first = rows.filter(function(x){return x.methodSupported;})[0];
         var bestMark = (r===first)?' <span class="best">← lowest</span>':"";
-        html += '<tr><td><b>'+r.name+'</b></td><td>'+rateStr+(premium>0?'<span class="updated"> +premium '+(premium*100).toFixed(1)+'%</span>':'')+'</td><td>'+fmt(est)+' USDT'+bestMark+'</td><td>'+ctaCell(r.slug)+'</td></tr>';
+        html += '<tr><td><b>'+r.name+'</b></td><td>'+rateStr+'</td><td>'+fmt(est)+' USDT'+bestMark+'</td><td>'+ctaCell(r.slug)+'</td></tr>';
       });
       html += '</tbody></table>';
     } else {

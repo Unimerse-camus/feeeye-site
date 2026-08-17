@@ -367,8 +367,8 @@
       var dep = depositInfo(ex, method);
       if(!dep){ skipped++; return; }
       if(!note) note = dep.note || "";
-      var feeMin = dep.fee||0, feeMax = (dep.fee_max!=null)?dep.fee_max:feeMin, premium = dep.premium||0;
-      rows.push({ slug:slug, name:ex.name, feeMin:feeMin, feeMax:feeMax, premium:premium, costMin:amt*feeMin+amt*premium, costMax:amt*feeMax+amt*premium });
+      var feeMin = dep.fee||0, feeMax = (dep.fee_max!=null)?dep.fee_max:feeMin;
+      rows.push({ slug:slug, name:ex.name, feeMin:feeMin, feeMax:feeMax, costMin:amt*feeMin, costMax:amt*feeMax });
     });
     rows.sort(function(a,b){ return (a.costMin+a.costMax)/2-(b.costMin+b.costMax)/2; });
     var html = '<h3>① Deposit cost — '+method+', '+fmt(amt)+' USDT</h3>';
@@ -379,7 +379,7 @@
     var minCount = rows.length ? rows.filter(function(r){return Math.abs(r.costMin-min)<0.001;}).length : 0;
     rows.forEach(function(r){
       var best = (minCount===1 && Math.abs(r.costMin-min)<0.001);
-      var feeCell = (r.feeMin===r.feeMax) ? pct(r.feeMin)+(r.premium>0?" + "+pct(r.premium)+" premium":"") : pct(r.feeMin)+'–'+pct(r.feeMax);
+      var feeCell = (r.feeMin===r.feeMax) ? pct(r.feeMin) : pct(r.feeMin)+'–'+pct(r.feeMax);
       var costCell = (r.costMin===r.costMax) ? fmt(r.costMin)+' USDT' : fmt(r.costMin)+'–'+fmt(r.costMax)+' USDT';
       html += '<tr'+rowClass(best)+'><td><b>'+r.name+'</b></td><td>'+feeCell+'</td><td><b>'+costCell+'</b>'+markBest(best)+'</td><td>'+ctaCell(r.slug)+'</td></tr>';
     });
@@ -445,8 +445,8 @@
       var dep = depositInfo(ex, method);
       if(!dep){ skipped++; return; }
       if(!note) note = dep.note || "";
-      var premium = dep.premium||0, feeMin = dep.fee||0, feeMax = (dep.fee_max!=null)?dep.fee_max:feeMin;
-      var depMin = amt*feeMin + amt*premium, depMax = amt*feeMax + amt*premium;
+      var feeMin = dep.fee||0, feeMax = (dep.fee_max!=null)?dep.fee_max:feeMin;
+      var depMin = amt*feeMin, depMax = amt*feeMax;
       var tradeCost = amt * ex.spot[state.order] * trades;
       var wdCost = window.getUsdtWithdrawalFee(slug, net)||0;
       var totalMin = depMin + tradeCost + wdCost;

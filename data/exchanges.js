@@ -25,7 +25,7 @@ window.EXCHANGES = {
     "deposit_methods": [
       { "m": "Bank transfer", "fee": 0, "fee_max": 0.015, "note": "0-1.5% via partners" },
       { "m": "Credit/Debit card", "fee": 0.025, "fee_max": 0.035, "note": "2.5-3.5%" },
-      { "m": "P2P", "fee": 0, "premium": 0.008, "note": "0% fee + ~0.8% price premium" }
+      { "m": "P2P", "fee": 0, "note": "0% fee" }
     ],
     "supported_networks": ["TRC20", "ERC20", "BSC", "SOL", "Arbitrum", "Base", "Optimism", "Polygon", "TON", "NEAR"],
     "has_trading_bot": true,
@@ -51,7 +51,7 @@ window.EXCHANGES = {
       { "m": "Apple Pay", "fee": 0.036, "note": "2026-08 user-verified 3.6%" },
       { "m": "Google Pay", "fee": 0.036, "fee_max": 0.041, "note": "3.6-4.1% (2026-08 user-verified via Bpay)" },
       { "m": "Bpay", "fee": 0, "note": "AU bank payment, 0 fee" },
-      { "m": "P2P", "fee": 0, "premium": 0.005, "note": "0% fee + ~0.3-0.8% premium" }
+      { "m": "P2P", "fee": 0, "note": "0% fee" }
     ],
     "supported_networks": ["TRC20", "ERC20", "BSC", "SOL", "Arbitrum", "Base", "Optimism", "Polygon"],
     "has_trading_bot": true,
@@ -74,7 +74,7 @@ window.EXCHANGES = {
       { "m": "Credit/Debit card", "fee": 0.015, "fee_max": 0.035, "note": "1.5-3.5% via Simplex/Banxa" },
       { "m": "Apple Pay", "fee": 0.015, "fee_max": 0.035, "note": "card channel, 1.5-3.5%" },
       { "m": "Google Pay", "fee": 0.015, "fee_max": 0.035, "note": "card channel, 1.5-3.5%" },
-      { "m": "P2P", "fee": 0, "premium": 0.008, "note": "0% fee + spread in price" }
+      { "m": "P2P", "fee": 0, "note": "0% fee" }
     ],
     "supported_networks": ["TRC20", "ERC20", "BSC", "SOL", "Arbitrum", "Base", "Optimism"],
     "has_trading_bot": true,
@@ -97,7 +97,7 @@ window.EXCHANGES = {
       { "m": "Bank transfer", "fee": 0, "note": "SEPA free; varies by region" },
       { "m": "Credit/Debit card", "fee": 0.02, "fee_max": 0.03, "note": "2-3% via 3rd-party" },
       { "m": "Apple Pay", "fee": 0.02, "fee_max": 0.03, "note": "card channel, 2-3%" },
-      { "m": "P2P", "fee": 0, "premium": 0.008, "note": "0% fee + premium" }
+      { "m": "P2P", "fee": 0, "note": "0% fee" }
     ],
     "supported_networks": ["TRC20", "ERC20", "BSC", "SOL", "Arbitrum", "Base", "Optimism", "Polygon"],
     "has_trading_bot": true,
@@ -119,7 +119,7 @@ window.EXCHANGES = {
       { "m": "Bank transfer", "fee": 0, "note": "SEPA free" },
       { "m": "Credit/Debit card", "fee": 0.02, "fee_max": 0.035, "note": "2-3.5% (processor-dependent)" },
       { "m": "PayPal", "fee": 0.03, "fee_max": 0.05, "note": "3-5%" },
-      { "m": "P2P", "fee": 0, "premium": 0.008, "note": "0% fee + premium" }
+      { "m": "P2P", "fee": 0, "note": "0% fee" }
     ],
     "supported_networks": ["TRC20", "ERC20", "BSC", "SOL", "Arbitrum", "Base", "Optimism"],
     "has_trading_bot": true,
