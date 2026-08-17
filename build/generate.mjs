@@ -174,12 +174,12 @@ const I18N = {
     exTitle: '{n} Fees & Data 2026',
     exDesc: '{n} fees, USDT withdrawal costs, supported networks and trading features. Compare with other exchanges.',
     exCompare: 'Compare: ',
-    cpH1: 'KuCoin vs {n} — Fee & Feature Comparison (2026)',
+    cpH1: '{a} vs {b} — Fee & Feature Comparison (2026)',
     cpIntro: 'Side-by-side of trading fees, withdrawal costs and features. Data snapshot {u}.',
-    cpTh: 'Feature', cpQ1: 'KuCoin or {n} — which has lower fees?',
-    cpA1: 'Spot taker fees: KuCoin {k} vs {n} {o} (snapshot {u}). Compare full table above.',
-    cpTitle: 'KuCoin vs {n} 2026 — Fees & Features Compared',
-    cpDesc: 'KuCoin vs {n}: compare spot/futures fees, USDT withdrawal costs and features.',
+    cpTh: 'Feature', cpQ1: '{a} or {b} — which has lower fees?',
+    cpA1: 'Spot taker fees: {a} {k} vs {b} {o} (snapshot {u}). Compare full table above.',
+    cpTitle: '{a} vs {b} 2026 — Fees & Features Compared',
+    cpDesc: '{a} vs {b}: compare spot/futures fees, USDT withdrawal costs and features.',
     fSpotTaker: 'Spot taker', fSpotMaker: 'Spot maker', fFutTaker: 'Futures taker', fWd20: 'USDT TRC20 withdrawal', fWdErc: 'USDT ERC20 withdrawal', fBot: 'Trading bot', fApi: 'API',
     cyH1: 'Best Crypto Exchanges in {n} (2026)',
     cyIntro: 'Compare major exchanges available to residents of {n}, including spot fees and USDT (TRC20) withdrawal costs. Always confirm current eligibility on each exchange — listings and regional access change.',
@@ -227,12 +227,12 @@ const I18N = {
     exTitle: '{n} 费率与数据 2026',
     exDesc: '{n} 费率、USDT 提币成本、支持网络与交易功能。与其他交易所对比。',
     exCompare: '对比：',
-    cpH1: 'KuCoin vs {n}——费率与功能对比（2026）',
+    cpH1: '{a} vs {b}——费率与功能对比（2026）',
     cpIntro: '交易费率、提币成本与功能并列对比。数据快照 {u}。',
-    cpTh: '功能', cpQ1: 'KuCoin 还是 {n}——哪家费率更低？',
-    cpA1: '现货吃单费率：KuCoin {k} vs {n} {o}（快照 {u}）。请对比上方完整表格。',
-    cpTitle: 'KuCoin vs {n} 2026——费率与功能对比',
-    cpDesc: 'KuCoin vs {n}：对比现货/合约费率、USDT 提币成本与功能。',
+    cpTh: '功能', cpQ1: '{a} 还是 {b}——哪家费率更低？',
+    cpA1: '现货吃单费率：{a} {k} vs {b} {o}（快照 {u}）。请对比上方完整表格。',
+    cpTitle: '{a} vs {b} 2026——费率与功能对比',
+    cpDesc: '{a} vs {b}：对比现货/合约费率、USDT 提币成本与功能。',
     fSpotTaker: '现货吃单', fSpotMaker: '现货挂单', fFutTaker: '合约吃单', fWd20: 'USDT TRC20 提币', fWdErc: 'USDT ERC20 提币', fBot: '交易机器人', fApi: 'API',
     cyH1: '{n} 最佳加密货币交易所（2026）',
     cyIntro: '对比 {n} 居民可用的主流交易所，包括现货费率与 USDT（TRC20）提币成本。各交易所的地区可用性与上架情况会变化，请始终确认最新状态。',
@@ -612,8 +612,11 @@ function whereToBuy(c, lang) {
 function exchangePage(slug, lang) {
   const ex = EX[slug];
   const totalListed = (EXCHANGE_COMPARE[slug] && EXCHANGE_COMPARE[slug].coins) || null;
-  const cmp = ['bybit', 'okx', 'binance'].filter((s) => s !== slug);
-  const cmpLinks = cmp.map((s) => `<a href="${absPath(lang, 'compare/kucoin-vs-' + s + '.html')}">KuCoin vs ${EX[s].name}</a>`).join(' · ');
+  const cmp = Object.keys(EX).filter((s) => s !== slug).slice(0, 3);
+  const cmpLinks = cmp.map((s) => {
+    const [x, y] = [slug, s].sort();
+    return `<a href="${absPath(lang, 'compare/' + x + '-vs-' + y + '.html')}">${ex.name} vs ${EX[s].name}</a>`;
+  }).join(' · ');
   const body = `
   <h1>${esc(T(lang, 'exH1', { n: ex.name }))}</h1>
   <p class="intro">${esc(T(lang, 'exIntro', { n: ex.name, u: UPD }))}</p>
@@ -630,27 +633,27 @@ function exchangePage(slug, lang) {
   return page({ lang, title: T(lang, 'exTitle', { n: ex.name }), desc: T(lang, 'exDesc', { n: ex.name }), body, path: `${lang === 'zh' ? 'zh/' : ''}exchanges/${slug}.html`, affiliate: false });
 }
 
-function comparePage(other, lang) {
-  const a = EX.kucoin, b = EX[other];
+function comparePage(slugA, slugB, lang) {
+  const a = EX[slugA], b = EX[slugB];
   const rows = [
     [T(lang, 'fSpotTaker'), pct(a.spot.taker), pct(b.spot.taker)],
     [T(lang, 'fSpotMaker'), pct(a.spot.maker), pct(b.spot.maker)],
     [T(lang, 'fFutTaker'), pct(a.futures.taker), pct(b.futures.taker)],
-    [T(lang, 'fWd20'), usd(getFee('kucoin', 'TRC20')), usd(getFee(other, 'TRC20'))],
-    [T(lang, 'fWdErc'), usd(getFee('kucoin', 'ERC20')), usd(getFee(other, 'ERC20'))],
+    [T(lang, 'fWd20'), usd(getFee(slugA, 'TRC20')), usd(getFee(slugB, 'TRC20'))],
+    [T(lang, 'fWdErc'), usd(getFee(slugA, 'ERC20')), usd(getFee(slugB, 'ERC20'))],
     [T(lang, 'fBot'), a.has_trading_bot ? '✓' : '✗', b.has_trading_bot ? '✓' : '✗'],
     [T(lang, 'fApi'), a.has_api ? '✓' : '✗', b.has_api ? '✓' : '✗']
-  ].map((r) => `<tr><td>${esc(r[0])}</td><td class="kc" style="background:#eef4ff">${r[1]}</td><td>${r[2]}</td></tr>`).join('');
+  ].map((r) => `<tr><td>${esc(r[0])}</td><td>${r[1]}</td><td>${r[2]}</td></tr>`).join('');
   const body = `
-  <h1>${esc(T(lang, 'cpH1', { n: b.name }))}</h1>
+  <h1>${esc(T(lang, 'cpH1', { a: a.name, b: b.name }))}</h1>
   <p class="intro">${esc(T(lang, 'cpIntro', { u: UPD }))}</p>
-  <div class="scroll"><table><thead><tr><th>${esc(T(lang, 'cpTh'))}</th><th>KuCoin</th><th>${b.name}</th></tr></thead><tbody>${rows}</tbody></table></div>
-  <p style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap">${ctaHtml('kucoin', esc(T(lang, 'ctaOpen')), lang)}${ctaHtml(other, esc(T(lang, 'ctaOpenOn', { x: b.name })), lang)}</p>`;
+  <div class="scroll"><table><thead><tr><th>${esc(T(lang, 'cpTh'))}</th><th>${a.name}</th><th>${b.name}</th></tr></thead><tbody>${rows}</tbody></table></div>
+  <p style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap">${ctaHtml(slugA, esc(T(lang, 'ctaOpenOn', { x: a.name })), lang)}${ctaHtml(slugB, esc(T(lang, 'ctaOpenOn', { x: b.name })), lang)}</p>`;
   const jsonLd = {
     '@context': 'https://schema.org', '@type': 'FAQPage',
-    mainEntity: [{ '@type': 'Question', name: T(lang, 'cpQ1', { n: b.name }), answer: { '@type': 'Answer', text: T(lang, 'cpA1', { n: b.name, k: pct(a.spot.taker), o: pct(b.spot.taker), u: UPD }) } }]
+    mainEntity: [{ '@type': 'Question', name: T(lang, 'cpQ1', { a: a.name, b: b.name }), answer: { '@type': 'Answer', text: T(lang, 'cpA1', { a: a.name, b: b.name, k: pct(a.spot.taker), o: pct(b.spot.taker), u: UPD }) } }]
   };
-  return page({ lang, title: T(lang, 'cpTitle', { n: b.name }), desc: T(lang, 'cpDesc', { n: b.name }), body, jsonLd, path: `${lang === 'zh' ? 'zh/' : ''}compare/kucoin-vs-${other}.html`, affiliate: false });
+  return page({ lang, title: T(lang, 'cpTitle', { a: a.name, b: b.name }), desc: T(lang, 'cpDesc', { a: a.name, b: b.name }), body, jsonLd, path: `${lang === 'zh' ? 'zh/' : ''}compare/${slugA}-vs-${slugB}.html`, affiliate: false });
 }
 
 function countryPage(cc, lang) {
@@ -734,8 +737,12 @@ for (const lang of ['en', 'zh']) {
   for (const slug of Object.keys(EX)) {
     write(`${lang === 'zh' ? 'zh/' : ''}exchanges/${slug}.html`, exchangePage(slug, lang)); count++;
   }
-  for (const other of ['bybit', 'okx', 'binance', 'bitget']) {
-    if (EX[other]) { write(`${lang === 'zh' ? 'zh/' : ''}compare/kucoin-vs-${other}.html`, comparePage(other, lang)); count++; }
+  // 对比页：7 所两两全组合（字母序），共 C(7,2)=21 页，保证「X vs Y」长尾流量
+  const exSlugs = Object.keys(EX).sort();
+  for (let i = 0; i < exSlugs.length; i++) {
+    for (let j = i + 1; j < exSlugs.length; j++) {
+      write(`${lang === 'zh' ? 'zh/' : ''}compare/${exSlugs[i]}-vs-${exSlugs[j]}.html`, comparePage(exSlugs[i], exSlugs[j], lang)); count++;
+    }
   }
   for (const cc of Object.keys(CA)) {
     if (CA[cc].restricted) continue;
