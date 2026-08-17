@@ -469,9 +469,10 @@ input[type=number]{font-size:16px}
 .foot a.mail{color:var(--brand);font-weight:600;text-decoration:underline}
 .note{font-size:12px;color:var(--sub);margin:14px 0 28px;padding:0;text-align:left;line-height:1.6}
 .wb-toggle-tip{font-size:12px;color:var(--sub);margin:0 0 4px}
-.col-sel{font-size:12.5px;font-weight:600;border:1px solid var(--line);border-radius:6px;background:#fff;padding:5px 8px;color:var(--ink);cursor:pointer;max-width:170px;white-space:nowrap}
+.col-sel{font-size:12.5px;font-weight:600;border:1px solid var(--line);border-radius:6px;background:#fff;padding:5px 8px;color:var(--ink);cursor:pointer;max-width:170px;white-space:nowrap;text-align:center;text-align-last:center}
 .scroll table.wb-table th.ex-sticky,.scroll table.wb-table td.ex-sticky{position:sticky;left:0;z-index:1;background:var(--card);border-right:1px solid var(--line)}
 .scroll table.wb-table th.ex-sticky{z-index:2;background:#f1f5f9}
+.scroll table.wb-table th,.scroll table.wb-table td{text-align:center}
 .ex-notes{font-size:12px;color:var(--sub);margin:8px 0 0}
 .ex-notes summary{cursor:pointer;font-weight:600}
 .ex-notes ul{margin:6px 0 0 18px;padding:0}
