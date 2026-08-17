@@ -269,7 +269,7 @@
     var el = document.getElementById("result-fee");
 
     var rows = [];
-    Object.keys(window.EXCHANGES).forEach(function(slug){
+    ["binance","okx","kucoin"].concat(Object.keys(window.EXCHANGES).filter(function(s){return s!=="binance"&&s!=="okx"&&s!=="kucoin";})).forEach(function(slug){
       var ex = window.EXCHANGES[slug];
       if(!ex.futures) return;
       rows.push({slug:slug, name:ex.name, maker:ex.futures.maker, taker:ex.futures.taker});

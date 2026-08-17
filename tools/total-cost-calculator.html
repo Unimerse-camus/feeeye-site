@@ -248,7 +248,7 @@
   // Data-driven: merge usdt_withdrawal keys from all exchanges, dedupe, build network dropdown
   function getAllNetworks(){
     var count = {};
-    Object.keys(window.EXCHANGES).forEach(function(slug){
+    ["binance","okx","kucoin"].concat(Object.keys(window.EXCHANGES).filter(function(s){return s!=="binance"&&s!=="okx"&&s!=="kucoin";})).forEach(function(slug){
       Object.keys((window.EXCHANGES[slug] && window.EXCHANGES[slug].usdt_withdrawal) || {}).forEach(function(n){
         count[n] = (count[n]||0) + 1;
       });
@@ -362,7 +362,7 @@
     if(!amt){ resultD.innerHTML = '<p class="warn">Enter an amount.</p>'; return; }
     if(!method){ resultD.innerHTML = '<p class="warn">Select a deposit method.</p>'; return; }
     var rows = [], note = "", skipped = 0;
-    Object.keys(window.EXCHANGES).forEach(function(slug){
+    ["binance","okx","kucoin"].concat(Object.keys(window.EXCHANGES).filter(function(s){return s!=="binance"&&s!=="okx"&&s!=="kucoin";})).forEach(function(slug){
       var ex = window.EXCHANGES[slug];
       var dep = depositInfo(ex, method);
       if(!dep){ skipped++; return; }
@@ -392,7 +392,7 @@
     var amt = getAmt(), trades = state.trades;
     if(!amt){ resultT.innerHTML = '<p class="warn">Enter an amount.</p>'; return; }
     var rows = [];
-    Object.keys(window.EXCHANGES).forEach(function(slug){
+    ["binance","okx","kucoin"].concat(Object.keys(window.EXCHANGES).filter(function(s){return s!=="binance"&&s!=="okx"&&s!=="kucoin";})).forEach(function(slug){
       var ex = window.EXCHANGES[slug];
       var r = ex.spot[state.order];
       rows.push({ slug:slug, name:ex.name, rate:r, cost1:amt*r, costN:amt*r*trades });
@@ -414,7 +414,7 @@
   function renderWithdraw(){
     var net = state.network, dyn = DYNAMIC_NET[net];
     var rows = [];
-    Object.keys(window.EXCHANGES).forEach(function(slug){
+    ["binance","okx","kucoin"].concat(Object.keys(window.EXCHANGES).filter(function(s){return s!=="binance"&&s!=="okx"&&s!=="kucoin";})).forEach(function(slug){
       var ex = window.EXCHANGES[slug];
       var fee = window.getUsdtWithdrawalFee(slug, net);
       rows.push({ slug:slug, name:ex.name, fee:(fee==null)?null:fee });
@@ -440,7 +440,7 @@
     if(!amt){ resultA.innerHTML = '<p class="warn">Enter an amount.</p>'; return; }
     if(!method){ resultA.innerHTML = '<p class="warn">Select a deposit method.</p>'; return; }
     var rows = [], note = "", skipped = 0;
-    Object.keys(window.EXCHANGES).forEach(function(slug){
+    ["binance","okx","kucoin"].concat(Object.keys(window.EXCHANGES).filter(function(s){return s!=="binance"&&s!=="okx"&&s!=="kucoin";})).forEach(function(slug){
       var ex = window.EXCHANGES[slug];
       var dep = depositInfo(ex, method);
       if(!dep){ skipped++; return; }

@@ -263,7 +263,7 @@
   // 数据驱动：合并所有所的 usdt_withdrawal 字段，去重后生成 USDT 提币网络下拉
   function getAllNetworks(){
     var count = {};
-    Object.keys(window.EXCHANGES).forEach(function(slug){
+    ["binance","okx","kucoin"].concat(Object.keys(window.EXCHANGES).filter(function(s){return s!=="binance"&&s!=="okx"&&s!=="kucoin";})).forEach(function(slug){
       Object.keys((window.EXCHANGES[slug] && window.EXCHANGES[slug].usdt_withdrawal) || {}).forEach(function(n){
         count[n] = (count[n]||0) + 1;
       });
@@ -381,7 +381,7 @@
     if(!amt){ resultD.innerHTML = '<p class="warn">请输入金额。</p>'; return; }
     if(!method){ resultD.innerHTML = '<p class="warn">请选择入金方式。</p>'; return; }
     var rows = [], note = "", skipped = 0;
-    Object.keys(window.EXCHANGES).forEach(function(slug){
+    ["binance","okx","kucoin"].concat(Object.keys(window.EXCHANGES).filter(function(s){return s!=="binance"&&s!=="okx"&&s!=="kucoin";})).forEach(function(slug){
       var ex = window.EXCHANGES[slug];
       var dep = depositInfo(ex, method);
       if(!dep){ skipped++; return; }
@@ -411,7 +411,7 @@
     var amt = getAmt(), trades = state.trades;
     if(!amt){ resultT.innerHTML = '<p class="warn">请输入金额。</p>'; return; }
     var rows = [];
-    Object.keys(window.EXCHANGES).forEach(function(slug){
+    ["binance","okx","kucoin"].concat(Object.keys(window.EXCHANGES).filter(function(s){return s!=="binance"&&s!=="okx"&&s!=="kucoin";})).forEach(function(slug){
       var ex = window.EXCHANGES[slug];
       var r = ex.spot[state.order];
       rows.push({ slug:slug, name:ex.name, rate:r, cost1:amt*r, costN:amt*r*trades });
@@ -433,7 +433,7 @@
   function renderWithdraw(){
     var net = state.network, dyn = DYNAMIC_NET[net];
     var rows = [];
-    Object.keys(window.EXCHANGES).forEach(function(slug){
+    ["binance","okx","kucoin"].concat(Object.keys(window.EXCHANGES).filter(function(s){return s!=="binance"&&s!=="okx"&&s!=="kucoin";})).forEach(function(slug){
       var ex = window.EXCHANGES[slug];
       var fee = window.getUsdtWithdrawalFee(slug, net);
       rows.push({ slug:slug, name:ex.name, fee:(fee==null)?null:fee });
@@ -459,7 +459,7 @@
     if(!amt){ resultA.innerHTML = '<p class="warn">请输入金额。</p>'; return; }
     if(!method){ resultA.innerHTML = '<p class="warn">请选择入金方式。</p>'; return; }
     var rows = [], note = "", skipped = 0;
-    Object.keys(window.EXCHANGES).forEach(function(slug){
+    ["binance","okx","kucoin"].concat(Object.keys(window.EXCHANGES).filter(function(s){return s!=="binance"&&s!=="okx"&&s!=="kucoin";})).forEach(function(slug){
       var ex = window.EXCHANGES[slug];
       var dep = depositInfo(ex, method);
       if(!dep){ skipped++; return; }
