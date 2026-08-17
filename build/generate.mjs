@@ -506,16 +506,16 @@ function whereToBuy(c, lang) {
   const zh = lang === 'zh';
   const L = (en, zhText) => (zh ? zhText : en);
 
-  // 入金方式选项（各所并集，按常用程度排序）
+  // 入金方式选项（各所并集，按常用程度排序）；option label 加「购买」明确支付方式
   const DEPOSIT_OPTIONS = [
-    { m: 'Credit/Debit card', label: L('Card', '信用卡') },
-    { m: 'Bank transfer', label: L('Bank transfer', '银行转账') },
-    { m: 'P2P', label: 'P2P' },
-    { m: 'Apple Pay', label: 'Apple Pay' },
-    { m: 'Google Pay', label: 'Google Pay' },
-    { m: 'PayPal', label: 'PayPal' },
-    { m: 'Wire transfer', label: L('Wire transfer', '电汇') },
-    { m: 'Bpay', label: 'Bpay' }
+    { m: 'Credit/Debit card', label: L('Buy by card', '信用卡购买') },
+    { m: 'Bank transfer', label: L('Buy by bank transfer', '银行转账购买') },
+    { m: 'P2P', label: L('Buy by P2P', 'P2P 购买') },
+    { m: 'Apple Pay', label: L('Buy by Apple Pay', 'Apple Pay 购买') },
+    { m: 'Google Pay', label: L('Buy by Google Pay', 'Google Pay 购买') },
+    { m: 'PayPal', label: L('Buy by PayPal', 'PayPal 购买') },
+    { m: 'Wire transfer', label: L('Buy by wire transfer', '电汇购买') },
+    { m: 'Bpay', label: L('Buy by Bpay', 'Bpay 购买') }
   ];
   const depositFee = (ex, method) => {
     const d = (ex.deposit_methods || []).find((x) => x.m === method);
