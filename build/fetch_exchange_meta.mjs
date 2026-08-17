@@ -6,8 +6,9 @@
  *   - coins   → CoinGecko /exchanges/{id} 的 coins（有活跃现货市场的币种数，统一口径）
  *   - volume  → trade_volume_24h_btc × BTC 价，换算 USD，格式 "≈$X.XXB"
  *   - trust   → trust_score（10 分制）
+ *   - last_updated → 当天日期（数据每天自动校准）
  *
- * 只更新这三个字段，绝不覆盖人工核实的编辑字段
+ * 只更新这四个字段，绝不覆盖人工核实的编辑字段
  * （reserve / cold / licenses / security / incident / max_leverage / has_options 等）。
  *
  * 用法：
@@ -122,6 +123,10 @@ async function main() {
     src = next;
     console.log(`  ✓ ${slug}: coins=${coins}, volume=${newVol || '保持原值'}, trust=${trust}`);
   }
+
+  // 更新所有所的 last_updated 为今天（数据每天自动校准 coins/volume/trust）
+  const today = new Date().toISOString().slice(0, 10);
+  src = src.replace(/"last_updated": "[^"]*"/g, `"last_updated": "${today}"`);
 
   if (src === orig) {
     console.log('无变化，不写回');
