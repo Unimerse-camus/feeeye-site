@@ -527,8 +527,10 @@ function whereToBuy(c, lang) {
     { key: 'usdtWd', def: true, label: T(lang, 'wbColUsdt'), cell: (ex) => usd(getFee(ex.slug, 'TRC20')) },
     { key: 'feat', def: true, label: T(lang, 'wbColFeat'), cell: featCell }
   ];
-  // 只展示上架该币的交易所（首列固定，末列 CTA 固定展示）
-  const slugs = Object.keys(EX).filter((slug) => c.exchanges.includes(slug));
+  // 只展示上架该币的交易所；前三位固定 Binance/OKX/KuCoin（变现主力 + 用户认知），其余保持 EX 原顺序
+  const PRIORITY = ['binance', 'okx', 'kucoin'];
+  const supported = Object.keys(EX).filter((slug) => c.exchanges.includes(slug));
+  const slugs = [...PRIORITY.filter((s) => supported.includes(s)), ...supported.filter((s) => !PRIORITY.includes(s))];
   const ths = `<th class="ex-sticky">${esc(T(lang, 'thExchange'))}</th>` + dims.map((d) => `<th data-col="${d.key}"${d.def ? '' : ' style="display:none"'}>${esc(d.label)}</th>`).join('') + '<th></th>';
   const rows = slugs.map((slug) => {
     const ex = EX[slug];
