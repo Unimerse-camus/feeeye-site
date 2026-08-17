@@ -438,7 +438,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC
 .nav a{color:#1e293b;text-decoration:none;font-size:14px;line-height:1;white-space:nowrap;border-bottom:2px solid transparent;padding-bottom:2px;display:inline-flex;align-items:center}
 .nav a:hover{color:var(--brand);border-bottom-color:var(--brand)}
 .nav a.active{color:var(--brand);border-bottom:2px solid var(--brand);font-weight:600}
-.topbar>span{flex-shrink:0;padding-right:30px}
+.topbar>span{flex-shrink:0;padding-right:30px;padding-top:6px}
 .topbar>span>a{color:var(--sub);text-decoration:none;font-size:13.5px;line-height:1;white-space:nowrap}
 h1{font-size:25px;margin-bottom:6px}
 h3{margin-top:22px;font-size:18px}
