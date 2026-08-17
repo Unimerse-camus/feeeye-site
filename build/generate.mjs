@@ -444,7 +444,7 @@ h1{font-size:25px;margin-bottom:6px}
 h3{margin-top:22px;font-size:18px}
 .intro{color:var(--sub);margin-bottom:18px}
 table{width:100%;border-collapse:collapse;margin:14px 0;font-size:14px}
-th,td{border:1px solid var(--line);padding:10px 12px;text-align:left}
+th,td{border:1px solid var(--line);padding:10px 12px;text-align:center}
 th{background:#f1f5f9;font-weight:600;white-space:nowrap}
 tr.kc{background:#eef4ff}
 .cta{display:inline-block;background:var(--brand);color:#fff;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:700;text-decoration:none;min-height:36px;text-align:center;min-width:11.5rem}
@@ -472,7 +472,6 @@ input[type=number]{font-size:16px}
 .col-sel{font-size:12.5px;font-weight:600;border:1px solid var(--line);border-radius:6px;background:#fff;padding:5px 8px;color:var(--ink);cursor:pointer;max-width:170px;white-space:nowrap;text-align:center;text-align-last:center}
 .scroll table.wb-table th.ex-sticky,.scroll table.wb-table td.ex-sticky{position:sticky;left:0;z-index:1;background:var(--card);border-right:1px solid var(--line)}
 .scroll table.wb-table th.ex-sticky{z-index:2;background:#f1f5f9}
-.scroll table.wb-table th,.scroll table.wb-table td{text-align:center}
 .ex-notes{font-size:12px;color:var(--sub);margin:8px 0 0}
 .ex-notes summary{cursor:pointer;font-weight:600}
 .ex-notes ul{margin:6px 0 0 18px;padding:0}
