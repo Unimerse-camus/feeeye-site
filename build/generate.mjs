@@ -149,7 +149,7 @@ const I18N = {
   en: {
     navZh: '中文',
     navTools: 'Tools', navExchanges: 'Exchanges', navCompare: 'Compare', navLearn: 'Learn',
-    navTc: 'Spot Toolbox', navFee: 'Fee Calculator', navFut: 'Futures Toolbox', navCmp: 'Comparison', navGlo: 'Glossary', navSec: 'Token Check', navPf: 'Portfolio',
+    navTc: 'Spot Toolbox', navFut: 'Futures Toolbox', navCmp: 'Comparison', navGlo: 'Glossary', navSec: 'Token Check', navPf: 'Portfolio',
     discHtml: '<div class="note" style="text-align:left"><p style="margin:0 0 4px">① Fee snapshot: {SNAPSHOT} — verify each rate on the exchange\'s official page before trading.</p><p style="margin:0">② Compliance varies by exchange — always check each exchange\'s Terms of Use to confirm your country/region is supported before signing up.</p></div>',
     foot: 'Educational only. Not financial advice. Verify all data on official exchange pages. Data snapshot ', footContact: 'For feature requests or bug reports, contact ',
     footPrivacy: 'Privacy', footTerms: 'Terms', footAbout: 'About', footHome: 'Home',
@@ -203,7 +203,7 @@ const I18N = {
   zh: {
     navZh: 'English',
     navTools: '工具', navExchanges: '交易所', navCompare: '对比', navLearn: '学习',
-    navTc: '现货成本', navFee: '手续费计算', navFut: '合约工具', navCmp: '综合对比', navGlo: '术语', navSec: '代币检查', navPf: '持仓记账',
+    navTc: '现货成本', navFut: '合约工具', navCmp: '综合对比', navGlo: '术语', navSec: '代币检查', navPf: '持仓记账',
     discHtml: '<div class="note" style="text-align:left"><p style="margin:0 0 4px">① 费率快照：最近更新 {SNAPSHOT}—— 交易前请以各交易所官方页面为准。</p><p style="margin:0">② 合规受限地区因交易所而异——注册前请查各所 Terms of Use 确认你所在国家/地区可用。</p></div>',
     foot: '仅供教育参考，不构成投资建议。请以各交易所官方页面核实所有数据。数据快照 ', footContact: '如有任何功能需求和建议，或网页有错误需要修正，请联系 ',
     footPrivacy: '隐私政策', footTerms: '使用条款', footAbout: '关于我们', footHome: '首页',
@@ -299,9 +299,6 @@ function secPath(lang) {
 }
 function pfPath(lang) {
   return 'tools/portfolio-tracker' + (lang === 'zh' ? '.zh' : '') + '.html';
-}
-function feePath(lang) {
-  return 'tools/fee-calculator' + (lang === 'zh' ? '.zh' : '') + '.html';
 }
 
 // ---- 合规页面（Privacy / Terms / Affiliate Disclosure）----
@@ -503,7 +500,7 @@ input[type=number]{font-size:16px}
 <nav class="nav">
 <div class="nav-item">
 <button type="button" class="nav-btn${['tc','fee','fut','cmp','sec','pf'].includes(active) ? ' active' : ''}">${esc(i.navTools)} ▾</button>
-<div class="dropdown"><a href="${absPath(lang, tcPath(lang))}">${esc(i.navTc)}</a><a href="${absPath(lang, feePath(lang))}">${esc(i.navFee)}</a><a href="${absPath(lang, futPath(lang))}">${esc(i.navFut)}</a><a href="${absPath(lang, cmpPath(lang))}">${esc(i.navCmp)}</a><a href="${absPath(lang, secPath(lang))}">${esc(i.navSec)}</a><a href="${absPath(lang, pfPath(lang))}">${esc(i.navPf)}</a></div>
+<div class="dropdown"><a href="${absPath(lang, tcPath(lang))}">${esc(i.navTc)}</a><a href="${absPath(lang, futPath(lang))}">${esc(i.navFut)}</a><a href="${absPath(lang, cmpPath(lang))}">${esc(i.navCmp)}</a><a href="${absPath(lang, secPath(lang))}">${esc(i.navSec)}</a><a href="${absPath(lang, pfPath(lang))}">${esc(i.navPf)}</a></div>
 </div>
 <div class="nav-item">
 <button type="button" class="nav-btn${active === 'ex' ? ' active' : ''}">${esc(i.navExchanges)} ▾</button>
