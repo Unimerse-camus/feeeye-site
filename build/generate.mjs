@@ -124,17 +124,6 @@ if (fs.existsSync(coinJsonPath)) {
 const COIN_MAP = Object.fromEntries(COIN_LIST.map((c) => [c.symbol.toUpperCase(), c]));
 const coinCount = COIN_LIST.length;
 
-// 币种提币费数据（fetch_withdrawal.mjs 产出）：{ BTC: { binance: [{chain,fee,min}], ... }, ... }
-let WITHDRAWAL = {};
-const wdPath = path.join(dataDir, 'withdrawal.json');
-if (fs.existsSync(wdPath)) {
-  try {
-    WITHDRAWAL = JSON.parse(fs.readFileSync(wdPath, 'utf8')).coins || {};
-  } catch (e) {
-    console.warn('⚠️ withdrawal.json 解析失败，提币费列将显示空态');
-  }
-}
-
 // ---- 格式化 ----
 function esc(s) { return String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])); }
 function pct(x) { return (x * 100).toFixed(3) + '%'; }
@@ -171,9 +160,8 @@ const I18N = {
     wbH1: 'Buy {s}',
     wbIntro: '',
     wbToggle: 'Choose a value in each column',
-    wbColDeposit: 'Deposit', wbColSpot: 'Spot fee', wbColFut: 'Futures fee', wbColWd: 'Withdrawal fee', wbColFeat: 'Features',
+    wbColDeposit: 'Deposit', wbColSpot: 'Spot fee', wbColFut: 'Futures fee', wbColFeat: 'Features',
     wbTaker: 'Taker', wbMaker: 'Maker', wbCopy: 'Copy', wbBot: 'Bot', wbApi: 'API',
-    wbWdEmpty: 'No withdrawal data',
     wbNotesTitle: 'Regional & account notes',
     wbEmpty: 'No exchange listing data is available for {s} yet.',
     wbTitle: 'Where to Buy {s} — Compare Exchanges',
@@ -225,9 +213,8 @@ const I18N = {
     wbH1: '购买 {s}',
     wbIntro: '',
     wbToggle: '每列下拉可选择查看的项目',
-    wbColDeposit: '入金方式', wbColSpot: '现货费率', wbColFut: '合约费率', wbColWd: '提币费', wbColFeat: '能力',
+    wbColDeposit: '入金方式', wbColSpot: '现货费率', wbColFut: '合约费率', wbColFeat: '能力',
     wbTaker: '吃单', wbMaker: '挂单', wbCopy: '跟单', wbBot: '机器人', wbApi: 'API',
-    wbWdEmpty: '暂无提币数据',
     wbNotesTitle: '地区与账户提示',
     wbEmpty: '暂未获取到 {s} 的交易所上架数据。',
     wbTitle: '在哪里购买 {s}——交易所对比',
@@ -519,14 +506,6 @@ function whereToBuy(c, lang) {
   const zh = lang === 'zh';
   const L = (en, zhText) => (zh ? zhText : en);
 
-  const fmtFee = (n) => {
-    if (n == null) return '—';
-    if (n === 0) return '0';
-    const s = Number(n);
-    if (s >= 1) return s.toLocaleString(undefined, { maximumFractionDigits: 4 });
-    return s.toFixed(8).replace(/\.?0+$/, '');
-  };
-
   // 入金方式选项（各所并集，按常用程度排序）
   const DEPOSIT_OPTIONS = [
     { m: 'Credit/Debit card', label: L('Card', '信用卡') },
@@ -545,19 +524,7 @@ function whereToBuy(c, lang) {
     return d.fee === 0 ? '0%' : `${(d.fee * 100).toFixed(1)}%`;
   };
 
-  // 提币费（币种对应，来自 withdrawal.json）：链并集按最小费升序，默认最便宜链
-  const wd = WITHDRAWAL[symbol] || {};
-  const chainMin = new Map();
-  for (const slug of Object.keys(wd)) {
-    for (const ch of wd[slug]) {
-      if (ch.fee == null) continue;
-      const cur = chainMin.get(ch.chain);
-      if (cur == null || ch.fee < cur) chainMin.set(ch.chain, ch.fee);
-    }
-  }
-  const chains = [...chainMin.entries()].sort((a, b) => a[1] - b[1]).map((x) => x[0]);
-
-  // 5 个维度列，每个含多个下拉子项；子项值全部写入 HTML（爬虫可抓全文），JS 按 select 切换显示
+  // 4 个维度列，每个含多个下拉子项；子项值全部写入 HTML（爬虫可抓全文），JS 按 select 切换显示
   const dims = [
     { key: 'deposit', label: T(lang, 'wbColDeposit'), options: DEPOSIT_OPTIONS.map((o, i) => ({ key: o.m, label: o.label, def: i === 0, cell: (ex) => depositFee(ex, o.m) })) },
     { key: 'spot', label: T(lang, 'wbColSpot'), options: [
@@ -568,13 +535,6 @@ function whereToBuy(c, lang) {
       { key: 'taker', label: T(lang, 'wbTaker'), def: true, cell: (ex) => pct(ex.futures.taker) },
       { key: 'maker', label: T(lang, 'wbMaker'), def: false, cell: (ex) => pct(ex.futures.maker) }
     ] },
-    { key: 'wd', label: T(lang, 'wbColWd'), options: chains.length ? chains.map((chain, i) => ({
-      key: chain, label: chain, def: i === 0,
-      cell: (ex) => {
-        const ch = (wd[ex.slug] || []).find((x) => x.chain === chain && x.fee != null);
-        return ch ? `${fmtFee(ch.fee)} ${symbol}` : '—';
-      }
-    })) : [{ key: '__empty', label: T(lang, 'wbWdEmpty'), def: true, cell: () => '—' }] },
     { key: 'feat', label: T(lang, 'wbColFeat'), options: [
       { key: 'copy', label: T(lang, 'wbCopy'), def: true, cell: (ex) => (ex.has_copy_trading ? '✓' : '—') },
       { key: 'bot', label: T(lang, 'wbBot'), def: false, cell: (ex) => (ex.has_trading_bot ? '✓' : '—') },
