@@ -57,7 +57,7 @@
   th{background:#f1f5f9;font-weight:600;white-space:nowrap;}
   .up{color:var(--up);font-weight:700}
   .down{color:var(--down);font-weight:700}
-  .del{color:var(--sub);cursor:pointer;text-decoration:none;font-size:13px}
+  .del{color:var(--sub);cursor:pointer;text-decoration:underline;font-size:13px}
   .del:hover{color:var(--bad)}
   .tag-buy{display:inline-block;background:#eaf5ee;color:#16a34a;border-radius:999px;padding:1px 8px;font-size:11px;font-weight:700}
   .tag-sell{display:inline-block;background:#fdeaea;color:#dc2626;border-radius:999px;padding:1px 8px;font-size:11px;font-weight:700}
@@ -450,10 +450,11 @@
         '<td>' + fmt(t.qty, 8) + '</td>' +
         '<td>' + fmt(t.price) + '</td>' +
         '<td>' + fmt(t.qty * t.price) + '</td>' +
+        '<td>' + fmt(t.qty * t.price * d.feeRate / 100) + '</td>' +
         '<td><a class="del" data-id="' + t.id + '">✕</a></td>' +
         '</tr>';
     });
-    histTable.innerHTML = '<thead><tr><th>Time</th><th>Side</th><th>Coin</th><th>Amount</th><th>Price</th><th>Value</th><th></th></tr></thead><tbody>' + hh2 + '</tbody>';
+    histTable.innerHTML = '<thead><tr><th>Time</th><th>Side</th><th>Coin</th><th>Amount</th><th>Price</th><th>Value</th><th>Fees</th><th></th></tr></thead><tbody>' + hh2 + '</tbody>';
     histTable.style.display = 'table';
 
     histTable.querySelectorAll('.del').forEach(function(a){
