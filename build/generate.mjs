@@ -151,7 +151,7 @@ const I18N = {
     navTc: 'Spot Toolbox', navFut: 'Futures Toolbox', navCmp: 'Exchanges', navGlo: 'Glossary', navSec: 'Token Check', navPf: 'Portfolio',
     discHtml: '<div class="note" style="text-align:left"><p style="margin:0 0 4px">① Fee snapshot: {SNAPSHOT} — verify each rate on the exchange\'s official page before trading.</p><p style="margin:0">② Compliance varies by exchange — always check each exchange\'s Terms of Use to confirm your country/region is supported before signing up.</p></div>',
     foot: 'Educational only. Not financial advice. Verify all data on official exchange pages. Data snapshot ', footContact: 'For feature requests or bug reports, contact ',
-    footPrivacy: 'Privacy', footTerms: 'Terms', footAbout: 'About',
+    footPrivacy: 'Privacy', footTerms: 'Terms', footAbout: 'About', footHome: 'Home',
     thExchange: 'Exchange', thLists: 'Lists {s}', thTaker: 'Spot taker', thTakerFut: 'Futures taker', thFee20: 'USDT TRC20 fee',
     ctaBuy: 'Buy {s} on {x}', ctaOpen: 'Open KuCoin', ctaOpenOn: 'Open {x}', ctaAcct: 'Open a {x} account',
     alsoOn: '{s} is also available on: {o}. Use the Fee Calculator to compare your exact trade size.',
@@ -204,7 +204,7 @@ const I18N = {
     navTc: '现货工具', navFut: '合约工具', navCmp: '交易所对比', navGlo: '术语', navSec: '代币检查', navPf: '持仓记账',
     discHtml: '<div class="note" style="text-align:left"><p style="margin:0 0 4px">① 费率快照：最近更新 {SNAPSHOT}—— 交易前请以各交易所官方页面为准。</p><p style="margin:0">② 合规受限地区因交易所而异——注册前请查各所 Terms of Use 确认你所在国家/地区可用。</p></div>',
     foot: '仅供教育参考，不构成投资建议。请以各交易所官方页面核实所有数据。数据快照 ', footContact: '如有任何功能需求和建议，或网页有错误需要修正，请联系 ',
-    footPrivacy: '隐私政策', footTerms: '使用条款', footAbout: '关于我们',
+    footPrivacy: '隐私政策', footTerms: '使用条款', footAbout: '关于我们', footHome: '首页',
     thExchange: '交易所', thLists: '上架 {s}', thTaker: '现货吃单费率', thTakerFut: '合约吃单费率', thFee20: 'USDT TRC20 提币费',
     ctaBuy: '在 {x} 购买 {s}', ctaOpen: '打开 KuCoin', ctaOpenOn: '打开 {x}', ctaAcct: '注册 {x} 账户',
     alsoOn: '{s} 还可在以下平台购买：{o}。使用手续费计算器对比你的具体交易成本。',
@@ -392,7 +392,7 @@ function coinsPage(lang) {
   return page({ lang, title, desc, body, path: `${lang === 'zh' ? 'zh/' : ''}coins.html`, affiliate: false, noDisc: true });
 }
 
-function page({ lang, title, desc, body, jsonLd, depth = 0, path, affiliate = false, noDisc = false }) {
+function page({ lang, title, desc, body, jsonLd, depth = 0, path, affiliate = false, noDisc = false, noHomeFoot = false }) {
   const active = matchActiveNav(path);
   const i = I18N[lang];
   const canonical = `${SITE_URL}/${path}`;
@@ -494,7 +494,7 @@ input[type=number]{font-size:16px}
 </div>
 </header>
 ${body}
-<div class="foot">${discLine}${esc(i.foot)} ${esc(UPD)}.<br>${esc(i.footContact)}<a class="mail" href="mailto:feeeyeofficial@gmail.com">feeeyeofficial@gmail.com</a><br><a href="${absPath(lang, 'about.html')}">${esc(i.footAbout)}</a> · <a href="${absPath(lang, 'privacy.html')}">${esc(i.footPrivacy)}</a> · <a href="${absPath(lang, 'terms.html')}">${esc(i.footTerms)}</a></div>
+<div class="foot">${discLine}${esc(i.foot)} ${esc(UPD)}.<br>${esc(i.footContact)}<a class="mail" href="mailto:feeeyeofficial@gmail.com">feeeyeofficial@gmail.com</a><br>${noHomeFoot ? '' : `<a href="${absPath(lang, 'index.html')}">${esc(i.footHome)}</a> · `}<a href="${absPath(lang, 'about.html')}">${esc(i.footAbout)}</a> · <a href="${absPath(lang, 'privacy.html')}">${esc(i.footPrivacy)}</a> · <a href="${absPath(lang, 'terms.html')}">${esc(i.footTerms)}</a></div>
 </div>
 </body>
 </html>`;
@@ -711,7 +711,7 @@ function indexPage(lang) {
     document.getElementById('idxCoinInput').addEventListener('keydown', function(e){ if(e.key==='Enter') go(); });
   })();
   </script>`;
-  return page({ lang, title: T(lang, 'idxTitle'), desc: T(lang, 'idxDesc'), body, path: `${lang === 'zh' ? 'zh/' : ''}index.html`, affiliate: false, noDisc: true });
+  return page({ lang, title: T(lang, 'idxTitle'), desc: T(lang, 'idxDesc'), body, path: `${lang === 'zh' ? 'zh/' : ''}index.html`, affiliate: false, noDisc: true, noHomeFoot: true });
 }
 
 // ---- 写入 ----
