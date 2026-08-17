@@ -124,6 +124,17 @@ if (fs.existsSync(coinJsonPath)) {
 const COIN_MAP = Object.fromEntries(COIN_LIST.map((c) => [c.symbol.toUpperCase(), c]));
 const coinCount = COIN_LIST.length;
 
+// 币种提币费数据（fetch_withdrawal.mjs 产出）：{ BTC: { binance: [{chain,fee,min}], ... }, ... }
+let WITHDRAWAL = {};
+const wdPath = path.join(dataDir, 'withdrawal.json');
+if (fs.existsSync(wdPath)) {
+  try {
+    WITHDRAWAL = JSON.parse(fs.readFileSync(wdPath, 'utf8')).coins || {};
+  } catch (e) {
+    console.warn('⚠️ withdrawal.json 解析失败，提币费列将显示空态');
+  }
+}
+
 // ---- 格式化 ----
 function esc(s) { return String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])); }
 function pct(x) { return (x * 100).toFixed(3) + '%'; }
@@ -159,8 +170,10 @@ const I18N = {
     exDeposit: 'Deposit', exFut: 'Futures', exFeat: 'Features',
     wbH1: 'Buy {s}',
     wbIntro: '',
-    wbToggle: 'Tap a column to add or remove it',
-    wbColSpotTaker: 'Spot taker', wbColSpotMaker: 'Spot maker', wbColFutTaker: 'Futures taker', wbColFutMaker: 'Futures maker', wbColDeposit: 'Deposit', wbColUsdt: 'USDT fee (TRC20)', wbColFeat: 'Features',
+    wbToggle: 'Choose a value in each column',
+    wbColDeposit: 'Deposit', wbColSpot: 'Spot fee', wbColFut: 'Futures fee', wbColWd: 'Withdrawal fee', wbColFeat: 'Features',
+    wbTaker: 'Taker', wbMaker: 'Maker', wbCopy: 'Copy', wbBot: 'Bot', wbApi: 'API',
+    wbWdEmpty: 'No withdrawal data',
     wbNotesTitle: 'Regional & account notes',
     wbEmpty: 'No exchange listing data is available for {s} yet.',
     wbTitle: 'Where to Buy {s} — Compare Exchanges',
@@ -211,8 +224,10 @@ const I18N = {
     exDeposit: '入金', exFut: '合约', exFeat: '能力',
     wbH1: '购买 {s}',
     wbIntro: '',
-    wbToggle: '点击选项添加或移除对比列',
-    wbColSpotTaker: '现货吃单', wbColSpotMaker: '现货挂单', wbColFutTaker: '合约吃单', wbColFutMaker: '合约挂单', wbColDeposit: '入金方式', wbColUsdt: 'USDT 提币费 (TRC20)', wbColFeat: '能力',
+    wbToggle: '每列下拉可选择查看的项目',
+    wbColDeposit: '入金方式', wbColSpot: '现货费率', wbColFut: '合约费率', wbColWd: '提币费', wbColFeat: '能力',
+    wbTaker: '吃单', wbMaker: '挂单', wbCopy: '跟单', wbBot: '机器人', wbApi: 'API',
+    wbWdEmpty: '暂无提币数据',
     wbNotesTitle: '地区与账户提示',
     wbEmpty: '暂未获取到 {s} 的交易所上架数据。',
     wbTitle: '在哪里购买 {s}——交易所对比',
@@ -466,11 +481,8 @@ input[type=number]{font-size:16px}
 .foot a:hover{color:var(--brand)}
 .foot a.mail{color:var(--brand);font-weight:600;text-decoration:underline}
 .note{font-size:12px;color:var(--sub);margin:14px 0 28px;padding:0;text-align:left;line-height:1.6}
-.chips{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 14px}
-.chip{display:inline-flex;align-items:center;gap:6px;padding:7px 13px;border:1px solid var(--line);border-radius:8px;background:var(--card);cursor:pointer;font-weight:600;font-size:13px;user-select:none;min-height:36px;color:var(--ink)}
-.chip:hover{border-color:var(--brand);color:var(--brand)}
-.chip.on{background:var(--brand);color:#fff;border-color:var(--brand)}
 .wb-toggle-tip{font-size:12px;color:var(--sub);margin:0 0 4px}
+.col-sel{font-size:12.5px;font-weight:600;border:1px solid var(--line);border-radius:6px;background:#fff;padding:5px 8px;color:var(--ink);cursor:pointer;max-width:170px;white-space:nowrap}
 .scroll table.wb-table th.ex-sticky,.scroll table.wb-table td.ex-sticky{position:sticky;left:0;z-index:1;background:var(--card);border-right:1px solid var(--line)}
 .scroll table.wb-table th.ex-sticky{z-index:2;background:#f1f5f9}
 .ex-notes{font-size:12px;color:var(--sub);margin:8px 0 0}
@@ -504,43 +516,93 @@ ${body}
 // ---- 区块构建（en / zh 双语言）----
 function whereToBuy(c, lang) {
   const name = c.name, symbol = c.symbol;
-  const DMAP_ZH = { 'Bank transfer': '银行转账', 'Wire transfer': '电汇', 'Credit/Debit card': '信用卡/借记卡', 'P2P': 'P2P', 'Apple Pay': 'Apple Pay', 'Google Pay': 'Google Pay', 'Bpay': 'Bpay', 'PayPal': 'PayPal' };
-  const depositCell = (ex) => (ex.deposit_methods || []).map((d) => {
-    const m = lang === 'zh' ? (DMAP_ZH[d.m] || d.m) : d.m;
-    const fee = d.fee_max != null ? `${d.fee === 0 ? '0' : (d.fee * 100).toFixed(1)}-${(d.fee_max * 100).toFixed(1)}%` : (d.fee === 0 ? '0%' : `${(d.fee * 100).toFixed(1)}%`);
-    return `${m} ${fee}`;
-  }).join(' · ');
-  const featCell = (ex) => {
-    const caps = [];
-    if (ex.has_trading_bot) caps.push(lang === 'zh' ? '机器人' : 'Bot');
-    if (ex.has_api) caps.push('API');
-    if (ex.has_copy_trading) caps.push(lang === 'zh' ? '跟单' : 'Copy');
-    return caps.join(' · ');
+  const zh = lang === 'zh';
+  const L = (en, zhText) => (zh ? zhText : en);
+
+  const fmtFee = (n) => {
+    if (n == null) return '—';
+    if (n === 0) return '0';
+    const s = Number(n);
+    if (s >= 1) return s.toLocaleString(undefined, { maximumFractionDigits: 4 });
+    return s.toFixed(8).replace(/\.?0+$/, '');
   };
-  // 维度定义：key / 默认是否选中 / 列头 / 单元格渲染。非默认列内联 display:none，爬虫仍可抓取全文。
-  // 排序 = 用户买币决策链（最关心的前置）：现货费率 → 入金 → 提币 → 能力 → 合约 → 挂单（低频进阶）
-  const dims = [
-    { key: 'spotTaker', def: true, label: T(lang, 'wbColSpotTaker'), cell: (ex) => pct(ex.spot.taker) },
-    { key: 'deposit', def: true, label: T(lang, 'wbColDeposit'), cell: depositCell },
-    { key: 'usdtWd', def: true, label: T(lang, 'wbColUsdt'), cell: (ex) => usd(getFee(ex.slug, 'TRC20')) },
-    { key: 'feat', def: true, label: T(lang, 'wbColFeat'), cell: featCell },
-    { key: 'futTaker', def: false, label: T(lang, 'wbColFutTaker'), cell: (ex) => pct(ex.futures.taker) },
-    { key: 'spotMaker', def: false, label: T(lang, 'wbColSpotMaker'), cell: (ex) => pct(ex.spot.maker) },
-    { key: 'futMaker', def: false, label: T(lang, 'wbColFutMaker'), cell: (ex) => pct(ex.futures.maker) }
+
+  // 入金方式选项（各所并集，按常用程度排序）
+  const DEPOSIT_OPTIONS = [
+    { m: 'Credit/Debit card', label: L('Card', '信用卡') },
+    { m: 'Bank transfer', label: L('Bank transfer', '银行转账') },
+    { m: 'P2P', label: 'P2P' },
+    { m: 'Apple Pay', label: 'Apple Pay' },
+    { m: 'Google Pay', label: 'Google Pay' },
+    { m: 'PayPal', label: 'PayPal' },
+    { m: 'Wire transfer', label: L('Wire transfer', '电汇') },
+    { m: 'Bpay', label: 'Bpay' }
   ];
+  const depositFee = (ex, method) => {
+    const d = (ex.deposit_methods || []).find((x) => x.m === method);
+    if (!d) return '—';
+    if (d.fee_max != null) return `${d.fee === 0 ? '0' : (d.fee * 100).toFixed(1)}–${(d.fee_max * 100).toFixed(1)}%`;
+    return d.fee === 0 ? '0%' : `${(d.fee * 100).toFixed(1)}%`;
+  };
+
+  // 提币费（币种对应，来自 withdrawal.json）：链并集按最小费升序，默认最便宜链
+  const wd = WITHDRAWAL[symbol] || {};
+  const chainMin = new Map();
+  for (const slug of Object.keys(wd)) {
+    for (const ch of wd[slug]) {
+      if (ch.fee == null) continue;
+      const cur = chainMin.get(ch.chain);
+      if (cur == null || ch.fee < cur) chainMin.set(ch.chain, ch.fee);
+    }
+  }
+  const chains = [...chainMin.entries()].sort((a, b) => a[1] - b[1]).map((x) => x[0]);
+
+  // 5 个维度列，每个含多个下拉子项；子项值全部写入 HTML（爬虫可抓全文），JS 按 select 切换显示
+  const dims = [
+    { key: 'deposit', label: T(lang, 'wbColDeposit'), options: DEPOSIT_OPTIONS.map((o, i) => ({ key: o.m, label: o.label, def: i === 0, cell: (ex) => depositFee(ex, o.m) })) },
+    { key: 'spot', label: T(lang, 'wbColSpot'), options: [
+      { key: 'taker', label: T(lang, 'wbTaker'), def: true, cell: (ex) => pct(ex.spot.taker) },
+      { key: 'maker', label: T(lang, 'wbMaker'), def: false, cell: (ex) => pct(ex.spot.maker) }
+    ] },
+    { key: 'fut', label: T(lang, 'wbColFut'), options: [
+      { key: 'taker', label: T(lang, 'wbTaker'), def: true, cell: (ex) => pct(ex.futures.taker) },
+      { key: 'maker', label: T(lang, 'wbMaker'), def: false, cell: (ex) => pct(ex.futures.maker) }
+    ] },
+    { key: 'wd', label: T(lang, 'wbColWd'), options: chains.length ? chains.map((chain, i) => ({
+      key: chain, label: chain, def: i === 0,
+      cell: (ex) => {
+        const ch = (wd[ex.slug] || []).find((x) => x.chain === chain && x.fee != null);
+        return ch ? `${fmtFee(ch.fee)} ${symbol}` : '—';
+      }
+    })) : [{ key: '__empty', label: T(lang, 'wbWdEmpty'), def: true, cell: () => '—' }] },
+    { key: 'feat', label: T(lang, 'wbColFeat'), options: [
+      { key: 'copy', label: T(lang, 'wbCopy'), def: true, cell: (ex) => (ex.has_copy_trading ? '✓' : '—') },
+      { key: 'bot', label: T(lang, 'wbBot'), def: false, cell: (ex) => (ex.has_trading_bot ? '✓' : '—') },
+      { key: 'api', label: T(lang, 'wbApi'), def: false, cell: (ex) => (ex.has_api ? '✓' : '—') }
+    ] }
+  ];
+
   // 只展示上架该币的交易所；前三位固定 Binance/OKX/KuCoin（变现主力 + 用户认知），其余保持 EX 原顺序
   const PRIORITY = ['binance', 'okx', 'kucoin'];
   const supported = Object.keys(EX).filter((slug) => c.exchanges.includes(slug));
   const slugs = [...PRIORITY.filter((s) => supported.includes(s)), ...supported.filter((s) => !PRIORITY.includes(s))];
-  const ths = `<th class="ex-sticky">${esc(T(lang, 'thExchange'))}</th>` + dims.map((d) => `<th data-col="${d.key}"${d.def ? '' : ' style="display:none"'}>${esc(d.label)}</th>`).join('') + '<th></th>';
+
+  const ths = `<th class="ex-sticky">${esc(T(lang, 'thExchange'))}</th>` + dims.map((d) => {
+    const opts = d.options.map((o) => `<option value="${esc(o.key)}"${o.def ? ' selected' : ''}>${esc(o.label)}</option>`).join('');
+    return `<th data-col="${d.key}"><select class="col-sel" data-col="${d.key}" aria-label="${esc(d.label)}">${opts}</select></th>`;
+  }).join('') + '<th></th>';
+
   const rows = slugs.map((slug) => {
     const ex = EX[slug];
     const note = ex.new_user_note ? ` title="${esc(ex.new_user_note)}"` : '';
-    const cells = dims.map((d) => `<td data-col="${d.key}"${d.def ? '' : ' style="display:none"'}>${d.cell(ex)}</td>`).join('');
+    const cells = dims.map((d) => {
+      const spans = d.options.map((o) => `<span data-sub="${esc(o.key)}"${o.def ? '' : ' style="display:none"'}>${o.cell(ex)}</span>`).join('');
+      return `<td data-col="${d.key}">${spans}</td>`;
+    }).join('');
     const cta = ctaHtml(slug, esc(T(lang, 'ctaBuy', { s: symbol, x: ex.name })), lang);
     return `<tr><td class="ex-sticky"><b${note}>${ex.name}</b></td>${cells}<td style="text-align:center">${cta}</td></tr>`;
   }).join('');
-  const chips = dims.map((d) => `<button type="button" class="chip${d.def ? ' on' : ''}" data-col="${d.key}">${esc(d.label)}</button>`).join('');
+
   const sep = lang === 'zh' ? '：' : ': ';
   const notes = slugs.map((slug) => {
     const ex = EX[slug];
@@ -550,32 +612,28 @@ function whereToBuy(c, lang) {
   const change = c.change_24h;
   const changeHtml = change != null ? ` · 24h: <span style="color:${change >= 0 ? '#dc2626' : '#16a34a'};font-weight:600">${change >= 0 ? '+' : ''}${change.toFixed(2)}%</span>` : '';
   const priceLine = `<p class="intro">${esc(T(lang, 'priceLine', { n: name, s: symbol, p: fmtPrice(c.price), m: fmtCap(c.market_cap), r: c.rank, d: COIN_SNAPSHOT }))}${changeHtml}</p>`;
-  // 无上架数据时降级为空态提示（不渲染空表格），其余渲染可切换列的对比表
+  // 无上架数据时降级为空态提示，其余渲染可切换子项的下拉维度列
   const toggleBlock = slugs.length === 0
     ? `<p class="intro">${esc(T(lang, 'wbEmpty', { s: symbol }))}</p>`
     : `<p class="wb-toggle-tip">${esc(T(lang, 'wbToggle'))}</p>
-  <div class="chips">${chips}</div>
   <div class="scroll"><table class="wb-table"><thead><tr>${ths}</tr></thead><tbody>${rows}</tbody></table></div>
   ${notesHtml}
   <script>
   (function(){
-    var chips = document.querySelectorAll('.chips .chip');
-    function apply(){
-      for (var i = 0; i < chips.length; i++) {
-        var ch = chips[i];
-        var key = ch.getAttribute('data-col');
-        var on = ch.classList.contains('on');
-        var els = document.querySelectorAll('th[data-col="' + key + '"],td[data-col="' + key + '"]');
-        for (var j = 0; j < els.length; j++) els[j].style.display = on ? '' : 'none';
-      }
-    }
-    for (var i = 0; i < chips.length; i++) {
-      chips[i].addEventListener('click', function(){
-        this.classList.toggle('on');
-        apply();
+    var sels = document.querySelectorAll('.col-sel');
+    for (var i = 0; i < sels.length; i++) {
+      sels[i].addEventListener('change', function(){
+        var key = this.getAttribute('data-col');
+        var val = this.value;
+        var tds = document.querySelectorAll('td[data-col="' + key + '"]');
+        for (var j = 0; j < tds.length; j++) {
+          var spans = tds[j].querySelectorAll('span[data-sub]');
+          for (var k = 0; k < spans.length; k++) {
+            spans[k].style.display = spans[k].getAttribute('data-sub') === val ? '' : 'none';
+          }
+        }
       });
     }
-    apply();
   })();
   </script>`;
   const body = `

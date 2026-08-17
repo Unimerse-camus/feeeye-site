@@ -47,11 +47,19 @@ jobs:
           COINGECKO_API_KEY: ${{ secrets.COINGECKO_API_KEY }}
         run: node build/fetch_exchange_meta.mjs
 
+      # 拉取「每币 × 每所」提币链 + 提币费（原币计价），写 data/withdrawal.json
+      # KuCoin/OKX/Bybit/Bitget 公开；Binance 需只读 key（BINANCE_API_KEY/SECRET）
+      - name: Fetch withdrawal fees (per-coin chains)
+        env:
+          BINANCE_API_KEY: ${{ secrets.BINANCE_API_KEY }}
+          BINANCE_SECRET: ${{ secrets.BINANCE_SECRET }}
+        run: node build/fetch_withdrawal.mjs
+
       - name: Commit and push if changed
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/coins.json data/exchanges.js
+          git add data/coins.json data/exchanges.js data/withdrawal.json
           if git diff --cached --quiet; then
             echo "::notice::data unchanged, nothing to push"
           else
