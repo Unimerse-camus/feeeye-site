@@ -1,8 +1,13 @@
 {
   "meta": {
-    "generated_at": "2026-08-17T03:18:26.793Z",
+    "generated_at": "2026-08-17T03:39:22.057Z",
     "source": "exchange public APIs (KuCoin/OKX/Bybit/Bitget/Binance)",
-    "note": "fee/min 为原币数量；pct 为百分比费率；Kraken/Coinbase 动态费未收录"
+    "note": "fee/min 为原币数量；pct 为百分比费率；Kraken/Coinbase 动态费未收录",
+    "errors": {
+      "okx": "HTTP 401",
+      "binance": "HTTP 451",
+      "bybit": "BTC: HTTP 403"
+    }
   },
   "coins": {
     "BTC": {
@@ -295,21 +300,21 @@
         }
       ]
     },
-    "TAO": {
-      "bitget": [
-        {
-          "chain": "TAO",
-          "fee": 0.0008,
-          "min": 0.05099439
-        }
-      ]
-    },
     "WLFI": {
       "bitget": [
         {
           "chain": "ERC20",
           "fee": 13.518081,
           "min": 202.771206
+        }
+      ]
+    },
+    "TAO": {
+      "bitget": [
+        {
+          "chain": "TAO",
+          "fee": 0.0008,
+          "min": 0.05099439
         }
       ]
     },
@@ -436,12 +441,12 @@
         }
       ]
     },
-    "PUMP": {
+    "BTW": {
       "bitget": [
         {
-          "chain": "SOL",
-          "fee": 373.692078,
-          "min": 3736.920777
+          "chain": "BEP20",
+          "fee": 0.39713639,
+          "min": 26.47575879
         }
       ]
     },
@@ -454,12 +459,12 @@
         }
       ]
     },
-    "BTW": {
+    "PUMP": {
       "bitget": [
         {
-          "chain": "BEP20",
-          "fee": 0.39713639,
-          "min": 26.47575879
+          "chain": "SOL",
+          "fee": 373.692078,
+          "min": 3736.920777
         }
       ]
     },
@@ -744,12 +749,12 @@
         }
       ]
     },
-    "PYTH": {
+    "BSV": {
       "bitget": [
         {
-          "chain": "SOL",
-          "fee": 26.109661,
-          "min": 261.096605
+          "chain": "BSV",
+          "fee": 0.0004,
+          "min": 0.66360655
         }
       ]
     },
@@ -762,12 +767,12 @@
         }
       ]
     },
-    "BSV": {
+    "PYTH": {
       "bitget": [
         {
-          "chain": "BSV",
-          "fee": 0.0004,
-          "min": 0.66360655
+          "chain": "SOL",
+          "fee": 26.109661,
+          "min": 261.096605
         }
       ]
     },
@@ -816,15 +821,6 @@
         }
       ]
     },
-    "FET": {
-      "bitget": [
-        {
-          "chain": "FET",
-          "fee": 0.001,
-          "min": 82.44023083
-        }
-      ]
-    },
     "ZRO": {
       "bitget": [
         {
@@ -836,6 +832,15 @@
           "chain": "ERC20",
           "fee": 1.061008,
           "min": 13.262599
+        }
+      ]
+    },
+    "FET": {
+      "bitget": [
+        {
+          "chain": "FET",
+          "fee": 0.001,
+          "min": 82.44023083
         }
       ]
     },
@@ -963,15 +968,6 @@
           "chain": "SOL",
           "fee": 7.42942051,
           "min": 74.29420505
-        }
-      ]
-    },
-    "KII": {
-      "bitget": [
-        {
-          "chain": "BEP20",
-          "fee": 2.29470078,
-          "min": 152.9800514
         }
       ]
     },
