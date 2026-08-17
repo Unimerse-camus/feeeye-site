@@ -467,7 +467,7 @@ input[type=number]{font-size:16px}
 .foot a{color:var(--sub);text-decoration:underline}
 .foot a:hover{color:var(--brand)}
 .foot a.mail{color:var(--brand);font-weight:600;text-decoration:underline}
-.note{font-size:12px;color:var(--sub);margin:14px 0 28px;padding:0;text-align:left;line-height:1.6}
+.note{font-size:12px;color:var(--sub);margin:18px 0 28px;padding:0;text-align:left;line-height:1.6}
 .wb-toggle-tip{font-size:12px;color:var(--sub);margin:0 0 4px}
 .col-sel{font-size:12.5px;font-weight:600;border:1px solid var(--line);border-radius:6px;background:#fff;padding:5px 8px;color:var(--ink);cursor:pointer;max-width:170px;white-space:nowrap;text-align:center;text-align-last:center}
 .scroll table.wb-table th.ex-sticky,.scroll table.wb-table td.ex-sticky{position:sticky;left:0;z-index:1;background:var(--card);border-right:1px solid var(--line)}
@@ -668,7 +668,7 @@ function countryPage(cc, lang) {
   <div class="note">${esc(T(lang, 'cyNote', { n: name, r: RESTRICTED_LABEL }))}</div>
   <div class="scroll"><table><thead><tr><th>${esc(T(lang, 'thExchange'))}</th><th>${esc(T(lang, 'thTaker'))}</th><th>${esc(T(lang, 'thFee20'))}</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>
   <p class="intro">${esc(T(lang, 'cyUse'))}</p>`;
-  return page({ lang, title: T(lang, 'cyTitle', { n: name }), desc: T(lang, 'cyDesc', { n: name }), body, depth: lang === 'zh' ? 2 : 1, path: `${lang === 'zh' ? 'zh/' : ''}${cc.toLowerCase()}/exchanges.html`, affiliate: false });
+  return page({ lang, title: T(lang, 'cyTitle', { n: name }), desc: T(lang, 'cyDesc', { n: name }), body, depth: lang === 'zh' ? 2 : 1, path: `${lang === 'zh' ? 'zh/' : ''}${cc.toLowerCase()}/exchanges.html`, affiliate: false, noDisc: true });
 }
 
 function indexPage(lang) {
