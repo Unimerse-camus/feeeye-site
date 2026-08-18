@@ -33,7 +33,7 @@ window.EXCHANGES = {
     "has_copy_trading": true,
     "new_user_note": "KuCoin base spot 0.10% (20% off with KCS). USDT-TRC20 withdraw 1.5 USDT. EU onboarding paused (Feb 2026); US banned (Mar 2026).",
     "source": "https://www.kucoin.com/vip/level + cexorer.com/kucoin/usdt",
-    "last_updated": "2026-08-17"
+    "last_updated": "2026-08-18"
   },
   "binance": {
     "slug": "binance",
@@ -59,7 +59,7 @@ window.EXCHANGES = {
     "has_copy_trading": true,
     "new_user_note": "Binance base spot 0.10% (25% off with BNB). USDT-TRC20 1 USDT. Fiat deposit methods vary by region.",
     "source": "https://www.binance.com/en/fee/schedule",
-    "last_updated": "2026-08-17"
+    "last_updated": "2026-08-18"
   },
   "bybit": {
     "slug": "bybit",
@@ -82,7 +82,7 @@ window.EXCHANGES = {
     "has_copy_trading": true,
     "new_user_note": "Bybit base spot 0.10%. USDT-TRC20 1 USDT. Restricted: US/China/Singapore/etc.",
     "source": "https://www.bybit.com/en/help-center/fee",
-    "last_updated": "2026-08-17"
+    "last_updated": "2026-08-18"
   },
   "okx": {
     "slug": "okx",
@@ -105,7 +105,7 @@ window.EXCHANGES = {
     "has_copy_trading": true,
     "new_user_note": "OKX spot 0.08%/0.10% (Lv1). USDT-TRC20 1 USDT. Mainland-China KYC status changing (2026).",
     "source": "https://www.okx.com/fees",
-    "last_updated": "2026-08-17"
+    "last_updated": "2026-08-18"
   },
   "bitget": {
     "slug": "bitget",
@@ -127,7 +127,7 @@ window.EXCHANGES = {
     "has_copy_trading": true,
     "new_user_note": "Bitget base spot 0.10% (20% off with BGB). USDT-TRC20 1.5 USDT.",
     "source": "https://www.bitget.com/fee",
-    "last_updated": "2026-08-17"
+    "last_updated": "2026-08-18"
   },
   "kraken": {
     "slug": "kraken",
@@ -148,7 +148,7 @@ window.EXCHANGES = {
     "has_copy_trading": false,
     "new_user_note": "Kraken Pro spot 0.25%/0.40%. USDT-TRC20 ~2 USDT (ERC20 ~2.5). No P2P.",
     "source": "https://www.kraken.com/features/fee-schedule",
-    "last_updated": "2026-08-17"
+    "last_updated": "2026-08-18"
   },
   "coinbase": {
     "slug": "coinbase",
@@ -169,7 +169,7 @@ window.EXCHANGES = {
     "has_copy_trading": false,
     "new_user_note": "Coinbase Advanced spot 0.40%/0.60%. No TRC20 USDT (ERC20/Base/BSC/Arbitrum). No P2P.",
     "source": "https://www.coinbase.com/fees",
-    "last_updated": "2026-08-17"
+    "last_updated": "2026-08-18"
   }
 };
 
