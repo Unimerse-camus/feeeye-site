@@ -447,10 +447,12 @@ function coinsPage(lang) {
   return page({ lang, title, desc, body, path: `${lang === 'zh' ? 'zh/' : ''}coins.html`, affiliate: false, noDisc: true });
 }
 
-function page({ lang, title, desc, body, jsonLd, depth = 0, path, affiliate = false, noDisc = false, noHomeFoot = false }) {
+function page({ lang, title, desc, body, jsonLd, depth = 0, path, affiliate = false, noDisc = false, noHomeFoot = false, noIndex = false }) {
   const active = matchActiveNav(path);
   const i = I18N[lang];
-  const canonical = `${SITE_URL}/${path}`;
+  // canonical 指向 Cloudflare Pages 308 重定向后的目标 URL（去掉 .html 后缀）
+  // 避免 Google Search Console 报「网页会自动重定向」+「备用网页」
+  const canonical = `${SITE_URL}/${path.replace(/\.html$/, '')}`;
   const ld = jsonLd ? `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>` : '';
   // 仅在显式传 noDisc 时才隐藏（如首页/legal/about/coins 等纯信息页）
   const discLine = noDisc ? '' : i.discHtml.replace(/\{SNAPSHOT\}/g, COIN_SNAPSHOT);
@@ -469,12 +471,13 @@ function page({ lang, title, desc, body, jsonLd, depth = 0, path, affiliate = fa
 <meta http-equiv="Expires" content="0">
 <title>${esc(title)}</title>
 <meta name="description" content="${esc(desc)}">
+${noIndex ? '<meta name="robots" content="noindex, follow">' : ''}
 <link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
 <link rel="canonical" href="${canonical}">
-<link rel="alternate" hreflang="en" href="${SITE_URL}/${lang === 'zh' ? path.replace(/^zh\//, '') : path}">
-${lang === 'zh' ? `<link rel="alternate" hreflang="zh" href="${SITE_URL}/${path}">` : `<link rel="alternate" hreflang="zh" href="${SITE_URL}/zh/${path}">`}
+<link rel="alternate" hreflang="en" href="${SITE_URL}/${(lang === 'zh' ? path.replace(/^zh\//, '') : path).replace(/\.html$/, '')}">
+${lang === 'zh' ? `<link rel="alternate" hreflang="zh" href="${canonical}">` : `<link rel="alternate" hreflang="zh" href="${SITE_URL}/zh/${path.replace(/\.html$/, '')}">`}
 <meta property="og:type" content="website">
 <meta property="og:url" content="${canonical}">
 <meta property="og:title" content="${esc(title)}">
@@ -980,7 +983,7 @@ function countryPage(cc, lang) {
   <div class="note">${esc(T(lang, 'cyNote', { n: name, r: RESTRICTED_LABEL }))}</div>
   <div class="scroll"><table><thead><tr><th>${esc(T(lang, 'thExchange'))}</th><th>${esc(T(lang, 'thTaker'))}</th><th>${esc(T(lang, 'thFee20'))}</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>
   <p class="intro">${esc(T(lang, 'cyUse'))}</p>`;
-  return page({ lang, title: T(lang, 'cyTitle', { n: name }), desc: T(lang, 'cyDesc', { n: name }), body, depth: lang === 'zh' ? 2 : 1, path: `${lang === 'zh' ? 'zh/' : ''}${cc.toLowerCase()}/exchanges.html`, affiliate: false, noDisc: true });
+  return page({ lang, title: T(lang, 'cyTitle', { n: name }), desc: T(lang, 'cyDesc', { n: name }), body, depth: lang === 'zh' ? 2 : 1, path: `${lang === 'zh' ? 'zh/' : ''}${cc.toLowerCase()}/exchanges.html`, affiliate: false, noDisc: true, noIndex: !!info.restricted });
 }
 
 function indexPage(lang) {
@@ -1054,7 +1057,6 @@ for (const lang of ['en', 'zh']) {
     }
   }
   for (const cc of Object.keys(CA)) {
-    if (CA[cc].restricted) continue;
     write(`${lang === 'zh' ? 'zh/' : ''}${cc.toLowerCase()}/exchanges.html`, countryPage(cc, lang)); count++;
   }
   for (const key of ['privacy', 'terms', 'disclosure']) {
