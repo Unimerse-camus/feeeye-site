@@ -188,6 +188,12 @@ const I18N = {
     exTitle: '{n} Fees & Data 2026',
     exDesc: '{n} fees, USDT withdrawal costs, supported networks and trading features. Compare with other exchanges.',
     exCompare: 'Compare: ',
+    exTrust: 'Trust', exSec: 'Security', exPor: 'PoR', exCold: 'Cold storage',
+    exFeeBlock: 'Trading fees', exTier: 'Tier', exMaker: 'Maker', exTaker: 'Taker', exThreshold: '30d volume', exTokenDisc: 'Pay with {t} saves {r}',
+    exSecBlock: 'Security & compliance', exReserve: 'Proof of reserves', exLicenses: 'Licenses', exKyc: 'KYC', exIncident: 'Security history',
+    exWdBlock: 'USDT withdrawal fees', exNet: 'Network', exFee: 'Fee', exDepBlock: 'Deposit methods', exMethod: 'Method',
+    exCapBlock: 'Trading capabilities', exVolume: '24h volume', exMaxLev: 'Max leverage', exOptions: 'Options', exMargin: 'Margin', exLeveragedTok: 'Leveraged tokens', exCopy: 'Copy trading',
+    exNote: 'Fee snapshot — always confirm on the official exchange page.',
     cpH1: '{a} vs {b} — Fee & Feature Comparison (2026)',
     cpIntro: 'Side-by-side of trading fees, withdrawal costs and features. Data snapshot {u}.',
     cpTh: 'Feature', cpQ1: '{a} or {b} — which has lower fees?',
@@ -242,6 +248,12 @@ const I18N = {
     exTitle: '{n} 费率与数据 2026',
     exDesc: '{n} 费率、USDT 提币成本、支持网络与交易功能。与其他交易所对比。',
     exCompare: '对比：',
+    exTrust: '信任分', exSec: '安全分', exPor: '储备证明', exCold: '冷存储',
+    exFeeBlock: '交易费率', exTier: '档位', exMaker: '挂单', exTaker: '吃单', exThreshold: '30天交易量', exTokenDisc: '用 {t} 支付省 {r}',
+    exSecBlock: '安全与合规', exReserve: '储备证明', exLicenses: '牌照', exKyc: 'KYC', exIncident: '安全历史',
+    exWdBlock: 'USDT 提币费', exNet: '网络', exFee: '费用', exDepBlock: '入金方式', exMethod: '方式',
+    exCapBlock: '交易能力', exVolume: '24h 交易量', exMaxLev: '最大杠杆', exOptions: '期权', exMargin: '保证金', exLeveragedTok: '杠杆代币', exCopy: '跟单',
+    exNote: '费率快照——交易前请以官方页面为准。',
     cpH1: '{a} vs {b}——费率与功能对比（2026）',
     cpIntro: '交易费率、提币成本与功能并列对比。数据快照 {u}。',
     cpTh: '功能', cpQ1: '{a} 还是 {b}——哪家费率更低？',
@@ -491,6 +503,34 @@ input[type=number]{font-size:16px}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 @media(max-width:640px){.grid{grid-template-columns:1fr}}
 .scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.tbadges{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 6px}
+.tbadge{background:#f8fafc;border:1px solid var(--line);border-radius:8px;padding:6px 12px;text-align:center;min-width:84px}
+.tbadge span{display:block;font-size:11px;color:var(--sub)}
+.tbadge b{display:block;font-size:14px;color:#1e293b;margin-top:2px}
+.fee-panel{background:#f8fafc;border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-top:8px}
+.fee-tabs{display:flex;gap:6px;margin-bottom:12px}
+.ftab{background:#fff;border:1px solid var(--line);border-radius:6px;padding:5px 14px;font-size:13px;cursor:pointer;color:#1e293b;font-family:inherit}
+.ftab.active{background:var(--brand);border-color:var(--brand);color:#fff}
+.fee-tier{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.fee-tier label{font-size:13px;color:var(--sub)}
+.fee-tier select{flex:1;max-width:320px;padding:6px 10px;border:1px solid var(--line);border-radius:6px;font-size:14px;background:#fff;color:#1e293b}
+.fee-rates{display:flex;gap:12px;margin-bottom:8px}
+.frate{flex:1;background:#fff;border:1px solid var(--line);border-radius:8px;padding:10px 14px}
+.frate span{display:block;font-size:12px;color:var(--sub)}
+.frate b{display:block;font-size:20px;color:#1e293b;margin-top:2px}
+.fee-meta{font-size:12px;color:var(--sub);display:flex;gap:12px;flex-wrap:wrap}
+.fee-disc{color:var(--brand);font-weight:500}
+.sec-list{border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-top:8px}
+.srow{display:flex;justify-content:space-between;padding:9px 14px;border-bottom:1px solid var(--line);font-size:13.5px}
+.srow:last-child{border-bottom:none}
+.srow:nth-child(odd){background:#f8fafc}
+.srow span{color:var(--sub)}
+.srow b{color:#1e293b;font-weight:500;text-align:right;margin-left:16px}
+.cap-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px}
+.cap{background:#f8fafc;border:1px solid var(--line);border-radius:8px;padding:8px 12px}
+.cap span{display:block;font-size:11px;color:var(--sub)}
+.cap b{display:block;font-size:14px;color:#1e293b;margin-top:2px}
+@media(max-width:640px){.cap-grid{grid-template-columns:repeat(2,1fr)}}
 .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
 .card a{color:var(--brand);text-decoration:none;font-weight:600}
 .card-title{display:inline-block;color:var(--ink);font-weight:700;margin-bottom:6px;text-decoration:none}
@@ -693,25 +733,109 @@ function whereToBuy(c, lang) {
 
 function exchangePage(slug, lang) {
   const ex = EX[slug];
-  const totalListed = (EXCHANGE_COMPARE[slug] && EXCHANGE_COMPARE[slug].coins) || null;
+  const zh = lang === 'zh';
+  const cd = EXCHANGE_COMPARE[slug] || {};
+  const tiers = ex.vip_tiers || [];
+  const disc = ex.token_discount;
   const cmp = Object.keys(EX).filter((s) => s !== slug).slice(0, 3);
   const cmpLinks = cmp.map((s) => {
     const [x, y] = [slug, s].sort();
     return `<a href="${absPath(lang, 'compare/' + x + '-vs-' + y + '.html')}">${ex.name} vs ${EX[s].name}</a>`;
   }).join(' · ');
+
+  // 头部信任徽章
+  const badges = [
+    [T(lang, 'exTrust'), cd.trust != null ? cd.trust + '/10' : '—'],
+    [T(lang, 'exSec'), cd.security != null ? cd.security + '/10' : '—'],
+    [T(lang, 'exPor'), cd.reserve || '—'],
+    [T(lang, 'exCold'), cd.cold || '—']
+  ].map(([k, v]) => `<div class="tbadge"><span>${esc(k)}</span><b>${esc(String(v))}</b></div>`).join('');
+
+  // 费率区块（VIP 档位下拉）
+  const tierOpts = tiers.map((t) => `<option value="${esc(t.t)}">${esc(t.t)} · ${esc(t.th)}</option>`).join('');
+  const discHtml = disc ? `<span class="fee-disc">${esc(T(lang, 'exTokenDisc', { t: disc.token, r: Math.round(disc.rate * 100) + '%' }))}</span>` : '';
+
+  // 提币费表格（多链）
+  const wdRows = Object.entries(ex.usdt_withdrawal || {}).map(([net, fee]) => `<tr><td>${esc(net)}</td><td>${fee == null ? '—' : usd(fee)}</td></tr>`).join('');
+
+  // 入金通道表格
+  const depRows = (ex.deposit_methods || []).map((d) => `<tr><td>${esc(d.m)}</td><td>${d.fee === 0 ? '0' : (d.fee_max != null ? pct(d.fee) + ' – ' + pct(d.fee_max) : pct(d.fee))}</td></tr>`).join('');
+
+  // 交易能力清单
+  const caps = [
+    [T(lang, 'exVolume'), cd.volume || '—'],
+    [T(lang, 'exCoins'), cd.coins != null ? cd.coins.toLocaleString() : '—'],
+    [T(lang, 'exMaxLev'), cd.max_leverage ? cd.max_leverage + 'x' : '—'],
+    [T(lang, 'exOptions'), cd.has_options ? T(lang, 'exBotYes') : T(lang, 'exBotNo')],
+    [T(lang, 'exMargin'), cd.has_margin ? T(lang, 'exBotYes') : T(lang, 'exBotNo')],
+    [T(lang, 'exLeveragedTok'), cd.has_leveraged_tokens ? T(lang, 'exBotYes') : T(lang, 'exBotNo')],
+    [T(lang, 'exCopy'), ex.has_copy_trading ? T(lang, 'exBotYes') : T(lang, 'exBotNo')],
+    [T(lang, 'exBot'), ex.has_trading_bot ? T(lang, 'exBotYes') : T(lang, 'exBotNo')],
+    [T(lang, 'exApi'), ex.has_api ? T(lang, 'exBotYes') : T(lang, 'exBotNo')]
+  ].map(([k, v]) => `<div class="cap"><span>${esc(k)}</span><b>${esc(String(v))}</b></div>`).join('');
+
   const body = `
   <h1>${esc(T(lang, 'exH1', { n: ex.name }))}</h1>
   <p class="intro">${esc(T(lang, 'exIntro', { n: ex.name, u: UPD }))}</p>
-  <div class="grid">
-    <div class="card"><b>${esc(T(lang, 'exSpot'))}</b><br>${esc(T(lang, 'thTaker'))} ${pct(ex.spot.taker)} · ${esc(lang === 'zh' ? '挂单' : 'Maker')} ${pct(ex.spot.maker)}</div>
-    <div class="card"><b>${esc(T(lang, 'exFutures'))}</b><br>${esc(T(lang, 'thTakerFut'))} ${pct(ex.futures.taker)} · ${esc(lang === 'zh' ? '挂单' : 'Maker')} ${pct(ex.futures.maker)}</div>
-    <div class="card"><b>${esc(T(lang, 'exWd'))}</b><br>TRC20 ${usd(getFee(slug, 'TRC20'))} · ERC20 ${usd(getFee(slug, 'ERC20'))}</div>
-    <div class="card"><b>${esc(T(lang, 'exCoins'))}</b><br>${esc(T(lang, 'exOf', { t: totalListed != null ? totalListed.toLocaleString() : '—' }))}</div>
-    <div class="card"><b>${esc(T(lang, 'exBot'))}</b><br>${ex.has_trading_bot ? T(lang, 'exBotYes') : T(lang, 'exBotNo')}</div>
-    <div class="card"><b>${esc(T(lang, 'exApi'))}</b><br>${ex.has_api ? T(lang, 'exBotYes') : T(lang, 'exBotNo')}</div>
+  <div class="tbadges">${badges}</div>
+
+  <h3>${esc(T(lang, 'exFeeBlock'))}</h3>
+  <div class="fee-panel">
+    <div class="fee-tabs"><button type="button" class="ftab active" data-mkt="spot">${zh ? '现货' : 'Spot'}</button><button type="button" class="ftab" data-mkt="fut">${zh ? '合约' : 'Futures'}</button></div>
+    <div class="fee-tier"><label>${esc(T(lang, 'exTier'))}</label><select id="feeTier">${tierOpts}</select></div>
+    <div class="fee-rates">
+      <div class="frate"><span>${esc(T(lang, 'exMaker'))}</span><b id="feeMaker"></b></div>
+      <div class="frate"><span>${esc(T(lang, 'exTaker'))}</span><b id="feeTaker"></b></div>
+    </div>
+    <div class="fee-meta"><span id="feeTh"></span>${discHtml}</div>
   </div>
-  ${linkFor(slug) ? `<p style="margin-top:14px">${ctaHtml(slug, esc(T(lang, 'ctaAcct', { x: ex.name })), lang)}</p>` : ''}
-  <p class="intro" style="margin-top:16px">${esc(T(lang, 'exCompare'))}${cmpLinks}</p>`;
+
+  <h3>${esc(T(lang, 'exSecBlock'))}</h3>
+  <div class="sec-list">
+    <div class="srow"><span>${esc(T(lang, 'exReserve'))}</span><b>${esc(cd.reserve || '—')}</b></div>
+    <div class="srow"><span>${esc(T(lang, 'exCold'))}</span><b>${esc(cd.cold || '—')}</b></div>
+    <div class="srow"><span>${esc(T(lang, 'exLicenses'))}</span><b>${esc(cd.licenses || '—')}</b></div>
+    <div class="srow"><span>${esc(T(lang, 'exKyc'))}</span><b>${esc(cd.kyc || '—')}</b></div>
+    <div class="srow"><span>${esc(T(lang, 'exIncident'))}</span><b>${esc(cd.incident || '—')}</b></div>
+  </div>
+
+  <h3>${esc(T(lang, 'exWdBlock'))}</h3>
+  <div class="scroll"><table><thead><tr><th>${esc(T(lang, 'exNet'))}</th><th>${esc(T(lang, 'exFee'))}</th></tr></thead><tbody>${wdRows}</tbody></table></div>
+
+  <h3>${esc(T(lang, 'exDepBlock'))}</h3>
+  <div class="scroll"><table><thead><tr><th>${esc(T(lang, 'exMethod'))}</th><th>${esc(T(lang, 'exFee'))}</th></tr></thead><tbody>${depRows}</tbody></table></div>
+
+  <h3>${esc(T(lang, 'exCapBlock'))}</h3>
+  <div class="cap-grid">${caps}</div>
+
+  ${linkFor(slug) ? `<p style="margin-top:18px">${ctaHtml(slug, esc(T(lang, 'ctaAcct', { x: ex.name })), lang)}</p>` : ''}
+  <p class="note" style="margin-top:16px">${esc(T(lang, 'exNote'))}</p>
+  <p class="intro" style="margin-top:12px">${esc(T(lang, 'exCompare'))}${cmpLinks}</p>
+  <script>
+  (function(){
+    var tiers = ${JSON.stringify(tiers)};
+    var mkt = 'spot';
+    var sel = document.getElementById('feeTier');
+    var tabs = document.querySelectorAll('.ftab');
+    function fmt(x){ return x == null ? '\u2014' : (x*100).toFixed(3).replace(/\\.?0+$/, '') + '%'; }
+    function render(){
+      var t = tiers[sel.selectedIndex] || tiers[0];
+      var maker = mkt === 'spot' ? t.sm : t.fm;
+      var taker = mkt === 'spot' ? t.st : t.ft;
+      document.getElementById('feeMaker').textContent = fmt(maker);
+      document.getElementById('feeTaker').textContent = fmt(taker);
+      document.getElementById('feeTh').textContent = ${JSON.stringify(zh ? '30天量 ' : '30d volume ')} + t.th;
+    }
+    for (var i=0;i<tabs.length;i++){ tabs[i].addEventListener('click', function(e){
+      for (var j=0;j<tabs.length;j++) tabs[j].classList.remove('active');
+      this.classList.add('active');
+      mkt = this.getAttribute('data-mkt');
+      render();
+    });}
+    sel.addEventListener('change', render);
+    render();
+  })();
+  </script>`;
   return page({ lang, title: T(lang, 'exTitle', { n: ex.name }), desc: T(lang, 'exDesc', { n: ex.name }), body, path: `${lang === 'zh' ? 'zh/' : ''}exchanges/${slug}.html`, affiliate: false });
 }
 
