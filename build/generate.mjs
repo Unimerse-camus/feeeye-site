@@ -449,8 +449,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC
 .nav-btn{background:none;border:none;color:#1e293b;font-size:14px;line-height:1;white-space:nowrap;padding:0 0 2px;cursor:pointer;border-bottom:2px solid transparent;font-family:inherit}
 .nav-btn:hover{color:var(--brand);border-bottom-color:var(--brand)}
 .nav-btn.active{color:var(--brand);border-bottom:2px solid var(--brand);font-weight:600}
-.dropdown{display:none;position:absolute;top:100%;left:50%;transform:translateX(-50%);background:#fff;border:1px solid var(--line);border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,.12);z-index:200;min-width:190px;padding:6px;white-space:nowrap;margin-top:6px}
-.nav-item:hover .dropdown,.nav-item.open .dropdown{display:block}
+.dropdown{display:none;position:absolute;top:100%;left:50%;transform:translateX(-50%);background:#fff;border:1px solid var(--line);border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,.12);z-index:200;min-width:190px;padding:6px;white-space:nowrap;margin-top:0;padding-top:8px;opacity:0;transition:opacity .12s ease}
+.nav-item:hover .dropdown,.nav-item.open .dropdown{display:block;opacity:1}
+.dropdown::before{content:\"\";position:absolute;left:0;right:0;top:-10px;height:10px;background:transparent}
 .dropdown a{display:block;padding:8px 12px;color:#1e293b;font-size:13.5px;border-radius:6px;border-bottom:none;text-decoration:none}
 .dropdown a:hover{background:#f1f5f9;color:var(--brand)}
 .topbar>span{flex-shrink:0;padding-right:30px;padding-top:6px}
@@ -521,19 +522,40 @@ ${body}
 <script>
 (function(){
   var btns = document.querySelectorAll('.nav-btn');
-  for (var i = 0; i < btns.length; i++) {
-    btns[i].addEventListener('click', function(e){
-      e.stopPropagation();
-      var item = this.parentElement;
-      var wasOpen = item.classList.contains('open');
-      var opened = document.querySelectorAll('.nav-item.open');
-      for (var j = 0; j < opened.length; j++) opened[j].classList.remove('open');
-      if (!wasOpen) item.classList.add('open');
-    });
-  }
-  document.addEventListener('click', function(){
+  var closeTimer = null;
+  function closeAll() {
     var opened = document.querySelectorAll('.nav-item.open');
     for (var j = 0; j < opened.length; j++) opened[j].classList.remove('open');
+  }
+  function scheduleClose() {
+    clearTimeout(closeTimer);
+    closeTimer = setTimeout(closeAll, 180);
+  }
+  function cancelClose() {
+    clearTimeout(closeTimer);
+  }
+  for (var i = 0; i < btns.length; i++) {
+    (function(btn){
+      var item = btn.parentElement;
+      btn.addEventListener('click', function(e){
+        e.stopPropagation();
+        var wasOpen = item.classList.contains('open');
+        closeAll();
+        cancelClose();
+        if (!wasOpen) item.classList.add('open');
+      });
+      // 桌面 hover：进入立即打开（与 CSS hover 同步）；离开延迟 180ms 关闭
+      item.addEventListener('mouseenter', function(){
+        cancelClose();
+        closeAll();
+        item.classList.add('open');
+      });
+      item.addEventListener('mouseleave', scheduleClose);
+    })(btns[i]);
+  }
+  document.addEventListener('click', function(){
+    closeAll();
+    cancelClose();
   });
 })();
 </script>
