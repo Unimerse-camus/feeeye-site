@@ -1,7 +1,7 @@
 {
   "meta": {
     "source": "CoinGecko",
-    "generated_at": "2026-08-18T11:51:34.788Z",
+    "generated_at": "2026-08-18T16:44:28.691Z",
     "top": 150,
     "coverage_mode": "coingecko-tickers",
     "note": "Exchange coverage verified via CoinGecko tickers.",
@@ -15,9 +15,9 @@
       "symbol": "BTC",
       "name": "Bitcoin",
       "rank": 1,
-      "price": 64315,
-      "market_cap": 1290902675340,
-      "change_24h": 1.4,
+      "price": 64699,
+      "market_cap": 1298604742108,
+      "change_24h": 1.5,
       "exchanges": [
         "kucoin",
         "binance",
@@ -40,9 +40,9 @@
       "symbol": "ETH",
       "name": "Ethereum",
       "rank": 2,
-      "price": 1902.65,
-      "market_cap": 229615657828,
-      "change_24h": 0.2,
+      "price": 1913.54,
+      "market_cap": 230912011775,
+      "change_24h": 0.6,
       "exchanges": [
         "kucoin",
         "binance",
@@ -65,8 +65,8 @@
       "symbol": "BNB",
       "name": "BNB",
       "rank": 4,
-      "price": 601.82,
-      "market_cap": 80140540151,
+      "price": 603.01,
+      "market_cap": 80299893302,
       "change_24h": -0.5,
       "exchanges": [
         "kucoin",
@@ -91,9 +91,9 @@
       "symbol": "XRP",
       "name": "XRP",
       "rank": 6,
-      "price": 0.998928,
-      "market_cap": 62609741172,
-      "change_24h": -0.1,
+      "price": 1.001,
+      "market_cap": 62721416366,
+      "change_24h": 0,
       "exchanges": [
         "kucoin",
         "binance",
@@ -116,9 +116,9 @@
       "symbol": "SOL",
       "name": "Solana",
       "rank": 7,
-      "price": 76.33,
-      "market_cap": 44495005677,
-      "change_24h": 0.7,
+      "price": 76.92,
+      "market_cap": 44828561206,
+      "change_24h": 1.6,
       "exchanges": [
         "kucoin",
         "binance",
@@ -141,9 +141,9 @@
       "symbol": "TRX",
       "name": "TRON",
       "rank": 8,
-      "price": 0.33246,
-      "market_cap": 31552955221,
-      "change_24h": -0.1,
+      "price": 0.334025,
+      "market_cap": 31701020169,
+      "change_24h": 0.1,
       "exchanges": [
         "kucoin",
         "binance",
@@ -165,9 +165,9 @@
       "symbol": "HYPE",
       "name": "Hyperliquid",
       "rank": 10,
-      "price": 59.79,
-      "market_cap": 13300028692,
-      "change_24h": 0.9,
+      "price": 58.48,
+      "market_cap": 13003831134,
+      "change_24h": 0,
       "exchanges": [
         "kucoin",
         "okx",
@@ -189,9 +189,9 @@
       "symbol": "DOGE",
       "name": "Dogecoin",
       "rank": 11,
-      "price": 0.069907,
-      "market_cap": 10873482281,
-      "change_24h": -0.5,
+      "price": 0.070325,
+      "market_cap": 10935283705,
+      "change_24h": -0.1,
       "exchanges": [
         "kucoin",
         "binance",
@@ -214,9 +214,9 @@
       "symbol": "RAIN",
       "name": "Rain",
       "rank": 13,
-      "price": 0.01306398,
-      "market_cap": 9361446554,
-      "change_24h": -1.1,
+      "price": 0.0130844,
+      "market_cap": 9376035675,
+      "change_24h": -0.3,
       "exchanges": [
         "kucoin"
       ],
@@ -233,9 +233,9 @@
       "symbol": "LEO",
       "name": "LEO Token",
       "rank": 14,
-      "price": 9.48,
-      "market_cap": 8719487704,
-      "change_24h": 0.6,
+      "price": 9.47,
+      "market_cap": 8708221257,
+      "change_24h": 0.5,
       "exchanges": [
         "okx"
       ],
@@ -253,9 +253,9 @@
       "symbol": "ZEC",
       "name": "Zcash",
       "rank": 15,
-      "price": 505.7,
-      "market_cap": 8538084333,
-      "change_24h": -0.7,
+      "price": 508.67,
+      "market_cap": 8588680733,
+      "change_24h": -0.8,
       "exchanges": [
         "kucoin",
         "binance",
@@ -277,9 +277,9 @@
       "symbol": "XMR",
       "name": "Monero",
       "rank": 16,
-      "price": 412.17,
-      "market_cap": 7745936317,
-      "change_24h": -1.6,
+      "price": 417.57,
+      "market_cap": 7847112354,
+      "change_24h": 0.7,
       "exchanges": [
         "kucoin",
         "kraken"
@@ -297,9 +297,9 @@
       "symbol": "LINK",
       "name": "Chainlink",
       "rank": 17,
-      "price": 9.44,
-      "market_cap": 7060494240,
-      "change_24h": 0.4,
+      "price": 9.5,
+      "market_cap": 7107661353,
+      "change_24h": -0.5,
       "exchanges": [
         "kucoin",
         "binance",
@@ -405,9 +405,9 @@
       "symbol": "WBT",
       "name": "WhiteBIT Coin",
       "rank": 18,
-      "price": 55.47,
-      "market_cap": 6545286360,
-      "change_24h": 1,
+      "price": 55.78,
+      "market_cap": 6582157717,
+      "change_24h": 1.2,
       "exchanges": [
         "kraken"
       ],
@@ -425,9 +425,9 @@
       "symbol": "ADA",
       "name": "Cardano",
       "rank": 19,
-      "price": 0.173615,
-      "market_cap": 6508139348,
-      "change_24h": -0.5,
+      "price": 0.175246,
+      "market_cap": 6568269836,
+      "change_24h": 0.5,
       "exchanges": [
         "kucoin",
         "binance",
@@ -450,9 +450,9 @@
       "symbol": "XLM",
       "name": "Stellar",
       "rank": 20,
-      "price": 0.153524,
-      "market_cap": 5303118867,
-      "change_24h": -2.7,
+      "price": 0.154466,
+      "market_cap": 5336061040,
+      "change_24h": -1.8,
       "exchanges": [
         "kucoin",
         "binance",
@@ -475,9 +475,9 @@
       "symbol": "BCH",
       "name": "Bitcoin Cash",
       "rank": 22,
-      "price": 203.52,
-      "market_cap": 4085980622,
-      "change_24h": -0.3,
+      "price": 204.11,
+      "market_cap": 4097151363,
+      "change_24h": -0.1,
       "exchanges": [
         "kucoin",
         "binance",
@@ -500,9 +500,9 @@
       "symbol": "GRAM",
       "name": "Gram (prev. Toncoin)",
       "rank": 25,
-      "price": 1.31,
-      "market_cap": 3606388972,
-      "change_24h": -1.4,
+      "price": 1.32,
+      "market_cap": 3620131415,
+      "change_24h": -1.3,
       "exchanges": [
         "binance",
         "okx",
@@ -526,9 +526,9 @@
       "symbol": "CC",
       "name": "Canton",
       "rank": 26,
-      "price": 0.091323,
-      "market_cap": 3595547145,
-      "change_24h": -4.6,
+      "price": 0.091066,
+      "market_cap": 3585822897,
+      "change_24h": -1.2,
       "exchanges": [
         "kucoin",
         "okx",
@@ -549,9 +549,9 @@
       "symbol": "LTC",
       "name": "Litecoin",
       "rank": 28,
-      "price": 44.54,
-      "market_cap": 3452074421,
-      "change_24h": 1.2,
+      "price": 44.32,
+      "market_cap": 3434759294,
+      "change_24h": -0.5,
       "exchanges": [
         "kucoin",
         "binance",
@@ -575,7 +575,7 @@
       "name": "Circle USYC",
       "rank": 29,
       "price": 1.13,
-      "market_cap": 2997736115,
+      "market_cap": 2982978661,
       "change_24h": 0.1,
       "exchanges": [],
       "category": "rwa",
@@ -593,9 +593,9 @@
       "symbol": "HBAR",
       "name": "Hedera",
       "rank": 30,
-      "price": 0.065906,
-      "market_cap": 2888759475,
-      "change_24h": 0,
+      "price": 0.065875,
+      "market_cap": 2887550494,
+      "change_24h": 0.4,
       "exchanges": [
         "kucoin",
         "binance",
@@ -619,8 +619,8 @@
       "name": "Avalanche",
       "rank": 33,
       "price": 6.33,
-      "market_cap": 2731835074,
-      "change_24h": -0.2,
+      "market_cap": 2730625868,
+      "change_24h": 0.7,
       "exchanges": [
         "kucoin",
         "binance",
@@ -643,9 +643,9 @@
       "symbol": "XAUT",
       "name": "Tether Gold",
       "rank": 34,
-      "price": 4373.13,
-      "market_cap": 2679955746,
-      "change_24h": 0.1,
+      "price": 4352.38,
+      "market_cap": 2667323912,
+      "change_24h": -1,
       "exchanges": [
         "kucoin",
         "binance",
@@ -667,9 +667,9 @@
       "symbol": "SUI",
       "name": "Sui",
       "rank": 35,
-      "price": 0.651336,
-      "market_cap": 2653888293,
-      "change_24h": -4,
+      "price": 0.65346,
+      "market_cap": 2661185097,
+      "change_24h": -3.1,
       "exchanges": [
         "kucoin",
         "binance",
@@ -693,8 +693,8 @@
       "name": "Shiba Inu",
       "rank": 36,
       "price": 0.00000444,
-      "market_cap": 2613579172,
-      "change_24h": 0.1,
+      "market_cap": 2615867570,
+      "change_24h": -0.9,
       "exchanges": [
         "kucoin",
         "binance",
@@ -717,9 +717,9 @@
       "symbol": "CRO",
       "name": "Cronos",
       "rank": 37,
-      "price": 0.0460507,
-      "market_cap": 2233329829,
-      "change_24h": -2.9,
+      "price": 0.04651872,
+      "market_cap": 2255664846,
+      "change_24h": -1.3,
       "exchanges": [
         "kucoin",
         "okx",
@@ -740,9 +740,9 @@
       "symbol": "NEAR",
       "name": "NEAR Protocol",
       "rank": 39,
-      "price": 1.62,
-      "market_cap": 2116410181,
-      "change_24h": -1.3,
+      "price": 1.61,
+      "market_cap": 2104954934,
+      "change_24h": -0.5,
       "exchanges": [
         "kucoin",
         "binance",
@@ -765,9 +765,9 @@
       "symbol": "OKB",
       "name": "OKB",
       "rank": 40,
-      "price": 98.5,
-      "market_cap": 2068500576,
-      "change_24h": -5.2,
+      "price": 99.56,
+      "market_cap": 2090190088,
+      "change_24h": -4.2,
       "exchanges": [
         "okx",
         "kraken"
@@ -787,9 +787,9 @@
       "symbol": "UNI",
       "name": "Uniswap",
       "rank": 41,
-      "price": 3.27,
-      "market_cap": 2041890778,
-      "change_24h": 0,
+      "price": 3.26,
+      "market_cap": 2035402553,
+      "change_24h": -0.6,
       "exchanges": [
         "kucoin",
         "binance",
@@ -820,37 +820,13 @@
       "coverage_source": "coingecko"
     },
     {
-      "cg_id": "pax-gold",
-      "symbol": "PAXG",
-      "name": "PAX Gold",
-      "rank": 42,
-      "price": 4385.83,
-      "market_cap": 1916376495,
-      "change_24h": 0,
-      "exchanges": [
-        "kucoin",
-        "binance",
-        "okx",
-        "bitget",
-        "kraken",
-        "coinbase"
-      ],
-      "category": "rwa",
-      "platforms": {
-        "ethereum": "0x45804880de22913dafe09f4980848ece6ecbaf78"
-      },
-      "networks": [],
-      "last_updated": "2026-08-18",
-      "coverage_source": "coingecko"
-    },
-    {
       "cg_id": "world-liberty-financial",
       "symbol": "WLFI",
       "name": "World Liberty Financial",
-      "rank": 43,
-      "price": 0.059971,
-      "market_cap": 1905645074,
-      "change_24h": -1.8,
+      "rank": 42,
+      "price": 0.060103,
+      "market_cap": 1909618336,
+      "change_24h": 0.3,
       "exchanges": [
         "kucoin",
         "binance",
@@ -871,13 +847,37 @@
       "coverage_source": "coingecko"
     },
     {
+      "cg_id": "pax-gold",
+      "symbol": "PAXG",
+      "name": "PAX Gold",
+      "rank": 43,
+      "price": 4363.57,
+      "market_cap": 1906618468,
+      "change_24h": -1,
+      "exchanges": [
+        "kucoin",
+        "binance",
+        "okx",
+        "bitget",
+        "kraken",
+        "coinbase"
+      ],
+      "category": "rwa",
+      "platforms": {
+        "ethereum": "0x45804880de22913dafe09f4980848ece6ecbaf78"
+      },
+      "networks": [],
+      "last_updated": "2026-08-18",
+      "coverage_source": "coingecko"
+    },
+    {
       "cg_id": "bittensor",
       "symbol": "TAO",
       "name": "Bittensor",
       "rank": 44,
-      "price": 193.2,
-      "market_cap": 1854225314,
-      "change_24h": -0.6,
+      "price": 191.89,
+      "market_cap": 1841351273,
+      "change_24h": -2.2,
       "exchanges": [
         "kucoin",
         "binance",
@@ -899,9 +899,9 @@
       "symbol": "ASTER",
       "name": "Aster",
       "rank": 46,
-      "price": 0.60094,
-      "market_cap": 1618240250,
-      "change_24h": 0.4,
+      "price": 0.599994,
+      "market_cap": 1616067107,
+      "change_24h": -0.2,
       "exchanges": [
         "kucoin",
         "binance",
@@ -924,9 +924,9 @@
       "symbol": "ONDO",
       "name": "Ondo",
       "rank": 47,
-      "price": 0.331403,
-      "market_cap": 1613708509,
-      "change_24h": -1.9,
+      "price": 0.330469,
+      "market_cap": 1609529291,
+      "change_24h": -1.5,
       "exchanges": [
         "kucoin",
         "binance",
@@ -949,9 +949,9 @@
       "symbol": "HTX",
       "name": "HTX DAO",
       "rank": 48,
-      "price": 0.00000176,
-      "market_cap": 1581378421,
-      "change_24h": -1.8,
+      "price": 0.00000174,
+      "market_cap": 1564489030,
+      "change_24h": -2.9,
       "exchanges": [
         "kucoin",
         "bybit"
@@ -972,8 +972,8 @@
       "name": "MemeCore",
       "rank": 50,
       "price": 1.13,
-      "market_cap": 1508461116,
-      "change_24h": -0.1,
+      "market_cap": 1515317536,
+      "change_24h": -1,
       "exchanges": [
         "bitget",
         "kraken"
@@ -992,9 +992,9 @@
       "symbol": "MNT",
       "name": "Mantle",
       "rank": 51,
-      "price": 0.440709,
-      "market_cap": 1455352015,
-      "change_24h": -1.6,
+      "price": 0.435186,
+      "market_cap": 1437229599,
+      "change_24h": -1.9,
       "exchanges": [
         "kucoin",
         "bybit",
@@ -1015,9 +1015,9 @@
       "symbol": "MORPHO",
       "name": "Morpho",
       "rank": 52,
-      "price": 2.16,
-      "market_cap": 1415905996,
-      "change_24h": 2.8,
+      "price": 2.15,
+      "market_cap": 1417009728,
+      "change_24h": 4.1,
       "exchanges": [
         "kucoin",
         "binance",
@@ -1043,9 +1043,9 @@
       "symbol": "AAVE",
       "name": "Aave",
       "rank": 53,
-      "price": 89.09,
-      "market_cap": 1373992615,
-      "change_24h": 3.5,
+      "price": 89.31,
+      "market_cap": 1377102029,
+      "change_24h": 1.8,
       "exchanges": [
         "kucoin",
         "binance",
@@ -1082,9 +1082,9 @@
       "symbol": "SKY",
       "name": "Sky",
       "rank": 56,
-      "price": 0.054654,
-      "market_cap": 1280457575,
-      "change_24h": 4.7,
+      "price": 0.054963,
+      "market_cap": 1283876978,
+      "change_24h": 3.1,
       "exchanges": [
         "kucoin",
         "binance",
@@ -1108,9 +1108,9 @@
       "symbol": "DOT",
       "name": "Polkadot",
       "rank": 57,
-      "price": 0.740559,
-      "market_cap": 1257908500,
-      "change_24h": -2.4,
+      "price": 0.753587,
+      "market_cap": 1279811827,
+      "change_24h": -1,
       "exchanges": [
         "kucoin",
         "binance",
@@ -1133,9 +1133,9 @@
       "symbol": "ICP",
       "name": "Internet Computer",
       "rank": 59,
-      "price": 2.23,
-      "market_cap": 1240529018,
-      "change_24h": -2.1,
+      "price": 2.22,
+      "market_cap": 1235966309,
+      "change_24h": -2.3,
       "exchanges": [
         "kucoin",
         "binance",
@@ -1160,9 +1160,9 @@
       "symbol": "WLD",
       "name": "Worldcoin",
       "rank": 61,
-      "price": 0.325831,
-      "market_cap": 1173732136,
-      "change_24h": -9.5,
+      "price": 0.324975,
+      "market_cap": 1170337483,
+      "change_24h": -8.8,
       "exchanges": [
         "kucoin",
         "binance",
@@ -1187,8 +1187,8 @@
       "symbol": "BGB",
       "name": "Bitget Token",
       "rank": 62,
-      "price": 1.67,
-      "market_cap": 1167403538,
+      "price": 1.66,
+      "market_cap": 1165206832,
       "change_24h": 0.4,
       "exchanges": [
         "bitget",
@@ -1208,9 +1208,9 @@
       "symbol": "PUMP",
       "name": "Pump.fun",
       "rank": 64,
-      "price": 0.00281048,
-      "market_cap": 1099861456,
-      "change_24h": -3.3,
+      "price": 0.00280252,
+      "market_cap": 1096506452,
+      "change_24h": -3.5,
       "exchanges": [
         "kucoin",
         "binance",
@@ -1233,9 +1233,9 @@
       "symbol": "PEPE",
       "name": "Pepe",
       "rank": 65,
-      "price": 0.00000258,
-      "market_cap": 1085861494,
-      "change_24h": -0.8,
+      "price": 0.0000026,
+      "market_cap": 1095160940,
+      "change_24h": 0.7,
       "exchanges": [
         "kucoin",
         "binance",
@@ -1261,9 +1261,9 @@
       "symbol": "BTW",
       "name": "Bitway",
       "rank": 66,
-      "price": 0.371355,
-      "market_cap": 1005682222,
-      "change_24h": 8.2,
+      "price": 0.390749,
+      "market_cap": 1056546010,
+      "change_24h": 10.5,
       "exchanges": [
         "bitget"
       ],
@@ -1277,31 +1277,10 @@
       "coverage_source": "coingecko"
     },
     {
-      "cg_id": "pi-network",
-      "symbol": "PI",
-      "name": "Pi Network",
-      "rank": 67,
-      "price": 0.087372,
-      "market_cap": 965010960,
-      "change_24h": 0.5,
-      "exchanges": [
-        "okx",
-        "bitget",
-        "kraken"
-      ],
-      "category": "l1",
-      "platforms": {
-        "": ""
-      },
-      "networks": [],
-      "last_updated": "2026-08-18",
-      "coverage_source": "coingecko"
-    },
-    {
       "cg_id": "blockchain-capital",
       "symbol": "BCAP",
       "name": "Blockchain Capital",
-      "rank": 68,
+      "rank": 67,
       "price": 105.87,
       "market_cap": 964699192,
       "change_24h": -0.3,
@@ -1316,13 +1295,34 @@
       "coverage_source": "coingecko"
     },
     {
+      "cg_id": "pi-network",
+      "symbol": "PI",
+      "name": "Pi Network",
+      "rank": 68,
+      "price": 0.087279,
+      "market_cap": 963718393,
+      "change_24h": 0.8,
+      "exchanges": [
+        "okx",
+        "bitget",
+        "kraken"
+      ],
+      "category": "l1",
+      "platforms": {
+        "": ""
+      },
+      "networks": [],
+      "last_updated": "2026-08-18",
+      "coverage_source": "coingecko"
+    },
+    {
       "cg_id": "ethereum-classic",
       "symbol": "ETC",
       "name": "Ethereum Classic",
       "rank": 69,
-      "price": 6.08,
-      "market_cap": 959224996,
-      "change_24h": -2.3,
+      "price": 6.06,
+      "market_cap": 956209034,
+      "change_24h": -1.5,
       "exchanges": [
         "kucoin",
         "binance",
@@ -1345,9 +1345,9 @@
       "symbol": "KCS",
       "name": "KuCoin",
       "rank": 72,
-      "price": 6.54,
-      "market_cap": 896590812,
-      "change_24h": -0.1,
+      "price": 6.62,
+      "market_cap": 907399439,
+      "change_24h": 1.7,
       "exchanges": [
         "kucoin",
         "bybit"
@@ -1365,9 +1365,9 @@
       "symbol": "JST",
       "name": "JUST",
       "rank": 73,
-      "price": 0.107882,
-      "market_cap": 883419437,
-      "change_24h": -1.4,
+      "price": 0.10732,
+      "market_cap": 878704343,
+      "change_24h": -1.3,
       "exchanges": [
         "kucoin",
         "binance",
@@ -1387,10 +1387,10 @@
       "cg_id": "polygon-ecosystem-token",
       "symbol": "POL",
       "name": "POL (ex-MATIC)",
-      "rank": 75,
-      "price": 0.08053,
-      "market_cap": 861543751,
-      "change_24h": 6.3,
+      "rank": 74,
+      "price": 0.081622,
+      "market_cap": 872943863,
+      "change_24h": 4.6,
       "exchanges": [
         "kucoin",
         "binance",
@@ -1414,9 +1414,9 @@
       "symbol": "ENA",
       "name": "Ethena",
       "rank": 76,
-      "price": 0.083267,
-      "market_cap": 818358888,
-      "change_24h": 0,
+      "price": 0.084107,
+      "market_cap": 826377577,
+      "change_24h": 0.8,
       "exchanges": [
         "kucoin",
         "binance",
@@ -1457,9 +1457,9 @@
       "symbol": "QNT",
       "name": "Quant",
       "rank": 77,
-      "price": 55.85,
-      "market_cap": 812350293,
-      "change_24h": 0,
+      "price": 56.23,
+      "market_cap": 817829772,
+      "change_24h": -1.8,
       "exchanges": [
         "kucoin",
         "binance",
@@ -1482,9 +1482,9 @@
       "symbol": "STABLE",
       "name": "​​Stable",
       "rank": 78,
-      "price": 0.03048024,
-      "market_cap": 777564321,
-      "change_24h": 4.3,
+      "price": 0.03101661,
+      "market_cap": 791044016,
+      "change_24h": 0.2,
       "exchanges": [
         "kucoin",
         "bybit",
@@ -1505,9 +1505,9 @@
       "symbol": "ATOM",
       "name": "Cosmos Hub",
       "rank": 79,
-      "price": 1.4,
-      "market_cap": 735728779,
-      "change_24h": -3.5,
+      "price": 1.41,
+      "market_cap": 740222245,
+      "change_24h": -0.2,
       "exchanges": [
         "kucoin",
         "binance",
@@ -1539,9 +1539,9 @@
       "symbol": "GT",
       "name": "Gate",
       "rank": 80,
-      "price": 6.7,
-      "market_cap": 714694861,
-      "change_24h": -0.1,
+      "price": 6.74,
+      "market_cap": 718851800,
+      "change_24h": 1.2,
       "exchanges": [],
       "category": "exchange",
       "platforms": {
@@ -1556,9 +1556,9 @@
       "symbol": "NEXO",
       "name": "NEXO",
       "rank": 81,
-      "price": 0.708055,
-      "market_cap": 708054996,
-      "change_24h": 1.4,
+      "price": 0.707231,
+      "market_cap": 707130411,
+      "change_24h": -0.1,
       "exchanges": [
         "binance",
         "bybit"
@@ -1576,35 +1576,13 @@
       "coverage_source": "coingecko"
     },
     {
-      "cg_id": "kaspa",
-      "symbol": "KAS",
-      "name": "Kaspa",
-      "rank": 82,
-      "price": 0.02540464,
-      "market_cap": 702359812,
-      "change_24h": -1.6,
-      "exchanges": [
-        "kucoin",
-        "bybit",
-        "bitget",
-        "kraken"
-      ],
-      "category": "l1",
-      "platforms": {
-        "": ""
-      },
-      "networks": [],
-      "last_updated": "2026-08-18",
-      "coverage_source": "coingecko"
-    },
-    {
       "cg_id": "algorand",
       "symbol": "ALGO",
       "name": "Algorand",
-      "rank": 84,
-      "price": 0.077455,
-      "market_cap": 699129629,
-      "change_24h": -1.8,
+      "rank": 82,
+      "price": 0.07811,
+      "market_cap": 705041458,
+      "change_24h": -0.6,
       "exchanges": [
         "kucoin",
         "binance",
@@ -1623,13 +1601,35 @@
       "coverage_source": "coingecko"
     },
     {
+      "cg_id": "kaspa",
+      "symbol": "KAS",
+      "name": "Kaspa",
+      "rank": 84,
+      "price": 0.02529584,
+      "market_cap": 699054034,
+      "change_24h": -1.3,
+      "exchanges": [
+        "kucoin",
+        "bybit",
+        "bitget",
+        "kraken"
+      ],
+      "category": "l1",
+      "platforms": {
+        "": ""
+      },
+      "networks": [],
+      "last_updated": "2026-08-18",
+      "coverage_source": "coingecko"
+    },
+    {
       "cg_id": "venice-token",
       "symbol": "VVV",
       "name": "Venice Token",
-      "rank": 86,
-      "price": 14.62,
-      "market_cap": 692182152,
-      "change_24h": 18.5,
+      "rank": 87,
+      "price": 14.27,
+      "market_cap": 675059346,
+      "change_24h": 17.6,
       "exchanges": [
         "kucoin",
         "bybit",
@@ -1650,7 +1650,7 @@
       "name": "Render",
       "rank": 88,
       "price": 1.26,
-      "market_cap": 654853072,
+      "market_cap": 655502224,
       "change_24h": 0.2,
       "exchanges": [
         "kucoin",
@@ -1675,9 +1675,9 @@
       "symbol": "BDX",
       "name": "Beldex",
       "rank": 89,
-      "price": 0.08197,
-      "market_cap": 645120172,
-      "change_24h": 0.1,
+      "price": 0.082194,
+      "market_cap": 646862216,
+      "change_24h": -1,
       "exchanges": [
         "kucoin"
       ],
@@ -1694,9 +1694,9 @@
       "symbol": "LIT",
       "name": "Lighter",
       "rank": 90,
-      "price": 2.36,
-      "market_cap": 591141316,
-      "change_24h": 0.7,
+      "price": 2.39,
+      "market_cap": 598835790,
+      "change_24h": 2.5,
       "exchanges": [
         "kucoin",
         "okx",
@@ -1718,9 +1718,9 @@
       "symbol": "JUP",
       "name": "Jupiter",
       "rank": 91,
-      "price": 0.166829,
-      "market_cap": 553926056,
-      "change_24h": -1.7,
+      "price": 0.167331,
+      "market_cap": 555651951,
+      "change_24h": -0.3,
       "exchanges": [
         "kucoin",
         "binance",
@@ -1744,9 +1744,9 @@
       "symbol": "XDC",
       "name": "XDC Network",
       "rank": 93,
-      "price": 0.02681093,
-      "market_cap": 534789366,
-      "change_24h": -0.1,
+      "price": 0.02683042,
+      "market_cap": 535120349,
+      "change_24h": -0.6,
       "exchanges": [
         "kucoin",
         "bybit",
@@ -1766,9 +1766,9 @@
       "symbol": "FLR",
       "name": "Flare",
       "rank": 94,
-      "price": 0.00589891,
-      "market_cap": 512827499,
-      "change_24h": -0.3,
+      "price": 0.00589025,
+      "market_cap": 512089053,
+      "change_24h": -0.1,
       "exchanges": [
         "kucoin",
         "okx",
@@ -1789,9 +1789,9 @@
       "symbol": "FIL",
       "name": "Filecoin",
       "rank": 95,
-      "price": 0.625349,
-      "market_cap": 512517187,
-      "change_24h": -6.2,
+      "price": 0.623825,
+      "market_cap": 511179467,
+      "change_24h": -6.1,
       "exchanges": [
         "kucoin",
         "binance",
@@ -1814,9 +1814,9 @@
       "symbol": "ARB",
       "name": "Arbitrum",
       "rank": 96,
-      "price": 0.07532,
-      "market_cap": 498173272,
-      "change_24h": 0.8,
+      "price": 0.074867,
+      "market_cap": 499956489,
+      "change_24h": 0.7,
       "exchanges": [
         "kucoin",
         "binance",
@@ -1841,9 +1841,9 @@
       "symbol": "ETHFI",
       "name": "Ether.fi",
       "rank": 97,
-      "price": 0.487754,
-      "market_cap": 496616040,
-      "change_24h": -1.2,
+      "price": 0.485514,
+      "market_cap": 494557097,
+      "change_24h": -2.2,
       "exchanges": [
         "kucoin",
         "binance",
@@ -1869,9 +1869,9 @@
       "symbol": "HASH",
       "name": "Provenance Blockchain",
       "rank": 99,
-      "price": 0.0083994,
-      "market_cap": 475510569,
-      "change_24h": 10.4,
+      "price": 0.00842426,
+      "market_cap": 476973131,
+      "change_24h": 3.9,
       "exchanges": [],
       "category": "rwa",
       "platforms": {
@@ -1885,10 +1885,10 @@
       "cg_id": "pancakeswap-token",
       "symbol": "CAKE",
       "name": "PancakeSwap",
-      "rank": 101,
-      "price": 1.46,
-      "market_cap": 468557663,
-      "change_24h": -0.2,
+      "rank": 100,
+      "price": 1.47,
+      "market_cap": 472497589,
+      "change_24h": 0.5,
       "exchanges": [
         "kucoin",
         "binance",
@@ -1919,9 +1919,9 @@
       "symbol": "A7A5",
       "name": "A7A5",
       "rank": 103,
-      "price": 0.01166189,
-      "market_cap": 457474012,
-      "change_24h": 0.2,
+      "price": 0.01171946,
+      "market_cap": 459732233,
+      "change_24h": 0.8,
       "exchanges": [],
       "category": "stable",
       "platforms": {
@@ -1937,9 +1937,9 @@
       "symbol": "APT",
       "name": "Aptos",
       "rank": 104,
-      "price": 0.526985,
-      "market_cap": 451950733,
-      "change_24h": 1.2,
+      "price": 0.526964,
+      "market_cap": 451792207,
+      "change_24h": 1.7,
       "exchanges": [
         "kucoin",
         "binance",
@@ -1962,8 +1962,8 @@
       "symbol": "INJ",
       "name": "Injective",
       "rank": 105,
-      "price": 4.06,
-      "market_cap": 406148897,
+      "price": 4.04,
+      "market_cap": 404612079,
       "change_24h": -1.3,
       "exchanges": [
         "kucoin",
@@ -1992,9 +1992,9 @@
       "symbol": "AERO",
       "name": "Aerodrome Finance",
       "rank": 106,
-      "price": 0.404522,
-      "market_cap": 395222646,
-      "change_24h": -1.8,
+      "price": 0.406036,
+      "market_cap": 396648826,
+      "change_24h": -2.2,
       "exchanges": [
         "kucoin",
         "binance",
@@ -2016,9 +2016,9 @@
       "symbol": "VIRTUAL",
       "name": "Virtuals Protocol",
       "rank": 107,
-      "price": 0.585357,
-      "market_cap": 385112969,
-      "change_24h": 3.4,
+      "price": 0.587598,
+      "market_cap": 386359727,
+      "change_24h": 1.6,
       "exchanges": [
         "kucoin",
         "binance",
@@ -2044,9 +2044,9 @@
       "symbol": "DASH",
       "name": "Dash",
       "rank": 108,
-      "price": 30,
-      "market_cap": 384137006,
-      "change_24h": -1.3,
+      "price": 29.97,
+      "market_cap": 383716324,
+      "change_24h": -0.3,
       "exchanges": [
         "kucoin",
         "binance",
@@ -2063,13 +2063,37 @@
       "coverage_source": "coingecko"
     },
     {
+      "cg_id": "vechain",
+      "symbol": "VET",
+      "name": "VeChain",
+      "rank": 109,
+      "price": 0.00443208,
+      "market_cap": 381171069,
+      "change_24h": 0.3,
+      "exchanges": [
+        "kucoin",
+        "binance",
+        "bybit",
+        "bitget",
+        "kraken",
+        "coinbase"
+      ],
+      "category": "l1",
+      "platforms": {
+        "vechain": ""
+      },
+      "networks": [],
+      "last_updated": "2026-08-18",
+      "coverage_source": "coingecko"
+    },
+    {
       "cg_id": "pudgy-penguins",
       "symbol": "PENGU",
       "name": "Pudgy Penguins",
-      "rank": 109,
-      "price": 0.00604361,
-      "market_cap": 379903737,
-      "change_24h": 1.4,
+      "rank": 110,
+      "price": 0.00605391,
+      "market_cap": 380492068,
+      "change_24h": 1.6,
       "exchanges": [
         "kucoin",
         "binance",
@@ -2093,37 +2117,13 @@
       "coverage_source": "coingecko"
     },
     {
-      "cg_id": "vechain",
-      "symbol": "VET",
-      "name": "VeChain",
-      "rank": 110,
-      "price": 0.00440007,
-      "market_cap": 378340501,
-      "change_24h": -0.2,
-      "exchanges": [
-        "kucoin",
-        "binance",
-        "bybit",
-        "bitget",
-        "kraken",
-        "coinbase"
-      ],
-      "category": "l1",
-      "platforms": {
-        "vechain": ""
-      },
-      "networks": [],
-      "last_updated": "2026-08-18",
-      "coverage_source": "coingecko"
-    },
-    {
       "cg_id": "curve-dao-token",
       "symbol": "CRV",
       "name": "Curve DAO",
       "rank": 111,
-      "price": 0.24347,
-      "market_cap": 377122005,
-      "change_24h": 0.8,
+      "price": 0.243883,
+      "market_cap": 378054458,
+      "change_24h": -1,
       "exchanges": [
         "kucoin",
         "binance",
@@ -2154,9 +2154,9 @@
       "symbol": "TRUMP",
       "name": "Official Trump",
       "rank": 115,
-      "price": 1.41,
-      "market_cap": 350077555,
-      "change_24h": 0.3,
+      "price": 1.4,
+      "market_cap": 346576245,
+      "change_24h": 0.1,
       "exchanges": [
         "kucoin",
         "binance",
@@ -2175,13 +2175,31 @@
       "coverage_source": "coingecko"
     },
     {
+      "cg_id": "kinesis-gold",
+      "symbol": "KAU",
+      "name": "Kinesis Gold",
+      "rank": 116,
+      "price": 140.35,
+      "market_cap": 334904559,
+      "change_24h": -1,
+      "exchanges": [],
+      "category": "rwa",
+      "platforms": {
+        "": "",
+        "ethereum": "0x14dab79fd7b7b3f748d434812fd6a9aac460ea52"
+      },
+      "networks": [],
+      "last_updated": "2026-08-18",
+      "coverage_source": "coingecko"
+    },
+    {
       "cg_id": "sun-token",
       "symbol": "SUN",
       "name": "Sun Token",
-      "rank": 116,
-      "price": 0.01757204,
-      "market_cap": 337772989,
-      "change_24h": -1.6,
+      "rank": 117,
+      "price": 0.01740962,
+      "market_cap": 334641478,
+      "change_24h": -2.7,
       "exchanges": [
         "kucoin",
         "binance",
@@ -2198,30 +2216,12 @@
       "coverage_source": "coingecko"
     },
     {
-      "cg_id": "kinesis-gold",
-      "symbol": "KAU",
-      "name": "Kinesis Gold",
-      "rank": 117,
-      "price": 141.42,
-      "market_cap": 337458961,
-      "change_24h": 0,
-      "exchanges": [],
-      "category": "rwa",
-      "platforms": {
-        "": "",
-        "ethereum": "0x14dab79fd7b7b3f748d434812fd6a9aac460ea52"
-      },
-      "networks": [],
-      "last_updated": "2026-08-18",
-      "coverage_source": "coingecko"
-    },
-    {
       "cg_id": "sofiusd",
       "symbol": "SOFID",
       "name": "SoFiUSD",
       "rank": 118,
-      "price": 0.999086,
-      "market_cap": 311205644,
+      "price": 0.998786,
+      "market_cap": 311110462,
       "change_24h": 0,
       "exchanges": [],
       "category": "stable",
@@ -2238,9 +2238,9 @@
       "symbol": "APXUSD",
       "name": "apxUSD",
       "rank": 119,
-      "price": 0.938699,
-      "market_cap": 304273408,
-      "change_24h": 0.1,
+      "price": 0.940176,
+      "market_cap": 304748646,
+      "change_24h": -0.9,
       "exchanges": [
         "kraken"
       ],
@@ -2259,9 +2259,9 @@
       "symbol": "PYTH",
       "name": "Pyth Network",
       "rank": 120,
-      "price": 0.03802688,
-      "market_cap": 299460511,
-      "change_24h": -2.6,
+      "price": 0.03866631,
+      "market_cap": 304549229,
+      "change_24h": -1.6,
       "exchanges": [
         "kucoin",
         "binance",
@@ -2282,33 +2282,13 @@
       "coverage_source": "coingecko"
     },
     {
-      "cg_id": "bitcoin-cash-sv",
-      "symbol": "BSV",
-      "name": "Bitcoin SV",
-      "rank": 121,
-      "price": 14.7,
-      "market_cap": 295066529,
-      "change_24h": -3.9,
-      "exchanges": [
-        "kucoin",
-        "bitget"
-      ],
-      "category": "l1",
-      "platforms": {
-        "": ""
-      },
-      "networks": [],
-      "last_updated": "2026-08-18",
-      "coverage_source": "coingecko"
-    },
-    {
       "cg_id": "spx6900",
       "symbol": "SPX",
       "name": "SPX6900",
-      "rank": 122,
-      "price": 0.316173,
-      "market_cap": 294352958,
-      "change_24h": -1,
+      "rank": 121,
+      "price": 0.32094,
+      "market_cap": 298641269,
+      "change_24h": 0.2,
       "exchanges": [
         "kucoin",
         "bybit",
@@ -2330,10 +2310,10 @@
       "cg_id": "unibase",
       "symbol": "UB",
       "name": "Unibase",
-      "rank": 123,
-      "price": 0.116368,
-      "market_cap": 290918994,
-      "change_24h": -2.4,
+      "rank": 122,
+      "price": 0.118165,
+      "market_cap": 295416229,
+      "change_24h": 2.8,
       "exchanges": [
         "kucoin"
       ],
@@ -2347,25 +2327,20 @@
       "coverage_source": "coingecko"
     },
     {
-      "cg_id": "jito-governance-token",
-      "symbol": "JTO",
-      "name": "Jito",
-      "rank": 124,
-      "price": 0.566222,
-      "market_cap": 289512904,
-      "change_24h": -5.8,
+      "cg_id": "bitcoin-cash-sv",
+      "symbol": "BSV",
+      "name": "Bitcoin SV",
+      "rank": 123,
+      "price": 14.47,
+      "market_cap": 290535272,
+      "change_24h": -3.7,
       "exchanges": [
         "kucoin",
-        "binance",
-        "okx",
-        "bybit",
-        "bitget",
-        "kraken",
-        "coinbase"
+        "bitget"
       ],
-      "category": "defi",
+      "category": "l1",
       "platforms": {
-        "solana": "jtojtomepa8beP8AuQc6eXt5FriJwfFMwQx2v2f9mCL"
+        "": ""
       },
       "networks": [],
       "last_updated": "2026-08-18",
@@ -2375,10 +2350,10 @@
       "cg_id": "celestia",
       "symbol": "TIA",
       "name": "Celestia",
-      "rank": 125,
-      "price": 0.300408,
-      "market_cap": 287529335,
-      "change_24h": -0.3,
+      "rank": 124,
+      "price": 0.301202,
+      "market_cap": 288360009,
+      "change_24h": 0.4,
       "exchanges": [
         "kucoin",
         "binance",
@@ -2400,13 +2375,84 @@
       "coverage_source": "coingecko"
     },
     {
+      "cg_id": "gnosis",
+      "symbol": "GNO",
+      "name": "Gnosis",
+      "rank": 125,
+      "price": 109.08,
+      "market_cap": 287739519,
+      "change_24h": 3.6,
+      "exchanges": [
+        "binance",
+        "kraken",
+        "coinbase"
+      ],
+      "category": "exchange",
+      "platforms": {
+        "ethereum": "0x6810e776880c02933d47db1b9fc05908e5386b96",
+        "xdai": "0x9c58bacc331c9aa871afd802db6379a98e80cedb",
+        "energi": "0xf452bff8e958c6f335f06fc3aac427ee195366fe",
+        "arbitrum-one": "0xa0b862f60edef4452f25b4160f177db44deb6cf1"
+      },
+      "networks": [],
+      "last_updated": "2026-08-18",
+      "coverage_source": "coingecko"
+    },
+    {
+      "cg_id": "velvet",
+      "symbol": "VELVET",
+      "name": "Velvet",
+      "rank": 126,
+      "price": 0.670869,
+      "market_cap": 283801054,
+      "change_24h": -2.9,
+      "exchanges": [
+        "kucoin",
+        "bitget",
+        "kraken"
+      ],
+      "category": "other",
+      "platforms": {
+        "binance-smart-chain": "0x8b194370825e37b33373e74a41009161808c1488",
+        "base": "0xbf927b841994731c573bdf09ceb0c6b0aa887cdd"
+      },
+      "networks": [],
+      "last_updated": "2026-08-18",
+      "coverage_source": "coingecko"
+    },
+    {
+      "cg_id": "jito-governance-token",
+      "symbol": "JTO",
+      "name": "Jito",
+      "rank": 127,
+      "price": 0.554954,
+      "market_cap": 283733773,
+      "change_24h": -7,
+      "exchanges": [
+        "kucoin",
+        "binance",
+        "okx",
+        "bybit",
+        "bitget",
+        "kraken",
+        "coinbase"
+      ],
+      "category": "defi",
+      "platforms": {
+        "solana": "jtojtomepa8beP8AuQc6eXt5FriJwfFMwQx2v2f9mCL"
+      },
+      "networks": [],
+      "last_updated": "2026-08-18",
+      "coverage_source": "coingecko"
+    },
+    {
       "cg_id": "midnight-3",
       "symbol": "NIGHT",
       "name": "Midnight",
-      "rank": 126,
-      "price": 0.01698434,
-      "market_cap": 282065450,
-      "change_24h": -1.2,
+      "rank": 128,
+      "price": 0.01705284,
+      "market_cap": 283255924,
+      "change_24h": -0.1,
       "exchanges": [
         "kucoin",
         "binance",
@@ -2425,38 +2471,13 @@
       "coverage_source": "coingecko"
     },
     {
-      "cg_id": "apenft",
-      "symbol": "NFT",
-      "name": "AINFT",
-      "rank": 127,
-      "price": 2.80455e-7,
-      "market_cap": 277680481,
-      "change_24h": -0.9,
-      "exchanges": [
-        "kucoin",
-        "okx",
-        "bybit",
-        "bitget",
-        "kraken"
-      ],
-      "category": "other",
-      "platforms": {
-        "tron": "TFczxzPhnThNSqr5by8tvxsdCFRRz6cPNq",
-        "ethereum": "0x198d14f2ad9ce69e76ea330b374de4957c3f850a",
-        "binance-smart-chain": "0x20ee7b720f4e4c4ffcb00c4065cdae55271aecca"
-      },
-      "networks": [],
-      "last_updated": "2026-08-18",
-      "coverage_source": "coingecko"
-    },
-    {
       "cg_id": "layerzero",
       "symbol": "ZRO",
       "name": "LayerZero",
-      "rank": 128,
-      "price": 0.779952,
-      "market_cap": 275567518,
-      "change_24h": -3,
+      "rank": 129,
+      "price": 0.787223,
+      "market_cap": 278129126,
+      "change_24h": 1.2,
       "exchanges": [
         "kucoin",
         "binance",
@@ -2481,24 +2502,47 @@
       "coverage_source": "coingecko"
     },
     {
-      "cg_id": "gnosis",
-      "symbol": "GNO",
-      "name": "Gnosis",
-      "rank": 129,
-      "price": 104.22,
-      "market_cap": 275085510,
-      "change_24h": 0,
+      "cg_id": "apenft",
+      "symbol": "NFT",
+      "name": "AINFT",
+      "rank": 130,
+      "price": 2.79299e-7,
+      "market_cap": 276740804,
+      "change_24h": -0.8,
       "exchanges": [
-        "binance",
-        "kraken",
-        "coinbase"
+        "kucoin",
+        "okx",
+        "bybit",
+        "bitget",
+        "kraken"
       ],
-      "category": "exchange",
+      "category": "other",
       "platforms": {
-        "ethereum": "0x6810e776880c02933d47db1b9fc05908e5386b96",
-        "xdai": "0x9c58bacc331c9aa871afd802db6379a98e80cedb",
-        "energi": "0xf452bff8e958c6f335f06fc3aac427ee195366fe",
-        "arbitrum-one": "0xa0b862f60edef4452f25b4160f177db44deb6cf1"
+        "tron": "TFczxzPhnThNSqr5by8tvxsdCFRRz6cPNq",
+        "ethereum": "0x198d14f2ad9ce69e76ea330b374de4957c3f850a",
+        "binance-smart-chain": "0x20ee7b720f4e4c4ffcb00c4065cdae55271aecca"
+      },
+      "networks": [],
+      "last_updated": "2026-08-18",
+      "coverage_source": "coingecko"
+    },
+    {
+      "cg_id": "olympus",
+      "symbol": "OHM",
+      "name": "Olympus",
+      "rank": 131,
+      "price": 18.21,
+      "market_cap": 272179340,
+      "change_24h": -1,
+      "exchanges": [],
+      "category": "other",
+      "platforms": {
+        "ethereum": "0x64aa3364f17a4d01c6f1751fd97c2bd3d7e7f1d5",
+        "berachain": "0x18878df23e2a36f81e820e4b47b4a40576d3159c",
+        "optimistic-ethereum": "0x060cb087a9730e13aa191f31a6d86bff8dfcdcc0",
+        "solana": "2Xva1NeLRuBFdK41gEuXqgeWtnKKDve9PKeCnMEpNG6K",
+        "base": "0x060cb087a9730e13aa191f31a6d86bff8dfcdcc0",
+        "arbitrum-one": "0xf0cb2dc0db5e6c66b9a70ac27b06b878da017028"
       },
       "networks": [],
       "last_updated": "2026-08-18",
@@ -2508,10 +2552,10 @@
       "cg_id": "fetch-ai",
       "symbol": "FET",
       "name": "Artificial Superintelligence Alliance",
-      "rank": 130,
-      "price": 0.122687,
-      "market_cap": 273737795,
-      "change_24h": 1.8,
+      "rank": 132,
+      "price": 0.120868,
+      "market_cap": 269768525,
+      "change_24h": -0.5,
       "exchanges": [
         "kucoin",
         "binance",
@@ -2533,35 +2577,13 @@
       "coverage_source": "coingecko"
     },
     {
-      "cg_id": "olympus",
-      "symbol": "OHM",
-      "name": "Olympus",
-      "rank": 131,
-      "price": 18.2,
-      "market_cap": 271966520,
-      "change_24h": -1.1,
-      "exchanges": [],
-      "category": "other",
-      "platforms": {
-        "ethereum": "0x64aa3364f17a4d01c6f1751fd97c2bd3d7e7f1d5",
-        "berachain": "0x18878df23e2a36f81e820e4b47b4a40576d3159c",
-        "optimistic-ethereum": "0x060cb087a9730e13aa191f31a6d86bff8dfcdcc0",
-        "solana": "2Xva1NeLRuBFdK41gEuXqgeWtnKKDve9PKeCnMEpNG6K",
-        "base": "0x060cb087a9730e13aa191f31a6d86bff8dfcdcc0",
-        "arbitrum-one": "0xf0cb2dc0db5e6c66b9a70ac27b06b878da017028"
-      },
-      "networks": [],
-      "last_updated": "2026-08-18",
-      "coverage_source": "coingecko"
-    },
-    {
       "cg_id": "sei-network",
       "symbol": "SEI",
       "name": "Sei",
-      "rank": 133,
-      "price": 0.03895862,
-      "market_cap": 262321364,
-      "change_24h": -1.7,
+      "rank": 134,
+      "price": 0.03893364,
+      "market_cap": 262084916,
+      "change_24h": -2.5,
       "exchanges": [
         "kucoin",
         "binance",
@@ -2580,13 +2602,36 @@
       "coverage_source": "coingecko"
     },
     {
+      "cg_id": "terra-luna",
+      "symbol": "LUNC",
+      "name": "Terra Luna Classic",
+      "rank": 135,
+      "price": 0.00004727,
+      "market_cap": 260890672,
+      "change_24h": -0.7,
+      "exchanges": [
+        "kucoin",
+        "binance",
+        "bybit",
+        "bitget",
+        "kraken"
+      ],
+      "category": "l1",
+      "platforms": {
+        "": ""
+      },
+      "networks": [],
+      "last_updated": "2026-08-18",
+      "coverage_source": "coingecko"
+    },
+    {
       "cg_id": "bittorrent",
       "symbol": "BTT",
       "name": "BitTorrent",
-      "rank": 134,
-      "price": 2.60636e-7,
-      "market_cap": 257257533,
-      "change_24h": 0.2,
+      "rank": 136,
+      "price": 2.60509e-7,
+      "market_cap": 257173279,
+      "change_24h": -0.1,
       "exchanges": [
         "kucoin",
         "binance",
@@ -2607,36 +2652,13 @@
       "coverage_source": "coingecko"
     },
     {
-      "cg_id": "terra-luna",
-      "symbol": "LUNC",
-      "name": "Terra Luna Classic",
-      "rank": 135,
-      "price": 0.00004659,
-      "market_cap": 257158744,
-      "change_24h": -2.9,
-      "exchanges": [
-        "kucoin",
-        "binance",
-        "bybit",
-        "bitget",
-        "kraken"
-      ],
-      "category": "l1",
-      "platforms": {
-        "": ""
-      },
-      "networks": [],
-      "last_updated": "2026-08-18",
-      "coverage_source": "coingecko"
-    },
-    {
       "cg_id": "lido-dao",
       "symbol": "LDO",
       "name": "Lido DAO",
-      "rank": 136,
-      "price": 0.302353,
-      "market_cap": 252857496,
-      "change_24h": -1,
+      "rank": 137,
+      "price": 0.304387,
+      "market_cap": 254559329,
+      "change_24h": 0,
       "exchanges": [
         "kucoin",
         "binance",
@@ -2661,10 +2683,10 @@
       "cg_id": "reallink",
       "symbol": "REAL",
       "name": "RealLink",
-      "rank": 137,
-      "price": 0.074465,
-      "market_cap": 251001184,
-      "change_24h": 1.7,
+      "rank": 138,
+      "price": 0.074826,
+      "market_cap": 252215891,
+      "change_24h": 1.4,
       "exchanges": [],
       "category": "other",
       "platforms": {
@@ -2679,10 +2701,10 @@
       "cg_id": "monad",
       "symbol": "MON",
       "name": "Monad",
-      "rank": 138,
-      "price": 0.02119936,
-      "market_cap": 250685947,
-      "change_24h": 6.8,
+      "rank": 139,
+      "price": 0.02103348,
+      "market_cap": 248775201,
+      "change_24h": 3.9,
       "exchanges": [
         "kucoin",
         "okx",
@@ -2703,10 +2725,10 @@
       "cg_id": "pieverse",
       "symbol": "PIEVERSE",
       "name": "Pieverse",
-      "rank": 139,
-      "price": 0.903569,
-      "market_cap": 248255654,
-      "change_24h": 1.4,
+      "rank": 140,
+      "price": 0.871805,
+      "market_cap": 238974925,
+      "change_24h": 3.2,
       "exchanges": [
         "bybit",
         "kraken"
@@ -2724,10 +2746,10 @@
       "cg_id": "kinesis-silver",
       "symbol": "KAG",
       "name": "Kinesis Silver",
-      "rank": 140,
-      "price": 64.93,
-      "market_cap": 241656478,
-      "change_24h": 1,
+      "rank": 141,
+      "price": 64.16,
+      "market_cap": 238809331,
+      "change_24h": -2,
       "exchanges": [],
       "category": "rwa",
       "platforms": {
@@ -2739,35 +2761,13 @@
       "coverage_source": "coingecko"
     },
     {
-      "cg_id": "velvet",
-      "symbol": "VELVET",
-      "name": "Velvet",
-      "rank": 141,
-      "price": 0.550644,
-      "market_cap": 233157016,
-      "change_24h": -36.3,
-      "exchanges": [
-        "kucoin",
-        "bitget",
-        "kraken"
-      ],
-      "category": "other",
-      "platforms": {
-        "binance-smart-chain": "0x8b194370825e37b33373e74a41009161808c1488",
-        "base": "0xbf927b841994731c573bdf09ceb0c6b0aa887cdd"
-      },
-      "networks": [],
-      "last_updated": "2026-08-18",
-      "coverage_source": "coingecko"
-    },
-    {
       "cg_id": "pendle",
       "symbol": "PENDLE",
       "name": "Pendle",
       "rank": 142,
       "price": 1.35,
-      "market_cap": 232354828,
-      "change_24h": 5,
+      "market_cap": 231875853,
+      "change_24h": 3.2,
       "exchanges": [
         "kucoin",
         "binance",
@@ -2794,59 +2794,13 @@
       "coverage_source": "coingecko"
     },
     {
-      "cg_id": "humanity",
-      "symbol": "H",
-      "name": "Humanity",
-      "rank": 143,
-      "price": 0.114033,
-      "market_cap": 227128722,
-      "change_24h": 9.1,
-      "exchanges": [
-        "kucoin",
-        "bybit",
-        "bitget"
-      ],
-      "category": "l1",
-      "platforms": {
-        "ethereum": "0xe76c5b78f93909d34404e9eb4c1f19e7582a5de1"
-      },
-      "networks": [],
-      "last_updated": "2026-08-18",
-      "coverage_source": "coingecko"
-    },
-    {
       "cg_id": "blockstack",
       "symbol": "STX",
       "name": "Stacks",
-      "rank": 144,
-      "price": 0.119734,
-      "market_cap": 222642075,
-      "change_24h": -1.6,
-      "exchanges": [
-        "kucoin",
-        "binance",
-        "okx",
-        "bybit",
-        "bitget",
-        "kraken",
-        "coinbase"
-      ],
-      "category": "l1",
-      "platforms": {
-        "": ""
-      },
-      "networks": [],
-      "last_updated": "2026-08-18",
-      "coverage_source": "coingecko"
-    },
-    {
-      "cg_id": "tezos",
-      "symbol": "XTZ",
-      "name": "Tezos",
-      "rank": 145,
-      "price": 0.201925,
-      "market_cap": 220853330,
-      "change_24h": 2.8,
+      "rank": 143,
+      "price": 0.119775,
+      "market_cap": 222802523,
+      "change_24h": -1.1,
       "exchanges": [
         "kucoin",
         "binance",
@@ -2868,10 +2822,10 @@
       "cg_id": "kite-2",
       "symbol": "KITE",
       "name": "Kite",
-      "rank": 146,
-      "price": 0.09186,
-      "market_cap": 219654187,
-      "change_24h": -2.1,
+      "rank": 144,
+      "price": 0.091806,
+      "market_cap": 219529143,
+      "change_24h": -0.9,
       "exchanges": [
         "kucoin",
         "binance",
@@ -2890,33 +2844,13 @@
       "coverage_source": "coingecko"
     },
     {
-      "cg_id": "akedo",
-      "symbol": "AKE",
-      "name": "Akedo",
-      "rank": 147,
-      "price": 0.00962665,
-      "market_cap": 219451443,
-      "change_24h": -6.4,
-      "exchanges": [
-        "kucoin",
-        "kraken"
-      ],
-      "category": "other",
-      "platforms": {
-        "binance-smart-chain": "0x2c3a8ee94ddd97244a93bc48298f97d2c412f7db"
-      },
-      "networks": [],
-      "last_updated": "2026-08-18",
-      "coverage_source": "coingecko"
-    },
-    {
       "cg_id": "conflux-token",
       "symbol": "CFX",
       "name": "Conflux",
-      "rank": 148,
-      "price": 0.04190538,
-      "market_cap": 219272843,
-      "change_24h": -2.2,
+      "rank": 145,
+      "price": 0.0419158,
+      "market_cap": 219247325,
+      "change_24h": -2,
       "exchanges": [
         "kucoin",
         "binance",
@@ -2933,13 +2867,82 @@
       "coverage_source": "coingecko"
     },
     {
+      "cg_id": "humanity",
+      "symbol": "H",
+      "name": "Humanity",
+      "rank": 146,
+      "price": 0.109955,
+      "market_cap": 218780585,
+      "change_24h": -7.6,
+      "exchanges": [
+        "kucoin",
+        "bybit",
+        "bitget"
+      ],
+      "category": "l1",
+      "platforms": {
+        "ethereum": "0xe76c5b78f93909d34404e9eb4c1f19e7582a5de1"
+      },
+      "networks": [],
+      "last_updated": "2026-08-18",
+      "coverage_source": "coingecko"
+    },
+    {
+      "cg_id": "tezos",
+      "symbol": "XTZ",
+      "name": "Tezos",
+      "rank": 147,
+      "price": 0.199956,
+      "market_cap": 218692388,
+      "change_24h": 1.4,
+      "exchanges": [
+        "kucoin",
+        "binance",
+        "okx",
+        "bybit",
+        "bitget",
+        "kraken",
+        "coinbase"
+      ],
+      "category": "l1",
+      "platforms": {
+        "": ""
+      },
+      "networks": [],
+      "last_updated": "2026-08-18",
+      "coverage_source": "coingecko"
+    },
+    {
+      "cg_id": "grass",
+      "symbol": "GRASS",
+      "name": "Grass",
+      "rank": 150,
+      "price": 0.322377,
+      "market_cap": 210987475,
+      "change_24h": 3.7,
+      "exchanges": [
+        "kucoin",
+        "okx",
+        "bybit",
+        "bitget",
+        "kraken"
+      ],
+      "category": "other",
+      "platforms": {
+        "solana": "Grass7B4RdKfBCjTKgSqnXkqjwiGvQyFbuSCUJr3XXjs"
+      },
+      "networks": [],
+      "last_updated": "2026-08-18",
+      "coverage_source": "coingecko"
+    },
+    {
       "cg_id": "bonk",
       "symbol": "BONK",
       "name": "Bonk",
-      "rank": 154,
-      "price": 0.00000231,
-      "market_cap": 202688417,
-      "change_24h": -1.19992,
+      "rank": 155,
+      "price": 0.00000232,
+      "market_cap": 204282907,
+      "change_24h": 0.52202,
       "exchanges": [
         "kucoin",
         "binance",
@@ -2969,17 +2972,18 @@
       "cg_id": "floki",
       "symbol": "FLOKI",
       "name": "FLOKI",
-      "rank": 164,
-      "price": 0.00001998,
-      "market_cap": 192710181,
-      "change_24h": -1.27796,
+      "rank": 162,
+      "price": 0.00002004,
+      "market_cap": 193400031,
+      "change_24h": -1.10064,
       "exchanges": [
         "kucoin",
         "binance",
         "okx",
         "bybit",
         "bitget",
-        "kraken"
+        "kraken",
+        "coinbase"
       ],
       "category": "meme",
       "platforms": {
@@ -2996,9 +3000,9 @@
       "symbol": "OP",
       "name": "Optimism",
       "rank": 165,
-      "price": 0.082795,
-      "market_cap": 189442139,
-      "change_24h": -1.64235,
+      "price": 0.082846,
+      "market_cap": 189336126,
+      "change_24h": -1.18865,
       "exchanges": [
         "kucoin",
         "binance",
@@ -3022,9 +3026,9 @@
       "symbol": "WIF",
       "name": "dogwifhat",
       "rank": 201,
-      "price": 0.136574,
-      "market_cap": 136405439,
-      "change_24h": -0.27569,
+      "price": 0.1372,
+      "market_cap": 137037978,
+      "change_24h": -0.18505,
       "exchanges": [
         "kucoin",
         "binance",
@@ -3048,10 +3052,10 @@
       "cg_id": "the-black-bull",
       "symbol": "ANSEM",
       "name": "The Black Bull",
-      "rank": 230,
-      "price": 0.266889,
-      "market_cap": 111259556,
-      "change_24h": 2.05361,
+      "rank": 235,
+      "price": 0.24816,
+      "market_cap": 103224744,
+      "change_24h": -25.45913,
       "exchanges": [],
       "category": "meme",
       "platforms": {
@@ -3063,66 +3067,66 @@
       "trending": true
     },
     {
-      "cg_id": "gala",
-      "symbol": "GALA",
-      "name": "GALA",
-      "rank": 317,
-      "price": 0.00142004,
-      "market_cap": 70235422,
-      "change_24h": -13.20407,
+      "cg_id": "wiki-cat",
+      "symbol": "WKC",
+      "name": "Wiki Cat",
+      "rank": 260,
+      "price": 1.66239e-7,
+      "market_cap": 89053512,
+      "change_24h": 77.01823,
+      "exchanges": [],
+      "category": "meme",
+      "platforms": {
+        "binance-smart-chain": "0x6ec90334d89dbdc89e08a133271be3d104128edb"
+      },
+      "networks": [],
+      "last_updated": "2026-08-18",
+      "coverage_source": "coingecko",
+      "trending": true
+    },
+    {
+      "cg_id": "kaito",
+      "symbol": "KAITO",
+      "name": "KAITO",
+      "rank": 277,
+      "price": 0.346058,
+      "market_cap": 83526438,
+      "change_24h": -3.93613,
+      "exchanges": [
+        "kucoin",
+        "binance",
+        "okx",
+        "bitget",
+        "kraken",
+        "coinbase"
+      ],
+      "category": "other",
+      "platforms": {
+        "base": "0x98d0baa52b2d063e780de12f615f963fe8537553"
+      },
+      "networks": [],
+      "last_updated": "2026-08-18",
+      "coverage_source": "coingecko",
+      "trending": true
+    },
+    {
+      "cg_id": "centrifuge-2",
+      "symbol": "CFG",
+      "name": "Centrifuge",
+      "rank": 366,
+      "price": 0.158136,
+      "market_cap": 60165859,
+      "change_24h": 0.90727,
       "exchanges": [
         "kucoin",
         "binance",
         "okx",
         "bybit",
-        "bitget",
-        "kraken"
+        "coinbase"
       ],
-      "category": "l1",
+      "category": "rwa",
       "platforms": {
-        "ethereum": "0xd1d2eb1b1e90b638588728b4130137d262c87cae",
-        "solana": "eEUiUs4JWYZrp72djAGF1A8PhpR6rHphGeGN7GbVLp6",
-        "galachain": "E3bVbsc7viP1A8tn3ayChk3BAt"
-      },
-      "networks": [],
-      "last_updated": "2026-08-18",
-      "coverage_source": "coingecko",
-      "trending": true
-    },
-    {
-      "cg_id": "peaq-2",
-      "symbol": "PEAQ",
-      "name": "peaq",
-      "rank": 452,
-      "price": 0.01812048,
-      "market_cap": 43800276,
-      "change_24h": 10.23313,
-      "exchanges": [
-        "kucoin",
-        "bitget",
-        "kraken"
-      ],
-      "category": "l1",
-      "platforms": {
-        "": ""
-      },
-      "networks": [],
-      "last_updated": "2026-08-18",
-      "coverage_source": "coingecko",
-      "trending": true
-    },
-    {
-      "cg_id": "stonkbroker",
-      "symbol": "STONKBROKER",
-      "name": "StonkBroker",
-      "rank": 682,
-      "price": 0.01655061,
-      "market_cap": 25739664,
-      "change_24h": -26.84491,
-      "exchanges": [],
-      "category": "other",
-      "platforms": {
-        "robinhood": "0xe934e36a439c94017b64a3fece66af12099abf50"
+        "ethereum": "0xcccccccccc33d538dbc2ee4feab0a7a1ff4e8a94"
       },
       "networks": [],
       "last_updated": "2026-08-18",
