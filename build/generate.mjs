@@ -549,16 +549,14 @@ input[type=number]{font-size:16px}
 .srow.inc{padding-left:14px;padding-right:14px}
 .srow.inc .inc-event{color:#1e293b;flex:1}
 .srow.inc .inc-resp{color:#185FA5;margin-left:12px;font-weight:500;max-width:55%;text-align:right}
-.trust-block{border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-top:8px}
-.trust-awards{padding:12px 14px;border-bottom:1px solid var(--line)}
-.trust-awards:nth-child(1){background:#f8fafc}
-.trust-label{display:block;font-size:12px;color:var(--sub);margin-bottom:8px}
-.award-items{display:flex;flex-wrap:wrap;gap:6px}
-.award-chip{background:#fff;border:1px solid var(--line);border-radius:6px;padding:4px 10px;font-size:12px;color:#1e293b;font-weight:500}
-.hl-list{margin:8px 0 16px;padding:0;list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:6px 14px}
-.hl-list li{font-size:13.5px;color:#1e293b;padding-left:14px;position:relative;line-height:1.6}
-.hl-list li::before{content:"";position:absolute;left:0;top:11px;width:6px;height:6px;background:var(--brand);border-radius:50%}
-@media(max-width:640px){.hl-list{grid-template-columns:1fr}}
+.trust-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:8px}
+.trust-badge{background:#f8fafc;border:1px solid var(--line);border-radius:10px;padding:12px 14px;font-size:13px;color:#1e293b;line-height:1.5;font-weight:500}
+.trust-badge[data-type="award"]{background:#fff}
+.trust-badge[data-type="volume"]{background:#eff6ff;border-color:#b5d4f4;color:#185FA5;font-weight:600}
+.trust-badge[data-type="fund"]{background:#f0fdf4;border-color:#bbf7d0;color:#166534;font-weight:600}
+.trust-badge[data-type="support"]{background:#fefce8;border-color:#fef08a;color:#854d0e;font-weight:600}
+@media(max-width:640px){.trust-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:420px){.trust-grid{grid-template-columns:1fr}}
 .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
 .card a{color:var(--brand);text-decoration:none;font-weight:600}
 .card-title{display:inline-block;color:var(--ink);font-weight:700;margin-bottom:6px;text-decoration:none}
@@ -773,9 +771,13 @@ function exchangePage(slug, lang) {
     return `<a href="${absPath(lang, 'compare/' + x + '-vs-' + y + '.html')}">${ex.name} vs ${EX[s].name}</a>`;
   }).join(' · ');
 
-  // 头部交易所亮点（highlights）——按 lang 取 en/zh
-  const highlights = (ex.highlights || []).map((h) => h[lang] || h.en).filter(Boolean);
-  const highlightsHtml = highlights.length ? `<ul class="hl-list">${highlights.map((h) => `<li>${esc(h)}</li>`).join('')}</ul>` : '';
+  // 头部信任背书区块（统一 6 个 badge 槽位 · 3×2 grid · 按 lang 取 en/zh）
+  const trustBadges = (ex.trust_badges || []).map((b) => ({ type: b.type, text: b[lang] || b.en })).filter((b) => b.text);
+  const trustGridHtml = trustBadges.length ? `
+    <h3>${esc(T(lang, 'exTrustBlock'))}</h3>
+    <div class="trust-grid">
+      ${trustBadges.map((b) => `<div class="trust-badge" data-type="${esc(b.type)}">${esc(b.text)}</div>`).join('')}
+    </div>` : '';
 
   // 费率区块（VIP 档位下拉）
   const tierOpts = tiers.map((t) => `<option value="${esc(t.t)}">${esc(t.t)} · ${esc(t.th)}</option>`).join('');
@@ -827,25 +829,9 @@ function exchangePage(slug, lang) {
     [T(lang, 'exApi'), yesNo(ex.has_api)]
   ]);
 
-  // 信任背书区块（按 lang 选择 en/zh）
-  const trAwards = (ex.awards || []).map((a) => a[lang] || a.en);
-  const trProtection = ex.protection_fund ? (ex.protection_fund[lang] || ex.protection_fund.en) : null;
-  const trSupport = ex.customer_support ? (ex.customer_support[lang] || ex.customer_support.en) : null;
-  const trVolOff = ex.daily_volume_official;
-  const trustHtml = (trAwards.length || trProtection || trSupport || trVolOff) ? `
-    <div class="trust-block">
-      ${trAwards.length ? `<div class="trust-awards"><span class="trust-label">${esc(T(lang, 'exAwards'))}</span><div class="award-items">${trAwards.map((a) => `<span class="award-chip">${esc(a)}</span>`).join('')}</div></div>` : ''}
-      ${trProtection ? `<div class="srow"><span>${esc(T(lang, 'exProtection'))}</span><b>${esc(trProtection)}</b></div>` : ''}
-      ${trSupport ? `<div class="srow"><span>${esc(T(lang, 'exSupport'))}</span><b>${esc(trSupport)}</b></div>` : ''}
-      ${trVolOff ? `<div class="srow"><span>${esc(T(lang, 'exVolOfficial'))}</span><b>${esc(trVolOff)}</b></div>` : ''}
-    </div>` : '';
-
   const body = `
   <h1>${esc(T(lang, 'exH1', { n: ex.name }))}</h1>
-  ${highlightsHtml}
-
-  <h3>${esc(T(lang, 'exTrustBlock'))}</h3>
-  ${trustHtml}
+  ${trustGridHtml}
 
   <h3>${esc(T(lang, 'exFeeBlock'))}</h3>
   <div class="fee-panel">

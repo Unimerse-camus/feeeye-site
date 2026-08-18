@@ -36,10 +36,6 @@ window.EXCHANGES = {
     "last_updated": "2026-08-18",
     "token_discount": {"token": "KCS", "rate": 0.2, "note": "\u7528 KCS \u652f\u4ed8\u624b\u7eed\u8d39\u7701 20%"},
     "vip_tiers": [{"t": "LV 0", "th": "< $50K", "sm": 0.001, "st": 0.001, "fm": 0.0002, "ft": 0.0006}, {"t": "LV 1", "th": "≥ $50K", "sm": 0.0009, "st": 0.001, "fm": 0.00018, "ft": 0.00055}, {"t": "LV 2", "th": "≥ $100K", "sm": 0.0008, "st": 0.001, "fm": 0.00016, "ft": 0.0005}, {"t": "LV 3", "th": "≥ $500K", "sm": 0.0007, "st": 0.0009, "fm": 0.00014, "ft": 0.00045}, {"t": "LV 4", "th": "≥ $1M", "sm": 0.0006, "st": 0.0008, "fm": 0.00012, "ft": 0.0004}, {"t": "LV 5", "th": "≥ $3M", "sm": 0.0005, "st": 0.0007, "fm": 0.0001, "ft": 0.00036}, {"t": "LV 6", "th": "≥ $5M", "sm": 0.0004, "st": 0.0006, "fm": 8e-05, "ft": 0.00032}, {"t": "LV 7", "th": "≥ $10M", "sm": 0.0003, "st": 0.0005, "fm": 6e-05, "ft": 0.00028}, {"t": "LV 8", "th": "≥ $20M", "sm": 0.0002, "st": 0.0004, "fm": 4e-05, "ft": 0.00025}, {"t": "LV 9", "th": "≥ $50M", "sm": 0.0001, "st": 0.0003, "fm": 2e-05, "ft": 0.00022}, {"t": "LV 10", "th": "≥ $100M", "sm": 5e-05, "st": 0.0002, "fm": 0.0, "ft": 0.0002}, {"t": "LV 11", "th": "≥ $500M", "sm": 0.0, "st": 0.00015, "fm": -2e-05, "ft": 0.00018}, {"t": "LV 12", "th": "≥ $1B", "sm": -5e-05, "st": 0.0001, "fm": -4e-05, "ft": 0.00016}],
-    "awards": null,
-    "protection_fund": null,
-    "customer_support": null,
-    "daily_volume_official": null
   },
   "binance": {
     "slug": "binance",
@@ -68,20 +64,13 @@ window.EXCHANGES = {
     "last_updated": "2026-08-18",
     "token_discount": {"token": "BNB", "rate": 0.25, "note": "\u7528 BNB \u652f\u4ed8\u624b\u7eed\u8d39\u7701 25%"},
     "vip_tiers": [{"t": "Regular", "th": "< $1M", "sm": 0.001, "st": 0.001, "fm": 0.0002, "ft": 0.0005}, {"t": "VIP 1", "th": "≥ $1M", "sm": 0.0009, "st": 0.001, "fm": 0.00016, "ft": 0.0004}, {"t": "VIP 2", "th": "≥ $5M", "sm": 0.0008, "st": 0.001, "fm": 0.00014, "ft": 0.00035}, {"t": "VIP 3", "th": "≥ $20M", "sm": 0.0004, "st": 0.0006, "fm": 0.00012, "ft": 0.00032}, {"t": "VIP 4", "th": "≥ $75M", "sm": 0.0004, "st": 0.00052, "fm": 0.0001, "ft": 0.0003}, {"t": "VIP 5", "th": "≥ $150M", "sm": 0.00025, "st": 0.00031, "fm": 6e-05, "ft": 0.00027}, {"t": "VIP 6", "th": "≥ $400M", "sm": 0.0002, "st": 0.00029, "fm": 5e-05, "ft": 0.00025}, {"t": "VIP 7", "th": "≥ $800M", "sm": 0.00019, "st": 0.00028, "fm": 4e-05, "ft": 0.00023}, {"t": "VIP 8", "th": "≥ $2B", "sm": 0.00016, "st": 0.00025, "fm": 3e-05, "ft": 0.00021}, {"t": "VIP 9", "th": "≥ $4B", "sm": 0.00011, "st": 0.00023, "fm": 0.0, "ft": 0.00017}],
-    "awards": [
-      {"en": "Forbes 2025 Most Trusted Crypto Exchange", "zh": "福布斯 2025 最受信赖加密交易所"},
-      {"en": "CNBC 2025 World Top Fintech", "zh": "CNBC 2025 全球顶级金融科技"},
-      {"en": "Fortune Crypto 40 — CeFi Leader", "zh": "财富 Crypto 40 — CeFi 领域领导者"}
-    ],
-    "protection_fund": {"en": "SAFU (Secure Asset Fund for Users, $1B)", "zh": "SAFU 用户保护基金（$1B）"},
-    "customer_support": {"en": "24/7 · 40+ languages", "zh": "24/7 全天候 · 40+ 种语言"},
-    "daily_volume_official": "≈$65B",
-    "highlights": [
-      {"en": "Largest crypto exchange by daily volume (~$65B)", "zh": "全球最大加密交易所，日交易量约 650 亿美元"},
-      {"en": "300B spot volume traded in 2022", "zh": "2022 年现货交易量达 3 万亿美元"},
-      {"en": "Forbes / CNBC / Fortune top-rated", "zh": "福布斯/CNBC/财富 三大媒体联合背书"},
-      {"en": "SAFU $1B user protection fund", "zh": "SAFU 10 亿美元用户保护基金"},
-      {"en": "40+ language 24/7 customer support", "zh": "40+ 种语言 7×24 客户支持"}
+    "trust_badges": [
+      {"type": "award",   "en": "Forbes 2025 Most Trusted Crypto Exchange", "zh": "福布斯 2025 最受信赖加密交易所"},
+      {"type": "award",   "en": "CNBC 2025 World Top Fintech",            "zh": "CNBC 2025 全球顶级金融科技"},
+      {"type": "award",   "en": "Fortune Crypto 40 — CeFi Leader",         "zh": "财富 Crypto 40 — CeFi 领域领导者"},
+      {"type": "volume",  "en": "≈$65B daily trading volume",              "zh": "≈$65B 日交易量（约 650 亿美元）"},
+      {"type": "fund",    "en": "SAFU $1B user protection fund",           "zh": "SAFU 10 亿美元用户保护基金"},
+      {"type": "support", "en": "24/7 · 40+ languages",                   "zh": "24/7 全天候 · 40+ 种语言客服"}
     ]
   },
   "bybit": {
@@ -108,10 +97,6 @@ window.EXCHANGES = {
     "last_updated": "2026-08-18",
     "token_discount": {"token": "BIT", "rate": 0.2, "note": "\u6301\u6709 BIT \u53ef\u4eab\u6700\u9ad8 20% \u8d39\u7387\u4f18\u60e0"},
     "vip_tiers": [{"t": "VIP 0", "th": "< $100K", "sm": 0.001, "st": 0.001, "fm": 0.0002, "ft": 0.00055}, {"t": "VIP 1", "th": "≥ $1M", "sm": 0.0006, "st": 0.0008, "fm": 0.00015, "ft": 0.0004}, {"t": "VIP 2", "th": "≥ $5M", "sm": 0.0004, "st": 0.0006, "fm": 0.0001, "ft": 0.00032}, {"t": "VIP 3", "th": "≥ $10M", "sm": 0.0002, "st": 0.0004, "fm": 5e-05, "ft": 0.00022}, {"t": "Pro 4", "th": "≥ $50M", "sm": 0.0001, "st": 0.0003, "fm": 0.0, "ft": 0.00015}, {"t": "Pro 5", "th": "≥ $100M", "sm": 5e-05, "st": 0.0002, "fm": 0.0, "ft": 0.0001}],
-    "awards": null,
-    "protection_fund": null,
-    "customer_support": null,
-    "daily_volume_official": null
   },
   "okx": {
     "slug": "okx",
@@ -137,10 +122,6 @@ window.EXCHANGES = {
     "last_updated": "2026-08-18",
     "token_discount": {"token": "OKB", "rate": 0.2, "note": "\u6301\u6709 OKB \u53ef\u4eab\u8d39\u7387\u4f18\u60e0\uff08\u666e\u901a\u7528\u6237\u7ea6\u7701 20%\uff09"},
     "vip_tiers": [{"t": "Regular", "th": "< $100K", "sm": 0.0008, "st": 0.001, "fm": 0.0002, "ft": 0.0005}, {"t": "VIP 1", "th": "≥ $100K", "sm": 0.0006, "st": 0.0009, "fm": 0.00018, "ft": 0.00045}, {"t": "VIP 2", "th": "≥ $500K", "sm": 0.0005, "st": 0.0008, "fm": 0.00016, "ft": 0.0004}, {"t": "VIP 3", "th": "≥ $2M", "sm": 0.0003, "st": 0.0006, "fm": 0.00014, "ft": 0.00036}, {"t": "VIP 4", "th": "≥ $5M", "sm": 0.0002, "st": 0.0005, "fm": 0.00012, "ft": 0.00032}, {"t": "VIP 5", "th": "≥ $10M", "sm": 0.0, "st": 0.0004, "fm": 0.0001, "ft": 0.00028}, {"t": "VIP 6", "th": "≥ $20M", "sm": -5e-05, "st": 0.00035, "fm": 8e-05, "ft": 0.00025}, {"t": "VIP 7", "th": "≥ $50M", "sm": -0.0001, "st": 0.0003, "fm": 6e-05, "ft": 0.00022}, {"t": "VIP 8", "th": "≥ $1B", "sm": -0.00015, "st": 0.00025, "fm": 4e-05, "ft": 0.00019}],
-    "awards": null,
-    "protection_fund": null,
-    "customer_support": null,
-    "daily_volume_official": null
   },
   "bitget": {
     "slug": "bitget",
@@ -163,12 +144,9 @@ window.EXCHANGES = {
     "new_user_note": "Bitget base spot 0.10% (20% off with BGB). USDT-TRC20 1.5 USDT.",
     "source": "https://www.bitget.com/fee",
     "last_updated": "2026-08-18",
+    "trust_badges": [{"type": "fund", "en": "Bitget Protection Fund ($300M+)", "zh": "Bitget 保护基金（$300M+）"}, {"type": "support", "en": "24/7 · multilingual", "zh": "24/7 · 多语言客服"}],
     "token_discount": {"token": "BGB", "rate": 0.2, "note": "\u7528 BGB \u652f\u4ed8\u624b\u7eed\u8d39\u7701 20%"},
     "vip_tiers": [{"t": "VIP 0", "th": "< $50K", "sm": 0.001, "st": 0.001, "fm": 0.0002, "ft": 0.0006}, {"t": "VIP 1", "th": "≥ $1M", "sm": 0.0006, "st": 0.0008, "fm": 0.00014, "ft": 0.0004}, {"t": "VIP 2", "th": "≥ $5M", "sm": 0.0005, "st": 0.0007, "fm": 0.00012, "ft": 0.00035}, {"t": "VIP 3", "th": "≥ $10M", "sm": 0.0003, "st": 0.0005, "fm": 8e-05, "ft": 0.0003}, {"t": "VIP 4", "th": "≥ $20M", "sm": 0.0002, "st": 0.0004, "fm": 6e-05, "ft": 0.00025}, {"t": "VIP 5", "th": "≥ $50M", "sm": 0.0001, "st": 0.0003, "fm": 4e-05, "ft": 0.0002}, {"t": "VIP 6", "th": "≥ $100M", "sm": 5e-05, "st": 0.00025, "fm": 2e-05, "ft": 0.00017}],
-    "awards": null,
-    "protection_fund": "Bitget Protection Fund ($300M+)",
-    "customer_support": "24/7 · multilingual",
-    "daily_volume_official": null
   },
   "kraken": {
     "slug": "kraken",
@@ -192,10 +170,6 @@ window.EXCHANGES = {
     "last_updated": "2026-08-18",
     "token_discount": null,
     "vip_tiers": [{"t": "Standard", "th": "< $50K", "sm": 0.0025, "st": 0.004, "fm": 0.0002, "ft": 0.0005}, {"t": "≥ $50K", "th": "30天量", "sm": 0.002, "st": 0.0035, "fm": 0.00018, "ft": 0.00045}, {"t": "≥ $100K", "th": "30天量", "sm": 0.0016, "st": 0.0026, "fm": 0.00016, "ft": 0.0004}, {"t": "≥ $1M", "th": "30天量", "sm": 0.0012, "st": 0.0022, "fm": 0.00012, "ft": 0.00032}, {"t": "≥ $10M", "th": "30天量", "sm": 0.0008, "st": 0.0016, "fm": 8e-05, "ft": 0.00025}],
-    "awards": null,
-    "protection_fund": null,
-    "customer_support": null,
-    "daily_volume_official": null
   },
   "coinbase": {
     "slug": "coinbase",
@@ -219,10 +193,6 @@ window.EXCHANGES = {
     "last_updated": "2026-08-18",
     "token_discount": null,
     "vip_tiers": [{"t": "Tier 1", "th": "< $10K", "sm": 0.004, "st": 0.006, "fm": 0.0, "ft": 0.0003}, {"t": "Tier 2", "th": "≥ $10K", "sm": 0.0035, "st": 0.0035, "fm": 0.0, "ft": 0.0003}, {"t": "Tier 3", "th": "≥ $50K", "sm": 0.0025, "st": 0.003, "fm": 0.0, "ft": 0.0003}, {"t": "Tier 4", "th": "≥ $100K", "sm": 0.0015, "st": 0.002, "fm": 0.0, "ft": 0.0003}, {"t": "Tier 5", "th": "≥ $1M", "sm": 0.0005, "st": 0.001, "fm": 0.0, "ft": 0.0003}, {"t": "Tier 6", "th": "≥ $10M", "sm": 0.0, "st": 0.0005, "fm": 0.0, "ft": 0.0003}],
-    "awards": null,
-    "protection_fund": null,
-    "customer_support": null,
-    "daily_volume_official": null
   }
 };
 
