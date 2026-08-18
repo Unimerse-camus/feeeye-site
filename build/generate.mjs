@@ -924,7 +924,8 @@ function exchangePage(slug, lang) {
       var rows = tiers.map(function(t){
         var mk = apply(mkt === 'spot' ? t.sm : t.fm, d);
         var tk = apply(mkt === 'spot' ? t.st : t.ft, d);
-        return '<tr><td>' + t.t + '</td><td>' + cnThresh(t.th) + '</td><td>' + fmt(mk) + '</td><td>' + fmt(tk) + '</td></tr>';
+        var th = mkt === 'spot' ? (t.th_spot || t.th) : (t.th_futures || t.th);
+        return '<tr><td>' + t.t + '</td><td>' + cnThresh(th) + '</td><td>' + fmt(mk) + '</td><td>' + fmt(tk) + '</td></tr>';
       }).join('');
       tbody.innerHTML = rows;
     }
