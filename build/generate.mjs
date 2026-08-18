@@ -97,6 +97,11 @@ const EX_LOGO = {
   kraken:   `<svg class="ex-logo" width="18" height="18" viewBox="0 0 18 18"><rect width="18" height="18" rx="4" fill="#5741D9"/><text x="9" y="13" font-size="10" font-weight="700" text-anchor="middle" font-family="-apple-system,system-ui,sans-serif" fill="#fff">K</text></svg>`,
   coinbase: `<svg class="ex-logo" width="18" height="18" viewBox="0 0 18 18"><rect width="18" height="18" rx="4" fill="#0052FF"/><text x="9" y="13" font-size="10" font-weight="700" text-anchor="middle" font-family="-apple-system,system-ui,sans-serif" fill="#fff">C</text></svg>`
 };
+// 中文本地化：VIP 档位名翻译（en 直接用原名）
+const TIER_ZH_MAP = { 'Regular': '普通用户', 'Standard': '标准', 'Pro 4': '专业 4 级', 'Pro 5': '专业 5 级' };
+// 中文本地化：入金方式翻译（品牌名 Apple Pay/Google Pay/PayPal/Bpay 保留）
+const DEP_ZH_MAP = { 'Bank transfer': '银行转账', 'Credit/Debit card': '信用卡/借记卡', 'Wire transfer': '电汇', 'P2P': 'C2C' };
+function trZh(en, map) { return map[en] || en; }
 
 // ---- 币种：优先 coins.json，回退 coins.js ----
 function heuristicCoverage(rank, symbol) {
@@ -194,6 +199,8 @@ const I18N = {
     exWdBlock: 'USDT withdrawal fees', exNet: 'Network', exFee: 'Fee', exDepBlock: 'Deposit methods', exMethod: 'Method',
     exCapBlock: 'Trading capabilities', exVolume: '24h volume', exMaxLev: 'Max leverage', exOptions: 'Options', exMargin: 'Margin', exLeveragedTok: 'Leveraged tokens', exCopy: 'Copy trading',
     exNote: 'Fee snapshot — always confirm on the official exchange page.',
+    exEvent: 'Event', exResponse: 'Response',
+    exCapScale: 'Scale & liquidity', exCapDeriv: 'Derivatives', exCapAuto: 'Automation & community',
     cpH1: '{a} vs {b} — Fee & Feature Comparison (2026)',
     cpIntro: 'Side-by-side of trading fees, withdrawal costs and features. Data snapshot {u}.',
     cpTh: 'Feature', cpQ1: '{a} or {b} — which has lower fees?',
@@ -254,6 +261,8 @@ const I18N = {
     exWdBlock: 'USDT 提币费', exNet: '网络', exFee: '费用', exDepBlock: '入金方式', exMethod: '方式',
     exCapBlock: '交易能力', exVolume: '24h 交易量', exMaxLev: '最大杠杆', exOptions: '期权', exMargin: '保证金', exLeveragedTok: '杠杆代币', exCopy: '跟单',
     exNote: '费率快照——交易前请以官方页面为准。',
+    exEvent: '事件', exResponse: '处理方式',
+    exCapScale: '规模与流动性', exCapDeriv: '衍生品', exCapAuto: '自动化与社区',
     cpH1: '{a} vs {b}——费率与功能对比（2026）',
     cpIntro: '交易费率、提币成本与功能并列对比。数据快照 {u}。',
     cpTh: '功能', cpQ1: '{a} 还是 {b}——哪家费率更低？',
@@ -531,6 +540,13 @@ input[type=number]{font-size:16px}
 .cap span{display:block;font-size:11px;color:var(--sub)}
 .cap b{display:block;font-size:14px;color:#1e293b;margin-top:2px}
 @media(max-width:640px){.cap-grid{grid-template-columns:repeat(2,1fr)}}
+.cap-group{margin-top:14px}
+.cap-group h4{font-size:13px;color:var(--sub);font-weight:500;margin:0 0 6px 2px;letter-spacing:.02em}
+.srow.inc-head{background:#f1f5f9;font-weight:500}
+.srow.inc-head span{color:#1e293b}
+.srow.inc{padding-left:14px;padding-right:14px}
+.srow.inc .inc-event{color:#1e293b;flex:1}
+.srow.inc .inc-resp{color:#185FA5;margin-left:12px;font-weight:500;max-width:55%;text-align:right}
 .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
 .card a{color:var(--brand);text-decoration:none;font-weight:600}
 .card-title{display:inline-block;color:var(--ink);font-weight:700;margin-bottom:6px;text-decoration:none}
@@ -735,7 +751,9 @@ function exchangePage(slug, lang) {
   const ex = EX[slug];
   const zh = lang === 'zh';
   const cd = EXCHANGE_COMPARE[slug] || {};
-  const tiers = ex.vip_tiers || [];
+  const rawTiers = ex.vip_tiers || [];
+  // zh 版：档位名翻译（Regular/Standard/Pro N）
+  const tiers = zh ? rawTiers.map((t) => ({ ...t, t: trZh(t.t, TIER_ZH_MAP) })) : rawTiers;
   const disc = ex.token_discount;
   const cmp = Object.keys(EX).filter((s) => s !== slug).slice(0, 3);
   const cmpLinks = cmp.map((s) => {
@@ -743,12 +761,12 @@ function exchangePage(slug, lang) {
     return `<a href="${absPath(lang, 'compare/' + x + '-vs-' + y + '.html')}">${ex.name} vs ${EX[s].name}</a>`;
   }).join(' · ');
 
-  // 头部信任徽章
+  // 头部徽章：去冗余（PoR/Cold 留给下方安全清单），改为规模/信任速览
   const badges = [
     [T(lang, 'exTrust'), cd.trust != null ? cd.trust + '/10' : '—'],
     [T(lang, 'exSec'), cd.security != null ? cd.security + '/10' : '—'],
-    [T(lang, 'exPor'), cd.reserve || '—'],
-    [T(lang, 'exCold'), cd.cold || '—']
+    [T(lang, 'exVolume'), cd.volume || '—'],
+    [T(lang, 'exCoins'), cd.coins != null ? cd.coins.toLocaleString() : '—']
   ].map(([k, v]) => `<div class="tbadge"><span>${esc(k)}</span><b>${esc(String(v))}</b></div>`).join('');
 
   // 费率区块（VIP 档位下拉）
@@ -758,21 +776,48 @@ function exchangePage(slug, lang) {
   // 提币费表格（多链）
   const wdRows = Object.entries(ex.usdt_withdrawal || {}).map(([net, fee]) => `<tr><td>${esc(net)}</td><td>${fee == null ? '—' : usd(fee)}</td></tr>`).join('');
 
-  // 入金通道表格
-  const depRows = (ex.deposit_methods || []).map((d) => `<tr><td>${esc(d.m)}</td><td>${d.fee === 0 ? '0' : (d.fee_max != null ? pct(d.fee) + ' – ' + pct(d.fee_max) : pct(d.fee))}</td></tr>`).join('');
+  // 入金通道表格（zh 翻译）
+  const depRows = (ex.deposit_methods || []).map((d) => {
+    const m = zh ? trZh(d.m, DEP_ZH_MAP) : d.m;
+    return `<tr><td>${esc(m)}</td><td>${d.fee === 0 ? '0' : (d.fee_max != null ? pct(d.fee) + ' – ' + pct(d.fee_max) : pct(d.fee))}</td></tr>`;
+  }).join('');
 
-  // 交易能力清单
-  const caps = [
+  // 安全历史解析（事件 + 处理方式）
+  function parseIncidents(s) {
+    if (!s) return [];
+    return s.split(';').map((x) => x.trim()).filter(Boolean).map((x) => {
+      const m = x.match(/^(.+?)\s*\(([^)]+)\)\s*$/);
+      if (m) return { event: m[1].trim(), response: m[2].trim() };
+      if (/no hack|no external hack|no major hack/i.test(x)) return { event: x, response: zh ? '无重大安全事件' : 'No major security incident' };
+      if (/settlement|fine|penalty|doj/i.test(x)) return { event: x, response: zh ? '已通过监管和解' : 'Resolved via regulatory settlement' };
+      if (/banned|paused|restricted/i.test(x)) return { event: x, response: zh ? '地区限制' : 'Regional restriction' };
+      return { event: x, response: zh ? '已记录' : 'Recorded' };
+    });
+  }
+  const incidents = parseIncidents(cd.incident);
+  const incidentHtml = incidents.length ? incidents.map((i) => `<div class="srow inc"><span class="inc-event">${esc(i.event)}</span><b class="inc-resp">${esc(i.response)}</b></div>`).join('') : '';
+
+  // 能力（分 3 组：规模与流动性 / 衍生品 / 自动化与社区）
+  const yesNo = (b) => b ? T(lang, 'exBotYes') : T(lang, 'exBotNo');
+  const capGroup = (title, items) => `<div class="cap-group"><h4>${esc(title)}</h4><div class="cap-grid">${items.map(([k, v]) => `<div class="cap"><span>${esc(k)}</span><b>${esc(String(v))}</b></div>`).join('')}</div></div>`;
+  const capScale = capGroup(T(lang, 'exCapScale'), [
     [T(lang, 'exVolume'), cd.volume || '—'],
     [T(lang, 'exCoins'), cd.coins != null ? cd.coins.toLocaleString() : '—'],
+    [T(lang, 'exTrust'), cd.trust != null ? cd.trust + '/10' : '—'],
+    [T(lang, 'exSec'), cd.security != null ? cd.security + '/10' : '—']
+  ]);
+  const capDeriv = capGroup(T(lang, 'exCapDeriv'), [
     [T(lang, 'exMaxLev'), cd.max_leverage ? cd.max_leverage + 'x' : '—'],
-    [T(lang, 'exOptions'), cd.has_options ? T(lang, 'exBotYes') : T(lang, 'exBotNo')],
-    [T(lang, 'exMargin'), cd.has_margin ? T(lang, 'exBotYes') : T(lang, 'exBotNo')],
-    [T(lang, 'exLeveragedTok'), cd.has_leveraged_tokens ? T(lang, 'exBotYes') : T(lang, 'exBotNo')],
-    [T(lang, 'exCopy'), ex.has_copy_trading ? T(lang, 'exBotYes') : T(lang, 'exBotNo')],
-    [T(lang, 'exBot'), ex.has_trading_bot ? T(lang, 'exBotYes') : T(lang, 'exBotNo')],
-    [T(lang, 'exApi'), ex.has_api ? T(lang, 'exBotYes') : T(lang, 'exBotNo')]
-  ].map(([k, v]) => `<div class="cap"><span>${esc(k)}</span><b>${esc(String(v))}</b></div>`).join('');
+    [zh ? '现货' : 'Spot', yesNo(true)],
+    [T(lang, 'exMargin'), yesNo(cd.has_margin)],
+    [T(lang, 'exOptions'), yesNo(cd.has_options)],
+    [T(lang, 'exLeveragedTok'), yesNo(cd.has_leveraged_tokens)]
+  ]);
+  const capAuto = capGroup(T(lang, 'exCapAuto'), [
+    [T(lang, 'exCopy'), yesNo(ex.has_copy_trading)],
+    [T(lang, 'exBot'), yesNo(ex.has_trading_bot)],
+    [T(lang, 'exApi'), yesNo(ex.has_api)]
+  ]);
 
   const body = `
   <h1>${esc(T(lang, 'exH1', { n: ex.name }))}</h1>
@@ -796,7 +841,8 @@ function exchangePage(slug, lang) {
     <div class="srow"><span>${esc(T(lang, 'exCold'))}</span><b>${esc(cd.cold || '—')}</b></div>
     <div class="srow"><span>${esc(T(lang, 'exLicenses'))}</span><b>${esc(cd.licenses || '—')}</b></div>
     <div class="srow"><span>${esc(T(lang, 'exKyc'))}</span><b>${esc(cd.kyc || '—')}</b></div>
-    <div class="srow"><span>${esc(T(lang, 'exIncident'))}</span><b>${esc(cd.incident || '—')}</b></div>
+    <div class="srow inc-head"><span>${esc(T(lang, 'exIncident'))}</span><b>${esc(T(lang, 'exResponse'))}</b></div>
+    ${incidentHtml}
   </div>
 
   <h3>${esc(T(lang, 'exWdBlock'))}</h3>
@@ -806,7 +852,7 @@ function exchangePage(slug, lang) {
   <div class="scroll"><table><thead><tr><th>${esc(T(lang, 'exMethod'))}</th><th>${esc(T(lang, 'exFee'))}</th></tr></thead><tbody>${depRows}</tbody></table></div>
 
   <h3>${esc(T(lang, 'exCapBlock'))}</h3>
-  <div class="cap-grid">${caps}</div>
+  ${capScale}${capDeriv}${capAuto}
 
   ${linkFor(slug) ? `<p style="margin-top:18px">${ctaHtml(slug, esc(T(lang, 'ctaAcct', { x: ex.name })), lang)}</p>` : ''}
   <p class="note" style="margin-top:16px">${esc(T(lang, 'exNote'))}</p>
