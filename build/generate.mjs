@@ -1107,14 +1107,6 @@ ${pages.map((u) => `  <url><loc>${SITE_URL}/${u}</loc><lastmod>${today}</lastmod
 write('sitemap.xml', sitemap);
 write('robots.txt', `User-agent: *\nAllow: /\nSitemap: ${SITE_URL}/sitemap.xml\n`);
 
-// Cloudflare Pages _redirects（放在 build output 目录 dist/，Pages 部署时读取）
-// www → 裸域 301：合并权重，避免 Google 把 www 判定为「备用网页」
-write('_redirects', [
-  '# www.feeeye.com/* → feeeye.com/*（永久 301），合并权重到裸域',
-  'https://www.feeeye.com/*  https://feeeye.com/:splat  301',
-  ''
-].join('\n'));
-
 // Cloudflare Pages _headers（放在 build output 目录 dist/，Pages 部署时读取）
 // - HTML 不写规则，走 Cloudflare Pages 默认（public, max-age=0, must-revalidate），保证新鲜
 // - assets 静态资源长缓存；data 快照短缓存；sitemap/robots 不缓存保证爬虫拿最新
