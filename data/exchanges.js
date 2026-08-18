@@ -68,10 +68,21 @@ window.EXCHANGES = {
     "last_updated": "2026-08-18",
     "token_discount": {"token": "BNB", "rate": 0.25, "note": "\u7528 BNB \u652f\u4ed8\u624b\u7eed\u8d39\u7701 25%"},
     "vip_tiers": [{"t": "Regular", "th": "< $1M", "sm": 0.001, "st": 0.001, "fm": 0.0002, "ft": 0.0005}, {"t": "VIP 1", "th": "≥ $1M", "sm": 0.0009, "st": 0.001, "fm": 0.00016, "ft": 0.0004}, {"t": "VIP 2", "th": "≥ $5M", "sm": 0.0008, "st": 0.001, "fm": 0.00014, "ft": 0.00035}, {"t": "VIP 3", "th": "≥ $20M", "sm": 0.0004, "st": 0.0006, "fm": 0.00012, "ft": 0.00032}, {"t": "VIP 4", "th": "≥ $75M", "sm": 0.0004, "st": 0.00052, "fm": 0.0001, "ft": 0.0003}, {"t": "VIP 5", "th": "≥ $150M", "sm": 0.00025, "st": 0.00031, "fm": 6e-05, "ft": 0.00027}, {"t": "VIP 6", "th": "≥ $400M", "sm": 0.0002, "st": 0.00029, "fm": 5e-05, "ft": 0.00025}, {"t": "VIP 7", "th": "≥ $800M", "sm": 0.00019, "st": 0.00028, "fm": 4e-05, "ft": 0.00023}, {"t": "VIP 8", "th": "≥ $2B", "sm": 0.00016, "st": 0.00025, "fm": 3e-05, "ft": 0.00021}, {"t": "VIP 9", "th": "≥ $4B", "sm": 0.00011, "st": 0.00023, "fm": 0.0, "ft": 0.00017}],
-    "awards": ["Forbes 2025 Most Trusted Crypto Exchange", "CNBC 2025 World Top Fintech", "Fortune Crypto 40 — CeFi Leader"],
-    "protection_fund": "SAFU (Secure Asset Fund for Users, $1B)",
-    "customer_support": "24/7 · 40+ languages",
-    "daily_volume_official": "≈$65B"
+    "awards": [
+      {"en": "Forbes 2025 Most Trusted Crypto Exchange", "zh": "福布斯 2025 最受信赖加密交易所"},
+      {"en": "CNBC 2025 World Top Fintech", "zh": "CNBC 2025 全球顶级金融科技"},
+      {"en": "Fortune Crypto 40 — CeFi Leader", "zh": "财富 Crypto 40 — CeFi 领域领导者"}
+    ],
+    "protection_fund": {"en": "SAFU (Secure Asset Fund for Users, $1B)", "zh": "SAFU 用户保护基金（$1B）"},
+    "customer_support": {"en": "24/7 · 40+ languages", "zh": "24/7 全天候 · 40+ 种语言"},
+    "daily_volume_official": "≈$65B",
+    "highlights": [
+      {"en": "Largest crypto exchange by daily volume (~$65B)", "zh": "全球最大加密交易所，日交易量约 650 亿美元"},
+      {"en": "300B spot volume traded in 2022", "zh": "2022 年现货交易量达 3 万亿美元"},
+      {"en": "Forbes / CNBC / Fortune top-rated", "zh": "福布斯/CNBC/财富 三大媒体联合背书"},
+      {"en": "SAFU $1B user protection fund", "zh": "SAFU 10 亿美元用户保护基金"},
+      {"en": "40+ language 24/7 customer support", "zh": "40+ 种语言 7×24 客户支持"}
+    ]
   },
   "bybit": {
     "slug": "bybit",

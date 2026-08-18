@@ -555,6 +555,10 @@ input[type=number]{font-size:16px}
 .trust-label{display:block;font-size:12px;color:var(--sub);margin-bottom:8px}
 .award-items{display:flex;flex-wrap:wrap;gap:6px}
 .award-chip{background:#fff;border:1px solid var(--line);border-radius:6px;padding:4px 10px;font-size:12px;color:#1e293b;font-weight:500}
+.hl-list{margin:8px 0 16px;padding:0;list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:6px 14px}
+.hl-list li{font-size:13.5px;color:#1e293b;padding-left:14px;position:relative;line-height:1.6}
+.hl-list li::before{content:"";position:absolute;left:0;top:11px;width:6px;height:6px;background:var(--brand);border-radius:50%}
+@media(max-width:640px){.hl-list{grid-template-columns:1fr}}
 .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
 .card a{color:var(--brand);text-decoration:none;font-weight:600}
 .card-title{display:inline-block;color:var(--ink);font-weight:700;margin-bottom:6px;text-decoration:none}
@@ -769,13 +773,9 @@ function exchangePage(slug, lang) {
     return `<a href="${absPath(lang, 'compare/' + x + '-vs-' + y + '.html')}">${ex.name} vs ${EX[s].name}</a>`;
   }).join(' · ');
 
-  // 头部徽章：去冗余（PoR/Cold 留给下方安全清单），改为规模/信任速览
-  const badges = [
-    [T(lang, 'exTrust'), cd.trust != null ? cd.trust + '/10' : '—'],
-    [T(lang, 'exSec'), cd.security != null ? cd.security + '/10' : '—'],
-    [T(lang, 'exVolume'), cd.volume || '—'],
-    [T(lang, 'exCoins'), cd.coins != null ? cd.coins.toLocaleString() : '—']
-  ].map(([k, v]) => `<div class="tbadge"><span>${esc(k)}</span><b>${esc(String(v))}</b></div>`).join('');
+  // 头部交易所亮点（highlights）——按 lang 取 en/zh
+  const highlights = (ex.highlights || []).map((h) => h[lang] || h.en).filter(Boolean);
+  const highlightsHtml = highlights.length ? `<ul class="hl-list">${highlights.map((h) => `<li>${esc(h)}</li>`).join('')}</ul>` : '';
 
   // 费率区块（VIP 档位下拉）
   const tierOpts = tiers.map((t) => `<option value="${esc(t.t)}">${esc(t.t)} · ${esc(t.th)}</option>`).join('');
@@ -827,10 +827,10 @@ function exchangePage(slug, lang) {
     [T(lang, 'exApi'), yesNo(ex.has_api)]
   ]);
 
-  // 信任背书区块（媒体奖项 / 保护基金 / 客服 / 官方日交易量）
-  const trAwards = ex.awards || [];
-  const trProtection = ex.protection_fund;
-  const trSupport = ex.customer_support;
+  // 信任背书区块（按 lang 选择 en/zh）
+  const trAwards = (ex.awards || []).map((a) => a[lang] || a.en);
+  const trProtection = ex.protection_fund ? (ex.protection_fund[lang] || ex.protection_fund.en) : null;
+  const trSupport = ex.customer_support ? (ex.customer_support[lang] || ex.customer_support.en) : null;
   const trVolOff = ex.daily_volume_official;
   const trustHtml = (trAwards.length || trProtection || trSupport || trVolOff) ? `
     <div class="trust-block">
@@ -842,8 +842,10 @@ function exchangePage(slug, lang) {
 
   const body = `
   <h1>${esc(T(lang, 'exH1', { n: ex.name }))}</h1>
-  <p class="intro">${esc(T(lang, 'exIntro', { n: ex.name, u: UPD }))}</p>
-  <div class="tbadges">${badges}</div>
+  ${highlightsHtml}
+
+  <h3>${esc(T(lang, 'exTrustBlock'))}</h3>
+  ${trustHtml}
 
   <h3>${esc(T(lang, 'exFeeBlock'))}</h3>
   <div class="fee-panel">
@@ -855,9 +857,6 @@ function exchangePage(slug, lang) {
     </div>
     <div class="fee-meta"><span id="feeTh"></span>${discHtml}</div>
   </div>
-
-  <h3>${esc(T(lang, 'exTrustBlock'))}</h3>
-  ${trustHtml}
 
   <h3>${esc(T(lang, 'exSecBlock'))}</h3>
   <div class="sec-list">
