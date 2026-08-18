@@ -416,7 +416,9 @@ function page({ lang, title, desc, body, jsonLd, depth = 0, path, affiliate = fa
   // 仅在显式传 noDisc 时才隐藏（如首页/legal/about/coins 等纯信息页）
   const discLine = noDisc ? '' : i.discHtml.replace(/\{SNAPSHOT\}/g, COIN_SNAPSHOT);
   // 导航下拉内容：交易所 7 所 + 对比 6 组（Binance 基准）
-  const exLinks = Object.keys(EX).sort().map((s) => `<a href="${absPath(lang, 'exchanges/' + s + '.html')}">${EX_LOGO[s] || ICON.coins}<span>${esc(EX[s].name)}</span></a>`).join('');
+  const exPriority = ['binance', 'okx', 'kucoin'];
+  const exOrder = [...exPriority, ...Object.keys(EX).filter((s) => !exPriority.includes(s)).sort()];
+  const exLinks = exOrder.map((s) => `<a href="${absPath(lang, 'exchanges/' + s + '.html')}">${EX_LOGO[s] || ICON.coins}<span>${esc(EX[s].name)}</span></a>`).join('');
   const cmpPairs = ['bitget', 'bybit', 'coinbase', 'kraken', 'kucoin', 'okx'].map((s) => `<a href="${absPath(lang, 'compare/binance-vs-' + s + '.html')}">${ICON.scale}<span>Binance vs ${esc(EX[s].name)}</span></a>`).join('');
   return `<!doctype html>
 <html lang="${lang === 'zh' ? 'zh-CN' : 'en'}">
