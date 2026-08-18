@@ -83,7 +83,15 @@ const ICON = {
   trend: `<svg ${SVG_ATTR}><polyline points="3 17 9 11 13 15 21 7"/><polyline points="15 7 21 7 21 13"/></svg>`,
   shield: `<svg ${SVG_ATTR}><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>`,
   wallet: `<svg ${SVG_ATTR}><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4Z"/></svg>`,
-  compare: `<svg ${SVG_ATTR}><path d="M6 9a6 6 0 0 0 12 0V3H6z"/><path d="M6 5H3v2a3 3 0 0 0 3 3"/><path d="M18 5h3v2a3 3 0 0 1-3 3"/><path d="M12 15v3"/><path d="M8 21h8"/><path d="M10 18h4"/></svg>`
+  compare: `<svg ${SVG_ATTR}><path d="M6 9a6 6 0 0 0 12 0V3H6z"/><path d="M6 5H3v2a3 3 0 0 0 3 3"/><path d="M18 5h3v2a3 3 0 0 1-3 3"/><path d="M12 15v3"/><path d="M8 21h8"/><path d="M10 18h4"/></svg>`,
+  headphones: `<svg ${SVG_ATTR}><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3z"/><path d="M3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>`
+};
+// 信任背书 badge 图标映射（按 type 区分）
+const TRUST_ICON = {
+  award: ICON.compare,
+  volume: ICON.trend,
+  fund: ICON.shield,
+  support: ICON.headphones
 };
 // 导航下拉箭头（chevron-down，hover 旋转 180°）
 const CHEV = `<svg class="chev" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>`;
@@ -549,12 +557,17 @@ input[type=number]{font-size:16px}
 .srow.inc{padding-left:14px;padding-right:14px}
 .srow.inc .inc-event{color:#1e293b;flex:1}
 .srow.inc .inc-resp{color:#185FA5;margin-left:12px;font-weight:500;max-width:55%;text-align:right}
-.trust-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:8px}
-.trust-badge{background:#f8fafc;border:1px solid var(--line);border-radius:10px;padding:12px 14px;font-size:13px;color:#1e293b;line-height:1.5;font-weight:500}
-.trust-badge[data-type="award"]{background:#fff}
-.trust-badge[data-type="volume"]{background:#eff6ff;border-color:#b5d4f4;color:#185FA5;font-weight:600}
-.trust-badge[data-type="fund"]{background:#f0fdf4;border-color:#bbf7d0;color:#166534;font-weight:600}
-.trust-badge[data-type="support"]{background:#fefce8;border-color:#fef08a;color:#854d0e;font-weight:600}
+.trust-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0 22px}
+.trust-badge{position:relative;display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:13px 14px 13px 20px;font-size:13px;color:#1e293b;line-height:1.5;font-weight:500;box-shadow:0 1px 2px rgba(15,23,42,.04);overflow:hidden;transition:transform .15s ease,box-shadow .15s ease}
+.trust-badge::before{content:\"\";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--tb-color,var(--line))}
+.trust-badge:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(15,23,42,.08)}
+.trust-badge svg{width:22px;height:22px;flex-shrink:0;color:var(--tb-color,var(--sub))}
+.tb-text{flex:1;min-width:0}
+.trust-badge[data-type="award"]{--tb-color:#64748b;background:#fff}
+.trust-badge[data-type="volume"]{--tb-color:#185FA5;background:#f8fbff}
+.trust-badge[data-type="fund"]{--tb-color:#16a34a;background:#f6fefa}
+.trust-badge[data-type="support"]{--tb-color:#ca8a04;background:#fffdf3}
+.trust-badge[data-type="volume"] .tb-text,.trust-badge[data-type="fund"] .tb-text,.trust-badge[data-type="support"] .tb-text{font-weight:600}
 @media(max-width:640px){.trust-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:420px){.trust-grid{grid-template-columns:1fr}}
 .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
@@ -774,9 +787,8 @@ function exchangePage(slug, lang) {
   // 头部信任背书区块（统一 6 个 badge 槽位 · 3×2 grid · 按 lang 取 en/zh）
   const trustBadges = (ex.trust_badges || []).map((b) => ({ type: b.type, text: b[lang] || b.en })).filter((b) => b.text);
   const trustGridHtml = trustBadges.length ? `
-    <h3>${esc(T(lang, 'exTrustBlock'))}</h3>
     <div class="trust-grid">
-      ${trustBadges.map((b) => `<div class="trust-badge" data-type="${esc(b.type)}">${esc(b.text)}</div>`).join('')}
+      ${trustBadges.map((b) => `<div class="trust-badge" data-type="${esc(b.type)}">${TRUST_ICON[b.type] || ''}<span class="tb-text">${esc(b.text)}</span></div>`).join('')}
     </div>` : '';
 
   // 费率区块（VIP 档位下拉）
