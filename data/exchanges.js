@@ -70,7 +70,7 @@ window.EXCHANGES = {
       {"type": "award",   "en": "Forbes 2025 Most Trusted Crypto Exchange", "zh": "福布斯 2025 最受信赖加密交易所"},
       {"type": "award",   "en": "CNBC 2025 World Top Fintech",            "zh": "CNBC 2025 全球顶级金融科技"},
       {"type": "award",   "en": "Fortune Crypto 40 — CeFi Leader",         "zh": "财富 Crypto 40 — CeFi 领域领导者"},
-      {"type": "volume",  "en": "≈$65B daily trading volume",              "zh": "≈$65B 日交易量（约 650 亿美元）"},
+      {"type": "volume",  "en": "≈$65B daily trading volume",              "zh": "日交易量约 650 亿美元"},
       {"type": "fund",    "en": "SAFU $1B user protection fund",           "zh": "SAFU 10 亿美元用户保护基金"},
       {"type": "support", "en": "24/7 · 40+ languages",                   "zh": "24/7 全天候 · 40+ 种语言客服"}
     ]
@@ -149,7 +149,7 @@ window.EXCHANGES = {
     "source": "https://www.bitget.com/fee",
     "last_updated": "2026-08-18",
     "slogan": {"en": "Smarter trading, better life", "zh": "更聪明的交易，更精彩的生活"},
-    "trust_badges": [{"type": "fund", "en": "Bitget Protection Fund ($300M+)", "zh": "Bitget 保护基金（$300M+）"}, {"type": "support", "en": "24/7 · multilingual", "zh": "24/7 · 多语言客服"}],
+    "trust_badges": [{"type": "fund", "en": "Bitget Protection Fund ($300M+)", "zh": "Bitget 保护基金（3 亿美元以上）"}, {"type": "support", "en": "24/7 · multilingual", "zh": "24/7 · 多语言客服"}],
     "token_discount": {"token": "BGB", "rate": 0.2, "note": "\u7528 BGB \u652f\u4ed8\u624b\u7eed\u8d39\u7701 20%"},
     "vip_tiers": [{"t": "VIP 0", "th": "< $50K", "sm": 0.001, "st": 0.001, "fm": 0.0002, "ft": 0.0006}, {"t": "VIP 1", "th": "≥ $1M", "sm": 0.0006, "st": 0.0008, "fm": 0.00014, "ft": 0.0004}, {"t": "VIP 2", "th": "≥ $5M", "sm": 0.0005, "st": 0.0007, "fm": 0.00012, "ft": 0.00035}, {"t": "VIP 3", "th": "≥ $10M", "sm": 0.0003, "st": 0.0005, "fm": 8e-05, "ft": 0.0003}, {"t": "VIP 4", "th": "≥ $20M", "sm": 0.0002, "st": 0.0004, "fm": 6e-05, "ft": 0.00025}, {"t": "VIP 5", "th": "≥ $50M", "sm": 0.0001, "st": 0.0003, "fm": 4e-05, "ft": 0.0002}, {"t": "VIP 6", "th": "≥ $100M", "sm": 5e-05, "st": 0.00025, "fm": 2e-05, "ft": 0.00017}],
   },
