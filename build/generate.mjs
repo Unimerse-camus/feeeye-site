@@ -204,7 +204,7 @@ const I18N = {
     exIntro: 'Snapshot of {n} trading fees, USDT withdrawal costs, supported networks and features. Data {u}.',
     exSpot: 'Spot fee', exFutures: 'Futures fee', exWd: 'USDT withdrawal', exCoins: 'Coins listed', exBot: 'Trading bot', exApi: 'API',
     exOf: '{t} listed', exBotYes: 'Available', exBotNo: 'No',
-    exTitle: '{n} Fees & Data 2026',
+    exTitle: '{n} — {slogan}',
     exDesc: '{n} fees, USDT withdrawal costs, supported networks and trading features. Compare with other exchanges.',
     exCompare: 'Compare: ',
     exTrust: 'Trust', exSec: 'Security', exPor: 'PoR', exCold: 'Cold storage',
@@ -268,7 +268,7 @@ const I18N = {
     exIntro: '{n} 交易费率、USDT 提币成本、支持网络与功能快照。数据更新至 {u}。',
     exSpot: '现货费率', exFutures: '合约费率', exWd: 'USDT 提币', exCoins: '上架币种', exBot: '交易机器人', exApi: 'API',
     exOf: '上架 {t} 个', exBotYes: '支持', exBotNo: '不支持',
-    exTitle: '{n} 费率与数据 2026',
+    exTitle: '{n}——{slogan}',
     exDesc: '{n} 费率、USDT 提币成本、支持网络与交易功能。与其他交易所对比。',
     exCompare: '对比：',
     exTrust: '信任分', exSec: '安全分', exPor: '储备证明', exCold: '冷存储',
@@ -570,11 +570,11 @@ input[type=number]{font-size:16px}
 .srow.inc{padding-left:14px;padding-right:14px}
 .srow.inc .inc-event{color:#1e293b;flex:1}
 .srow.inc .inc-resp{color:#185FA5;margin-left:12px;font-weight:500;max-width:55%;text-align:right}
-.trust-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0 22px;grid-auto-rows:minmax(80px,auto);align-items:stretch}
-.trust-badge{position:relative;display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:13px 14px 13px 20px;font-size:13px;color:#1e293b;line-height:1.5;font-weight:500;box-shadow:0 1px 2px rgba(15,23,42,.04);overflow:hidden;transition:transform .15s ease,box-shadow .15s ease}
+.trust-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0 18px;grid-auto-rows:minmax(60px,auto);align-items:stretch}
+.trust-badge{position:relative;display:flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--line);border-radius:8px;padding:10px 12px 10px 16px;font-size:12.5px;color:#1e293b;line-height:1.4;font-weight:500;box-shadow:0 1px 2px rgba(15,23,42,.04);overflow:hidden;transition:transform .15s ease,box-shadow .15s ease}
 .trust-badge::before{content:\"\";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--tb-color,var(--line))}
 .trust-badge:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(15,23,42,.08)}
-.trust-badge svg{width:22px;height:22px;flex-shrink:0;color:var(--tb-color,var(--sub))}
+.trust-badge svg{width:18px;height:18px;flex-shrink:0;color:var(--tb-color,var(--sub))}
 .tb-text{flex:1;min-width:0}
 .trust-badge[data-type="award"]{--tb-color:var(--brand,#64748b);background:#fff}
 .trust-badge[data-type="volume"]{--tb-color:#185FA5;background:#f8fbff}
@@ -939,7 +939,7 @@ function exchangePage(slug, lang) {
     render();
   })();
   </script>`;
-  return page({ lang, title: T(lang, 'exTitle', { n: ex.name }), desc: T(lang, 'exDesc', { n: ex.name }), body, path: `${lang === 'zh' ? 'zh/' : ''}exchanges/${slug}.html`, affiliate: false });
+  return page({ lang, title: T(lang, 'exTitle', { n: ex.name, slogan: (ex.slogan && (ex.slogan[lang] || ex.slogan.en)) || T(lang, 'exH1Default') }), desc: T(lang, 'exDesc', { n: ex.name }), body, path: `${lang === 'zh' ? 'zh/' : ''}exchanges/${slug}.html`, affiliate: false });
 }
 
 function comparePage(slugA, slugB, lang) {
