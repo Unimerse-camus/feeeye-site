@@ -199,7 +199,8 @@ const I18N = {
     wbTitle: 'Where to Buy {s} — Compare Exchanges',
     wbDesc: 'Find where to buy {s} in 2026. Compare listings, spot fees and withdrawal costs across major exchanges.',
     wbQ1: 'Where can I buy {s}?', wbA1: '{s} is listed on major exchanges including KuCoin, subject to regional availability. Compare fees above.',
-    exH1: '{n} — Fees, Networks & Tools (2026)',
+    exH1: '{n} — {slogan}',
+    exH1Default: 'Fees, Networks & Tools (2026)',
     exIntro: 'Snapshot of {n} trading fees, USDT withdrawal costs, supported networks and features. Data {u}.',
     exSpot: 'Spot fee', exFutures: 'Futures fee', exWd: 'USDT withdrawal', exCoins: 'Coins listed', exBot: 'Trading bot', exApi: 'API',
     exOf: '{t} listed', exBotYes: 'Available', exBotNo: 'No',
@@ -262,7 +263,8 @@ const I18N = {
     wbTitle: '在哪里购买 {s}——交易所对比',
     wbDesc: '查找 2026 年在哪里购买 {s}。对比各大交易所的上架情况、现货费率与提币成本。',
     wbQ1: '我可以在哪里购买 {s}？', wbA1: '{s} 已在多家交易所上架（含 KuCoin），具体取决于地区可用性。请对比上方费率。',
-    exH1: '{n}——费率、网络与工具（2026）',
+    exH1: '{n}——{slogan}',
+    exH1Default: '费率、网络与工具（2026）',
     exIntro: '{n} 交易费率、USDT 提币成本、支持网络与功能快照。数据更新至 {u}。',
     exSpot: '现货费率', exFutures: '合约费率', exWd: 'USDT 提币', exCoins: '上架币种', exBot: '交易机器人', exApi: 'API',
     exOf: '上架 {t} 个', exBotYes: '支持', exBotNo: '不支持',
@@ -847,7 +849,7 @@ function exchangePage(slug, lang) {
   ]);
 
   const body = `
-  <h1>${esc(T(lang, 'exH1', { n: ex.name }))}</h1>
+  <h1>${esc(T(lang, 'exH1', { n: ex.name, slogan: (ex.slogan && (ex.slogan[lang] || ex.slogan.en)) || T(lang, 'exH1Default') }))}</h1>
   ${trustGridHtml}
 
   <h3>${esc(T(lang, 'exFeeBlock'))}</h3>
