@@ -1105,6 +1105,10 @@ const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 ${pages.map((u) => `  <url><loc>${SITE_URL}/${u}</loc><lastmod>${today}</lastmod></url>`).join('\n')}
 </urlset>`;
 write('sitemap.xml', sitemap);
+// _redirects：Cloudflare Pages 重定向规则（从项目源根 _redirects 复制）
+// - Pages 部署读源根的 _redirects，本步同步到 dist 根保持本地一致性
+const redirectsSrc = fs.readFileSync(path.join(root, '_redirects'), 'utf8');
+write('_redirects', redirectsSrc);
 write('robots.txt', `User-agent: *\nAllow: /\nSitemap: ${SITE_URL}/sitemap.xml\n`);
 
 // Cloudflare Pages _headers：缓存策略
