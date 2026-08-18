@@ -447,12 +447,18 @@ function coinsPage(lang) {
   return page({ lang, title, desc, body, path: `${lang === 'zh' ? 'zh/' : ''}coins.html`, affiliate: false, noDisc: true });
 }
 
+// 生成规范 URL 路径：去 .html + index.html → 根 /（对齐 Cloudflare Pages 的 308 重定向目标）
+function canonPath(p) {
+  return p.replace(/\.html$/, '').replace(/(^|\/)index$/, '$1');
+}
+
 function page({ lang, title, desc, body, jsonLd, depth = 0, path, affiliate = false, noDisc = false, noHomeFoot = false, noIndex = false }) {
   const active = matchActiveNav(path);
   const i = I18N[lang];
-  // canonical 指向 Cloudflare Pages 308 重定向后的目标 URL（去掉 .html 后缀）
+  // canonical 指向 Cloudflare Pages 308 重定向后的目标 URL（去 .html，且 index.html → 根 /）
   // 避免 Google Search Console 报「网页会自动重定向」+「备用网页」
-  const canonical = `${SITE_URL}/${path.replace(/\.html$/, '')}`;
+  const canonicalPath = canonPath(path);
+  const canonical = `${SITE_URL}/${canonicalPath}`;
   const ld = jsonLd ? `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>` : '';
   // 仅在显式传 noDisc 时才隐藏（如首页/legal/about/coins 等纯信息页）
   const discLine = noDisc ? '' : i.discHtml.replace(/\{SNAPSHOT\}/g, COIN_SNAPSHOT);
@@ -476,8 +482,8 @@ ${noIndex ? '<meta name="robots" content="noindex, follow">' : ''}
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
 <link rel="canonical" href="${canonical}">
-<link rel="alternate" hreflang="en" href="${SITE_URL}/${(lang === 'zh' ? path.replace(/^zh\//, '') : path).replace(/\.html$/, '')}">
-${lang === 'zh' ? `<link rel="alternate" hreflang="zh" href="${canonical}">` : `<link rel="alternate" hreflang="zh" href="${SITE_URL}/zh/${path.replace(/\.html$/, '')}">`}
+<link rel="alternate" hreflang="en" href="${SITE_URL}/${canonPath(lang === 'zh' ? path.replace(/^zh\//, '') : path)}">
+${lang === 'zh' ? `<link rel="alternate" hreflang="zh" href="${canonical}">` : `<link rel="alternate" hreflang="zh" href="${SITE_URL}/zh/${canonPath(path)}">`}
 <meta property="og:type" content="website">
 <meta property="og:url" content="${canonical}">
 <meta property="og:title" content="${esc(title)}">
@@ -1092,7 +1098,8 @@ fs.cpSync(assetsDir, path.join(distDir, 'assets'), { recursive: true });
 
 // sitemap.xml + robots.txt
 const today = new Date().toISOString().slice(0, 10);
-const pages = urls.filter((u) => u.endsWith('.html'));
+// sitemap URL 去掉 .html 后缀 + index.html → 根，与页面 canonical 保持一致，避免谷歌拿到矛盾信号
+const pages = urls.filter((u) => u.endsWith('.html')).map(canonPath);
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${pages.map((u) => `  <url><loc>${SITE_URL}/${u}</loc><lastmod>${today}</lastmod></url>`).join('\n')}
