@@ -199,6 +199,7 @@ const I18N = {
     exWdBlock: 'USDT withdrawal fees', exNet: 'Network', exFee: 'Fee', exDepBlock: 'Deposit methods', exMethod: 'Method',
     exCapBlock: 'Trading capabilities', exVolume: '24h volume', exMaxLev: 'Max leverage', exOptions: 'Options', exMargin: 'Margin', exLeveragedTok: 'Leveraged tokens', exCopy: 'Copy trading',
     exNote: 'Fee snapshot — always confirm on the official exchange page.',
+    exTrustBlock: 'Trust & recognition', exAwards: 'Media awards', exProtection: 'Protection fund', exSupport: 'Customer support', exVolOfficial: 'Official daily volume',
     exEvent: 'Event', exResponse: 'Response',
     exCapScale: 'Scale & liquidity', exCapDeriv: 'Derivatives', exCapAuto: 'Automation & community',
     cpH1: '{a} vs {b} — Fee & Feature Comparison (2026)',
@@ -261,6 +262,7 @@ const I18N = {
     exWdBlock: 'USDT 提币费', exNet: '网络', exFee: '费用', exDepBlock: '入金方式', exMethod: '方式',
     exCapBlock: '交易能力', exVolume: '24h 交易量', exMaxLev: '最大杠杆', exOptions: '期权', exMargin: '保证金', exLeveragedTok: '杠杆代币', exCopy: '跟单',
     exNote: '费率快照——交易前请以官方页面为准。',
+    exTrustBlock: '信任背书', exAwards: '媒体奖项', exProtection: '保护基金', exSupport: '客服支持', exVolOfficial: '官方日交易量',
     exEvent: '事件', exResponse: '处理方式',
     exCapScale: '规模与流动性', exCapDeriv: '衍生品', exCapAuto: '自动化与社区',
     cpH1: '{a} vs {b}——费率与功能对比（2026）',
@@ -547,6 +549,12 @@ input[type=number]{font-size:16px}
 .srow.inc{padding-left:14px;padding-right:14px}
 .srow.inc .inc-event{color:#1e293b;flex:1}
 .srow.inc .inc-resp{color:#185FA5;margin-left:12px;font-weight:500;max-width:55%;text-align:right}
+.trust-block{border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-top:8px}
+.trust-awards{padding:12px 14px;border-bottom:1px solid var(--line)}
+.trust-awards:nth-child(1){background:#f8fafc}
+.trust-label{display:block;font-size:12px;color:var(--sub);margin-bottom:8px}
+.award-items{display:flex;flex-wrap:wrap;gap:6px}
+.award-chip{background:#fff;border:1px solid var(--line);border-radius:6px;padding:4px 10px;font-size:12px;color:#1e293b;font-weight:500}
 .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
 .card a{color:var(--brand);text-decoration:none;font-weight:600}
 .card-title{display:inline-block;color:var(--ink);font-weight:700;margin-bottom:6px;text-decoration:none}
@@ -819,6 +827,19 @@ function exchangePage(slug, lang) {
     [T(lang, 'exApi'), yesNo(ex.has_api)]
   ]);
 
+  // 信任背书区块（媒体奖项 / 保护基金 / 客服 / 官方日交易量）
+  const trAwards = ex.awards || [];
+  const trProtection = ex.protection_fund;
+  const trSupport = ex.customer_support;
+  const trVolOff = ex.daily_volume_official;
+  const trustHtml = (trAwards.length || trProtection || trSupport || trVolOff) ? `
+    <div class="trust-block">
+      ${trAwards.length ? `<div class="trust-awards"><span class="trust-label">${esc(T(lang, 'exAwards'))}</span><div class="award-items">${trAwards.map((a) => `<span class="award-chip">${esc(a)}</span>`).join('')}</div></div>` : ''}
+      ${trProtection ? `<div class="srow"><span>${esc(T(lang, 'exProtection'))}</span><b>${esc(trProtection)}</b></div>` : ''}
+      ${trSupport ? `<div class="srow"><span>${esc(T(lang, 'exSupport'))}</span><b>${esc(trSupport)}</b></div>` : ''}
+      ${trVolOff ? `<div class="srow"><span>${esc(T(lang, 'exVolOfficial'))}</span><b>${esc(trVolOff)}</b></div>` : ''}
+    </div>` : '';
+
   const body = `
   <h1>${esc(T(lang, 'exH1', { n: ex.name }))}</h1>
   <p class="intro">${esc(T(lang, 'exIntro', { n: ex.name, u: UPD }))}</p>
@@ -834,6 +855,9 @@ function exchangePage(slug, lang) {
     </div>
     <div class="fee-meta"><span id="feeTh"></span>${discHtml}</div>
   </div>
+
+  <h3>${esc(T(lang, 'exTrustBlock'))}</h3>
+  ${trustHtml}
 
   <h3>${esc(T(lang, 'exSecBlock'))}</h3>
   <div class="sec-list">
