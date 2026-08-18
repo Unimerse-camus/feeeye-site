@@ -272,7 +272,7 @@ const I18N = {
     exDesc: '{n} 费率、USDT 提币成本、支持网络与交易功能。与其他交易所对比。',
     exCompare: '对比：',
     exTrust: '信任分', exSec: '安全分', exPor: '储备证明', exCold: '冷存储',
-    exFeeBlock: '交易费率', exTier: '档位', exMaker: '挂单', exTaker: '吃单', exThreshold: '30天交易量', exTokenDisc: '用 {t} 支付省 {r}',
+    exFeeBlock: '交易费率', exTier: '档位', exMaker: '挂单', exTaker: '吃单', exThreshold: '30 天交易量', exTokenDisc: '用 {t} 支付省 {r}',
     exSecBlock: '安全与合规', exReserve: '储备证明', exLicenses: '牌照', exKyc: 'KYC', exIncident: '安全历史',
     exWdBlock: 'USDT 提币费', exNet: '网络', exFee: '费用', exDepBlock: '入金方式', exMethod: '方式',
     exCapBlock: '交易能力', exVolume: '24h 交易量', exMaxLev: '最大杠杆', exOptions: '期权', exMargin: '保证金', exLeveragedTok: '杠杆代币', exCopy: '跟单',
@@ -549,7 +549,7 @@ input[type=number]{font-size:16px}
 .disc-label{font-size:13px;color:#1e293b;font-weight:500}
 .fee-table{margin:0;font-size:13px}
 .fee-table thead th{background:#f1f5f9;font-size:12px;font-weight:600;color:#475569}
-.fee-table th:first-child,.fee-table td:first-child{text-align:left}
+.fee-table th:first-child,.fee-table td:first-child{text-align:center}
 .fee-table td:nth-child(3),.fee-table td:nth-child(4){color:var(--brand);font-weight:600}
 .fee-table tbody tr:nth-child(odd) td{background:#fafbfc}
 .sec-list{border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-top:8px}
@@ -902,6 +902,19 @@ function exchangePage(slug, lang) {
     var sw = document.getElementById('feeSwitch');
     var tbody = document.querySelector('#feeTable tbody');
     function fmt(x){ return x == null ? '\u2014' : (x*100).toFixed(3).replace(/\\.?0+$/, '') + '%'; }
+    function cnThresh(s){
+      // zh 时把 "$1M" / "$2B" 等转中文（"100 万美元" / "20 亿美元"）
+      if (!${zh}) return s;
+      var m = s.match(/^([<>≥≤]\\s*)?\\$?([\\d.]+)\\s*([KMB])?$/);
+      if (!m) return s;
+      var cmp = m[1] || '', num = parseFloat(m[2]), unit = m[3] || '';
+      var cnv;
+      if (unit === 'K') cnv = Math.round(num / 10) + ' 万';
+      else if (unit === 'M') cnv = num >= 100 ? (num / 100) + ' 亿' : (num * 100) + ' 万';
+      else if (unit === 'B') cnv = (num * 10) + ' 亿';
+      else cnv = num.toString();
+      return cmp + cnv + ' 美元';
+    }
     function discRate(){ return useDisc ? (mkt === 'spot' ? discSpot : discFut) : 0; }
     function apply(rate, d){
       return d > 0 ? rate * (1 - d) : rate;
@@ -911,7 +924,7 @@ function exchangePage(slug, lang) {
       var rows = tiers.map(function(t){
         var mk = apply(mkt === 'spot' ? t.sm : t.fm, d);
         var tk = apply(mkt === 'spot' ? t.st : t.ft, d);
-        return '<tr><td>' + t.t + '</td><td>' + t.th + '</td><td>' + fmt(mk) + '</td><td>' + fmt(tk) + '</td></tr>';
+        return '<tr><td>' + t.t + '</td><td>' + cnThresh(t.th) + '</td><td>' + fmt(mk) + '</td><td>' + fmt(tk) + '</td></tr>';
       }).join('');
       tbody.innerHTML = rows;
     }
