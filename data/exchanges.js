@@ -63,7 +63,16 @@ window.EXCHANGES = {
     "new_user_note": "Binance base spot 0.10% (25% off with BNB). USDT-TRC20 1 USDT. Fiat deposit methods vary by region.",
     "source": "https://www.binance.com/en/fee/schedule",
     "last_updated": "2026-08-18",
+    "trust_badges": [
+      {"type": "award",  "en": "Forbes 2025 Most Trusted Crypto Exchange",       "zh": "福布斯 2025 最受信赖加密交易所"},
+      {"type": "award",  "en": "CNBC 2025 World Top Fintech",                   "zh": "CNBC 2025 全球顶级金融科技"},
+      {"type": "award",  "en": "Fortune Crypto 40 — CeFi Leader",              "zh": "财富 Crypto 40——CeFi 领域领导者"},
+      {"type": "volume", "en": "Daily trading volume: ~$65B",                  "zh": "日交易量约 650 亿美元"},
+      {"type": "fund",   "en": "SAFU — Secure Asset Fund for Users ($1B)",     "zh": "SAFU 用户保护基金（10 亿美元）"},
+      {"type": "support","en": "24/7 customer support · 40+ languages",        "zh": "7×24 客户支持 · 40+ 种语言"}
+    ],
     "slogan": {"en": "The world's leading crypto exchange", "zh": "全球领先的加密货币交易所"},
+    "token_discount": {"token": "BNB", "spot": 0.25, "futures": 0.1, "note": {"en": "Turn on BNB fee discount: Spot 25% off, Futures 10% off", "zh": "开启 BNB 抵扣手续费，现货抵扣 25%，合约抵扣 10%"}},
     "token_discount": {"token": "BNB", "spot": 0.25, "futures": 0.1, "note": {"en": "Turn on BNB fee discount: Spot 25% off, Futures 10% off", "zh": "开启 BNB 抵扣手续费，现货抵扣 25%，合约抵扣 10%"}},
     "vip_tiers": [{"t": "Regular", "th_spot": "< $1M", "th_futures": "< $5M", "sm": 0.001, "st": 0.001, "fm": 0.0002, "ft": 0.0005}, {"t": "VIP 1", "th_spot": "≥ $1M", "th_futures": "≥ $5M", "sm": 0.0009, "st": 0.001, "fm": 0.00016, "ft": 0.0004}, {"t": "VIP 2", "th_spot": "≥ $5M", "th_futures": "≥ $10M", "sm": 0.0008, "st": 0.001, "fm": 0.00014, "ft": 0.00035}, {"t": "VIP 3", "th_spot": "≥ $20M", "th_futures": "≥ $50M", "sm": 0.0004, "st": 0.0006, "fm": 0.00012, "ft": 0.00032}, {"t": "VIP 4", "th_spot": "≥ $75M", "th_futures": "≥ $600M", "sm": 0.0004, "st": 0.00052, "fm": 0.0001, "ft": 0.0003}, {"t": "VIP 5", "th_spot": "≥ $150M", "th_futures": "≥ $1B", "sm": 0.00025, "st": 0.00031, "fm": 6e-05, "ft": 0.00027}, {"t": "VIP 6", "th_spot": "≥ $400M", "th_futures": "≥ $2.5B", "sm": 0.0002, "st": 0.00029, "fm": 5e-05, "ft": 0.00025}, {"t": "VIP 7", "th_spot": "≥ $800M", "th_futures": "≥ $5B", "sm": 0.00019, "st": 0.00028, "fm": 4e-05, "ft": 0.00023}, {"t": "VIP 8", "th_spot": "≥ $2B", "th_futures": "≥ $12B", "sm": 0.00016, "st": 0.00025, "fm": 3e-05, "ft": 0.00021}, {"t": "VIP 9", "th_spot": "≥ $4B", "th_futures": "≥ $25B", "sm": 0.00011, "st": 0.00023, "fm": 0.0, "ft": 0.00017}]
   },
