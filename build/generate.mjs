@@ -539,13 +539,19 @@ input[type=number]{font-size:16px}
 .ftab.active{background:var(--brand);border-color:var(--brand);color:#fff}
 .fee-tier{display:flex;align-items:center;gap:10px;margin-bottom:12px}
 .fee-tier label{font-size:13px;color:var(--sub)}
-.fee-tier select{flex:1;max-width:320px;padding:6px 10px;border:1px solid var(--line);border-radius:6px;font-size:14px;background:#fff;color:#1e293b}
-.fee-rates{display:flex;gap:12px;margin-bottom:8px}
-.frate{flex:1;background:#fff;border:1px solid var(--line);border-radius:8px;padding:10px 14px}
-.frate span{display:block;font-size:12px;color:var(--sub)}
-.frate b{display:block;font-size:20px;color:#1e293b;margin-top:2px}
-.fee-meta{font-size:12px;color:var(--sub);display:flex;gap:12px;flex-wrap:wrap}
-.fee-disc{color:var(--brand);font-weight:500}
+.fee-toggle{display:flex;align-items:center;gap:12px;margin:0 0 12px;padding:10px 12px;background:#f8fafc;border:1px solid var(--line);border-radius:8px}
+.switch{position:relative;display:inline-block;width:38px;height:22px;cursor:pointer;flex-shrink:0}
+.switch input{opacity:0;width:0;height:0;margin:0;position:absolute}
+.sl{position:absolute;inset:0;background:#cbd5e1;border-radius:22px;transition:.2s}
+.sl::before{content:\"\";position:absolute;width:18px;height:18px;left:2px;top:2px;background:#fff;border-radius:50%;transition:transform .2s}
+.switch input:checked+.sl{background:var(--brand)}
+.switch input:checked+.sl::before{transform:translateX(16px)}
+.disc-label{font-size:13px;color:#1e293b;font-weight:500}
+.fee-table{margin:0;font-size:13px}
+.fee-table thead th{background:#f1f5f9;font-size:12px;font-weight:600;color:#475569}
+.fee-table th:first-child,.fee-table td:first-child{text-align:left}
+.fee-table td:nth-child(3),.fee-table td:nth-child(4){color:var(--brand);font-weight:600}
+.fee-table tbody tr:nth-child(odd) td{background:#fafbfc}
 .sec-list{border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-top:8px}
 .srow{display:flex;justify-content:space-between;padding:9px 14px;border-bottom:1px solid var(--line);font-size:13.5px}
 .srow:last-child{border-bottom:none}
@@ -800,7 +806,8 @@ function exchangePage(slug, lang) {
 
   // 费率区块（VIP 档位下拉）
   const tierOpts = tiers.map((t) => `<option value="${esc(t.t)}">${esc(t.t)} · ${esc(t.th)}</option>`).join('');
-  const discHtml = disc ? `<span class="fee-disc">${esc(T(lang, 'exTokenDisc', { t: disc.token, r: Math.round(disc.rate * 100) + '%' }))}</span>` : '';
+  // 平台币折扣：现货 + 合约 双档（schema {token, spot, futures, note}）
+  const discNote = disc ? (disc.note?.[lang] || disc.note?.en || '') : '';
 
   // 提币费表格（多链）
   const wdRows = Object.entries(ex.usdt_withdrawal || {}).map(([net, fee]) => `<tr><td>${esc(net)}</td><td>${fee == null ? '—' : usd(fee)}</td></tr>`).join('');
@@ -855,12 +862,11 @@ function exchangePage(slug, lang) {
   <h3>${esc(T(lang, 'exFeeBlock'))}</h3>
   <div class="fee-panel">
     <div class="fee-tabs"><button type="button" class="ftab active" data-mkt="spot">${zh ? '现货' : 'Spot'}</button><button type="button" class="ftab" data-mkt="fut">${zh ? '合约' : 'Futures'}</button></div>
-    <div class="fee-tier"><label>${esc(T(lang, 'exTier'))}</label><select id="feeTier">${tierOpts}</select></div>
-    <div class="fee-rates">
-      <div class="frate"><span>${esc(T(lang, 'exMaker'))}</span><b id="feeMaker"></b></div>
-      <div class="frate"><span>${esc(T(lang, 'exTaker'))}</span><b id="feeTaker"></b></div>
-    </div>
-    <div class="fee-meta"><span id="feeTh"></span>${discHtml}</div>
+    ${disc && disc.token ? `<div class="fee-toggle"><label class="switch"><input type="checkbox" id="feeSwitch"><span class="sl"></span></label><span class="disc-label">${esc(discNote)}</span></div>` : ''}
+    <div class="scroll"><table class="fee-table" id="feeTable">
+      <thead><tr><th>${esc(T(lang, 'exTier'))}</th><th>${esc(T(lang, 'exThreshold'))}</th><th>${esc(T(lang, 'exMaker'))}</th><th>${esc(T(lang, 'exTaker'))}</th></tr></thead>
+      <tbody></tbody>
+    </table></div>
   </div>
 
   <h3>${esc(T(lang, 'exSecBlock'))}</h3>
@@ -888,17 +894,26 @@ function exchangePage(slug, lang) {
   <script>
   (function(){
     var tiers = ${JSON.stringify(tiers)};
+    var discSpot = ${disc && disc.spot != null ? disc.spot : 'null'};
+    var discFut  = ${disc && disc.futures != null ? disc.futures : 'null'};
     var mkt = 'spot';
-    var sel = document.getElementById('feeTier');
+    var useDisc = false;
     var tabs = document.querySelectorAll('.ftab');
+    var sw = document.getElementById('feeSwitch');
+    var tbody = document.querySelector('#feeTable tbody');
     function fmt(x){ return x == null ? '\u2014' : (x*100).toFixed(3).replace(/\\.?0+$/, '') + '%'; }
+    function discRate(){ return useDisc ? (mkt === 'spot' ? discSpot : discFut) : 0; }
+    function apply(rate, d){
+      return d > 0 ? rate * (1 - d) : rate;
+    }
     function render(){
-      var t = tiers[sel.selectedIndex] || tiers[0];
-      var maker = mkt === 'spot' ? t.sm : t.fm;
-      var taker = mkt === 'spot' ? t.st : t.ft;
-      document.getElementById('feeMaker').textContent = fmt(maker);
-      document.getElementById('feeTaker').textContent = fmt(taker);
-      document.getElementById('feeTh').textContent = ${JSON.stringify(zh ? '30天量 ' : '30d volume ')} + t.th;
+      var d = discRate();
+      var rows = tiers.map(function(t){
+        var mk = apply(mkt === 'spot' ? t.sm : t.fm, d);
+        var tk = apply(mkt === 'spot' ? t.st : t.ft, d);
+        return '<tr><td>' + t.t + '</td><td>' + t.th + '</td><td>' + fmt(mk) + '</td><td>' + fmt(tk) + '</td></tr>';
+      }).join('');
+      tbody.innerHTML = rows;
     }
     for (var i=0;i<tabs.length;i++){ tabs[i].addEventListener('click', function(e){
       for (var j=0;j<tabs.length;j++) tabs[j].classList.remove('active');
@@ -906,7 +921,7 @@ function exchangePage(slug, lang) {
       mkt = this.getAttribute('data-mkt');
       render();
     });}
-    sel.addEventListener('change', render);
+    if (sw){ sw.addEventListener('change', function(){ useDisc = sw.checked; render(); }); }
     render();
   })();
   </script>`;

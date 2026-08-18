@@ -35,7 +35,7 @@ window.EXCHANGES = {
     "source": "https://www.kucoin.com/vip/level + cexorer.com/kucoin/usdt",
     "last_updated": "2026-08-18",
     "slogan": {"en": "People's Exchange", "zh": "人民的交易所"},
-    "token_discount": {"token": "KCS", "rate": 0.2, "note": "\u7528 KCS \u652f\u4ed8\u624b\u7eed\u8d39\u7701 20%"},
+    "token_discount": {"token": "KCS", "spot": 0.2, "futures": 0.2, "note": {"en": "20% off with KCS", "zh": "用 KCS 支付省 20%"}},
     "vip_tiers": [{"t": "LV 0", "th": "< $50K", "sm": 0.001, "st": 0.001, "fm": 0.0002, "ft": 0.0006}, {"t": "LV 1", "th": "≥ $50K", "sm": 0.0009, "st": 0.001, "fm": 0.00018, "ft": 0.00055}, {"t": "LV 2", "th": "≥ $100K", "sm": 0.0008, "st": 0.001, "fm": 0.00016, "ft": 0.0005}, {"t": "LV 3", "th": "≥ $500K", "sm": 0.0007, "st": 0.0009, "fm": 0.00014, "ft": 0.00045}, {"t": "LV 4", "th": "≥ $1M", "sm": 0.0006, "st": 0.0008, "fm": 0.00012, "ft": 0.0004}, {"t": "LV 5", "th": "≥ $3M", "sm": 0.0005, "st": 0.0007, "fm": 0.0001, "ft": 0.00036}, {"t": "LV 6", "th": "≥ $5M", "sm": 0.0004, "st": 0.0006, "fm": 8e-05, "ft": 0.00032}, {"t": "LV 7", "th": "≥ $10M", "sm": 0.0003, "st": 0.0005, "fm": 6e-05, "ft": 0.00028}, {"t": "LV 8", "th": "≥ $20M", "sm": 0.0002, "st": 0.0004, "fm": 4e-05, "ft": 0.00025}, {"t": "LV 9", "th": "≥ $50M", "sm": 0.0001, "st": 0.0003, "fm": 2e-05, "ft": 0.00022}, {"t": "LV 10", "th": "≥ $100M", "sm": 5e-05, "st": 0.0002, "fm": 0.0, "ft": 0.0002}, {"t": "LV 11", "th": "≥ $500M", "sm": 0.0, "st": 0.00015, "fm": -2e-05, "ft": 0.00018}, {"t": "LV 12", "th": "≥ $1B", "sm": -5e-05, "st": 0.0001, "fm": -4e-05, "ft": 0.00016}],
   },
   "binance": {
@@ -64,7 +64,7 @@ window.EXCHANGES = {
     "source": "https://www.binance.com/en/fee/schedule",
     "last_updated": "2026-08-18",
     "slogan": {"en": "The world's leading crypto exchange", "zh": "全球领先的加密货币交易所"},
-    "token_discount": {"token": "BNB", "rate": 0.25, "note": "\u7528 BNB \u652f\u4ed8\u624b\u7eed\u8d39\u7701 25%"},
+    "token_discount": {"token": "BNB", "spot": 0.25, "futures": 0.1, "note": {"en": "Spot 25% off / Futures 10% off", "zh": "现货 25% / 合约 10%"}},
     "vip_tiers": [{"t": "Regular", "th": "< $1M", "sm": 0.001, "st": 0.001, "fm": 0.0002, "ft": 0.0005}, {"t": "VIP 1", "th": "≥ $1M", "sm": 0.0009, "st": 0.001, "fm": 0.00016, "ft": 0.0004}, {"t": "VIP 2", "th": "≥ $5M", "sm": 0.0008, "st": 0.001, "fm": 0.00014, "ft": 0.00035}, {"t": "VIP 3", "th": "≥ $20M", "sm": 0.0004, "st": 0.0006, "fm": 0.00012, "ft": 0.00032}, {"t": "VIP 4", "th": "≥ $75M", "sm": 0.0004, "st": 0.00052, "fm": 0.0001, "ft": 0.0003}, {"t": "VIP 5", "th": "≥ $150M", "sm": 0.00025, "st": 0.00031, "fm": 6e-05, "ft": 0.00027}, {"t": "VIP 6", "th": "≥ $400M", "sm": 0.0002, "st": 0.00029, "fm": 5e-05, "ft": 0.00025}, {"t": "VIP 7", "th": "≥ $800M", "sm": 0.00019, "st": 0.00028, "fm": 4e-05, "ft": 0.00023}, {"t": "VIP 8", "th": "≥ $2B", "sm": 0.00016, "st": 0.00025, "fm": 3e-05, "ft": 0.00021}, {"t": "VIP 9", "th": "≥ $4B", "sm": 0.00011, "st": 0.00023, "fm": 0.0, "ft": 0.00017}],
     "trust_badges": [
       {"type": "award",   "en": "Forbes 2025 Most Trusted Crypto Exchange", "zh": "福布斯 2025 最受信赖加密交易所"},
@@ -98,7 +98,7 @@ window.EXCHANGES = {
     "source": "https://www.bybit.com/en/help-center/fee",
     "last_updated": "2026-08-18",
     "slogan": {"en": "Trade with confidence", "zh": "自信交易，掌控市场"},
-    "token_discount": {"token": "BIT", "rate": 0.2, "note": "\u6301\u6709 BIT \u53ef\u4eab\u6700\u9ad8 20% \u8d39\u7387\u4f18\u60e0"},
+    "token_discount": {"token": "BIT", "spot": 0.2, "futures": 0.2, "note": {"en": "Up to 20% off with BIT", "zh": "持有 BIT 可享最高 20% 优惠"}},
     "vip_tiers": [{"t": "VIP 0", "th": "< $100K", "sm": 0.001, "st": 0.001, "fm": 0.0002, "ft": 0.00055}, {"t": "VIP 1", "th": "≥ $1M", "sm": 0.0006, "st": 0.0008, "fm": 0.00015, "ft": 0.0004}, {"t": "VIP 2", "th": "≥ $5M", "sm": 0.0004, "st": 0.0006, "fm": 0.0001, "ft": 0.00032}, {"t": "VIP 3", "th": "≥ $10M", "sm": 0.0002, "st": 0.0004, "fm": 5e-05, "ft": 0.00022}, {"t": "Pro 4", "th": "≥ $50M", "sm": 0.0001, "st": 0.0003, "fm": 0.0, "ft": 0.00015}, {"t": "Pro 5", "th": "≥ $100M", "sm": 5e-05, "st": 0.0002, "fm": 0.0, "ft": 0.0001}],
   },
   "okx": {
@@ -124,7 +124,7 @@ window.EXCHANGES = {
     "source": "https://www.okx.com/fees",
     "last_updated": "2026-08-18",
     "slogan": {"en": "Trade smarter, live better", "zh": "交易更聪明，生活更精彩"},
-    "token_discount": {"token": "OKB", "rate": 0.2, "note": "\u6301\u6709 OKB \u53ef\u4eab\u8d39\u7387\u4f18\u60e0\uff08\u666e\u901a\u7528\u6237\u7ea6\u7701 20%\uff09"},
+    "token_discount": {"token": "OKB", "spot": 0.2, "futures": 0.2, "note": {"en": "20% off with OKB", "zh": "用 OKB 支付省 20%"}},
     "vip_tiers": [{"t": "Regular", "th": "< $100K", "sm": 0.0008, "st": 0.001, "fm": 0.0002, "ft": 0.0005}, {"t": "VIP 1", "th": "≥ $100K", "sm": 0.0006, "st": 0.0009, "fm": 0.00018, "ft": 0.00045}, {"t": "VIP 2", "th": "≥ $500K", "sm": 0.0005, "st": 0.0008, "fm": 0.00016, "ft": 0.0004}, {"t": "VIP 3", "th": "≥ $2M", "sm": 0.0003, "st": 0.0006, "fm": 0.00014, "ft": 0.00036}, {"t": "VIP 4", "th": "≥ $5M", "sm": 0.0002, "st": 0.0005, "fm": 0.00012, "ft": 0.00032}, {"t": "VIP 5", "th": "≥ $10M", "sm": 0.0, "st": 0.0004, "fm": 0.0001, "ft": 0.00028}, {"t": "VIP 6", "th": "≥ $20M", "sm": -5e-05, "st": 0.00035, "fm": 8e-05, "ft": 0.00025}, {"t": "VIP 7", "th": "≥ $50M", "sm": -0.0001, "st": 0.0003, "fm": 6e-05, "ft": 0.00022}, {"t": "VIP 8", "th": "≥ $1B", "sm": -0.00015, "st": 0.00025, "fm": 4e-05, "ft": 0.00019}],
   },
   "bitget": {
@@ -150,7 +150,7 @@ window.EXCHANGES = {
     "last_updated": "2026-08-18",
     "slogan": {"en": "Smarter trading, better life", "zh": "更聪明的交易，更精彩的生活"},
     "trust_badges": [{"type": "fund", "en": "Bitget Protection Fund ($300M+)", "zh": "Bitget 保护基金（3 亿美元以上）"}, {"type": "support", "en": "24/7 · multilingual", "zh": "24/7 · 多语言客服"}],
-    "token_discount": {"token": "BGB", "rate": 0.2, "note": "\u7528 BGB \u652f\u4ed8\u624b\u7eed\u8d39\u7701 20%"},
+    "token_discount": {"token": "BGB", "spot": 0.2, "futures": 0.2, "note": {"en": "20% off with BGB", "zh": "用 BGB 支付省 20%"}},
     "vip_tiers": [{"t": "VIP 0", "th": "< $50K", "sm": 0.001, "st": 0.001, "fm": 0.0002, "ft": 0.0006}, {"t": "VIP 1", "th": "≥ $1M", "sm": 0.0006, "st": 0.0008, "fm": 0.00014, "ft": 0.0004}, {"t": "VIP 2", "th": "≥ $5M", "sm": 0.0005, "st": 0.0007, "fm": 0.00012, "ft": 0.00035}, {"t": "VIP 3", "th": "≥ $10M", "sm": 0.0003, "st": 0.0005, "fm": 8e-05, "ft": 0.0003}, {"t": "VIP 4", "th": "≥ $20M", "sm": 0.0002, "st": 0.0004, "fm": 6e-05, "ft": 0.00025}, {"t": "VIP 5", "th": "≥ $50M", "sm": 0.0001, "st": 0.0003, "fm": 4e-05, "ft": 0.0002}, {"t": "VIP 6", "th": "≥ $100M", "sm": 5e-05, "st": 0.00025, "fm": 2e-05, "ft": 0.00017}],
   },
   "kraken": {
