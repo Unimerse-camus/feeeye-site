@@ -93,6 +93,11 @@ const TRUST_ICON = {
   fund: ICON.shield,
   support: ICON.headphones
 };
+// 各交易所品牌色（用于 award badge 色条 + icon 着色）
+const EX_BRAND = {
+  binance: '#F0B90B', okx: '#0a0a0a', kucoin: '#24AE8F', bybit: '#F7A600',
+  bitget: '#1E88E5', kraken: '#5741D9', coinbase: '#0052FF'
+};
 // 导航下拉箭头（chevron-down，hover 旋转 180°）
 const CHEV = `<svg class="chev" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>`;
 // 交易所下拉 logo：品牌色 + 字母（自画简化标识，避免 CDN/版权）
@@ -557,13 +562,13 @@ input[type=number]{font-size:16px}
 .srow.inc{padding-left:14px;padding-right:14px}
 .srow.inc .inc-event{color:#1e293b;flex:1}
 .srow.inc .inc-resp{color:#185FA5;margin-left:12px;font-weight:500;max-width:55%;text-align:right}
-.trust-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0 22px}
+.trust-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0 22px;grid-auto-rows:minmax(80px,auto);align-items:stretch}
 .trust-badge{position:relative;display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:13px 14px 13px 20px;font-size:13px;color:#1e293b;line-height:1.5;font-weight:500;box-shadow:0 1px 2px rgba(15,23,42,.04);overflow:hidden;transition:transform .15s ease,box-shadow .15s ease}
 .trust-badge::before{content:\"\";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--tb-color,var(--line))}
 .trust-badge:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(15,23,42,.08)}
 .trust-badge svg{width:22px;height:22px;flex-shrink:0;color:var(--tb-color,var(--sub))}
 .tb-text{flex:1;min-width:0}
-.trust-badge[data-type="award"]{--tb-color:#64748b;background:#fff}
+.trust-badge[data-type="award"]{--tb-color:var(--brand,#64748b);background:#fff}
 .trust-badge[data-type="volume"]{--tb-color:#185FA5;background:#f8fbff}
 .trust-badge[data-type="fund"]{--tb-color:#16a34a;background:#f6fefa}
 .trust-badge[data-type="support"]{--tb-color:#ca8a04;background:#fffdf3}
@@ -787,7 +792,7 @@ function exchangePage(slug, lang) {
   // 头部信任背书区块（统一 6 个 badge 槽位 · 3×2 grid · 按 lang 取 en/zh）
   const trustBadges = (ex.trust_badges || []).map((b) => ({ type: b.type, text: b[lang] || b.en })).filter((b) => b.text);
   const trustGridHtml = trustBadges.length ? `
-    <div class="trust-grid">
+    <div class="trust-grid" style="--brand:${esc(EX_BRAND[slug] || '#64748b')}">
       ${trustBadges.map((b) => `<div class="trust-badge" data-type="${esc(b.type)}">${TRUST_ICON[b.type] || ''}<span class="tb-text">${esc(b.text)}</span></div>`).join('')}
     </div>` : '';
 
