@@ -419,7 +419,7 @@ function page({ lang, title, desc, body, jsonLd, depth = 0, path, affiliate = fa
   const exPriority = ['binance', 'okx', 'kucoin'];
   const exOrder = [...exPriority, ...Object.keys(EX).filter((s) => !exPriority.includes(s)).sort()];
   const exLinks = exOrder.map((s) => `<a href="${absPath(lang, 'exchanges/' + s + '.html')}">${EX_LOGO[s] || ICON.coins}<span>${esc(EX[s].name)}</span></a>`).join('');
-  const cmpPairs = ['bitget', 'bybit', 'coinbase', 'kraken', 'kucoin', 'okx'].map((s) => `<a href="${absPath(lang, 'compare/binance-vs-' + s + '.html')}">${ICON.scale}<span>Binance vs ${esc(EX[s].name)}</span></a>`).join('');
+  const cmpPairs = exOrder.filter((s) => s !== 'binance').map((s) => `<a href="${absPath(lang, 'compare/binance-vs-' + s + '.html')}">${ICON.scale}<span>Binance vs ${esc(EX[s].name)}</span></a>`).join('');
   return `<!doctype html>
 <html lang="${lang === 'zh' ? 'zh-CN' : 'en'}">
 <head>
