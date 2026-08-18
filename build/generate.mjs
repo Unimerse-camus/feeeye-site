@@ -86,6 +86,16 @@ const ICON = {
 };
 // 导航下拉箭头（chevron-down，hover 旋转 180°）
 const CHEV = `<svg class="chev" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>`;
+// 交易所下拉 logo：品牌色 + 字母（自画简化标识，避免 CDN/版权）
+const EX_LOGO = {
+  binance:  `<svg class="ex-logo" width="18" height="18" viewBox="0 0 18 18"><rect width="18" height="18" rx="4" fill="#F0B90B"/><text x="9" y="13" font-size="10" font-weight="700" text-anchor="middle" font-family="-apple-system,system-ui,sans-serif" fill="#000">B</text></svg>`,
+  okx:      `<svg class="ex-logo" width="18" height="18" viewBox="0 0 18 18"><rect width="18" height="18" rx="4" fill="#0a0a0a"/><text x="9" y="13" font-size="9" font-weight="700" text-anchor="middle" font-family="-apple-system,system-ui,sans-serif" fill="#fff">OK</text></svg>`,
+  kucoin:   `<svg class="ex-logo" width="18" height="18" viewBox="0 0 18 18"><rect width="18" height="18" rx="4" fill="#24AE8F"/><text x="9" y="13" font-size="10" font-weight="700" text-anchor="middle" font-family="-apple-system,system-ui,sans-serif" fill="#fff">K</text></svg>`,
+  bybit:    `<svg class="ex-logo" width="18" height="18" viewBox="0 0 18 18"><rect width="18" height="18" rx="4" fill="#F7A600"/><text x="9" y="13" font-size="10" font-weight="700" text-anchor="middle" font-family="-apple-system,system-ui,sans-serif" fill="#000">B</text></svg>`,
+  bitget:   `<svg class="ex-logo" width="18" height="18" viewBox="0 0 18 18"><rect width="18" height="18" rx="4" fill="#1E88E5"/><text x="9" y="13" font-size="10" font-weight="700" text-anchor="middle" font-family="-apple-system,system-ui,sans-serif" fill="#fff">B</text></svg>`,
+  kraken:   `<svg class="ex-logo" width="18" height="18" viewBox="0 0 18 18"><rect width="18" height="18" rx="4" fill="#5741D9"/><text x="9" y="13" font-size="10" font-weight="700" text-anchor="middle" font-family="-apple-system,system-ui,sans-serif" fill="#fff">K</text></svg>`,
+  coinbase: `<svg class="ex-logo" width="18" height="18" viewBox="0 0 18 18"><rect width="18" height="18" rx="4" fill="#0052FF"/><text x="9" y="13" font-size="10" font-weight="700" text-anchor="middle" font-family="-apple-system,system-ui,sans-serif" fill="#fff">C</text></svg>`
+};
 
 // ---- 币种：优先 coins.json，回退 coins.js ----
 function heuristicCoverage(rank, symbol) {
@@ -406,7 +416,7 @@ function page({ lang, title, desc, body, jsonLd, depth = 0, path, affiliate = fa
   // 仅在显式传 noDisc 时才隐藏（如首页/legal/about/coins 等纯信息页）
   const discLine = noDisc ? '' : i.discHtml.replace(/\{SNAPSHOT\}/g, COIN_SNAPSHOT);
   // 导航下拉内容：交易所 7 所 + 对比 6 组（Binance 基准）
-  const exLinks = Object.keys(EX).sort().map((s) => `<a href="${absPath(lang, 'exchanges/' + s + '.html')}">${ICON.coins}<span>${esc(EX[s].name)}</span></a>`).join('');
+  const exLinks = Object.keys(EX).sort().map((s) => `<a href="${absPath(lang, 'exchanges/' + s + '.html')}">${EX_LOGO[s] || ICON.coins}<span>${esc(EX[s].name)}</span></a>`).join('');
   const cmpPairs = ['bitget', 'bybit', 'coinbase', 'kraken', 'kucoin', 'okx'].map((s) => `<a href="${absPath(lang, 'compare/binance-vs-' + s + '.html')}">${ICON.scale}<span>Binance vs ${esc(EX[s].name)}</span></a>`).join('');
   return `<!doctype html>
 <html lang="${lang === 'zh' ? 'zh-CN' : 'en'}">
@@ -454,10 +464,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC
 .nav-item:hover .chev,.nav-item.open .chev{transform:rotate(180deg)}
 .nav-btn:hover{color:var(--brand);border-bottom-color:var(--brand)}
 .nav-btn.active{color:var(--brand);border-bottom:2px solid var(--brand);font-weight:600}
-.dropdown{display:none;position:absolute;top:100%;left:50%;transform:translateX(-50%);background:#fff;border:1px solid var(--line);border-radius:10px;box-shadow:0 10px 32px rgba(15,23,42,.14);z-index:200;min-width:210px;padding:6px;white-space:nowrap;margin-top:0;padding-top:10px;opacity:0;transition:opacity .15s ease}
+.dropdown{display:none;position:absolute;top:100%;left:50%;transform:translateX(-50%);background:#fff;border:1px solid var(--line);border-radius:10px;box-shadow:0 10px 32px rgba(15,23,42,.14);z-index:200;min-width:170px;padding:6px;white-space:nowrap;margin-top:0;padding-top:10px;opacity:0;transition:opacity .15s ease}
 .nav-item:hover .dropdown,.nav-item.open .dropdown{display:block;opacity:1}
 .dropdown::before{content:\"\";position:absolute;left:0;right:0;top:-10px;height:10px;background:transparent}
-.dropdown a{display:flex;align-items:center;gap:10px;padding:9px 14px;color:#1e293b;font-size:13.5px;border-radius:7px;border-bottom:none;text-decoration:none}
+.dropdown a{display:flex;align-items:center;gap:8px;padding:7px 12px;color:#1e293b;font-size:13.5px;border-radius:7px;border-bottom:none;text-decoration:none}
 .dropdown a svg{width:16px;height:16px;flex-shrink:0;color:var(--brand)}
 .dropdown a:hover{background:#f1f5f9;color:var(--brand);box-shadow:inset 3px 0 0 var(--brand)}
 .topbar>span{flex-shrink:0;padding-right:30px;padding-top:6px}
