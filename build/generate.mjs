@@ -84,6 +84,8 @@ const ICON = {
   shield: `<svg ${SVG_ATTR}><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>`,
   wallet: `<svg ${SVG_ATTR}><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4Z"/></svg>`
 };
+// 导航下拉箭头（chevron-down，hover 旋转 180°）
+const CHEV = `<svg class="chev" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>`;
 
 // ---- 币种：优先 coins.json，回退 coins.js ----
 function heuristicCoverage(rank, symbol) {
@@ -442,18 +444,22 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC
 .topbar .logo{display:flex;align-items:center;gap:8px;flex-shrink:0;color:var(--brand);font-weight:800;font-size:20px;text-decoration:none}
 .topbar .logo img{height:30px;width:30px;display:block}
 .nav{flex:1;display:flex;gap:20px;align-items:center;flex-wrap:nowrap;justify-content:center;line-height:1;min-height:0;height:auto;margin-top:12px}
-.nav a{color:#1e293b;text-decoration:none;font-size:14px;line-height:1;white-space:nowrap;border-bottom:2px solid transparent;padding-bottom:2px;display:inline-flex;align-items:center}
+.nav a{color:#1e293b;text-decoration:none;font-size:14px;line-height:1;white-space:nowrap;border-bottom:2px solid transparent;padding-bottom:2px;display:inline-flex;align-items:center;font-weight:500;gap:6px}
 .nav a:hover{color:var(--brand);border-bottom-color:var(--brand)}
 .nav a.active{color:var(--brand);border-bottom:2px solid var(--brand);font-weight:600}
+.nav a svg{width:16px;height:16px;flex-shrink:0;color:var(--brand)}
 .nav-item{position:relative}
-.nav-btn{background:none;border:none;color:#1e293b;font-size:14px;line-height:1;white-space:nowrap;padding:0 0 2px;cursor:pointer;border-bottom:2px solid transparent;font-family:inherit}
+.nav-btn{background:none;border:none;color:#1e293b;font-size:14px;line-height:1;white-space:nowrap;padding:0 0 2px;cursor:pointer;border-bottom:2px solid transparent;font-family:inherit;font-weight:500;display:inline-flex;align-items:center;gap:4px}
+.nav-btn .chev{transition:transform .2s ease;flex-shrink:0}
+.nav-item:hover .chev,.nav-item.open .chev{transform:rotate(180deg)}
 .nav-btn:hover{color:var(--brand);border-bottom-color:var(--brand)}
 .nav-btn.active{color:var(--brand);border-bottom:2px solid var(--brand);font-weight:600}
-.dropdown{display:none;position:absolute;top:100%;left:50%;transform:translateX(-50%);background:#fff;border:1px solid var(--line);border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,.12);z-index:200;min-width:190px;padding:6px;white-space:nowrap;margin-top:0;padding-top:8px;opacity:0;transition:opacity .12s ease}
+.dropdown{display:none;position:absolute;top:100%;left:50%;transform:translateX(-50%);background:#fff;border:1px solid var(--line);border-radius:10px;box-shadow:0 10px 32px rgba(15,23,42,.14);z-index:200;min-width:210px;padding:6px;white-space:nowrap;margin-top:0;padding-top:10px;opacity:0;transition:opacity .15s ease}
 .nav-item:hover .dropdown,.nav-item.open .dropdown{display:block;opacity:1}
 .dropdown::before{content:\"\";position:absolute;left:0;right:0;top:-10px;height:10px;background:transparent}
-.dropdown a{display:block;padding:8px 12px;color:#1e293b;font-size:13.5px;border-radius:6px;border-bottom:none;text-decoration:none}
-.dropdown a:hover{background:#f1f5f9;color:var(--brand)}
+.dropdown a{display:flex;align-items:center;gap:10px;padding:9px 14px;color:#1e293b;font-size:13.5px;border-radius:7px;border-bottom:none;text-decoration:none}
+.dropdown a svg{width:16px;height:16px;flex-shrink:0;color:var(--brand)}
+.dropdown a:hover{background:#f1f5f9;color:var(--brand);box-shadow:inset 3px 0 0 var(--brand)}
 .topbar>span{flex-shrink:0;padding-right:30px;padding-top:6px}
 .topbar>span>a{color:var(--sub);text-decoration:none;font-size:13.5px;line-height:1;white-space:nowrap}
 h1{font-size:25px;margin-bottom:6px}
@@ -500,18 +506,18 @@ input[type=number]{font-size:16px}
 <a class="logo" href="${lang === 'zh' ? '/zh/' : '/'}" aria-label="FeeEye home"><img src="/assets/logo.svg" alt="FeeEye" width="26" height="26">${SITE}</a>
 <nav class="nav">
 <div class="nav-item">
-<button type="button" class="nav-btn${['tc','fee','fut','cmp','sec','pf'].includes(active) ? ' active' : ''}">${esc(i.navTools)} ▾</button>
-<div class="dropdown"><a href="${absPath(lang, tcPath(lang))}">${esc(i.navTc)}</a><a href="${absPath(lang, futPath(lang))}">${esc(i.navFut)}</a><a href="${absPath(lang, cmpPath(lang))}">${esc(i.navCmp)}</a><a href="${absPath(lang, secPath(lang))}">${esc(i.navSec)}</a><a href="${absPath(lang, pfPath(lang))}">${esc(i.navPf)}</a></div>
+<button type="button" class="nav-btn${['tc','fee','fut','cmp','sec','pf'].includes(active) ? ' active' : ''}">${esc(i.navTools)} ${CHEV}</button>
+<div class="dropdown"><a href="${absPath(lang, tcPath(lang))}">${ICON.receipt}<span>${esc(i.navTc)}</span></a><a href="${absPath(lang, futPath(lang))}">${ICON.trend}<span>${esc(i.navFut)}</span></a><a href="${absPath(lang, cmpPath(lang))}">${ICON.scale}<span>${esc(i.navCmp)}</span></a><a href="${absPath(lang, secPath(lang))}">${ICON.shield}<span>${esc(i.navSec)}</span></a><a href="${absPath(lang, pfPath(lang))}">${ICON.wallet}<span>${esc(i.navPf)}</span></a></div>
 </div>
 <div class="nav-item">
-<button type="button" class="nav-btn${active === 'ex' ? ' active' : ''}">${esc(i.navExchanges)} ▾</button>
+<button type="button" class="nav-btn${active === 'ex' ? ' active' : ''}">${esc(i.navExchanges)} ${CHEV}</button>
 <div class="dropdown">${exLinks}</div>
 </div>
 <div class="nav-item">
-<button type="button" class="nav-btn${active === 'cp' ? ' active' : ''}">${esc(i.navCompare)} ▾</button>
+<button type="button" class="nav-btn${active === 'cp' ? ' active' : ''}">${esc(i.navCompare)} ${CHEV}</button>
 <div class="dropdown">${cmpPairs}</div>
 </div>
-<a href="${absPath(lang, gloPath(lang))}" class="${active === 'glo' ? 'active' : ''}">${esc(i.navLearn)}</a>
+<a href="${absPath(lang, gloPath(lang))}" class="${active === 'glo' ? 'active' : ''}">${ICON.coins}<span>${esc(i.navLearn)}</span></a>
 </nav>
 <span><a href="${lang === 'zh' ? '/' : '/zh/'}">${esc(i.navZh)}</a></span>
 </div>
