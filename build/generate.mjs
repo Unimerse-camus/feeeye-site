@@ -1105,34 +1105,31 @@ const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 ${pages.map((u) => `  <url><loc>${SITE_URL}/${u}</loc><lastmod>${today}</lastmod></url>`).join('\n')}
 </urlset>`;
 write('sitemap.xml', sitemap);
-// _redirects：Cloudflare Pages 重定向规则（从项目源根 _redirects 复制）
-// - Pages 部署读源根的 _redirects，本步同步到 dist 根保持本地一致性
-const redirectsSrc = fs.readFileSync(path.join(root, '_redirects'), 'utf8');
-write('_redirects', redirectsSrc);
 write('robots.txt', `User-agent: *\nAllow: /\nSitemap: ${SITE_URL}/sitemap.xml\n`);
 
-// Cloudflare Pages _headers：缓存策略
-// - HTML/XML 不缓存（根治边缘/浏览器缓存旧版导致的陈旧内容；数据是快照，需保证新鲜）
-// - assets/ 静态资源（logo/favicon 几乎不变）长缓存，享受 CDN 加速
-// 语法：路径匹配（* 通配任意字符含 /），子行缩进 2 空格写响应头
+// Cloudflare Pages _redirects（放在 build output 目录 dist/，Pages 部署时读取）
+// www → 裸域 301：合并权重，避免 Google 把 www 判定为「备用网页」
+write('_redirects', [
+  '# www.feeeye.com/* → feeeye.com/*（永久 301），合并权重到裸域',
+  'https://www.feeeye.com/*  https://feeeye.com/:splat  301',
+  ''
+].join('\n'));
+
+// Cloudflare Pages _headers（放在 build output 目录 dist/，Pages 部署时读取）
+// - HTML 不写规则，走 Cloudflare Pages 默认（public, max-age=0, must-revalidate），保证新鲜
+// - assets 静态资源长缓存；data 快照短缓存；sitemap/robots 不缓存保证爬虫拿最新
 write('_headers', [
-  '/*.html',
-  '  Cache-Control: no-cache, no-store, must-revalidate',
-  '',
-  '/*.xml',
-  '  Cache-Control: no-cache, no-store, must-revalidate',
-  '',
   '/assets/*',
   '  Cache-Control: public, max-age=31536000, immutable',
   '',
   '/data/*',
   '  Cache-Control: public, max-age=300',
   '',
-  '/',
-  '  Cache-Control: no-cache, no-store, must-revalidate',
+  '/sitemap.xml',
+  '  Cache-Control: no-cache',
   '',
-  '/zh/',
-  '  Cache-Control: no-cache, no-store, must-revalidate',
+  '/robots.txt',
+  '  Cache-Control: no-cache',
   ''
 ].join('\n'));
 
