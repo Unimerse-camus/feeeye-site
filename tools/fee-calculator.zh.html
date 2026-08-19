@@ -287,7 +287,7 @@ document.getElementById("upd").textContent = window.EXCHANGES.kucoin.last_update
       html += '</tbody></table>';
     }
     document.getElementById("result").innerHTML = html;
-    document.getElementById("result").innerHTML += '<div class="fees-note">本页面只展示基础费率，交易所VIP等级提升或持有平台币后，交易费率会下降，具体请以各交易所实际展示为准。</div>';
+    document.getElementById("result").innerHTML += '<div class="fees-note">本页面只展示基础费率。VIP 等级可能降低费率；仅部分交易所对符合条件的市场提供平台币手续费抵扣，且通常需要主动启用。请以账户实时费率为准。</div>';
   }
 
   document.getElementById("calcTrading").addEventListener("click", render);

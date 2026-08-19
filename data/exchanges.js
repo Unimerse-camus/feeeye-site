@@ -35,7 +35,7 @@ window.EXCHANGES = {
     "source": "https://www.kucoin.com/vip/level + cexorer.com/kucoin/usdt",
     "last_updated": "2026-08-19",
     "slogan": {"en": "People's Exchange", "zh": "人民的交易所"},
-    "token_discount": {"token": "KCS", "spot": 0.2, "futures": 0.2, "note": {"en": "Turn on KCS fee discount: Spot 20% off, Futures 20% off", "zh": "开启 KCS 抵扣手续费，现货抵扣 20%，合约抵扣 20%"}},
+    "token_discount": {"token": "KCS", "spot": 0.2, "futures": null, "note": {"en": "Pay fees with KCS: 20% off eligible spot and margin trades", "zh": "使用 KCS 支付手续费：符合条件的现货及杠杆现货交易享 20% 优惠"}, "source": "https://www.kucoin.com/support/30380295503769"},
     "vip_tiers": [{"t": "LV 0", "th": "< $50K", "sm": 0.001, "st": 0.001, "fm": 0.0002, "ft": 0.0006}, {"t": "LV 1", "th": "≥ $50K", "sm": 0.0009, "st": 0.001, "fm": 0.00018, "ft": 0.00055}, {"t": "LV 2", "th": "≥ $100K", "sm": 0.0008, "st": 0.001, "fm": 0.00016, "ft": 0.0005}, {"t": "LV 3", "th": "≥ $500K", "sm": 0.0007, "st": 0.0009, "fm": 0.00014, "ft": 0.00045}, {"t": "LV 4", "th": "≥ $1M", "sm": 0.0006, "st": 0.0008, "fm": 0.00012, "ft": 0.0004}, {"t": "LV 5", "th": "≥ $3M", "sm": 0.0005, "st": 0.0007, "fm": 0.0001, "ft": 0.00036}, {"t": "LV 6", "th": "≥ $5M", "sm": 0.0004, "st": 0.0006, "fm": 8e-05, "ft": 0.00032}, {"t": "LV 7", "th": "≥ $10M", "sm": 0.0003, "st": 0.0005, "fm": 6e-05, "ft": 0.00028}, {"t": "LV 8", "th": "≥ $20M", "sm": 0.0002, "st": 0.0004, "fm": 4e-05, "ft": 0.00025}, {"t": "LV 9", "th": "≥ $50M", "sm": 0.0001, "st": 0.0003, "fm": 2e-05, "ft": 0.00022}, {"t": "LV 10", "th": "≥ $100M", "sm": 5e-05, "st": 0.0002, "fm": 0.0, "ft": 0.0002}, {"t": "LV 11", "th": "≥ $500M", "sm": 0.0, "st": 0.00015, "fm": -2e-05, "ft": 0.00018}, {"t": "LV 12", "th": "≥ $1B", "sm": -5e-05, "st": 0.0001, "fm": -4e-05, "ft": 0.00016}],
   },
   "binance": {
@@ -72,7 +72,7 @@ window.EXCHANGES = {
       {"type": "support","en": "24/7 customer support · 40+ languages",        "zh": "7×24 客户支持 · 40+ 种语言"}
     ],
     "slogan": {"en": "The world's leading crypto exchange", "zh": "全球领先的加密货币交易所"},
-    "token_discount": {"token": "BNB", "spot": 0.25, "futures": 0.1, "note": {"en": "Turn on BNB fee discount: Spot 25% off, Futures 10% off", "zh": "开启 BNB 抵扣手续费，现货抵扣 25%，合约抵扣 10%"}},
+    "token_discount": {"token": "BNB", "spot": 0.25, "futures": 0.1, "note": {"en": "Pay fees with BNB: Spot 25% off, USDⓈ-M Futures 10% off", "zh": "使用 BNB 支付手续费：现货优惠 25%，U 本位合约优惠 10%"}, "source": "https://www.binance.com/en/fee/trading"},
     "vip_tiers": [{"t": "Regular", "th_spot": "< $1M", "th_futures": "< $5M", "sm": 0.001, "st": 0.001, "fm": 0.0002, "ft": 0.0005}, {"t": "VIP 1", "th_spot": "≥ $1M", "th_futures": "≥ $5M", "sm": 0.0009, "st": 0.001, "fm": 0.00016, "ft": 0.0004}, {"t": "VIP 2", "th_spot": "≥ $5M", "th_futures": "≥ $10M", "sm": 0.0008, "st": 0.001, "fm": 0.00014, "ft": 0.00035}, {"t": "VIP 3", "th_spot": "≥ $20M", "th_futures": "≥ $50M", "sm": 0.0004, "st": 0.0006, "fm": 0.00012, "ft": 0.00032}, {"t": "VIP 4", "th_spot": "≥ $75M", "th_futures": "≥ $600M", "sm": 0.0004, "st": 0.00052, "fm": 0.0001, "ft": 0.0003}, {"t": "VIP 5", "th_spot": "≥ $150M", "th_futures": "≥ $1B", "sm": 0.00025, "st": 0.00031, "fm": 6e-05, "ft": 0.00027}, {"t": "VIP 6", "th_spot": "≥ $400M", "th_futures": "≥ $2.5B", "sm": 0.0002, "st": 0.00029, "fm": 5e-05, "ft": 0.00025}, {"t": "VIP 7", "th_spot": "≥ $800M", "th_futures": "≥ $5B", "sm": 0.00019, "st": 0.00028, "fm": 4e-05, "ft": 0.00023}, {"t": "VIP 8", "th_spot": "≥ $2B", "th_futures": "≥ $12B", "sm": 0.00016, "st": 0.00025, "fm": 3e-05, "ft": 0.00021}, {"t": "VIP 9", "th_spot": "≥ $4B", "th_futures": "≥ $25B", "sm": 0.00011, "st": 0.00023, "fm": 0.0, "ft": 0.00017}]
   },
   "bybit": {
@@ -98,7 +98,7 @@ window.EXCHANGES = {
     "source": "https://www.bybit.com/en/help-center/fee",
     "last_updated": "2026-08-19",
     "slogan": {"en": "Trade with confidence", "zh": "自信交易，掌控市场"},
-    "token_discount": {"token": "BIT", "spot": 0.2, "futures": 0.2, "note": {"en": "Turn on BIT fee discount: Spot 20% off, Futures 20% off", "zh": "开启 BIT 抵扣手续费，现货抵扣 20%，合约抵扣 20%"}},
+    "token_discount": {"token": "MNT", "spot": 0.25, "futures": 0.1, "note": {"en": "Pay fees with MNT: Spot 25% off, eligible Futures 10% off", "zh": "使用 MNT 支付手续费：现货优惠 25%，符合条件的合约优惠 10%"}, "source": "https://www.bybit.com/en/help-center/article/FAQ-Paying-Trading-Fees-with-MNT"},
     "vip_tiers": [{"t": "VIP 0", "th": "< $100K", "sm": 0.001, "st": 0.001, "fm": 0.0002, "ft": 0.00055}, {"t": "VIP 1", "th": "≥ $1M", "sm": 0.0006, "st": 0.0008, "fm": 0.00015, "ft": 0.0004}, {"t": "VIP 2", "th": "≥ $5M", "sm": 0.0004, "st": 0.0006, "fm": 0.0001, "ft": 0.00032}, {"t": "VIP 3", "th": "≥ $10M", "sm": 0.0002, "st": 0.0004, "fm": 5e-05, "ft": 0.00022}, {"t": "Pro 4", "th": "≥ $50M", "sm": 0.0001, "st": 0.0003, "fm": 0.0, "ft": 0.00015}, {"t": "Pro 5", "th": "≥ $100M", "sm": 5e-05, "st": 0.0002, "fm": 0.0, "ft": 0.0001}],
   },
   "okx": {
@@ -124,7 +124,8 @@ window.EXCHANGES = {
     "source": "https://www.okx.com/fees",
     "last_updated": "2026-08-19",
     "slogan": {"en": "Trade smarter, live better", "zh": "交易更聪明，生活更精彩"},
-    "token_discount": {"token": "OKB", "spot": 0.2, "futures": 0.2, "note": {"en": "Turn on OKB fee discount: Spot 20% off, Futures 20% off", "zh": "开启 OKB 抵扣手续费，现货抵扣 20%，合约抵扣 20%"}},
+    "token_discount": null,
+    "token_discount_status": {"en": "OKB cannot be used to offset exchange trading fees", "zh": "OKB 不能用于抵扣交易手续费", "source": "https://www.okx.com/en-us/help/how-to-reduce-trading-fee"},
     "vip_tiers": [{"t": "Regular", "th": "< $100K", "sm": 0.0008, "st": 0.001, "fm": 0.0002, "ft": 0.0005}, {"t": "VIP 1", "th": "≥ $100K", "sm": 0.0006, "st": 0.0009, "fm": 0.00018, "ft": 0.00045}, {"t": "VIP 2", "th": "≥ $500K", "sm": 0.0005, "st": 0.0008, "fm": 0.00016, "ft": 0.0004}, {"t": "VIP 3", "th": "≥ $2M", "sm": 0.0003, "st": 0.0006, "fm": 0.00014, "ft": 0.00036}, {"t": "VIP 4", "th": "≥ $5M", "sm": 0.0002, "st": 0.0005, "fm": 0.00012, "ft": 0.00032}, {"t": "VIP 5", "th": "≥ $10M", "sm": 0.0, "st": 0.0004, "fm": 0.0001, "ft": 0.00028}, {"t": "VIP 6", "th": "≥ $20M", "sm": -5e-05, "st": 0.00035, "fm": 8e-05, "ft": 0.00025}, {"t": "VIP 7", "th": "≥ $50M", "sm": -0.0001, "st": 0.0003, "fm": 6e-05, "ft": 0.00022}, {"t": "VIP 8", "th": "≥ $1B", "sm": -0.00015, "st": 0.00025, "fm": 4e-05, "ft": 0.00019}],
   },
   "bitget": {
@@ -150,7 +151,7 @@ window.EXCHANGES = {
     "last_updated": "2026-08-19",
     "slogan": {"en": "Smarter trading, better life", "zh": "更聪明的交易，更精彩的生活"},
     "trust_badges": [{"type": "fund", "en": "Bitget Protection Fund ($300M+)", "zh": "Bitget 保护基金（3 亿美元以上）"}, {"type": "support", "en": "24/7 · multilingual", "zh": "24/7 · 多语言客服"}],
-    "token_discount": {"token": "BGB", "spot": 0.2, "futures": 0.2, "note": {"en": "Turn on BGB fee discount: Spot 20% off, Futures 20% off", "zh": "开启 BGB 抵扣手续费，现货抵扣 20%，合约抵扣 20%"}},
+    "token_discount": {"token": "BGB", "spot": 0.2, "futures": null, "note": {"en": "Pay spot fees with BGB: 20% off eligible spot and spot-margin trades", "zh": "使用 BGB 支付现货手续费：符合条件的现货及现货杠杆交易享 20% 优惠"}, "source": "https://www.bitget.com/support/articles/360060644351"},
     "vip_tiers": [{"t": "VIP 0", "th": "< $50K", "sm": 0.001, "st": 0.001, "fm": 0.0002, "ft": 0.0006}, {"t": "VIP 1", "th": "≥ $1M", "sm": 0.0006, "st": 0.0008, "fm": 0.00014, "ft": 0.0004}, {"t": "VIP 2", "th": "≥ $5M", "sm": 0.0005, "st": 0.0007, "fm": 0.00012, "ft": 0.00035}, {"t": "VIP 3", "th": "≥ $10M", "sm": 0.0003, "st": 0.0005, "fm": 8e-05, "ft": 0.0003}, {"t": "VIP 4", "th": "≥ $20M", "sm": 0.0002, "st": 0.0004, "fm": 6e-05, "ft": 0.00025}, {"t": "VIP 5", "th": "≥ $50M", "sm": 0.0001, "st": 0.0003, "fm": 4e-05, "ft": 0.0002}, {"t": "VIP 6", "th": "≥ $100M", "sm": 5e-05, "st": 0.00025, "fm": 2e-05, "ft": 0.00017}],
   },
   "kraken": {

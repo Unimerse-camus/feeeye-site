@@ -38,6 +38,17 @@ const getFee = ctx.window.getUsdtWithdrawalFee;
 let UPD = ''; // 在 coins.json 读取后赋值（line 107）
 const RESTRICTED_LABEL = ['US', 'CN', 'HK', 'SG'].join(', ');
 
+// 平台币抵扣是高变动字段：构建时拒绝无来源、无适用市场或非法折扣比例，
+// 避免模板再次把未经核实的统一折扣套到所有产品。
+for (const [slug, ex] of Object.entries(EX)) {
+  const disc = ex.token_discount;
+  if (!disc) continue;
+  const rates = [disc.spot, disc.futures].filter((v) => v != null);
+  if (!disc.token || !disc.source || !disc.note?.en || !disc.note?.zh || rates.length === 0 || rates.some((v) => typeof v !== 'number' || v <= 0 || v >= 1)) {
+    throw new Error(`Invalid token_discount data for ${slug}`);
+  }
+}
+
 // 币种分类：coins.json 的 category 字段（fetch_coins.mjs 从 CoinGecko categories 映射）→ 显示文字。
 // 中性 key 排序 + 双语标签。coins.json 无 category 时回退 'other'。
 const CATEGORY_LABEL = {
@@ -562,6 +573,7 @@ input[type=number]{font-size:16px}
 .sl::before{content:\"\";position:absolute;width:18px;height:18px;left:2px;top:2px;background:#fff;border-radius:50%;transition:transform .2s}
 .switch input:checked+.sl{background:var(--brand)}
 .switch input:checked+.sl::before{transform:translateX(16px)}
+.switch:has(input:disabled){cursor:not-allowed;opacity:.55}
 .disc-label{font-size:13px;color:#1e293b;font-weight:500}
 .fee-table{margin:0;font-size:13px}
 .fee-table thead th{background:#f1f5f9;font-size:12px;font-weight:600;color:#475569}
@@ -866,6 +878,7 @@ function exchangePage(slug, lang) {
   // zh 版：档位名翻译（Regular/Standard/Pro N）
   const tiers = zh ? rawTiers.map((t) => ({ ...t, t: trZh(t.t, TIER_ZH_MAP) })) : rawTiers;
   const disc = ex.token_discount;
+  const discStatus = ex.token_discount_status;
   const cmp = Object.keys(EX).filter((s) => s !== slug).slice(0, 3);
   const cmpLinks = cmp.map((s) => {
     const [x, y] = [slug, s].sort();
@@ -937,9 +950,12 @@ function exchangePage(slug, lang) {
     const note = zh ? (depositNoteZh[d.m] || d.note || '—') : (d.note || '—');
     return `<tr><td>${esc(m)}</td><td>${fee}</td><td>${esc(note)}</td></tr>`;
   }).join('');
+  const discStatusText = discStatus ? (discStatus[lang] || discStatus.en || '') : '';
   const discountFeeCard = disc && disc.token
     ? `<div class="exchange-fee-card"><span>${esc(L(`With ${disc.token} discount`, `开启 ${disc.token} 抵扣`))}</span><b>${pct(baseTier.st * (1 - (disc.spot || 0)))}</b><small>${esc(L('Spot taker example', '现货吃单示例'))}</small></div>`
-    : `<div class="exchange-fee-card"><span>${esc(L('Platform-token discount', '平台币手续费抵扣'))}</span><b>${esc(L('Not listed', '未记录'))}</b><small>${esc(L('Base rates shown', '按基础费率展示'))}</small></div>`;
+    : discStatusText
+      ? `<div class="exchange-fee-card"><span>${esc(L('Platform-token discount', '平台币手续费抵扣'))}</span><b>${esc(L('Not supported', '不支持'))}</b><small>${esc(discStatusText)}</small></div>`
+      : `<div class="exchange-fee-card"><span>${esc(L('Platform-token discount', '平台币手续费抵扣'))}</span><b>${esc(L('Not listed', '未记录'))}</b><small>${esc(L('Base rates shown', '按基础费率展示'))}</small></div>`;
   const fullFeeSummary = disc && disc.token
     ? L(`View full VIP fee table and ${disc.token} discount switch`, `查看完整 VIP 费率表与 ${disc.token} 抵扣开关`)
     : L('View full VIP fee table', '查看完整 VIP 费率表');
@@ -985,7 +1001,7 @@ function exchangePage(slug, lang) {
         <summary>${esc(fullFeeSummary)}</summary>
         <div class="fee-panel">
           <div class="fee-tabs"><button type="button" class="ftab active" data-mkt="spot">${zh ? '现货' : 'Spot'}</button><button type="button" class="ftab" data-mkt="fut">${zh ? '合约' : 'Futures'}</button></div>
-          ${disc && disc.token ? `<div class="fee-toggle"><label class="switch"><input type="checkbox" id="feeSwitch"><span class="sl"></span></label><span class="disc-label">${esc(discNote)}</span></div>` : ''}
+          ${disc && disc.token ? `<div class="fee-toggle"><label class="switch"><input type="checkbox" id="feeSwitch"><span class="sl"></span></label><span class="disc-label" data-active-note="${esc(discNote)}" data-unavailable-note="${esc(L(`The ${disc.token} discount does not apply to this market`, `${disc.token} 抵扣不适用于当前市场`))}">${esc(discNote)}</span></div>` : ''}
           <div class="scroll"><table class="fee-table" id="feeTable"><thead><tr><th>${esc(T(lang, 'exTier'))}</th><th>${esc(T(lang, 'exThreshold'))}</th><th>${esc(T(lang, 'exMaker'))}</th><th>${esc(T(lang, 'exTaker'))}</th></tr></thead><tbody></tbody></table></div>
         </div>
       </details>
@@ -1029,8 +1045,9 @@ function exchangePage(slug, lang) {
     var useDisc = false;
     var tabs = document.querySelectorAll('.ftab');
     var sw = document.getElementById('feeSwitch');
+    var discLabel = document.querySelector('.disc-label');
     var tbody = document.querySelector('#feeTable tbody');
-    function fmt(x){ return x == null ? '\u2014' : (x*100).toFixed(3).replace(/\\.?0+$/, '') + '%'; }
+    function fmt(x){ return x == null ? '\u2014' : (x*100).toFixed(4).replace(/\\.?0+$/, '') + '%'; }
     function cnThresh(s){
       // zh 时把 "$1M" / "$2B" 等转中文（"100 万美元" / "20 亿美元"）
       if (!${zh}) return s;
@@ -1045,6 +1062,13 @@ function exchangePage(slug, lang) {
       return cmp + cnv + ' 美元';
     }
     function discRate(){ return useDisc ? (mkt === 'spot' ? discSpot : discFut) : 0; }
+    function syncDiscountUi(){
+      if (!sw) return;
+      var available = (mkt === 'spot' ? discSpot : discFut) != null;
+      sw.disabled = !available;
+      if (!available) { sw.checked = false; useDisc = false; }
+      if (discLabel) discLabel.textContent = available ? discLabel.getAttribute('data-active-note') : discLabel.getAttribute('data-unavailable-note');
+    }
     function apply(rate, d){
       return d > 0 ? rate * (1 - d) : rate;
     }
@@ -1062,9 +1086,11 @@ function exchangePage(slug, lang) {
       for (var j=0;j<tabs.length;j++) tabs[j].classList.remove('active');
       this.classList.add('active');
       mkt = this.getAttribute('data-mkt');
+      syncDiscountUi();
       render();
     });}
     if (sw){ sw.addEventListener('change', function(){ useDisc = sw.checked; render(); }); }
+    syncDiscountUi();
     render();
   })();
   </script>`;
