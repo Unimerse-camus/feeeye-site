@@ -230,37 +230,37 @@ window.getAllDepositMethods = function () {
 window.EXCHANGE_COMPARE = {
   "kucoin": {
     "max_leverage": 100, "has_options": true, "has_leveraged_tokens": true, "has_margin": true, "coins": 848, "volume": "≈$0.65B", "trust": 9, "security": 8,
-    "kyc": "Mandatory", "licenses": "Seychelles + AU + EU (Estonia) + Bermuda",
-    "reserve": "100%+ (PoR)", "cold": "95%+", "incident": "2020 $281M hack (fully compensated)"
+    "kyc": {"en": "Mandatory", "zh": "强制 KYC"}, "licenses": {"en": "Seychelles + AU + EU (Estonia) + Bermuda", "zh": "塞舌尔 + 澳大利亚 + 欧盟（爱沙尼亚）+ 百慕大"},
+    "reserve": {"en": "100%+ (PoR)", "zh": "100%+（储备证明 PoR）"}, "cold": {"en": "95%+", "zh": "95%+"}, "incident": {"en": "2020 $281M hack (fully compensated)", "zh": "2020 年 2.81 亿美元被盗（已全额赔付）"}
   },
   "binance": {
     "max_leverage": 125, "has_options": true, "has_leveraged_tokens": true, "has_margin": true, "coins": 486, "volume": "≈$5.5B", "trust": 10, "security": 9,
-    "kyc": "Mandatory", "licenses": "ADGM Abu Dhabi + VARA Dubai + multiple (no EU MiCA)",
-    "reserve": "~101% (PoR)", "cold": "~95% (est.)", "incident": "2019 $40M hack (compensated); 2023 US DOJ AML settlement"
+    "kyc": {"en": "Mandatory", "zh": "强制 KYC"}, "licenses": {"en": "ADGM Abu Dhabi + VARA Dubai + multiple (no EU MiCA)", "zh": "阿布扎比 ADGM + 迪拜 VARA + 其他牌照（欧盟无 MiCA）"},
+    "reserve": {"en": "~101% (PoR)", "zh": "约 101%（储备证明 PoR）"}, "cold": {"en": "~95% (est.)", "zh": "约 95%（估算）"}, "incident": {"en": "2019 $40M hack (compensated); 2023 US DOJ AML settlement", "zh": "2019 年 4000 万美元被盗（已赔付）；2023 年美国司法部反洗钱和解"}
   },
   "bybit": {
     "max_leverage": 100, "has_options": true, "has_leveraged_tokens": false, "has_margin": true, "coins": 411, "volume": "≈$1.1B", "trust": 9, "security": 7,
-    "kyc": "Mandatory", "licenses": "VARA Dubai + EU (MiCA)",
-    "reserve": ">100% (Hacken)", "cold": "95%", "incident": "2025 Feb $1.46B hack (fully compensated)"
+    "kyc": {"en": "Mandatory", "zh": "强制 KYC"}, "licenses": {"en": "VARA Dubai + EU (MiCA)", "zh": "迪拜 VARA + 欧盟（MiCA）"},
+    "reserve": {"en": ">100% (Hacken)", "zh": ">100%（Hacken 审计）"}, "cold": {"en": "95%", "zh": "95%"}, "incident": {"en": "2025 Feb $1.46B hack (fully compensated)", "zh": "2025 年 2 月 14.6 亿美元被盗（已全额赔付）"}
   },
   "okx": {
     "max_leverage": 100, "has_options": true, "has_leveraged_tokens": true, "has_margin": true, "coins": 306, "volume": "≈$1.15B", "trust": 10, "security": 9,
-    "kyc": "Mandatory", "licenses": "Malta (EU MiCA) + VARA Dubai + Singapore MAS + HK SFC",
-    "reserve": "105% / 112%", "cold": "95%+", "incident": "No hack; 2025 US DOJ settlement (AML)"
+    "kyc": {"en": "Mandatory", "zh": "强制 KYC"}, "licenses": {"en": "Malta (EU MiCA) + VARA Dubai + Singapore MAS + HK SFC", "zh": "马耳他（欧盟 MiCA）+ 迪拜 VARA + 新加坡 MAS + 中国香港 SFC"},
+    "reserve": {"en": "105% / 112%", "zh": "105% / 112%"}, "cold": {"en": "95%+", "zh": "95%+"}, "incident": {"en": "No hack; 2025 US DOJ settlement (AML)", "zh": "无黑客事件；2025 年美国司法部反洗钱和解"}
   },
   "bitget": {
     "max_leverage": 125, "has_options": true, "has_leveraged_tokens": true, "has_margin": true, "coins": 538, "volume": "≈$0.44B", "trust": 10, "security": 8,
-    "kyc": "Tiered (≤$10K no-KYC)", "licenses": "Seychelles + Lithuania + Australia",
-    "reserve": "123–163%", "cold": "95%", "incident": "No external hack"
+    "kyc": {"en": "Tiered (≤$10K no-KYC)", "zh": "分级（1 万美元以下免 KYC）"}, "licenses": {"en": "Seychelles + Lithuania + Australia", "zh": "塞舌尔 + 立陶宛 + 澳大利亚"},
+    "reserve": {"en": "123–163%", "zh": "123–163%"}, "cold": {"en": "95%", "zh": "95%"}, "incident": {"en": "No external hack", "zh": "无外部黑客事件"}
   },
   "kraken": {
     "max_leverage": 50, "has_options": false, "has_leveraged_tokens": false, "has_margin": true, "coins": 735, "volume": "≈$0.7B", "trust": 10, "security": 10,
-    "kyc": "Strict (US-licensed)", "licenses": "US + EU (MiCA) + UK + Canada",
-    "reserve": "~101% (PoR)", "cold": "95%", "incident": "No major hack"
+    "kyc": {"en": "Strict (US-licensed)", "zh": "严格（美国持牌）"}, "licenses": {"en": "US + EU (MiCA) + UK + Canada", "zh": "美国 + 欧盟（MiCA）+ 英国 + 加拿大"},
+    "reserve": {"en": "~101% (PoR)", "zh": "约 101%（储备证明 PoR）"}, "cold": {"en": "95%", "zh": "95%"}, "incident": {"en": "No major hack", "zh": "无重大黑客事件"}
   },
   "coinbase": {
     "max_leverage": 10, "has_options": false, "has_leveraged_tokens": false, "has_margin": true, "coins": 404, "volume": "≈$0.80B", "trust": 10, "security": 9,
-    "kyc": "Strict (US-listed)", "licenses": "US (NYSE) + EU + UK",
-    "reserve": "Public audits (no PoR)", "cold": "98%+", "incident": "No hack; 2024 customer data breach"
+    "kyc": {"en": "Strict (US-listed)", "zh": "严格（美国上市）"}, "licenses": {"en": "US (NYSE) + EU + UK", "zh": "美国（NYSE）+ 欧盟 + 英国"},
+    "reserve": {"en": "Public audits (no PoR)", "zh": "公开审计（无 PoR）"}, "cold": {"en": "98%+", "zh": "98%+"}, "incident": {"en": "No hack; 2024 customer data breach", "zh": "无黑客事件；2024 年客户数据泄露"}
   }
 };

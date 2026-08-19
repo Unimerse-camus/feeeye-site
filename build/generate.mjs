@@ -827,19 +827,23 @@ function exchangePage(slug, lang) {
     return `<tr><td>${esc(m)}</td><td>${d.fee === 0 ? '0' : (d.fee_max != null ? pct(d.fee) + ' – ' + pct(d.fee_max) : pct(d.fee))}</td></tr>`;
   }).join('');
 
-  // 安全历史解析（事件 + 处理方式）
+  // 安全合规值按语言取（数据层为 {en, zh} 双语结构）
+  const secV = (v) => (v && typeof v === 'object' ? (v[lang] || v.en || '—') : (v || '—'));
+  const incidentRaw = secV(cd.incident);
+
+  // 安全历史解析（事件 + 处理方式；支持中英文括号）
   function parseIncidents(s) {
     if (!s) return [];
-    return s.split(';').map((x) => x.trim()).filter(Boolean).map((x) => {
-      const m = x.match(/^(.+?)\s*\(([^)]+)\)\s*$/);
+    return s.split(/[;；]/).map((x) => x.trim()).filter(Boolean).map((x) => {
+      const m = x.match(/^(.+?)\s*[（(]([^）)]+)[）)]\s*$/);
       if (m) return { event: m[1].trim(), response: m[2].trim() };
-      if (/no hack|no external hack|no major hack/i.test(x)) return { event: x, response: zh ? '无重大安全事件' : 'No major security incident' };
-      if (/settlement|fine|penalty|doj/i.test(x)) return { event: x, response: zh ? '已通过监管和解' : 'Resolved via regulatory settlement' };
-      if (/banned|paused|restricted/i.test(x)) return { event: x, response: zh ? '地区限制' : 'Regional restriction' };
+      if (/no hack|no external hack|no major hack/i.test(x) || /无.*黑客|无.*安全事件|无.*被盗/i.test(x)) return { event: x, response: zh ? '无重大安全事件' : 'No major security incident' };
+      if (/settlement|fine|penalty|doj/i.test(x) || /和解|处罚|罚款|司法部/i.test(x)) return { event: x, response: zh ? '已通过监管和解' : 'Resolved via regulatory settlement' };
+      if (/banned|paused|restricted/i.test(x) || /地区限制/i.test(x)) return { event: x, response: zh ? '地区限制' : 'Regional restriction' };
       return { event: x, response: zh ? '已记录' : 'Recorded' };
     });
   }
-  const incidents = parseIncidents(cd.incident);
+  const incidents = parseIncidents(incidentRaw);
   const incidentHtml = incidents.length ? incidents.map((i) => `<div class="srow inc"><span class="inc-event">${esc(i.event)}</span><b class="inc-resp">${esc(i.response)}</b></div>`).join('') : '';
 
   // 能力（分 3 组：规模与流动性 / 衍生品 / 自动化与社区）
@@ -880,10 +884,10 @@ function exchangePage(slug, lang) {
 
   <h3>${esc(T(lang, 'exSecBlock'))}</h3>
   <div class="sec-list">
-    <div class="srow"><span>${esc(T(lang, 'exReserve'))}</span><b>${esc(cd.reserve || '—')}</b></div>
-    <div class="srow"><span>${esc(T(lang, 'exCold'))}</span><b>${esc(cd.cold || '—')}</b></div>
-    <div class="srow"><span>${esc(T(lang, 'exLicenses'))}</span><b>${esc(cd.licenses || '—')}</b></div>
-    <div class="srow"><span>${esc(T(lang, 'exKyc'))}</span><b>${esc(cd.kyc || '—')}</b></div>
+    <div class="srow"><span>${esc(T(lang, 'exReserve'))}</span><b>${esc(secV(cd.reserve))}</b></div>
+    <div class="srow"><span>${esc(T(lang, 'exCold'))}</span><b>${esc(secV(cd.cold))}</b></div>
+    <div class="srow"><span>${esc(T(lang, 'exLicenses'))}</span><b>${esc(secV(cd.licenses))}</b></div>
+    <div class="srow"><span>${esc(T(lang, 'exKyc'))}</span><b>${esc(secV(cd.kyc))}</b></div>
     <div class="srow inc-head"><span>${esc(T(lang, 'exIncident'))}</span><b>${esc(T(lang, 'exResponse'))}</b></div>
     ${incidentHtml}
   </div>
