@@ -579,7 +579,7 @@ input[type=number]{font-size:16px}
 .srow.inc{padding-left:14px;padding-right:14px}
 .srow.inc .inc-event{color:#1e293b;flex:1}
 .srow.inc .inc-resp{color:#185FA5;margin-left:12px;font-weight:500;max-width:55%;text-align:right}
-.trust-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:880px;margin:14px auto 18px;grid-auto-rows:minmax(60px,auto);align-items:stretch;white-space:nowrap}
+.trust-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:862px;margin:14px auto 18px;grid-auto-rows:minmax(60px,auto);align-items:stretch;white-space:nowrap}
 .trust-badge{position:relative;display:flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--line);border-radius:8px;padding:10px 12px 10px 16px;font-size:12.5px;color:#1e293b;line-height:1.4;font-weight:500;box-shadow:0 1px 2px rgba(15,23,42,.04);overflow:hidden;transition:transform .15s ease,box-shadow .15s ease}
 .trust-badge::before{content:\"\";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--tb-color,var(--line))}
 .trust-badge:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(15,23,42,.08)}
