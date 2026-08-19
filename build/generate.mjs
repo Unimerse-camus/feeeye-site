@@ -564,7 +564,27 @@ input[type=number]{font-size:16px}
 .beginner-path ol{margin:0 0 0 20px;color:#334155}
 .beginner-path a{color:var(--brand);font-weight:600;text-decoration:none}
 .risk-tag{display:inline-block;margin-left:6px;padding:1px 6px;border-radius:999px;background:#fff7ed;color:#c2410c;border:1px solid #fed7aa;font-size:11px;vertical-align:2px}
-.search-msg{display:none;color:var(--bad);font-size:13px;margin:-10px 0 14px}
+.coin-search{position:relative;margin:0 0 18px;z-index:20}
+.coin-search-row{display:flex;gap:8px;align-items:stretch}
+.coin-search-field{position:relative;flex:1;min-width:0}
+.coin-search-field svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:19px;height:19px;color:#64748b;pointer-events:none}
+.coin-search-input{width:100%;height:48px;padding:0 42px;border:1px solid var(--line);border-radius:11px;background:#fff;color:#172033;font:inherit;font-size:15px;outline:none;transition:border-color .15s,box-shadow .15s}
+.coin-search-input:focus{border-color:var(--brand);box-shadow:0 0 0 3px rgba(37,99,235,.12)}
+.coin-search-input[aria-invalid="true"]{border-color:var(--bad)}
+.coin-search-clear{display:none;position:absolute;right:9px;top:50%;transform:translateY(-50%);width:30px;height:30px;border:0;border-radius:8px;background:transparent;color:#64748b;font-size:20px;line-height:1;cursor:pointer}
+.coin-search-clear:hover{background:#f1f5f9;color:#172033}
+.coin-search-submit{height:48px;background:var(--brand);color:#fff;border:0;padding:0 22px;border-radius:11px;font:inherit;font-size:14px;font-weight:750;cursor:pointer;white-space:nowrap}
+.coin-search-submit:hover{background:#1d4ed8}
+.coin-suggestions{display:none;position:absolute;left:0;right:0;top:56px;z-index:50;max-height:340px;overflow-y:auto;background:#fff;border:1px solid var(--line);border-radius:12px;padding:6px;box-shadow:0 16px 38px rgba(15,23,42,.16)}
+.coin-suggestions.open{display:block}
+.coin-suggestion{width:100%;display:grid;grid-template-columns:64px minmax(0,1fr) auto;align-items:center;gap:10px;border:0;border-radius:9px;background:#fff;padding:9px 10px;text-align:left;color:#172033;font:inherit;cursor:pointer}
+.coin-suggestion:hover,.coin-suggestion.active{background:#eff6ff}
+.coin-suggestion-symbol{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;font-weight:800;color:#1d4ed8}
+.coin-suggestion-name{font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.coin-suggestion-action{font-size:11px;color:#64748b}
+.coin-search-hint{padding:7px 10px 5px;color:#64748b;font-size:11px;font-weight:650}
+.search-msg{display:none;color:var(--bad);font-size:13px;margin:7px 2px 0}
+@media(max-width:520px){.coin-search-submit{padding:0 16px}.coin-suggestion{grid-template-columns:58px minmax(0,1fr)}.coin-suggestion-action{display:none}.coin-suggestions{max-height:280px}}
 .scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
 .tbadges{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 6px}
 .tbadge{background:#f8fafc;border:1px solid var(--line);border-radius:8px;padding:6px 12px;text-align:center;min-width:84px}
@@ -1289,10 +1309,18 @@ function indexPage(lang) {
   });
   const zhAliases = { '比特币': 'BTC', '以太坊': 'ETH', '币安币': 'BNB', '瑞波币': 'XRP', '索拉纳': 'SOL', '波场': 'TRX', '狗狗币': 'DOGE', '柴犬币': 'SHIB', '莱特币': 'LTC' };
   Object.keys(zhAliases).forEach((name) => { if (searchMap[normalizeSearch(zhAliases[name])]) searchMap[normalizeSearch(name)] = zhAliases[name]; });
-  const coinOptions = COIN_LIST.map((c) => `<option value="${esc(c.symbol)}">${esc(c.symbol)} — ${esc(c.name)}</option>`).join('');
+  const searchKeysBySymbol = {};
+  Object.entries(searchMap).forEach(([key, symbol]) => {
+    if (!searchKeysBySymbol[symbol]) searchKeysBySymbol[symbol] = [];
+    searchKeysBySymbol[symbol].push(key);
+  });
+  const coinSearchItems = COIN_LIST.map((c) => ({ symbol: c.symbol, name: c.name, keys: searchKeysBySymbol[c.symbol] || [] }));
   const searchPh = lang === 'zh' ? '搜索币种，如 BTC、ETH、SOL' : 'Search a coin, e.g. BTC, ETH, SOL';
   const searchBtn = lang === 'zh' ? '搜索' : 'Search';
   const searchNf = lang === 'zh' ? '未找到该币种，请检查币种代号' : 'Coin not found — check the ticker';
+  const searchPopular = lang === 'zh' ? '热门币种' : 'Popular coins';
+  const searchMatch = lang === 'zh' ? '匹配结果' : 'Matching coins';
+  const searchOpen = lang === 'zh' ? '查看' : 'Open';
   const body = `
   <h1>${esc(T(lang, 'idxH1'))}</h1>
   <p class="intro">${esc(T(lang, 'idxIntro'))}</p>
@@ -1305,12 +1333,18 @@ function indexPage(lang) {
       <li>${lang === 'zh' ? '最后到交易所官网核对所在地区、费率和提币网络' : 'Finally verify your region, fees and withdrawal network on the exchange itself'}</li>
     </ol>
   </div>
-  <div style="display:flex;gap:8px;margin:0 0 18px">
-    <input id="idxCoinInput" type="text" list="idxCoinList" placeholder="${searchPh}" autocomplete="off" style="flex:1;padding:12px 14px;border:1px solid var(--line);border-radius:10px;font-size:15px;background:#fff;text-transform:uppercase;font-family:ui-monospace,Menlo,Consolas,monospace">
-    <button id="idxSearchBtn" type="button" style="background:var(--brand);color:#fff;border:none;padding:0 22px;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;white-space:nowrap">${searchBtn}</button>
+  <div id="idxCoinSearch" class="coin-search">
+    <div class="coin-search-row">
+      <div class="coin-search-field">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <input id="idxCoinInput" class="coin-search-input" type="search" placeholder="${searchPh}" autocomplete="off" autocapitalize="characters" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="idxCoinSuggestions">
+        <button id="idxSearchClear" class="coin-search-clear" type="button" aria-label="${lang === 'zh' ? '清空搜索' : 'Clear search'}">×</button>
+      </div>
+      <button id="idxSearchBtn" class="coin-search-submit" type="button">${searchBtn}</button>
+    </div>
+    <div id="idxCoinSuggestions" class="coin-suggestions" role="listbox" aria-label="${lang === 'zh' ? '币种搜索结果' : 'Coin search results'}"></div>
+    <p id="idxSearchMsg" class="search-msg" role="status" aria-live="polite">${searchNf}</p>
   </div>
-  <p id="idxSearchMsg" class="search-msg" role="status" aria-live="polite">${searchNf}</p>
-  <datalist id="idxCoinList">${coinOptions}</datalist>
   <div class="grid">
     <div class="card"><a class="card-title" href="${p(tcPath(lang))}"><span class="ic">${ICON.receipt}</span><b>${esc(T(lang, 'idxTcT'))}</b></a><br>${esc(T(lang, 'idxTcB'))}<br><a href="${p(tcPath(lang))}">${esc(T(lang, 'idxTcC'))}</a></div>
     <div class="card"><a class="card-title" href="${p(futPath(lang))}"><span class="ic">${ICON.trend}</span><b>${esc(T(lang, 'idxFutT'))}<span class="risk-tag">${lang === 'zh' ? '高风险' : 'High risk'}</span></b></a><br>${esc(T(lang, 'idxFutB'))}<br><a href="${p(futPath(lang))}">${esc(T(lang, 'idxFutC'))}</a></div>
@@ -1322,21 +1356,76 @@ function indexPage(lang) {
   <script>
   (function(){
     var SEARCH = ${JSON.stringify(searchMap)};
+    var ITEMS = ${JSON.stringify(coinSearchItems)};
     var PREFIX = ${JSON.stringify(p('where-to-buy/'))};
     var NF = ${JSON.stringify(searchNf)};
-    function norm(v){ return String(v||'').trim().toLowerCase().replace(/[\s_\-]+/g,''); }
+    var POPULAR = ${JSON.stringify(searchPopular)};
+    var MATCH = ${JSON.stringify(searchMatch)};
+    var OPEN = ${JSON.stringify(searchOpen)};
+    var root = document.getElementById('idxCoinSearch');
+    var input = document.getElementById('idxCoinInput');
+    var popup = document.getElementById('idxCoinSuggestions');
+    var clear = document.getElementById('idxSearchClear');
+    var msg = document.getElementById('idxSearchMsg');
+    var results = [];
+    var active = -1;
+    function norm(v){ return String(v||'').trim().toLowerCase().replace(/[\\s_\\-]+/g,''); }
+    function close(){ popup.classList.remove('open'); input.setAttribute('aria-expanded','false'); input.removeAttribute('aria-activedescendant'); active=-1; }
+    function setActive(next){
+      var options = popup.querySelectorAll('.coin-suggestion');
+      if(!options.length) return;
+      active = (next + options.length) % options.length;
+      for(var i=0;i<options.length;i++) options[i].classList.toggle('active',i===active);
+      options[active].scrollIntoView({block:'nearest'});
+      input.setAttribute('aria-activedescendant',options[active].id);
+    }
+    function openCoin(symbol){ location.href = PREFIX + symbol.toLowerCase() + '.html'; }
+    function render(){
+      var q = norm(input.value);
+      results = ITEMS.filter(function(item){
+        if(!q) return true;
+        for(var i=0;i<item.keys.length;i++) if(item.keys[i].indexOf(q)!==-1) return true;
+        return false;
+      }).sort(function(x,y){
+        if(!q) return 0;
+        var xs = norm(x.symbol), ys = norm(y.symbol);
+        var xp = xs===q ? 0 : (xs.indexOf(q)===0 ? 1 : 2);
+        var yp = ys===q ? 0 : (ys.indexOf(q)===0 ? 1 : 2);
+        return xp-yp;
+      }).slice(0,7);
+      popup.textContent='';
+      var hint=document.createElement('div'); hint.className='coin-search-hint'; hint.textContent=q?MATCH:POPULAR; popup.appendChild(hint);
+      results.forEach(function(item,index){
+        var option=document.createElement('button'); option.type='button'; option.className='coin-suggestion'; option.id='coin-option-'+index; option.setAttribute('role','option'); option.dataset.symbol=item.symbol;
+        var symbol=document.createElement('span'); symbol.className='coin-suggestion-symbol'; symbol.textContent=item.symbol;
+        var name=document.createElement('span'); name.className='coin-suggestion-name'; name.textContent=item.name;
+        var action=document.createElement('span'); action.className='coin-suggestion-action'; action.textContent=OPEN+' →';
+        option.appendChild(symbol); option.appendChild(name); option.appendChild(action);
+        option.addEventListener('mousedown',function(e){e.preventDefault(); openCoin(item.symbol);});
+        popup.appendChild(option);
+      });
+      active=-1;
+      if(results.length){ popup.classList.add('open'); input.setAttribute('aria-expanded','true'); }
+      else close();
+    }
     function go(){
-      var input = document.getElementById('idxCoinInput');
-      var msg = document.getElementById('idxSearchMsg');
       var key = norm(input.value);
       var symbol = SEARCH[key];
       if(!key) { msg.textContent = NF; msg.style.display = 'block'; input.focus(); return; }
-      if(symbol) { location.href = PREFIX + symbol.toLowerCase() + '.html'; }
+      if(symbol) { openCoin(symbol); }
       else { msg.textContent = NF; msg.style.display = 'block'; input.setAttribute('aria-invalid','true'); }
     }
     document.getElementById('idxSearchBtn').addEventListener('click', go);
-    document.getElementById('idxCoinInput').addEventListener('input', function(){ this.removeAttribute('aria-invalid'); document.getElementById('idxSearchMsg').style.display='none'; });
-    document.getElementById('idxCoinInput').addEventListener('keydown', function(e){ if(e.key==='Enter') go(); });
+    input.addEventListener('focus',render);
+    input.addEventListener('input',function(){ this.removeAttribute('aria-invalid'); msg.style.display='none'; clear.style.display=this.value?'block':'none'; render(); });
+    input.addEventListener('keydown',function(e){
+      if(e.key==='ArrowDown'){e.preventDefault(); if(!popup.classList.contains('open')) render(); setActive(active+1);}
+      else if(e.key==='ArrowUp'){e.preventDefault(); if(!popup.classList.contains('open')) render(); setActive(active-1);}
+      else if(e.key==='Enter'){e.preventDefault(); if(active>=0&&results[active]) openCoin(results[active].symbol); else go();}
+      else if(e.key==='Escape') close();
+    });
+    clear.addEventListener('click',function(){input.value='';this.style.display='none';msg.style.display='none';input.removeAttribute('aria-invalid');input.focus();render();});
+    document.addEventListener('click',function(e){if(!root.contains(e.target)) close();});
   })();
   </script>`;
   return page({ lang, title: T(lang, 'idxTitle'), desc: T(lang, 'idxDesc'), body, path: `${lang === 'zh' ? 'zh/' : ''}index.html`, affiliate: false, noDisc: true, noHomeFoot: true });
