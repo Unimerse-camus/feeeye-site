@@ -599,6 +599,64 @@ input[type=number]{font-size:16px}
 .trust-badge[data-type="volume"] .tb-text,.trust-badge[data-type="fund"] .tb-text,.trust-badge[data-type="support"] .tb-text{font-weight:600}
 @media(max-width:640px){.trust-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:420px){.trust-grid{grid-template-columns:1fr}}
+.binance-page{display:grid;gap:18px}
+.binance-hero{background:linear-gradient(135deg,#fffdf2 0%,#fff 58%,#f8fafc 100%);border:1px solid #f3df9b;border-radius:18px;padding:24px;box-shadow:0 8px 28px rgba(15,23,42,.06)}
+.binance-hero-main{display:flex;align-items:flex-start;justify-content:space-between;gap:22px}
+.binance-identity{display:flex;align-items:flex-start;gap:14px;min-width:0}
+.binance-mark{display:grid;place-items:center;width:52px;height:52px;border-radius:14px;background:#f0b90b;color:#111827;font-size:25px;font-weight:900;box-shadow:inset 0 0 0 1px rgba(15,23,42,.08);flex-shrink:0}
+.binance-eyebrow{font-size:12px;color:#8a6a00;font-weight:700;letter-spacing:.04em;text-transform:uppercase;margin-bottom:3px}
+.binance-hero h1{font-size:28px;line-height:1.2;margin:0 0 8px}
+.binance-summary{color:#475569;max-width:650px;margin:0;font-size:14px}
+.binance-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end;flex-shrink:0}
+.secondary-cta{display:inline-flex;align-items:center;justify-content:center;padding:8px 14px;border:1px solid var(--line);border-radius:8px;color:#334155;text-decoration:none;font-size:13px;font-weight:650;background:#fff;white-space:nowrap}
+.binance-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:20px}
+.binance-stat{background:rgba(255,255,255,.86);border:1px solid #eadfae;border-radius:10px;padding:11px 12px;min-width:0}
+.binance-stat span{display:block;color:#64748b;font-size:11px;margin-bottom:2px}
+.binance-stat b{display:block;color:#172033;font-size:15px;overflow-wrap:anywhere}
+.binance-stat small{display:block;color:#9a3412;font-size:10.5px;margin-top:2px}
+.binance-nav{display:flex;gap:8px;overflow-x:auto;padding:2px 0 1px;scrollbar-width:thin}
+.binance-nav a{flex:0 0 auto;background:#fff;border:1px solid var(--line);border-radius:999px;padding:7px 12px;color:#475569;text-decoration:none;font-size:12.5px;font-weight:650}
+.binance-nav a:hover{color:var(--brand);border-color:#93c5fd}
+.binance-section{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px;scroll-margin-top:12px}
+.binance-section-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:14px}
+.binance-section h2{font-size:19px;line-height:1.3;margin:0}
+.binance-section-head p{color:var(--sub);font-size:12.5px;margin:3px 0 0;max-width:660px}
+.binance-fee-summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin-bottom:13px}
+.binance-fee-card{border:1px solid var(--line);border-radius:10px;padding:11px 12px;background:#f8fafc}
+.binance-fee-card span{display:block;color:var(--sub);font-size:11px}
+.binance-fee-card b{display:block;color:#172033;font-size:15px;margin-top:2px}
+.binance-fee-card small{display:block;color:#64748b;font-size:10.5px;margin-top:2px}
+.binance-vip-details{border:1px solid var(--line);border-radius:11px;background:#fbfcfe;overflow:hidden}
+.binance-vip-details summary{cursor:pointer;padding:11px 14px;font-size:13px;font-weight:700;color:#334155;list-style-position:inside}
+.binance-vip-details .fee-panel{margin:0;border:0;border-top:1px solid var(--line);border-radius:0;background:#fff}
+.binance-cap-note{background:#fff7ed;border:1px solid #fed7aa;color:#9a3412;border-radius:10px;padding:10px 12px;font-size:12.5px;margin-bottom:12px}
+.binance-cap-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.binance-cap-card{border:1px solid var(--line);border-radius:12px;padding:13px 14px;background:#fff;min-width:0}
+.binance-cap-card.risk{border-color:#fed7aa;background:#fffaf5}
+.binance-cap-top{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:6px}
+.binance-cap-top b{font-size:14px;color:#172033}
+.binance-cap-status{display:inline-flex;align-items:center;border-radius:999px;background:#ecfdf5;color:#047857;padding:2px 7px;font-size:10.5px;font-weight:750;white-space:nowrap}
+.binance-cap-card.risk .binance-cap-status{background:#ffedd5;color:#c2410c}
+.binance-cap-card p{font-size:12px;color:#64748b;margin:0;line-height:1.55}
+.binance-two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.binance-subcard{border:1px solid var(--line);border-radius:12px;padding:14px;min-width:0;background:#fcfdff}
+.binance-subcard h3{font-size:14px;margin:0 0 3px}
+.binance-subcard>p{font-size:11.5px;color:var(--sub);margin:0 0 8px}
+.binance-subcard table{margin-top:6px;font-size:12.5px}
+.binance-safety-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:12px}
+.binance-checklist{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:0;padding:0;list-style:none}
+.binance-checklist li{position:relative;background:#f8fafc;border:1px solid var(--line);border-radius:9px;padding:10px 11px 10px 32px;font-size:12.5px;color:#334155}
+.binance-checklist li::before{content:"✓";position:absolute;left:11px;top:9px;color:#16a34a;font-weight:800}
+.binance-final{display:flex;justify-content:space-between;gap:14px;align-items:center;margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
+.binance-final p{font-size:12px;color:var(--sub);margin:0}
+.binance-evidence{margin-top:16px;padding-top:14px;border-top:1px solid #eadfae}
+.binance-evidence-title{font-size:11px;color:#8a6a00;font-weight:700;margin-bottom:7px}
+.binance-evidence-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
+.binance-evidence-item{display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.72);border:1px solid #eee4b8;border-radius:8px;padding:7px 9px;font-size:10.5px;color:#475569;min-width:0}
+.binance-evidence-item svg{width:15px;height:15px;flex-shrink:0;color:#9a7b00}
+.binance-evidence-item span{min-width:0;overflow-wrap:anywhere}
+@media(max-width:760px){.binance-hero-main{display:block}.binance-actions{justify-content:flex-start;margin-top:14px}.binance-stats,.binance-fee-summary{grid-template-columns:repeat(2,minmax(0,1fr))}.binance-evidence-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.binance-safety-grid{grid-template-columns:1fr}}
+@media(max-width:560px){.binance-hero,.binance-section{padding:15px}.binance-hero h1{font-size:23px}.binance-identity{gap:10px}.binance-mark{width:44px;height:44px;border-radius:12px}.binance-cap-grid,.binance-two-col,.binance-checklist{grid-template-columns:1fr}.binance-final{display:block}.binance-final .cta{margin-top:10px}.binance-evidence-grid{grid-template-columns:1fr}}
 .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
 .card a{color:var(--brand);text-decoration:none;font-weight:600}
 .card-title{display:inline-block;color:var(--ink);font-weight:700;margin-bottom:6px;text-decoration:none}
@@ -802,6 +860,7 @@ function whereToBuy(c, lang) {
 function exchangePage(slug, lang) {
   const ex = EX[slug];
   const zh = lang === 'zh';
+  const L = (en, zhText) => (zh ? zhText : en);
   const cd = EXCHANGE_COMPARE[slug] || {};
   const rawTiers = ex.vip_tiers || [];
   // zh 版：档位名翻译（Regular/Standard/Pro N）
@@ -875,7 +934,36 @@ function exchangePage(slug, lang) {
     [T(lang, 'exApi'), yesNo(ex.has_api)]
   ]);
 
-  const body = `
+  const baseTier = tiers[0] || {};
+  const cheapestWithdrawal = Object.entries(ex.usdt_withdrawal || {}).filter(([, fee]) => fee != null).sort((a, b) => a[1] - b[1])[0] || ['—', null];
+  const evidenceHtml = trustBadges.length ? `<div class="binance-evidence"><div class="binance-evidence-title">${esc(L('Published recognition and service signals', '公开背书与服务信息'))}</div><div class="binance-evidence-grid">${trustBadges.map((b) => `<div class="binance-evidence-item">${TRUST_ICON[b.type] || ''}<span>${esc(b.text)}</span></div>`).join('')}</div></div>` : '';
+  const capCard = (title, status, desc, risk = false) => `<div class="binance-cap-card${risk ? ' risk' : ''}"><div class="binance-cap-top"><b>${esc(title)}</b><span class="binance-cap-status">${esc(status)}</span></div><p>${esc(desc)}</p></div>`;
+  const binanceCapabilities = [
+    capCard(L('Spot trading', '现货交易'), L('Supported', '支持'), L('Buy and sell crypto assets directly without borrowing. This is the simplest trading mode for beginners.', '直接买卖加密资产，不借入资金；这是新手最容易理解的交易方式。')),
+    capCard(L('Margin trading', '杠杆交易'), yesNo(cd.has_margin), L('Borrowing can magnify both gains and losses, and positions may be liquidated.', '通过借入资产放大仓位，同时放大亏损，并可能触发强平。'), true),
+    capCard(L('Futures contracts', '合约交易'), `${cd.max_leverage ? cd.max_leverage + 'x · ' : ''}${L('High risk', '高风险')}`, L('Derivatives do not equal owning the underlying coin. Leverage and funding costs can rapidly erode margin.', '衍生品不等于持有现货；杠杆、资金费率和价格波动可能快速消耗保证金。'), true),
+    capCard(L('Options', '期权'), yesNo(cd.has_options), L('Options have non-linear payoffs and expiry. Understand premium and maximum loss before use.', '期权包含权利金、到期日和非线性损益，使用前必须理解最大损失。'), true),
+    capCard(L('Leveraged tokens', '杠杆代币'), yesNo(cd.has_leveraged_tokens), L('Built-in leverage and rebalancing can create path-dependent losses in volatile markets.', '内置杠杆与再平衡机制会产生路径损耗，震荡行情下尤其需要谨慎。'), true),
+    capCard(L('Copy trading', '跟单交易'), yesNo(ex.has_copy_trading), L('Past performance of a lead trader does not guarantee future results. Set an independent loss limit.', '带单员历史表现不代表未来收益，仍需独立设置最大亏损限制。'), true),
+    capCard(L('Trading bots', '交易机器人'), yesNo(ex.has_trading_bot), L('Automation executes a strategy; it does not make the strategy profitable or remove market risk.', '机器人只负责自动执行策略，不会让策略天然盈利，也不会消除市场风险。')),
+    capCard(L('API access', 'API 接口'), yesNo(ex.has_api), L('For portfolio tools or programmatic trading. Never give an API key withdrawal permission unless essential.', '可连接记账或程序化工具；非必要不要给 API Key 开启提币权限。'))
+  ].join('');
+  const depositNoteZh = {
+    'Bank transfer': 'ACH / SEPA 常见为免费；SWIFT 可能收银行手续费',
+    'Credit/Debit card': '第三方通道约 1.8%–3.5%',
+    'Apple Pay': '测试快照约 3.6%',
+    'Google Pay': '测试快照约 3.6%–4.1%',
+    'Bpay': '澳洲银行支付，快照为 0',
+    'P2P': '平台费快照为 0，成交价格仍可能有价差'
+  };
+  const binanceDepRows = (ex.deposit_methods || []).map((d) => {
+    const m = zh ? trZh(d.m, DEP_ZH_MAP) : d.m;
+    const fee = d.fee === 0 ? '0' : (d.fee_max != null ? pct(d.fee) + ' – ' + pct(d.fee_max) : pct(d.fee));
+    const note = zh ? (depositNoteZh[d.m] || d.note || '—') : (d.note || '—');
+    return `<tr><td>${esc(m)}</td><td>${fee}</td><td>${esc(note)}</td></tr>`;
+  }).join('');
+
+  const genericBody = `
   <h1>${esc(T(lang, 'exH1', { n: ex.name, slogan: (ex.slogan && (ex.slogan[lang] || ex.slogan.en)) || T(lang, 'exH1Default') }))}</h1>
   ${trustGridHtml}
 
@@ -910,8 +998,85 @@ function exchangePage(slug, lang) {
 
   ${linkFor(slug) ? `<p style="margin-top:18px">${ctaHtml(slug, esc(T(lang, 'ctaAcct', { x: ex.name })), lang)}</p>` : ''}
   <p class="note" style="margin-top:16px">${esc(T(lang, 'exNote'))}</p>
-  <p class="intro" style="margin-top:12px">${esc(T(lang, 'exCompare'))}${cmpLinks}</p>
-  <script>
+  <p class="intro" style="margin-top:12px">${esc(T(lang, 'exCompare'))}${cmpLinks}</p>`;
+
+  const binanceBody = `<div class="binance-page">
+    <section class="binance-hero" aria-labelledby="binance-title">
+      <div class="binance-hero-main">
+        <div class="binance-identity">
+          <div class="binance-mark" aria-hidden="true">B</div>
+          <div>
+            <div class="binance-eyebrow">${esc(L('Exchange review · snapshot ' + UPD, '交易所评测 · 数据快照 ' + UPD))}</div>
+            <h1 id="binance-title">${esc(L('Binance beginner guide', 'Binance 新手评测与费用指南'))}</h1>
+            <p class="binance-summary">${esc(L('Binance offers deep liquidity and a broad product range. Beginners should start with spot trading, verify regional availability, and treat every leveraged product as high risk.', 'Binance 的流动性和产品线较完整。新手建议先从现货开始，注册前确认所在地区可用性，并把所有杠杆产品视为高风险工具。'))}</p>
+          </div>
+        </div>
+        <div class="binance-actions">
+          ${linkFor(slug) ? ctaHtml(slug, esc(T(lang, 'ctaAcct', { x: ex.name })), lang) : ''}
+          <a class="secondary-cta" href="${absPath(lang, 'compare/binance-vs-okx.html')}">${esc(L('Compare with OKX', '与 OKX 对比'))}</a>
+        </div>
+      </div>
+      <div class="binance-stats">
+        <div class="binance-stat"><span>${esc(L('Base spot maker / taker', '现货基础挂单 / 吃单'))}</span><b>${pct(ex.spot.maker)} / ${pct(ex.spot.taker)}</b><small>${esc(L('Regular user snapshot', '普通用户费率快照'))}</small></div>
+        <div class="binance-stat"><span>${esc(L('Base futures maker / taker', '合约基础挂单 / 吃单'))}</span><b>${pct(ex.futures.maker)} / ${pct(ex.futures.taker)}</b><small>${esc(L('Leverage can liquidate positions', '杠杆可能触发强平'))}</small></div>
+        <div class="binance-stat"><span>${esc(L('Lowest listed USDT withdrawal', '最低 USDT 提币费'))}</span><b>${esc(cheapestWithdrawal[0])} · ${cheapestWithdrawal[1] == null ? '—' : usd(cheapestWithdrawal[1])}</b><small>${esc(L('Network must match the receiving wallet', '必须与接收钱包网络一致'))}</small></div>
+        <div class="binance-stat"><span>${esc(L('Maximum listed leverage', '页面记录最高杠杆'))}</span><b>${cd.max_leverage ? cd.max_leverage + 'x' : '—'}</b><small>${esc(L('High risk · not for beginners', '高风险 · 不建议新手使用'))}</small></div>
+      </div>
+      ${evidenceHtml}
+    </section>
+
+    <nav class="binance-nav" aria-label="${esc(L('Page sections', '页面目录'))}">
+      <a href="#fees">${esc(L('Fees', '费用'))}</a><a href="#capabilities">${esc(L('Trading capabilities', '交易能力'))}</a><a href="#funding">${esc(L('Deposit & withdrawal', '入金与提币'))}</a><a href="#safety">${esc(L('Safety & compliance', '安全与合规'))}</a><a href="#checklist">${esc(L('Before signup', '注册前检查'))}</a>
+    </nav>
+
+    <section class="binance-section" id="fees">
+      <div class="binance-section-head"><div><h2>${esc(L('Fees: start with the regular-user rate', '费用：新手先看普通用户档'))}</h2><p>${esc(L('The four figures below cover the common base tier. The full VIP table is retained but collapsed to reduce noise.', '先展示最常用的基础档；完整 VIP 费率表保留在下方，默认折叠以减少信息干扰。'))}</p></div></div>
+      <div class="binance-fee-summary">
+        <div class="binance-fee-card"><span>${esc(L('Spot maker', '现货挂单'))}</span><b>${pct(baseTier.sm)}</b><small>${esc(L('Regular user', '普通用户'))}</small></div>
+        <div class="binance-fee-card"><span>${esc(L('Spot taker', '现货吃单'))}</span><b>${pct(baseTier.st)}</b><small>${esc(L('Regular user', '普通用户'))}</small></div>
+        <div class="binance-fee-card"><span>${esc(L('With BNB discount', '开启 BNB 抵扣'))}</span><b>${pct(baseTier.st * (1 - (disc?.spot || 0)))}</b><small>${esc(L('Spot taker example', '现货吃单示例'))}</small></div>
+        <div class="binance-fee-card"><span>${esc(L('Futures maker / taker', '合约挂单 / 吃单'))}</span><b>${pct(baseTier.fm)} / ${pct(baseTier.ft)}</b><small>${esc(L('High-risk product', '高风险产品'))}</small></div>
+      </div>
+      <details class="binance-vip-details">
+        <summary>${esc(L('View full VIP fee table and BNB discount switch', '查看完整 VIP 费率表与 BNB 抵扣开关'))}</summary>
+        <div class="fee-panel">
+          <div class="fee-tabs"><button type="button" class="ftab active" data-mkt="spot">${zh ? '现货' : 'Spot'}</button><button type="button" class="ftab" data-mkt="fut">${zh ? '合约' : 'Futures'}</button></div>
+          ${disc && disc.token ? `<div class="fee-toggle"><label class="switch"><input type="checkbox" id="feeSwitch"><span class="sl"></span></label><span class="disc-label">${esc(discNote)}</span></div>` : ''}
+          <div class="scroll"><table class="fee-table" id="feeTable"><thead><tr><th>${esc(T(lang, 'exTier'))}</th><th>${esc(T(lang, 'exThreshold'))}</th><th>${esc(T(lang, 'exMaker'))}</th><th>${esc(T(lang, 'exTaker'))}</th></tr></thead><tbody></tbody></table></div>
+        </div>
+      </details>
+    </section>
+
+    <section class="binance-section" id="capabilities">
+      <div class="binance-section-head"><div><h2>${esc(L('Trading capabilities', '交易能力'))}</h2><p>${esc(L(`About ${cd.coins != null ? cd.coins.toLocaleString() : '—'} tracked spot assets · 24h volume snapshot ${cd.volume || '—'}. Product availability varies by region.`, `约 ${cd.coins != null ? cd.coins.toLocaleString() : '—'} 个追踪现货币种 · 24h 交易量快照 ${cd.volume || '—'}。具体功能是否开放取决于所在地区。`))}</p></div></div>
+      <div class="binance-cap-note"><b>${esc(L('Beginner rule:', '新手原则：'))}</b> ${esc(L('“Supported” only means the feature exists. It does not mean the feature is suitable, safe, or profitable.', '“支持”只代表存在该功能，不代表适合你、安全或能够盈利。'))}</div>
+      <div class="binance-cap-grid">${binanceCapabilities}</div>
+    </section>
+
+    <section class="binance-section" id="funding">
+      <div class="binance-section-head"><div><h2>${esc(L('Deposit and withdrawal', '入金与提币'))}</h2><p>${esc(L('Payment channels vary by residence and provider. Withdrawal fees are snapshots and the selected network must match the receiving wallet.', '支付通道会因地区和服务商变化；提币费为快照，转出网络必须与接收钱包完全一致。'))}</p></div></div>
+      <div class="binance-two-col">
+        <div class="binance-subcard"><h3>${esc(L('Deposit methods', '入金方式'))}</h3><p>${esc(L('A displayed platform fee of zero does not exclude bank fees, FX spread, or P2P price differences.', '平台费显示为 0，不代表没有银行费、换汇价差或 C2C 成交价差。'))}</p><div class="scroll"><table><thead><tr><th>${esc(T(lang, 'exMethod'))}</th><th>${esc(T(lang, 'exFee'))}</th><th>${esc(L('Notes', '说明'))}</th></tr></thead><tbody>${binanceDepRows}</tbody></table></div></div>
+        <div class="binance-subcard"><h3>${esc(L('USDT withdrawal networks', 'USDT 提币网络'))}</h3><p>${esc(L('Do a small test transfer first. Sending to an unsupported network can make assets unrecoverable.', '建议先做小额测试；网络不匹配可能导致资产无法找回。'))}</p><div class="scroll"><table><thead><tr><th>${esc(T(lang, 'exNet'))}</th><th>${esc(T(lang, 'exFee'))}</th></tr></thead><tbody>${wdRows}</tbody></table></div></div>
+      </div>
+    </section>
+
+    <section class="binance-section" id="safety">
+      <div class="binance-section-head"><div><h2>${esc(L('Safety and compliance', '安全与合规'))}</h2><p>${esc(L('These are public disclosures and recorded events, not a guarantee that funds cannot be lost.', '以下为公开披露与事件记录，不代表资金不会遭受损失。'))}</p></div></div>
+      <div class="binance-safety-grid">
+        <div class="binance-subcard"><h3>${esc(L('Current disclosures', '当前披露'))}</h3><div class="sec-list"><div class="srow"><span>${esc(T(lang, 'exReserve'))}</span><b>${esc(secV(cd.reserve))}</b></div><div class="srow"><span>${esc(T(lang, 'exCold'))}</span><b>${esc(secV(cd.cold))}</b></div><div class="srow"><span>${esc(T(lang, 'exLicenses'))}</span><b>${esc(secV(cd.licenses))}</b></div><div class="srow"><span>${esc(T(lang, 'exKyc'))}</span><b>${esc(secV(cd.kyc))}</b></div></div></div>
+        <div class="binance-subcard"><h3>${esc(L('Recorded incidents', '事件记录'))}</h3><div class="sec-list"><div class="srow inc-head"><span>${esc(T(lang, 'exIncident'))}</span><b>${esc(T(lang, 'exResponse'))}</b></div>${incidentHtml || `<div class="srow"><span>—</span></div>`}</div></div>
+      </div>
+    </section>
+
+    <section class="binance-section" id="checklist">
+      <div class="binance-section-head"><div><h2>${esc(L('Before opening an account', '注册前检查清单'))}</h2><p>${esc(L('Complete these checks on Binance’s current pages before depositing funds.', '入金前请在 Binance 当前页面逐项确认。'))}</p></div></div>
+      <ul class="binance-checklist"><li>${esc(L('Your residence and required product are supported.', '你的居住地与所需产品均可使用。'))}</li><li>${esc(L('You understand KYC requirements and account entity.', '你理解 KYC 要求及实际签约主体。'))}</li><li>${esc(L('The live fee screen matches your payment method and tier.', '实时费率与你的支付方式和等级一致。'))}</li><li>${esc(L('The withdrawal network matches the receiving wallet exactly.', '提币网络与接收钱包完全一致。'))}</li><li>${esc(L('Two-factor authentication and anti-phishing code are enabled.', '已开启双重验证和防钓鱼码。'))}</li><li>${esc(L('Leveraged products remain disabled unless you understand liquidation.', '不理解强平机制时，不开启杠杆产品。'))}</li></ul>
+      <div class="binance-final"><p>${esc(T(lang, 'exNote'))}<br>${esc(T(lang, 'exCompare'))}${cmpLinks}</p>${linkFor(slug) ? ctaHtml(slug, esc(T(lang, 'ctaAcct', { x: ex.name })), lang) : ''}</div>
+    </section>
+  </div>`;
+
+  const feeScript = `<script>
   (function(){
     var tiers = ${JSON.stringify(tiers)};
     var discSpot = ${disc && disc.spot != null ? disc.spot : 'null'};
@@ -959,6 +1124,7 @@ function exchangePage(slug, lang) {
     render();
   })();
   </script>`;
+  const body = (slug === 'binance' ? binanceBody : genericBody) + feeScript;
   return page({ lang, title: T(lang, 'exTitle', { n: ex.name, slogan: (ex.slogan && (ex.slogan[lang] || ex.slogan.en)) || T(lang, 'exH1Default') }), desc: T(lang, 'exDesc', { n: ex.name }), body, path: `${lang === 'zh' ? 'zh/' : ''}exchanges/${slug}.html`, affiliate: false });
 }
 
