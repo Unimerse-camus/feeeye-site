@@ -6,11 +6,12 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>现货成本计算器 — 入金 / 交易 / 提币 / 全成本对比</title>
+<title>现货基础成本计算器 — 入金 / 交易 / 提币</title>
 <link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
-<meta name="description" content="一个工具看清入金、交易、提币和全成本：入金 1000 USDT、交易 N 次（maker/taker）、提币（选链），哪家交易所最便宜一目了然。免费、无需注册。">
+<link rel="stylesheet" href="/assets/responsive.css">
+<meta name="description" content="估算入金、交易和提币的基础成本；不包含价差、滑点、换汇及银行或第三方通道费用。免费、无需注册。">
 <style>
   :root{--bg:#f7f8fa;--card:#fff;--ink:#1c2430;--sub:#5b6776;--line:#e4e8ee;--brand:#2563eb;--brand2:#0ea5a4;--ok:#16a34a;--bad:#dc2626;--warn:#d97706}
   html{scrollbar-gutter:stable}
@@ -65,8 +66,8 @@
   </header>
   <script>(function(){var btns=document.querySelectorAll(".nav-btn");var t=null;function closeAll(){var op=document.querySelectorAll(".nav-item.open");for(var j=0;j<op.length;j++)op[j].classList.remove("open");}function sched(){clearTimeout(t);t=setTimeout(closeAll,180);}function cancel(){clearTimeout(t);}for(var i=0;i<btns.length;i++){(function(btn){var item=btn.parentElement;btn.addEventListener("click",function(e){e.stopPropagation();var was=item.classList.contains("open");closeAll();cancel();if(!was)item.classList.add("open");});item.addEventListener("mouseenter",function(){cancel();closeAll();item.classList.add("open");});item.addEventListener("mouseleave",sched);})(btns[i]);}document.addEventListener("click",function(){closeAll();cancel();});})();</script>
 
-  <h1>现货成本计算器</h1>
-  <p class="intro">一个工具看清<b>入金 → 交易 → 提币</b>的完整成本，最后看<b>全成本</b>哪家最便宜。</p>
+  <h1>现货基础成本计算器</h1>
+  <p class="intro">估算<b>入金 → 交易 → 提币</b>的基础成本。结果不包含买卖价差、滑点、法币换汇、银行及第三方通道可能收取的额外费用。</p>
 
   <div class="panel">
     <!-- 公共输入：始终显示 -->
@@ -88,7 +89,7 @@
       <button class="tab active" data-view="deposit">① 入金</button>
       <button class="tab" data-view="trade">② 交易</button>
       <button class="tab" data-view="withdraw">③ 提币</button>
-      <button class="tab" data-view="total">④ 全成本</button>
+      <button class="tab" data-view="total">④ 基础合计</button>
     </div>
 
     <!-- 入金 tab：只看入金方式 -->
@@ -145,7 +146,7 @@
       <div id="result-w"></div>
     </div>
 
-    <!-- 全成本 tab：所有参数 -->
+    <!-- 基础合计 tab：所有参数 -->
     <div class="tabpane" data-view="total">
       <div class="grid">
         <div>
@@ -184,16 +185,8 @@
 
   <div class="disclaimer">
     <p style="margin:0 0 6px"><b>① 费率快照</b>：最近更新 <span id="upd"></span>——交易前请以各交易所官方页面为准。</p>
-    <p style="margin:0 0 4px"><b>② 各所合规受限地区</b>（代表性示例；<b>各所受限地区各不相同</b>——部分服务美国或香港，请以各交易所 Terms of Use 为准）：</p>
-    <ul style="margin:0 0 0 20px;padding:0">
-      <li><b>KuCoin</b>：欧盟新客户暂停（含德国、法国、意大利、西班牙、波兰等）</li>
-      <li><b>Binance</b>：日本、加拿大（安大略）、印度、土耳其、阿联酋、韩国、泰国等</li>
-      <li><b>Bybit / OKX</b>：未明确公开列示特定国家限制</li>
-      <li><b>Bitget</b>：日本、韩国等</li>
-      <li><b>Kraken</b>：巴西、印度、印度尼西亚、越南、泰国等</li>
-      <li><b>Coinbase</b>：印度尼西亚、越南、泰国等</li>
-    </ul>
-    <p style="margin:6px 0 0"><b>③</b> 注册前请查各所 Terms of Use 确认你所在国家/地区可用。</p>
+    <p style="margin:0 0 4px"><b>② 地区与产品可用性</b>：同一品牌可能由不同地区实体运营，现货、合约、入金方式和活动资格也可能分别受限。</p>
+    <p style="margin:6px 0 0"><b>③</b> 注册或入金前，请在交易所当前 Terms of Use、注册页与具体产品页中确认你的居住地和所需功能均可用；FeeEye 不以静态国家清单替代实时核验。</p>
   </div>
 
   <div class="foot">仅供教育参考，不构成投资建议。请以各交易所官方页面核实所有费率。<br>如有任何功能需求和建议，或网页有错误需要修正，请联系 <a class="mail" href="mailto:feeeyeofficial@gmail.com">feeeyeofficial@gmail.com</a><br><a href="/zh/index.html">首页</a> · <a href="/zh/about.html">关于我们</a> · <a href="/zh/privacy.html">隐私政策</a> · <a href="/zh/terms.html">使用条款</a></div>
@@ -444,14 +437,14 @@
     });
     html += tableFoot();
     resultW.innerHTML = html;
-    resultW.innerHTML += '<div class="fees-note">本页面只展示基础费率，交易所VIP等级提升或持有平台币后，交易费率会下降，具体请以各交易所实际展示为准。</div>';
+    resultW.innerHTML += '<div class="fees-note"><b>转账前必须确认</b>：转出交易所和接收钱包必须选择同一网络，否则资产可能无法找回。本页只展示基础费率，请以交易所实时显示为准。</div>';
   }
 
   function renderTotal(){
     var amt = getAmt(), net = state.network, method = state.deposit, trades = state.trades;
     if(!amt){ resultA.innerHTML = '<p class="warn">请输入金额。</p>'; return; }
     if(!method){ resultA.innerHTML = '<p class="warn">请选择入金方式。</p>'; return; }
-    var rows = [], note = "", skipped = 0;
+    var rows = [], note = "", skipped = 0, skippedNetwork = 0;
     ["binance","okx","kucoin"].concat(Object.keys(window.EXCHANGES).filter(function(s){return s!=="binance"&&s!=="okx"&&s!=="kucoin";})).forEach(function(slug){
       var ex = window.EXCHANGES[slug];
       var dep = depositInfo(ex, method);
@@ -460,17 +453,19 @@
       var feeMin = dep.fee||0, feeMax = (dep.fee_max!=null)?dep.fee_max:feeMin;
       var depMin = amt*feeMin, depMax = amt*feeMax;
       var tradeCost = amt * ex.spot[state.order] * trades;
-      var wdCost = window.getUsdtWithdrawalFee(slug, net)||0;
+      var wdCost = window.getUsdtWithdrawalFee(slug, net);
+      if(wdCost==null){ skippedNetwork++; return; }
       var totalMin = depMin + tradeCost + wdCost;
       var totalMax = depMax + tradeCost + wdCost;
       rows.push({ slug:slug, name:ex.name, depMin:depMin, depMax:depMax, tradeCost:tradeCost, wdCost:wdCost, totalMin:totalMin, totalMax:totalMax, mid:(totalMin+totalMax)/2 });
     });
     rows.sort(function(a,b){ return a.mid-b.mid; });
     var amountLabel = (state.coin === "USDT") ? fmt(amt)+' USDT' : fmt(parseFloat(amountEl.value)||0)+' '+state.coin+' ≈ '+fmt(amt)+' USDT';
-    var html = '<h3>④ 全成本对比 —— '+zhMethod(method)+'入金 '+amountLabel+'，现货 '+trades+' 次，提币 '+net+'</h3>';
+    var html = '<h3>④ 基础成本合计 —— '+zhMethod(method)+'入金 '+amountLabel+'，现货 '+trades+' 次，提币 '+net+'</h3>';
     if(note) html += '<p class="detail" style="margin-top:4px">'+LABEL.note+'：'+zhNote(note)+'</p>';
     if(skipped>0) html += '<p class="detail" style="margin-top:4px">'+skipped+' 家交易所不支持此入金方式。</p>';
-    html += tableHead(['交易所','入金费','交易费 ×'+trades,'提币费','<b>总成本</b>','']);
+    if(skippedNetwork>0) html += '<p class="detail" style="margin-top:4px">'+skippedNetwork+' 家交易所没有 '+net+' 网络费用数据，已从排名中排除，不会按 0 费用处理。</p>';
+    html += tableHead(['交易所','入金费','交易费 ×'+trades,'提币费','<b>基础合计</b>','']);
     var minMid = rows.length?rows[0].mid:0;
     var minCount = rows.length ? rows.filter(function(r){return r.mid>0 && Math.abs(r.mid-minMid)<0.001;}).length : 0;
     rows.forEach(function(r){
@@ -485,9 +480,9 @@
       var diff = worstRow.mid - bestRow.mid;
       html += '<p class="intro" style="margin-top:12px;font-size:14px">走完「入金 → 交易 '+trades+' 次 → 提币」全流程，最便宜（<b>'+bestRow.name+'</b>）比最贵（'+worstRow.name+'）约<b class="best">'+LABEL.save+' '+fmt(diff)+' USDT</b>（取区间中值）。</p>';
     }
-    html += '<div class="formula"><b>计算方式：</b><br><code>总成本 = 入金费 + 交易费（金额 × '+pct(window.EXCHANGES.kucoin.spot[state.order])+' × '+trades+' 次）+ 提币费（'+net+'）</code>。费率随地区/卡种浮动时显示区间。快照 <span id="upd2"></span>——交易前请以交易所实时显示为准。</div>';
+    html += '<div class="formula"><b>基础成本计算：</b><br><code>基础成本 = 入金费 + 交易费（金额 × '+pct(window.EXCHANGES.kucoin.spot[state.order])+' × '+trades+' 次）+ 提币费（'+net+'）</code>。不含价差、滑点、换汇及外部通道费用。费率随地区/卡种浮动时显示区间。快照 <span id="upd2"></span>——交易前请以交易所实时显示为准。</div>';
     resultA.innerHTML = html;
-    resultA.innerHTML += '<div class="fees-note">本页面只展示基础费率，交易所VIP等级提升或持有平台币后，交易费率会下降，具体请以各交易所实际展示为准。</div>';
+    resultA.innerHTML += '<div class="fees-note"><b>提币安全提示</b>：转出交易所与接收钱包必须使用同一网络。VIP 等级和平台币抵扣可能改变实际费率，请以交易所实时显示为准。</div>';
     document.getElementById("upd2").textContent = window.EXCHANGES.kucoin.last_updated;
   }
 

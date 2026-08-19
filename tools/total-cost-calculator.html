@@ -6,11 +6,12 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>Spot Cost Calculator — Deposit / Trading / Withdrawal / Total cost</title>
+<title>Spot Base-Cost Calculator — Deposit / Trading / Withdrawal</title>
 <link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
-<meta name="description" content="One tool to see deposit, trading, withdrawal and total cost: deposit 1,000 USDT, trade N times (maker/taker), withdraw (pick a network) — see which exchange is cheapest at a glance. Free, no signup.">
+<link rel="stylesheet" href="/assets/responsive.css">
+<meta name="description" content="Estimate base deposit, trading, and withdrawal costs. Excludes spread, slippage, FX, and possible bank or third-party payment charges. Free, no signup.">
 <style>
   :root{--bg:#f7f8fa;--card:#fff;--ink:#1c2430;--sub:#5b6776;--line:#e4e8ee;--brand:#2563eb;--brand2:#0ea5a4;--ok:#16a34a;--bad:#dc2626;--warn:#d97706}
   html{scrollbar-gutter:stable}
@@ -60,13 +61,13 @@
     <div class="topbar">
       <a class="logo" href="/" aria-label="FeeEye home"><img src="/assets/logo.svg" alt="FeeEye" width="26" height="26">FeeEye</a>
       <nav class="nav" id="toolNav"><div class="nav-item"><button type="button" class="nav-btn active">Tools <svg class="chev" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></button><div class="dropdown"><a href="/tools/total-cost-calculator.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 17.5v-11"/></svg><span>Spot Toolbox</span></a><a href="/tools/futures-toolbox.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 17 9 11 13 15 21 7"/><polyline points="15 7 21 7 21 13"/></svg><span>Futures Toolbox</span></a><a href="/tools/exchange-comparator.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/></svg><span>Comparison</span></a><a href="/tools/token-security-checker.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg><span>Token Check</span></a><a href="/tools/portfolio-tracker.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4Z"/></svg><span>Portfolio</span></a></div></div><div class="nav-item"><button type="button" class="nav-btn">Exchanges <svg class="chev" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></button><div class="dropdown"><a href="/exchanges/binance.html"><svg class="ex-logo" width="18" height="18" viewBox="0 0 18 18"><rect width="18" height="18" rx="4" fill="#F0B90B"/><text x="9" y="13" font-size="10" font-weight="700" text-anchor="middle" font-family="-apple-system,system-ui,sans-serif" fill="#000">B</text></svg><span>Binance</span></a><a href="/exchanges/okx.html"><svg class="ex-logo" width="18" height="18" viewBox="0 0 18 18"><rect width="18" height="18" rx="4" fill="#0a0a0a"/><text x="9" y="13" font-size="9" font-weight="700" text-anchor="middle" font-family="-apple-system,system-ui,sans-serif" fill="#fff">OK</text></svg><span>OKX</span></a><a href="/exchanges/kucoin.html"><svg class="ex-logo" width="18" height="18" viewBox="0 0 18 18"><rect width="18" height="18" rx="4" fill="#24AE8F"/><text x="9" y="13" font-size="10" font-weight="700" text-anchor="middle" font-family="-apple-system,system-ui,sans-serif" fill="#fff">K</text></svg><span>KuCoin</span></a><a href="/exchanges/bitget.html"><svg class="ex-logo" width="18" height="18" viewBox="0 0 18 18"><rect width="18" height="18" rx="4" fill="#1E88E5"/><text x="9" y="13" font-size="10" font-weight="700" text-anchor="middle" font-family="-apple-system,system-ui,sans-serif" fill="#fff">B</text></svg><span>Bitget</span></a><a href="/exchanges/bybit.html"><svg class="ex-logo" width="18" height="18" viewBox="0 0 18 18"><rect width="18" height="18" rx="4" fill="#F7A600"/><text x="9" y="13" font-size="10" font-weight="700" text-anchor="middle" font-family="-apple-system,system-ui,sans-serif" fill="#000">B</text></svg><span>Bybit</span></a><a href="/exchanges/coinbase.html"><svg class="ex-logo" width="18" height="18" viewBox="0 0 18 18"><rect width="18" height="18" rx="4" fill="#0052FF"/><text x="9" y="13" font-size="10" font-weight="700" text-anchor="middle" font-family="-apple-system,system-ui,sans-serif" fill="#fff">C</text></svg><span>Coinbase</span></a><a href="/exchanges/kraken.html"><svg class="ex-logo" width="18" height="18" viewBox="0 0 18 18"><rect width="18" height="18" rx="4" fill="#5741D9"/><text x="9" y="13" font-size="10" font-weight="700" text-anchor="middle" font-family="-apple-system,system-ui,sans-serif" fill="#fff">K</text></svg><span>Kraken</span></a></div></div><div class="nav-item"><button type="button" class="nav-btn">Compare <svg class="chev" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></button><div class="dropdown"><a href="/compare/binance-vs-okx.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9a6 6 0 0 0 12 0V3H6z"/><path d="M6 5H3v2a3 3 0 0 0 3 3"/><path d="M18 5h3v2a3 3 0 0 1-3 3"/><path d="M12 15v3"/><path d="M8 21h8"/><path d="M10 18h4"/></svg><span>Binance vs OKX</span></a><a href="/compare/binance-vs-kucoin.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9a6 6 0 0 0 12 0V3H6z"/><path d="M6 5H3v2a3 3 0 0 0 3 3"/><path d="M18 5h3v2a3 3 0 0 1-3 3"/><path d="M12 15v3"/><path d="M8 21h8"/><path d="M10 18h4"/></svg><span>Binance vs KuCoin</span></a><a href="/compare/binance-vs-bitget.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9a6 6 0 0 0 12 0V3H6z"/><path d="M6 5H3v2a3 3 0 0 0 3 3"/><path d="M18 5h3v2a3 3 0 0 1-3 3"/><path d="M12 15v3"/><path d="M8 21h8"/><path d="M10 18h4"/></svg><span>Binance vs Bitget</span></a><a href="/compare/binance-vs-bybit.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9a6 6 0 0 0 12 0V3H6z"/><path d="M6 5H3v2a3 3 0 0 0 3 3"/><path d="M18 5h3v2a3 3 0 0 1-3 3"/><path d="M12 15v3"/><path d="M8 21h8"/><path d="M10 18h4"/></svg><span>Binance vs Bybit</span></a><a href="/compare/binance-vs-coinbase.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9a6 6 0 0 0 12 0V3H6z"/><path d="M6 5H3v2a3 3 0 0 0 3 3"/><path d="M18 5h3v2a3 3 0 0 1-3 3"/><path d="M12 15v3"/><path d="M8 21h8"/><path d="M10 18h4"/></svg><span>Binance vs Coinbase</span></a><a href="/compare/binance-vs-kraken.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9a6 6 0 0 0 12 0V3H6z"/><path d="M6 5H3v2a3 3 0 0 0 3 3"/><path d="M18 5h3v2a3 3 0 0 1-3 3"/><path d="M12 15v3"/><path d="M8 21h8"/><path d="M10 18h4"/></svg><span>Binance vs Kraken</span></a></div></div><a href="/tools/glossary.html" class="">Learn</a></nav>
-      <span><a href="/tools/total-cost-calculator.zh.html">中文</a></span></a</span>
+      <span><a href="/tools/total-cost-calculator.zh.html">中文</a></span>
     </div>
   </header>
   <script>(function(){var btns=document.querySelectorAll(".nav-btn");var t=null;function closeAll(){var op=document.querySelectorAll(".nav-item.open");for(var j=0;j<op.length;j++)op[j].classList.remove("open");}function sched(){clearTimeout(t);t=setTimeout(closeAll,180);}function cancel(){clearTimeout(t);}for(var i=0;i<btns.length;i++){(function(btn){var item=btn.parentElement;btn.addEventListener("click",function(e){e.stopPropagation();var was=item.classList.contains("open");closeAll();cancel();if(!was)item.classList.add("open");});item.addEventListener("mouseenter",function(){cancel();closeAll();item.classList.add("open");});item.addEventListener("mouseleave",sched);})(btns[i]);}document.addEventListener("click",function(){closeAll();cancel();});})();</script>
 
-  <h1>Spot Cost Calculator</h1>
-  <p class="intro">One tool to see the full <b>deposit → trading → withdrawal</b> cost, then see which exchange is <b>cheapest overall</b>.</p>
+  <h1>Spot Base-Cost Calculator</h1>
+  <p class="intro">Estimate the base <b>deposit → trading → withdrawal</b> cost. Results exclude bid/ask spread, slippage, fiat conversion, and possible bank or third-party payment charges.</p>
 
   <div class="panel">
     <!-- Common inputs: always visible -->
@@ -88,7 +89,7 @@
       <button class="tab active" data-view="deposit">① Deposit</button>
       <button class="tab" data-view="trade">② Trading</button>
       <button class="tab" data-view="withdraw">③ Withdraw</button>
-      <button class="tab" data-view="total">④ Total cost</button>
+      <button class="tab" data-view="total">④ Base total</button>
     </div>
 
     <!-- Deposit tab -->
@@ -145,7 +146,7 @@
       <div id="result-w"></div>
     </div>
 
-    <!-- Total cost tab: all parameters -->
+    <!-- Base total tab: all parameters -->
     <div class="tabpane" data-view="total">
       <div class="grid">
         <div>
@@ -184,16 +185,8 @@
 
   <div class="disclaimer">
     <p style="margin:0 0 6px"><b>① Fee snapshot</b>: last updated <span id="upd"></span> — verify each rate on the exchange's official page before trading.</p>
-    <p style="margin:0 0 4px"><b>② Compliance-restricted regions</b> by exchange (representative examples; <b>restricted regions vary by exchange</b> — some serve the US or Hong Kong; always check each exchange's Terms of Use):</p>
-    <ul style="margin:0 0 0 20px;padding:0">
-      <li><b>KuCoin</b>: EU new-client onboarding paused (Germany, France, Italy, Spain, Poland, ...)</li>
-      <li><b>Binance</b>: Japan, Ontario (Canada), India, Turkey, UAE, Korea, Thailand, ...</li>
-      <li><b>Bybit / OKX</b>: no specific countries publicly listed</li>
-      <li><b>Bitget</b>: Japan, Korea, ...</li>
-      <li><b>Kraken</b>: Brazil, India, Indonesia, Vietnam, Thailand, ...</li>
-      <li><b>Coinbase</b>: Indonesia, Vietnam, Thailand, ...</li>
-    </ul>
-    <p style="margin:6px 0 0"><b>③</b> Before signing up, check each exchange's Terms of Use to confirm your country/region is supported.</p>
+    <p style="margin:0 0 4px"><b>② Region and product availability</b>: the same brand may operate through different local entities, while spot, derivatives, deposit methods, and promotions can have separate restrictions.</p>
+    <p style="margin:6px 0 0"><b>③</b> Before signing up or depositing, verify your residence and required features in the exchange's current Terms of Use, signup flow, and product page. FeeEye does not use a static country list as a substitute for a live check.</p>
   </div>
 
   <div class="foot">Educational only. Not financial advice. Verify all data on official exchange pages.<br>For feature requests or bug reports, contact <a class="mail" href="mailto:feeeyeofficial@gmail.com">feeeyeofficial@gmail.com</a><br><a href="/index.html">Home</a> · <a href="/about.html">About</a> · <a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a></div>
@@ -425,14 +418,14 @@
     });
     html += tableFoot();
     resultW.innerHTML = html;
-    resultW.innerHTML += '<div class="fees-note">Base-tier fees only. Actual rates may decrease with VIP tier upgrades or holding platform tokens — see each exchange for current rates.</div>';
+    resultW.innerHTML += '<div class="fees-note"><b>Before transferring:</b> the sending exchange and receiving wallet must use the same network, or the assets may be unrecoverable. Base-tier fees only; verify the live fee on the exchange.</div>';
   }
 
   function renderTotal(){
     var amt = getAmt(), net = state.network, method = state.deposit, trades = state.trades;
     if(!amt){ resultA.innerHTML = '<p class="warn">Enter an amount.</p>'; return; }
     if(!method){ resultA.innerHTML = '<p class="warn">Select a deposit method.</p>'; return; }
-    var rows = [], note = "", skipped = 0;
+    var rows = [], note = "", skipped = 0, skippedNetwork = 0;
     ["binance","okx","kucoin"].concat(Object.keys(window.EXCHANGES).filter(function(s){return s!=="binance"&&s!=="okx"&&s!=="kucoin";})).forEach(function(slug){
       var ex = window.EXCHANGES[slug];
       var dep = depositInfo(ex, method);
@@ -441,17 +434,19 @@
       var feeMin = dep.fee||0, feeMax = (dep.fee_max!=null)?dep.fee_max:feeMin;
       var depMin = amt*feeMin, depMax = amt*feeMax;
       var tradeCost = amt * ex.spot[state.order] * trades;
-      var wdCost = window.getUsdtWithdrawalFee(slug, net)||0;
+      var wdCost = window.getUsdtWithdrawalFee(slug, net);
+      if(wdCost==null){ skippedNetwork++; return; }
       var totalMin = depMin + tradeCost + wdCost;
       var totalMax = depMax + tradeCost + wdCost;
       rows.push({ slug:slug, name:ex.name, depMin:depMin, depMax:depMax, tradeCost:tradeCost, wdCost:wdCost, totalMin:totalMin, totalMax:totalMax, mid:(totalMin+totalMax)/2 });
     });
     rows.sort(function(a,b){ return a.mid-b.mid; });
     var amountLabel = (state.coin === "USDT") ? fmt(amt)+' USDT' : fmt(parseFloat(amountEl.value)||0)+' '+state.coin+' ≈ '+fmt(amt)+' USDT';
-    var html = '<h3>④ Total cost — '+method+' deposit '+amountLabel+', spot × '+trades+' trades, withdraw '+net+'</h3>';
+    var html = '<h3>④ Base-cost total — '+method+' deposit '+amountLabel+', spot × '+trades+' trades, withdraw '+net+'</h3>';
     if(note) html += '<p class="detail" style="margin-top:4px">Note: '+note+'</p>';
     if(skipped>0) html += '<p class="detail" style="margin-top:4px">'+skipped+' exchange(s) don\'t support this method.</p>';
-    html += tableHead(['Exchange','Deposit fee','Trading fee ×'+trades,'Withdrawal','<b>Total cost</b>','']);
+    if(skippedNetwork>0) html += '<p class="detail" style="margin-top:4px">'+skippedNetwork+' exchange(s) have no '+net+' fee data and were excluded from the ranking rather than treated as free.</p>';
+    html += tableHead(['Exchange','Deposit fee','Trading fee ×'+trades,'Withdrawal','<b>Base total</b>','']);
     var minMid = rows.length?rows[0].mid:0;
     var minCount = rows.length ? rows.filter(function(r){return r.mid>0 && Math.abs(r.mid-minMid)<0.001;}).length : 0;
     rows.forEach(function(r){
@@ -466,9 +461,9 @@
       var diff = worstRow.mid - bestRow.mid;
       html += '<p class="intro" style="margin-top:12px;font-size:14px">For the full deposit → '+trades+' trades → withdrawal flow, the cheapest (<b>'+bestRow.name+'</b>) beats the priciest ('+worstRow.name+') by about <b class="best">'+fmt(diff)+' USDT</b> (midpoint).</p>';
     }
-    html += '<div class="formula"><b>Formula:</b><br><code>Total = deposit fee + trading fee (amount × '+pct(window.EXCHANGES.kucoin.spot[state.order])+' × '+trades+' trades) + withdrawal fee ('+net+') </code>. Snapshot <span id="upd2"></span> — verify on the exchange before trading.</div>';
+    html += '<div class="formula"><b>Base-cost formula:</b><br><code>Base cost = deposit fee + trading fee (amount × '+pct(window.EXCHANGES.kucoin.spot[state.order])+' × '+trades+' trades) + withdrawal fee ('+net+')</code>. Excludes spread, slippage, FX and external payment charges. Snapshot <span id="upd2"></span> — verify on the exchange before trading.</div>';
     resultA.innerHTML = html;
-    resultA.innerHTML += '<div class="fees-note">Base-tier fees only. Actual rates may decrease with VIP tier upgrades or holding platform tokens — see each exchange for current rates.</div>';
+    resultA.innerHTML += '<div class="fees-note"><b>Withdrawal safety:</b> the sending exchange and receiving wallet must use the same network. VIP tiers and platform-token discounts may change the actual rate; verify the live fee on the exchange.</div>';
     document.getElementById("upd2").textContent = window.EXCHANGES.kucoin.last_updated;
   }
 

@@ -1,0 +1,43 @@
+/* Shared mobile fixes for generated pages and hand-authored tools. */
+@media (max-width: 720px) {
+  html { scrollbar-gutter: auto !important; }
+  body { overflow-x: hidden; }
+  .wrap { width: 100%; max-width: 100%; padding: 14px 12px 40px !important; overflow-x: hidden; }
+  .topbar {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 8px 12px !important;
+    align-items: center !important;
+  }
+  .topbar .logo { grid-column: 1; grid-row: 1; min-width: 0; }
+  .topbar > span { grid-column: 2; grid-row: 1; padding: 0 !important; }
+  .nav {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    width: 100%;
+    max-width: 100%;
+    justify-content: flex-start !important;
+    gap: 14px !important;
+    margin-top: 2px !important;
+    padding: 4px 2px 7px;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    scrollbar-width: thin;
+  }
+  .nav a, .nav-btn { font-size: 13px !important; }
+  .dropdown {
+    position: fixed !important;
+    top: auto !important;
+    left: 12px !important;
+    right: 12px !important;
+    transform: none !important;
+    max-height: 60vh;
+    overflow-y: auto;
+  }
+  .panel { padding: 14px !important; }
+  .scroll { width: 100%; max-width: 100%; overflow-x: auto; }
+  .scroll table { min-width: 620px; }
+  .tabs { gap: 6px !important; }
+  .tab { padding: 8px 11px !important; }
+  h1 { overflow-wrap: anywhere; }
+}

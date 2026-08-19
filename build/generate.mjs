@@ -207,12 +207,12 @@ const I18N = {
     exTitle: '{n} — {slogan}',
     exDesc: '{n} fees, USDT withdrawal costs, supported networks and trading features. Compare with other exchanges.',
     exCompare: 'Compare: ',
-    exTrust: 'Trust', exSec: 'Security', exPor: 'PoR', exCold: 'Cold storage',
+    exTrust: 'CoinGecko trust score', exSec: 'FeeEye editorial security score', exPor: 'PoR', exCold: 'Cold storage',
     exFeeBlock: 'Trading fees', exTier: 'Tier', exMaker: 'Maker', exTaker: 'Taker', exThreshold: '30d volume', exTokenDisc: 'Pay with {t} saves {r}',
     exSecBlock: 'Security & compliance', exReserve: 'Proof of reserves', exLicenses: 'Licenses', exKyc: 'KYC', exIncident: 'Security history',
     exWdBlock: 'USDT withdrawal fees', exNet: 'Network', exFee: 'Fee', exDepBlock: 'Deposit methods', exMethod: 'Method',
     exCapBlock: 'Trading capabilities', exVolume: '24h volume', exMaxLev: 'Max leverage', exOptions: 'Options', exMargin: 'Margin', exLeveragedTok: 'Leveraged tokens', exCopy: 'Copy trading',
-    exNote: 'Fee snapshot — always confirm on the official exchange page.',
+    exNote: 'Fee snapshot — always confirm on the official exchange page. CoinGecko trust scores use CoinGecko\'s exchange methodology. FeeEye editorial security scores synthesize public incident history, reserve disclosures and custody claims; they are comparative indicators, not guarantees of safety.',
     exTrustBlock: 'Trust & recognition', exAwards: 'Media awards', exProtection: 'Protection fund', exSupport: 'Customer support', exVolOfficial: 'Official daily volume',
     exEvent: 'Event', exResponse: 'Response',
     exCapScale: 'Scale & liquidity', exCapDeriv: 'Derivatives', exCapAuto: 'Automation & community',
@@ -231,11 +231,11 @@ const I18N = {
     cyUse: 'Use the Fee Calculator to compare your exact trade size across these exchanges.',
     idxH1: 'Free Crypto Tools & Exchange Data',
     idxIntro: 'Compare exchange fees, find where to buy a token, and check withdrawal costs — free, no signup.',
-    idxTcT: 'Spot Toolbox', idxTcB: 'Spot trading tools: deposit / trading / withdrawal / total cost in one — see which exchange is cheapest.', idxTcC: 'Open tool →',
-    idxFutT: 'Futures Toolbox', idxFutB: 'Futures trading tools: position sizing, liquidation price, PnL estimate, cross-exchange futures fee comparison.', idxFutC: 'Open tool →',
+    idxTcT: 'Spot base cost', idxTcB: 'Estimate deposit / trading / withdrawal fees, with spread, slippage, FX, and external payment charges clearly excluded.', idxTcC: 'Open tool →',
+    idxFutT: 'Futures Toolbox', idxFutB: 'High risk: leveraged trading can liquidate your position and cause rapid losses. Includes position sizing, liquidation price, PnL and fee comparison.', idxFutC: 'Open high-risk tool →',
     idxCmpT: 'Exchange Comparison', idxCmpB: 'Compare 14 business dimensions: leverage, options, coins, liquidity, copy-trading/bots, reserves/cold storage, KYC, licenses, fiat deposits.', idxCmpC: 'Compare 14 dimensions →',
     idxGloT: 'Crypto Glossary', idxGloB: '40+ plain-language definitions of common crypto terms — from spot trading to wallet security.', idxGloC: 'Browse terms →',
-    idxSecT: 'Token Security Check', idxSecB: 'Paste an Ethereum or Solana contract address to instantly detect honeypots, rug risks, tax, mint & freeze authority.', idxSecC: 'Check a token →',
+    idxSecT: 'Token Security Check', idxSecB: 'Screen an Ethereum or Solana contract for known technical risk flags such as honeypots, taxes, mint and freeze authority. A clean result is not a safety guarantee.', idxSecC: 'Check a token →',
     idxPfT: 'Portfolio Tracker', idxPfB: 'Log your holdings manually and auto-track profit & loss with live prices. No API key needed — data stays in your browser.', idxPfC: 'Track holdings →',
     idxPopular: 'Popular tokens',
     idxTitle: 'FeeEye — Free Crypto Fee Calculator & Exchange Data',
@@ -271,12 +271,12 @@ const I18N = {
     exTitle: '{n}——{slogan}',
     exDesc: '{n} 费率、USDT 提币成本、支持网络与交易功能。与其他交易所对比。',
     exCompare: '对比：',
-    exTrust: '信任分', exSec: '安全分', exPor: '储备证明', exCold: '冷存储',
+    exTrust: 'CoinGecko 信任分', exSec: 'FeeEye 编辑安全分', exPor: '储备证明', exCold: '冷存储',
     exFeeBlock: '交易费率', exTier: '档位', exMaker: '挂单', exTaker: '吃单', exThreshold: '30 天交易量', exTokenDisc: '用 {t} 支付省 {r}',
     exSecBlock: '安全与合规', exReserve: '储备证明', exLicenses: '牌照', exKyc: 'KYC', exIncident: '安全历史',
     exWdBlock: 'USDT 提币费', exNet: '网络', exFee: '费用', exDepBlock: '入金方式', exMethod: '方式',
     exCapBlock: '交易能力', exVolume: '24h 交易量', exMaxLev: '最大杠杆', exOptions: '期权', exMargin: '保证金', exLeveragedTok: '杠杆代币', exCopy: '跟单',
-    exNote: '费率快照——交易前请以官方页面为准。',
+    exNote: '费率为快照值，交易前请以官方页面为准。CoinGecko 信任分采用 CoinGecko 交易所方法；FeeEye 编辑安全分综合公开安全事件、储备披露和托管声明，只用于比较，不代表安全保证。',
     exTrustBlock: '信任背书', exAwards: '媒体奖项', exProtection: '保护基金', exSupport: '客服支持', exVolOfficial: '官方日交易量',
     exEvent: '事件', exResponse: '处理方式',
     exCapScale: '规模与流动性', exCapDeriv: '衍生品', exCapAuto: '自动化与社区',
@@ -295,11 +295,11 @@ const I18N = {
     cyUse: '使用手续费计算器对比你在这些交易所的具体交易成本。',
     idxH1: '免费加密货币工具与交易所数据',
     idxIntro: '对比交易所费率、查找代币在哪里购买、查看提币成本——免费、无需注册。',
-    idxTcT: '现货工具箱', idxTcB: '现货交易工具：入金 / 交易 / 提币 / 全成本四合一，看清哪家交易所最便宜。', idxTcC: '打开工具 →',
-    idxFutT: '合约工具箱', idxFutB: '合约交易工具：仓位计算 / 强平价 / 盈亏预估 / 各所合约费率对比。', idxFutC: '打开工具 →',
+    idxTcT: '现货基础成本', idxTcB: '估算入金 / 交易 / 提币的基础费用，并明确提示价差、滑点与外部支付费用不在结果内。', idxTcC: '打开工具 →',
+    idxFutT: '合约工具箱', idxFutB: '高风险：杠杆交易可能快速亏损并被强平。包含仓位、强平价、盈亏和费率对比工具。', idxFutC: '打开高风险工具 →',
     idxCmpT: '交易所综合对比', idxCmpB: '14 个业务维度对比交易所：杠杆/期权/流动性/币种/跟单/储备/法币入金等。', idxCmpC: '14 维度对比 →',
     idxGloT: '数字货币术语解释', idxGloB: '40+ 数字货币常用术语通俗解释，从现货交易到钱包安全全覆盖。', idxGloC: '查术语 →',
-    idxSecT: '代币安全检查', idxSecB: '粘贴以太坊或 Solana 合约地址，立即检测貔貅盘、Rug 风险、买卖税、增发与冻结权限。', idxSecC: '查一个代币 →',
+    idxSecT: '代币安全检查', idxSecB: '检查以太坊或 Solana 合约中已知的技术风险标记，如貔貅盘、买卖税、增发和冻结权限。未报警不代表代币安全。', idxSecC: '查一个代币 →',
     idxPfT: '持仓记账本', idxPfB: '手动记录你的持仓，自动拉取实时价格算盈亏。无需 API Key，数据只存在浏览器本地。', idxPfC: '记一笔持仓 →',
     idxPopular: '热门代币',
     idxTitle: 'FeeEye——免费加密货币费率计算器与交易所数据',
@@ -358,7 +358,7 @@ const LEGAL_HTML = {
     privacy: {
       title: 'Privacy Policy',
       desc: 'How FeeEye handles your information.',
-      body: `<h1>Privacy Policy</h1><p class="intro">Last reviewed: 2026-08-16</p><h3>Who we are</h3><p>This policy describes how FeeEye ("we", "us") handles information on this website.</p><h3>We don\'t collect your data</h3><p>We don\'t require accounts. We don\'t collect names, emails, or any personal data. We don\'t sell data. Tool inputs (amounts, deposit methods, etc.) stay in your browser and are never transmitted to or stored by us.</p><h3>Changes</h3><p>We will update this policy and the "last reviewed" date when practices change.</p>`,
+      body: `<h1>Privacy Policy</h1><p class="intro">Last reviewed: 2026-08-19</p><h3>Who we are</h3><p>This policy describes how FeeEye ("we", "us") handles information on this website.</p><h3>Accounts and tool inputs</h3><p>We don\'t require accounts and we don\'t ask for names or email addresses. Inputs entered into calculators and the portfolio tracker stay in your browser and are not sent to FeeEye servers.</p><h3>Privacy-friendly analytics</h3><p>We use Cloudflare Web Analytics to receive aggregate page-view and performance measurements. Cloudflare states that this service does not use cookies or local storage and does not retain visitors\' IP addresses in its analytics databases. The analytics beacon still sends page and performance measurements to Cloudflare for processing. We do not sell this information.</p><h3>External services</h3><p>Token checks and live-price features may request data from the named third-party APIs when you use those tools. Opening an exchange link takes you to that exchange, whose privacy policy then applies.</p><h3>Changes</h3><p>We will update this policy and the "last reviewed" date when practices change.</p>`,
     },
     terms: {
       title: 'Terms of Use',
@@ -375,7 +375,7 @@ const LEGAL_HTML = {
     privacy: {
       title: '隐私政策',
       desc: 'FeeEye 如何处理你的信息。',
-      body: `<h1>隐私政策</h1><p class="intro">最近审阅：2026-08-16</p><h3>我们是谁</h3><p>本政策说明 FeeEye（"我们"）如何处理本网站的信息。</p><h3>我们不收集你的数据</h3><p>我们不要求注册账号。不收集姓名、邮箱等任何个人数据。不出售数据。工具输入（金额、入金方式等）只存在你的浏览器内，绝不会上传或存储到我们服务器。</p><h3>变更</h3><p>实践发生变化时，我们会更新本政策及"最近审阅"日期。</p>`,
+      body: `<h1>隐私政策</h1><p class="intro">最近审阅：2026-08-19</p><h3>账号与工具输入</h3><p>FeeEye 不要求注册账号，也不主动索取姓名或邮箱。费用计算器和持仓记账本中的输入保留在你的浏览器中，不发送到 FeeEye 服务器。</p><h3>隐私友好的网站分析</h3><p>我们使用 Cloudflare Web Analytics 获取汇总的页面访问与性能指标。Cloudflare 声明该服务不使用 Cookie 或本地存储，也不在分析数据库中保留访客 IP；但分析脚本仍会把页面和性能指标发送给 Cloudflare 处理。我们不出售这些信息。</p><h3>外部服务</h3><p>使用代币检查和实时价格功能时，页面可能向工具中标明的第三方 API 请求数据。打开交易所链接后，将适用该交易所的隐私政策。</p><h3>变更</h3><p>实践发生变化时，我们会更新本政策及"最近审阅"日期。</p>`,
     },
     terms: {
       title: '使用条款',
@@ -401,12 +401,12 @@ const ABOUT_HTML = {
   en: {
     title: 'About FeeEye — Free Crypto Tools & Exchange Data',
     desc: 'What FeeEye is, the free tools we offer, how we make money, and how to contact us.',
-    body: `<h1>About FeeEye</h1><p class="intro">Free crypto tools &amp; exchange data — built for beginners.</p><h3>What we do</h3><p>FeeEye is a free website that helps you use crypto without getting ripped off on fees. We compare exchange fees, find where to buy any token, check withdrawal costs, and flag scam tokens — all free, no signup required.</p><h3>Our tools</h3><ul><li><b>Spot Toolbox</b> — see the full deposit → trading → withdrawal cost in one place.</li><li><b>Futures Toolbox</b> — position sizing, liquidation price and P&amp;L estimate.</li><li><b>Exchange Comparison</b> — 14 dimensions of exchanges side by side.</li><li><b>Token Security Check</b> — detect honeypots and scam tokens (Ethereum &amp; Solana).</li><li><b>Portfolio Tracker</b> — log your holdings and track profit &amp; loss, no API key needed.</li><li><b>Crypto Glossary</b> — plain-language definitions of common crypto terms.</li></ul><h3>Contact</h3><p>Questions, feedback or bug reports: <a href="mailto:feeeyeofficial@gmail.com">feeeyeofficial@gmail.com</a></p><h3>Disclaimer</h3><p>FeeEye is educational only — not financial advice. Crypto is high-risk and you may lose your capital. Always do your own research and verify data on official exchange pages.</p>`
+      body: `<h1>About FeeEye</h1><p class="intro">Free crypto tools &amp; exchange data — built for beginners.</p><h3>What we do</h3><p>FeeEye is a free website that helps beginners understand exchange costs, availability and common technical risks. The site does not require an account.</p><h3>How comparisons are produced</h3><p>Fee and availability fields are snapshots from exchange publications and public market-data sources. CoinGecko trust scores are shown as CoinGecko metrics. FeeEye editorial security scores synthesize public incident history, reserve disclosures and custody claims. They are comparative indicators, not safety guarantees. Every material decision should be checked against the exchange\'s current official terms and fee screen.</p><h3>Our tools</h3><ul><li><b>Spot Toolbox</b> — estimate deposit, trading and withdrawal costs.</li><li><b>Futures Toolbox</b> — high-risk educational calculations for position sizing, liquidation and P&amp;L.</li><li><b>Exchange Comparison</b> — compare 14 published dimensions side by side.</li><li><b>Token Security Check</b> — screen for known technical risk flags; a clean result is not a safety guarantee.</li><li><b>Portfolio Tracker</b> — log holdings and track profit &amp; loss without an API key.</li><li><b>Crypto Glossary</b> — plain-language definitions of common crypto terms.</li></ul><h3>Corrections and contact</h3><p>Questions, source corrections or bug reports: <a href="mailto:feeeyeofficial@gmail.com">feeeyeofficial@gmail.com</a></p><h3>Disclaimer</h3><p>FeeEye is educational only — not financial advice. Crypto is high-risk and you may lose your capital. Always do your own research and verify data on official exchange pages.</p>`
   },
   zh: {
     title: '关于 FeeEye — 免费加密货币工具与交易所数据',
     desc: 'FeeEye 是什么、提供的免费工具、如何盈利、以及联系方式。',
-    body: `<h1>关于 FeeEye</h1><p class="intro">免费加密货币工具与交易所数据——为新手打造。</p><h3>我们做什么</h3><p>FeeEye 是一个免费网站，帮你在用加密货币时不被手续费坑。我们对比交易所费率、查找任意代币在哪里买、核查提币成本、识别诈骗代币——全部免费，无需注册。</p><h3>我们的工具</h3><ul><li><b>现货工具箱</b>——入金 / 交易 / 提币全成本一目了然。</li><li><b>合约工具箱</b>——仓位计算、强平价、盈亏预估。</li><li><b>交易所综合对比</b>——14 个维度并列对比。</li><li><b>代币安全检查</b>——检测貔貅盘与诈骗代币（以太坊 &amp; Solana）。</li><li><b>持仓记账本</b>——记录持仓、追踪盈亏，无需 API Key。</li><li><b>数字货币术语解释</b>——常用术语通俗解释。</li></ul><h3>联系方式</h3><p>问题、反馈或 bug 报告：<a href="mailto:feeeyeofficial@gmail.com">feeeyeofficial@gmail.com</a></p><h3>免责声明</h3><p>FeeEye 仅供教育参考，不构成投资建议。加密货币风险极高，你可能损失全部本金。请自行做好研究，并以交易所官方页面核实数据。</p>`
+    body: `<h1>关于 FeeEye</h1><p class="intro">免费加密货币工具与交易所数据——为新手打造。</p><h3>我们做什么</h3><p>FeeEye 帮助新手理解交易所成本、可用性和常见技术风险。网站免费，无需注册。</p><h3>对比方法</h3><p>费率和地区可用性为交易所公开资料及公开市场数据的快照。CoinGecko 信任分为 CoinGecko 指标；FeeEye 编辑安全分综合公开安全事件、储备披露和托管声明，只用于比较，不代表安全保证。重要决定前请以交易所当前条款和费率页为准。</p><h3>我们的工具</h3><ul><li><b>现货工具箱</b>——估算入金、交易和提币基础成本。</li><li><b>合约工具箱</b>——高风险的仓位、强平价与盈亏教育计算。</li><li><b>交易所综合对比</b>——比较 14 个公开维度。</li><li><b>代币安全检查</b>——筛查已知技术风险标记，未报警不代表安全。</li><li><b>持仓记账本</b>——记录持仓、追踪盈亏，无需 API Key。</li><li><b>数字货币术语解释</b>——常用术语通俗解释。</li></ul><h3>更正与联系</h3><p>数据更正、问题反馈或 bug 报告：<a href="mailto:feeeyeofficial@gmail.com">feeeyeofficial@gmail.com</a></p><h3>免责声明</h3><p>FeeEye 仅供教育参考，不构成投资建议。加密货币风险极高，你可能损失全部本金。请自行做好研究，并以交易所官方页面核实数据。</p>`
   }
 };
 
@@ -481,6 +481,7 @@ ${noIndex ? '<meta name="robots" content="noindex, follow">' : ''}
 <link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
+<link rel="stylesheet" href="/assets/responsive.css">
 <link rel="canonical" href="${canonical}">
 <link rel="alternate" hreflang="en" href="${SITE_URL}/${canonPath(lang === 'zh' ? path.replace(/^zh\//, '') : path)}">
 ${lang === 'zh' ? `<link rel="alternate" hreflang="zh" href="${canonical}">` : `<link rel="alternate" hreflang="zh" href="${SITE_URL}/zh/${canonPath(path)}">`}
@@ -537,6 +538,12 @@ input[type=number]{font-size:16px}
 .best{color:var(--ok);font-weight:700}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 @media(max-width:640px){.grid{grid-template-columns:1fr}}
+.beginner-path{background:#eff6ff;border:1px solid #bfdbfe;border-radius:12px;padding:14px 16px;margin:0 0 18px}
+.beginner-path b{display:block;margin-bottom:6px;color:#1e3a8a}
+.beginner-path ol{margin:0 0 0 20px;color:#334155}
+.beginner-path a{color:var(--brand);font-weight:600;text-decoration:none}
+.risk-tag{display:inline-block;margin-left:6px;padding:1px 6px;border-radius:999px;background:#fff7ed;color:#c2410c;border:1px solid #fed7aa;font-size:11px;vertical-align:2px}
+.search-msg{display:none;color:var(--bad);font-size:13px;margin:-10px 0 14px}
 .scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
 .tbadges{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 6px}
 .tbadge{background:#f8fafc;border:1px solid var(--line);border-radius:8px;padding:6px 12px;text-align:center;min-width:84px}
@@ -998,9 +1005,15 @@ function countryPage(cc, lang) {
 
 function indexPage(lang) {
   const p = (rel) => absPath(lang, rel);
-  // 搜索框：symbol 集合（校验）+ datalist（补全）
-  const symSet = {};
-  COIN_LIST.forEach((c) => { symSet[c.symbol] = 1; });
+  // 搜索框：同时支持代号、英文名和常见中文别名。
+  const normalizeSearch = (s) => String(s || '').toLowerCase().replace(/[\s_\-]+/g, '');
+  const searchMap = {};
+  COIN_LIST.forEach((c) => {
+    searchMap[normalizeSearch(c.symbol)] = c.symbol;
+    searchMap[normalizeSearch(c.name)] = c.symbol;
+  });
+  const zhAliases = { '比特币': 'BTC', '以太坊': 'ETH', '币安币': 'BNB', '瑞波币': 'XRP', '索拉纳': 'SOL', '波场': 'TRX', '狗狗币': 'DOGE', '柴犬币': 'SHIB', '莱特币': 'LTC' };
+  Object.keys(zhAliases).forEach((name) => { if (searchMap[normalizeSearch(zhAliases[name])]) searchMap[normalizeSearch(name)] = zhAliases[name]; });
   const coinOptions = COIN_LIST.map((c) => `<option value="${esc(c.symbol)}">${esc(c.symbol)} — ${esc(c.name)}</option>`).join('');
   const searchPh = lang === 'zh' ? '搜索币种，如 BTC、ETH、SOL' : 'Search a coin, e.g. BTC, ETH, SOL';
   const searchBtn = lang === 'zh' ? '搜索' : 'Search';
@@ -1008,14 +1021,24 @@ function indexPage(lang) {
   const body = `
   <h1>${esc(T(lang, 'idxH1'))}</h1>
   <p class="intro">${esc(T(lang, 'idxIntro'))}</p>
+  <div class="beginner-path">
+    <b>${lang === 'zh' ? '第一次使用 Crypto？按这个顺序开始' : 'New to crypto? Start in this order'}</b>
+    <ol>
+      <li><a href="${p(gloPath(lang))}">${lang === 'zh' ? '先看懂常用术语和风险' : 'Learn the basic terms and risks'}</a></li>
+      <li><a href="${p(cmpPath(lang))}">${lang === 'zh' ? '再比较交易所的费用、可用性与安全信息' : 'Compare exchange costs, availability and security information'}</a></li>
+      <li><a href="${p(tcPath(lang))}">${lang === 'zh' ? '估算入金、交易和提币基础成本' : 'Estimate deposit, trading and withdrawal costs'}</a></li>
+      <li>${lang === 'zh' ? '最后到交易所官网核对所在地区、费率和提币网络' : 'Finally verify your region, fees and withdrawal network on the exchange itself'}</li>
+    </ol>
+  </div>
   <div style="display:flex;gap:8px;margin:0 0 18px">
     <input id="idxCoinInput" type="text" list="idxCoinList" placeholder="${searchPh}" autocomplete="off" style="flex:1;padding:12px 14px;border:1px solid var(--line);border-radius:10px;font-size:15px;background:#fff;text-transform:uppercase;font-family:ui-monospace,Menlo,Consolas,monospace">
     <button id="idxSearchBtn" type="button" style="background:var(--brand);color:#fff;border:none;padding:0 22px;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;white-space:nowrap">${searchBtn}</button>
   </div>
+  <p id="idxSearchMsg" class="search-msg" role="status" aria-live="polite">${searchNf}</p>
   <datalist id="idxCoinList">${coinOptions}</datalist>
   <div class="grid">
     <div class="card"><a class="card-title" href="${p(tcPath(lang))}"><span class="ic">${ICON.receipt}</span><b>${esc(T(lang, 'idxTcT'))}</b></a><br>${esc(T(lang, 'idxTcB'))}<br><a href="${p(tcPath(lang))}">${esc(T(lang, 'idxTcC'))}</a></div>
-    <div class="card"><a class="card-title" href="${p(futPath(lang))}"><span class="ic">${ICON.trend}</span><b>${esc(T(lang, 'idxFutT'))}</b></a><br>${esc(T(lang, 'idxFutB'))}<br><a href="${p(futPath(lang))}">${esc(T(lang, 'idxFutC'))}</a></div>
+    <div class="card"><a class="card-title" href="${p(futPath(lang))}"><span class="ic">${ICON.trend}</span><b>${esc(T(lang, 'idxFutT'))}<span class="risk-tag">${lang === 'zh' ? '高风险' : 'High risk'}</span></b></a><br>${esc(T(lang, 'idxFutB'))}<br><a href="${p(futPath(lang))}">${esc(T(lang, 'idxFutC'))}</a></div>
     <div class="card"><a class="card-title" href="${p(cmpPath(lang))}"><span class="ic">${ICON.scale}</span><b>${esc(T(lang, 'idxCmpT'))}</b></a><br>${esc(T(lang, 'idxCmpB'))}<br><a href="${p(cmpPath(lang))}">${esc(T(lang, 'idxCmpC'))}</a></div>
     <div class="card"><a class="card-title" href="${p(secPath(lang))}"><span class="ic">${ICON.shield}</span><b>${esc(T(lang, 'idxSecT'))}</b></a><br>${esc(T(lang, 'idxSecB'))}<br><a href="${p(secPath(lang))}">${esc(T(lang, 'idxSecC'))}</a></div>
     <div class="card"><a class="card-title" href="${p(pfPath(lang))}"><span class="ic">${ICON.wallet}</span><b>${esc(T(lang, 'idxPfT'))}</b></a><br>${esc(T(lang, 'idxPfB'))}<br><a href="${p(pfPath(lang))}">${esc(T(lang, 'idxPfC'))}</a></div>
@@ -1023,16 +1046,21 @@ function indexPage(lang) {
   </div>
   <script>
   (function(){
-    var SYMS = ${JSON.stringify(symSet)};
+    var SEARCH = ${JSON.stringify(searchMap)};
     var PREFIX = ${JSON.stringify(p('where-to-buy/'))};
     var NF = ${JSON.stringify(searchNf)};
+    function norm(v){ return String(v||'').trim().toLowerCase().replace(/[\s_\-]+/g,''); }
     function go(){
-      var v = (document.getElementById('idxCoinInput').value||'').trim().toUpperCase();
-      if(!v) return;
-      if(SYMS[v]) { location.href = PREFIX + v.toLowerCase() + '.html'; }
-      else { alert(NF); }
+      var input = document.getElementById('idxCoinInput');
+      var msg = document.getElementById('idxSearchMsg');
+      var key = norm(input.value);
+      var symbol = SEARCH[key];
+      if(!key) { msg.textContent = NF; msg.style.display = 'block'; input.focus(); return; }
+      if(symbol) { location.href = PREFIX + symbol.toLowerCase() + '.html'; }
+      else { msg.textContent = NF; msg.style.display = 'block'; input.setAttribute('aria-invalid','true'); }
     }
     document.getElementById('idxSearchBtn').addEventListener('click', go);
+    document.getElementById('idxCoinInput').addEventListener('input', function(){ this.removeAttribute('aria-invalid'); document.getElementById('idxSearchMsg').style.display='none'; });
     document.getElementById('idxCoinInput').addEventListener('keydown', function(e){ if(e.key==='Enter') go(); });
   })();
   </script>`;

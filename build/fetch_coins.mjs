@@ -130,7 +130,7 @@ const HOT_COINS = [
 
 // 币种分类映射：CoinGecko 的 categories 是细粒度英文数组，映射成中性大类 key。
 // 优先级从最具体到最泛；第一个命中的即为主分类，都不命中归 'other'。
-// �️ L1/L2 必须在 DeFi 之前：CoinGecko 给几乎所有 L1 公链都打了
+// L1/L2 必须在 DeFi 之前：CoinGecko 给几乎所有 L1 公链都打了
 //    "Decentralized Finance (DeFi)" 子标签（因为 L1 是 DeFi 基础设施），
 //    若 defi 规则在前，会把 BTC/ETH/SOL 全部误归到 defi。
 const CATEGORY_PRIORITY = [

@@ -17,7 +17,7 @@ window.COUNTRY_AVAILABILITY = {
   "DE": { "restricted": false, "exchanges": { "kucoin": false, "binance": true, "bybit": true, "okx": true, "bitget": true, "kraken": true, "coinbase": true }, "note": "KuCoin paused new-client onboarding in EU (Austria FMA, Feb 2026)" },
   "GB": { "restricted": false, "exchanges": { "kucoin": true, "binance": true, "bybit": true, "okx": true, "bitget": true, "kraken": true, "coinbase": true } },
   "FR": { "restricted": false, "exchanges": { "kucoin": false, "binance": true, "bybit": true, "okx": true, "bitget": true, "kraken": true, "coinbase": true }, "note": "KuCoin paused new-client onboarding in EU (Austria FMA, Feb 2026)" },
-  "JP": { "restricted": false, "exchanges": { "kucoin": true, "binance": false, "bybit": true, "okx": true, "bitget": false, "kraken": true, "coinbase": true } },
+  "JP": { "restricted": false, "exchanges": { "kucoin": true, "binance": true, "bybit": true, "okx": true, "bitget": false, "kraken": true, "coinbase": true }, "note": "Binance Japan operates through a local entity; product availability differs from the global platform" },
   "BR": { "restricted": false, "exchanges": { "kucoin": true, "binance": true, "bybit": true, "okx": true, "bitget": true, "kraken": false, "coinbase": true } },
   "IN": { "restricted": false, "exchanges": { "kucoin": true, "binance": false, "bybit": true, "okx": true, "bitget": true, "kraken": false, "coinbase": true } },
   "AU": { "restricted": false, "exchanges": { "kucoin": true, "binance": true, "bybit": true, "okx": true, "bitget": true, "kraken": true, "coinbase": true } },
@@ -46,4 +46,4 @@ window.COUNTRY_NAMES = {
   "ES":"Spain","IT":"Italy"
 };
 
-window.LAST_UPDATED_COUNTRY = "2026-08-12";
+window.LAST_UPDATED_COUNTRY = "2026-08-19";

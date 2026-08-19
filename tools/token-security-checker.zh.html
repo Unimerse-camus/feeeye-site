@@ -10,7 +10,8 @@
 <link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
-<meta name="description" content="粘贴以太坊或 Solana 代币合约地址，立即检测貔貅盘、Rug 风险、买卖税、增发与冻结权限。数据源 GoPlus + RugCheck。免费、无需注册。">
+<link rel="stylesheet" href="/assets/responsive.css">
+<meta name="description" content="粘贴以太坊或 Solana 代币合约地址，筛查貔貅盘、买卖税、增发与冻结权限等已知技术风险标记。未报警不代表代币安全。">
 <style>
   :root{--bg:#f7f8fa;--card:#fff;--ink:#1c2430;--sub:#5b6776;--line:#e4e8ee;--brand:#2563eb;--brand2:#0ea5a4;--ok:#16a34a;--bad:#dc2626;--warn:#d97706}
   html{scrollbar-gutter:stable}
@@ -79,7 +80,7 @@
   <script>(function(){var btns=document.querySelectorAll(".nav-btn");var t=null;function closeAll(){var op=document.querySelectorAll(".nav-item.open");for(var j=0;j<op.length;j++)op[j].classList.remove("open");}function sched(){clearTimeout(t);t=setTimeout(closeAll,180);}function cancel(){clearTimeout(t);}for(var i=0;i<btns.length;i++){(function(btn){var item=btn.parentElement;btn.addEventListener("click",function(e){e.stopPropagation();var was=item.classList.contains("open");closeAll();cancel();if(!was)item.classList.add("open");});item.addEventListener("mouseenter",function(){cancel();closeAll();item.classList.add("open");});item.addEventListener("mouseleave",sched);})(btns[i]);}document.addEventListener("click",function(){closeAll();cancel();});})();</script>
 
   <h1>代币安全检查</h1>
-  <p class="intro">粘贴<strong>以太坊</strong>或 <strong>Solana</strong> 代币合约地址，立即检测<strong>貔貅盘、Rug 风险、买卖税、增发与冻结权限</strong>——买陌生币之前先查一查。</p>
+  <p class="intro">粘贴<strong>以太坊</strong>或 <strong>Solana</strong> 代币合约地址，筛查<strong>貔貅盘、买卖税、增发与冻结权限</strong>等已知技术风险标记。未报警不代表代币安全，也无法排除社交工程、流动性撤出或尚未收录的风险。</p>
 
   <div class="panel">
     <label>链</label>
@@ -194,7 +195,7 @@
     else if (mintable||(canTakeBack&&hasOwner)) { level='med'; levelLabel='中等风险——Owner 仍保留权限（可增发 / 可改合约）。'; badge='🟡'; }
     else { level='low'; levelLabel='低风险——未发现明显骗局特征。'; badge='🟢'; }
     var checks = [
-      { k:'貔貅盘', v: honeypot?'⚠️ 是（无法卖出）':'否', cls: honeypot?'bad':'ok', sub: honeypot?'该代币可能阻止卖出':'转账功能正常' },
+      { k:'貔貅盘', v: honeypot?'⚠️ 已标记（可能无法卖出）':'未发现该项标记', cls: honeypot?'bad':'ok', sub: honeypot?'该代币可能阻止卖出':'仅代表数据源未返回貔貅盘标记' },
       { k:'买入税', v: buyTax+'%', cls: buyTax>10?'bad':(buyTax>0?'warn':'ok'), sub: buyTax>10?'买入成本高':(buyTax>0?'买入有少量税':'无买入税') },
       { k:'卖出税', v: sellTax+'%', cls: sellTax>10?'bad':(sellTax>0?'warn':'ok'), sub: sellTax>10?'卖出成本高':(sellTax>0?'卖出有少量税':'无卖出税') },
       { k:'Owner 权限', v: renounced?'已放弃 ✓':'仍有效', cls: renounced?'ok':'warn', sub: renounced?'Owner 无法修改合约':'Owner 仍可修改' },

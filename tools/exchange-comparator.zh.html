@@ -10,6 +10,7 @@
 <link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
+<link rel="stylesheet" href="/assets/responsive.css">
 <meta name="description" content="从 14 个业务维度对比主流加密货币交易所：法币入金、现货/杠杆/合约/期权交易、杠杆倍数、币种、流动性、跟单/机器人、KYC、合规牌照、储备证明、冷存储等（费率对比见专门的费率工具）。免费、无需注册。">
 <style>
   :root{--bg:#f7f8fa;--card:#fff;--ink:#1c2430;--sub:#5b6776;--line:#e4e8ee;--brand:#2563eb;--brand2:#0ea5a4;--ok:#16a34a;--bad:#dc2626;--warn:#d97706}
@@ -80,16 +81,8 @@
 
   <div class="note">
     <p style="margin:0 0 6px"><b>① 数据快照</b>：最近更新 <span id="upd"></span>——以各交易所官方页面为准。</p>
-    <p style="margin:0 0 4px"><b>② 各所合规受限地区</b>（代表性示例；<b>各所受限地区各不相同</b>——部分服务美国或香港，请以各交易所 Terms of Use 为准）：</p>
-    <ul style="margin:0 0 0 20px;padding:0">
-      <li><b>KuCoin</b>：欧盟新客户暂停（含德国、法国、意大利、西班牙、波兰等）</li>
-      <li><b>Binance</b>：日本、加拿大（安大略）、印度、土耳其、阿联酋、韩国、泰国等</li>
-      <li><b>Bybit / OKX</b>：未明确公开列示特定国家限制</li>
-      <li><b>Bitget</b>：日本、韩国等</li>
-      <li><b>Kraken</b>：巴西、印度、印度尼西亚、越南、泰国等</li>
-      <li><b>Coinbase</b>：印度尼西亚、越南、泰国等</li>
-    </ul>
-    <p style="margin:6px 0 0"><b>③</b> 注册前请查各所 Terms of Use 确认你所在国家/地区可用。</p>
+    <p style="margin:0 0 4px"><b>② 地区与产品限制</b>：交易所会按居住地、运营主体和具体产品设置不同限制，且可能随时变更。本页不使用简化的国家黑名单代替官方资格判定。</p>
+    <p style="margin:6px 0 0"><b>③</b> 注册前请在交易所当前 Terms of Use 和注册页中，确认你的居住地与要使用的产品均可用。</p>
     <p style="margin:6px 0 0"><b>④ 术语备注</b>：表中「储备证明」「冷存储」「24h 流动性」等为业内常用概念，hover 单元格 <sup>?</sup> 可查看简短解释；具体定义以各交易所官方文档为准。</p>
   </div>
 
@@ -116,24 +109,7 @@
     "P2P": "C2C"
   };
   function zhMethod(en){ return METHOD_ZH[en] || en; }
-
-  var KYC_ZH = {
-    "Mandatory": "强制",
-    "Tiered (≤$10K no-KYC)": "分级（≤$1万免KYC）",
-    "Strict (US-licensed)": "严格（美国持牌）",
-    "Strict (US-listed)": "严格（美国上市）"
-  };
-  var METHOD_ZH = {
-    "Bank transfer": "银行转账",
-    "Credit/Debit card": "信用卡/借记卡",
-    "Apple Pay": "Apple Pay",
-    "Google Pay": "Google Pay",
-    "PayPal": "PayPal",
-    "Bpay": "Bpay",
-    "Wire transfer": "电汇",
-    "P2P": "C2C"
-  };
-  function zhMethod(en){ return METHOD_ZH[en] || en; }
+  function zhValue(v){ return v && typeof v === "object" ? (v.zh || v.en || "—") : (v || "—"); }
 
   var CHIP_ORDER = ['binance','okx','kucoin','bybit','bitget','kraken','coinbase'];
   var state = { selected: ['binance','okx','kucoin'] };
@@ -175,16 +151,16 @@
       { dim:"现货交易", val:function(ex){ return ex.spot ? '<span class="good">✓</span> 现货' : '<span class="bad">✗</span> 无'; } },
       { dim:"杠杆交易", val:function(ex){ var m=window.EXCHANGE_COMPARE[ex.slug].has_margin; return m===true ? '<span class="good">✓</span> 杠杆' : (m===false ? '<span class="bad">✗</span> 无' : '<span title="数据可能未加载，硬刷新可获取">—</span>'); } },
       { dim:"合约交易", val:function(ex){ return ex.futures ? '<span class="good">✓</span> 合约' : '<span class="bad">✗</span> 仅现货'; } },
-      { dim:"期权交易", val:function(ex){ var o=window.EXCHANGE_COMPARE[ex.slug].has_options; return o===true ? '<span class="good">✓</span> 有' : (o===false ? '<span class="bad">�</span> 无' : '<span title="数据可能未加载，硬刷新可获取">—</span>'); } },
+      { dim:"期权交易", val:function(ex){ var o=window.EXCHANGE_COMPARE[ex.slug].has_options; return o===true ? '<span class="good">✓</span> 有' : (o===false ? '<span class="bad">✗</span> 无' : '<span title="数据可能未加载，硬刷新可获取">—</span>'); } },
       { dim:"最高杠杆", val:function(ex){ var m=window.EXCHANGE_COMPARE[ex.slug].max_leverage; return typeof m==="number" ? m+"x" : (m || '<span title="数据可能未加载，硬刷新（Ctrl+Shift+R / Cmd+Shift+R）可获取">N/A</span>'); } },
       { dim:"币种覆盖", val:function(ex){ return (window.EXCHANGE_COMPARE[ex.slug].coins).toLocaleString()+" 个币"+'<span class="tip" data-tip="CoinGecko 追踪的现货币种数（有活跃市场的币种），各所口径统一可横向对比">ⓘ</span>'; } },
       { dim:"24h 流动性", val:function(ex){ return window.EXCHANGE_COMPARE[ex.slug].volume+'<span class="tip" data-tip="现货+合约合计，按 BTC 计价">ⓘ</span>'; } },
       { dim:"跟单 / 机器人", val:function(ex){ return (ex.has_copy_trading ? '<span class="good">✓</span> 跟单' : "—") + " · " + (ex.has_trading_bot ? '<span class="good">✓</span> 机器人' : "—"); } },
       { dim:"API", val:function(ex){ return ex.has_api ? '<span class="good">✓</span> REST + WS' : "—"; } },
-      { dim:"储备证明", val:function(ex){ return window.EXCHANGE_COMPARE[ex.slug].reserve+'<span class="tip" data-tip="交易所披露的链上资产/用户负债比例。>100% 表示储备充裕，<100% 存在风险。">ⓘ</span>'; } },
-      { dim:"冷存储", val:function(ex){ return window.EXCHANGE_COMPARE[ex.slug].cold+'<span class="tip" data-tip="离线钱包存储的用户资产比例。越高越安全（联网热钱包风险更高）。">ⓘ</span>'; } },
-      { dim:"KYC", val:function(ex){ return KYC_ZH[window.EXCHANGE_COMPARE[ex.slug].kyc] || window.EXCHANGE_COMPARE[ex.slug].kyc; } },
-      { dim:"合规牌照", val:function(ex){ return window.EXCHANGE_COMPARE[ex.slug].licenses; } }
+      { dim:"储备证明", val:function(ex){ return zhValue(window.EXCHANGE_COMPARE[ex.slug].reserve)+'<span class="tip" data-tip="交易所披露的链上资产/用户负债比例。披露值不等于独立审计，也不保证偿付能力。">ⓘ</span>'; } },
+      { dim:"冷存储", val:function(ex){ return zhValue(window.EXCHANGE_COMPARE[ex.slug].cold)+'<span class="tip" data-tip="交易所公开披露或声明的离线托管比例，可能存在口径差异。">ⓘ</span>'; } },
+      { dim:"KYC", val:function(ex){ return zhValue(window.EXCHANGE_COMPARE[ex.slug].kyc); } },
+      { dim:"合规牌照", val:function(ex){ return zhValue(window.EXCHANGE_COMPARE[ex.slug].licenses); } }
     ];
 
     var html = '<div class="scroll"><table><thead><tr><th>维度</th>';
@@ -204,7 +180,7 @@
     html += '</tr></tbody></table></div>';
 
 
-    html += '<div class="note" style="margin-top:4px">费率/杠杆/流动性为快照值（更新于 <span id="upd2"></span>），交易前请以各所实时显示为准。储备证明/冷存储等专业术语见 hover <sup>?</sup>。</div>';
+    html += '<div class="note" style="margin-top:4px">数据为快照值（更新于 <span id="upd2"></span>），交易前请以各所官方实时显示为准。储备和冷存储为交易所披露或公开声明，不等于 FeeEye 对其安全性作出保证。</div>';
     document.getElementById("result").innerHTML = html;
     document.getElementById("upd2").textContent = window.EXCHANGES.kucoin.last_updated;
   }
