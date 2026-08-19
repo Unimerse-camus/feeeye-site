@@ -109,6 +109,16 @@ const EX_BRAND = {
   binance: '#F0B90B', okx: '#0a0a0a', kucoin: '#24AE8F', bybit: '#F7A600',
   bitget: '#1E88E5', kraken: '#5741D9', coinbase: '#0052FF'
 };
+// 交易所详情页头部的首选竞品：显式配置，避免受 EX 数据插入顺序影响。
+const EX_PRIMARY_COMPARE = Object.freeze({
+  binance: 'okx',
+  okx: 'binance',
+  bybit: 'bitget',
+  bitget: 'bybit',
+  kucoin: 'binance',
+  kraken: 'coinbase',
+  coinbase: 'kraken'
+});
 // 导航下拉箭头（chevron-down，hover 旋转 180°）
 const CHEV = `<svg class="chev" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>`;
 // 交易所下拉 logo：品牌色 + 字母（自画简化标识，避免 CDN/版权）
@@ -884,7 +894,10 @@ function exchangePage(slug, lang) {
     const [x, y] = [slug, s].sort();
     return `<a href="${absPath(lang, 'compare/' + x + '-vs-' + y + '.html')}">${ex.name} vs ${EX[s].name}</a>`;
   }).join(' · ');
-  const compareSlug = cmp[0];
+  const configuredCompareSlug = EX_PRIMARY_COMPARE[slug];
+  const compareSlug = configuredCompareSlug && configuredCompareSlug !== slug && EX[configuredCompareSlug]
+    ? configuredCompareSlug
+    : cmp[0];
   const [compareX, compareY] = [slug, compareSlug].sort();
   const compareHref = absPath(lang, `compare/${compareX}-vs-${compareY}.html`);
   const brandMark = ({ okx: 'OK', kucoin: 'K', binance: 'B', bybit: 'B', bitget: 'B', kraken: 'K', coinbase: 'C' })[slug] || ex.name.slice(0, 1).toUpperCase();
