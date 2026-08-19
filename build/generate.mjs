@@ -679,6 +679,46 @@ input[type=number]{font-size:16px}
 .exchange-evidence-item span{min-width:0;overflow-wrap:anywhere}
 @media(max-width:760px){.exchange-hero-main{display:block}.exchange-actions{justify-content:flex-start;margin-top:14px}.exchange-stats,.exchange-fee-summary{grid-template-columns:repeat(2,minmax(0,1fr))}.exchange-evidence-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.exchange-safety-grid{grid-template-columns:1fr}}
 @media(max-width:560px){.exchange-hero,.exchange-section{padding:15px}.exchange-hero h1{font-size:23px}.exchange-identity{gap:10px}.exchange-mark{width:44px;height:44px;border-radius:12px}.exchange-cap-grid,.exchange-two-col,.exchange-checklist{grid-template-columns:1fr}.exchange-final{display:block}.exchange-final .cta{margin-top:10px}.exchange-evidence-grid{grid-template-columns:1fr}}
+.compare-page{display:grid;gap:16px;min-width:0}
+.compare-hero,.compare-section{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px;min-width:0}
+.compare-hero{background:linear-gradient(135deg,#fff 0%,#f8fbff 100%);box-shadow:0 8px 28px rgba(15,23,42,.05)}
+.compare-kicker{font-size:12px;color:var(--brand);font-weight:750;margin-bottom:4px}
+.compare-hero h1{font-size:28px;line-height:1.25;margin:0 0 8px;overflow-wrap:anywhere}
+.compare-lead{color:#475569;margin:0;max-width:760px}
+.compare-guard{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-top:16px}
+.compare-guard div{border:1px solid var(--line);border-radius:10px;background:rgba(255,255,255,.82);padding:10px 12px}
+.compare-guard b{display:block;font-size:12.5px;color:#1e293b}
+.compare-guard span{display:block;font-size:11px;color:#64748b;margin-top:2px}
+.compare-section h2{font-size:19px;line-height:1.3;margin:0}
+.compare-section-head{margin-bottom:12px}
+.compare-section-head p{font-size:12.5px;color:#64748b;margin:3px 0 0}
+.compare-verdicts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.compare-verdict{border:1px solid var(--line);border-radius:12px;padding:14px;background:#fcfdff;min-width:0}
+.compare-verdict .label{font-size:11px;color:#64748b;font-weight:700}
+.compare-verdict h3{font-size:16px;line-height:1.35;margin:5px 0 6px;overflow-wrap:anywhere}
+.compare-verdict p{font-size:12px;color:#64748b;margin:0;line-height:1.55}
+.compare-verdict .winner{display:inline-flex;background:#ecfdf5;color:#047857;border-radius:999px;padding:2px 8px;font-size:10.5px;font-weight:750;margin-top:8px}
+.compare-verdict .tie{background:#f1f5f9;color:#475569}
+.compare-assumption{background:#fff7ed;border:1px solid #fed7aa;border-radius:10px;color:#9a3412;font-size:12px;padding:10px 12px;margin-top:12px}
+.compare-section .scroll{max-width:100%;min-width:0}.compare-table td:first-child,.compare-table th:first-child{text-align:left}
+.compare-table .low{color:#047857;font-weight:750;background:#f0fdf4}
+.compare-methods{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.compare-method{border:1px solid var(--line);border-radius:12px;padding:13px;background:#fcfdff}
+.compare-method h3{font-size:15px;margin:0 0 8px}
+.compare-method ul{margin:0;padding-left:18px;color:#475569;font-size:12.5px}
+.compare-method li{overflow-wrap:anywhere}.compare-method li+li{margin-top:4px}
+.compare-facts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.compare-fact{border:1px solid var(--line);border-radius:12px;padding:13px;background:#fcfdff}
+.compare-fact h3{font-size:15px;margin:0 0 8px}
+.compare-fact dl{display:grid;grid-template-columns:110px 1fr;gap:6px 10px;font-size:12.5px}
+.compare-fact dt{color:#64748b}.compare-fact dd{margin:0;color:#1e293b;overflow-wrap:anywhere}
+.compare-advanced{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fffaf5}
+.compare-advanced summary{cursor:pointer;padding:12px 14px;font-size:13px;font-weight:750;color:#9a3412}
+.compare-advanced .scroll{border-top:1px solid #fed7aa;background:#fff}
+.compare-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+.compare-source-note{font-size:11.5px;color:#64748b;margin:10px 0 0}
+@media(max-width:720px){.compare-guard,.compare-verdicts{grid-template-columns:1fr}.compare-methods,.compare-facts{grid-template-columns:1fr}}
+@media(max-width:560px){.wrap{width:100%;max-width:100%;overflow-x:hidden}.topbar{gap:7px;flex-wrap:wrap}.topbar .logo{font-size:18px;gap:5px}.topbar .logo img{width:25px;height:25px}.nav{order:2;flex:1 0 100%;width:100%;min-width:0;gap:16px;justify-content:flex-start;overflow-x:auto;padding:2px 0 7px;margin-top:3px}.nav a,.nav-btn{font-size:12.5px}.topbar>span{display:none}.compare-page{width:calc(100vw - 36px);max-width:calc(100vw - 36px);overflow:hidden}.compare-hero,.compare-section{width:100%;max-width:100%;padding:15px;overflow:hidden}.compare-hero h1{font-size:23px}.compare-fact dl{grid-template-columns:92px 1fr}.compare-assumption{overflow-wrap:anywhere}}
 .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
 .card a{color:var(--brand);text-decoration:none;font-weight:600}
 .card-title{display:inline-block;color:var(--ink);font-weight:700;margin-bottom:6px;text-decoration:none}
@@ -1113,23 +1153,109 @@ function exchangePage(slug, lang) {
 
 function comparePage(slugA, slugB, lang) {
   const a = EX[slugA], b = EX[slugB];
-  const rows = [
-    [T(lang, 'fSpotTaker'), pct(a.spot.taker), pct(b.spot.taker)],
-    [T(lang, 'fSpotMaker'), pct(a.spot.maker), pct(b.spot.maker)],
-    [T(lang, 'fFutTaker'), pct(a.futures.taker), pct(b.futures.taker)],
-    [T(lang, 'fWd20'), usd(getFee(slugA, 'TRC20')), usd(getFee(slugB, 'TRC20'))],
-    [T(lang, 'fWdErc'), usd(getFee(slugA, 'ERC20')), usd(getFee(slugB, 'ERC20'))],
-    [T(lang, 'fBot'), a.has_trading_bot ? '✓' : '✗', b.has_trading_bot ? '✓' : '✗'],
-    [T(lang, 'fApi'), a.has_api ? '✓' : '✗', b.has_api ? '✓' : '✗']
-  ].map((r) => `<tr><td>${esc(r[0])}</td><td>${r[1]}</td><td>${r[2]}</td></tr>`).join('');
-  const body = `
-  <h1>${esc(T(lang, 'cpH1', { a: a.name, b: b.name }))}</h1>
-  <p class="intro">${esc(T(lang, 'cpIntro', { u: UPD }))}</p>
-  <div class="scroll"><table><thead><tr><th>${esc(T(lang, 'cpTh'))}</th><th>${a.name}</th><th>${b.name}</th></tr></thead><tbody>${rows}</tbody></table></div>
-  <p style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap">${ctaHtml(slugA, esc(T(lang, 'ctaOpenOn', { x: a.name })), lang)}${ctaHtml(slugB, esc(T(lang, 'ctaOpenOn', { x: b.name })), lang)}</p>`;
+  const zh = lang === 'zh';
+  const L = (en, zhText) => zh ? zhText : en;
+  const sample = 1000;
+  const money = (n) => `$${Number(n).toFixed(2)}`;
+  const winner = (va, vb) => va === vb ? null : (va < vb ? a.name : b.name);
+  const resultTag = (name) => `<span class="winner${name ? '' : ' tie'}">${esc(name || L('Tie at the published base rate', '公开基础费率相同'))}</span>`;
+  const methodLabel = (d) => {
+    const name = zh ? trZh(d.m, DEP_ZH_MAP) : d.m;
+    const lo = `${(d.fee * 100).toFixed(d.fee ? 1 : 0)}%`;
+    const hi = d.fee_max != null && d.fee_max !== d.fee ? `–${(d.fee_max * 100).toFixed(1)}%` : '';
+    return `${esc(name)}：${lo}${hi} <small>(${esc(d.note || L('varies by region', '因地区而异'))})</small>`;
+  };
+
+  const takerA = sample * a.spot.taker, takerB = sample * b.spot.taker;
+  const makerA = sample * a.spot.maker, makerB = sample * b.spot.maker;
+  const commonNetworks = Object.keys(a.usdt_withdrawal || {}).filter((n) => b.usdt_withdrawal && b.usdt_withdrawal[n] != null);
+  const lowCostNetwork = commonNetworks.slice().sort((x, y) => Math.max(getFee(slugA, x), getFee(slugB, x)) - Math.max(getFee(slugA, y), getFee(slugB, y)))[0] || null;
+  const lowA = lowCostNetwork ? getFee(slugA, lowCostNetwork) : null;
+  const lowB = lowCostNetwork ? getFee(slugB, lowCostNetwork) : null;
+  const takerWinner = winner(takerA, takerB);
+  const makerWinner = winner(makerA, makerB);
+  const withdrawalWinner = lowCostNetwork ? winner(lowA, lowB) : null;
+  const verdictLead = L(
+    `There is no universal winner. For a first small purchase, verify regional access and funding first; the cards below show only conclusions supported by the current snapshot.`,
+    `没有脱离地区和支付方式的统一赢家。第一次小额买入应先确认地区可用性与入金通道；下方只给出当前数据能够支持的结论。`
+  );
+
+  const networkRows = commonNetworks.map((network) => {
+    const fa = getFee(slugA, network), fb = getFee(slugB, network);
+    return `<tr><td><b>${esc(network)}</b></td><td class="${fa < fb ? 'low' : ''}">${usd(fa)}</td><td class="${fb < fa ? 'low' : ''}">${usd(fb)}</td><td>${fa === fb ? esc(L('Same', '相同')) : esc(L(`${fa < fb ? a.name : b.name} lower`, `${fa < fb ? a.name : b.name} 更低`))}</td></tr>`;
+  }).join('');
+
+  const advancedRows = [
+    [L('Futures taker (base)', '合约吃单（基础档）'), pct(a.futures.taker), pct(b.futures.taker)],
+    [L('Maximum displayed leverage', '页面记录最高杠杆'), `${EXCHANGE_COMPARE[slugA]?.max_leverage || '—'}×`, `${EXCHANGE_COMPARE[slugB]?.max_leverage || '—'}×`],
+    [L('Margin trading', '杠杆交易'), EXCHANGE_COMPARE[slugA]?.has_margin ? '✓' : '✗', EXCHANGE_COMPARE[slugB]?.has_margin ? '✓' : '✗'],
+    [L('Options', '期权'), EXCHANGE_COMPARE[slugA]?.has_options ? '✓' : '✗', EXCHANGE_COMPARE[slugB]?.has_options ? '✓' : '✗'],
+    [L('Trading bot', '交易机器人'), a.has_trading_bot ? '✓' : '✗', b.has_trading_bot ? '✓' : '✗'],
+    [L('Copy trading', '跟单交易'), a.has_copy_trading ? '✓' : '✗', b.has_copy_trading ? '✓' : '✗'],
+    [L('API', 'API'), a.has_api ? '✓' : '✗', b.has_api ? '✓' : '✗']
+  ].map((r) => `<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join('');
+
+  const facts = (slug, ex) => {
+    const cd = EXCHANGE_COMPARE[slug] || {};
+    return `<article class="compare-fact"><h3>${esc(ex.name)}</h3><dl>
+      <dt>${esc(L('KYC', '身份验证'))}</dt><dd>${esc(cd.kyc?.[lang] || '—')}</dd>
+      <dt>${esc(L('Licences', '牌照记录'))}</dt><dd>${esc(cd.licenses?.[lang] || '—')}</dd>
+      <dt>${esc(L('Reserve disclosure', '储备披露'))}</dt><dd>${esc(cd.reserve?.[lang] || '—')}</dd>
+      <dt>${esc(L('Incident record', '重大事件记录'))}</dt><dd>${esc(cd.incident?.[lang] || '—')}</dd>
+      <dt>${esc(L('CoinGecko trust', 'CoinGecko 信任分'))}</dt><dd>${cd.trust != null ? `${esc(String(cd.trust))}/10` : '—'}</dd>
+      <dt>${esc(L('Tracked spot assets', '追踪现货币种'))}</dt><dd>${cd.coins != null ? esc(String(cd.coins)) : '—'}</dd>
+    </dl></article>`;
+  };
+
+  const body = `<main class="compare-page">
+  <section class="compare-hero">
+    <div class="compare-kicker">${esc(L(`Decision guide · snapshot ${UPD}`, `新手决策指南 · 数据快照 ${UPD}`))}</div>
+    <h1>${esc(`${a.name} vs ${b.name}${zh ? '：第一次使用怎么选' : ': what matters for a first-time user'}`)}</h1>
+    <p class="compare-lead">${esc(verdictLead)}</p>
+    <div class="compare-guard">
+      <div><b>${esc(L('1. Can you use it?', '1. 先确认能否使用'))}</b><span>${esc(L('Region, KYC and fiat methods can override every fee result.', '地区、KYC 和法币通道可能推翻全部费率结论。'))}</span></div>
+      <div><b>${esc(L('2. What is the full path?', '2. 再明确完整路径'))}</b><span>${esc(L('Funding + spread + trade + withdrawal, not trading fee alone.', '入金 + 价差 + 交易 + 提币，不只看交易费。'))}</span></div>
+      <div><b>${esc(L('3. Can you withdraw safely?', '3. 最后确认安全提币'))}</b><span>${esc(L('The receiving wallet must support the exact same network.', '接收钱包必须支持完全相同的网络。'))}</span></div>
+    </div>
+  </section>
+
+  <section class="compare-section">
+    <div class="compare-section-head"><h2>${esc(L('What the current data can conclude', '当前数据可以得出的结论'))}</h2><p>${esc(L('Ordinary-user base tier; $1,000 trading examples exclude spread and funding costs.', '普通用户基础档；1,000 美元交易示例不包含价差和入金成本。'))}</p></div>
+    <div class="compare-verdicts">
+      <article class="compare-verdict"><div class="label">${esc(L('$1,000 market order', '1,000 美元市价单'))}</div><h3>${esc(`${a.name} ${money(takerA)} · ${b.name} ${money(takerB)}`)}</h3><p>${esc(L(`Published taker rates: ${pct(a.spot.taker)} vs ${pct(b.spot.taker)}.`, `公开吃单费率：${pct(a.spot.taker)} vs ${pct(b.spot.taker)}。`))}</p>${resultTag(takerWinner)}</article>
+      <article class="compare-verdict"><div class="label">${esc(L('$1,000 limit order that adds liquidity', '1,000 美元限价挂单'))}</div><h3>${esc(`${a.name} ${money(makerA)} · ${b.name} ${money(makerB)}`)}</h3><p>${esc(L(`Published maker rates: ${pct(a.spot.maker)} vs ${pct(b.spot.maker)}. An unfilled order has no trade fee.`, `公开挂单费率：${pct(a.spot.maker)} vs ${pct(b.spot.maker)}；未成交不产生交易费。`))}</p>${resultTag(makerWinner)}</article>
+      <article class="compare-verdict"><div class="label">${esc(L('Low-cost common withdrawal path', '低成本共同提币网络'))}</div><h3>${lowCostNetwork ? esc(`${lowCostNetwork} · ${a.name} ${usd(lowA)} · ${b.name} ${usd(lowB)}`) : esc(L('No common USDT network in this snapshot', '当前快照无共同 USDT 网络'))}</h3><p>${esc(L('A route example, not a universal recommendation. Confirm wallet support and the live fee.', '这是路径示例，不是通用推荐；必须确认钱包支持并核对实时费用。'))}</p>${resultTag(lowCostNetwork ? withdrawalWinner : null)}</article>
+    </div>
+    <div class="compare-assumption">${esc(L('Why there is no “total-cost winner” here: card/bank availability is regional and instant-buy spread is not in the current dataset. Claiming a total winner would be false precision.', '为什么这里不宣布“总成本赢家”：银行卡/转账通道因地区而异，当前数据也没有即时买币价差；直接给总成本胜负会造成虚假精确。'))}</div>
+  </section>
+
+  <section class="compare-section">
+    <div class="compare-section-head"><h2>${esc(L('Funding methods: check availability before fees', '入金方式：先确认可用，再比较费用'))}</h2><p>${esc(L('Published indicative ranges; providers and regions can change the final quote.', '公开参考区间；支付服务商和地区会改变最终报价。'))}</p></div>
+    <div class="compare-methods">
+      <article class="compare-method"><h3>${esc(a.name)}</h3><ul>${(a.deposit_methods || []).map((d) => `<li>${methodLabel(d)}</li>`).join('')}</ul></article>
+      <article class="compare-method"><h3>${esc(b.name)}</h3><ul>${(b.deposit_methods || []).map((d) => `<li>${methodLabel(d)}</li>`).join('')}</ul></article>
+    </div>
+  </section>
+
+  <section class="compare-section">
+    <div class="compare-section-head"><h2>${esc(L('USDT withdrawal on networks both support', '双方共同支持网络的 USDT 提币'))}</h2><p>${esc(L('Fees are fixed or dynamic exchange quotes, not blockchain guarantees. Test with a small amount first.', '费用是交易所固定或动态报价，不是链上保证；首次操作建议先小额测试。'))}</p></div>
+    <div class="scroll"><table class="compare-table"><thead><tr><th>${esc(L('Network', '网络'))}</th><th>${esc(a.name)}</th><th>${esc(b.name)}</th><th>${esc(L('Snapshot result', '快照结论'))}</th></tr></thead><tbody>${networkRows || `<tr><td colspan="4">${esc(L('No common network recorded', '未记录共同网络'))}</td></tr>`}</tbody></table></div>
+  </section>
+
+  <section class="compare-section">
+    <div class="compare-section-head"><h2>${esc(L('Trust facts to verify before opening an account', '开户注册前应核对的可信度事实'))}</h2><p>${esc(L('Facts are shown separately so one editorial score cannot hide a licence gap or past incident.', '事实分开展示，避免单一编辑评分掩盖牌照缺口或历史事件。'))}</p></div>
+    <div class="compare-facts">${facts(slugA, a)}${facts(slugB, b)}</div>
+  </section>
+
+  <section class="compare-section">
+    <details class="compare-advanced"><summary>${esc(L('Advanced / high-risk trading capabilities (not needed for a first purchase)', '进阶 / 高风险交易能力（第一次买币不需要）'))}</summary><div class="scroll"><table class="compare-table"><thead><tr><th>${esc(L('Capability', '能力'))}</th><th>${esc(a.name)}</th><th>${esc(b.name)}</th></tr></thead><tbody>${advancedRows}</tbody></table></div></details>
+    <div class="compare-actions">${ctaHtml(slugA, esc(T(lang, 'ctaOpenOn', { x: a.name })), lang)}${ctaHtml(slugB, esc(T(lang, 'ctaOpenOn', { x: b.name })), lang)}</div>
+    <p class="compare-source-note">${esc(L('Research basis: a 395-person investor/potential-investor survey, interviews with 15 Chinese exchange users, public beginner forum discussions and tutorial-video topic analysis. This is qualitative evidence, not FeeEye behavioural analytics.', '研究依据：395 名投资者/潜在投资者调查、15 名中国交易所用户访谈、公开新手论坛讨论与教程视频主题分析。这是定性证据，不是 FeeEye 自有行为数据。'))} <a href="https://uwspace.uwaterloo.ca/items/49452a36-424c-4758-9f99-932eba2454ac" rel="noopener" target="_blank">${esc(L('395-person study', '395 人研究'))}</a> · <a href="https://arxiv.org/abs/2204.08664" rel="noopener" target="_blank">${esc(L('China interview study', '中国用户访谈'))}</a></p>
+  </section>
+  </main>`;
   const jsonLd = {
     '@context': 'https://schema.org', '@type': 'FAQPage',
-    mainEntity: [{ '@type': 'Question', name: T(lang, 'cpQ1', { a: a.name, b: b.name }), answer: { '@type': 'Answer', text: T(lang, 'cpA1', { a: a.name, b: b.name, k: pct(a.spot.taker), o: pct(b.spot.taker), u: UPD }) } }]
+    mainEntity: [{ '@type': 'Question', name: T(lang, 'cpQ1', { a: a.name, b: b.name }), answer: { '@type': 'Answer', text: L(`There is no universal winner. At the base tier, a $1,000 market order costs ${money(takerA)} on ${a.name} and ${money(takerB)} on ${b.name}; funding, spread, region and withdrawal route can change the result. Snapshot ${UPD}.`, `没有统一赢家。基础档 1,000 美元市价单在 ${a.name} 的手续费为 ${money(takerA)}，在 ${b.name} 为 ${money(takerB)}；入金、价差、地区与提币路径会改变结果。数据快照 ${UPD}。`) } }]
   };
   return page({ lang, title: T(lang, 'cpTitle', { a: a.name, b: b.name }), desc: T(lang, 'cpDesc', { a: a.name, b: b.name }), body, jsonLd, path: `${lang === 'zh' ? 'zh/' : ''}compare/${slugA}-vs-${slugB}.html`, affiliate: false });
 }
