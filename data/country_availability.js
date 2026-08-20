@@ -14,12 +14,12 @@ window.COUNTRY_AVAILABILITY = {
   "US": { "restricted": true,  "note": "Restricted Location — 不提供服务", "exchanges": {} },
   "SG": { "restricted": true,  "note": "Restricted Location — 不提供服务", "exchanges": {} },
 
-  "DE": { "restricted": false, "exchanges": { "kucoin": false, "binance": true, "bybit": true, "okx": true, "bitget": true, "kraken": true, "coinbase": true }, "note": "KuCoin paused new-client onboarding in EU (Austria FMA, Feb 2026)" },
+  "DE": { "restricted": false, "exchanges": { "kucoin": false, "binance": true, "bybit": true, "okx": true, "bitget": false, "kraken": true, "coinbase": true }, "note": "KuCoin paused EU onboarding; Bitget paused new German signups (Jan 2026)", "source": "https://www.bitget.com/support/articles/12560603848103" },
   "GB": { "restricted": false, "exchanges": { "kucoin": true, "binance": true, "bybit": true, "okx": true, "bitget": true, "kraken": true, "coinbase": true } },
-  "FR": { "restricted": false, "exchanges": { "kucoin": false, "binance": true, "bybit": true, "okx": true, "bitget": true, "kraken": true, "coinbase": true }, "note": "KuCoin paused new-client onboarding in EU (Austria FMA, Feb 2026)" },
+  "FR": { "restricted": false, "exchanges": { "kucoin": false, "binance": true, "bybit": true, "okx": true, "bitget": false, "kraken": true, "coinbase": true }, "note": "KuCoin paused EU onboarding; Bitget discontinued services for French users (Mar 2026)", "source": "https://www.bitget.com/support/articles/12560603848103" },
   "JP": { "restricted": false, "exchanges": { "kucoin": true, "binance": true, "bybit": true, "okx": true, "bitget": false, "kraken": true, "coinbase": true }, "note": "Binance Japan operates through a local entity; product availability differs from the global platform" },
   "BR": { "restricted": false, "exchanges": { "kucoin": true, "binance": true, "bybit": true, "okx": true, "bitget": true, "kraken": false, "coinbase": true } },
-  "IN": { "restricted": false, "exchanges": { "kucoin": true, "binance": false, "bybit": true, "okx": true, "bitget": true, "kraken": false, "coinbase": true } },
+  "IN": { "restricted": false, "exchanges": { "kucoin": true, "binance": false, "bybit": true, "okx": true, "bitget": false, "kraken": false, "coinbase": true }, "note": "Bitget paused new-user onboarding in India (Feb 2026)", "source": "https://www.bitget.com/support/articles/12560603850171" },
   "AU": { "restricted": false, "exchanges": { "kucoin": true, "binance": true, "bybit": true, "okx": true, "bitget": true, "kraken": true, "coinbase": true } },
   "CA": { "restricted": false, "exchanges": { "kucoin": true, "binance": false, "bybit": true, "okx": true, "bitget": true, "kraken": true, "coinbase": true } },
   "NG": { "restricted": false, "exchanges": { "kucoin": true, "binance": true, "bybit": true, "okx": true, "bitget": true, "kraken": false, "coinbase": true } },
@@ -46,4 +46,4 @@ window.COUNTRY_NAMES = {
   "ES":"Spain","IT":"Italy"
 };
 
-window.LAST_UPDATED_COUNTRY = "2026-08-19";
+window.LAST_UPDATED_COUNTRY = "2026-08-20";

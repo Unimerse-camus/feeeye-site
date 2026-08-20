@@ -16,6 +16,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import vm from 'node:vm';
 import { fileURLToPath } from 'node:url';
+import { validateExchangeData } from './exchange_data_validation.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, '..');
@@ -35,6 +36,11 @@ const EXCHANGE_COMPARE = ctx.window.EXCHANGE_COMPARE || {};
 const CA = ctx.window.COUNTRY_AVAILABILITY;
 const COUNTRY_NAMES = ctx.window.COUNTRY_NAMES || {};
 const getFee = ctx.window.getUsdtWithdrawalFee;
+const getWithdrawalQuote = ctx.window.getUsdtWithdrawalQuote;
+const getWithdrawalNetworks = ctx.window.getUsdtWithdrawalNetworks;
+const exchangeValidation = validateExchangeData(EX, EXCHANGE_COMPARE);
+if (exchangeValidation.errors.length) throw new Error(`Exchange data validation failed:\n${exchangeValidation.errors.join('\n')}`);
+for (const warning of exchangeValidation.warnings) console.warn(`[data warning] ${warning}`);
 let UPD = ''; // 在 coins.json 读取后赋值（line 107）
 const RESTRICTED_LABEL = ['US', 'CN', 'HK', 'SG'].join(', ');
 
@@ -712,6 +718,25 @@ input[type=number]{font-size:16px}
 .compare-guard div{border:1px solid var(--line);border-radius:10px;background:rgba(255,255,255,.82);padding:10px 12px}
 .compare-guard b{display:block;font-size:12.5px;color:#1e293b}
 .compare-guard span{display:block;font-size:11px;color:#64748b;margin-top:2px}
+.compare-decider{background:#fff;border:1px solid #bfdbfe;border-radius:16px;padding:20px;box-shadow:0 8px 24px rgba(37,99,235,.06)}
+.compare-decider-head h2{font-size:20px;margin:0}.compare-decider-head p{font-size:12.5px;color:#64748b;margin:3px 0 0}
+.compare-questions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:14px}
+.compare-question{display:block;border:1px solid var(--line);border-radius:11px;padding:10px 12px;background:#f8fafc;min-width:0}
+.compare-question span{display:block;font-size:11px;color:#64748b;font-weight:700;margin-bottom:4px}
+.compare-question select,.compare-question input{width:100%;height:38px;border:1px solid #cbd5e1;border-radius:8px;background:#fff;color:#172033;padding:0 9px;font:inherit;font-size:13px;outline:none}
+.compare-question select:focus,.compare-question input:focus{border-color:var(--brand);box-shadow:0 0 0 2px rgba(37,99,235,.1)}
+.compare-network-question[hidden]{display:none}
+.compare-live-result{margin-top:12px;border-radius:12px;background:#eff6ff;border:1px solid #bfdbfe;padding:14px}
+.compare-live-result .eyebrow{font-size:10.5px;color:#1d4ed8;font-weight:800;margin-bottom:3px}
+.compare-live-result h3{font-size:18px;line-height:1.35;margin:0;color:#172033}
+.compare-live-result>p{font-size:12px;color:#475569;margin:5px 0 0}
+.compare-live-result>a{display:inline-block;margin-top:7px;font-size:10.5px;color:#1d4ed8;text-decoration:none}.compare-live-result>a[hidden]{display:none}
+.compare-live-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:10px}
+.compare-live-item{background:#fff;border:1px solid #dbeafe;border-radius:9px;padding:9px 10px;min-width:0}
+.compare-live-item span{display:block;font-size:10.5px;color:#64748b}.compare-live-item b{display:block;font-size:12.5px;color:#172033;margin-top:2px;overflow-wrap:anywhere}
+.compare-source-links{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
+.compare-source-links a{font-size:10.5px;color:#1d4ed8;text-decoration:none;border:1px solid #bfdbfe;background:#eff6ff;border-radius:999px;padding:3px 7px}
+.compare-source-links a:hover{text-decoration:underline}
 .compare-section h2{font-size:19px;line-height:1.3;margin:0}
 .compare-section-head{margin-bottom:12px}
 .compare-section-head p{font-size:12.5px;color:#64748b;margin:3px 0 0}
@@ -740,8 +765,8 @@ input[type=number]{font-size:16px}
 .compare-advanced .scroll{border-top:1px solid #fed7aa;background:#fff}
 .compare-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
 .compare-source-note{font-size:11.5px;color:#64748b;margin:10px 0 0}
-@media(max-width:720px){.compare-guard,.compare-verdicts{grid-template-columns:1fr}.compare-methods,.compare-facts{grid-template-columns:1fr}}
-@media(max-width:560px){.wrap{width:100%;max-width:100%;overflow-x:hidden}.topbar{gap:7px;flex-wrap:wrap}.topbar .logo{font-size:18px;gap:5px}.topbar .logo img{width:25px;height:25px}.nav{order:2;flex:1 0 100%;width:100%;min-width:0;gap:16px;justify-content:flex-start;overflow-x:auto;padding:2px 0 7px;margin-top:3px}.nav a,.nav-btn{font-size:12.5px}.topbar>span{display:none}.compare-page{width:calc(100vw - 36px);max-width:calc(100vw - 36px);overflow:hidden}.compare-hero,.compare-section{width:100%;max-width:100%;padding:15px;overflow:hidden}.compare-hero h1{font-size:23px}.compare-fact dl{grid-template-columns:92px 1fr}.compare-assumption{overflow-wrap:anywhere}}
+@media(max-width:720px){.compare-guard,.compare-verdicts,.compare-live-grid{grid-template-columns:1fr}.compare-methods,.compare-facts{grid-template-columns:1fr}}
+@media(max-width:560px){.wrap{width:100%;max-width:100%;overflow-x:hidden}.topbar{gap:7px;flex-wrap:wrap}.topbar .logo{font-size:18px;gap:5px}.topbar .logo img{width:25px;height:25px}.nav{order:2;flex:1 0 100%;width:100%;min-width:0;gap:16px;justify-content:flex-start;overflow-x:auto;padding:2px 0 7px;margin-top:3px}.nav a,.nav-btn{font-size:12.5px}.topbar>span{display:none}.compare-page{width:calc(100vw - 36px);max-width:calc(100vw - 36px);overflow:hidden}.compare-hero,.compare-section,.compare-decider{width:100%;max-width:100%;padding:15px;overflow:hidden}.compare-hero h1{font-size:23px}.compare-questions{grid-template-columns:1fr}.compare-fact dl{grid-template-columns:92px 1fr}.compare-assumption{overflow-wrap:anywhere}}
 .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
 .card a{color:var(--brand);text-decoration:none;font-weight:600}
 .card-title{display:inline-block;color:var(--ink);font-weight:700;margin-bottom:6px;text-decoration:none}
@@ -973,7 +998,7 @@ function exchangePage(slug, lang) {
   const discNote = disc ? (disc.note?.[lang] || disc.note?.en || '') : '';
 
   // 提币费表格（多链）
-  const wdRows = Object.entries(ex.usdt_withdrawal || {}).map(([net, fee]) => `<tr><td>${esc(net)}</td><td>${fee == null ? '—' : usd(fee)}</td></tr>`).join('');
+  const wdRows = Object.entries(ex.withdrawal_fees || {}).map(([net, fee]) => `<tr><td>${esc(net)}</td><td>${fee?.amount == null ? '—' : usd(fee.amount)}${String(fee?.model || '').includes('dynamic') ? ` <small>${lang === 'zh' ? '动态快照' : 'dynamic snapshot'}</small>` : ''}</td></tr>`).join('');
 
   // 安全合规值按语言取（数据层为 {en, zh} 双语结构）
   const secV = (v) => (v && typeof v === 'object' ? (v[lang] || v.en || '—') : (v || '—'));
@@ -997,7 +1022,7 @@ function exchangePage(slug, lang) {
   // 能力卡片：解释功能用途，并区分高风险产品。
   const yesNo = (b) => b ? T(lang, 'exBotYes') : T(lang, 'exBotNo');
   const baseTier = tiers[0] || {};
-  const cheapestWithdrawal = Object.entries(ex.usdt_withdrawal || {}).filter(([, fee]) => fee != null).sort((a, b) => a[1] - b[1])[0] || ['—', null];
+  const cheapestWithdrawal = Object.entries(ex.withdrawal_fees || {}).filter(([, fee]) => fee?.amount != null).sort((a, b) => a[1].amount - b[1].amount)[0] || ['—', null];
   const evidenceHtml = trustBadges.length ? `<div class="exchange-evidence"><div class="exchange-evidence-title">${esc(L('Published recognition and service signals', '公开背书与服务信息'))}</div><div class="exchange-evidence-grid">${trustBadges.map((b) => `<div class="exchange-evidence-item">${TRUST_ICON[b.type] || ''}<span>${esc(b.text)}</span></div>`).join('')}</div></div>` : '';
   const capCard = (title, status, desc, risk = false) => `<div class="exchange-cap-card${risk ? ' risk' : ''}"><div class="exchange-cap-top"><b>${esc(title)}</b><span class="exchange-cap-status">${esc(status)}</span></div><p>${esc(desc)}</p></div>`;
   const exchangeCapabilities = [
@@ -1035,6 +1060,10 @@ function exchangePage(slug, lang) {
   const fullFeeSummary = disc && disc.token
     ? L(`View full VIP fee table and ${disc.token} discount switch`, `查看完整 VIP 费率表与 ${disc.token} 抵扣开关`)
     : L('View full VIP fee table', '查看完整 VIP 费率表');
+  const detailSourceLink = (key, label) => ex.evidence?.[key]?.url ? `<a href="${esc(ex.evidence[key].url)}" rel="noopener" target="_blank">${esc(label)} · ${esc(ex.evidence[key].checked_at || '')}</a>` : '';
+  const cheapestWithdrawalText = cheapestWithdrawal[1] == null
+    ? L('Live quote required', '需在确认页查看实时费用')
+    : `${cheapestWithdrawal[0]} · ${usd(cheapestWithdrawal[1].amount)}`;
 
   const exchangeDetailBody = `<div class="exchange-page">
     <section class="exchange-hero" aria-labelledby="exchange-title" style="--ex-brand:${esc(brandColor)};--ex-on-brand:${esc(brandText)}">
@@ -1055,7 +1084,7 @@ function exchangePage(slug, lang) {
       <div class="exchange-stats">
         <div class="exchange-stat"><span>${esc(L('Base spot maker / taker', '现货基础挂单 / 吃单'))}</span><b>${pct(ex.spot.maker)} / ${pct(ex.spot.taker)}</b><small>${esc(L('Regular user snapshot', '普通用户费率快照'))}</small></div>
         <div class="exchange-stat"><span>${esc(L('Base futures maker / taker', '合约基础挂单 / 吃单'))}</span><b>${pct(ex.futures.maker)} / ${pct(ex.futures.taker)}</b><small>${esc(L('Leverage can liquidate positions', '杠杆可能触发强平'))}</small></div>
-        <div class="exchange-stat"><span>${esc(L('Lowest listed USDT withdrawal', '最低 USDT 提币费'))}</span><b>${esc(cheapestWithdrawal[0])} · ${cheapestWithdrawal[1] == null ? '—' : usd(cheapestWithdrawal[1])}</b><small>${esc(L('Network must match the receiving wallet', '必须与接收钱包网络一致'))}</small></div>
+        <div class="exchange-stat"><span>${esc(L('Lowest listed USDT withdrawal', '最低 USDT 提币费'))}</span><b>${esc(cheapestWithdrawalText)}</b><small>${esc(L('Network must match the receiving wallet', '必须与接收钱包网络一致'))}</small></div>
         <div class="exchange-stat"><span>${esc(L('Maximum listed leverage', '页面记录最高杠杆'))}</span><b>${cd.max_leverage ? cd.max_leverage + 'x' : '—'}</b><small>${esc(L('High risk · not for beginners', '高风险 · 不建议新手使用'))}</small></div>
       </div>
       ${evidenceHtml}
@@ -1073,6 +1102,7 @@ function exchangePage(slug, lang) {
         ${discountFeeCard}
         <div class="exchange-fee-card"><span>${esc(L('Futures maker / taker', '合约挂单 / 吃单'))}</span><b>${pct(baseTier.fm)} / ${pct(baseTier.ft)}</b><small>${esc(L('High-risk product', '高风险产品'))}</small></div>
       </div>
+      <div class="compare-source-links">${detailSourceLink('trading_fees', L('Official fee source', '官方费率来源'))}</div>
       <details class="exchange-vip-details">
         <summary>${esc(fullFeeSummary)}</summary>
         <div class="fee-panel">
@@ -1095,6 +1125,7 @@ function exchangePage(slug, lang) {
         <div class="exchange-subcard"><h3>${esc(L('Deposit methods', '入金方式'))}</h3><p>${esc(L('A displayed platform fee of zero does not exclude bank fees, FX spread, or P2P price differences.', '平台费显示为 0，不代表没有银行费、换汇价差或 C2C 成交价差。'))}</p><div class="scroll"><table><thead><tr><th>${esc(T(lang, 'exMethod'))}</th><th>${esc(T(lang, 'exFee'))}</th><th>${esc(L('Notes', '说明'))}</th></tr></thead><tbody>${exchangeDepRows}</tbody></table></div></div>
         <div class="exchange-subcard"><h3>${esc(L('USDT withdrawal networks', 'USDT 提币网络'))}</h3><p>${esc(L('Do a small test transfer first. Sending to an unsupported network can make assets unrecoverable.', '建议先做小额测试；网络不匹配可能导致资产无法找回。'))}</p><div class="scroll"><table><thead><tr><th>${esc(T(lang, 'exNet'))}</th><th>${esc(T(lang, 'exFee'))}</th></tr></thead><tbody>${wdRows}</tbody></table></div></div>
       </div>
+      <div class="compare-source-links">${detailSourceLink('withdrawal_fees', L('Official withdrawal source', '官方提币来源'))}</div>
     </section>
 
     <section class="exchange-section" id="safety">
@@ -1103,6 +1134,7 @@ function exchangePage(slug, lang) {
         <div class="exchange-subcard"><h3>${esc(L('Current disclosures', '当前披露'))}</h3><div class="sec-list"><div class="srow"><span>${esc(T(lang, 'exReserve'))}</span><b>${esc(secV(cd.reserve))}</b></div><div class="srow"><span>${esc(T(lang, 'exCold'))}</span><b>${esc(secV(cd.cold))}</b></div><div class="srow"><span>${esc(T(lang, 'exLicenses'))}</span><b>${esc(secV(cd.licenses))}</b></div><div class="srow"><span>${esc(T(lang, 'exKyc'))}</span><b>${esc(secV(cd.kyc))}</b></div></div></div>
         <div class="exchange-subcard"><h3>${esc(L('Recorded incidents', '事件记录'))}</h3><div class="sec-list"><div class="srow inc-head"><span>${esc(T(lang, 'exIncident'))}</span><b>${esc(T(lang, 'exResponse'))}</b></div>${incidentHtml || `<div class="srow"><span>—</span></div>`}</div></div>
       </div>
+      <div class="compare-source-links">${detailSourceLink('kyc', L('KYC source', 'KYC 来源'))}${detailSourceLink('regulation', L('Licence source', '牌照来源'))}${detailSourceLink('reserves', L('Reserve source', '储备来源'))}</div>
     </section>
 
     <section class="exchange-section" id="checklist">
@@ -1192,14 +1224,10 @@ function comparePage(slugA, slugB, lang) {
   const takerA = sample * a.spot.taker, takerB = sample * b.spot.taker;
   const makerA = sample * a.spot.maker, makerB = sample * b.spot.maker;
   const withdrawalCost = (slug, ex, network) => {
-    const networkFee = getFee(slug, network);
-    if (networkFee == null) return null;
-    const processingFee = ex.withdrawal_processing_rate
-      ? Math.min(sample * ex.withdrawal_processing_rate, ex.withdrawal_processing_cap ?? Infinity)
-      : 0;
-    return networkFee + processingFee;
+    const quote = getWithdrawalQuote(slug, network, sample);
+    return quote ? quote.total : null;
   };
-  const commonNetworks = Object.keys(a.usdt_withdrawal || {}).filter((n) => b.usdt_withdrawal && b.usdt_withdrawal[n] != null);
+  const commonNetworks = getWithdrawalNetworks(slugA).filter((n) => getFee(slugA, n) != null && getFee(slugB, n) != null);
   const lowCostNetwork = commonNetworks.slice().sort((x, y) => Math.max(withdrawalCost(slugA, a, x), withdrawalCost(slugB, b, x)) - Math.max(withdrawalCost(slugA, a, y), withdrawalCost(slugB, b, y)))[0] || null;
   const lowA = lowCostNetwork ? withdrawalCost(slugA, a, lowCostNetwork) : null;
   const lowB = lowCostNetwork ? withdrawalCost(slugB, b, lowCostNetwork) : null;
@@ -1215,10 +1243,51 @@ function comparePage(slugA, slugB, lang) {
     const fa = withdrawalCost(slugA, a, network), fb = withdrawalCost(slugB, b, network);
     return `<tr><td><b>${esc(network)}</b></td><td class="${fa < fb ? 'low' : ''}">${usd(fa)}</td><td class="${fb < fa ? 'low' : ''}">${usd(fb)}</td><td>${fa === fb ? esc(L('Same', '相同')) : esc(L(`${fa < fb ? a.name : b.name} lower`, `${fa < fb ? a.name : b.name} 更低`))}</td></tr>`;
   }).join('');
-  const withdrawalProcessingNote = [a, b].filter((ex) => ex.withdrawal_processing_rate).map((ex) => L(
-    `${ex.name}: includes ${(ex.withdrawal_processing_rate * 100).toFixed(2)}% processing fee (cap ${ex.withdrawal_processing_cap} USDT) plus the recorded network-fee snapshot.`,
-    `${ex.name}：已计入 ${(ex.withdrawal_processing_rate * 100).toFixed(2)}% 处理费（上限 ${ex.withdrawal_processing_cap} USDT）及当前记录的网络费快照。`
+  const withdrawalProcessingNote = [a, b].filter((ex) => ex.withdrawal_processing).map((ex) => L(
+    `${ex.name}: includes ${(ex.withdrawal_processing.rate * 100).toFixed(2)}% processing fee (cap ${ex.withdrawal_processing.cap} USDT) plus the recorded network-fee snapshot.`,
+    `${ex.name}：已计入 ${(ex.withdrawal_processing.rate * 100).toFixed(2)}% 处理费（上限 ${ex.withdrawal_processing.cap} USDT）及当前记录的网络费快照。`
   )).join(' ');
+
+  const countryZh = { CN:'中国大陆', HK:'中国香港', US:'美国', SG:'新加坡', DE:'德国', GB:'英国', FR:'法国', JP:'日本', BR:'巴西', IN:'印度', AU:'澳大利亚', CA:'加拿大', NG:'尼日利亚', TR:'土耳其', AE:'阿联酋', PH:'菲律宾', ID:'印度尼西亚', VN:'越南', MX:'墨西哥', ZA:'南非', KR:'韩国', TH:'泰国', PL:'波兰', ES:'西班牙', IT:'意大利' };
+  const regionOptions = Object.keys(CA).map((cc) => `<option value="${esc(cc)}">${esc(zh ? (countryZh[cc] || COUNTRY_NAMES[cc] || cc) : (COUNTRY_NAMES[cc] || cc))}</option>`).join('');
+  const networkOptions = commonNetworks.map((network) => `<option value="${esc(network)}">${esc(network)}</option>`).join('');
+  const pairAvailability = {};
+  Object.entries(CA).forEach(([cc, info]) => {
+    pairAvailability[cc] = { restricted: !!info.restricted, a: info.exchanges?.[slugA], b: info.exchanges?.[slugB], note: info.note || '', source: info.source || '' };
+  });
+  const decisionData = {
+    a: { slug: slugA, name: a.name, spot: a.spot, withdrawal_fees: a.withdrawal_fees, withdrawal_processing: a.withdrawal_processing || null },
+    b: { slug: slugB, name: b.name, spot: b.spot, withdrawal_fees: b.withdrawal_fees, withdrawal_processing: b.withdrawal_processing || null },
+    availability: pairAvailability,
+    networks: commonNetworks
+  };
+  const evidenceLink = (ex, key, label) => ex.evidence?.[key]?.url ? `<a href="${esc(ex.evidence[key].url)}" rel="noopener" target="_blank">${esc(ex.name)} ${esc(label)} · ${esc(ex.evidence[key].checked_at || '')}</a>` : '';
+  const feeEvidenceHtml = `<div class="compare-source-links">${evidenceLink(a, 'trading_fees', L('fee source', '费率来源'))}${evidenceLink(b, 'trading_fees', L('fee source', '费率来源'))}${evidenceLink(a, 'withdrawal_fees', L('withdrawal source', '提币来源'))}${evidenceLink(b, 'withdrawal_fees', L('withdrawal source', '提币来源'))}</div>`;
+  const decisionJson = JSON.stringify(decisionData).replace(/</g, '\\u003c');
+  const decisionText = JSON.stringify({
+    selectRegion: L('Select your region to start', '先选择所在地区，再给出结论'),
+    regionFirst: L('Regional availability is checked before any fee comparison.', '页面会先判断能否使用，再比较基础费用。'),
+    waiting: L('Waiting for region', '等待选择地区'),
+    regionNotCovered: L('FeeEye does not provide an availability verdict for this region', 'FeeEye 当前不提供该地区的可用性结论'),
+    bothAvailable: L('Both recorded as available', '当前均记录为可用'),
+    bothUnavailable: L('Neither is recorded as available', '当前均未记录为可用'),
+    unknownAvailability: L('Availability needs official verification', '可用性需要到官网核对'),
+    exclude: L('Exclude {name} for this region first', '该地区应先排除 {name}'),
+    candidate: L('{name} is the remaining candidate, but verify on its official site before registering.', '在这两个选项中仅剩 {name}，注册前仍须到官网核对。'),
+    unavailable: L('Not recorded as available', '未记录为可用'),
+    available: L('Recorded as available', '记录为可用'),
+    lower: L('{name} has the lower published base cost by {saving} USDT', '按公开基础费用，{name} 低 {saving} USDT'),
+    tie: L('Published base costs are the same under these inputs', '当前条件下公开基础费用相同'),
+    cannotConclude: L('Availability is not confirmed, so no winner is declared', '地区可用性尚未确认，暂不宣布胜负'),
+    verifyRegion: L('Verify regional access and product availability on both official sites.', '请到两家官网核对地区和产品可用性。'),
+    tradeOnly: L('No withdrawal included', '未计入提币'),
+    noCommon: L('No comparable common network', '没有可比较的共同网络'),
+    autoNetwork: L('lowest common example', '最低共同网络示例'),
+    market: L('buy-now order', '立即成交'),
+    limit: L('price-set order', '挂单等待成交'),
+    dynamic: L('estimated', '动态估算'),
+    costScope: L('This is a published base-cost comparison only. Funding fees, spread and slippage are not included; confirm the final quote before acting.', '这里只比较公开基础成本，不包含入金费、价差和滑点；操作前请核对最终报价。')
+  }).replace(/</g, '\\u003c');
 
   const advancedRows = [
     [L('Futures taker (base)', '合约吃单（基础档）'), pct(a.futures.taker), pct(b.futures.taker)],
@@ -1232,6 +1301,7 @@ function comparePage(slugA, slugB, lang) {
 
   const facts = (slug, ex) => {
     const cd = EXCHANGE_COMPARE[slug] || {};
+    const sourceLink = (key, label) => ex.evidence?.[key]?.url ? `<a href="${esc(ex.evidence[key].url)}" rel="noopener" target="_blank">${esc(label)} · ${esc(ex.evidence[key].checked_at || '')}</a>` : '';
     return `<article class="compare-fact"><h3>${esc(ex.name)}</h3><dl>
       <dt>${esc(L('KYC', '身份验证'))}</dt><dd>${esc(cd.kyc?.[lang] || '—')}</dd>
       <dt>${esc(L('Licences', '牌照记录'))}</dt><dd>${esc(cd.licenses?.[lang] || '—')}</dd>
@@ -1239,7 +1309,7 @@ function comparePage(slugA, slugB, lang) {
       <dt>${esc(L('Incident record', '重大事件记录'))}</dt><dd>${esc(cd.incident?.[lang] || '—')}</dd>
       <dt>${esc(L('CoinGecko trust', 'CoinGecko 信任分'))}</dt><dd>${cd.trust != null ? `${esc(String(cd.trust))}/10` : '—'}</dd>
       <dt>${esc(L('Tracked spot assets', '追踪现货币种'))}</dt><dd>${cd.coins != null ? esc(String(cd.coins)) : '—'}</dd>
-    </dl></article>`;
+    </dl><div class="compare-source-links">${sourceLink('kyc', L('KYC source', 'KYC 来源'))}${sourceLink('regulation', L('Licence source', '牌照来源'))}${sourceLink('reserves', L('Reserve source', '储备来源'))}</div></article>`;
   };
 
   const body = `<main class="compare-page">
@@ -1254,14 +1324,37 @@ function comparePage(slugA, slugB, lang) {
     </div>
   </section>
 
+  <section class="compare-decider" aria-labelledby="cpDeciderTitle">
+    <div class="compare-decider-head"><h2 id="cpDeciderTitle">${esc(L('Tell us what you actually need', '告诉我你的实际需求'))}</h2><p>${esc(L('Four plain-language choices are enough. We use them only in your browser and do not save the values.', '只需回答四个简单问题；这些选择只在当前浏览器计算，不会保存。'))}</p></div>
+    <div class="compare-questions">
+      <label class="compare-question"><span>${esc(L('1. Where do you live?', '1. 你常住哪个国家或地区？'))}</span><select id="cpCountry"><option value="">${esc(L('Select a region first', '请先选择地区'))}</option>${regionOptions}</select></label>
+      <label class="compare-question"><span>${esc(L('2. About how much will you buy?', '2. 预计买入多少 USDT？'))}</span><input id="cpAmount" type="number" min="1" max="10000000" step="1" value="1000" inputmode="decimal"></label>
+      <label class="compare-question"><span>${esc(L('3. How do you want the order filled?', '3. 希望怎么成交？'))}</span><select id="cpOrder"><option value="taker">${esc(L('Buy now at the available market price', '现在买入，按市场可成交价格'))}</option><option value="maker">${esc(L('Set a price and wait for a fill', '自己设定价格，等待成交'))}</option></select></label>
+      <label class="compare-question"><span>${esc(L('4. Will you move USDT to a wallet?', '4. 买入后需要提币到钱包吗？'))}</span><select id="cpWithdraw"><option value="yes">${esc(L('Yes, include withdrawal cost', '需要，计入提币成本'))}</option><option value="no">${esc(L('No, compare trading fee only', '暂不需要，只比较交易费'))}</option></select></label>
+      <label id="cpNetworkQuestion" class="compare-question compare-network-question"><span>${esc(L('Which network can the receiving wallet use?', '接收钱包支持哪个网络？'))}</span><select id="cpNetwork"><option value="auto">${esc(L('Not sure — show the lowest common example', '不确定——展示双方最低共同网络示例'))}</option>${networkOptions}</select></label>
+    </div>
+    <div id="cpLiveResult" class="compare-live-result" role="status" aria-live="polite">
+      <div class="eyebrow">${esc(L('Personalized snapshot', '你的条件下的快照结论'))}</div>
+      <h3 id="cpLiveTitle">${esc(L('Select your region to start', '先选择所在地区，再给出结论'))}</h3>
+      <p id="cpLiveSummary">${esc(L('Regional availability is checked before any fee comparison.', '页面会先判断能否使用，再比较基础费用。'))}</p>
+      <a id="cpRegionSource" class="compare-source-links" href="#" rel="noopener" target="_blank" hidden>${esc(L('Regional source', '地区来源'))}</a>
+      <div class="compare-live-grid">
+        <div class="compare-live-item"><span>${esc(L('Availability', '地区可用性'))}</span><b id="cpLiveAvailability">${esc(L('Waiting for region', '等待选择地区'))}</b></div>
+        <div class="compare-live-item"><span>${esc(L('Trading fee', '交易手续费'))}</span><b id="cpLiveTrade">—</b></div>
+        <div class="compare-live-item"><span>${esc(L('Withdrawal fee', '提币费用'))}</span><b id="cpLiveWithdrawal">—</b></div>
+      </div>
+    </div>
+  </section>
+
   <section class="compare-section">
-    <div class="compare-section-head"><h2>${esc(L('What the current data can conclude', '当前数据可以得出的结论'))}</h2><p>${esc(L('Ordinary-user base tier; $1,000 trading examples exclude spread and funding costs.', '普通用户基础档；1,000 美元交易示例不包含价差和入金成本。'))}</p></div>
+    <div class="compare-section-head"><h2>${esc(L('Published fee evidence', '公开费用证据'))}</h2><p>${esc(L('Ordinary-user base tier; $1,000 examples exclude spread and funding costs.', '普通用户基础档；1,000 美元示例不包含价差和入金成本。'))}</p></div>
     <div class="compare-verdicts">
       <article class="compare-verdict"><div class="label">${esc(L('$1,000 market order', '1,000 美元市价单'))}</div><h3>${esc(`${a.name} ${money(takerA)} · ${b.name} ${money(takerB)}`)}</h3><p>${esc(L(`Published taker rates: ${pct(a.spot.taker)} vs ${pct(b.spot.taker)}.`, `公开吃单费率：${pct(a.spot.taker)} vs ${pct(b.spot.taker)}。`))}</p>${resultTag(takerWinner)}</article>
       <article class="compare-verdict"><div class="label">${esc(L('$1,000 limit order that adds liquidity', '1,000 美元限价挂单'))}</div><h3>${esc(`${a.name} ${money(makerA)} · ${b.name} ${money(makerB)}`)}</h3><p>${esc(L(`Published maker rates: ${pct(a.spot.maker)} vs ${pct(b.spot.maker)}. An unfilled order has no trade fee.`, `公开挂单费率：${pct(a.spot.maker)} vs ${pct(b.spot.maker)}；未成交不产生交易费。`))}</p>${resultTag(makerWinner)}</article>
-      <article class="compare-verdict"><div class="label">${esc(L('1,000 USDT · low-cost common withdrawal path', '提取 1,000 USDT · 低成本共同网络'))}</div><h3>${lowCostNetwork ? esc(`${lowCostNetwork} · ${a.name} ${usd(lowA)} · ${b.name} ${usd(lowB)}`) : esc(L('No common USDT network in this snapshot', '当前快照无共同 USDT 网络'))}</h3><p>${esc(L('A route example, not a universal recommendation. Confirm wallet support and the live fee.', '这是路径示例，不是通用推荐；必须确认钱包支持并核对实时费用。'))}</p>${resultTag(lowCostNetwork ? withdrawalWinner : null)}</article>
+      <article class="compare-verdict"><div class="label">${esc(L('1,000 USDT · low-cost common withdrawal path', '提取 1,000 USDT · 低成本共同网络'))}</div><h3>${lowCostNetwork ? esc(`${lowCostNetwork} · ${a.name} ${usd(lowA)} · ${b.name} ${usd(lowB)}`) : esc(L('No comparable public withdrawal quote', '没有可比较的公开提币报价'))}</h3><p>${esc(L('A route example, not a universal recommendation. Confirm wallet support and the live fee.', '这是路径示例，不是通用推荐；必须确认钱包支持并核对实时费用。'))}</p>${lowCostNetwork ? resultTag(withdrawalWinner) : `<span class="winner tie">${esc(L('No fee winner declared', '不宣布费用胜负'))}</span>`}</article>
     </div>
     <div class="compare-assumption">${esc(L('Why there is no “total-cost winner” here: card/bank availability is regional and instant-buy spread is not in the current dataset. Claiming a total winner would be false precision.', '为什么这里不宣布“总成本赢家”：银行卡/转账通道因地区而异，当前数据也没有即时买币价差；直接给总成本胜负会造成虚假精确。'))}</div>
+    ${feeEvidenceHtml}
   </section>
 
   <section class="compare-section">
@@ -1287,7 +1380,95 @@ function comparePage(slugA, slugB, lang) {
     <div class="compare-actions">${ctaHtml(slugA, esc(T(lang, 'ctaOpenOn', { x: a.name })), lang)}${ctaHtml(slugB, esc(T(lang, 'ctaOpenOn', { x: b.name })), lang)}</div>
     <p class="compare-source-note">${esc(L('Research basis: a 395-person investor/potential-investor survey, interviews with 15 Chinese exchange users, public beginner forum discussions and tutorial-video topic analysis. This is qualitative evidence, not FeeEye behavioural analytics.', '研究依据：395 名投资者/潜在投资者调查、15 名中国交易所用户访谈、公开新手论坛讨论与教程视频主题分析。这是定性证据，不是 FeeEye 自有行为数据。'))} <a href="https://uwspace.uwaterloo.ca/items/49452a36-424c-4758-9f99-932eba2454ac" rel="noopener" target="_blank">${esc(L('395-person study', '395 人研究'))}</a> · <a href="https://arxiv.org/abs/2204.08664" rel="noopener" target="_blank">${esc(L('China interview study', '中国用户访谈'))}</a></p>
   </section>
-  </main>`;
+  </main>
+  <script>
+  (function(){
+    var DATA=${decisionJson};
+    var TEXT=${decisionText};
+    var country=document.getElementById('cpCountry');
+    var amount=document.getElementById('cpAmount');
+    var order=document.getElementById('cpOrder');
+    var withdraw=document.getElementById('cpWithdraw');
+    var network=document.getElementById('cpNetwork');
+    var networkQuestion=document.getElementById('cpNetworkQuestion');
+    var title=document.getElementById('cpLiveTitle');
+    var summary=document.getElementById('cpLiveSummary');
+    var regionSource=document.getElementById('cpRegionSource');
+    var availability=document.getElementById('cpLiveAvailability');
+    var trade=document.getElementById('cpLiveTrade');
+    var withdrawal=document.getElementById('cpLiveWithdrawal');
+    function fill(value,key,replacement){return value.replace('{'+key+'}',replacement);}
+    function num(value){return Number(value).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});}
+    function quote(ex,net,value){
+      var fee=ex.withdrawal_fees&&ex.withdrawal_fees[net];
+      if(!fee) return null;
+      var processing=ex.withdrawal_processing;
+      var processingFee=processing?Math.min(value*processing.rate,processing.cap):0;
+      return {total:fee.amount+processingFee,estimated:String(fee.model||'').indexOf('dynamic')!==-1};
+    }
+    function cheapest(value){
+      var best=null;
+      DATA.networks.forEach(function(net){
+        var qa=quote(DATA.a,net,value),qb=quote(DATA.b,net,value);
+        if(!qa||!qb)return;
+        var score=Math.max(qa.total,qb.total);
+        if(!best||score<best.score)best={network:net,score:score,qa:qa,qb:qb};
+      });
+      return best;
+    }
+    function avail(record,key){
+      if(!record)return null;
+      if(record.restricted)return null;
+      return record[key]===true?true:(record[key]===false?false:null);
+    }
+    function render(){
+      var cc=country.value;
+      var value=Math.max(1,Number(amount.value)||1000);
+      var orderType=order.value;
+      var includeWithdrawal=withdraw.value==='yes';
+      networkQuestion.hidden=!includeWithdrawal||DATA.networks.length===0;
+      var tradeA=value*DATA.a.spot[orderType],tradeB=value*DATA.b.spot[orderType];
+      trade.textContent=(orderType==='taker'?TEXT.market:TEXT.limit)+' · '+DATA.a.name+' '+num(tradeA)+' / '+DATA.b.name+' '+num(tradeB)+' USDT';
+      var wdA=0,wdB=0,withdrawalText=TEXT.tradeOnly;
+      if(includeWithdrawal){
+        var selected=network.value;
+        var qa,qb,net;
+        if(selected==='auto'){
+          var best=cheapest(value);
+          if(best){net=best.network;qa=best.qa;qb=best.qb;}
+        }else{net=selected;qa=quote(DATA.a,net,value);qb=quote(DATA.b,net,value);}
+        if(qa&&qb){
+          wdA=qa.total;wdB=qb.total;
+          withdrawalText=net+' · '+DATA.a.name+' '+(qa.estimated?'~':'')+num(wdA)+' / '+DATA.b.name+' '+(qb.estimated?'~':'')+num(wdB)+' USDT'+(selected==='auto'?' · '+TEXT.autoNetwork:'');
+        }else withdrawalText=TEXT.noCommon;
+      }
+      withdrawal.textContent=withdrawalText;
+      if(!cc){
+        title.textContent=TEXT.selectRegion;summary.textContent=TEXT.regionFirst;availability.textContent=TEXT.waiting;return;
+      }
+      var record=DATA.availability[cc];
+      regionSource.hidden=!(record&&record.source);if(record&&record.source)regionSource.href=record.source;
+      if(record&&record.restricted){
+        title.textContent=TEXT.regionNotCovered;summary.textContent=TEXT.verifyRegion;availability.textContent=TEXT.unknownAvailability;return;
+      }
+      var aa=avail(record,'a'),ab=avail(record,'b');
+      availability.textContent=DATA.a.name+'：'+(aa===true?TEXT.available:(aa===false?TEXT.unavailable:TEXT.unknownAvailability))+' · '+DATA.b.name+'：'+(ab===true?TEXT.available:(ab===false?TEXT.unavailable:TEXT.unknownAvailability));
+      if(aa===false&&ab===false){title.textContent=TEXT.bothUnavailable;summary.textContent=TEXT.verifyRegion;return;}
+      if(aa===false&&ab===true){title.textContent=fill(TEXT.exclude,'name',DATA.a.name);summary.textContent=fill(TEXT.candidate,'name',DATA.b.name);return;}
+      if(ab===false&&aa===true){title.textContent=fill(TEXT.exclude,'name',DATA.b.name);summary.textContent=fill(TEXT.candidate,'name',DATA.a.name);return;}
+      if(aa!==true||ab!==true){title.textContent=TEXT.cannotConclude;summary.textContent=TEXT.verifyRegion;return;}
+      var totalA=tradeA+wdA,totalB=tradeB+wdB;
+      if(Math.abs(totalA-totalB)<0.000001)title.textContent=TEXT.tie;
+      else{
+        var lower=totalA<totalB?DATA.a.name:DATA.b.name;
+        title.textContent=fill(fill(TEXT.lower,'name',lower),'saving',num(Math.abs(totalA-totalB)));
+      }
+      summary.textContent=TEXT.costScope;
+    }
+    [country,amount,order,withdraw,network].forEach(function(control){control.addEventListener(control.tagName==='INPUT'?'input':'change',render);});
+    render();
+  })();
+  </script>`;
   const jsonLd = {
     '@context': 'https://schema.org', '@type': 'FAQPage',
     mainEntity: [{ '@type': 'Question', name: T(lang, 'cpQ1', { a: a.name, b: b.name }), answer: { '@type': 'Answer', text: L(`There is no universal winner. At the base tier, a $1,000 market order costs ${money(takerA)} on ${a.name} and ${money(takerB)} on ${b.name}; funding, spread, region and withdrawal route can change the result. Snapshot ${UPD}.`, `没有统一赢家。基础档 1,000 美元市价单在 ${a.name} 的手续费为 ${money(takerA)}，在 ${b.name} 为 ${money(takerB)}；入金、价差、地区与提币路径会改变结果。数据快照 ${UPD}。`) } }]

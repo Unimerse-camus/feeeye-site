@@ -45,7 +45,8 @@ affiliate-site/
   - 输出格式与 Astro 兼容，**规模期再迁 Astro**（无需重写数据层）。
 - **数据刷新**：在可访问 `api.coingecko.com` 的主机运行 `node build/fetch_coins.mjs`（默认 Top 250 + 逐币 tickers 真实覆盖；`--no-coverage` 用启发式；`--top N` 控制数量）。本地产物用 `coins.json` 启发式覆盖，页面已标注「indicative — verify」。
 - **生成命令**：`node build/generate.mjs`（在 `affiliate-site/` 目录下运行）。
-- **交易所数据审计**：`node build/audit_exchange_data.mjs`（校验 7 所数据契约、21 组共同网络、费率范围、双语字段与快照时效；警告项仍需查官方来源）。
+- **交易所数据审计**：`node build/audit_exchange_data.mjs`（校验 7 所数据契约、21 组共同网络、固定/动态/未知/按金额处理费模型、字段级官方来源、双语字段与快照时效）。`generate.mjs` 会复用同一验证器，发现阻断错误时拒绝生成和发布。
+- **官方来源可达性**：`node build/check_exchange_sources.mjs`（可选联网检查；不放入 CI，避免交易所反自动化策略造成偶发失败）。
 
 ## 执行状态（对照路线图）
 | 阶段 | 内容 | 状态 |

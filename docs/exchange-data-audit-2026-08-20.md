@@ -28,7 +28,7 @@ node build/audit_exchange_data.mjs
 
 公告中的零费率是 2025 年限时活动，不能用于当前费率；当前页面仍保留现有快照费率并要求交易前核对实时提币页。
 
-### 保留警告：Coinbase Polygon
+### 已显式标记：Coinbase Polygon费用未知
 
 Coinbase 数据将 Polygon 记录为支持网络，但当前没有可靠的 Coinbase Exchange 官方固定 USDT Polygon 提币费，因此没有补造费用。
 
@@ -36,7 +36,7 @@ Coinbase 的 USDT 资产页面列出了 Polygon 合约地址，但这不足以�
 
 https://www.coinbase.com/price/tether
 
-处理原则：继续把 Polygon 记为能力信息；由于费用未知，它不会进入共同网络费用胜负计算。
+处理原则：Coinbase公开说明网络费以确认页动态报价，但没有可复核的固定网络金额。因此所有记录网络均设为 `unknown`；它们不会按0费用处理，也不会进入共同网络费用胜负计算。已知的0.01%处理费仍保留在模型中，待获得实时网络费后叠加。
 
 ### 已修复：Bitget KYC
 
@@ -55,6 +55,23 @@ https://www.coinbase.com/price/tether
 Coinbase 官方费用披露说明，所有 USDT 提现额外收取转账金额 0.01% 的处理费，上限 20 USDT，此外还会产生动态网络费。两两对比页现以“提取 1,000 USDT”为统一示例，将 0.01% 处理费计入 Coinbase 结果，并继续把网络费标为快照。
 
 官方依据：https://help.coinbase.com/en/coinbase/trading-and-funding/pricing-and-fees/fees
+
+### 已更新：Kraken USDT网络费
+
+Kraken官方费用页当前显示：TRON 4 USDT、Ethereum 0.8571 USDT、Solana 0.9876 USDT、Arbitrum与Optimism 2 USDT、Polygon 1 USDT。旧快照差异较大，已按官方页面更新，并移除未在当前USDT列表中确认的BSC。
+
+官方依据：https://support.kraken.com/articles/360000767986-cryptocurrency-withdrawal-fees-and-minimums
+
+### 已更新：Bitget地区限制
+
+- 法国：2026年3月31日起停止全部服务。
+- 德国：2026年1月16日起暂停新用户注册。
+- 印度：2026年2月6日起暂停新用户注册。
+
+官方依据：
+
+- https://www.bitget.com/support/articles/12560603848103
+- https://www.bitget.com/support/articles/12560603850171
 
 ## 数据风险分级与刷新建议
 

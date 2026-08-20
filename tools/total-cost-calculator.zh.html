@@ -246,11 +246,11 @@
   }
   populateDeposit(depositSel_d);
   populateDeposit(depositSel_a);
-  // 数据驱动：合并所有所的 usdt_withdrawal 字段，去重后生成 USDT 提币网络下拉
+  // 数据驱动：合并所有所的 withdrawal_fees 字段，去重后生成 USDT 提币网络下拉
   function getAllNetworks(){
     var count = {};
     ["binance","okx","kucoin"].concat(Object.keys(window.EXCHANGES).filter(function(s){return s!=="binance"&&s!=="okx"&&s!=="kucoin";})).forEach(function(slug){
-      Object.keys((window.EXCHANGES[slug] && window.EXCHANGES[slug].usdt_withdrawal) || {}).forEach(function(n){
+      Object.keys((window.EXCHANGES[slug] && window.EXCHANGES[slug].withdrawal_fees) || {}).forEach(function(n){
         count[n] = (count[n]||0) + 1;
       });
     });
@@ -417,23 +417,24 @@
   }
 
   function renderWithdraw(){
-    var net = state.network, dyn = DYNAMIC_NET[net];
+    var net = state.network, amount = getAmt() || 1000;
     var rows = [];
     ["binance","okx","kucoin"].concat(Object.keys(window.EXCHANGES).filter(function(s){return s!=="binance"&&s!=="okx"&&s!=="kucoin";})).forEach(function(slug){
       var ex = window.EXCHANGES[slug];
-      var fee = window.getUsdtWithdrawalFee(slug, net);
-      rows.push({ slug:slug, name:ex.name, fee:(fee==null)?null:fee });
+      var quote = window.getUsdtWithdrawalQuote(slug, net, amount);
+      rows.push({ slug:slug, name:ex.name, fee:quote?quote.total:null, quote:quote });
     });
     rows.sort(function(a,b){ return (a.fee==null?1e9:a.fee)-(b.fee==null?1e9:b.fee); });
-    var html = '<h3>③ USDT 提币成本对比 —— '+net+' 网络'+(dyn?' <span class="dyn">动态费</span>':'')+'</h3>';
-    if(dyn) html += '<p class="detail" style="margin-top:4px">'+net+' 提币费为<b>动态值</b>（随链上 gas 波动），下表为参考快照，请以交易所实时显示为准。</p>';
-    html += tableHead(['交易所','提币费（'+net+'）','']);
+    var html = '<h3>③ USDT 提币成本对比 —— 提取 '+fmt(amount)+' USDT，'+net+' 网络</h3>';
+    html += '<p class="detail" style="margin-top:4px">结果包含网络费快照和适用的按金额处理费；动态费用请以确认页为准。</p>';
+    html += tableHead(['交易所','网络费','处理费','基础合计','']);
     var min = null; rows.forEach(function(r){ if(r.fee!=null && (min==null || r.fee<min)) min = r.fee; });
     var minCount = rows.filter(function(r){return r.fee!=null && min!=null && Math.abs(r.fee-min)<0.001;}).length;
     rows.forEach(function(r){
       var best = (minCount===1 && r.fee!=null && Math.abs(r.fee-min)<0.001);
-      var cell = (r.fee==null) ? '<span class="na">不支持</span>' : '<b>'+(dyn?'~':'')+fmt(r.fee)+' USDT</b>'+markBest(best);
-      html += '<tr'+rowClass(best)+'><td><b>'+r.name+'</b></td><td>'+cell+'</td><td>'+ctaCell(r.slug)+'</td></tr>';
+      if(r.fee==null){ html += '<tr><td><b>'+r.name+'</b></td><td colspan="3"><span class="na">不支持或费用未知</span></td><td>'+ctaCell(r.slug)+'</td></tr>'; return; }
+      var approx = r.quote.estimated ? '~' : '';
+      html += '<tr'+rowClass(best)+'><td><b>'+r.name+'</b></td><td>'+approx+fmt(r.quote.network_fee)+' USDT</td><td>'+fmt(r.quote.processing_fee)+' USDT</td><td><b>'+approx+fmt(r.fee)+' USDT</b>'+markBest(best)+'</td><td>'+ctaCell(r.slug)+'</td></tr>';
     });
     html += tableFoot();
     resultW.innerHTML = html;
@@ -453,8 +454,9 @@
       var feeMin = dep.fee||0, feeMax = (dep.fee_max!=null)?dep.fee_max:feeMin;
       var depMin = amt*feeMin, depMax = amt*feeMax;
       var tradeCost = amt * ex.spot[state.order] * trades;
-      var wdCost = window.getUsdtWithdrawalFee(slug, net);
-      if(wdCost==null){ skippedNetwork++; return; }
+      var wdQuote = window.getUsdtWithdrawalQuote(slug, net, amt);
+      if(!wdQuote){ skippedNetwork++; return; }
+      var wdCost = wdQuote.total;
       var totalMin = depMin + tradeCost + wdCost;
       var totalMax = depMax + tradeCost + wdCost;
       rows.push({ slug:slug, name:ex.name, depMin:depMin, depMax:depMax, tradeCost:tradeCost, wdCost:wdCost, totalMin:totalMin, totalMax:totalMax, mid:(totalMin+totalMax)/2 });

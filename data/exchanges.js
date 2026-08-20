@@ -20,7 +20,7 @@ window.EXCHANGES = {
     "affiliate_link": "https://www.kucoin.com/r/af/HODL100",
     "spot":      { "maker": 0.0010, "taker": 0.0010 },
     "futures":   { "maker": 0.0002, "taker": 0.0006 },
-    "usdt_withdrawal": { "TRC20": 1.5, "ERC20": 12.0, "BSC": 1.0, "SOL": 1.5, "Arbitrum": 1.0, "Base": 0.6, "Optimism": 1.0, "Polygon": 0.8, "TON": 0.5, "NEAR": 0.5, "PLASMA": 0.4 },
+    "withdrawal_fees": { "TRC20": {"amount":1.5,"model":"fixed_snapshot"}, "ERC20": {"amount":12.0,"model":"dynamic_snapshot"}, "BSC": {"amount":1.0,"model":"fixed_snapshot"}, "SOL": {"amount":1.5,"model":"fixed_snapshot"}, "Arbitrum": {"amount":1.0,"model":"fixed_snapshot"}, "Base": {"amount":0.6,"model":"fixed_snapshot"}, "Optimism": {"amount":1.0,"model":"fixed_snapshot"}, "Polygon": {"amount":0.8,"model":"fixed_snapshot"}, "TON": {"amount":0.5,"model":"fixed_snapshot"}, "NEAR": {"amount":0.5,"model":"fixed_snapshot"}, "PLASMA": {"amount":0.4,"model":"fixed_snapshot"} },
     "withdrawal_note": "TRC20=1.5; ERC20 动态 ~12 (gas 波动); 最便宜 PLASMA 0.4",
     "deposit_methods": [
       { "m": "Bank transfer", "fee": 0, "fee_max": 0.015, "note": "0-1.5% via partners" },
@@ -34,6 +34,13 @@ window.EXCHANGES = {
     "new_user_note": "KuCoin base spot 0.10% (20% off with KCS). USDT-TRC20 withdraw 1.5 USDT. EU onboarding paused (Feb 2026); US banned (Mar 2026).",
     "source": "https://www.kucoin.com/vip/level + cexorer.com/kucoin/usdt",
     "last_updated": "2026-08-20",
+    "evidence": {
+      "trading_fees": {"url":"https://www.kucoin.com/vip/level","checked_at":"2026-08-20"},
+      "withdrawal_fees": {"url":"https://www.kucoin.com/assets/withdraw/USDT","checked_at":"2026-08-20","access":"live_quote"},
+      "kyc": {"url":"https://www.kucoin.com/support/360015102254","checked_at":"2026-08-20"},
+      "regulation": {"url":"https://www.kucoin.com/legal/licenses","checked_at":"2026-08-20"},
+      "reserves": {"url":"https://www.kucoin.com/proof-of-reserves","checked_at":"2026-08-20"}
+    },
     "slogan": {"en": "People's Exchange", "zh": "人民的交易所"},
     "token_discount": {"token": "KCS", "spot": 0.2, "futures": null, "note": {"en": "Pay fees with KCS: 20% off eligible spot and margin trades", "zh": "使用 KCS 支付手续费：符合条件的现货及杠杆现货交易享 20% 优惠"}, "source": "https://www.kucoin.com/support/30380295503769"},
     "vip_tiers": [{"t": "LV 0", "th": "< $50K", "sm": 0.001, "st": 0.001, "fm": 0.0002, "ft": 0.0006}, {"t": "LV 1", "th": "≥ $50K", "sm": 0.0009, "st": 0.001, "fm": 0.00018, "ft": 0.00055}, {"t": "LV 2", "th": "≥ $100K", "sm": 0.0008, "st": 0.001, "fm": 0.00016, "ft": 0.0005}, {"t": "LV 3", "th": "≥ $500K", "sm": 0.0007, "st": 0.0009, "fm": 0.00014, "ft": 0.00045}, {"t": "LV 4", "th": "≥ $1M", "sm": 0.0006, "st": 0.0008, "fm": 0.00012, "ft": 0.0004}, {"t": "LV 5", "th": "≥ $3M", "sm": 0.0005, "st": 0.0007, "fm": 0.0001, "ft": 0.00036}, {"t": "LV 6", "th": "≥ $5M", "sm": 0.0004, "st": 0.0006, "fm": 8e-05, "ft": 0.00032}, {"t": "LV 7", "th": "≥ $10M", "sm": 0.0003, "st": 0.0005, "fm": 6e-05, "ft": 0.00028}, {"t": "LV 8", "th": "≥ $20M", "sm": 0.0002, "st": 0.0004, "fm": 4e-05, "ft": 0.00025}, {"t": "LV 9", "th": "≥ $50M", "sm": 0.0001, "st": 0.0003, "fm": 2e-05, "ft": 0.00022}, {"t": "LV 10", "th": "≥ $100M", "sm": 5e-05, "st": 0.0002, "fm": 0.0, "ft": 0.0002}, {"t": "LV 11", "th": "≥ $500M", "sm": 0.0, "st": 0.00015, "fm": -2e-05, "ft": 0.00018}, {"t": "LV 12", "th": "≥ $1B", "sm": -5e-05, "st": 0.0001, "fm": -4e-05, "ft": 0.00016}],
@@ -46,7 +53,7 @@ window.EXCHANGES = {
     "affiliate_rate": { "spot": 0.20, "futures": 0.10 },
     "spot":      { "maker": 0.0010, "taker": 0.0010 },
     "futures":   { "maker": 0.0002, "taker": 0.0005 },
-    "usdt_withdrawal": { "TRC20": 1.0, "ERC20": 4.0, "BSC": 0.3, "SOL": 0.01, "Arbitrum": 0.1, "Base": 0.5, "Optimism": 0.1, "Polygon": 0.1 },
+    "withdrawal_fees": { "TRC20": {"amount":1.0,"model":"fixed_snapshot"}, "ERC20": {"amount":4.0,"model":"dynamic_snapshot"}, "BSC": {"amount":0.3,"model":"fixed_snapshot"}, "SOL": {"amount":0.01,"model":"fixed_snapshot"}, "Arbitrum": {"amount":0.1,"model":"fixed_snapshot"}, "Base": {"amount":0.5,"model":"fixed_snapshot"}, "Optimism": {"amount":0.1,"model":"fixed_snapshot"}, "Polygon": {"amount":0.1,"model":"fixed_snapshot"} },
     "withdrawal_note": "TRC20=1; ERC20 动态 ~4 (gas 波动); BSC 0.3",
     "deposit_methods": [
       { "m": "Bank transfer", "fee": 0, "note": "ACH/SEPA free; SWIFT bank fee" },
@@ -63,6 +70,13 @@ window.EXCHANGES = {
     "new_user_note": "Binance base spot 0.10% (25% off with BNB). USDT-TRC20 1 USDT. Fiat deposit methods vary by region.",
     "source": "https://www.binance.com/en/fee/schedule",
     "last_updated": "2026-08-20",
+    "evidence": {
+      "trading_fees": {"url":"https://www.binance.com/en/fee/trading","checked_at":"2026-08-20"},
+      "withdrawal_fees": {"url":"https://www.binance.com/en/fee/cryptoFee","checked_at":"2026-08-20","access":"live_quote"},
+      "kyc": {"url":"https://www.binance.com/en/support/faq/what-is-identity-verification-and-how-to-complete-it-360027287111","checked_at":"2026-08-20"},
+      "regulation": {"url":"https://www.binance.com/en/legal/licenses","checked_at":"2026-08-20"},
+      "reserves": {"url":"https://www.binance.com/en/proof-of-reserves","checked_at":"2026-08-20"}
+    },
     "trust_badges": [
       {"type": "award",  "en": "Forbes 2025 Most Trusted Crypto Exchange",       "zh": "福布斯 2025 最受信赖加密交易所"},
       {"type": "award",  "en": "CNBC 2025 World Top Fintech",                   "zh": "CNBC 2025 全球顶级金融科技"},
@@ -81,7 +95,7 @@ window.EXCHANGES = {
     "official_url": "https://www.bybit.com",
     "spot":      { "maker": 0.0010, "taker": 0.0010 },
     "futures":   { "maker": 0.0002, "taker": 0.00055 },
-    "usdt_withdrawal": { "TRC20": 1.0, "ERC20": 4.0, "BSC": 0.8, "SOL": 0.01, "Arbitrum": 0.1, "Base": 0.1, "Optimism": 0.1 },
+    "withdrawal_fees": { "TRC20": {"amount":1.0,"model":"fixed_snapshot"}, "ERC20": {"amount":4.0,"model":"dynamic_snapshot"}, "BSC": {"amount":0.8,"model":"fixed_snapshot"}, "SOL": {"amount":0.01,"model":"fixed_snapshot"}, "Arbitrum": {"amount":0.1,"model":"fixed_snapshot"}, "Base": {"amount":0.1,"model":"fixed_snapshot"}, "Optimism": {"amount":0.1,"model":"fixed_snapshot"} },
     "withdrawal_note": "TRC20=1; ERC20 动态 ~4 (gas 波动)",
     "deposit_methods": [
       { "m": "Bank transfer", "fee": 0, "note": "SEPA free; local varies" },
@@ -97,6 +111,13 @@ window.EXCHANGES = {
     "new_user_note": "Bybit base spot 0.10%. USDT-TRC20 1 USDT. Restricted: US/China/Singapore/etc.",
     "source": "https://www.bybit.com/en/help-center/fee",
     "last_updated": "2026-08-20",
+    "evidence": {
+      "trading_fees": {"url":"https://www.bybit.com/en/help-center/article/Trading-Fee-Structure","checked_at":"2026-08-20"},
+      "withdrawal_fees": {"url":"https://www.bybit.com/en-GB/help-center/article/Bybit-Fees-You-Need-to-Know","checked_at":"2026-08-20","access":"live_quote"},
+      "kyc": {"url":"https://www.bybit.com/en/help-center/article/Individual-KYC-FAQ","checked_at":"2026-08-20"},
+      "regulation": {"url":"https://www.bybit.com/en/help-center/article/Bybit-s-Regulatory-Licenses","checked_at":"2026-08-20"},
+      "reserves": {"url":"https://www.bybit.com/app/user/proof-of-reserve","checked_at":"2026-08-20"}
+    },
     "slogan": {"en": "Trade with confidence", "zh": "自信交易，掌控市场"},
     "token_discount": {"token": "MNT", "spot": 0.25, "futures": 0.1, "note": {"en": "Pay fees with MNT: Spot 25% off, eligible Futures 10% off", "zh": "使用 MNT 支付手续费：现货优惠 25%，符合条件的合约优惠 10%"}, "source": "https://www.bybit.com/en/help-center/article/FAQ-Paying-Trading-Fees-with-MNT"},
     "vip_tiers": [{"t": "VIP 0", "th": "< $100K", "sm": 0.001, "st": 0.001, "fm": 0.0002, "ft": 0.00055}, {"t": "VIP 1", "th": "≥ $1M", "sm": 0.0006, "st": 0.0008, "fm": 0.00015, "ft": 0.0004}, {"t": "VIP 2", "th": "≥ $5M", "sm": 0.0004, "st": 0.0006, "fm": 0.0001, "ft": 0.00032}, {"t": "VIP 3", "th": "≥ $10M", "sm": 0.0002, "st": 0.0004, "fm": 5e-05, "ft": 0.00022}, {"t": "Pro 4", "th": "≥ $50M", "sm": 0.0001, "st": 0.0003, "fm": 0.0, "ft": 0.00015}, {"t": "Pro 5", "th": "≥ $100M", "sm": 5e-05, "st": 0.0002, "fm": 0.0, "ft": 0.0001}],
@@ -108,7 +129,7 @@ window.EXCHANGES = {
     "affiliate_link": "https://www.okx.com/account/register?channelid=1897959",
     "spot":      { "maker": 0.0008, "taker": 0.0010 },
     "futures":   { "maker": 0.0002, "taker": 0.0005 },
-    "usdt_withdrawal": { "TRC20": 1.0, "ERC20": 5.0, "BSC": 0.5, "SOL": 0.05, "Arbitrum": 0.1, "Base": 0.1, "Optimism": 0.1, "Polygon": 0.2 },
+    "withdrawal_fees": { "TRC20": {"amount":1.0,"model":"fixed_snapshot"}, "ERC20": {"amount":5.0,"model":"dynamic_snapshot"}, "BSC": {"amount":0.5,"model":"fixed_snapshot"}, "SOL": {"amount":0.05,"model":"fixed_snapshot"}, "Arbitrum": {"amount":0.1,"model":"fixed_snapshot"}, "Base": {"amount":0.1,"model":"fixed_snapshot"}, "Optimism": {"amount":0.1,"model":"fixed_snapshot"}, "Polygon": {"amount":0.2,"model":"fixed_snapshot"} },
     "withdrawal_note": "TRC20=1; ERC20 动态 ~5 (gas 波动)",
     "deposit_methods": [
       { "m": "Bank transfer", "fee": 0, "note": "SEPA free; varies by region" },
@@ -123,6 +144,13 @@ window.EXCHANGES = {
     "new_user_note": "OKX spot 0.08%/0.10% (Lv1). USDT-TRC20 1 USDT. Mainland-China KYC status changing (2026).",
     "source": "https://www.okx.com/fees",
     "last_updated": "2026-08-20",
+    "evidence": {
+      "trading_fees": {"url":"https://www.okx.com/fees","checked_at":"2026-08-20"},
+      "withdrawal_fees": {"url":"https://www.okx.com/balance/withdrawal","checked_at":"2026-08-20","access":"live_quote"},
+      "kyc": {"url":"https://www.okx.com/en-us/help/a-beginner-guide-to-identity-verification","checked_at":"2026-08-20"},
+      "regulation": {"url":"https://www.okx.com/help/terms-of-service","checked_at":"2026-08-20"},
+      "reserves": {"url":"https://www.okx.com/proof-of-reserves","checked_at":"2026-08-20"}
+    },
     "slogan": {"en": "Trade smarter, live better", "zh": "交易更聪明，生活更精彩"},
     "token_discount": null,
     "token_discount_status": {"en": "OKB cannot be used to offset exchange trading fees", "zh": "OKB 不能用于抵扣交易手续费", "source": "https://www.okx.com/en-us/help/how-to-reduce-trading-fee"},
@@ -134,7 +162,7 @@ window.EXCHANGES = {
     "official_url": "https://www.bitget.com",
     "spot":      { "maker": 0.0010, "taker": 0.0010 },
     "futures":   { "maker": 0.0002, "taker": 0.0006 },
-    "usdt_withdrawal": { "TRC20": 1.5, "ERC20": 1.6, "BSC": 0.15, "SOL": 1.0, "Arbitrum": 0.15, "Base": 0.15, "Optimism": 0.15 },
+    "withdrawal_fees": { "TRC20": {"amount":1.5,"model":"fixed_snapshot"}, "ERC20": {"amount":1.6,"model":"dynamic_snapshot"}, "BSC": {"amount":0.15,"model":"fixed_snapshot"}, "SOL": {"amount":1.0,"model":"fixed_snapshot"}, "Arbitrum": {"amount":0.15,"model":"fixed_snapshot"}, "Base": {"amount":0.15,"model":"fixed_snapshot"}, "Optimism": {"amount":0.15,"model":"fixed_snapshot"} },
     "withdrawal_note": "TRC20=1.5; ERC20 动态 ~1.6 (gas 波动); BSC 0.15",
     "deposit_methods": [
       { "m": "Bank transfer", "fee": 0, "note": "SEPA free" },
@@ -149,6 +177,13 @@ window.EXCHANGES = {
     "new_user_note": "Bitget base spot 0.10% (20% off with BGB). USDT-TRC20 1.5 USDT.",
     "source": "https://www.bitget.com/fee",
     "last_updated": "2026-08-20",
+    "evidence": {
+      "trading_fees": {"url":"https://www.bitget.com/en-CA/support/articles/12560603820584","checked_at":"2026-08-20"},
+      "withdrawal_fees": {"url":"https://www.bitget.com/fee/withdrawal","checked_at":"2026-08-20","access":"live_quote"},
+      "kyc": {"url":"https://www.bitget.com/support/articles/12560603808893","checked_at":"2026-08-20"},
+      "regulation": {"url":"https://www.bitget.com/support/articles/12560603885949","checked_at":"2026-08-20"},
+      "reserves": {"url":"https://www.bitget.com/proof-of-reserves","checked_at":"2026-08-20"}
+    },
     "slogan": {"en": "Smarter trading, better life", "zh": "更聪明的交易，更精彩的生活"},
     "trust_badges": [{"type": "fund", "en": "Bitget Protection Fund ($300M+)", "zh": "Bitget 保护基金（3 亿美元以上）"}, {"type": "support", "en": "24/7 · multilingual", "zh": "24/7 · 多语言客服"}],
     "token_discount": {"token": "BGB", "spot": 0.2, "futures": null, "note": {"en": "Pay spot fees with BGB: 20% off eligible spot and spot-margin trades", "zh": "使用 BGB 支付现货手续费：符合条件的现货及现货杠杆交易享 20% 优惠"}, "source": "https://www.bitget.com/support/articles/360060644351"},
@@ -160,20 +195,27 @@ window.EXCHANGES = {
     "official_url": "https://www.kraken.com",
     "spot":      { "maker": 0.0025, "taker": 0.0040 },
     "futures":   { "maker": 0.0002, "taker": 0.0005 },
-    "usdt_withdrawal": { "TRC20": 2.0, "ERC20": 2.5, "BSC": 0.8, "SOL": 0.01, "Arbitrum": 0.25, "Polygon": 0.8 },
-    "withdrawal_note": "TRC20 ~2; ERC20 动态 ~2.5 (gas 波动)",
+    "withdrawal_fees": { "TRC20": {"amount":4.0,"model":"fixed_snapshot"}, "ERC20": {"amount":0.8571,"model":"dynamic_snapshot"}, "SOL": {"amount":0.9876,"model":"fixed_snapshot"}, "Arbitrum": {"amount":2.0,"model":"fixed_snapshot"}, "Optimism": {"amount":2.0,"model":"fixed_snapshot"}, "Polygon": {"amount":1.0,"model":"fixed_snapshot"} },
+    "withdrawal_note": "Official Kraken snapshot: TRON 4; Ethereum 0.8571; Solana 0.9876; Arbitrum/Optimism 2; Polygon 1 USDT",
     "deposit_methods": [
       { "m": "Bank transfer", "fee": 0, "note": "ACH/SEPA/FPS free" },
       { "m": "Wire transfer", "fee": 0.005, "note": "$5-10 per transfer" },
       { "m": "Credit/Debit card", "fee": 0.03, "fee_max": 0.04, "note": "3-4% via 3rd-party" }
     ],
-    "supported_networks": ["TRC20", "ERC20", "BSC", "SOL", "Arbitrum", "Polygon"],
+    "supported_networks": ["TRC20", "ERC20", "SOL", "Arbitrum", "Optimism", "Polygon"],
     "has_trading_bot": false,
     "has_api": true,
     "has_copy_trading": false,
-    "new_user_note": "Kraken Pro spot 0.25%/0.40%. USDT-TRC20 ~2 USDT (ERC20 ~2.5). No P2P.",
+    "new_user_note": "Kraken Pro spot 0.25%/0.40%. USDT network fees vary materially by chain; no P2P.",
     "source": "https://www.kraken.com/features/fee-schedule",
     "last_updated": "2026-08-20",
+    "evidence": {
+      "trading_fees": {"url":"https://support.kraken.com/articles/201893638-how-trading-fees-work-on-kraken","checked_at":"2026-08-20"},
+      "withdrawal_fees": {"url":"https://support.kraken.com/articles/360000767986-cryptocurrency-withdrawal-fees-and-minimums","checked_at":"2026-08-20"},
+      "kyc": {"url":"https://support.kraken.com/articles/201352206-verification-level-requirements","checked_at":"2026-08-20"},
+      "regulation": {"url":"https://www.kraken.com/legal/disclosures","checked_at":"2026-08-20"},
+      "reserves": {"url":"https://www.kraken.com/proof-of-reserves","checked_at":"2026-08-20"}
+    },
     "slogan": {"en": "Where the world trades crypto", "zh": "全球加密交易之地"},
     "token_discount": null,
     "vip_tiers": [{"t": "Standard", "th": "< $50K", "sm": 0.0025, "st": 0.004, "fm": 0.0002, "ft": 0.0005}, {"t": "≥ $50K", "th": "30天量", "sm": 0.002, "st": 0.0035, "fm": 0.00018, "ft": 0.00045}, {"t": "≥ $100K", "th": "30天量", "sm": 0.0016, "st": 0.0026, "fm": 0.00016, "ft": 0.0004}, {"t": "≥ $1M", "th": "30天量", "sm": 0.0012, "st": 0.0022, "fm": 0.00012, "ft": 0.00032}, {"t": "≥ $10M", "th": "30天量", "sm": 0.0008, "st": 0.0016, "fm": 8e-05, "ft": 0.00025}],
@@ -184,9 +226,8 @@ window.EXCHANGES = {
     "official_url": "https://www.coinbase.com",
     "spot":      { "maker": 0.0040, "taker": 0.0060 },
     "futures":   { "maker": 0.0000, "taker": 0.0003 },
-    "usdt_withdrawal": { "ERC20": 3.0, "BSC": 0.5, "Base": 0.2, "Arbitrum": 0.2 },
-    "withdrawal_processing_rate": 0.0001,
-    "withdrawal_processing_cap": 20,
+    "withdrawal_fees": { "ERC20": {"amount":null,"model":"unknown"}, "BSC": {"amount":null,"model":"unknown"}, "Base": {"amount":null,"model":"unknown"}, "Arbitrum": {"amount":null,"model":"unknown"}, "Polygon": {"amount":null,"model":"unknown"} },
+    "withdrawal_processing": {"rate":0.0001,"cap":20,"model":"percentage_with_cap"},
     "withdrawal_note": "No TRC20 USDT; network fee is dynamic; USDT processing fee 0.01% (max 20 USDT) applies separately",
     "deposit_methods": [
       { "m": "Bank transfer", "fee": 0, "note": "ACH free" },
@@ -200,6 +241,13 @@ window.EXCHANGES = {
     "new_user_note": "Coinbase Advanced spot 0.40%/0.60%. No TRC20 USDT (ERC20/Base/BSC/Arbitrum). No P2P.",
     "source": "https://www.coinbase.com/fees",
     "last_updated": "2026-08-20",
+    "evidence": {
+      "trading_fees": {"url":"https://help.coinbase.com/en/coinbase/trading-and-funding/advanced-trade/advanced-trade-fees","checked_at":"2026-08-20","access":"account_tier"},
+      "withdrawal_fees": {"url":"https://help.coinbase.com/en/coinbase/trading-and-funding/pricing-and-fees/fees","checked_at":"2026-08-20","access":"dynamic_quote"},
+      "kyc": {"url":"https://help.coinbase.com/en/coinbase/getting-started/verify-my-account/how-do-i-verify-my-identity","checked_at":"2026-08-20"},
+      "regulation": {"url":"https://www.coinbase.com/legal/licenses","checked_at":"2026-08-20"},
+      "reserves": {"url":"https://investor.coinbase.com/financials/sec-filings/default.aspx","checked_at":"2026-08-20"}
+    },
     "slogan": {"en": "The future of finance", "zh": "金融的未来"},
     "token_discount": null,
     "vip_tiers": [{"t": "Tier 1", "th": "< $10K", "sm": 0.004, "st": 0.006, "fm": 0.0, "ft": 0.0003}, {"t": "Tier 2", "th": "≥ $10K", "sm": 0.0035, "st": 0.0035, "fm": 0.0, "ft": 0.0003}, {"t": "Tier 3", "th": "≥ $50K", "sm": 0.0025, "st": 0.003, "fm": 0.0, "ft": 0.0003}, {"t": "Tier 4", "th": "≥ $100K", "sm": 0.0015, "st": 0.002, "fm": 0.0, "ft": 0.0003}, {"t": "Tier 5", "th": "≥ $1M", "sm": 0.0005, "st": 0.001, "fm": 0.0, "ft": 0.0003}, {"t": "Tier 6", "th": "≥ $10M", "sm": 0.0, "st": 0.0005, "fm": 0.0, "ft": 0.0003}],
@@ -210,7 +258,33 @@ window.EXCHANGES = {
 window.getUsdtWithdrawalFee = function (slug, network) {
   const ex = window.EXCHANGES[slug];
   if (!ex) return null;
-  return ex.usdt_withdrawal[network] != null ? ex.usdt_withdrawal[network] : null;
+  const fee = ex.withdrawal_fees && ex.withdrawal_fees[network];
+  return fee && fee.amount != null ? fee.amount : null;
+};
+// 返回指定提现金额下的完整费用报价：网络费快照 + 按金额处理费。
+window.getUsdtWithdrawalQuote = function (slug, network, amount) {
+  const ex = window.EXCHANGES[slug];
+  const fee = ex && ex.withdrawal_fees && ex.withdrawal_fees[network];
+  if (!ex || !fee || fee.amount == null) return null;
+  const value = Number(amount);
+  const processing = ex.withdrawal_processing || null;
+  const processingFee = processing && Number.isFinite(value) && value >= 0
+    ? Math.min(value * processing.rate, processing.cap == null ? Infinity : processing.cap)
+    : 0;
+  return {
+    network,
+    network_fee: fee.amount,
+    processing_fee: processingFee,
+    total: fee.amount + processingFee,
+    model: fee.model || 'snapshot',
+    estimated: String(fee.model || '').includes('dynamic'),
+    checked_at: ex.evidence && ex.evidence.withdrawal_fees ? ex.evidence.withdrawal_fees.checked_at : ex.last_updated,
+    source: ex.evidence && ex.evidence.withdrawal_fees ? ex.evidence.withdrawal_fees.url : ex.source
+  };
+};
+window.getUsdtWithdrawalNetworks = function (slug) {
+  const ex = window.EXCHANGES[slug];
+  return ex ? Object.keys(ex.withdrawal_fees || {}) : [];
 };
 // 辅助：返回某所全部入金通道名（供计算器下拉合并）
 window.getAllDepositMethods = function () {
@@ -252,7 +326,7 @@ window.EXCHANGE_COMPARE = {
   },
   "bitget": {
     "max_leverage": 125, "has_options": true, "has_leveraged_tokens": true, "has_margin": true, "coins": 538, "volume": "≈$0.44B", "trust": 10, "security": 8,
-    "kyc": {"en": "Mandatory for core services", "zh": "核心服务强制 KYC"}, "licenses": {"en": "Seychelles + Lithuania + Australia", "zh": "塞舌尔 + 立陶宛 + 澳大利亚"},
+    "kyc": {"en": "Mandatory for core services", "zh": "核心服务强制 KYC"}, "licenses": {"en": "EU MiCAR application submitted to Austria FMA (not yet approved)", "zh": "已向奥地利 FMA 提交欧盟 MiCAR 申请（尚未获批）"},
     "reserve": {"en": "123–163%", "zh": "123–163%"}, "cold": {"en": "95%", "zh": "95%"}, "incident": {"en": "No external hack", "zh": "无外部黑客事件"}
   },
   "kraken": {

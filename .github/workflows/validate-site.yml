@@ -1,0 +1,31 @@
+name: validate-site
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Audit exchange data contract
+        run: node build/audit_exchange_data.mjs
+      - name: Test withdrawal quote models
+        run: node build/test_exchange_quotes.mjs
+      - name: Generate all static pages
+        run: node build/generate.mjs
+      - name: Reject broken generated comparison values
+        run: |
+          if grep -R -E ">undefined<|>NaN<|null×" dist/compare dist/zh/compare; then
+            echo "Invalid value found in generated comparison pages"
+            exit 1
+          fi

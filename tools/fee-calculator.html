@@ -254,8 +254,8 @@
       var net = document.getElementById("network").value;
       var rows = [];
       ["binance","okx","kucoin"].concat(Object.keys(window.EXCHANGES).filter(function(s){return s!=="binance"&&s!=="okx"&&s!=="kucoin";})).forEach(function(slug){
-        var fee = window.getUsdtWithdrawalFee(slug, net);
-        rows.push({slug:slug, name:window.EXCHANGES[slug].name, fee:fee, netSupported: fee!=null});
+        var quote = window.getUsdtWithdrawalQuote(slug, net, amt);
+        rows.push({slug:slug, name:window.EXCHANGES[slug].name, fee:quote?quote.total:null, quote:quote, netSupported: !!quote});
       });
       rows.sort(function(a,b){
         if(!a.netSupported) return 1; if(!b.netSupported) return -1; return a.fee-b.fee;
@@ -264,7 +264,8 @@
       rows.forEach(function(r){
         if(!r.netSupported){ html += '<tr><td><b>'+r.name+'</b></td><td colspan="2" class="na">'+net+' not supported</td><td>'+ctaCell(r.slug)+'</td></tr>'; return; }
         var bestMark = (r===rows.filter(function(x){return x.netSupported;})[0])?' <span class="best">← lowest</span>':"";
-        html += '<tr><td><b>'+r.name+'</b></td><td>'+fmt(r.fee)+' USDT'+bestMark+'</td><td>'+fmt(amt-r.fee)+' USDT</td><td>'+ctaCell(r.slug)+'</td></tr>';
+        var approx = r.quote.estimated ? '~' : '';
+        html += '<tr><td><b>'+r.name+'</b></td><td>'+approx+fmt(r.fee)+' USDT'+bestMark+'</td><td>'+fmt(amt-r.fee)+' USDT</td><td>'+ctaCell(r.slug)+'</td></tr>';
       });
       html += '</tbody></table>';
     }
