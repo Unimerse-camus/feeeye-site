@@ -731,6 +731,7 @@ input[type=number]{font-size:16px}
 .compare-live-result h3{font-size:18px;line-height:1.35;margin:0;color:#172033}
 .compare-live-result>p{font-size:12px;color:#475569;margin:5px 0 0}
 .compare-live-result>a{display:inline-block;margin-top:7px;font-size:10.5px;color:#1d4ed8;text-decoration:none}.compare-live-result>a[hidden]{display:none}
+.compare-live-table{margin:10px 0 0;font-size:12.5px;background:#fff}.compare-live-table th{font-size:11px;color:#475569}.compare-live-table th:first-child,.compare-live-table td:first-child{text-align:left;font-weight:700;min-width:92px}.compare-live-table td{vertical-align:middle}.compare-live-table td:last-child{color:#475569}.compare-live-table .blocked{color:#b91c1c;font-weight:750}.compare-live-table .better{color:#047857;font-weight:750}
 .compare-live-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:10px}
 .compare-live-item{background:#fff;border:1px solid #dbeafe;border-radius:9px;padding:9px 10px;min-width:0}
 .compare-live-item span{display:block;font-size:10.5px;color:#64748b}.compare-live-item b{display:block;font-size:12.5px;color:#172033;margin-top:2px;overflow-wrap:anywhere}
@@ -749,6 +750,7 @@ input[type=number]{font-size:16px}
 .compare-verdict .tie{background:#f1f5f9;color:#475569}
 .compare-assumption{background:#fff7ed;border:1px solid #fed7aa;border-radius:10px;color:#9a3412;font-size:12px;padding:10px 12px;margin-top:12px}
 .compare-section .scroll{max-width:100%;min-width:0}.compare-table td:first-child,.compare-table th:first-child{text-align:left}
+.compare-table td b{display:block;color:#172033}.compare-table td small{display:block;color:#64748b;font-size:10.5px;margin-top:2px}
 .compare-table .low{color:#047857;font-weight:750;background:#f0fdf4}
 .compare-methods{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .compare-method{border:1px solid var(--line);border-radius:12px;padding:13px;background:#fcfdff}
@@ -764,6 +766,7 @@ input[type=number]{font-size:16px}
 .compare-advanced summary{cursor:pointer;padding:12px 14px;font-size:13px;font-weight:750;color:#9a3412}
 .compare-advanced .scroll{border-top:1px solid #fed7aa;background:#fff}
 .compare-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+.compare-actions[hidden],.compare-actions a[hidden]{display:none}
 .compare-source-note{font-size:11.5px;color:#64748b;margin:10px 0 0}
 @media(max-width:720px){.compare-guard,.compare-verdicts,.compare-live-grid{grid-template-columns:1fr}.compare-methods,.compare-facts{grid-template-columns:1fr}}
 @media(max-width:560px){.wrap{width:100%;max-width:100%;overflow-x:hidden}.topbar{gap:7px;flex-wrap:wrap}.topbar .logo{font-size:18px;gap:5px}.topbar .logo img{width:25px;height:25px}.nav{order:2;flex:1 0 100%;width:100%;min-width:0;gap:16px;justify-content:flex-start;overflow-x:auto;padding:2px 0 7px;margin-top:3px}.nav a,.nav-btn{font-size:12.5px}.topbar>span{display:none}.compare-page{width:calc(100vw - 36px);max-width:calc(100vw - 36px);overflow:hidden}.compare-hero,.compare-section,.compare-decider{width:100%;max-width:100%;padding:15px;overflow:hidden}.compare-hero h1{font-size:23px}.compare-questions{grid-template-columns:1fr}.compare-fact dl{grid-template-columns:92px 1fr}.compare-assumption{overflow-wrap:anywhere}}
@@ -1212,13 +1215,13 @@ function comparePage(slugA, slugB, lang) {
   const L = (en, zhText) => zh ? zhText : en;
   const sample = 1000;
   const money = (n) => `$${Number(n).toFixed(2)}`;
-  const winner = (va, vb) => va === vb ? null : (va < vb ? a.name : b.name);
-  const resultTag = (name) => `<span class="winner${name ? '' : ' tie'}">${esc(name || L('Tie at the published base rate', '公开基础费率相同'))}</span>`;
+  const depositNoteZh = { 'Bank transfer':'费用和可用性因地区、银行而异', 'Wire transfer':'银行可能另外收取固定费用', 'Credit/Debit card':'通常由第三方支付通道处理，以付款页为准', 'Apple Pay':'通常走银行卡或第三方通道，以付款页为准', 'Google Pay':'通常走银行卡或第三方通道，以付款页为准', 'PayPal':'费率和可用性因地区而异', 'Bpay':'澳大利亚银行支付，以付款页为准', 'P2P':'平台费可能为0，但成交价仍可能有价差' };
   const methodLabel = (d) => {
     const name = zh ? trZh(d.m, DEP_ZH_MAP) : d.m;
     const lo = `${(d.fee * 100).toFixed(d.fee ? 1 : 0)}%`;
     const hi = d.fee_max != null && d.fee_max !== d.fee ? `–${(d.fee_max * 100).toFixed(1)}%` : '';
-    return `${esc(name)}：${lo}${hi} <small>(${esc(d.note || L('varies by region', '因地区而异'))})</small>`;
+    const note = zh ? (depositNoteZh[d.m] || '以付款页为准') : (d.note || 'varies by region');
+    return `${esc(name)}：${lo}${hi} <small>(${esc(note)})</small>`;
   };
 
   const takerA = sample * a.spot.taker, takerB = sample * b.spot.taker;
@@ -1231,21 +1234,21 @@ function comparePage(slugA, slugB, lang) {
   const lowCostNetwork = commonNetworks.slice().sort((x, y) => Math.max(withdrawalCost(slugA, a, x), withdrawalCost(slugB, b, x)) - Math.max(withdrawalCost(slugA, a, y), withdrawalCost(slugB, b, y)))[0] || null;
   const lowA = lowCostNetwork ? withdrawalCost(slugA, a, lowCostNetwork) : null;
   const lowB = lowCostNetwork ? withdrawalCost(slugB, b, lowCostNetwork) : null;
-  const takerWinner = winner(takerA, takerB);
-  const makerWinner = winner(makerA, makerB);
-  const withdrawalWinner = lowCostNetwork ? winner(lowA, lowB) : null;
+  const feeVerdict = (va, vb) => Math.abs(va - vb) < 0.000001
+    ? L('Same published fee', '费用相同')
+    : L(`${va < vb ? a.name : b.name} lower by ${money(Math.abs(va - vb))}`, `${va < vb ? a.name : b.name} 少 ${money(Math.abs(va - vb))}`);
   const verdictLead = L(
     `There is no universal winner. For a first small purchase, verify regional access and funding first; the cards below show only conclusions supported by the current snapshot.`,
-    `没有脱离地区和支付方式的统一赢家。第一次小额买入应先确认地区可用性与入金通道；下方只给出当前数据能够支持的结论。`
+    `没有哪家交易所适合所有人。先看你所在地区能不能用，再按买入金额、成交方式和提币需求比较费用。`
   );
 
   const networkRows = commonNetworks.map((network) => {
     const fa = withdrawalCost(slugA, a, network), fb = withdrawalCost(slugB, b, network);
-    return `<tr><td><b>${esc(network)}</b></td><td class="${fa < fb ? 'low' : ''}">${usd(fa)}</td><td class="${fb < fa ? 'low' : ''}">${usd(fb)}</td><td>${fa === fb ? esc(L('Same', '相同')) : esc(L(`${fa < fb ? a.name : b.name} lower`, `${fa < fb ? a.name : b.name} 更低`))}</td></tr>`;
+    return `<tr><td><b>${esc(network)}</b></td><td class="${fa < fb ? 'low' : ''}">${usd(fa)}</td><td class="${fb < fa ? 'low' : ''}">${usd(fb)}</td><td>${fa === fb ? esc(L('Same', '一样')) : esc(L(`${fa < fb ? a.name : b.name} lower by ${usd(Math.abs(fa - fb))}`, `${fa < fb ? a.name : b.name} 少 ${usd(Math.abs(fa - fb))}`))}</td></tr>`;
   }).join('');
   const withdrawalProcessingNote = [a, b].filter((ex) => ex.withdrawal_processing).map((ex) => L(
     `${ex.name}: includes ${(ex.withdrawal_processing.rate * 100).toFixed(2)}% processing fee (cap ${ex.withdrawal_processing.cap} USDT) plus the recorded network-fee snapshot.`,
-    `${ex.name}：已计入 ${(ex.withdrawal_processing.rate * 100).toFixed(2)}% 处理费（上限 ${ex.withdrawal_processing.cap} USDT）及当前记录的网络费快照。`
+    `${ex.name} 还会收 ${(ex.withdrawal_processing.rate * 100).toFixed(2)}% 处理费（最多 ${ex.withdrawal_processing.cap} USDT），表中已经算进去。`
   )).join(' ');
 
   const countryZh = { CN:'中国大陆', HK:'中国香港', US:'美国', SG:'新加坡', DE:'德国', GB:'英国', FR:'法国', JP:'日本', BR:'巴西', IN:'印度', AU:'澳大利亚', CA:'加拿大', NG:'尼日利亚', TR:'土耳其', AE:'阿联酋', PH:'菲律宾', ID:'印度尼西亚', VN:'越南', MX:'墨西哥', ZA:'南非', KR:'韩国', TH:'泰国', PL:'波兰', ES:'西班牙', IT:'意大利' };
@@ -1253,7 +1256,7 @@ function comparePage(slugA, slugB, lang) {
   const networkOptions = commonNetworks.map((network) => `<option value="${esc(network)}">${esc(network)}</option>`).join('');
   const pairAvailability = {};
   Object.entries(CA).forEach(([cc, info]) => {
-    pairAvailability[cc] = { restricted: !!info.restricted, a: info.exchanges?.[slugA], b: info.exchanges?.[slugB], note: info.note || '', source: info.source || '' };
+    pairAvailability[cc] = { restricted: !!info.restricted, decision: info.decision || '', a: info.exchanges?.[slugA], b: info.exchanges?.[slugB], note: info.note || '', source: info.source || '' };
   });
   const decisionData = {
     a: { slug: slugA, name: a.name, spot: a.spot, withdrawal_fees: a.withdrawal_fees, withdrawal_processing: a.withdrawal_processing || null },
@@ -1265,33 +1268,40 @@ function comparePage(slugA, slugB, lang) {
   const feeEvidenceHtml = `<div class="compare-source-links">${evidenceLink(a, 'trading_fees', L('fee source', '费率来源'))}${evidenceLink(b, 'trading_fees', L('fee source', '费率来源'))}${evidenceLink(a, 'withdrawal_fees', L('withdrawal source', '提币来源'))}${evidenceLink(b, 'withdrawal_fees', L('withdrawal source', '提币来源'))}</div>`;
   const decisionJson = JSON.stringify(decisionData).replace(/</g, '\\u003c');
   const decisionText = JSON.stringify({
-    selectRegion: L('Select your region to start', '先选择所在地区，再给出结论'),
-    regionFirst: L('Regional availability is checked before any fee comparison.', '页面会先判断能否使用，再比较基础费用。'),
-    waiting: L('Waiting for region', '等待选择地区'),
-    regionNotCovered: L('FeeEye does not provide an availability verdict for this region', 'FeeEye 当前不提供该地区的可用性结论'),
+    selectRegion: L('Select your region to start', '先选地区，才能判断这两家能不能用'),
+    regionFirst: L('Regional availability is checked before any fee comparison.', '先看能不能用，再看费用高低。'),
+    waiting: L('Waiting for region', '待选择'),
+    regionNotCovered: L('FeeEye does not provide an availability verdict for this region', '这个地区暂时没有足够资料，FeeEye 不下结论'),
+    blockedTitle: L('Neither exchange is an available option for Mainland China', '中国大陆：这两家都不作为可用选项'),
+    blockedStatus: L('Not an available option', '不作为可用选项'),
+    notCompared: L('Not compared', '不比较'),
     bothAvailable: L('Both recorded as available', '当前均记录为可用'),
     bothUnavailable: L('Neither is recorded as available', '当前均未记录为可用'),
-    unknownAvailability: L('Availability needs official verification', '可用性需要到官网核对'),
-    exclude: L('Exclude {name} for this region first', '该地区应先排除 {name}'),
-    candidate: L('{name} is the remaining candidate, but verify on its official site before registering.', '在这两个选项中仅剩 {name}，注册前仍须到官网核对。'),
-    unavailable: L('Not recorded as available', '未记录为可用'),
-    available: L('Recorded as available', '记录为可用'),
-    lower: L('{name} has the lower published base cost by {saving} USDT', '按公开基础费用，{name} 低 {saving} USDT'),
-    tie: L('Published base costs are the same under these inputs', '当前条件下公开基础费用相同'),
-    cannotConclude: L('Availability is not confirmed, so no winner is declared', '地区可用性尚未确认，暂不宣布胜负'),
-    verifyRegion: L('Verify regional access and product availability on both official sites.', '请到两家官网核对地区和产品可用性。'),
-    tradeOnly: L('No withdrawal included', '未计入提币'),
-    noCommon: L('No comparable common network', '没有可比较的共同网络'),
-    autoNetwork: L('lowest common example', '最低共同网络示例'),
-    market: L('buy-now order', '立即成交'),
+    unknownAvailability: L('Not enough information', '资料不足'),
+    exclude: L('Exclude {name} for this region first', '先排除 {name}'),
+    candidate: L('{name} is the remaining candidate, but verify on its official site before registering.', '这两家里只剩 {name} 可以继续比较，注册前还要看官网的最新地区规则。'),
+    unavailable: L('Not recorded as available', '当前记录不可用'),
+    available: L('Recorded as available', '当前记录可用'),
+    lower: L('{name} has the lower published base cost by {saving} USDT', '{name} 的基础费用少 {saving} USDT'),
+    tie: L('Published base costs are the same under these inputs', '按当前条件计算，两家的基础费用一样'),
+    cannotConclude: L('Availability is not confirmed, so no winner is declared', '能否使用还没确认，暂时不判断哪家更合适'),
+    verifyRegion: L('Verify regional access and product availability on both official sites.', 'FeeEye 目前资料不足，先不要注册；请查看两家官网的最新地区规则。'),
+    tradeOnly: L('No withdrawal included', '这次不提币'),
+    noCommon: L('No comparable common network', '没有公开可比的共同网络费用'),
+    autoNetwork: L('lowest common example', '自动选择费用最低的共同网络'),
+    market: L('buy-now order', '直接买入'),
     limit: L('price-set order', '挂单等待成交'),
+    same: L('Same fee', '费用一样'),
+    less: L('{name} lower by {saving}', '{name} 少 {saving} USDT'),
+    feeUnknown: L('Fee unknown', '费用未知'),
+    cannotCostCompare: L('Withdrawal fees are not comparable, so only trading fees are shown', '提币费没有公开可比数据，只展示交易费，不判断完整成本'),
     dynamic: L('estimated', '动态估算'),
     costScope: L('This is a published base-cost comparison only. Funding fees, spread and slippage are not included; confirm the final quote before acting.', '这里只比较公开基础成本，不包含入金费、价差和滑点；操作前请核对最终报价。')
   }).replace(/</g, '\\u003c');
 
   const advancedRows = [
-    [L('Futures taker (base)', '合约吃单（基础档）'), pct(a.futures.taker), pct(b.futures.taker)],
-    [L('Maximum displayed leverage', '页面记录最高杠杆'), `${EXCHANGE_COMPARE[slugA]?.max_leverage || '—'}×`, `${EXCHANGE_COMPARE[slugB]?.max_leverage || '—'}×`],
+    [L('Futures taker (base)', '合约立即成交费率'), pct(a.futures.taker), pct(b.futures.taker)],
+    [L('Maximum displayed leverage', '最高杠杆'), `${EXCHANGE_COMPARE[slugA]?.max_leverage || '—'}×`, `${EXCHANGE_COMPARE[slugB]?.max_leverage || '—'}×`],
     [L('Margin trading', '杠杆交易'), EXCHANGE_COMPARE[slugA]?.has_margin ? '✓' : '✗', EXCHANGE_COMPARE[slugB]?.has_margin ? '✓' : '✗'],
     [L('Options', '期权'), EXCHANGE_COMPARE[slugA]?.has_options ? '✓' : '✗', EXCHANGE_COMPARE[slugB]?.has_options ? '✓' : '✗'],
     [L('Trading bot', '交易机器人'), a.has_trading_bot ? '✓' : '✗', b.has_trading_bot ? '✓' : '✗'],
@@ -1304,11 +1314,11 @@ function comparePage(slugA, slugB, lang) {
     const sourceLink = (key, label) => ex.evidence?.[key]?.url ? `<a href="${esc(ex.evidence[key].url)}" rel="noopener" target="_blank">${esc(label)} · ${esc(ex.evidence[key].checked_at || '')}</a>` : '';
     return `<article class="compare-fact"><h3>${esc(ex.name)}</h3><dl>
       <dt>${esc(L('KYC', '身份验证'))}</dt><dd>${esc(cd.kyc?.[lang] || '—')}</dd>
-      <dt>${esc(L('Licences', '牌照记录'))}</dt><dd>${esc(cd.licenses?.[lang] || '—')}</dd>
+      <dt>${esc(L('Licences', '牌照/注册信息'))}</dt><dd>${esc(cd.licenses?.[lang] || '—')}</dd>
       <dt>${esc(L('Reserve disclosure', '储备披露'))}</dt><dd>${esc(cd.reserve?.[lang] || '—')}</dd>
       <dt>${esc(L('Incident record', '重大事件记录'))}</dt><dd>${esc(cd.incident?.[lang] || '—')}</dd>
       <dt>${esc(L('CoinGecko trust', 'CoinGecko 信任分'))}</dt><dd>${cd.trust != null ? `${esc(String(cd.trust))}/10` : '—'}</dd>
-      <dt>${esc(L('Tracked spot assets', '追踪现货币种'))}</dt><dd>${cd.coins != null ? esc(String(cd.coins)) : '—'}</dd>
+      <dt>${esc(L('Tracked spot assets', '现货币种数'))}</dt><dd>${cd.coins != null ? esc(String(cd.coins)) : '—'}</dd>
     </dl><div class="compare-source-links">${sourceLink('kyc', L('KYC source', 'KYC 来源'))}${sourceLink('regulation', L('Licence source', '牌照来源'))}${sourceLink('reserves', L('Reserve source', '储备来源'))}</div></article>`;
   };
 
@@ -1318,47 +1328,47 @@ function comparePage(slugA, slugB, lang) {
     <h1>${esc(`${a.name} vs ${b.name}${zh ? '：第一次使用怎么选' : ': what matters for a first-time user'}`)}</h1>
     <p class="compare-lead">${esc(verdictLead)}</p>
     <div class="compare-guard">
-      <div><b>${esc(L('1. Can you use it?', '1. 先确认能否使用'))}</b><span>${esc(L('Region, KYC and fiat methods can override every fee result.', '地区、KYC 和法币通道可能推翻全部费率结论。'))}</span></div>
-      <div><b>${esc(L('2. What is the full path?', '2. 再明确完整路径'))}</b><span>${esc(L('Funding + spread + trade + withdrawal, not trading fee alone.', '入金 + 价差 + 交易 + 提币，不只看交易费。'))}</span></div>
-      <div><b>${esc(L('3. Can you withdraw safely?', '3. 最后确认安全提币'))}</b><span>${esc(L('The receiving wallet must support the exact same network.', '接收钱包必须支持完全相同的网络。'))}</span></div>
+      <div><b>${esc(L('1. Can you use it?', '1. 先看能不能用'))}</b><span>${esc(L('Region, KYC and fiat methods can override every fee result.', '地区不支持，费用再低也没有意义。'))}</span></div>
+      <div><b>${esc(L('2. What is the full path?', '2. 再算这次要花多少'))}</b><span>${esc(L('Funding + spread + trade + withdrawal, not trading fee alone.', '入金、交易和提币要分开看。'))}</span></div>
+      <div><b>${esc(L('3. Can you withdraw safely?', '3. 最后确认提币网络'))}</b><span>${esc(L('The receiving wallet must support the exact same network.', '转出和接收必须选同一条链。'))}</span></div>
     </div>
   </section>
 
   <section class="compare-decider" aria-labelledby="cpDeciderTitle">
-    <div class="compare-decider-head"><h2 id="cpDeciderTitle">${esc(L('Tell us what you actually need', '告诉我你的实际需求'))}</h2><p>${esc(L('Four plain-language choices are enough. We use them only in your browser and do not save the values.', '只需回答四个简单问题；这些选择只在当前浏览器计算，不会保存。'))}</p></div>
+    <div class="compare-decider-head"><h2 id="cpDeciderTitle">${esc(L('Tell us what you actually need', '按你的情况算一遍'))}</h2><p>${esc(L('Four plain-language choices are enough. We use them only in your browser and do not save the values.', '下面的选择只用于本页计算，不上传，也不保存。'))}</p></div>
     <div class="compare-questions">
-      <label class="compare-question"><span>${esc(L('1. Where do you live?', '1. 你常住哪个国家或地区？'))}</span><select id="cpCountry"><option value="">${esc(L('Select a region first', '请先选择地区'))}</option>${regionOptions}</select></label>
-      <label class="compare-question"><span>${esc(L('2. About how much will you buy?', '2. 预计买入多少 USDT？'))}</span><input id="cpAmount" type="number" min="1" max="10000000" step="1" value="1000" inputmode="decimal"></label>
-      <label class="compare-question"><span>${esc(L('3. How do you want the order filled?', '3. 希望怎么成交？'))}</span><select id="cpOrder"><option value="taker">${esc(L('Buy now at the available market price', '现在买入，按市场可成交价格'))}</option><option value="maker">${esc(L('Set a price and wait for a fill', '自己设定价格，等待成交'))}</option></select></label>
-      <label class="compare-question"><span>${esc(L('4. Will you move USDT to a wallet?', '4. 买入后需要提币到钱包吗？'))}</span><select id="cpWithdraw"><option value="yes">${esc(L('Yes, include withdrawal cost', '需要，计入提币成本'))}</option><option value="no">${esc(L('No, compare trading fee only', '暂不需要，只比较交易费'))}</option></select></label>
-      <label id="cpNetworkQuestion" class="compare-question compare-network-question"><span>${esc(L('Which network can the receiving wallet use?', '接收钱包支持哪个网络？'))}</span><select id="cpNetwork"><option value="auto">${esc(L('Not sure — show the lowest common example', '不确定——展示双方最低共同网络示例'))}</option>${networkOptions}</select></label>
+      <label class="compare-question"><span>${esc(L('1. Where do you live?', '1. 你目前常住哪里？'))}</span><select id="cpCountry"><option value="">${esc(L('Select a region first', '先选国家或地区'))}</option>${regionOptions}</select></label>
+      <label class="compare-question"><span>${esc(L('2. About how much will you buy?', '2. 准备买多少 USDT？'))}</span><input id="cpAmount" type="number" min="1" max="10000000" step="1" value="1000" inputmode="decimal"></label>
+      <label class="compare-question"><span>${esc(L('3. How do you want the order filled?', '3. 你打算怎么买？'))}</span><select id="cpOrder"><option value="taker">${esc(L('Buy now at the available market price', '直接按当前价格买（市价单）'))}</option><option value="maker">${esc(L('Set a price and wait for a fill', '自己定价，等待成交（限价单）'))}</option></select></label>
+      <label class="compare-question"><span>${esc(L('4. Will you move USDT to a wallet?', '4. 买完要转到自己的钱包吗？'))}</span><select id="cpWithdraw"><option value="yes">${esc(L('Yes, include withdrawal cost', '要，把提币费也算进去'))}</option><option value="no">${esc(L('No, compare trading fee only', '不要，只算交易费'))}</option></select></label>
+      <label id="cpNetworkQuestion" class="compare-question compare-network-question"><span>${esc(L('Which network can the receiving wallet use?', '你的钱包支持哪条链？'))}</span><select id="cpNetwork"><option value="auto">${esc(L('Not sure — show the lowest common example', '不清楚——先看双方都有且费用最低的一条'))}</option>${networkOptions}</select></label>
     </div>
     <div id="cpLiveResult" class="compare-live-result" role="status" aria-live="polite">
-      <div class="eyebrow">${esc(L('Personalized snapshot', '你的条件下的快照结论'))}</div>
-      <h3 id="cpLiveTitle">${esc(L('Select your region to start', '先选择所在地区，再给出结论'))}</h3>
-      <p id="cpLiveSummary">${esc(L('Regional availability is checked before any fee comparison.', '页面会先判断能否使用，再比较基础费用。'))}</p>
-      <a id="cpRegionSource" class="compare-source-links" href="#" rel="noopener" target="_blank" hidden>${esc(L('Regional source', '地区来源'))}</a>
-      <div class="compare-live-grid">
-        <div class="compare-live-item"><span>${esc(L('Availability', '地区可用性'))}</span><b id="cpLiveAvailability">${esc(L('Waiting for region', '等待选择地区'))}</b></div>
-        <div class="compare-live-item"><span>${esc(L('Trading fee', '交易手续费'))}</span><b id="cpLiveTrade">—</b></div>
-        <div class="compare-live-item"><span>${esc(L('Withdrawal fee', '提币费用'))}</span><b id="cpLiveWithdrawal">—</b></div>
-      </div>
+      <div class="eyebrow">${esc(L('Personalized snapshot', '根据你的选择'))}</div>
+      <h3 id="cpLiveTitle">${esc(L('Select your region to start', '先选地区，看看这两家能不能用'))}</h3>
+      <p id="cpLiveSummary">${esc(L('Regional availability is checked before any fee comparison.', '选完后会自动比较交易费和提币费。'))}</p>
+      <a id="cpRegionSource" class="compare-source-links" href="#" rel="noopener" target="_blank" hidden>${esc(L('Regional source', '查看地区依据'))}</a>
+      <div class="scroll"><table class="compare-live-table"><thead><tr><th>${esc(L('Item', '比较项目'))}</th><th>${esc(a.name)}</th><th>${esc(b.name)}</th><th>${esc(L('What it means', '怎么看'))}</th></tr></thead><tbody>
+        <tr><td>${esc(L('Can I use it?', '能不能用'))}</td><td id="cpAvailA">—</td><td id="cpAvailB">—</td><td id="cpAvailVerdict">${esc(L('Select a region', '先选地区'))}</td></tr>
+        <tr><td>${esc(L('Trading fee', '交易费'))}</td><td id="cpTradeA">—</td><td id="cpTradeB">—</td><td id="cpTradeVerdict">—</td></tr>
+        <tr><td>${esc(L('Withdrawal fee', '提币费'))}</td><td id="cpWithdrawA">—</td><td id="cpWithdrawB">—</td><td id="cpWithdrawVerdict">—</td></tr>
+      </tbody></table></div>
     </div>
   </section>
 
   <section class="compare-section">
-    <div class="compare-section-head"><h2>${esc(L('Published fee evidence', '公开费用证据'))}</h2><p>${esc(L('Ordinary-user base tier; $1,000 examples exclude spread and funding costs.', '普通用户基础档；1,000 美元示例不包含价差和入金成本。'))}</p></div>
-    <div class="compare-verdicts">
-      <article class="compare-verdict"><div class="label">${esc(L('$1,000 market order', '1,000 美元市价单'))}</div><h3>${esc(`${a.name} ${money(takerA)} · ${b.name} ${money(takerB)}`)}</h3><p>${esc(L(`Published taker rates: ${pct(a.spot.taker)} vs ${pct(b.spot.taker)}.`, `公开吃单费率：${pct(a.spot.taker)} vs ${pct(b.spot.taker)}。`))}</p>${resultTag(takerWinner)}</article>
-      <article class="compare-verdict"><div class="label">${esc(L('$1,000 limit order that adds liquidity', '1,000 美元限价挂单'))}</div><h3>${esc(`${a.name} ${money(makerA)} · ${b.name} ${money(makerB)}`)}</h3><p>${esc(L(`Published maker rates: ${pct(a.spot.maker)} vs ${pct(b.spot.maker)}. An unfilled order has no trade fee.`, `公开挂单费率：${pct(a.spot.maker)} vs ${pct(b.spot.maker)}；未成交不产生交易费。`))}</p>${resultTag(makerWinner)}</article>
-      <article class="compare-verdict"><div class="label">${esc(L('1,000 USDT · low-cost common withdrawal path', '提取 1,000 USDT · 低成本共同网络'))}</div><h3>${lowCostNetwork ? esc(`${lowCostNetwork} · ${a.name} ${usd(lowA)} · ${b.name} ${usd(lowB)}`) : esc(L('No comparable public withdrawal quote', '没有可比较的公开提币报价'))}</h3><p>${esc(L('A route example, not a universal recommendation. Confirm wallet support and the live fee.', '这是路径示例，不是通用推荐；必须确认钱包支持并核对实时费用。'))}</p>${lowCostNetwork ? resultTag(withdrawalWinner) : `<span class="winner tie">${esc(L('No fee winner declared', '不宣布费用胜负'))}</span>`}</article>
-    </div>
-    <div class="compare-assumption">${esc(L('Why there is no “total-cost winner” here: card/bank availability is regional and instant-buy spread is not in the current dataset. Claiming a total winner would be false precision.', '为什么这里不宣布“总成本赢家”：银行卡/转账通道因地区而异，当前数据也没有即时买币价差；直接给总成本胜负会造成虚假精确。'))}</div>
+    <div class="compare-section-head"><h2>${esc(L('Published fee evidence', '基础费率对比'))}</h2><p>${esc(L('Ordinary-user base tier; $1,000 examples exclude spread and funding costs.', '按普通用户基础费率和 1,000 USDT 计算；不包含入金费、价差和滑点。'))}</p></div>
+    <div class="scroll"><table class="compare-table"><thead><tr><th>${esc(L('Scenario', '场景'))}</th><th>${esc(a.name)}</th><th>${esc(b.name)}</th><th>${esc(L('Result', '结果'))}</th></tr></thead><tbody>
+      <tr><td><b>${esc(L('$1,000 market order', '直接买入'))}</b><small>${esc(L('Taker / immediate fill', '交易额 1,000 USDT，立即成交'))}</small></td><td>${esc(`${money(takerA)} · ${pct(a.spot.taker)}`)}</td><td>${esc(`${money(takerB)} · ${pct(b.spot.taker)}`)}</td><td>${esc(feeVerdict(takerA, takerB))}</td></tr>
+      <tr><td><b>${esc(L('$1,000 limit order', '挂单买入'))}</b><small>${esc(L('Maker / waits on order book', '交易额 1,000 USDT，自己定价等待成交'))}</small></td><td>${esc(`${money(makerA)} · ${pct(a.spot.maker)}`)}</td><td>${esc(`${money(makerB)} · ${pct(b.spot.maker)}`)}</td><td>${esc(feeVerdict(makerA, makerB))}</td></tr>
+      <tr><td><b>${esc(L('Withdraw 1,000 USDT', '提取 1,000 USDT'))}</b><small>${esc(lowCostNetwork ? L(`${lowCostNetwork} common-network example`, `${lowCostNetwork} 共同网络示例`) : L('No public comparable quote', '没有公开可比报价'))}</small></td><td>${lowCostNetwork ? esc(usd(lowA)) : '—'}</td><td>${lowCostNetwork ? esc(usd(lowB)) : '—'}</td><td>${lowCostNetwork ? esc(feeVerdict(lowA, lowB)) : esc(L('No winner', '不比较'))}</td></tr>
+    </tbody></table></div>
+    <div class="compare-assumption">${esc(L('Why there is no “total-cost winner” here: card/bank availability is regional and instant-buy spread is not in the current dataset. Claiming a total winner would be false precision.', '这里不算“真实总成本”：银行卡、转账通道和即时买币价差会随地区变化，当前没有足够数据，不能硬给一个总价排名。'))}</div>
     ${feeEvidenceHtml}
   </section>
 
   <section class="compare-section">
-    <div class="compare-section-head"><h2>${esc(L('Funding methods: check availability before fees', '入金方式：先确认可用，再比较费用'))}</h2><p>${esc(L('Published indicative ranges; providers and regions can change the final quote.', '公开参考区间；支付服务商和地区会改变最终报价。'))}</p></div>
+    <div class="compare-section-head"><h2>${esc(L('Funding methods: check availability before fees', '入金方式和费用'))}</h2><p>${esc(L('Published indicative ranges; providers and regions can change the final quote.', '是否支持、实际收多少，会随地区和支付服务商变化。'))}</p></div>
     <div class="compare-methods">
       <article class="compare-method"><h3>${esc(a.name)}</h3><ul>${(a.deposit_methods || []).map((d) => `<li>${methodLabel(d)}</li>`).join('')}</ul></article>
       <article class="compare-method"><h3>${esc(b.name)}</h3><ul>${(b.deposit_methods || []).map((d) => `<li>${methodLabel(d)}</li>`).join('')}</ul></article>
@@ -1366,19 +1376,19 @@ function comparePage(slugA, slugB, lang) {
   </section>
 
   <section class="compare-section">
-    <div class="compare-section-head"><h2>${esc(L('1,000 USDT withdrawal on networks both support', '提取 1,000 USDT：双方共同支持的网络'))}</h2><p>${esc(L('Fees are fixed or dynamic exchange quotes, not blockchain guarantees. Test with a small amount first.', '费用是交易所固定或动态报价，不是链上保证；首次操作建议先小额测试。'))}${withdrawalProcessingNote ? ` ${esc(withdrawalProcessingNote)}` : ''}</p></div>
-    <div class="scroll"><table class="compare-table"><thead><tr><th>${esc(L('Network', '网络'))}</th><th>${esc(a.name)}</th><th>${esc(b.name)}</th><th>${esc(L('Snapshot result', '快照结论'))}</th></tr></thead><tbody>${networkRows || `<tr><td colspan="4">${esc(L('No common network recorded', '未记录共同网络'))}</td></tr>`}</tbody></table></div>
+    <div class="compare-section-head"><h2>${esc(L('1,000 USDT withdrawal on networks both support', '把 1,000 USDT 转到钱包：共同网络费用'))}</h2><p>${esc(L('Fees are fixed or dynamic exchange quotes, not blockchain guarantees. Test with a small amount first.', '有些提币费会变动，下面只是当前快照；第一次转账建议先小额测试。'))}${withdrawalProcessingNote ? ` ${esc(withdrawalProcessingNote)}` : ''}</p></div>
+    <div class="scroll"><table class="compare-table"><thead><tr><th>${esc(L('Network', '网络'))}</th><th>${esc(a.name)}</th><th>${esc(b.name)}</th><th>${esc(L('Snapshot result', '哪家更省'))}</th></tr></thead><tbody>${networkRows || `<tr><td colspan="4">${esc(L('No common network recorded', '没有公开可比的共同网络费用'))}</td></tr>`}</tbody></table></div>
   </section>
 
   <section class="compare-section">
-    <div class="compare-section-head"><h2>${esc(L('Trust facts to verify before opening an account', '开户注册前应核对的可信度事实'))}</h2><p>${esc(L('Facts are shown separately so one editorial score cannot hide a licence gap or past incident.', '事实分开展示，避免单一编辑评分掩盖牌照缺口或历史事件。'))}</p></div>
+    <div class="compare-section-head"><h2>${esc(L('Trust facts to verify before opening an account', '注册前要看的安全与合规信息'))}</h2><p>${esc(L('Facts are shown separately so one editorial score cannot hide a licence gap or past incident.', '牌照、储备和历史事件分开列，不用一个“安全分”替你做判断。'))}</p></div>
     <div class="compare-facts">${facts(slugA, a)}${facts(slugB, b)}</div>
   </section>
 
   <section class="compare-section">
-    <details class="compare-advanced"><summary>${esc(L('Advanced / high-risk trading capabilities (not needed for a first purchase)', '进阶 / 高风险交易能力（第一次买币不需要）'))}</summary><div class="scroll"><table class="compare-table"><thead><tr><th>${esc(L('Capability', '能力'))}</th><th>${esc(a.name)}</th><th>${esc(b.name)}</th></tr></thead><tbody>${advancedRows}</tbody></table></div></details>
-    <div class="compare-actions">${ctaHtml(slugA, esc(T(lang, 'ctaOpenOn', { x: a.name })), lang)}${ctaHtml(slugB, esc(T(lang, 'ctaOpenOn', { x: b.name })), lang)}</div>
-    <p class="compare-source-note">${esc(L('Research basis: a 395-person investor/potential-investor survey, interviews with 15 Chinese exchange users, public beginner forum discussions and tutorial-video topic analysis. This is qualitative evidence, not FeeEye behavioural analytics.', '研究依据：395 名投资者/潜在投资者调查、15 名中国交易所用户访谈、公开新手论坛讨论与教程视频主题分析。这是定性证据，不是 FeeEye 自有行为数据。'))} <a href="https://uwspace.uwaterloo.ca/items/49452a36-424c-4758-9f99-932eba2454ac" rel="noopener" target="_blank">${esc(L('395-person study', '395 人研究'))}</a> · <a href="https://arxiv.org/abs/2204.08664" rel="noopener" target="_blank">${esc(L('China interview study', '中国用户访谈'))}</a></p>
+    <details class="compare-advanced"><summary>${esc(L('Advanced / high-risk trading capabilities (not needed for a first purchase)', '更多交易功能（高风险，新手第一次买币用不到）'))}</summary><div class="scroll"><table class="compare-table"><thead><tr><th>${esc(L('Capability', '功能'))}</th><th>${esc(a.name)}</th><th>${esc(b.name)}</th></tr></thead><tbody>${advancedRows}</tbody></table></div></details>
+    <div id="cpCompareActions" class="compare-actions" hidden>${ctaHtml(slugA, esc(T(lang, 'ctaOpenOn', { x: a.name })), lang)}${ctaHtml(slugB, esc(T(lang, 'ctaOpenOn', { x: b.name })), lang)}</div>
+    <p class="compare-source-note">${esc(L('Research basis: a 395-person investor/potential-investor survey, interviews with 15 Chinese exchange users, public beginner forum discussions and tutorial-video topic analysis. This is qualitative evidence, not FeeEye behavioural analytics.', '为什么这样设计：参考395人调查、15名中国用户访谈，以及公开的新手论坛和教程视频。这些是外部定性证据，不是FeeEye自己的用户统计。'))} <a href="https://uwspace.uwaterloo.ca/items/49452a36-424c-4758-9f99-932eba2454ac" rel="noopener" target="_blank">${esc(L('395-person study', '395人调查'))}</a> · <a href="https://arxiv.org/abs/2204.08664" rel="noopener" target="_blank">${esc(L('China interview study', '中国用户访谈'))}</a></p>
   </section>
   </main>
   <script>
@@ -1394,14 +1404,16 @@ function comparePage(slugA, slugB, lang) {
     var title=document.getElementById('cpLiveTitle');
     var summary=document.getElementById('cpLiveSummary');
     var regionSource=document.getElementById('cpRegionSource');
-    var availability=document.getElementById('cpLiveAvailability');
-    var trade=document.getElementById('cpLiveTrade');
-    var withdrawal=document.getElementById('cpLiveWithdrawal');
+    var compareActions=document.getElementById('cpCompareActions');
+    var actionLinks=compareActions.querySelectorAll('a');
+    var availAEl=document.getElementById('cpAvailA'),availBEl=document.getElementById('cpAvailB'),availVerdict=document.getElementById('cpAvailVerdict');
+    var tradeAEl=document.getElementById('cpTradeA'),tradeBEl=document.getElementById('cpTradeB'),tradeVerdict=document.getElementById('cpTradeVerdict');
+    var withdrawAEl=document.getElementById('cpWithdrawA'),withdrawBEl=document.getElementById('cpWithdrawB'),withdrawVerdict=document.getElementById('cpWithdrawVerdict');
     function fill(value,key,replacement){return value.replace('{'+key+'}',replacement);}
     function num(value){return Number(value).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});}
     function quote(ex,net,value){
       var fee=ex.withdrawal_fees&&ex.withdrawal_fees[net];
-      if(!fee) return null;
+      if(!fee||fee.amount==null) return null;
       var processing=ex.withdrawal_processing;
       var processingFee=processing?Math.min(value*processing.rate,processing.cap):0;
       return {total:fee.amount+processingFee,estimated:String(fee.model||'').indexOf('dynamic')!==-1};
@@ -1426,10 +1438,13 @@ function comparePage(slugA, slugB, lang) {
       var value=Math.max(1,Number(amount.value)||1000);
       var orderType=order.value;
       var includeWithdrawal=withdraw.value==='yes';
+      compareActions.hidden=true;for(var actionIndex=0;actionIndex<actionLinks.length;actionIndex++)actionLinks[actionIndex].hidden=false;
+      [availAEl,availBEl,availVerdict,tradeAEl,tradeBEl,tradeVerdict,withdrawAEl,withdrawBEl,withdrawVerdict].forEach(function(el){el.className='';});
       networkQuestion.hidden=!includeWithdrawal||DATA.networks.length===0;
       var tradeA=value*DATA.a.spot[orderType],tradeB=value*DATA.b.spot[orderType];
-      trade.textContent=(orderType==='taker'?TEXT.market:TEXT.limit)+' · '+DATA.a.name+' '+num(tradeA)+' / '+DATA.b.name+' '+num(tradeB)+' USDT';
-      var wdA=0,wdB=0,withdrawalText=TEXT.tradeOnly;
+      tradeAEl.textContent=num(tradeA)+' USDT';tradeBEl.textContent=num(tradeB)+' USDT';
+      tradeVerdict.textContent=Math.abs(tradeA-tradeB)<0.000001?TEXT.same:fill(fill(TEXT.less,'name',tradeA<tradeB?DATA.a.name:DATA.b.name),'saving',num(Math.abs(tradeA-tradeB)));
+      var wdA=0,wdB=0,withdrawComparable=!includeWithdrawal;
       if(includeWithdrawal){
         var selected=network.value;
         var qa,qb,net;
@@ -1438,25 +1453,35 @@ function comparePage(slugA, slugB, lang) {
           if(best){net=best.network;qa=best.qa;qb=best.qb;}
         }else{net=selected;qa=quote(DATA.a,net,value);qb=quote(DATA.b,net,value);}
         if(qa&&qb){
-          wdA=qa.total;wdB=qb.total;
-          withdrawalText=net+' · '+DATA.a.name+' '+(qa.estimated?'~':'')+num(wdA)+' / '+DATA.b.name+' '+(qb.estimated?'~':'')+num(wdB)+' USDT'+(selected==='auto'?' · '+TEXT.autoNetwork:'');
-        }else withdrawalText=TEXT.noCommon;
-      }
-      withdrawal.textContent=withdrawalText;
+          wdA=qa.total;wdB=qb.total;withdrawComparable=true;
+          withdrawAEl.textContent=(qa.estimated?'~':'')+num(wdA)+' USDT';withdrawBEl.textContent=(qb.estimated?'~':'')+num(wdB)+' USDT';
+          withdrawVerdict.textContent=(selected==='auto'?net+' · ':'')+(Math.abs(wdA-wdB)<0.000001?TEXT.same:fill(fill(TEXT.less,'name',wdA<wdB?DATA.a.name:DATA.b.name),'saving',num(Math.abs(wdA-wdB))));
+        }else{withdrawAEl.textContent=TEXT.feeUnknown;withdrawBEl.textContent=TEXT.feeUnknown;withdrawVerdict.textContent=TEXT.noCommon;}
+      }else{withdrawAEl.textContent='—';withdrawBEl.textContent='—';withdrawVerdict.textContent=TEXT.tradeOnly;}
       if(!cc){
-        title.textContent=TEXT.selectRegion;summary.textContent=TEXT.regionFirst;availability.textContent=TEXT.waiting;return;
+        title.textContent=TEXT.selectRegion;summary.textContent=TEXT.regionFirst;availAEl.textContent=TEXT.waiting;availBEl.textContent=TEXT.waiting;availVerdict.textContent=TEXT.regionFirst;return;
       }
       var record=DATA.availability[cc];
       regionSource.hidden=!(record&&record.source);if(record&&record.source)regionSource.href=record.source;
+      if(record&&record.decision==='blocked'){
+        title.textContent=TEXT.blockedTitle;summary.textContent=record.note||TEXT.blockedTitle;
+        availAEl.textContent=TEXT.blockedStatus;availBEl.textContent=TEXT.blockedStatus;availVerdict.textContent=TEXT.notCompared;
+        [availAEl,availBEl,availVerdict].forEach(function(el){el.className='blocked';});
+        tradeAEl.textContent='—';tradeBEl.textContent='—';tradeVerdict.textContent=TEXT.notCompared;
+        withdrawAEl.textContent='—';withdrawBEl.textContent='—';withdrawVerdict.textContent=TEXT.notCompared;return;
+      }
       if(record&&record.restricted){
-        title.textContent=TEXT.regionNotCovered;summary.textContent=TEXT.verifyRegion;availability.textContent=TEXT.unknownAvailability;return;
+        title.textContent=TEXT.regionNotCovered;summary.textContent=TEXT.verifyRegion;availAEl.textContent=TEXT.unknownAvailability;availBEl.textContent=TEXT.unknownAvailability;availVerdict.textContent=TEXT.notCompared;return;
       }
       var aa=avail(record,'a'),ab=avail(record,'b');
-      availability.textContent=DATA.a.name+'：'+(aa===true?TEXT.available:(aa===false?TEXT.unavailable:TEXT.unknownAvailability))+' · '+DATA.b.name+'：'+(ab===true?TEXT.available:(ab===false?TEXT.unavailable:TEXT.unknownAvailability));
-      if(aa===false&&ab===false){title.textContent=TEXT.bothUnavailable;summary.textContent=TEXT.verifyRegion;return;}
-      if(aa===false&&ab===true){title.textContent=fill(TEXT.exclude,'name',DATA.a.name);summary.textContent=fill(TEXT.candidate,'name',DATA.b.name);return;}
-      if(ab===false&&aa===true){title.textContent=fill(TEXT.exclude,'name',DATA.b.name);summary.textContent=fill(TEXT.candidate,'name',DATA.a.name);return;}
-      if(aa!==true||ab!==true){title.textContent=TEXT.cannotConclude;summary.textContent=TEXT.verifyRegion;return;}
+      availAEl.textContent=aa===true?TEXT.available:(aa===false?TEXT.unavailable:TEXT.unknownAvailability);availBEl.textContent=ab===true?TEXT.available:(ab===false?TEXT.unavailable:TEXT.unknownAvailability);
+      if(aa===false&&ab===false){title.textContent=TEXT.bothUnavailable;summary.textContent=record&&record.note?record.note:TEXT.verifyRegion;availVerdict.textContent=TEXT.notCompared;return;}
+      if(aa===false&&ab===true){title.textContent=fill(TEXT.exclude,'name',DATA.a.name);summary.textContent=fill(TEXT.candidate,'name',DATA.b.name);availVerdict.textContent=fill(TEXT.exclude,'name',DATA.a.name);compareActions.hidden=false;if(actionLinks[0])actionLinks[0].hidden=true;return;}
+      if(ab===false&&aa===true){title.textContent=fill(TEXT.exclude,'name',DATA.b.name);summary.textContent=fill(TEXT.candidate,'name',DATA.a.name);availVerdict.textContent=fill(TEXT.exclude,'name',DATA.b.name);compareActions.hidden=false;if(actionLinks[1])actionLinks[1].hidden=true;return;}
+      if(aa!==true||ab!==true){title.textContent=TEXT.cannotConclude;summary.textContent=TEXT.verifyRegion;availVerdict.textContent=TEXT.notCompared;return;}
+      availVerdict.textContent=TEXT.bothAvailable;
+      compareActions.hidden=false;
+      if(!withdrawComparable){title.textContent=TEXT.cannotCostCompare;summary.textContent=TEXT.costScope;return;}
       var totalA=tradeA+wdA,totalB=tradeB+wdB;
       if(Math.abs(totalA-totalB)<0.000001)title.textContent=TEXT.tie;
       else{

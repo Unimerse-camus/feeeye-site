@@ -9,7 +9,7 @@
  */
 
 window.COUNTRY_AVAILABILITY = {
-  "CN": { "restricted": true,  "note": "Restricted Location — 不提供服务", "exchanges": {} },
+  "CN": { "restricted": true, "decision": "blocked", "note": "中国人民银行等十部门明确：虚拟货币相关业务活动属于非法金融活动，境外虚拟货币交易所向境内居民提供服务同样属于非法金融活动。FeeEye不向中国大陆用户提供交易所开户注册或交易引导。", "source": "https://m.safe.gov.cn/safe/2021/0924/19911.html", "exchanges": { "kucoin": false, "binance": false, "bybit": false, "okx": false, "bitget": false, "kraken": false, "coinbase": false } },
   "HK": { "restricted": true,  "note": "Restricted Location — 不提供服务", "exchanges": {} },
   "US": { "restricted": true,  "note": "Restricted Location — 不提供服务", "exchanges": {} },
   "SG": { "restricted": true,  "note": "Restricted Location — 不提供服务", "exchanges": {} },

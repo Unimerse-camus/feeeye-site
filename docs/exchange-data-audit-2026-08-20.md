@@ -73,6 +73,12 @@ Kraken官方费用页当前显示：TRON 4 USDT、Ethereum 0.8571 USDT、Solana 
 - https://www.bitget.com/support/articles/12560603848103
 - https://www.bitget.com/support/articles/12560603850171
 
+### 已明确：中国大陆
+
+中国大陆不再沿用“资料不足、去交易所官网核对”的模糊提示。根据中国人民银行等十部门通知，虚拟货币相关业务活动属于非法金融活动，境外虚拟货币交易所向境内居民提供服务同样属于非法金融活动。FeeEye对中国大陆选择明确显示“交易所不作为可用选项”，不比较费用、不显示开户注册入口。
+
+监管依据：https://m.safe.gov.cn/safe/2021/0924/19911.html
+
 ## 数据风险分级与刷新建议
 
 | 数据 | 风险 | 建议频率 | 页面处理 |
