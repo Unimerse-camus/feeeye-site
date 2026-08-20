@@ -379,7 +379,7 @@ const LEGAL_HTML = {
     privacy: {
       title: 'Privacy Policy',
       desc: 'How FeeEye handles your information.',
-      body: `<h1>Privacy Policy</h1><p class="intro">Last reviewed: 2026-08-19</p><h3>Who we are</h3><p>This policy describes how FeeEye ("we", "us") handles information on this website.</p><h3>Accounts and tool inputs</h3><p>We don\'t require accounts and we don\'t ask for names or email addresses. Inputs entered into calculators and the portfolio tracker stay in your browser and are not sent to FeeEye servers.</p><h3>Privacy-friendly analytics</h3><p>We use Cloudflare Web Analytics to receive aggregate page-view and performance measurements. Cloudflare states that this service does not use cookies or local storage and does not retain visitors\' IP addresses in its analytics databases. The analytics beacon still sends page and performance measurements to Cloudflare for processing. We do not sell this information.</p><h3>External services</h3><p>Token checks and live-price features may request data from the named third-party APIs when you use those tools. Opening an exchange link takes you to that exchange, whose privacy policy then applies.</p><h3>Changes</h3><p>We will update this policy and the "last reviewed" date when practices change.</p>`,
+      body: `<h1>Privacy Policy</h1><p class="intro">Last reviewed: 2026-08-20</p><h3>Who we are</h3><p>This policy describes how FeeEye ("we", "us") handles information on this website.</p><h3>Accounts and tool inputs</h3><p>We don\'t require accounts and we don\'t ask for names or email addresses. Inputs entered into calculators and the portfolio tracker stay in your browser and are not sent to FeeEye servers.</p><h3>Analytics status</h3><p>FeeEye currently does not load an analytics beacon or custom-event tracker. We may enable privacy-conscious aggregate analytics in the future to measure page views, performance and a limited set of product interactions. Before activation, we will update this policy to identify the provider, data fields and applicable storage practices. We will not send complete search queries, wallet addresses, portfolio inputs or calculator amounts as analytics events.</p><h3>External services</h3><p>Token checks and live-price features may request data from the named third-party APIs when you use those tools. Opening an exchange link takes you to that exchange, whose privacy policy then applies.</p><h3>Changes</h3><p>We will update this policy and the "last reviewed" date when practices change.</p>`,
     },
     terms: {
       title: 'Terms of Use',
@@ -396,7 +396,7 @@ const LEGAL_HTML = {
     privacy: {
       title: '隐私政策',
       desc: 'FeeEye 如何处理你的信息。',
-      body: `<h1>隐私政策</h1><p class="intro">最近审阅：2026-08-19</p><h3>账号与工具输入</h3><p>FeeEye 不要求注册账号，也不主动索取姓名或邮箱。费用计算器和持仓记账本中的输入保留在你的浏览器中，不发送到 FeeEye 服务器。</p><h3>隐私友好的网站分析</h3><p>我们使用 Cloudflare Web Analytics 获取汇总的页面访问与性能指标。Cloudflare 声明该服务不使用 Cookie 或本地存储，也不在分析数据库中保留访客 IP；但分析脚本仍会把页面和性能指标发送给 Cloudflare 处理。我们不出售这些信息。</p><h3>外部服务</h3><p>使用代币检查和实时价格功能时，页面可能向工具中标明的第三方 API 请求数据。打开交易所链接后，将适用该交易所的隐私政策。</p><h3>变更</h3><p>实践发生变化时，我们会更新本政策及"最近审阅"日期。</p>`,
+      body: `<h1>隐私政策</h1><p class="intro">最近审阅：2026-08-20</p><h3>账号与工具输入</h3><p>FeeEye 不要求注册账号，也不主动索取姓名或邮箱。费用计算器和持仓记账本中的输入保留在你的浏览器中，不发送到 FeeEye 服务器。</p><h3>分析功能状态</h3><p>FeeEye 当前没有加载网站分析 Beacon 或自定义事件统计脚本。未来可能启用注重隐私的汇总分析，用于衡量页面访问、性能和少量产品交互；启用前会更新本政策，明确服务提供方、数据字段和存储方式。完整搜索词、钱包地址、持仓输入和计算器金额不会作为分析事件发送。</p><h3>外部服务</h3><p>使用代币检查和实时价格功能时，页面可能向工具中标明的第三方 API 请求数据。打开交易所链接后，将适用该交易所的隐私政策。</p><h3>变更</h3><p>实践发生变化时，我们会更新本政策及"最近审阅"日期。</p>`,
     },
     terms: {
       title: '使用条款',
@@ -577,14 +577,17 @@ input[type=number]{font-size:16px}
 .coin-search-submit:hover{background:#1d4ed8}
 .coin-suggestions{display:none;position:absolute;left:0;right:0;top:56px;z-index:50;max-height:340px;overflow-y:auto;background:#fff;border:1px solid var(--line);border-radius:12px;padding:6px;box-shadow:0 16px 38px rgba(15,23,42,.16)}
 .coin-suggestions.open{display:block}
-.coin-suggestion{width:100%;display:grid;grid-template-columns:64px minmax(0,1fr) auto;align-items:center;gap:10px;border:0;border-radius:9px;background:#fff;padding:9px 10px;text-align:left;color:#172033;font:inherit;cursor:pointer}
+.coin-suggestion{width:100%;display:grid;grid-template-columns:34px 64px minmax(0,1fr) auto;align-items:center;gap:10px;border:0;border-radius:9px;background:#fff;padding:8px 10px;text-align:left;color:#172033;font:inherit;cursor:pointer}
 .coin-suggestion:hover,.coin-suggestion.active{background:#eff6ff}
+.coin-suggestion-icon{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:#e0e7ff;color:#3730a3;font-size:10px;font-weight:850;letter-spacing:-.02em}
+.coin-suggestion-icon.cat-l1{background:#dbeafe;color:#1d4ed8}.coin-suggestion-icon.cat-meme{background:#fef3c7;color:#a16207}.coin-suggestion-icon.cat-exchange{background:#dcfce7;color:#047857}.coin-suggestion-icon.cat-defi{background:#ede9fe;color:#6d28d9}.coin-suggestion-icon.cat-rwa{background:#fce7f3;color:#be185d}
 .coin-suggestion-symbol{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;font-weight:800;color:#1d4ed8}
 .coin-suggestion-name{font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .coin-suggestion-action{font-size:11px;color:#64748b}
 .coin-search-hint{padding:7px 10px 5px;color:#64748b;font-size:11px;font-weight:650}
+.coin-search-empty{padding:18px 12px;text-align:center;color:#475569;font-size:13px}.coin-search-empty b{display:block;color:#172033;margin-bottom:3px}.coin-search-empty span{font-size:11.5px;color:#64748b}
 .search-msg{display:none;color:var(--bad);font-size:13px;margin:7px 2px 0}
-@media(max-width:520px){.coin-search-submit{padding:0 16px}.coin-suggestion{grid-template-columns:58px minmax(0,1fr)}.coin-suggestion-action{display:none}.coin-suggestions{max-height:280px}}
+@media(max-width:520px){.coin-search-submit{padding:0 16px}.coin-suggestion{grid-template-columns:32px 54px minmax(0,1fr)}.coin-suggestion-action{display:none}.coin-suggestions{max-height:280px}}
 .scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
 .tbadges{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 6px}
 .tbadge{background:#f8fafc;border:1px solid var(--line);border-radius:8px;padding:6px 12px;text-align:center;min-width:84px}
@@ -1188,10 +1191,18 @@ function comparePage(slugA, slugB, lang) {
 
   const takerA = sample * a.spot.taker, takerB = sample * b.spot.taker;
   const makerA = sample * a.spot.maker, makerB = sample * b.spot.maker;
+  const withdrawalCost = (slug, ex, network) => {
+    const networkFee = getFee(slug, network);
+    if (networkFee == null) return null;
+    const processingFee = ex.withdrawal_processing_rate
+      ? Math.min(sample * ex.withdrawal_processing_rate, ex.withdrawal_processing_cap ?? Infinity)
+      : 0;
+    return networkFee + processingFee;
+  };
   const commonNetworks = Object.keys(a.usdt_withdrawal || {}).filter((n) => b.usdt_withdrawal && b.usdt_withdrawal[n] != null);
-  const lowCostNetwork = commonNetworks.slice().sort((x, y) => Math.max(getFee(slugA, x), getFee(slugB, x)) - Math.max(getFee(slugA, y), getFee(slugB, y)))[0] || null;
-  const lowA = lowCostNetwork ? getFee(slugA, lowCostNetwork) : null;
-  const lowB = lowCostNetwork ? getFee(slugB, lowCostNetwork) : null;
+  const lowCostNetwork = commonNetworks.slice().sort((x, y) => Math.max(withdrawalCost(slugA, a, x), withdrawalCost(slugB, b, x)) - Math.max(withdrawalCost(slugA, a, y), withdrawalCost(slugB, b, y)))[0] || null;
+  const lowA = lowCostNetwork ? withdrawalCost(slugA, a, lowCostNetwork) : null;
+  const lowB = lowCostNetwork ? withdrawalCost(slugB, b, lowCostNetwork) : null;
   const takerWinner = winner(takerA, takerB);
   const makerWinner = winner(makerA, makerB);
   const withdrawalWinner = lowCostNetwork ? winner(lowA, lowB) : null;
@@ -1201,9 +1212,13 @@ function comparePage(slugA, slugB, lang) {
   );
 
   const networkRows = commonNetworks.map((network) => {
-    const fa = getFee(slugA, network), fb = getFee(slugB, network);
+    const fa = withdrawalCost(slugA, a, network), fb = withdrawalCost(slugB, b, network);
     return `<tr><td><b>${esc(network)}</b></td><td class="${fa < fb ? 'low' : ''}">${usd(fa)}</td><td class="${fb < fa ? 'low' : ''}">${usd(fb)}</td><td>${fa === fb ? esc(L('Same', '相同')) : esc(L(`${fa < fb ? a.name : b.name} lower`, `${fa < fb ? a.name : b.name} 更低`))}</td></tr>`;
   }).join('');
+  const withdrawalProcessingNote = [a, b].filter((ex) => ex.withdrawal_processing_rate).map((ex) => L(
+    `${ex.name}: includes ${(ex.withdrawal_processing_rate * 100).toFixed(2)}% processing fee (cap ${ex.withdrawal_processing_cap} USDT) plus the recorded network-fee snapshot.`,
+    `${ex.name}：已计入 ${(ex.withdrawal_processing_rate * 100).toFixed(2)}% 处理费（上限 ${ex.withdrawal_processing_cap} USDT）及当前记录的网络费快照。`
+  )).join(' ');
 
   const advancedRows = [
     [L('Futures taker (base)', '合约吃单（基础档）'), pct(a.futures.taker), pct(b.futures.taker)],
@@ -1244,7 +1259,7 @@ function comparePage(slugA, slugB, lang) {
     <div class="compare-verdicts">
       <article class="compare-verdict"><div class="label">${esc(L('$1,000 market order', '1,000 美元市价单'))}</div><h3>${esc(`${a.name} ${money(takerA)} · ${b.name} ${money(takerB)}`)}</h3><p>${esc(L(`Published taker rates: ${pct(a.spot.taker)} vs ${pct(b.spot.taker)}.`, `公开吃单费率：${pct(a.spot.taker)} vs ${pct(b.spot.taker)}。`))}</p>${resultTag(takerWinner)}</article>
       <article class="compare-verdict"><div class="label">${esc(L('$1,000 limit order that adds liquidity', '1,000 美元限价挂单'))}</div><h3>${esc(`${a.name} ${money(makerA)} · ${b.name} ${money(makerB)}`)}</h3><p>${esc(L(`Published maker rates: ${pct(a.spot.maker)} vs ${pct(b.spot.maker)}. An unfilled order has no trade fee.`, `公开挂单费率：${pct(a.spot.maker)} vs ${pct(b.spot.maker)}；未成交不产生交易费。`))}</p>${resultTag(makerWinner)}</article>
-      <article class="compare-verdict"><div class="label">${esc(L('Low-cost common withdrawal path', '低成本共同提币网络'))}</div><h3>${lowCostNetwork ? esc(`${lowCostNetwork} · ${a.name} ${usd(lowA)} · ${b.name} ${usd(lowB)}`) : esc(L('No common USDT network in this snapshot', '当前快照无共同 USDT 网络'))}</h3><p>${esc(L('A route example, not a universal recommendation. Confirm wallet support and the live fee.', '这是路径示例，不是通用推荐；必须确认钱包支持并核对实时费用。'))}</p>${resultTag(lowCostNetwork ? withdrawalWinner : null)}</article>
+      <article class="compare-verdict"><div class="label">${esc(L('1,000 USDT · low-cost common withdrawal path', '提取 1,000 USDT · 低成本共同网络'))}</div><h3>${lowCostNetwork ? esc(`${lowCostNetwork} · ${a.name} ${usd(lowA)} · ${b.name} ${usd(lowB)}`) : esc(L('No common USDT network in this snapshot', '当前快照无共同 USDT 网络'))}</h3><p>${esc(L('A route example, not a universal recommendation. Confirm wallet support and the live fee.', '这是路径示例，不是通用推荐；必须确认钱包支持并核对实时费用。'))}</p>${resultTag(lowCostNetwork ? withdrawalWinner : null)}</article>
     </div>
     <div class="compare-assumption">${esc(L('Why there is no “total-cost winner” here: card/bank availability is regional and instant-buy spread is not in the current dataset. Claiming a total winner would be false precision.', '为什么这里不宣布“总成本赢家”：银行卡/转账通道因地区而异，当前数据也没有即时买币价差；直接给总成本胜负会造成虚假精确。'))}</div>
   </section>
@@ -1258,7 +1273,7 @@ function comparePage(slugA, slugB, lang) {
   </section>
 
   <section class="compare-section">
-    <div class="compare-section-head"><h2>${esc(L('USDT withdrawal on networks both support', '双方共同支持网络的 USDT 提币'))}</h2><p>${esc(L('Fees are fixed or dynamic exchange quotes, not blockchain guarantees. Test with a small amount first.', '费用是交易所固定或动态报价，不是链上保证；首次操作建议先小额测试。'))}</p></div>
+    <div class="compare-section-head"><h2>${esc(L('1,000 USDT withdrawal on networks both support', '提取 1,000 USDT：双方共同支持的网络'))}</h2><p>${esc(L('Fees are fixed or dynamic exchange quotes, not blockchain guarantees. Test with a small amount first.', '费用是交易所固定或动态报价，不是链上保证；首次操作建议先小额测试。'))}${withdrawalProcessingNote ? ` ${esc(withdrawalProcessingNote)}` : ''}</p></div>
     <div class="scroll"><table class="compare-table"><thead><tr><th>${esc(L('Network', '网络'))}</th><th>${esc(a.name)}</th><th>${esc(b.name)}</th><th>${esc(L('Snapshot result', '快照结论'))}</th></tr></thead><tbody>${networkRows || `<tr><td colspan="4">${esc(L('No common network recorded', '未记录共同网络'))}</td></tr>`}</tbody></table></div>
   </section>
 
@@ -1314,13 +1329,15 @@ function indexPage(lang) {
     if (!searchKeysBySymbol[symbol]) searchKeysBySymbol[symbol] = [];
     searchKeysBySymbol[symbol].push(key);
   });
-  const coinSearchItems = COIN_LIST.map((c) => ({ symbol: c.symbol, name: c.name, keys: searchKeysBySymbol[c.symbol] || [] }));
+  const coinSearchItems = COIN_LIST.map((c) => ({ symbol: c.symbol, name: c.name, keys: searchKeysBySymbol[c.symbol] || [], rank: c.rank || 999999, category: catOf(c) }));
   const searchPh = lang === 'zh' ? '搜索币种，如 BTC、ETH、SOL' : 'Search a coin, e.g. BTC, ETH, SOL';
   const searchBtn = lang === 'zh' ? '搜索' : 'Search';
   const searchNf = lang === 'zh' ? '未找到该币种，请检查币种代号' : 'Coin not found — check the ticker';
   const searchPopular = lang === 'zh' ? '热门币种' : 'Popular coins';
   const searchMatch = lang === 'zh' ? '匹配结果' : 'Matching coins';
   const searchOpen = lang === 'zh' ? '查看' : 'Open';
+  const searchEmptyTitle = lang === 'zh' ? '没有找到匹配币种' : 'No matching coin found';
+  const searchEmptyTip = lang === 'zh' ? '试试币种简称或英文全名，如 BTC、Bitcoin' : 'Try a ticker or full name, such as BTC or Bitcoin';
   const body = `
   <h1>${esc(T(lang, 'idxH1'))}</h1>
   <p class="intro">${esc(T(lang, 'idxIntro'))}</p>
@@ -1362,6 +1379,8 @@ function indexPage(lang) {
     var POPULAR = ${JSON.stringify(searchPopular)};
     var MATCH = ${JSON.stringify(searchMatch)};
     var OPEN = ${JSON.stringify(searchOpen)};
+    var EMPTY_TITLE = ${JSON.stringify(searchEmptyTitle)};
+    var EMPTY_TIP = ${JSON.stringify(searchEmptyTip)};
     var root = document.getElementById('idxCoinSearch');
     var input = document.getElementById('idxCoinInput');
     var popup = document.getElementById('idxCoinSuggestions');
@@ -1387,26 +1406,37 @@ function indexPage(lang) {
         for(var i=0;i<item.keys.length;i++) if(item.keys[i].indexOf(q)!==-1) return true;
         return false;
       }).sort(function(x,y){
-        if(!q) return 0;
-        var xs = norm(x.symbol), ys = norm(y.symbol);
-        var xp = xs===q ? 0 : (xs.indexOf(q)===0 ? 1 : 2);
-        var yp = ys===q ? 0 : (ys.indexOf(q)===0 ? 1 : 2);
-        return xp-yp;
+        if(!q) return x.rank-y.rank;
+        function score(item){
+          var symbol=norm(item.symbol), name=norm(item.name);
+          if(symbol===q) return 0;
+          if(symbol.indexOf(q)===0) return 1;
+          if(name===q) return 2;
+          if(name.indexOf(q)===0) return 3;
+          return 4;
+        }
+        return score(x)-score(y) || x.rank-y.rank;
       }).slice(0,7);
       popup.textContent='';
       var hint=document.createElement('div'); hint.className='coin-search-hint'; hint.textContent=q?MATCH:POPULAR; popup.appendChild(hint);
       results.forEach(function(item,index){
         var option=document.createElement('button'); option.type='button'; option.className='coin-suggestion'; option.id='coin-option-'+index; option.setAttribute('role','option'); option.dataset.symbol=item.symbol;
+        var icon=document.createElement('span'); icon.className='coin-suggestion-icon cat-'+item.category; icon.textContent=item.symbol.slice(0,2); icon.setAttribute('aria-hidden','true');
         var symbol=document.createElement('span'); symbol.className='coin-suggestion-symbol'; symbol.textContent=item.symbol;
         var name=document.createElement('span'); name.className='coin-suggestion-name'; name.textContent=item.name;
         var action=document.createElement('span'); action.className='coin-suggestion-action'; action.textContent=OPEN+' →';
-        option.appendChild(symbol); option.appendChild(name); option.appendChild(action);
+        option.appendChild(icon); option.appendChild(symbol); option.appendChild(name); option.appendChild(action);
         option.addEventListener('mousedown',function(e){e.preventDefault(); openCoin(item.symbol);});
         popup.appendChild(option);
       });
       active=-1;
-      if(results.length){ popup.classList.add('open'); input.setAttribute('aria-expanded','true'); }
-      else close();
+      if(!results.length){
+        var empty=document.createElement('div'); empty.className='coin-search-empty';
+        var title=document.createElement('b'); title.textContent=EMPTY_TITLE;
+        var tip=document.createElement('span'); tip.textContent=EMPTY_TIP;
+        empty.appendChild(title); empty.appendChild(tip); popup.appendChild(empty);
+      }
+      popup.classList.add('open'); input.setAttribute('aria-expanded','true');
     }
     function go(){
       var key = norm(input.value);

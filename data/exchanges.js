@@ -27,7 +27,7 @@ window.EXCHANGES = {
       { "m": "Credit/Debit card", "fee": 0.025, "fee_max": 0.035, "note": "2.5-3.5%" },
       { "m": "P2P", "fee": 0, "note": "0% fee" }
     ],
-    "supported_networks": ["TRC20", "ERC20", "BSC", "SOL", "Arbitrum", "Base", "Optimism", "Polygon", "TON", "NEAR"],
+    "supported_networks": ["TRC20", "ERC20", "BSC", "SOL", "Arbitrum", "Base", "Optimism", "Polygon", "TON", "NEAR", "PLASMA"],
     "has_trading_bot": true,
     "has_api": true,
     "has_copy_trading": true,
@@ -185,7 +185,9 @@ window.EXCHANGES = {
     "spot":      { "maker": 0.0040, "taker": 0.0060 },
     "futures":   { "maker": 0.0000, "taker": 0.0003 },
     "usdt_withdrawal": { "ERC20": 3.0, "BSC": 0.5, "Base": 0.2, "Arbitrum": 0.2 },
-    "withdrawal_note": "No TRC20 USDT; ERC20/Base/BSC/Arbitrum. USDC→USD 1:1 free",
+    "withdrawal_processing_rate": 0.0001,
+    "withdrawal_processing_cap": 20,
+    "withdrawal_note": "No TRC20 USDT; network fee is dynamic; USDT processing fee 0.01% (max 20 USDT) applies separately",
     "deposit_methods": [
       { "m": "Bank transfer", "fee": 0, "note": "ACH free" },
       { "m": "Wire transfer", "fee": 0.01, "note": "$10-25 outbound" },
@@ -245,12 +247,12 @@ window.EXCHANGE_COMPARE = {
   },
   "okx": {
     "max_leverage": 100, "has_options": true, "has_leveraged_tokens": true, "has_margin": true, "coins": 306, "volume": "≈$1.15B", "trust": 10, "security": 9,
-    "kyc": {"en": "Mandatory", "zh": "强制 KYC"}, "licenses": {"en": "Malta (EU MiCA) + VARA Dubai + Singapore MAS + HK SFC", "zh": "马耳他（欧盟 MiCA）+ 迪拜 VARA + 新加坡 MAS + 中国香港 SFC"},
+    "kyc": {"en": "Mandatory", "zh": "强制 KYC"}, "licenses": {"en": "Malta (EU MiCA) + VARA Dubai + Singapore MAS; HK VASP application withdrawn", "zh": "马耳他（欧盟 MiCA）+ 迪拜 VARA + 新加坡 MAS；香港 VASP 申请已撤回"},
     "reserve": {"en": "105% / 112%", "zh": "105% / 112%"}, "cold": {"en": "95%+", "zh": "95%+"}, "incident": {"en": "No hack; 2025 US DOJ settlement (AML)", "zh": "无黑客事件；2025 年美国司法部反洗钱和解"}
   },
   "bitget": {
     "max_leverage": 125, "has_options": true, "has_leveraged_tokens": true, "has_margin": true, "coins": 538, "volume": "≈$0.44B", "trust": 10, "security": 8,
-    "kyc": {"en": "Tiered (≤$10K no-KYC)", "zh": "分级（1 万美元以下免 KYC）"}, "licenses": {"en": "Seychelles + Lithuania + Australia", "zh": "塞舌尔 + 立陶宛 + 澳大利亚"},
+    "kyc": {"en": "Mandatory for core services", "zh": "核心服务强制 KYC"}, "licenses": {"en": "Seychelles + Lithuania + Australia", "zh": "塞舌尔 + 立陶宛 + 澳大利亚"},
     "reserve": {"en": "123–163%", "zh": "123–163%"}, "cold": {"en": "95%", "zh": "95%"}, "incident": {"en": "No external hack", "zh": "无外部黑客事件"}
   },
   "kraken": {
