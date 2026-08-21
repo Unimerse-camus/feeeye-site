@@ -259,10 +259,10 @@ const I18N = {
     idxH1: 'Free Crypto Tools & Exchange Data',
     idxIntro: 'Compare exchange fees, find where to buy a token, and check withdrawal costs — free, no signup.',
     idxTcT: 'Spot base cost', idxTcB: 'Estimate deposit / trading / withdrawal fees, with spread, slippage, FX, and external payment charges clearly excluded.', idxTcC: 'Open tool →',
-    idxFutT: 'Futures Toolbox', idxFutB: 'High risk: leveraged trading can liquidate your position and cause rapid losses. Includes position sizing, liquidation price, PnL and fee comparison.', idxFutC: 'Open high-risk tool →',
+    idxFutT: 'Futures Toolbox', idxFutB: 'High risk: leveraged trading can liquidate your position and cause rapid losses. Includes position sizing, liquidation price, PnL and fee comparison.', idxFutC: 'Open tool →',
     idxCmpT: 'Exchange Comparison', idxCmpB: 'Compare 14 business dimensions: leverage, options, coins, liquidity, copy-trading/bots, reserves/cold storage, KYC, licenses, fiat deposits.', idxCmpC: 'Compare 14 dimensions →',
     idxGloT: 'Crypto Glossary', idxGloB: '40+ plain-language definitions of common crypto terms — from spot trading to wallet security.', idxGloC: 'Browse terms →',
-    idxSecT: 'Token Security Check', idxSecB: 'Screen an Ethereum or Solana contract for known technical risk flags such as honeypots, taxes, mint and freeze authority. A clean result is not a safety guarantee.', idxSecC: 'Check a token →',
+    idxSecT: 'Token Security Check', idxSecB: 'Screen an Ethereum or Solana contract for known technical risk flags such as honeypots, taxes, mint and freeze authority.', idxSecC: 'Check a token →',
     idxPfT: 'Portfolio Tracker', idxPfB: 'Log your holdings manually and auto-track profit & loss with live prices. No API key needed — data stays in your browser.', idxPfC: 'Track holdings →',
     idxPopular: 'Popular tokens',
     idxTitle: 'FeeEye — Free Crypto Fee Calculator & Exchange Data',
@@ -323,10 +323,10 @@ const I18N = {
     idxH1: '免费加密货币工具与交易所数据',
     idxIntro: '对比交易所费率、查找代币在哪里购买、查看提币成本——免费、无需注册。',
     idxTcT: '现货基础成本', idxTcB: '估算入金 / 交易 / 提币的基础费用，并明确提示价差、滑点与外部支付费用不在结果内。', idxTcC: '打开工具 →',
-    idxFutT: '合约工具箱', idxFutB: '高风险：杠杆交易可能快速亏损并被强平。包含仓位、强平价、盈亏和费率对比工具。', idxFutC: '打开高风险工具 →',
+    idxFutT: '合约工具箱', idxFutB: '高风险：杠杆交易可能快速亏损并被强平。包含仓位、强平价、盈亏和费率对比工具。', idxFutC: '打开工具 →',
     idxCmpT: '交易所综合对比', idxCmpB: '14 个业务维度对比交易所：杠杆/期权/流动性/币种/跟单/储备/法币入金等。', idxCmpC: '14 维度对比 →',
     idxGloT: '数字货币术语解释', idxGloB: '40+ 数字货币常用术语通俗解释，从现货交易到钱包安全全覆盖。', idxGloC: '查术语 →',
-    idxSecT: '代币安全检查', idxSecB: '检查以太坊或 Solana 合约中已知的技术风险标记，如貔貅盘、买卖税、增发和冻结权限。未报警不代表代币安全。', idxSecC: '查一个代币 →',
+    idxSecT: '代币安全检查', idxSecB: '检查以太坊或 Solana 合约中已知的技术风险标记，如貔貅盘、买卖税、增发和冻结权限。', idxSecC: '查一个代币 →',
     idxPfT: '持仓记账本', idxPfB: '手动记录你的持仓，自动拉取实时价格算盈亏。无需 API Key，数据只存在浏览器本地。', idxPfC: '记一笔持仓 →',
     idxPopular: '热门代币',
     idxTitle: 'FeeEye——免费加密货币费率计算器与交易所数据',
@@ -563,13 +563,12 @@ tr.kc{background:#eef4ff}
 input[type=number]{font-size:16px}
 .na{color:var(--bad);font-weight:600}
 .best{color:var(--ok);font-weight:700}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-@media(max-width:640px){.grid{grid-template-columns:1fr}}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:1fr;gap:12px;align-items:stretch}
+@media(max-width:640px){.grid{grid-template-columns:1fr;grid-auto-rows:auto}}
 .beginner-path{background:#eff6ff;border:1px solid #bfdbfe;border-radius:12px;padding:14px 16px;margin:0 0 18px}
 .beginner-path b{display:block;margin-bottom:6px;color:#1e3a8a}
 .beginner-path ol{margin:0 0 0 20px;color:#334155}
 .beginner-path a{color:var(--brand);font-weight:600;text-decoration:none}
-.risk-tag{display:inline-block;margin-left:6px;padding:1px 6px;border-radius:999px;background:#fff7ed;color:#c2410c;border:1px solid #fed7aa;font-size:11px;vertical-align:2px}
 .coin-search{position:relative;margin:0 0 18px;z-index:20}
 .coin-search-row{display:flex;gap:8px;align-items:stretch}
 .coin-search-field{position:relative;flex:1;min-width:0}
@@ -770,7 +769,8 @@ input[type=number]{font-size:16px}
 .compare-source-note{font-size:11.5px;color:#64748b;margin:10px 0 0}
 @media(max-width:720px){.compare-guard,.compare-verdicts,.compare-live-grid{grid-template-columns:1fr}.compare-methods,.compare-facts{grid-template-columns:1fr}}
 @media(max-width:560px){.wrap{width:100%;max-width:100%;overflow-x:hidden}.topbar{gap:7px;flex-wrap:wrap}.topbar .logo{font-size:18px;gap:5px}.topbar .logo img{width:25px;height:25px}.nav{order:2;flex:1 0 100%;width:100%;min-width:0;gap:16px;justify-content:flex-start;overflow-x:auto;padding:2px 0 7px;margin-top:3px}.nav a,.nav-btn{font-size:12.5px}.topbar>span{display:none}.compare-page{width:calc(100vw - 36px);max-width:calc(100vw - 36px);overflow:hidden}.compare-hero,.compare-section,.compare-decider{width:100%;max-width:100%;padding:15px;overflow:hidden}.compare-hero h1{font-size:23px}.compare-questions{grid-template-columns:1fr}.compare-fact dl{grid-template-columns:92px 1fr}.compare-assumption{overflow-wrap:anywhere}}
-.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;min-width:0;height:100%;display:flex;flex-direction:column}
+.card>a:last-child{margin-top:auto;align-self:flex-start}
 .card a{color:var(--brand);text-decoration:none;font-weight:600}
 .card-title{display:inline-block;color:var(--ink);font-weight:700;margin-bottom:6px;text-decoration:none}
 .card-title:hover b{color:var(--brand)}
@@ -1570,7 +1570,7 @@ function indexPage(lang) {
   </div>
   <div class="grid">
     <div class="card"><a class="card-title" href="${p(tcPath(lang))}"><span class="ic">${ICON.receipt}</span><b>${esc(T(lang, 'idxTcT'))}</b></a><br>${esc(T(lang, 'idxTcB'))}<br><a href="${p(tcPath(lang))}">${esc(T(lang, 'idxTcC'))}</a></div>
-    <div class="card"><a class="card-title" href="${p(futPath(lang))}"><span class="ic">${ICON.trend}</span><b>${esc(T(lang, 'idxFutT'))}<span class="risk-tag">${lang === 'zh' ? '高风险' : 'High risk'}</span></b></a><br>${esc(T(lang, 'idxFutB'))}<br><a href="${p(futPath(lang))}">${esc(T(lang, 'idxFutC'))}</a></div>
+    <div class="card"><a class="card-title" href="${p(futPath(lang))}"><span class="ic">${ICON.trend}</span><b>${esc(T(lang, 'idxFutT'))}</b></a><br>${esc(T(lang, 'idxFutB'))}<br><a href="${p(futPath(lang))}">${esc(T(lang, 'idxFutC'))}</a></div>
     <div class="card"><a class="card-title" href="${p(cmpPath(lang))}"><span class="ic">${ICON.scale}</span><b>${esc(T(lang, 'idxCmpT'))}</b></a><br>${esc(T(lang, 'idxCmpB'))}<br><a href="${p(cmpPath(lang))}">${esc(T(lang, 'idxCmpC'))}</a></div>
     <div class="card"><a class="card-title" href="${p(secPath(lang))}"><span class="ic">${ICON.shield}</span><b>${esc(T(lang, 'idxSecT'))}</b></a><br>${esc(T(lang, 'idxSecB'))}<br><a href="${p(secPath(lang))}">${esc(T(lang, 'idxSecC'))}</a></div>
     <div class="card"><a class="card-title" href="${p(pfPath(lang))}"><span class="ic">${ICON.wallet}</span><b>${esc(T(lang, 'idxPfT'))}</b></a><br>${esc(T(lang, 'idxPfB'))}<br><a href="${p(pfPath(lang))}">${esc(T(lang, 'idxPfC'))}</a></div>
