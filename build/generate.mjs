@@ -563,8 +563,8 @@ tr.kc{background:#eef4ff}
 input[type=number]{font-size:16px}
 .na{color:var(--bad);font-weight:600}
 .best{color:var(--ok);font-weight:700}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:1fr;gap:12px;align-items:stretch}
-@media(max-width:640px){.grid{grid-template-columns:1fr;grid-auto-rows:auto}}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;align-items:stretch}
+@media(max-width:640px){.grid{grid-template-columns:1fr}}
 .beginner-path{background:#eff6ff;border:1px solid #bfdbfe;border-radius:12px;padding:14px 16px;margin:0 0 18px}
 .beginner-path b{display:block;margin-bottom:6px;color:#1e3a8a}
 .beginner-path ol{margin:0 0 0 20px;color:#334155}
@@ -770,7 +770,8 @@ input[type=number]{font-size:16px}
 @media(max-width:720px){.compare-guard,.compare-verdicts,.compare-live-grid{grid-template-columns:1fr}.compare-methods,.compare-facts{grid-template-columns:1fr}}
 @media(max-width:560px){.wrap{width:100%;max-width:100%;overflow-x:hidden}.topbar{gap:7px;flex-wrap:wrap}.topbar .logo{font-size:18px;gap:5px}.topbar .logo img{width:25px;height:25px}.nav{order:2;flex:1 0 100%;width:100%;min-width:0;gap:16px;justify-content:flex-start;overflow-x:auto;padding:2px 0 7px;margin-top:3px}.nav a,.nav-btn{font-size:12.5px}.topbar>span{display:none}.compare-page{width:calc(100vw - 36px);max-width:calc(100vw - 36px);overflow:hidden}.compare-hero,.compare-section,.compare-decider{width:100%;max-width:100%;padding:15px;overflow:hidden}.compare-hero h1{font-size:23px}.compare-questions{grid-template-columns:1fr}.compare-fact dl{grid-template-columns:92px 1fr}.compare-assumption{overflow-wrap:anywhere}}
 .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;min-width:0;height:100%;display:flex;flex-direction:column}
-.card>a:last-child{margin-top:auto;align-self:flex-start}
+.card p{margin:0 0 8px;color:var(--ink);line-height:1.65}
+.card .card-cta{margin-top:auto;align-self:flex-start}
 .card a{color:var(--brand);text-decoration:none;font-weight:600}
 .card-title{display:inline-block;color:var(--ink);font-weight:700;margin-bottom:6px;text-decoration:none}
 .card-title:hover b{color:var(--brand)}
@@ -1569,12 +1570,12 @@ function indexPage(lang) {
     <p id="idxSearchMsg" class="search-msg" role="status" aria-live="polite">${searchNf}</p>
   </div>
   <div class="grid">
-    <div class="card"><a class="card-title" href="${p(tcPath(lang))}"><span class="ic">${ICON.receipt}</span><b>${esc(T(lang, 'idxTcT'))}</b></a><br>${esc(T(lang, 'idxTcB'))}<br><a href="${p(tcPath(lang))}">${esc(T(lang, 'idxTcC'))}</a></div>
-    <div class="card"><a class="card-title" href="${p(futPath(lang))}"><span class="ic">${ICON.trend}</span><b>${esc(T(lang, 'idxFutT'))}</b></a><br>${esc(T(lang, 'idxFutB'))}<br><a href="${p(futPath(lang))}">${esc(T(lang, 'idxFutC'))}</a></div>
-    <div class="card"><a class="card-title" href="${p(cmpPath(lang))}"><span class="ic">${ICON.scale}</span><b>${esc(T(lang, 'idxCmpT'))}</b></a><br>${esc(T(lang, 'idxCmpB'))}<br><a href="${p(cmpPath(lang))}">${esc(T(lang, 'idxCmpC'))}</a></div>
-    <div class="card"><a class="card-title" href="${p(secPath(lang))}"><span class="ic">${ICON.shield}</span><b>${esc(T(lang, 'idxSecT'))}</b></a><br>${esc(T(lang, 'idxSecB'))}<br><a href="${p(secPath(lang))}">${esc(T(lang, 'idxSecC'))}</a></div>
-    <div class="card"><a class="card-title" href="${p(pfPath(lang))}"><span class="ic">${ICON.wallet}</span><b>${esc(T(lang, 'idxPfT'))}</b></a><br>${esc(T(lang, 'idxPfB'))}<br><a href="${p(pfPath(lang))}">${esc(T(lang, 'idxPfC'))}</a></div>
-    <div class="card"><a class="card-title" href="${p(gloPath(lang))}"><span class="ic">${ICON.coins}</span><b>${esc(T(lang, 'idxGloT'))}</b></a><br>${esc(T(lang, 'idxGloB'))}<br><a href="${p(gloPath(lang))}">${esc(T(lang, 'idxGloC'))}</a></div>
+    <div class="card"><a class="card-title" href="${p(tcPath(lang))}"><span class="ic">${ICON.receipt}</span><b>${esc(T(lang, 'idxTcT'))}</b></a><p>${esc(T(lang, 'idxTcB'))}</p><a class="card-cta" href="${p(tcPath(lang))}">${esc(T(lang, 'idxTcC'))}</a></div>
+    <div class="card"><a class="card-title" href="${p(futPath(lang))}"><span class="ic">${ICON.trend}</span><b>${esc(T(lang, 'idxFutT'))}</b></a><p>${esc(T(lang, 'idxFutB'))}</p><a class="card-cta" href="${p(futPath(lang))}">${esc(T(lang, 'idxFutC'))}</a></div>
+    <div class="card"><a class="card-title" href="${p(cmpPath(lang))}"><span class="ic">${ICON.scale}</span><b>${esc(T(lang, 'idxCmpT'))}</b></a><p>${esc(T(lang, 'idxCmpB'))}</p><a class="card-cta" href="${p(cmpPath(lang))}">${esc(T(lang, 'idxCmpC'))}</a></div>
+    <div class="card"><a class="card-title" href="${p(secPath(lang))}"><span class="ic">${ICON.shield}</span><b>${esc(T(lang, 'idxSecT'))}</b></a><p>${esc(T(lang, 'idxSecB'))}</p><a class="card-cta" href="${p(secPath(lang))}">${esc(T(lang, 'idxSecC'))}</a></div>
+    <div class="card"><a class="card-title" href="${p(pfPath(lang))}"><span class="ic">${ICON.wallet}</span><b>${esc(T(lang, 'idxPfT'))}</b></a><p>${esc(T(lang, 'idxPfB'))}</p><a class="card-cta" href="${p(pfPath(lang))}">${esc(T(lang, 'idxPfC'))}</a></div>
+    <div class="card"><a class="card-title" href="${p(gloPath(lang))}"><span class="ic">${ICON.coins}</span><b>${esc(T(lang, 'idxGloT'))}</b></a><p>${esc(T(lang, 'idxGloB'))}</p><a class="card-cta" href="${p(gloPath(lang))}">${esc(T(lang, 'idxGloC'))}</a></div>
   </div>
   <script>
   (function(){
