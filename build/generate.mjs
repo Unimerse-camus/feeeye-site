@@ -530,9 +530,9 @@ function page({ lang, title, desc, body, jsonLd, depth = 0, path, affiliate = fa
 <title>${esc(title)}</title>
 <meta name="description" content="${esc(desc)}">
 ${noIndex ? '<meta name="robots" content="noindex, follow">' : ''}
-<link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
-<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
+<link rel="icon" type="image/svg+xml" href="/assets/logo.svg?v=2">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png?v=2">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png?v=2">
 <link rel="stylesheet" href="/assets/responsive.css">
 <script defer src="/assets/analytics.js"></script>
 <link rel="canonical" href="${canonical}">
@@ -542,11 +542,11 @@ ${lang === 'zh' ? `<link rel="alternate" hreflang="zh" href="${canonical}">` : `
 <meta property="og:url" content="${canonical}">
 <meta property="og:title" content="${esc(title)}">
 <meta property="og:description" content="${esc(desc)}">
-<meta property="og:image" content="${SITE_URL}/assets/og-logo.png">
+<meta property="og:image" content="${SITE_URL}/assets/og-logo.png?v=2">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="${esc(title)}">
 <meta name="twitter:description" content="${esc(desc)}">
-<meta name="twitter:image" content="${SITE_URL}/assets/og-logo.png">
+<meta name="twitter:image" content="${SITE_URL}/assets/og-logo.png?v=2">
 ${ld}
 <style>
 :root{--bg:#f7f8fa;--card:#fff;--ink:#1c2430;--sub:#5b6776;--line:#e4e8ee;--brand:#2563eb;--brand2:#0ea5a4;--ok:#16a34a;--bad:#dc2626}
@@ -863,7 +863,7 @@ input[type=number]{font-size:16px}
 <div class="wrap">
 <header>
 <div class="topbar">
-<a class="logo" href="${lang === 'zh' ? '/zh/' : '/'}" aria-label="FeeEye home"><img src="/assets/logo.svg" alt="FeeEye" width="26" height="26">${SITE}</a>
+<a class="logo" href="${lang === 'zh' ? '/zh/' : '/'}" aria-label="FeeEye home"><img src="/assets/logo.svg?v=2" alt="FeeEye" width="26" height="26">${SITE}</a>
 <nav class="nav">
 <div class="nav-item">
 <button type="button" class="nav-btn${['tc','fee','fut','cmp','sec','pf'].includes(active) ? ' active' : ''}">${esc(i.navTools)} ${CHEV}</button>
