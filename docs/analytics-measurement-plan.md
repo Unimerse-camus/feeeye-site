@@ -1,50 +1,66 @@
-# FeeEye 匿名行为统计方案（待 Cloudflare 后台启用）
+# FeeEye 隐私最小化行为统计方案
 
-## 当前状态（2026-08-20）
+## 当前状态（2026-08-27）
 
-- 隐私政策写明使用 Cloudflare Web Analytics。
-- 线上 HTML 未检测到 Web Analytics Beacon 或 Zaraz 脚本，因此当前没有可用的页面访问和关键点击数据。
-- Cloudflare 后台需要登录，当前自动化浏览器没有登录态；未创建 Token、未启用脚本，也没有发送测试事件。
+- 线上尚未检测到 Cloudflare Web Analytics Beacon 或已生效的 Zaraz 自定义事件。
+- 代码已接入 `/assets/analytics.js`：只有 `window.zaraz.track` 存在时才发送白名单事件，否则完全无操作。
+- 不设置 FeeEye 用户 ID，不读取 Cookie，不发送金额、钱包地址、持仓、姓名、邮箱或完整搜索词。
+- 中英文隐私政策已列出服务商、允许字段和事件范围；Cloudflare 后台启用前后都保持准确。
 
-## 推荐实现
+Cloudflare 官方 API：https://developers.cloudflare.com/zaraz/web-api/track/
 
-使用 Cloudflare Zaraz 的 `zaraz.track(eventName, properties)` 记录少量产品事件。官方文档：
+## 白名单事件
 
-https://developers.cloudflare.com/zaraz/web-api/track/
-
-代码只在 `window.zaraz?.track` 存在时调用；Cloudflare 未启用时必须安全地无操作，不能影响导航和搜索。
-
-## 第一阶段事件
-
-| 事件 | 触发点 | 允许属性 |
+| 事件 | 触发点 | 允许的业务属性 |
 |---|---|---|
-| `coin_search_open` | 用户首次聚焦首页币种搜索 | `lang` |
-| `coin_search_result_open` | 用户打开搜索结果 | `lang`, `symbol`, `position` |
-| `coin_search_no_result` | 输入后无匹配，去重后记录 | `lang`, `query_length` |
-| `compare_advanced_open` | 展开合约/高风险能力 | `lang`, `pair` |
-| `exchange_outbound_open` | 打开交易所官网或注册链接 | `lang`, `exchange`, `page_type` |
+| `coin_search_open` | 首页币种搜索第一次获得焦点 | 无 |
+| `coin_search_result_open` | 打开搜索结果或精确币种 | `symbol`, `position` |
+| `coin_search_no_result` | 主动提交无结果搜索 | `query_length` |
+| `tool_use` | 工具页第一次有效输入、选择或点击 | `tool` |
+| `learn_article_complete` | 学习文章来源区进入视口 | `article_id` |
+| `learn_quiz_open` | 展开一道自测 | `article_id`, `question_number` |
+| `learn_tool_open` | 从教程打开相关工具 | `article_id`, `tool` |
+| `compare_advanced_open` | 第一次展开高风险交易能力 | `pair` |
+| `exchange_outbound_open` | 打开已知交易所域名 | `exchange` |
+
+每个事件自动附带：
+
+- `lang`：`en` 或 `zh`
+- `page_type`：受控页面类型
+- URL中存在时的受控 `utm_source`、`utm_medium`、`utm_campaign`
+
+UTM 只允许小写字母、数字、点、下划线和连字符，最长48字符；其他查询参数不会发送。
 
 ## 明确禁止采集
 
-- 不发送用户输入的完整搜索词；只发送长度和最终选择的公开币种代码。
-- 不发送IP、邮箱、钱包地址、持仓、计算器金额或任何可识别个人的信息。
-- 不设置FeeEye自有用户ID，不跨站跟踪，不做用户画像。
-- 不在用户完成任何金融交易后采集结果；FeeEye也无法观察交易所内行为。
+- 完整搜索词
+- 计算器金额和选择结果
+- 钱包地址、交易哈希、持仓或盈亏
+- IP主动记录、姓名、邮箱、设备指纹
+- FeeEye自有用户ID、跨站画像
+- 交易所内的注册、KYC、交易或余额数据
 
-## 启用前检查
+## Cloudflare后台启用门槛
 
-1. 登录Cloudflare，确认 Web Analytics 或 Zaraz 的实际配置与数据保留口径。
-2. 启用隐藏IP地址、隐藏查询参数等适用的隐私设置。
-3. 更新中英文隐私政策，明确列出页面浏览和上述交互事件。
-4. 先在预览/调试模式验证事件，不把测试事件混入正式数据。
-5. 上线后检查浏览器是否新增Cookie或本地存储；若实践与政策不一致，先停用采集。
+1. 确认接收事件的具体分析工具、数据保留周期和地区处理方式。
+2. 选择 Preview & Publish，先在调试模式验证事件字段。
+3. 检查实际请求中不存在禁止字段。
+4. 检查是否新增 Cookie 或本地存储；若与隐私政策不一致，先停用。
+5. 正式发布后保存一次事件字段截图或导出作为审计证据。
 
-## 第一批产品指标
+## 第一阶段指标
 
 - 搜索使用率：`coin_search_open / 首页浏览量`
 - 搜索选择率：`coin_search_result_open / coin_search_open`
 - 无结果率：`coin_search_no_result / coin_search_open`
-- 对比页进阶功能兴趣：`compare_advanced_open / 对比页浏览量`
-- 交易所出站率：`exchange_outbound_open / 对比页或详情页浏览量`
+- 工具有效使用率：`tool_use / 工具页浏览量`
+- 学习完成率：`learn_article_complete / 学习文章浏览量`
+- 教程到工具率：`learn_tool_open / 学习文章浏览量`
+- 高风险功能兴趣：`compare_advanced_open / 对比页浏览量`
+- 交易所出站率：`exchange_outbound_open / 可产生出站的页面浏览量`
 
-这些指标用于验证页面结构，不用于投资推荐或个体用户评分。
+运营北极星不是页面浏览量，而是：
+
+> 每周完成一次工具使用、学习文章或交易所条件比较的聚合访问次数。
+
+affiliate后台的点击、注册、激活、交易量和佣金单独按周汇总，不与站内匿名事件拼成用户画像。

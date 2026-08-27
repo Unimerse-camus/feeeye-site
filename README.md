@@ -59,7 +59,7 @@ affiliate-site/
 | P3 SEO | 程序化生成器 + 118 币 where-to-buy（已滤稳定币/RWA 基金）+ 21 国家页 + 真实价格 + CoinGecko 摄取管线（含 A1 币种过滤） ✅ | 完成 |
 | P4 GEO | 原创 benchmark 报告 | 未开始 |
 | P5 内容 | 新手学习中心（中英双语、8 篇风险优先教程、术语表与工具联动）✅；YouTube / X / Newsletter 分发 | 学习站内版完成，外部分发未开始 |
-| P5 运营 | 返佣追踪看板 ✅ + 英文 TG Bot 规格 ✅ + 落地执行手册 ✅（融合外部手册方法论，合规化） | 完成 |
+| P5 运营 | 返佣追踪看板 ✅ + 免费渠道90天执行表 ✅ + 隐私最小化事件层 ✅ + IndexNow 提交工具 ✅；Cloudflare/GSC/Bing后台待启用 | 代码底座完成，后台配置待完成 |
 | P6 二级 | 招 KOL/群主/工具开发者 | 未开始 |
 | P7 放大 | 多所 affiliate + A/B | 未开始 |
 | 工具库 | 工具矩阵规划 ✅（`docs/tools-roadmap.md`：T1 全成本 → T2 智能对比 → T3 清算 → T4 Gas [MVP] → T5 跨平台盈亏 → T6 DCA [扩展] → T7 P2P → T8 代币安全 [地区化]；融合 2026-08-13 工具调研 PRD 8 工具 + 痛点硬数据 + 地区差异化 + 返佣嵌入原则）+ 竞品调研 ✅（`docs/tools-competitor-research.md`） | **T1 全成本计算器 ✅ + T2 智能交易所对比器 ✅ 已上线**（均 en+zh；T2 含 10 维度对比 + EXCHANGE_COMPARE 数据层 + 地区过滤 + KuCoin CTA）；T3-T8 待做 |
@@ -69,7 +69,7 @@ affiliate-site/
 ## 下一步（按优先级）
 1. **产品主线**：MVP 工具库（`docs/tools-roadmap.md` 第一阶段）——**T1 全成本计算器** → **T2 智能交易所对比** → **T3 合约清算** → **T4 Gas 智能追踪**；每个 en+zh 双语 + CTA + 地区过滤。站点 CTA 暂以 KuCoin 为主。
 2. **页面完善**：首页工具矩阵卡片分组、币页相关工具区、移动端体验。
-3. **SEO/GEO**：原创 benchmark 报告（提币费实测对比，AI 引用资产）、结构化数据打磨、持续观察 GSC 收录。
+3. **运营与SEO**：先启用Cloudflare匿名统计、Google Search Console和Bing Webmaster Tools；再发布原创benchmark并按有效任务/投入小时复盘。
 4. **数据维护**：周日提醒手动核对 7 所官方费率页（每周 30 分钟）。
 5. **数据**：A2 扩币 150→500+（混合模式）；P4 GEO 弹药。
 

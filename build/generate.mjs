@@ -398,7 +398,7 @@ const LEGAL_HTML = {
     privacy: {
       title: 'Privacy Policy',
       desc: 'How FeeEye handles your information.',
-      body: `<h1>Privacy Policy</h1><p class="intro">Last reviewed: 2026-08-20</p><h3>Who we are</h3><p>This policy describes how FeeEye ("we", "us") handles information on this website.</p><h3>Accounts and tool inputs</h3><p>We don\'t require accounts and we don\'t ask for names or email addresses. Inputs entered into calculators and the portfolio tracker stay in your browser and are not sent to FeeEye servers.</p><h3>Analytics status</h3><p>FeeEye currently does not load an analytics beacon or custom-event tracker. We may enable privacy-conscious aggregate analytics in the future to measure page views, performance and a limited set of product interactions. Before activation, we will update this policy to identify the provider, data fields and applicable storage practices. We will not send complete search queries, wallet addresses, portfolio inputs or calculator amounts as analytics events.</p><h3>External services</h3><p>Token checks and live-price features may request data from the named third-party APIs when you use those tools. Opening an exchange link takes you to that exchange, whose privacy policy then applies.</p><h3>Changes</h3><p>We will update this policy and the "last reviewed" date when practices change.</p>`,
+      body: `<h1>Privacy Policy</h1><p class="intro">Last reviewed: 2026-08-27</p><h3>Who we are</h3><p>This policy describes how FeeEye ("we", "us") handles information on this website.</p><h3>Accounts and tool inputs</h3><p>We don\'t require accounts and we don\'t ask for names or email addresses. Inputs entered into calculators and the portfolio tracker stay in your browser and are not sent to FeeEye servers.</p><h3>Aggregate analytics</h3><p>FeeEye may use Cloudflare Web Analytics and Cloudflare Zaraz when those services are enabled for this domain. We measure aggregate page activity and a limited set of product events: opening coin search, selecting a public coin symbol, an unsuccessful search length, first tool interaction, reaching the end of a learning article, opening a quiz, opening a related tool, expanding advanced comparison information, and opening an exchange website.</p><p>Allowed event fields are limited to language, page type, tool/article identifiers, public coin symbol, result position, query length, quiz number, exchange name, comparison pair, and controlled <code>utm_source</code>, <code>utm_medium</code>, and <code>utm_campaign</code> values. We do not intentionally send complete search queries, calculator amounts, wallet addresses, portfolio entries, email addresses, names, or a FeeEye user ID. Event calls safely do nothing when Zaraz is unavailable. Cloudflare processes requests under its own privacy terms and configured retention settings.</p><h3>External services</h3><p>Token checks and live-price features may request data from the named third-party APIs when you use those tools. Opening an exchange link takes you to that exchange, whose privacy policy then applies.</p><h3>Changes</h3><p>We will update this policy and the "last reviewed" date when practices change.</p>`,
     },
     terms: {
       title: 'Terms of Use',
@@ -415,7 +415,7 @@ const LEGAL_HTML = {
     privacy: {
       title: '隐私政策',
       desc: 'FeeEye 如何处理你的信息。',
-      body: `<h1>隐私政策</h1><p class="intro">最近审阅：2026-08-20</p><h3>账号与工具输入</h3><p>FeeEye 不要求注册账号，也不主动索取姓名或邮箱。费用计算器和持仓记账本中的输入保留在你的浏览器中，不发送到 FeeEye 服务器。</p><h3>分析功能状态</h3><p>FeeEye 当前没有加载网站分析 Beacon 或自定义事件统计脚本。未来可能启用注重隐私的汇总分析，用于衡量页面访问、性能和少量产品交互；启用前会更新本政策，明确服务提供方、数据字段和存储方式。完整搜索词、钱包地址、持仓输入和计算器金额不会作为分析事件发送。</p><h3>外部服务</h3><p>使用代币检查和实时价格功能时，页面可能向工具中标明的第三方 API 请求数据。打开交易所链接后，将适用该交易所的隐私政策。</p><h3>变更</h3><p>实践发生变化时，我们会更新本政策及"最近审阅"日期。</p>`,
+      body: `<h1>隐私政策</h1><p class="intro">最近审阅：2026-08-27</p><h3>账号与工具输入</h3><p>FeeEye 不要求注册账号，也不主动索取姓名或邮箱。费用计算器和持仓记账本中的输入保留在你的浏览器中，不发送到 FeeEye 服务器。</p><h3>汇总分析</h3><p>当 Cloudflare Web Analytics 或 Cloudflare Zaraz 在本域名启用时，FeeEye 会统计汇总页面活动和有限产品事件：打开币种搜索、选择公开币种代码、无结果搜索的字符长度、首次使用工具、到达学习文章末尾、展开自测、打开相关工具、展开高级对比信息和打开交易所网站。</p><p>允许的事件字段仅包括语言、页面类型、工具或文章标识、公开币种代码、结果位置、搜索字符长度、自测题号、交易所名称、对比组合，以及受控的 <code>utm_source</code>、<code>utm_medium</code> 和 <code>utm_campaign</code>。我们不会主动发送完整搜索词、计算器金额、钱包地址、持仓输入、邮箱、姓名或 FeeEye 用户 ID。Zaraz 不可用时事件调用会安全地不执行。Cloudflare 会依据其隐私条款和后台保留设置处理请求。</p><h3>外部服务</h3><p>使用代币检查和实时价格功能时，页面可能向工具中标明的第三方 API 请求数据。打开交易所链接后，将适用该交易所的隐私政策。</p><h3>变更</h3><p>实践发生变化时，我们会更新本政策及"最近审阅"日期。</p>`,
     },
     terms: {
       title: '使用条款',
@@ -530,6 +530,7 @@ ${noIndex ? '<meta name="robots" content="noindex, follow">' : ''}
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
 <link rel="stylesheet" href="/assets/responsive.css">
+<script defer src="/assets/analytics.js"></script>
 <link rel="canonical" href="${canonical}">
 <link rel="alternate" hreflang="en" href="${SITE_URL}/${canonPath(lang === 'zh' ? path.replace(/^zh\//, '') : path)}">
 ${lang === 'zh' ? `<link rel="alternate" hreflang="zh" href="${canonical}">` : `<link rel="alternate" hreflang="zh" href="${SITE_URL}/zh/${canonPath(path)}">`}
@@ -1741,7 +1742,8 @@ function indexPage(lang) {
       options[active].scrollIntoView({block:'nearest'});
       input.setAttribute('aria-activedescendant',options[active].id);
     }
-    function openCoin(symbol){ location.href = PREFIX + symbol.toLowerCase() + '.html'; }
+    function metric(name,properties){if(window.FeeEyeAnalytics) window.FeeEyeAnalytics.track(name,properties||{});}
+    function openCoin(symbol,position){metric('coin_search_result_open',{symbol:symbol,position:position||0});location.href = PREFIX + symbol.toLowerCase() + '.html';}
     function render(){
       var q = norm(input.value);
       results = ITEMS.filter(function(item){
@@ -1769,7 +1771,7 @@ function indexPage(lang) {
         var name=document.createElement('span'); name.className='coin-suggestion-name'; name.textContent=item.name;
         var action=document.createElement('span'); action.className='coin-suggestion-action'; action.textContent=OPEN+' →';
         option.appendChild(icon); option.appendChild(symbol); option.appendChild(name); option.appendChild(action);
-        option.addEventListener('mousedown',function(e){e.preventDefault(); openCoin(item.symbol);});
+        option.addEventListener('mousedown',function(e){e.preventDefault(); openCoin(item.symbol,index+1);});
         popup.appendChild(option);
       });
       active=-1;
@@ -1785,8 +1787,8 @@ function indexPage(lang) {
       var key = norm(input.value);
       var symbol = SEARCH[key];
       if(!key) { msg.textContent = NF; msg.style.display = 'block'; input.focus(); return; }
-      if(symbol) { openCoin(symbol); }
-      else { msg.textContent = NF; msg.style.display = 'block'; input.setAttribute('aria-invalid','true'); }
+      if(symbol) { openCoin(symbol,0); }
+      else { metric('coin_search_no_result',{query_length:input.value.trim().length}); msg.textContent = NF; msg.style.display = 'block'; input.setAttribute('aria-invalid','true'); }
     }
     document.getElementById('idxSearchBtn').addEventListener('click', go);
     input.addEventListener('focus',render);
@@ -1794,7 +1796,7 @@ function indexPage(lang) {
     input.addEventListener('keydown',function(e){
       if(e.key==='ArrowDown'){e.preventDefault(); if(!popup.classList.contains('open')) render(); setActive(active+1);}
       else if(e.key==='ArrowUp'){e.preventDefault(); if(!popup.classList.contains('open')) render(); setActive(active-1);}
-      else if(e.key==='Enter'){e.preventDefault(); if(active>=0&&results[active]) openCoin(results[active].symbol); else go();}
+      else if(e.key==='Enter'){e.preventDefault(); if(active>=0&&results[active]) openCoin(results[active].symbol,active+1); else go();}
       else if(e.key==='Escape') close();
     });
     clear.addEventListener('click',function(){input.value='';this.style.display='none';msg.style.display='none';input.removeAttribute('aria-invalid');input.focus();render();});
