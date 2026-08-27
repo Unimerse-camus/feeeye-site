@@ -20,12 +20,14 @@
     ['learn/avoid-crypto-scams.html', svg.shield, '安全与防骗'],
     ['learn/crypto-total-cost.html', svg.receipt, '买币与费用'],
     ['learn/safe-crypto-transfer.html', svg.wallet, '钱包与转账'],
+    ['research/1000-usdt-spot-cost.html', svg.receipt, '1000 USDT 费率实测'],
     ['tools/glossary.zh.html', svg.route, '术语表']
   ] : [
     ['learn/index.html', svg.route, 'Beginner Path'],
     ['learn/avoid-crypto-scams.html', svg.shield, 'Safety & Scams'],
     ['learn/crypto-total-cost.html', svg.receipt, 'Buying & Costs'],
     ['learn/safe-crypto-transfer.html', svg.wallet, 'Wallets & Transfers'],
+    ['research/1000-usdt-spot-cost.html', svg.receipt, '$1,000 Fee Benchmark'],
     ['tools/glossary.html', svg.route, 'Glossary']
   ];
   var chev = '<svg class="chev" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>';

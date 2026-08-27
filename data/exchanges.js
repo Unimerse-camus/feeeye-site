@@ -35,7 +35,7 @@ window.EXCHANGES = {
     "source": "https://www.kucoin.com/vip/level + cexorer.com/kucoin/usdt",
     "last_updated": "2026-08-27",
     "evidence": {
-      "trading_fees": {"url":"https://www.kucoin.com/vip/level","checked_at":"2026-08-20"},
+      "trading_fees": {"url":"https://www.kucoin.com/vip/level","checked_at":"2026-08-27"},
       "withdrawal_fees": {"url":"https://www.kucoin.com/assets/withdraw/USDT","checked_at":"2026-08-20","access":"live_quote"},
       "kyc": {"url":"https://www.kucoin.com/support/360015102254","checked_at":"2026-08-20"},
       "regulation": {"url":"https://www.kucoin.com/legal/licenses","checked_at":"2026-08-20"},
@@ -71,7 +71,7 @@ window.EXCHANGES = {
     "source": "https://www.binance.com/en/fee/schedule",
     "last_updated": "2026-08-27",
     "evidence": {
-      "trading_fees": {"url":"https://www.binance.com/en/fee/trading","checked_at":"2026-08-20"},
+      "trading_fees": {"url":"https://www.binance.com/en/fee/trading","checked_at":"2026-08-27"},
       "withdrawal_fees": {"url":"https://www.binance.com/en/fee/cryptoFee","checked_at":"2026-08-20","access":"live_quote"},
       "kyc": {"url":"https://www.binance.com/en/support/faq/what-is-identity-verification-and-how-to-complete-it-360027287111","checked_at":"2026-08-20"},
       "regulation": {"url":"https://www.binance.com/en/legal/licenses","checked_at":"2026-08-20"},
@@ -112,7 +112,7 @@ window.EXCHANGES = {
     "source": "https://www.bybit.com/en/help-center/fee",
     "last_updated": "2026-08-27",
     "evidence": {
-      "trading_fees": {"url":"https://www.bybit.com/en/help-center/article/Trading-Fee-Structure","checked_at":"2026-08-20"},
+      "trading_fees": {"url":"https://www.bybit.com/en/help-center/article/Trading-Fee-Structure","checked_at":"2026-08-27"},
       "withdrawal_fees": {"url":"https://www.bybit.com/en-GB/help-center/article/Bybit-Fees-You-Need-to-Know","checked_at":"2026-08-20","access":"live_quote"},
       "kyc": {"url":"https://www.bybit.com/en/help-center/article/Individual-KYC-FAQ","checked_at":"2026-08-20"},
       "regulation": {"url":"https://www.bybit.com/en/help-center/article/Bybit-s-Regulatory-Licenses","checked_at":"2026-08-20"},
@@ -145,7 +145,7 @@ window.EXCHANGES = {
     "source": "https://www.okx.com/fees",
     "last_updated": "2026-08-27",
     "evidence": {
-      "trading_fees": {"url":"https://www.okx.com/fees","checked_at":"2026-08-20"},
+      "trading_fees": {"url":"https://www.okx.com/fees","checked_at":"2026-08-27"},
       "withdrawal_fees": {"url":"https://www.okx.com/balance/withdrawal","checked_at":"2026-08-20","access":"live_quote"},
       "kyc": {"url":"https://www.okx.com/en-us/help/a-beginner-guide-to-identity-verification","checked_at":"2026-08-20"},
       "regulation": {"url":"https://www.okx.com/help/terms-of-service","checked_at":"2026-08-20"},
@@ -178,7 +178,7 @@ window.EXCHANGES = {
     "source": "https://www.bitget.com/fee",
     "last_updated": "2026-08-27",
     "evidence": {
-      "trading_fees": {"url":"https://www.bitget.com/en-CA/support/articles/12560603820584","checked_at":"2026-08-20"},
+      "trading_fees": {"url":"https://www.bitget.com/en-CA/support/articles/12560603820584","checked_at":"2026-08-27"},
       "withdrawal_fees": {"url":"https://www.bitget.com/fee/withdrawal","checked_at":"2026-08-20","access":"live_quote"},
       "kyc": {"url":"https://www.bitget.com/support/articles/12560603808893","checked_at":"2026-08-20"},
       "regulation": {"url":"https://www.bitget.com/support/articles/12560603885949","checked_at":"2026-08-20"},
@@ -193,7 +193,7 @@ window.EXCHANGES = {
     "slug": "kraken",
     "name": "Kraken",
     "official_url": "https://www.kraken.com",
-    "spot":      { "maker": 0.0025, "taker": 0.0040 },
+    "spot":      { "maker": 0.0040, "taker": 0.0080 },
     "futures":   { "maker": 0.0002, "taker": 0.0005 },
     "withdrawal_fees": { "TRC20": {"amount":4.0,"model":"fixed_snapshot"}, "ERC20": {"amount":0.8571,"model":"dynamic_snapshot"}, "SOL": {"amount":0.9876,"model":"fixed_snapshot"}, "Arbitrum": {"amount":2.0,"model":"fixed_snapshot"}, "Optimism": {"amount":2.0,"model":"fixed_snapshot"}, "Polygon": {"amount":1.0,"model":"fixed_snapshot"} },
     "withdrawal_note": "Official Kraken snapshot: TRON 4; Ethereum 0.8571; Solana 0.9876; Arbitrum/Optimism 2; Polygon 1 USDT",
@@ -206,11 +206,11 @@ window.EXCHANGES = {
     "has_trading_bot": false,
     "has_api": true,
     "has_copy_trading": false,
-    "new_user_note": "Kraken Pro spot 0.25%/0.40%. USDT network fees vary materially by chain; no P2P.",
-    "source": "https://www.kraken.com/features/fee-schedule",
+    "new_user_note": "Kraken Pro Tier 1 spot 0.40%/0.80% from July 9, 2026. USDT network fees vary materially by chain; no P2P.",
+    "source": "https://support.kraken.com/articles/cross-platform-fee-tier-changes",
     "last_updated": "2026-08-27",
     "evidence": {
-      "trading_fees": {"url":"https://support.kraken.com/articles/201893638-how-trading-fees-work-on-kraken","checked_at":"2026-08-20"},
+      "trading_fees": {"url":"https://support.kraken.com/articles/cross-platform-fee-tier-changes","checked_at":"2026-08-27"},
       "withdrawal_fees": {"url":"https://support.kraken.com/articles/360000767986-cryptocurrency-withdrawal-fees-and-minimums","checked_at":"2026-08-20"},
       "kyc": {"url":"https://support.kraken.com/articles/201352206-verification-level-requirements","checked_at":"2026-08-20"},
       "regulation": {"url":"https://www.kraken.com/legal/disclosures","checked_at":"2026-08-20"},
@@ -218,7 +218,7 @@ window.EXCHANGES = {
     },
     "slogan": {"en": "Where the world trades crypto", "zh": "全球加密交易之地"},
     "token_discount": null,
-    "vip_tiers": [{"t": "Standard", "th": "< $50K", "sm": 0.0025, "st": 0.004, "fm": 0.0002, "ft": 0.0005}, {"t": "≥ $50K", "th": "30天量", "sm": 0.002, "st": 0.0035, "fm": 0.00018, "ft": 0.00045}, {"t": "≥ $100K", "th": "30天量", "sm": 0.0016, "st": 0.0026, "fm": 0.00016, "ft": 0.0004}, {"t": "≥ $1M", "th": "30天量", "sm": 0.0012, "st": 0.0022, "fm": 0.00012, "ft": 0.00032}, {"t": "≥ $10M", "th": "30天量", "sm": 0.0008, "st": 0.0016, "fm": 8e-05, "ft": 0.00025}],
+    "vip_tiers": [{"t": "Tier 1", "th": "$0+", "sm": 0.004, "st": 0.008, "fm": 0.0002, "ft": 0.0005}, {"t": "Tier 2", "th": "≥ $2.5K", "sm": 0.003, "st": 0.006, "fm": 0.000175, "ft": 0.00045}, {"t": "Tier 3", "th": "≥ $10K", "sm": 0.0022, "st": 0.0038, "fm": 0.00015, "ft": 0.0004}, {"t": "Tier 4", "th": "≥ $25K", "sm": 0.002, "st": 0.0035, "fm": 0.000125, "ft": 0.00035}, {"t": "Tier 5", "th": "≥ $50K", "sm": 0.0015, "st": 0.003, "fm": 0.0001, "ft": 0.0003}],
   },
   "coinbase": {
     "slug": "coinbase",
@@ -242,7 +242,7 @@ window.EXCHANGES = {
     "source": "https://www.coinbase.com/fees",
     "last_updated": "2026-08-27",
     "evidence": {
-      "trading_fees": {"url":"https://help.coinbase.com/en/coinbase/trading-and-funding/advanced-trade/advanced-trade-fees","checked_at":"2026-08-20","access":"account_tier"},
+      "trading_fees": {"url":"https://help.coinbase.com/en/coinbase/trading-and-funding/advanced-trade/advanced-trade-fees","checked_at":"2026-08-27","access":"account_tier"},
       "withdrawal_fees": {"url":"https://help.coinbase.com/en/coinbase/trading-and-funding/pricing-and-fees/fees","checked_at":"2026-08-20","access":"dynamic_quote"},
       "kyc": {"url":"https://help.coinbase.com/en/coinbase/getting-started/verify-my-account/how-do-i-verify-my-identity","checked_at":"2026-08-20"},
       "regulation": {"url":"https://www.coinbase.com/legal/licenses","checked_at":"2026-08-20"},

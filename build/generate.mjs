@@ -216,7 +216,7 @@ const I18N = {
     navZh: '中文',
     navTools: 'Tools', navExchanges: 'Exchanges', navCompare: 'Compare', navLearn: 'Learn',
     navTc: 'Spot Toolbox', navFut: 'Futures Toolbox', navCmp: 'Comparison', navGlo: 'Glossary', navSec: 'Token Check', navPf: 'Portfolio',
-    navLearnStart: 'Beginner Path', navLearnSafe: 'Safety & Scams', navLearnCost: 'Buying & Costs', navLearnWallet: 'Wallets & Transfers',
+    navLearnStart: 'Beginner Path', navLearnSafe: 'Safety & Scams', navLearnCost: 'Buying & Costs', navLearnWallet: 'Wallets & Transfers', navBenchmark: '$1,000 Fee Benchmark',
     discHtml: '<div class="note" style="text-align:left"><p style="margin:0 0 4px">① Fee snapshot: {SNAPSHOT} — verify each rate on the exchange\'s official page before trading.</p><p style="margin:0">② Compliance varies by exchange — always check each exchange\'s Terms of Use to confirm your country/region is supported before signing up.</p></div>',
     foot: 'Educational only. Not financial advice. Verify all data on official exchange pages. Data snapshot ', footContact: 'For feature requests or bug reports, contact ',
     footPrivacy: 'Privacy', footTerms: 'Terms', footAbout: 'About', footHome: 'Home',
@@ -281,7 +281,7 @@ const I18N = {
     navZh: 'English',
     navTools: '工具', navExchanges: '交易所', navCompare: '对比', navLearn: '学习',
     navTc: '现货工具', navFut: '合约工具', navCmp: '综合对比', navGlo: '术语表', navSec: '代币检查', navPf: '持仓记账',
-    navLearnStart: '新手路线', navLearnSafe: '安全与防骗', navLearnCost: '买币与费用', navLearnWallet: '钱包与转账',
+    navLearnStart: '新手路线', navLearnSafe: '安全与防骗', navLearnCost: '买币与费用', navLearnWallet: '钱包与转账', navBenchmark: '1000 USDT 费率实测',
     discHtml: '<div class="note" style="text-align:left"><p style="margin:0 0 4px">① 费率快照：最近更新 {SNAPSHOT}—— 交易前请以各交易所官方页面为准。</p><p style="margin:0">② 合规受限地区因交易所而异——注册前请查各所 Terms of Use 确认你所在国家/地区可用。</p></div>',
     foot: '仅供教育参考，不构成投资建议。请以各交易所官方页面核实所有数据。数据快照 ', footContact: '如有任何功能需求和建议，或网页有错误需要修正，请联系 ',
     footPrivacy: '隐私政策', footTerms: '使用条款', footAbout: '关于我们', footHome: '首页',
@@ -356,7 +356,7 @@ function absPath(lang, rel) {
 
 function matchActiveNav(path) {
   if (!path) return null;
-  if (/(^|\/)learn\//.test(path) || /glossary/.test(path)) return 'learn';
+  if (/(^|\/)(learn|research)\//.test(path) || /glossary/.test(path)) return 'learn';
   if (/exchanges\//.test(path)) return 'ex';
   if (/compare\//.test(path) && !/exchange-comparator/.test(path)) return 'cp';
   if (/total-cost-calculator|fee-calculator/.test(path)) return 'tc';
@@ -385,6 +385,9 @@ function gloPath(lang) {
 function learnPath(slug = 'index') {
   return `learn/${slug === 'index' ? 'index.html' : slug + '.html'}`;
 }
+function researchPath(slug = '1000-usdt-spot-cost') {
+  return `research/${slug}.html`;
+}
 function secPath(lang) {
   return 'tools/token-security-checker' + (lang === 'zh' ? '.zh' : '') + '.html';
 }
@@ -398,7 +401,7 @@ const LEGAL_HTML = {
     privacy: {
       title: 'Privacy Policy',
       desc: 'How FeeEye handles your information.',
-      body: `<h1>Privacy Policy</h1><p class="intro">Last reviewed: 2026-08-27</p><h3>Who we are</h3><p>This policy describes how FeeEye ("we", "us") handles information on this website.</p><h3>Accounts and tool inputs</h3><p>We don\'t require accounts and we don\'t ask for names or email addresses. Inputs entered into calculators and the portfolio tracker stay in your browser and are not sent to FeeEye servers.</p><h3>Aggregate analytics</h3><p>FeeEye may use Cloudflare Web Analytics and Cloudflare Zaraz when those services are enabled for this domain. We measure aggregate page activity and a limited set of product events: opening coin search, selecting a public coin symbol, an unsuccessful search length, first tool interaction, reaching the end of a learning article, opening a quiz, opening a related tool, expanding advanced comparison information, and opening an exchange website.</p><p>Allowed event fields are limited to language, page type, tool/article identifiers, public coin symbol, result position, query length, quiz number, exchange name, comparison pair, and controlled <code>utm_source</code>, <code>utm_medium</code>, and <code>utm_campaign</code> values. We do not intentionally send complete search queries, calculator amounts, wallet addresses, portfolio entries, email addresses, names, or a FeeEye user ID. Event calls safely do nothing when Zaraz is unavailable. Cloudflare processes requests under its own privacy terms and configured retention settings.</p><h3>External services</h3><p>Token checks and live-price features may request data from the named third-party APIs when you use those tools. Opening an exchange link takes you to that exchange, whose privacy policy then applies.</p><h3>Changes</h3><p>We will update this policy and the "last reviewed" date when practices change.</p>`,
+      body: `<h1>Privacy Policy</h1><p class="intro">Last reviewed: 2026-08-27</p><h3>Who we are</h3><p>This policy describes how FeeEye ("we", "us") handles information on this website.</p><h3>Accounts and tool inputs</h3><p>We don\'t require accounts and we don\'t ask for names or email addresses. Inputs entered into calculators and the portfolio tracker stay in your browser and are not sent to FeeEye servers.</p><h3>Aggregate analytics</h3><p>FeeEye may use Cloudflare Web Analytics and Cloudflare Zaraz when those services are enabled for this domain. We measure aggregate page activity and a limited set of product events: opening coin search, selecting a public coin symbol, an unsuccessful search length, first tool interaction, reaching the end of a learning article, opening a quiz, opening a related tool from learning or research, expanding advanced comparison information, and opening an exchange website.</p><p>Allowed event fields are limited to language, page type, tool/article/benchmark identifiers, public coin symbol, result position, query length, quiz number, exchange name, comparison pair, and controlled <code>utm_source</code>, <code>utm_medium</code>, and <code>utm_campaign</code> values. We do not intentionally send complete search queries, calculator amounts, wallet addresses, portfolio entries, email addresses, names, or a FeeEye user ID. Event calls safely do nothing when Zaraz is unavailable. Cloudflare processes requests under its own privacy terms and configured retention settings.</p><h3>External services</h3><p>Token checks and live-price features may request data from the named third-party APIs when you use those tools. Opening an exchange link takes you to that exchange, whose privacy policy then applies.</p><h3>Changes</h3><p>We will update this policy and the "last reviewed" date when practices change.</p>`,
     },
     terms: {
       title: 'Terms of Use',
@@ -415,7 +418,7 @@ const LEGAL_HTML = {
     privacy: {
       title: '隐私政策',
       desc: 'FeeEye 如何处理你的信息。',
-      body: `<h1>隐私政策</h1><p class="intro">最近审阅：2026-08-27</p><h3>账号与工具输入</h3><p>FeeEye 不要求注册账号，也不主动索取姓名或邮箱。费用计算器和持仓记账本中的输入保留在你的浏览器中，不发送到 FeeEye 服务器。</p><h3>汇总分析</h3><p>当 Cloudflare Web Analytics 或 Cloudflare Zaraz 在本域名启用时，FeeEye 会统计汇总页面活动和有限产品事件：打开币种搜索、选择公开币种代码、无结果搜索的字符长度、首次使用工具、到达学习文章末尾、展开自测、打开相关工具、展开高级对比信息和打开交易所网站。</p><p>允许的事件字段仅包括语言、页面类型、工具或文章标识、公开币种代码、结果位置、搜索字符长度、自测题号、交易所名称、对比组合，以及受控的 <code>utm_source</code>、<code>utm_medium</code> 和 <code>utm_campaign</code>。我们不会主动发送完整搜索词、计算器金额、钱包地址、持仓输入、邮箱、姓名或 FeeEye 用户 ID。Zaraz 不可用时事件调用会安全地不执行。Cloudflare 会依据其隐私条款和后台保留设置处理请求。</p><h3>外部服务</h3><p>使用代币检查和实时价格功能时，页面可能向工具中标明的第三方 API 请求数据。打开交易所链接后，将适用该交易所的隐私政策。</p><h3>变更</h3><p>实践发生变化时，我们会更新本政策及"最近审阅"日期。</p>`,
+      body: `<h1>隐私政策</h1><p class="intro">最近审阅：2026-08-27</p><h3>账号与工具输入</h3><p>FeeEye 不要求注册账号，也不主动索取姓名或邮箱。费用计算器和持仓记账本中的输入保留在你的浏览器中，不发送到 FeeEye 服务器。</p><h3>汇总分析</h3><p>当 Cloudflare Web Analytics 或 Cloudflare Zaraz 在本域名启用时，FeeEye 会统计汇总页面活动和有限产品事件：打开币种搜索、选择公开币种代码、无结果搜索的字符长度、首次使用工具、到达学习文章末尾、展开自测、从学习或原创研究打开相关工具、展开高级对比信息和打开交易所网站。</p><p>允许的事件字段仅包括语言、页面类型、工具、文章或benchmark标识、公开币种代码、结果位置、搜索字符长度、自测题号、交易所名称、对比组合，以及受控的 <code>utm_source</code>、<code>utm_medium</code> 和 <code>utm_campaign</code>。我们不会主动发送完整搜索词、计算器金额、钱包地址、持仓输入、邮箱、姓名或 FeeEye 用户 ID。Zaraz 不可用时事件调用会安全地不执行。Cloudflare 会依据其隐私条款和后台保留设置处理请求。</p><h3>外部服务</h3><p>使用代币检查和实时价格功能时，页面可能向工具中标明的第三方 API 请求数据。打开交易所链接后，将适用该交易所的隐私政策。</p><h3>变更</h3><p>实践发生变化时，我们会更新本政策及"最近审阅"日期。</p>`,
     },
     terms: {
       title: '使用条款',
@@ -513,6 +516,7 @@ function page({ lang, title, desc, body, jsonLd, depth = 0, path, affiliate = fa
     [learnPath('avoid-crypto-scams'), ICON.shield, i.navLearnSafe],
     [learnPath('crypto-total-cost'), ICON.receipt, i.navLearnCost],
     [learnPath('safe-crypto-transfer'), ICON.wallet, i.navLearnWallet],
+    [researchPath(), ICON.scale, i.navBenchmark],
     [gloPath(lang), ICON.coins, i.navGlo]
   ].map(([href, icon, label]) => `<a href="${absPath(lang, href)}">${icon}<span>${esc(label)}</span></a>`).join('');
   return `<!doctype html>
@@ -841,6 +845,18 @@ input[type=number]{font-size:16px}
 .learn-sources{margin-top:22px;padding-top:15px;border-top:1px solid var(--line)}.learn-sources h2{font-size:15px;margin:0 0 7px}.learn-sources ul{margin:0;padding-left:19px}.learn-sources a{color:var(--brand);font-size:12px;overflow-wrap:anywhere}
 .learn-next{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:18px}.learn-next a{border:1px solid var(--line);border-radius:10px;padding:10px 12px;color:#334155;text-decoration:none;font-size:12px}.learn-next a:last-child{text-align:right}.learn-next b{display:block;color:var(--brand);font-size:13px;margin-top:2px}
 @media(max-width:640px){.learn-hero,.learn-section,.learn-article{padding:16px}.learn-hero h1,.learn-article h1{font-size:23px}.learn-principles{grid-template-columns:1fr}.learn-category-grid,.learn-checklist{grid-template-columns:1fr}.learn-route-card{grid-template-columns:34px minmax(0,1fr)}.learn-route-card small{grid-column:2}.learn-tool{display:block}.learn-tool a{display:inline-block;margin-top:9px}.learn-next{grid-template-columns:1fr}.learn-next a:last-child{text-align:left}}
+.benchmark-page{display:grid;gap:16px;min-width:0}
+.benchmark-hero,.benchmark-section{background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px;min-width:0}
+.benchmark-hero{background:linear-gradient(135deg,#fff 0%,#eef6ff 100%);box-shadow:0 8px 28px rgba(37,99,235,.06)}
+.benchmark-eyebrow{color:var(--brand);font-size:12px;font-weight:800;margin-bottom:4px}.benchmark-hero h1{font-size:28px;line-height:1.25;margin:0 0 8px}.benchmark-hero>p{color:#475569;max-width:730px;margin:0}
+.benchmark-facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-top:16px}.benchmark-fact{background:rgba(255,255,255,.88);border:1px solid #dbeafe;border-radius:10px;padding:11px 12px}.benchmark-fact span{display:block;color:#64748b;font-size:10.5px}.benchmark-fact b{display:block;color:#172033;font-size:16px;margin-top:2px}
+.benchmark-method{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:12px}.benchmark-method div{border:1px solid var(--line);border-radius:9px;background:#f8fafc;padding:9px 11px;font-size:12px;color:#475569}.benchmark-method b{display:block;color:#172033;margin-bottom:2px}
+.benchmark-section h2{font-size:20px;margin:0 0 6px}.benchmark-section>p{color:#64748b;font-size:13px;margin:0 0 12px}.benchmark-table{margin:0;font-size:12.5px}.benchmark-table th:first-child,.benchmark-table td:first-child{text-align:left}.benchmark-table td{vertical-align:middle}.benchmark-table .fee{font-size:15px;font-weight:800;color:#1d4ed8}.benchmark-table small{display:block;color:#64748b;font-size:10px;margin-top:2px}.benchmark-table a{color:var(--brand);text-decoration:none;font-size:10.5px}.benchmark-table .group-low{background:#f0fdf4}.benchmark-table .group-high{background:#fff7ed}
+.benchmark-findings{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}.benchmark-finding{border:1px solid var(--line);border-radius:11px;background:#fcfdff;padding:13px}.benchmark-finding b{display:block;color:#172033;font-size:14px}.benchmark-finding p{margin:4px 0 0;color:#64748b;font-size:12px}
+.benchmark-unknowns{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.benchmark-unknowns li{border:1px solid #fed7aa;background:#fffaf5;border-radius:9px;padding:10px 11px;color:#9a3412;font-size:12px}.benchmark-unknowns b{display:block;color:#7c2d12;margin-bottom:2px}
+.benchmark-share{width:100%;height:auto;border:1px solid var(--line);border-radius:12px;background:#fff;display:block}.benchmark-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:11px}.benchmark-actions a{display:inline-flex;align-items:center;border:1px solid #bfdbfe;background:#eff6ff;color:#1d4ed8;border-radius:8px;padding:7px 11px;text-decoration:none;font-size:12px;font-weight:700}
+.benchmark-note{background:#fff7ed;border:1px solid #fed7aa;color:#9a3412;border-radius:10px;padding:11px 13px;font-size:12px;margin-top:12px}
+@media(max-width:640px){.benchmark-hero,.benchmark-section{padding:16px}.benchmark-hero h1{font-size:23px}.benchmark-facts,.benchmark-findings,.benchmark-method,.benchmark-unknowns{grid-template-columns:1fr}.benchmark-table{font-size:11.5px}.benchmark-table th,.benchmark-table td{padding:8px 7px}}
 </style>
 </head>
 <body>
@@ -1574,6 +1590,73 @@ function countryPage(cc, lang) {
   return page({ lang, title: T(lang, 'cyTitle', { n: name }), desc: T(lang, 'cyDesc', { n: name }), body, depth: lang === 'zh' ? 2 : 1, path: `${lang === 'zh' ? 'zh/' : ''}${cc.toLowerCase()}/exchanges.html`, affiliate: false, noDisc: true, noIndex: !!info.restricted });
 }
 
+// ---- 原创 benchmark：1000 USDT 普通用户现货市价单 ----
+const BENCHMARK_AMOUNT = 1000;
+const BENCHMARK_REVIEWED_AT = '2026-08-27';
+const BENCHMARK_ORDER = ['binance', 'okx', 'kucoin', 'bybit', 'bitget', 'coinbase', 'kraken'];
+function benchmarkRows() {
+  return BENCHMARK_ORDER.map((slug) => {
+    const ex = EX[slug];
+    const rate = ex.spot.taker;
+    const fee = BENCHMARK_AMOUNT * rate;
+    return { slug, ex, rate, fee, remainder: BENCHMARK_AMOUNT - fee, evidence: ex.evidence.trading_fees };
+  });
+}
+function benchmarkShareSvg(lang) {
+  const zh = lang === 'zh';
+  const rows = benchmarkRows();
+  const maxFee = Math.max(...rows.map((row) => row.fee));
+  const title = zh ? '1000 USDT 现货市价单：公开基础吃单费' : '$1,000 spot market order: published base taker fee';
+  const subtitle = zh ? '普通用户 · 标准交易对 · 不含折扣' : 'Regular user · standard pair · no discounts';
+  const footer = zh ? '不是总成本：不含价差、滑点、入金、提币和税务 · FeeEye · 2026-08-27' : 'Not total cost: excludes spread, slippage, funding, withdrawal and tax · FeeEye · 2026-08-27';
+  const chart = rows.map((row, index) => {
+    const y = 178 + index * 54;
+    const width = Math.max(5, 570 * row.fee / maxFee);
+    const color = row.fee <= 1 ? '#2563eb' : row.fee >= 8 ? '#dc2626' : '#d97706';
+    const amount = row.slug === 'coinbase' ? (zh ? `最高 ${row.fee.toFixed(0)} USDT` : `up to ${row.fee.toFixed(0)} USDT`) : `${row.fee.toFixed(0)} USDT`;
+    return `<text x="58" y="${y + 21}" font-size="20" font-weight="700" fill="#1c2430">${esc(row.ex.name)}</text><rect x="250" y="${y}" width="${width}" height="32" rx="8" fill="${color}"/><text x="${Math.min(250 + width + 14, 1040)}" y="${y + 22}" font-size="18" font-weight="750" fill="#334155">${esc(amount)}</text>`;
+  }).join('');
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="${esc(title)}"><rect width="1200" height="630" fill="#f7f8fa"/><rect x="28" y="28" width="1144" height="574" rx="28" fill="#fff" stroke="#dbe3ee"/><text x="58" y="78" font-family="-apple-system,BlinkMacSystemFont,Segoe UI,PingFang SC,sans-serif" font-size="22" font-weight="850" fill="#2563eb">FeeEye BENCHMARK</text><text x="58" y="122" font-family="-apple-system,BlinkMacSystemFont,Segoe UI,PingFang SC,sans-serif" font-size="34" font-weight="850" fill="#172033">${esc(title)}</text><text x="58" y="153" font-family="-apple-system,BlinkMacSystemFont,Segoe UI,PingFang SC,sans-serif" font-size="18" fill="#64748b">${esc(subtitle)}</text><g font-family="-apple-system,BlinkMacSystemFont,Segoe UI,PingFang SC,sans-serif">${chart}</g><line x1="58" x2="1142" y1="568" y2="568" stroke="#e4e8ee"/><text x="58" y="590" font-family="-apple-system,BlinkMacSystemFont,Segoe UI,PingFang SC,sans-serif" font-size="15" fill="#64748b">${esc(footer)}</text></svg>`;
+}
+function researchBenchmarkPage(lang) {
+  const zh = lang === 'zh';
+  const rows = benchmarkRows();
+  const minFee = Math.min(...rows.map((row) => row.fee));
+  const maxFee = Math.max(...rows.map((row) => row.fee));
+  const lowCount = rows.filter((row) => row.fee === minFee).length;
+  const rowHtml = rows.map((row) => {
+    const className = row.fee === minFee ? 'group-low' : row.fee >= 6 ? 'group-high' : '';
+    const rate = (row.rate * 100).toFixed(2) + '%';
+    const feeText = row.slug === 'coinbase' ? (zh ? `最高 ${row.fee.toFixed(2)}` : `Up to ${row.fee.toFixed(2)}`) : row.fee.toFixed(2);
+    const basis = row.slug === 'coinbase'
+      ? (zh ? '公开费率上限；以下单预览为准' : 'Published ceiling; order preview controls')
+      : row.slug === 'kraken'
+        ? (zh ? 'Tier 1；2026-07-09 起' : 'Tier 1 since 2026-07-09')
+        : (zh ? '普通用户 / VIP 0 标准现货' : 'Regular / VIP 0 standard spot');
+    return `<tr class="${className}"><td><b>${esc(row.ex.name)}</b><small>${esc(basis)}</small></td><td class="num">${esc(rate)}</td><td class="fee num">${esc(feeText)} USDT</td><td class="num">${row.remainder.toFixed(2)} USDT</td><td><a href="${esc(row.evidence.url)}" target="_blank" rel="noopener noreferrer">${zh ? '官方费率' : 'Official fee'}</a><small>${zh ? '复核' : 'Checked'} ${esc(row.evidence.checked_at)}</small></td></tr>`;
+  }).join('');
+  const sharePath = `/assets/benchmarks/1000-usdt-spot-fee-${lang}.svg`;
+  const body = `<main class="benchmark-page">
+    <section class="benchmark-hero">
+      <div class="benchmark-eyebrow">FeeEye ORIGINAL BENCHMARK · ${BENCHMARK_REVIEWED_AT}</div>
+      <h1>${zh ? '1000 USDT 现货市价单，公开基础手续费是多少？' : 'What is the published base fee on a $1,000 spot market order?'}</h1>
+      <p>${zh ? '对比7家交易所普通用户标准现货交易对的公开吃单费。这个数字不是“真实总成本”：价差、滑点、入金、提币和税务必须单独核对。' : 'A seven-exchange comparison of published regular-user taker fees on standard spot pairs. This is not “total cost”: spread, slippage, funding, withdrawal, and tax remain separate.'}</p>
+      <div class="benchmark-facts"><div class="benchmark-fact"><span>${zh ? '比较金额' : 'Trade notional'}</span><b>1,000 USDT</b></div><div class="benchmark-fact"><span>${zh ? '公开费用区间' : 'Published fee range'}</span><b>${minFee.toFixed(0)}–${maxFee.toFixed(0)} USDT</b></div><div class="benchmark-fact"><span>${zh ? '0.10%基础费率组' : '0.10% base-rate group'}</span><b>${lowCount} ${zh ? '家' : 'exchanges'}</b></div></div>
+      <div class="benchmark-method"><div><b>${zh ? '订单' : 'Order'}</b>${zh ? '立即成交的现货市价单，按Taker计算' : 'Immediately filled spot market order, charged as taker'}</div><div><b>${zh ? '用户档位' : 'Account tier'}</b>${zh ? '最低普通档，不使用平台币、VIP或活动优惠' : 'Entry regular tier; no token, VIP, or campaign discounts'}</div><div><b>${zh ? '交易对' : 'Pair scope'}</b>${zh ? '标准加密现货交易对，不含零费率或特殊分组' : 'Standard crypto spot pair; excludes zero-fee and special groups'}</div><div><b>${zh ? '计价' : 'Denomination'}</b>${zh ? '1000 USDT等值名义金额；各地区实际可用交易对不同' : '1,000 USDT-equivalent notional; pair availability varies by region'}</div></div>
+    </section>
+    <section class="benchmark-section"><h2>${zh ? '公开基础费率结果' : 'Published base-fee results'}</h2><p>${zh ? '费用=1000×公开基础吃单费率。Coinbase只公开费率范围并要求登录查看具体档位，因此显示为最高值，不伪装成确定报价。' : 'Fee = 1,000 × published base taker rate. Coinbase publishes a range and requires sign-in for the exact tier, so its value is shown as a ceiling rather than a guaranteed quote.'}</p><div class="scroll"><table class="benchmark-table"><thead><tr><th>${zh ? '交易所与口径' : 'Exchange & basis'}</th><th>${zh ? '吃单费率' : 'Taker rate'}</th><th>${zh ? '1000 USDT费用' : 'Fee on 1,000'}</th><th>${zh ? '扣费后等值' : 'After fee'}</th><th>${zh ? '证据' : 'Evidence'}</th></tr></thead><tbody>${rowHtml}</tbody></table></div><div class="benchmark-note"><b>${zh ? '不要把最低公开费率组理解成推荐。' : 'Do not treat the lowest published-fee group as a recommendation.'}</b> ${zh ? '地区可用性、KYC、法币通道、价差、流动性、提币网络和托管风险可能完全改变最终选择。' : 'Jurisdiction, KYC, fiat rails, spread, liquidity, withdrawal network, and custody risk can override the fee result.'}</div></section>
+    <section class="benchmark-section"><h2>${zh ? '这张表能说明什么' : 'What this table shows'}</h2><div class="benchmark-findings"><div class="benchmark-finding"><b>${zh ? `${lowCount}家显示1 USDT基础费` : `${lowCount} exchanges show a 1 USDT base fee`}</b><p>${zh ? 'Binance、OKX、KuCoin、Bybit和Bitget的标准吃单费率均为0.10%。' : 'Binance, OKX, KuCoin, Bybit, and Bitget publish a 0.10% standard taker rate.'}</p></div><div class="benchmark-finding"><b>${zh ? 'Coinbase最高6 USDT' : 'Coinbase: up to 6 USDT'}</b><p>${zh ? '公开资料给出最高0.60%，具体档位与订单预览可能更低。' : 'Public material gives a ceiling of 0.60%; account tier and order preview may be lower.'}</p></div><div class="benchmark-finding"><b>${zh ? 'Kraken Tier 1为8 USDT' : 'Kraken Tier 1: 8 USDT'}</b><p>${zh ? '2026年7月9日的新档位将普通吃单费更新为0.80%。' : 'The July 9, 2026 tier change sets entry taker fees at 0.80%.'}</p></div></div></section>
+    <section class="benchmark-section"><h2>${zh ? '仍然未知、不能拍脑袋补齐的成本' : 'Costs that remain unknown and should not be invented'}</h2><ul class="benchmark-unknowns"><li><b>${zh ? '买卖价差' : 'Bid-ask spread'}</b>${zh ? '随交易对、地区、时间和流动性变化。' : 'Changes by pair, venue, time, region, and liquidity.'}</li><li><b>${zh ? '滑点' : 'Slippage'}</b>${zh ? '取决于订单簿深度和瞬时波动。' : 'Depends on book depth, order size, and volatility.'}</li><li><b>${zh ? '入金成本' : 'Funding cost'}</b>${zh ? '银行、卡组织与第三方支付商按地区动态报价。' : 'Banks, cards, and payment processors quote by region.'}</li><li><b>${zh ? '提币成本' : 'Withdrawal cost'}</b>${zh ? '必须先明确资产和接收网络，不能把USDT网络费套到其他币。' : 'Requires the asset and receiving network; USDT fees cannot stand in for another asset.'}</li></ul></section>
+    <section class="benchmark-section"><h2>${zh ? '分享图' : 'Shareable chart'}</h2><p>${zh ? '图中只比较公开基础吃单费，并在图内保留排除项，避免脱离上下文传播。' : 'The chart compares only published base taker fees and keeps exclusions inside the image so it is not shared without context.'}</p><img class="benchmark-share" src="${sharePath}" alt="${zh ? '1000 USDT现货基础吃单费对比图' : '$1,000 spot base taker fee comparison'}"><div class="benchmark-actions"><a href="${sharePath}" target="_blank" rel="noopener">${zh ? '打开SVG分享图' : 'Open SVG chart'}</a><a href="${absPath(lang, tcPath(lang))}">${zh ? '用你的实际条件计算' : 'Calculate your own scenario'}</a></div></section>
+    <section class="benchmark-section"><h2>${zh ? '结论' : 'Conclusion'}</h2><p>${zh ? '1000 USDT下，公开基础交易费的差异是可计算的，但它只是一条成本线。真正有用的比较必须把未知成本公开，而不是用一个“最低费率”替代地区、流动性和退出路径。' : 'At a 1,000 USDT notional, published trading-fee differences are measurable, but they are only one cost line. A useful comparison exposes unknowns rather than letting one headline rate replace jurisdiction, liquidity, and exit-path checks.'}</p></section>
+  </main>`;
+  const title = zh ? '1000 USDT现货手续费实测——7家交易所公开费率对比' : '$1,000 Spot Fee Benchmark — 7 Exchanges Compared';
+  const desc = zh ? '对比7家交易所普通用户1000 USDT现货市价单的公开基础吃单费，明确排除价差、滑点、入金、提币和税务。' : 'Compare published base taker fees for a $1,000 spot market order across seven exchanges, with spread, slippage, funding, withdrawal, and tax explicitly excluded.';
+  const pagePath = `${lang === 'zh' ? 'zh/' : ''}${researchPath()}`;
+  const jsonLd = {'@context':'https://schema.org','@graph':[{'@type':'Article',headline:title,description:desc,dateModified:BENCHMARK_REVIEWED_AT,inLanguage:zh?'zh-CN':'en',author:{'@type':'Organization',name:SITE},publisher:{'@type':'Organization',name:SITE},mainEntityOfPage:`${SITE_URL}/${canonPath(pagePath)}`},{'@type':'Dataset',name:title,description:desc,dateModified:BENCHMARK_REVIEWED_AT,creator:{'@type':'Organization',name:SITE},variableMeasured:['exchange','published base spot taker rate','fee on 1000 USDT-equivalent notional'],distribution:{'@type':'DataDownload',encodingFormat:'image/svg+xml',contentUrl:`${SITE_URL}${sharePath}`}}]};
+  return page({lang,title,desc,body,jsonLd,path:pagePath,affiliate:false,noDisc:true});
+}
+
 // ---- 新手学习中心：风险优先、任务型、无交易导向 ----
 const LEARN_CATEGORY = {
   en: { start: 'Before you start', security: 'Safety & scams', trading: 'Buying & costs', wallet: 'Wallets & transfers' },
@@ -1608,6 +1691,7 @@ function learningHubPage(lang) {
     </section>
     <section class="learn-section"><h2>${zh ? '8 步新手路线' : 'Eight-step beginner path'}</h2><p>${zh ? '建议按顺序完成。高风险标签表示操作错误可能造成不可逆损失或快速亏损。' : 'Complete these in order. High-risk labels mark topics where mistakes can cause irreversible or rapid loss.'}</p><div class="learn-route">${route}</div></section>
     <section class="learn-section"><h2>${zh ? '按用途查找' : 'Browse by task'}</h2><p>${zh ? '需要解决一个具体问题时，可直接进入对应分类。' : 'Jump to a category when you need to solve one specific problem.'}</p><div class="learn-category-grid">${groups}</div></section>
+    <section class="learn-section"><h2>${zh ? '最新原创数据' : 'Latest original research'}</h2><p>${zh ? '固定1000 USDT、普通用户和现货市价单，比较7家交易所公开基础吃单费；所有未知成本明确留空。' : 'A fixed 1,000 USDT-equivalent, regular-user spot market-order comparison across seven exchanges, with unknown costs left explicit.'}</p><a class="cta" href="${absPath(lang, researchPath())}">${zh ? '查看1000 USDT费率实测' : 'Open the $1,000 fee benchmark'}</a></section>
     <section class="learn-section"><h2>${zh ? '术语不是课程' : 'A glossary is not a course'}</h2><p>${zh ? '不懂 Maker、Gas、助记词或 PoR 时可查术语表；但在实际操作前，仍应完成对应教程和检查清单。' : 'Use the glossary for Maker, gas, recovery phrases, or PoR, but complete the related guide and checklist before acting.'}</p><a class="cta" href="${absPath(lang, gloPath(lang))}">${zh ? '打开已审校术语表' : 'Open the reviewed glossary'}</a></section>
   </main>`;
   const title = zh ? 'Crypto 新手学习中心——安全、费用、转账与钱包' : 'Crypto Beginner Learning Center — Safety, Costs, Transfers & Wallets';
@@ -1824,6 +1908,7 @@ for (const lang of ['en', 'zh']) {
   for (const article of LEARNING_ARTICLES) {
     write(`${lang === 'zh' ? 'zh/' : ''}${learnPath(article.slug)}`, learningArticlePage(article, lang)); count++;
   }
+  write(`${lang === 'zh' ? 'zh/' : ''}${researchPath()}`, researchBenchmarkPage(lang)); count++;
   for (const c of COIN_LIST) {
     write(`${lang === 'zh' ? 'zh/' : ''}where-to-buy/${c.symbol.toLowerCase()}.html`, whereToBuy(c, lang)); count++;
   }
@@ -1870,6 +1955,8 @@ fs.writeFileSync(path.join(distDir, 'data', 'coin-ids.js'), coinIdsJs);
 fs.writeFileSync(path.join(distDir, 'zh', 'data', 'coin-ids.js'), coinIdsJs);
 // 拷贝 logo / favicon 到 dist 根（en + zh 通过绝对路径 /assets/ 共用一份）
 fs.cpSync(assetsDir, path.join(distDir, 'assets'), { recursive: true });
+write('assets/benchmarks/1000-usdt-spot-fee-en.svg', benchmarkShareSvg('en'));
+write('assets/benchmarks/1000-usdt-spot-fee-zh.svg', benchmarkShareSvg('zh'));
 // IndexNow 全站验证文件必须位于站点根目录；放在 /assets/ 只能验证该路径下的 URL。
 const indexNowKey = fs.readFileSync(path.join(assetsDir, 'indexnow-key.txt'), 'utf8').trim();
 if (!/^[a-f0-9]{8,128}$/i.test(indexNowKey)) throw new Error('Invalid IndexNow key');

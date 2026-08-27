@@ -7,6 +7,7 @@
     learn_article_complete: ['article_id'],
     learn_quiz_open: ['article_id', 'question_number'],
     learn_tool_open: ['article_id', 'tool'],
+    research_tool_open: ['benchmark_id', 'tool'],
     compare_advanced_open: ['pair'],
     exchange_outbound_open: ['exchange']
   };
@@ -27,6 +28,7 @@
     var p = location.pathname;
     if (/\/learn\/(?:index\.html)?$/.test(p) || /\/learn\/$/.test(p)) return 'learn_hub';
     if (/\/learn\//.test(p)) return 'learn_article';
+    if (/\/research\//.test(p)) return 'research';
     if (/\/tools\//.test(p)) return 'tool';
     if (/\/compare\//.test(p)) return 'compare';
     if (/\/exchanges\//.test(p)) return 'exchange';
@@ -121,6 +123,16 @@
         }, { threshold: 0.25 });
         observer.observe(finish);
       }
+    }
+
+    if (pageType() === 'research') {
+      var benchmarkId = pathSlug('research');
+      document.querySelectorAll('.benchmark-actions a').forEach(function (link) {
+        if (!/\/tools\//.test(link.pathname)) return;
+        link.addEventListener('click', function () {
+          track('research_tool_open', { benchmark_id: benchmarkId, tool: link.pathname.split('/').pop().replace(/(?:\.zh)?\.html$/, '') });
+        });
+      });
     }
 
     document.querySelectorAll('.compare-advanced').forEach(function (details) {

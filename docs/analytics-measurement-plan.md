@@ -20,6 +20,7 @@ Cloudflare 官方 API：https://developers.cloudflare.com/zaraz/web-api/track/
 | `learn_article_complete` | 学习文章来源区进入视口 | `article_id` |
 | `learn_quiz_open` | 展开一道自测 | `article_id`, `question_number` |
 | `learn_tool_open` | 从教程打开相关工具 | `article_id`, `tool` |
+| `research_tool_open` | 从原创benchmark打开相关工具 | `benchmark_id`, `tool` |
 | `compare_advanced_open` | 第一次展开高风险交易能力 | `pair` |
 | `exchange_outbound_open` | 打开已知交易所域名 | `exchange` |
 
@@ -56,6 +57,7 @@ UTM 只允许小写字母、数字、点、下划线和连字符，最长48字�
 - 工具有效使用率：`tool_use / 工具页浏览量`
 - 学习完成率：`learn_article_complete / 学习文章浏览量`
 - 教程到工具率：`learn_tool_open / 学习文章浏览量`
+- Benchmark到工具率：`research_tool_open / benchmark浏览量`
 - 高风险功能兴趣：`compare_advanced_open / 对比页浏览量`
 - 交易所出站率：`exchange_outbound_open / 可产生出站的页面浏览量`
 
