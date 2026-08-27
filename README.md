@@ -58,7 +58,7 @@ affiliate-site/
 | P2 工具 | 手续费 + 提币费计算器 ✅（含地区过滤、CTA、披露） | 完成 |
 | P3 SEO | 程序化生成器 + 118 币 where-to-buy（已滤稳定币/RWA 基金）+ 21 国家页 + 真实价格 + CoinGecko 摄取管线（含 A1 币种过滤） ✅ | 完成 |
 | P4 GEO | 原创 benchmark 报告 | 未开始 |
-| P5 内容 | YouTube / X / Newsletter 分发 | 未开始 |
+| P5 内容 | 新手学习中心（中英双语、8 篇风险优先教程、术语表与工具联动）✅；YouTube / X / Newsletter 分发 | 学习站内版完成，外部分发未开始 |
 | P5 运营 | 返佣追踪看板 ✅ + 英文 TG Bot 规格 ✅ + 落地执行手册 ✅（融合外部手册方法论，合规化） | 完成 |
 | P6 二级 | 招 KOL/群主/工具开发者 | 未开始 |
 | P7 放大 | 多所 affiliate + A/B | 未开始 |

@@ -17,6 +17,8 @@ import path from 'node:path';
 import vm from 'node:vm';
 import { fileURLToPath } from 'node:url';
 import { validateExchangeData } from './exchange_data_validation.mjs';
+import { auditGlossaryFile } from './audit_glossary_data.mjs';
+import { LEARNING_ARTICLES, LEARNING_REVIEWED_AT, LEARNING_SOURCES, validateLearningContent } from './learning_content.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, '..');
@@ -24,6 +26,12 @@ const dataDir = path.join(root, 'data');
 const distDir = path.join(root, 'dist');
 const toolsDir = path.join(root, 'tools');
 const assetsDir = path.join(root, 'assets');
+
+const glossaryValidation = auditGlossaryFile(path.join(dataDir, 'glossary.js'));
+if (glossaryValidation.errors.length) throw new Error(`Glossary data validation failed:\n${glossaryValidation.errors.join('\n')}`);
+for (const warning of glossaryValidation.warnings) console.warn(`[glossary warning] ${warning}`);
+const learningErrors = validateLearningContent();
+if (learningErrors.length) throw new Error(`Learning content validation failed:\n${learningErrors.join('\n')}`);
 
 // ---- 加载数据（vm 注入 window 垫片）----
 const ctx = { window: {}, console };
@@ -208,6 +216,7 @@ const I18N = {
     navZh: '中文',
     navTools: 'Tools', navExchanges: 'Exchanges', navCompare: 'Compare', navLearn: 'Learn',
     navTc: 'Spot Toolbox', navFut: 'Futures Toolbox', navCmp: 'Comparison', navGlo: 'Glossary', navSec: 'Token Check', navPf: 'Portfolio',
+    navLearnStart: 'Beginner Path', navLearnSafe: 'Safety & Scams', navLearnCost: 'Buying & Costs', navLearnWallet: 'Wallets & Transfers',
     discHtml: '<div class="note" style="text-align:left"><p style="margin:0 0 4px">① Fee snapshot: {SNAPSHOT} — verify each rate on the exchange\'s official page before trading.</p><p style="margin:0">② Compliance varies by exchange — always check each exchange\'s Terms of Use to confirm your country/region is supported before signing up.</p></div>',
     foot: 'Educational only. Not financial advice. Verify all data on official exchange pages. Data snapshot ', footContact: 'For feature requests or bug reports, contact ',
     footPrivacy: 'Privacy', footTerms: 'Terms', footAbout: 'About', footHome: 'Home',
@@ -261,7 +270,7 @@ const I18N = {
     idxTcT: 'Spot base cost', idxTcB: 'Estimate deposit / trading / withdrawal fees, with spread, slippage, FX, and external payment charges clearly excluded.', idxTcC: 'Open tool →',
     idxFutT: 'Futures Toolbox', idxFutB: 'High risk: leveraged trading can liquidate your position and cause rapid losses. Includes position sizing, liquidation price, PnL and fee comparison.', idxFutC: 'Open tool →',
     idxCmpT: 'Exchange Comparison', idxCmpB: 'Compare 14 business dimensions: leverage, options, coins, liquidity, copy-trading/bots, reserves/cold storage, KYC, licenses, fiat deposits.', idxCmpC: 'Compare 14 dimensions →',
-    idxGloT: 'Crypto Glossary', idxGloB: '40+ plain-language definitions of common crypto terms — from spot trading to wallet security.', idxGloC: 'Browse terms →',
+    idxGloT: 'Beginner Learning', idxGloB: 'Eight risk-first guides for account security, platform choice, spot costs, transfers, and custody.', idxGloC: 'Start learning →',
     idxSecT: 'Token Security Check', idxSecB: 'Screen an Ethereum or Solana contract for known technical risk flags such as honeypots, taxes, mint and freeze authority.', idxSecC: 'Check a token →',
     idxPfT: 'Portfolio Tracker', idxPfB: 'Log your holdings manually and auto-track profit & loss with live prices. No API key needed — data stays in your browser.', idxPfC: 'Track holdings →',
     idxPopular: 'Popular tokens',
@@ -271,7 +280,8 @@ const I18N = {
   zh: {
     navZh: 'English',
     navTools: '工具', navExchanges: '交易所', navCompare: '对比', navLearn: '学习',
-    navTc: '现货工具', navFut: '合约工具', navCmp: '综合对比', navGlo: '术语', navSec: '代币检查', navPf: '持仓记账',
+    navTc: '现货工具', navFut: '合约工具', navCmp: '综合对比', navGlo: '术语表', navSec: '代币检查', navPf: '持仓记账',
+    navLearnStart: '新手路线', navLearnSafe: '安全与防骗', navLearnCost: '买币与费用', navLearnWallet: '钱包与转账',
     discHtml: '<div class="note" style="text-align:left"><p style="margin:0 0 4px">① 费率快照：最近更新 {SNAPSHOT}—— 交易前请以各交易所官方页面为准。</p><p style="margin:0">② 合规受限地区因交易所而异——注册前请查各所 Terms of Use 确认你所在国家/地区可用。</p></div>',
     foot: '仅供教育参考，不构成投资建议。请以各交易所官方页面核实所有数据。数据快照 ', footContact: '如有任何功能需求和建议，或网页有错误需要修正，请联系 ',
     footPrivacy: '隐私政策', footTerms: '使用条款', footAbout: '关于我们', footHome: '首页',
@@ -325,7 +335,7 @@ const I18N = {
     idxTcT: '现货基础成本', idxTcB: '估算入金 / 交易 / 提币的基础费用，并明确提示价差、滑点与外部支付费用不在结果内。', idxTcC: '打开工具 →',
     idxFutT: '合约工具箱', idxFutB: '高风险：杠杆交易可能快速亏损并被强平。包含仓位、强平价、盈亏和费率对比工具。', idxFutC: '打开工具 →',
     idxCmpT: '交易所综合对比', idxCmpB: '14 个业务维度对比交易所：杠杆/期权/流动性/币种/跟单/储备/法币入金等。', idxCmpC: '14 维度对比 →',
-    idxGloT: '数字货币术语解释', idxGloB: '40+ 数字货币常用术语通俗解释，从现货交易到钱包安全全覆盖。', idxGloC: '查术语 →',
+    idxGloT: '新手学习中心', idxGloB: '8 篇风险优先教程，覆盖账户安全、平台选择、现货成本、转账和钱包保管。', idxGloC: '开始学习 →',
     idxSecT: '代币安全检查', idxSecB: '检查以太坊或 Solana 合约中已知的技术风险标记，如貔貅盘、买卖税、增发和冻结权限。', idxSecC: '查一个代币 →',
     idxPfT: '持仓记账本', idxPfB: '手动记录你的持仓，自动拉取实时价格算盈亏。无需 API Key，数据只存在浏览器本地。', idxPfC: '记一笔持仓 →',
     idxPopular: '热门代币',
@@ -346,9 +356,9 @@ function absPath(lang, rel) {
 
 function matchActiveNav(path) {
   if (!path) return null;
+  if (/(^|\/)learn\//.test(path) || /glossary/.test(path)) return 'learn';
   if (/exchanges\//.test(path)) return 'ex';
   if (/compare\//.test(path) && !/exchange-comparator/.test(path)) return 'cp';
-  if (/glossary/.test(path)) return 'glo';
   if (/total-cost-calculator|fee-calculator/.test(path)) return 'tc';
   if (/futures-toolbox/.test(path)) return 'fut';
   if (/exchange-comparator/.test(path)) return 'cmp';
@@ -371,6 +381,9 @@ function futPath(lang) {
 }
 function gloPath(lang) {
   return 'tools/glossary' + (lang === 'zh' ? '.zh' : '') + '.html';
+}
+function learnPath(slug = 'index') {
+  return `learn/${slug === 'index' ? 'index.html' : slug + '.html'}`;
 }
 function secPath(lang) {
   return 'tools/token-security-checker' + (lang === 'zh' ? '.zh' : '') + '.html';
@@ -486,6 +499,7 @@ function page({ lang, title, desc, body, jsonLd, depth = 0, path, affiliate = fa
   // 避免 Google Search Console 报「网页会自动重定向」+「备用网页」
   const canonicalPath = canonPath(path);
   const canonical = `${SITE_URL}/${canonicalPath}`;
+  const languageHref = lang === 'zh' ? '/' + path.replace(/^zh\//, '') : '/zh/' + path;
   const ld = jsonLd ? `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>` : '';
   // 仅在显式传 noDisc 时才隐藏（如首页/legal/about/coins 等纯信息页）
   const discLine = noDisc ? '' : i.discHtml.replace(/\{SNAPSHOT\}/g, COIN_SNAPSHOT);
@@ -494,6 +508,13 @@ function page({ lang, title, desc, body, jsonLd, depth = 0, path, affiliate = fa
   const exOrder = [...exPriority, ...Object.keys(EX).filter((s) => !exPriority.includes(s)).sort()];
   const exLinks = exOrder.map((s) => `<a href="${absPath(lang, 'exchanges/' + s + '.html')}">${EX_LOGO[s] || ICON.coins}<span>${esc(EX[s].name)}</span></a>`).join('');
   const cmpPairs = exOrder.filter((s) => s !== 'binance').map((s) => `<a href="${absPath(lang, 'compare/binance-vs-' + s + '.html')}">${ICON.compare}<span>Binance vs ${esc(EX[s].name)}</span></a>`).join('');
+  const learnLinks = [
+    [learnPath(), ICON.coins, i.navLearnStart],
+    [learnPath('avoid-crypto-scams'), ICON.shield, i.navLearnSafe],
+    [learnPath('crypto-total-cost'), ICON.receipt, i.navLearnCost],
+    [learnPath('safe-crypto-transfer'), ICON.wallet, i.navLearnWallet],
+    [gloPath(lang), ICON.coins, i.navGlo]
+  ].map(([href, icon, label]) => `<a href="${absPath(lang, href)}">${icon}<span>${esc(label)}</span></a>`).join('');
   return `<!doctype html>
 <html lang="${lang === 'zh' ? 'zh-CN' : 'en'}">
 <head>
@@ -790,6 +811,35 @@ input[type=number]{font-size:16px}
 .ex-notes{font-size:12px;color:var(--sub);margin:8px 0 0}
 .ex-notes summary{cursor:pointer;font-weight:600}
 .ex-notes ul{margin:6px 0 0 18px;padding:0}
+.learn-page{display:grid;gap:16px;min-width:0}
+.learn-hero,.learn-section,.learn-article{background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px;min-width:0}
+.learn-hero{background:linear-gradient(135deg,#fff 0%,#eff6ff 100%);box-shadow:0 8px 28px rgba(37,99,235,.06)}
+.learn-kicker{font-size:12px;color:var(--brand);font-weight:800;margin-bottom:4px}
+.learn-hero h1{font-size:28px;line-height:1.25;margin:0 0 8px}
+.learn-lead{color:#475569;margin:0;max-width:720px}
+.learn-principles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-top:16px}
+.learn-principles div{background:rgba(255,255,255,.84);border:1px solid #dbeafe;border-radius:10px;padding:10px 12px}
+.learn-principles b{display:block;font-size:12.5px}.learn-principles span{display:block;color:#64748b;font-size:11px;margin-top:2px}
+.learn-section h2{font-size:20px;line-height:1.3;margin:0 0 4px}
+.learn-section>p{font-size:13px;color:#64748b;margin:0 0 13px}
+.learn-route{display:grid;gap:9px;counter-reset:learn-step}
+.learn-route-card{counter-increment:learn-step;display:grid;grid-template-columns:36px minmax(0,1fr) auto;align-items:center;gap:12px;border:1px solid var(--line);border-radius:12px;padding:12px 14px;text-decoration:none;background:#fcfdff;color:#172033}
+.learn-route-card::before{content:counter(learn-step);display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:#dbeafe;color:#1d4ed8;font-weight:850;font-size:13px}
+.learn-route-card:hover{border-color:#93c5fd;background:#f8fbff}.learn-route-card b{display:block;font-size:14px}.learn-route-card span{display:block;color:#64748b;font-size:11.5px;margin-top:2px}.learn-route-card small{color:#64748b;font-size:11px;white-space:nowrap}
+.learn-risk{display:inline-flex;border-radius:999px;padding:2px 8px;font-size:10.5px;font-weight:800;background:#fff7ed;color:#9a3412}.learn-risk.high{background:#fef2f2;color:#b91c1c}
+.learn-category-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.learn-category{border:1px solid var(--line);border-radius:12px;padding:14px;background:#fcfdff}.learn-category h3{font-size:15px;margin:0 0 7px}.learn-category ul{margin:0;padding-left:18px}.learn-category li{font-size:12.5px;color:#475569}.learn-category li+li{margin-top:4px}.learn-category a{color:var(--brand);text-decoration:none;font-weight:650}
+.learn-breadcrumb{font-size:12px;color:#64748b;margin-bottom:10px}.learn-breadcrumb a{color:var(--brand);text-decoration:none}
+.learn-article-head{border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:18px}.learn-meta{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:9px}.learn-chip{display:inline-flex;border-radius:999px;padding:3px 9px;background:#f1f5f9;color:#475569;font-size:10.5px;font-weight:750}.learn-article h1{font-size:28px;line-height:1.25;margin:0 0 8px}.learn-article-summary{color:#475569;margin:0;font-size:15px}
+.learn-outcomes{background:#eff6ff;border:1px solid #bfdbfe;border-radius:12px;padding:13px 15px;margin-bottom:20px}.learn-outcomes b{display:block;color:#1e3a8a;font-size:13px;margin-bottom:5px}.learn-outcomes ul{margin:0;padding-left:19px}.learn-outcomes li{font-size:12.5px;color:#334155}
+.learn-content-section{margin-top:22px}.learn-content-section h2{font-size:19px;margin:0 0 8px}.learn-content-section p{margin:0 0 9px;color:#334155}.learn-content-section ul{margin:8px 0 0;padding-left:21px}.learn-content-section li{margin:5px 0;color:#334155}
+.learn-warning{background:#fff7ed;border:1px solid #fed7aa;border-radius:10px;padding:10px 12px;color:#9a3412;font-size:12.5px;margin:10px 0}
+.learn-checklist{list-style:none!important;margin:10px 0 0!important;padding:0!important;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.learn-checklist li{position:relative;margin:0!important;border:1px solid var(--line);border-radius:9px;background:#f8fafc;padding:9px 10px 9px 31px;font-size:12.5px}.learn-checklist li::before{content:"✓";position:absolute;left:11px;top:8px;color:#16a34a;font-weight:850}
+.learn-tool{display:flex;align-items:center;justify-content:space-between;gap:12px;border:1px solid #bfdbfe;background:#eff6ff;border-radius:12px;padding:13px 15px;margin-top:22px}.learn-tool p{margin:0;color:#334155;font-size:12.5px}.learn-tool a{color:#fff;background:var(--brand);border-radius:8px;padding:7px 12px;text-decoration:none;font-weight:750;font-size:12px;white-space:nowrap}
+.learn-quiz{margin-top:22px}.learn-quiz h2{font-size:19px;margin:0 0 9px}.learn-quiz details{border:1px solid var(--line);border-radius:9px;background:#fcfdff;padding:9px 11px}.learn-quiz details+details{margin-top:7px}.learn-quiz summary{cursor:pointer;font-weight:650;font-size:13px}.learn-quiz details p{margin:7px 0 0;color:#475569;font-size:12.5px}
+.learn-sources{margin-top:22px;padding-top:15px;border-top:1px solid var(--line)}.learn-sources h2{font-size:15px;margin:0 0 7px}.learn-sources ul{margin:0;padding-left:19px}.learn-sources a{color:var(--brand);font-size:12px;overflow-wrap:anywhere}
+.learn-next{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:18px}.learn-next a{border:1px solid var(--line);border-radius:10px;padding:10px 12px;color:#334155;text-decoration:none;font-size:12px}.learn-next a:last-child{text-align:right}.learn-next b{display:block;color:var(--brand);font-size:13px;margin-top:2px}
+@media(max-width:640px){.learn-hero,.learn-section,.learn-article{padding:16px}.learn-hero h1,.learn-article h1{font-size:23px}.learn-principles{grid-template-columns:1fr}.learn-category-grid,.learn-checklist{grid-template-columns:1fr}.learn-route-card{grid-template-columns:34px minmax(0,1fr)}.learn-route-card small{grid-column:2}.learn-tool{display:block}.learn-tool a{display:inline-block;margin-top:9px}.learn-next{grid-template-columns:1fr}.learn-next a:last-child{text-align:left}}
 </style>
 </head>
 <body>
@@ -810,9 +860,12 @@ input[type=number]{font-size:16px}
 <button type="button" class="nav-btn${active === 'cp' ? ' active' : ''}">${esc(i.navCompare)} ${CHEV}</button>
 <div class="dropdown">${cmpPairs}</div>
 </div>
-<a href="${absPath(lang, gloPath(lang))}" class="${active === 'glo' ? 'active' : ''}">${esc(i.navLearn)}</a>
+<div class="nav-item">
+<button type="button" class="nav-btn${active === 'learn' ? ' active' : ''}">${esc(i.navLearn)} ${CHEV}</button>
+<div class="dropdown">${learnLinks}</div>
+</div>
 </nav>
-<span><a href="${lang === 'zh' ? '/' : '/zh/'}">${esc(i.navZh)}</a></span>
+<span><a href="${languageHref}">${esc(i.navZh)}</a></span>
 </div>
 </header>
 ${body}
@@ -1520,6 +1573,89 @@ function countryPage(cc, lang) {
   return page({ lang, title: T(lang, 'cyTitle', { n: name }), desc: T(lang, 'cyDesc', { n: name }), body, depth: lang === 'zh' ? 2 : 1, path: `${lang === 'zh' ? 'zh/' : ''}${cc.toLowerCase()}/exchanges.html`, affiliate: false, noDisc: true, noIndex: !!info.restricted });
 }
 
+// ---- 新手学习中心：风险优先、任务型、无交易导向 ----
+const LEARN_CATEGORY = {
+  en: { start: 'Before you start', security: 'Safety & scams', trading: 'Buying & costs', wallet: 'Wallets & transfers' },
+  zh: { start: '开始前', security: '安全与防骗', trading: '买币与费用', wallet: '钱包与转账' }
+};
+const LEARN_RISK = {
+  en: { standard: 'Foundation', caution: 'Caution', high: 'High risk' },
+  zh: { standard: '基础', caution: '注意', high: '高风险' }
+};
+
+function learningHubPage(lang) {
+  const zh = lang === 'zh';
+  const route = LEARNING_ARTICLES.map((article) => {
+    const c = article[lang];
+    const riskClass = article.risk === 'high' ? ' high' : '';
+    return `<a class="learn-route-card" href="${absPath(lang, learnPath(article.slug))}"><span><b>${esc(c.title)}</b><span>${esc(c.summary)}</span></span><small>${esc(c.readTime)} · <em class="learn-risk${riskClass}">${esc(LEARN_RISK[lang][article.risk])}</em></small></a>`;
+  }).join('');
+  const groups = ['start', 'security', 'trading', 'wallet'].map((category) => {
+    const items = LEARNING_ARTICLES.filter((a) => a.category === category).map((a) => `<li><a href="${absPath(lang, learnPath(a.slug))}">${esc(a[lang].title)}</a></li>`).join('');
+    return `<div class="learn-category"><h3>${esc(LEARN_CATEGORY[lang][category])}</h3><ul>${items}</ul></div>`;
+  }).join('');
+  const body = `<main class="learn-page">
+    <section class="learn-hero">
+      <div class="learn-kicker">${zh ? 'FeeEye 新手学习中心' : 'FeeEye Beginner Learning Center'}</div>
+      <h1>${zh ? '先学会避免损失，再决定是否交易' : 'Learn to avoid preventable loss before deciding to trade'}</h1>
+      <p class="learn-lead">${zh ? '按真实任务顺序学习账户安全、平台选择、现货成本、转账和钱包责任。无需注册，不提供币种推荐或开仓建议。' : 'Follow a task-based path through account safety, platform choice, spot costs, transfers, and wallet responsibility. No signup, token picks, or trade calls.'}</p>
+      <div class="learn-principles">
+        <div><b>${zh ? '风险优先' : 'Risk first'}</b><span>${zh ? '诈骗、转账和密钥安全先于交易技巧' : 'Scams, transfers, and keys before trading tactics'}</span></div>
+        <div><b>${zh ? '任务导向' : 'Task based'}</b><span>${zh ? '每篇都以可完成的检查清单结束' : 'Every guide ends with an actionable checklist'}</span></div>
+        <div><b>${zh ? '来源透明' : 'Source transparent'}</b><span>${zh ? `内容复核于 ${LEARNING_REVIEWED_AT}` : `Content reviewed ${LEARNING_REVIEWED_AT}`}</span></div>
+      </div>
+    </section>
+    <section class="learn-section"><h2>${zh ? '8 步新手路线' : 'Eight-step beginner path'}</h2><p>${zh ? '建议按顺序完成。高风险标签表示操作错误可能造成不可逆损失或快速亏损。' : 'Complete these in order. High-risk labels mark topics where mistakes can cause irreversible or rapid loss.'}</p><div class="learn-route">${route}</div></section>
+    <section class="learn-section"><h2>${zh ? '按用途查找' : 'Browse by task'}</h2><p>${zh ? '需要解决一个具体问题时，可直接进入对应分类。' : 'Jump to a category when you need to solve one specific problem.'}</p><div class="learn-category-grid">${groups}</div></section>
+    <section class="learn-section"><h2>${zh ? '术语不是课程' : 'A glossary is not a course'}</h2><p>${zh ? '不懂 Maker、Gas、助记词或 PoR 时可查术语表；但在实际操作前，仍应完成对应教程和检查清单。' : 'Use the glossary for Maker, gas, recovery phrases, or PoR, but complete the related guide and checklist before acting.'}</p><a class="cta" href="${absPath(lang, gloPath(lang))}">${zh ? '打开已审校术语表' : 'Open the reviewed glossary'}</a></section>
+  </main>`;
+  const title = zh ? 'Crypto 新手学习中心——安全、费用、转账与钱包' : 'Crypto Beginner Learning Center — Safety, Costs, Transfers & Wallets';
+  const desc = zh ? 'FeeEye Crypto 新手路线：账户安全、防骗、交易所选择、第一次现货、真实成本、安全转账和钱包保管。' : 'A risk-first crypto beginner path covering account security, scams, exchange choice, first spot purchase, total cost, transfers, and custody.';
+  const jsonLd = {
+    '@context': 'https://schema.org', '@type': 'ItemList', name: title,
+    itemListElement: LEARNING_ARTICLES.map((a, index) => ({ '@type': 'ListItem', position: index + 1, name: a[lang].title, url: `${SITE_URL}/${canonPath((lang === 'zh' ? 'zh/' : '') + learnPath(a.slug))}` }))
+  };
+  return page({ lang, title, desc, body, jsonLd, path: `${lang === 'zh' ? 'zh/' : ''}${learnPath()}`, affiliate: false, noDisc: true });
+}
+
+function learningArticlePage(article, lang) {
+  const zh = lang === 'zh';
+  const c = article[lang];
+  const index = LEARNING_ARTICLES.findIndex((a) => a.slug === article.slug);
+  const previous = index > 0 ? LEARNING_ARTICLES[index - 1] : null;
+  const next = index < LEARNING_ARTICLES.length - 1 ? LEARNING_ARTICLES[index + 1] : null;
+  const outcomes = c.outcomes.map((x) => `<li>${esc(x)}</li>`).join('');
+  const sections = c.sections.map((section) => {
+    const paragraphs = (section.paragraphs || []).map((p) => `<p>${esc(p)}</p>`).join('');
+    const bullets = (section.bullets || []).length ? `<ul>${section.bullets.map((x) => `<li>${esc(x)}</li>`).join('')}</ul>` : '';
+    const warning = section.warning ? `<div class="learn-warning"><b>${zh ? '停下来检查：' : 'Stop and check: '}</b>${esc(section.warning)}</div>` : '';
+    const checklist = (section.checklist || []).length ? `<ul class="learn-checklist">${section.checklist.map((x) => `<li>${esc(x)}</li>`).join('')}</ul>` : '';
+    return `<section class="learn-content-section"><h2>${esc(section.title)}</h2>${paragraphs}${bullets}${warning}${checklist}</section>`;
+  }).join('');
+  const quiz = c.quiz.map(([q, a], i) => `<details><summary>${i + 1}. ${esc(q)}</summary><p>${esc(a)}</p></details>`).join('');
+  const sources = article.sources.map((key) => LEARNING_SOURCES[key]).filter(Boolean).map((source) => `<li><a href="${esc(source.url)}" target="_blank" rel="noopener noreferrer">${esc(source.label)}</a></li>`).join('');
+  const nav = `<div class="learn-next">${previous ? `<a href="${absPath(lang, learnPath(previous.slug))}">${zh ? '← 上一篇' : '← Previous'}<b>${esc(previous[lang].title)}</b></a>` : '<span></span>'}${next ? `<a href="${absPath(lang, learnPath(next.slug))}">${zh ? '下一篇 →' : 'Next →'}<b>${esc(next[lang].title)}</b></a>` : `<a href="${absPath(lang, learnPath())}">${zh ? '返回路线' : 'Back to path'}<b>${zh ? '学习中心' : 'Learning center'}</b></a>`}</div>`;
+  const riskClass = article.risk === 'high' ? ' high' : '';
+  const body = `<main class="learn-page"><article class="learn-article">
+    <div class="learn-breadcrumb"><a href="${absPath(lang, learnPath())}">${zh ? '学习中心' : 'Learning center'}</a> / ${esc(LEARN_CATEGORY[lang][article.category])}</div>
+    <header class="learn-article-head"><div class="learn-meta"><span class="learn-chip">${esc(LEARN_CATEGORY[lang][article.category])}</span><span class="learn-risk${riskClass}">${esc(LEARN_RISK[lang][article.risk])}</span><span class="learn-chip">${esc(c.readTime)}</span><span class="learn-chip">${zh ? '复核' : 'Reviewed'} ${LEARNING_REVIEWED_AT}</span></div><h1>${esc(c.title)}</h1><p class="learn-article-summary">${esc(c.summary)}</p></header>
+    <div class="learn-outcomes"><b>${zh ? '学完你应该能够：' : 'After this guide, you should be able to:'}</b><ul>${outcomes}</ul></div>
+    ${sections}
+    <div class="learn-tool"><p><b>${zh ? '把知识用于检查，而不是冲动交易' : 'Use knowledge for a check, not an impulse trade'}</b><br>${esc(c.tool.label)}</p><a href="${absPath(lang, c.tool.path)}">${zh ? '打开相关工具 →' : 'Open related tool →'}</a></div>
+    <section class="learn-quiz"><h2>${zh ? '3 题自测' : 'Three-question self-check'}</h2>${quiz}</section>
+    <section class="learn-sources"><h2>${zh ? '主要来源' : 'Primary sources'}</h2><ul>${sources}</ul></section>
+    ${nav}
+  </article></main>`;
+  const pagePath = `${lang === 'zh' ? 'zh/' : ''}${learnPath(article.slug)}`;
+  const jsonLd = {
+    '@context': 'https://schema.org', '@graph': [
+      { '@type': 'Article', headline: c.title, description: c.summary, dateModified: LEARNING_REVIEWED_AT, inLanguage: zh ? 'zh-CN' : 'en', author: { '@type': 'Organization', name: SITE }, publisher: { '@type': 'Organization', name: SITE }, mainEntityOfPage: `${SITE_URL}/${canonPath(pagePath)}` },
+      { '@type': 'FAQPage', mainEntity: c.quiz.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) }
+    ]
+  };
+  return page({ lang, title: `${c.title} — FeeEye`, desc: c.summary, body, jsonLd, path: pagePath, affiliate: false, noDisc: true });
+}
+
 function indexPage(lang) {
   const p = (rel) => absPath(lang, rel);
   // 搜索框：同时支持代号、英文名和常见中文别名。
@@ -1551,7 +1687,7 @@ function indexPage(lang) {
   <div class="beginner-path">
     <b>${lang === 'zh' ? '第一次使用 Crypto？按这个顺序开始' : 'New to crypto? Start in this order'}</b>
     <ol>
-      <li><a href="${p(gloPath(lang))}">${lang === 'zh' ? '先看懂常用术语和风险' : 'Learn the basic terms and risks'}</a></li>
+      <li><a href="${p(learnPath())}">${lang === 'zh' ? '先完成风险、安全与转账基础路线' : 'Complete the risk, safety, and transfer basics'}</a></li>
       <li><a href="${p(cmpPath(lang))}">${lang === 'zh' ? '再比较交易所的费用、可用性与安全信息' : 'Compare exchange costs, availability and security information'}</a></li>
       <li><a href="${p(tcPath(lang))}">${lang === 'zh' ? '估算入金、交易和提币基础成本' : 'Estimate deposit, trading and withdrawal costs'}</a></li>
       <li>${lang === 'zh' ? '最后到交易所官网核对所在地区、费率和提币网络' : 'Finally verify your region, fees and withdrawal network on the exchange itself'}</li>
@@ -1575,7 +1711,7 @@ function indexPage(lang) {
     <div class="card"><a class="card-title" href="${p(cmpPath(lang))}"><span class="ic">${ICON.scale}</span><b>${esc(T(lang, 'idxCmpT'))}</b></a><p>${esc(T(lang, 'idxCmpB'))}</p><a class="card-cta" href="${p(cmpPath(lang))}">${esc(T(lang, 'idxCmpC'))}</a></div>
     <div class="card"><a class="card-title" href="${p(secPath(lang))}"><span class="ic">${ICON.shield}</span><b>${esc(T(lang, 'idxSecT'))}</b></a><p>${esc(T(lang, 'idxSecB'))}</p><a class="card-cta" href="${p(secPath(lang))}">${esc(T(lang, 'idxSecC'))}</a></div>
     <div class="card"><a class="card-title" href="${p(pfPath(lang))}"><span class="ic">${ICON.wallet}</span><b>${esc(T(lang, 'idxPfT'))}</b></a><p>${esc(T(lang, 'idxPfB'))}</p><a class="card-cta" href="${p(pfPath(lang))}">${esc(T(lang, 'idxPfC'))}</a></div>
-    <div class="card"><a class="card-title" href="${p(gloPath(lang))}"><span class="ic">${ICON.coins}</span><b>${esc(T(lang, 'idxGloT'))}</b></a><p>${esc(T(lang, 'idxGloB'))}</p><a class="card-cta" href="${p(gloPath(lang))}">${esc(T(lang, 'idxGloC'))}</a></div>
+    <div class="card"><a class="card-title" href="${p(learnPath())}"><span class="ic">${ICON.coins}</span><b>${esc(T(lang, 'idxGloT'))}</b></a><p>${esc(T(lang, 'idxGloB'))}</p><a class="card-cta" href="${p(learnPath())}">${esc(T(lang, 'idxGloC'))}</a></div>
   </div>
   <script>
   (function(){
@@ -1682,6 +1818,10 @@ function write(rel, html) {
 let count = 0;
 for (const lang of ['en', 'zh']) {
   write(`${lang === 'zh' ? 'zh/' : ''}index.html`, indexPage(lang)); count++;
+  write(`${lang === 'zh' ? 'zh/' : ''}${learnPath()}`, learningHubPage(lang)); count++;
+  for (const article of LEARNING_ARTICLES) {
+    write(`${lang === 'zh' ? 'zh/' : ''}${learnPath(article.slug)}`, learningArticlePage(article, lang)); count++;
+  }
   for (const c of COIN_LIST) {
     write(`${lang === 'zh' ? 'zh/' : ''}where-to-buy/${c.symbol.toLowerCase()}.html`, whereToBuy(c, lang)); count++;
   }

@@ -5,10 +5,11 @@
 <meta http-equiv="Expires" content="0">
 <title>Crypto Glossary — Plain-language Definitions of Common Crypto Terms</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Plain-language definitions of 40+ crypto terms: spot, futures, leverage, liquidation, taker/maker, funding rate, PoR, DeFi, NFT, wallet, 2FA. Each with definition + example. Free, no signup.">
+<meta name="description" content="Neutral definitions of 54 common crypto terms across trading, DeFi, NFTs, wallets, security, chains, and slang, with risk labels, primary sources, and review dates.">
 <link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
 <link rel="stylesheet" href="/assets/responsive.css">
+<script defer src="/assets/learning-nav.js"></script>
 <style>
   :root{--bg:#f7f8fa;--card:#fff;--ink:#1c2430;--sub:#5b6776;--line:#e4e8ee;--brand:#2563eb;--brand2:#0ea5a4;--ok:#16a34a;--bad:#dc2626;--warn:#d97706}
   html{scrollbar-gutter:stable}
@@ -31,9 +32,17 @@
   .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
   .card-head{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:6px;flex-wrap:wrap}
   .term{font-size:18px;font-weight:800;color:var(--brand)}
+  .badges{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
   .cat{font-size:11px;padding:2px 8px;border-radius:6px;background:#f1f5f9;color:var(--sub);font-weight:600}
+  .risk{font-size:11px;padding:2px 8px;border-radius:6px;font-weight:700}
+  .risk-caution{background:#fff7ed;color:#9a3412}
+  .risk-high{background:#fef2f2;color:#b91c1c}
   .def{font-size:14px;color:var(--ink);margin-bottom:6px}
   .ex{font-size:13px;color:var(--sub);font-style:italic;padding-top:6px;border-top:1px dashed var(--line);margin-top:6px}
+  .source{font-size:12px;color:var(--sub);margin-top:8px;display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+  .source a{color:var(--brand);text-decoration:none}
+  .source a:hover{text-decoration:underline}
+  .trust{font-size:12px;color:var(--sub);background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:10px 12px;margin:-6px 0 16px}
   .empty{padding:40px;text-align:center;color:var(--sub)}
   .disclaimer{background:#fffbeb;border:1px solid #fde68a;color:#92400e;border-radius:10px;padding:14px 16px;margin-top:18px;font-size:13px}
   .disclaimer p{margin:0 0 6px}
@@ -54,7 +63,8 @@
   <script>(function(){var btns=document.querySelectorAll(".nav-btn");var t=null;function closeAll(){var op=document.querySelectorAll(".nav-item.open");for(var j=0;j<op.length;j++)op[j].classList.remove("open");}function sched(){clearTimeout(t);t=setTimeout(closeAll,180);}function cancel(){clearTimeout(t);}for(var i=0;i<btns.length;i++){(function(btn){var item=btn.parentElement;btn.addEventListener("click",function(e){e.stopPropagation();var was=item.classList.contains("open");closeAll();cancel();if(!was)item.classList.add("open");});item.addEventListener("mouseenter",function(){cancel();closeAll();item.classList.add("open");});item.addEventListener("mouseleave",sched);})(btns[i]);}document.addEventListener("click",function(){closeAll();cancel();});})();</script>
 
   <h1>Crypto Glossary</h1>
-  <p class="intro">Plain-language definitions of crypto terms — from spot trading to DeFi to wallet security. 40+ entries, each with a definition and example.</p>
+  <p class="intro">Neutral definitions of 54 common crypto terms across basics, trading, DeFi, NFTs, wallets, security, chains, and community language.</p>
+  <div class="trust">Sources prioritize regulators, protocol documentation, and public technical standards. High-risk terms are clearly marked. All entries reviewed <span id="reviewedAt">2026-08-22</span>.</div>
 
   <div class="search">
     <input id="q" type="search" placeholder="Search terms (e.g. spot, taker, PoR, 2FA...)" autocomplete="off">
@@ -76,8 +86,8 @@
   <div class="grid" id="grid"></div>
 
   <div class="disclaimer">
-    <p><b>Note</b>: Aimed at beginners. Explanations prioritize clarity over precision. For production trading, consult each exchange's official docs.</p>
-    <p><b>Feedback</b>: Spot an error or want a term added? Contact us.</p>
+    <p><b>Note</b>: Definitions support understanding and do not imply suitability. Platform rules, fees, jurisdiction limits, and tax treatment change; verify the relevant official page before acting.</p>
+    <p><b>Feedback</b>: Spot an error or want a term added? Contact the email below.</p>
   </div>
 
   <div class="foot">Educational only. Not financial advice. Terms curated from public sources.<br>For feature requests or bug reports, contact <a class="mail" href="mailto:feeeyeofficial@gmail.com">feeeyeofficial@gmail.com</a><br><a href="/index.html">Home</a> · <a href="/about.html">About</a> · <a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a></div>
@@ -87,17 +97,30 @@
 <script>
 (function(){
   var DATA = window.GLOSSARY || [];
+  var META = window.GLOSSARY_META || {sources:{}};
   var CAT_LABEL = {basic:"Basics", trading:"Trading", defi:"DeFi", nft:"NFT", wallet:"Wallet", security:"Security", chain:"Chain / L2", common:"Slang"};
+  var RISK_LABEL = {caution:"Caution", high:"High risk"};
   var state = { q: "", cat: "all" };
 
+  function sourceHtml(item){
+    var links = (item.source || []).map(function(key){
+      var src = META.sources && META.sources[key];
+      if(!src || !src.url) return "";
+      return '<a href="'+esc(src.url)+'" target="_blank" rel="noopener noreferrer">'+esc(src.label)+'</a>';
+    }).filter(Boolean);
+    return links.length ? '<div class="source"><span>Source:</span>'+links.join('<span>·</span>')+'</div>' : '';
+  }
+
   function cardHtml(item){
+    var risk = RISK_LABEL[item.risk_level] ? '<span class="risk risk-'+esc(item.risk_level)+'">'+esc(RISK_LABEL[item.risk_level])+'</span>' : '';
     return '<div class="card">'+
       '<div class="card-head">'+
         '<div><span class="term">'+esc(item.en.term)+'</span></div>'+
-        '<span class="cat">'+esc(CAT_LABEL[item.cat] || item.cat)+'</span>'+
+        '<div class="badges"><span class="cat">'+esc(CAT_LABEL[item.cat] || item.cat)+'</span>'+risk+'</div>'+
       '</div>'+
       '<div class="def">'+esc(item.en.def)+'</div>'+
       '<div class="ex">e.g. '+esc(item.en.ex)+'</div>'+
+      sourceHtml(item)+
     '</div>';
   }
   function esc(s){ if(s==null) return ""; return String(s).replace(/[&<>"']/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]; }); }
@@ -107,7 +130,7 @@
     var items = DATA.filter(function(it){
       if(state.cat !== "all" && it.cat !== state.cat) return false;
       if(!q) return true;
-      var blob = (it.zh.term + " " + it.en.term + " " + it.key + " " + it.zh.def + " " + it.en.def).toLowerCase();
+      var blob = (it.zh.term + " " + it.en.term + " " + it.key + " " + it.zh.def + " " + it.en.def + " " + it.zh.ex + " " + it.en.ex).toLowerCase();
       return blob.indexOf(q) > -1;
     });
     document.getElementById("rc").textContent = items.length + " term(s)";
@@ -128,6 +151,7 @@
     });
   });
 
+  if(META.reviewed_at) document.getElementById("reviewedAt").textContent = META.reviewed_at;
   render();
 })();
 </script>
