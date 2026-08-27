@@ -1870,6 +1870,10 @@ fs.writeFileSync(path.join(distDir, 'data', 'coin-ids.js'), coinIdsJs);
 fs.writeFileSync(path.join(distDir, 'zh', 'data', 'coin-ids.js'), coinIdsJs);
 // 拷贝 logo / favicon 到 dist 根（en + zh 通过绝对路径 /assets/ 共用一份）
 fs.cpSync(assetsDir, path.join(distDir, 'assets'), { recursive: true });
+// IndexNow 全站验证文件必须位于站点根目录；放在 /assets/ 只能验证该路径下的 URL。
+const indexNowKey = fs.readFileSync(path.join(assetsDir, 'indexnow-key.txt'), 'utf8').trim();
+if (!/^[a-f0-9]{8,128}$/i.test(indexNowKey)) throw new Error('Invalid IndexNow key');
+fs.writeFileSync(path.join(distDir, `${indexNowKey}.txt`), indexNowKey);
 
 // sitemap.xml + robots.txt
 const today = new Date().toISOString().slice(0, 10);

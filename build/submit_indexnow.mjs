@@ -26,9 +26,14 @@ for (const url of urls) {
 const payload = {
   host,
   key,
-  keyLocation: `https://${host}/assets/indexnow-key.txt`,
+  keyLocation: `https://${host}/${key}.txt`,
   urlList: urls
 };
+
+const generatedKeyPath = path.join(root, 'dist', `${key}.txt`);
+if (!fs.existsSync(generatedKeyPath) || fs.readFileSync(generatedKeyPath, 'utf8').trim() !== key) {
+  throw new Error(`Generated root verification file is missing or invalid: dist/${key}.txt`);
+}
 
 if (!process.argv.includes('--submit')) {
   console.log(`[OK] IndexNow dry run: ${urls.length} canonical URLs, keyLocation=${payload.keyLocation}`);
