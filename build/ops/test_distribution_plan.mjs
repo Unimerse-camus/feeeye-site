@@ -1,0 +1,34 @@
+#!/usr/bin/env node
+import assert from 'node:assert/strict';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { buildDistributionPlan, validateDistributionPlan } from './distribution_plan.mjs';
+import { readJson } from './ops_util.mjs';
+
+const root=fileURLToPath(new URL('../../',import.meta.url));
+const campaign=readJson(path.join(root,'ops/automation/campaigns/x-launch-2026-08-31.json'));
+const release=readJson(path.join(root,'dist/release.json'));
+const paths=['/','/learn/','/learn/crypto-total-cost','/learn/safe-crypto-transfer','/tools/total-cost-calculator.html','/zh/learn/'];
+const verification={schema_version:1,base_url:'https://feeeye.com',build_id:release.build_id,source_revision:'b'.repeat(40),checked_at:'2026-09-01T12:00:00.000Z',status:'verified',checks:paths.map(pathname=>({pathname,status:200,ok:true}))};
+const args={campaign,locale:'en',createdAt:'2026-09-01T12:01:00.000Z',startAt:'2026-09-02T01:30:00.000Z',verification};
+const plan=buildDistributionPlan(args);
+assert.equal(plan.status,'draft');assert.equal(plan.publishing_enabled,false);assert.equal(plan.items.length,3);
+assert.equal(plan.deployment.source_revision,verification.source_revision);assert.equal(plan.policy.max_posts_per_7_days,3);
+assert.deepEqual(plan.items.map(x=>x.scheduled_at),['2026-09-02T01:30:00.000Z','2026-09-04T01:30:00.000Z','2026-09-07T01:30:00.000Z']);
+assert.ok(plan.items.every(x=>x.checkpoints.map(c=>c.kind).join(',')==='receipt,24h,7d,28d'));
+assert.equal(new Set(plan.items.map(x=>x.idempotency_key)).size,3);
+assert.equal(validateDistributionPlan(plan,{campaign,verification}),plan);
+assert.throws(()=>validateDistributionPlan({...plan,publishing_enabled:true},{campaign,verification}),/stale or has been modified/);
+assert.throws(()=>buildDistributionPlan({...args,locale:'fr'}),/Invalid locale/);
+assert.throws(()=>buildDistributionPlan({...args,startAt:'2026-10-10T01:30:00.000Z'}),/within 30 days/);
+assert.throws(()=>buildDistributionPlan({...args,verification:{...verification,status:'pending'}}),/successful production verification/);
+assert.throws(()=>buildDistributionPlan({...args,verification:{...verification,source_revision:null}}),/successful production verification/);
+assert.throws(()=>buildDistributionPlan({...args,verification:{...verification,checks:verification.checks.slice(0,-1)}}),/successful production verification/);
+assert.throws(()=>buildDistributionPlan({...args,verification:{...verification,build_id:'a'.repeat(64)}}),/Validated local build/);
+const mixed=structuredClone(campaign);mixed.posts.find(x=>x.id==='cost-en').text=mixed.posts.find(x=>x.id==='cost-en').text.replace('utm_source=x','utm_source=reddit');
+assert.throws(()=>buildDistributionPlan({...args,campaign:mixed}),/Unregistered X campaign tuple/);
+const extra=structuredClone(campaign);extra.posts.find(x=>x.id==='cost-en').text+=' https://example.com';
+assert.throws(()=>buildDistributionPlan({...args,campaign:extra}),/exactly one URL/);
+const approved=structuredClone(campaign);approved.approval={actor:'owner'};
+assert.throws(()=>buildDistributionPlan({...args,campaign:approved}),/publishing-disabled draft/);
+console.log('[OK] Distribution plan: deployed-version binding, one-language inventory, UTM allowlist, rate limits, idempotency and 24h/7d/28d checkpoints.');

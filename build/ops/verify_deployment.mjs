@@ -24,7 +24,7 @@ export async function verifyDeployment({baseUrl,manifest,fetchImpl=fetch,checked
     checks.push({pathname,status:response.status,ok});
     if(!ok) throw new Error('Critical deployment check failed: '+pathname);
   }
-  return {schema_version:1,base_url:base.origin,build_id:manifest.build_id,checked_at:checkedAt,status:'verified',checks};
+  return {schema_version:1,base_url:base.origin,build_id:manifest.build_id,source_revision:manifest.source_revision??null,checked_at:checkedAt,status:'verified',checks};
 }
 if(process.argv[1] && import.meta.url===pathToFileURL(path.resolve(process.argv[1])).href) {
   const args=process.argv.slice(2), baseUrl=args[args.indexOf('--base-url')+1], manifestPath=args[args.indexOf('--manifest')+1];
