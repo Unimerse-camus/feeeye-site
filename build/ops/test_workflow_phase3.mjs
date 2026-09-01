@@ -50,7 +50,7 @@ assert.deepEqual(delta(manifest,manifest).url_list,[]);
 const previous=structuredClone(manifest), urls=Object.keys(previous.urls), removed=urls[0];delete previous.urls[removed];previous.urls[urls[1]].sha256='old';previous.urls['https://feeeye.com/deleted']={path:'deleted.html',sha256:'old'};previous.build_id='1'.repeat(64);
 const d=delta(manifest,previous);assert.ok(d.created.includes(removed));assert.ok(d.changed.includes(urls[1]));assert.ok(d.deleted.includes('https://feeeye.com/deleted'));assert.equal(new Set(d.url_list).size,d.url_list.length);
 const html='<html><title>FeeEye</title></html>', headers=new Headers({'content-type':'text/html'});
-const fakeFetch=async url=>new URL(url).pathname==='/release.json'?new Response(JSON.stringify({build_id:manifest.build_id,canonical_url_count:manifest.canonical_url_count,public_file_count:manifest.public_file_count}),{status:200,headers:{'content-type':'application/json'}}):new Response(html,{status:200,headers});
+const fakeFetch=async url=>new URL(url).pathname==='/release.json'?new Response(JSON.stringify({build_id:manifest.build_id,source_revision:manifest.source_revision,canonical_url_count:manifest.canonical_url_count,public_file_count:manifest.public_file_count}),{status:200,headers:{'content-type':'application/json'}}):new Response(html,{status:200,headers});
 const verification=await verifyDeployment({baseUrl:'https://feeeye.com',manifest,fetchImpl:fakeFetch,checkedAt:'2026-09-01T01:00:00.000Z'});
 assert.equal(verification.status,'verified');
 await assert.rejects(()=>verifyDeployment({baseUrl:'https://feeeye.com',manifest,fetchImpl:async()=>new Response('{}',{status:200,headers:{'content-type':'application/json'}}),checkedAt:'2026-09-01T01:00:00.000Z'}));
