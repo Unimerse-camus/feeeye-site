@@ -62,7 +62,7 @@ assert.throws(()=>validateDeltaSubmission({...payload,payload_hash:'bad'},verifi
 await assert.rejects(()=>runIndexNow(['--submit']),/requires --delta-file/);
 console.log('[OK] Deployment: deterministic manifest, exact release receipt, critical pages and delta-only IndexNow candidate.');
 
-const healthy=await healthCheck({baseUrl:'https://feeeye.com',fetchImpl:async url=>new Response(new URL(url).pathname==='/sitemap.xml'?'<urlset':new URL(url).pathname==='/robots.txt'?'Sitemap:':'FeeEye Beginner 新手 cost build_id',{status:200}),checkedAt:'2026-09-01T02:00:00.000Z'});
+const healthy=await healthCheck({baseUrl:'https://feeeye.com',fetchImpl:async url=>new Response(new URL(url).pathname==='/sitemap.xml'?'<urlset':new URL(url).pathname==='/robots.txt'?'User-agent: OAI-SearchBot\nAllow: /\nSitemap:':'FeeEye Beginner 新手 cost build_id',{status:200}),checkedAt:'2026-09-01T02:00:00.000Z'});
 assert.equal(healthy.status,'healthy');
 const unhealthy=await healthCheck({baseUrl:'https://feeeye.com',fetchImpl:async()=>new Response('no',{status:500}),checkedAt:'2026-09-01T02:00:00.000Z'});assert.equal(unhealthy.failed_count,7);
 const weekly=readJson(path.join(root,'ops/automation/metrics/weekly-input.example.json'));const report=buildWeeklyReport(weekly);assert.ok(report.includes('未提供 / missing'));assert.ok(report.includes('数据不足'));

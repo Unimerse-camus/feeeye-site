@@ -1,0 +1,86 @@
+{
+  "schema_version": 1,
+  "id": "organic-channel-mix-2026-09",
+  "status": "draft",
+  "budget": "free_only",
+  "observation_days": 28,
+  "publishing_enabled": false,
+  "comparison_gate": {
+    "minimum_effective_visits_per_content": 30,
+    "minimum_comparable_content_items": 2,
+    "track_human_hours": true,
+    "missing_is_zero": false
+  },
+  "active_channels": [
+    {
+      "id": "search",
+      "priority": 1,
+      "time_share_percent": 40,
+      "role": "seo_and_geo_problem_intent_acquisition",
+      "cadence_28d": 4,
+      "delivery": "website_pr",
+      "utm": null,
+      "automatic_external_action": false
+    },
+    {
+      "id": "youtube",
+      "priority": 2,
+      "time_share_percent": 20,
+      "role": "demonstration_and_trust",
+      "cadence_28d": 4,
+      "delivery": "manual_studio_upload",
+      "utm": {"source": "youtube", "medium": "video"},
+      "automatic_external_action": false
+    },
+    {
+      "id": "x",
+      "priority": 3,
+      "time_share_percent": 15,
+      "role": "amplification_and_fast_feedback",
+      "cadence_28d": 8,
+      "delivery": "manual_or_native",
+      "utm": {"source": "x", "medium": "social"},
+      "automatic_external_action": false
+    },
+    {
+      "id": "community",
+      "priority": 3,
+      "time_share_percent": 20,
+      "role": "question_led_trust",
+      "cadence_28d": 8,
+      "delivery": "manual_rule_checked_answer",
+      "utm": {"source": "reddit", "medium": "community"},
+      "automatic_external_action": false
+    },
+    {
+      "id": "developer_launch",
+      "priority": 4,
+      "time_share_percent": 5,
+      "role": "methodology_trust_and_one_time_discovery",
+      "cadence_28d": 1,
+      "delivery": "manual_github_or_product_hunt",
+      "utm": null,
+      "automatic_external_action": false
+    }
+  ],
+  "deferred_channels": [
+    {
+      "id": "telegram",
+      "status": "deferred",
+      "reason": "retention_before_cold_start",
+      "activation_gates": {"documented_recurring_questions_28d": 10, "moderation_hours_per_week": 2, "owner_approval_required": true}
+    },
+    {
+      "id": "discord",
+      "status": "deferred",
+      "reason": "support_community_before_cold_start",
+      "activation_gates": {"documented_recurring_questions_28d": 10, "moderation_hours_per_week": 2, "owner_approval_required": true}
+    },
+    {
+      "id": "newsletter",
+      "status": "deferred",
+      "reason": "avoid_collecting_email_before_repeat_demand",
+      "activation_gates": {"documented_recurring_questions_28d": 10, "privacy_review_required": true, "owner_approval_required": true}
+    }
+  ]
+}

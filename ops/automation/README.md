@@ -83,3 +83,13 @@ node build/ops/source_review.mjs --require-current
 - `weekly_report.mjs`：固定聚合字段、缺失不记0、私有报告不入库。
 
 新增GitHub工作流均不自动发布：release candidate只能手动运行；health排程由未设置的仓库变量锁住。本地添加文件不等于远程工作流已启用。
+
+## 第四批：低频分发计划与观察节点
+
+完整说明见`docs/automation-phase4-distribution-plan-2026-09-01.md`，渠道依据见`docs/crypto-tools-channel-research-2026-09-01.md`。`channel-policy.json`把首个28天免费组合预注册为搜索、YouTube、X、问题社区和开发者/发布渠道；X只占候选投入的15%。`distribution_plan.mjs`是首个渠道执行模块，只在存在匹配生产版本的验证回执时生成本地待审计划：单一账号语言、七天最多三条、注册UTM、内容/部署哈希、幂等键，以及发布回执、24小时、7天、28天复盘节点。
+
+该计划仍固定`publishing_enabled=false`，不会操作X、自动互动或提交搜索引擎。所有输出只能写入已忽略的`ops/automation/working/`，真实发布必须另行审批并由人工或平台原生排程完成。
+
+## SEO + GEO
+
+完整说明见`docs/seo-geo-operations-2026-09-01.md`。全站生成后运行`seo_geo_audit.mjs`，验证canonical、三组hreflang、站点实体、文章来源、FAQ字段和OAI-SearchBot规则。周报同时接受传统搜索、AI聚合引荐和Bing AI引用指标；没有授权导出时保持缺失，不估算或编造。

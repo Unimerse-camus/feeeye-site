@@ -509,6 +509,8 @@ function page({ lang, title, desc, body, jsonLd, depth = 0, path, affiliate = fa
   const canonicalPath = canonPath(path);
   const canonical = `${SITE_URL}/${canonicalPath}`;
   const languageHref = lang === 'zh' ? '/' + path.replace(/^zh\//, '') : '/zh/' + path;
+  const englishCanonical = `${SITE_URL}/${canonPath(lang === 'zh' ? path.replace(/^zh\//, '') : path)}`;
+  const siteLd = `<script type="application/ld+json">${JSON.stringify({'@context':'https://schema.org','@graph':[{'@type':'Organization','@id':`${SITE_URL}/#organization`,name:SITE,url:`${SITE_URL}/`,logo:`${SITE_URL}/assets/logo.svg?v=2`},{'@type':'WebSite','@id':`${SITE_URL}/#website`,name:SITE,url:`${SITE_URL}/`,publisher:{'@id':`${SITE_URL}/#organization`},inLanguage:['en','zh-CN']}]})}</script>`;
   const ld = jsonLd ? `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>` : '';
   // 仅在显式传 noDisc 时才隐藏（如首页/legal/about/coins 等纯信息页）
   const discLine = noDisc ? '' : i.discHtml.replace(/\{SNAPSHOT\}/g, COIN_SNAPSHOT);
@@ -542,8 +544,9 @@ ${noIndex ? '<meta name="robots" content="noindex, follow">' : ''}
 <link rel="stylesheet" href="/assets/responsive.css">
 <script defer src="/assets/analytics.js"></script>
 <link rel="canonical" href="${canonical}">
-<link rel="alternate" hreflang="en" href="${SITE_URL}/${canonPath(lang === 'zh' ? path.replace(/^zh\//, '') : path)}">
+<link rel="alternate" hreflang="en" href="${englishCanonical}">
 ${lang === 'zh' ? `<link rel="alternate" hreflang="zh" href="${canonical}">` : `<link rel="alternate" hreflang="zh" href="${SITE_URL}/zh/${canonPath(path)}">`}
+<link rel="alternate" hreflang="x-default" href="${englishCanonical}">
 <meta property="og:type" content="website">
 <meta property="og:url" content="${canonical}">
 <meta property="og:title" content="${esc(title)}">
@@ -553,6 +556,7 @@ ${lang === 'zh' ? `<link rel="alternate" hreflang="zh" href="${canonical}">` : `
 <meta name="twitter:title" content="${esc(title)}">
 <meta name="twitter:description" content="${esc(desc)}">
 <meta name="twitter:image" content="${SITE_URL}/assets/og-logo.png?v=2">
+${siteLd}
 ${ld}
 <style>
 :root{--bg:#f7f8fa;--card:#fff;--ink:#1c2430;--sub:#5b6776;--line:#e4e8ee;--brand:#2563eb;--brand2:#0ea5a4;--ok:#16a34a;--bad:#dc2626}
@@ -1041,7 +1045,7 @@ function whereToBuy(c, lang) {
   const jsonLd = {
     '@context': 'https://schema.org', '@type': 'FAQPage',
     mainEntity: [
-      { '@type': 'Question', name: T(lang, 'wbQ1', { n: name, s: symbol }), answer: { '@type': 'Answer', text: T(lang, 'wbA1', { n: name, s: symbol, c: c.exchanges.length }) } }
+      { '@type': 'Question', name: T(lang, 'wbQ1', { n: name, s: symbol }), acceptedAnswer: { '@type': 'Answer', text: T(lang, 'wbA1', { n: name, s: symbol, c: c.exchanges.length }) } }
     ]
   };
   return page({ lang, title: T(lang, 'wbTitle', { n: name, s: symbol }), desc: T(lang, 'wbDesc', { n: name, s: symbol }), body, jsonLd, path: `${lang === 'zh' ? 'zh/' : ''}where-to-buy/${c.symbol.toLowerCase()}.html`, affiliate: true });
@@ -1573,7 +1577,7 @@ function comparePage(slugA, slugB, lang) {
   </script>`;
   const jsonLd = {
     '@context': 'https://schema.org', '@type': 'FAQPage',
-    mainEntity: [{ '@type': 'Question', name: T(lang, 'cpQ1', { a: a.name, b: b.name }), answer: { '@type': 'Answer', text: L(`There is no universal winner. At the base tier, a $1,000 market order costs ${money(takerA)} on ${a.name} and ${money(takerB)} on ${b.name}; funding, spread, region and withdrawal route can change the result. Snapshot ${UPD}.`, `没有统一赢家。基础档 1,000 美元市价单在 ${a.name} 的手续费为 ${money(takerA)}，在 ${b.name} 为 ${money(takerB)}；入金、价差、地区与提币路径会改变结果。数据快照 ${UPD}。`) } }]
+    mainEntity: [{ '@type': 'Question', name: T(lang, 'cpQ1', { a: a.name, b: b.name }), acceptedAnswer: { '@type': 'Answer', text: L(`There is no universal winner. At the base tier, a $1,000 market order costs ${money(takerA)} on ${a.name} and ${money(takerB)} on ${b.name}; funding, spread, region and withdrawal route can change the result. Snapshot ${UPD}.`, `没有统一赢家。基础档 1,000 美元市价单在 ${a.name} 的手续费为 ${money(takerA)}，在 ${b.name} 为 ${money(takerB)}；入金、价差、地区与提币路径会改变结果。数据快照 ${UPD}。`) } }]
   };
   return page({ lang, title: T(lang, 'cpTitle', { a: a.name, b: b.name }), desc: T(lang, 'cpDesc', { a: a.name, b: b.name }), body, jsonLd, path: `${lang === 'zh' ? 'zh/' : ''}compare/${slugA}-vs-${slugB}.html`, affiliate: false });
 }
@@ -1628,7 +1632,8 @@ function researchBenchmarkPage(lang) {
   const title = zh ? '1000 USDT现货手续费核算——7家交易所公开费率对比' : '$1,000 Spot Fee Benchmark — 7 Exchanges Compared';
   const desc = zh ? '对比7家交易所普通用户1000 USDT现货市价单的公开基础吃单费，明确排除价差、滑点、入金、提币和税务。' : 'Compare published base taker fees for a $1,000 spot market order across seven exchanges, with spread, slippage, funding, withdrawal, and tax explicitly excluded.';
   const pagePath = `${lang === 'zh' ? 'zh/' : ''}${researchPath()}`;
-  const jsonLd = {'@context':'https://schema.org','@graph':[{'@type':'Article',headline:title,description:desc,dateModified:BENCHMARK.editorial_updated_at,inLanguage:zh?'zh-CN':'en',author:{'@type':'Organization',name:SITE},publisher:{'@type':'Organization',name:SITE},mainEntityOfPage:`${SITE_URL}/${canonPath(pagePath)}`},{'@type':'Dataset',name:title,description:desc,dateModified:BENCHMARK_REVIEWED_AT,creator:{'@type':'Organization',name:SITE},variableMeasured:['exchange','published base spot taker rate','fee on 1000 USDT-equivalent notional'],distribution:{'@type':'DataDownload',encodingFormat:'image/svg+xml',contentUrl:`${SITE_URL}${sharePath}`}}]};
+  const citations=[...new Set(BENCHMARK.rows.map(row=>row.source))];
+  const jsonLd = {'@context':'https://schema.org','@graph':[{'@type':'Article',headline:title,description:desc,dateModified:BENCHMARK.editorial_updated_at,inLanguage:zh?'zh-CN':'en',author:{'@id':`${SITE_URL}/#organization`},publisher:{'@id':`${SITE_URL}/#organization`},mainEntityOfPage:`${SITE_URL}/${canonPath(pagePath)}`,citation:citations},{'@type':'Dataset',name:title,description:desc,dateModified:BENCHMARK_REVIEWED_AT,creator:{'@id':`${SITE_URL}/#organization`},citation:citations,variableMeasured:['exchange','published base spot taker rate','fee on 1000 USDT-equivalent notional'],distribution:{'@type':'DataDownload',encodingFormat:'image/svg+xml',contentUrl:`${SITE_URL}${sharePath}`}}]};
   return page({lang,title,desc,body,jsonLd,path:pagePath,affiliate:false,noDisc:true});
 }
 
@@ -1707,9 +1712,10 @@ function learningArticlePage(article, lang) {
     ${nav}
   </article></main>`;
   const pagePath = `${lang === 'zh' ? 'zh/' : ''}${learnPath(article.slug)}`;
+  const citations=article.sources.map(key=>LEARNING_SOURCES[key]).filter(Boolean).map(source=>source.url);
   const jsonLd = {
     '@context': 'https://schema.org', '@graph': [
-      { '@type': 'Article', headline: c.title, description: c.summary, dateModified: LEARNING_REVIEWED_AT, inLanguage: zh ? 'zh-CN' : 'en', author: { '@type': 'Organization', name: SITE }, publisher: { '@type': 'Organization', name: SITE }, mainEntityOfPage: `${SITE_URL}/${canonPath(pagePath)}` },
+      { '@type': 'Article', headline: c.title, description: c.summary, dateModified: LEARNING_REVIEWED_AT, inLanguage: zh ? 'zh-CN' : 'en', author: { '@id': `${SITE_URL}/#organization` }, publisher: { '@id': `${SITE_URL}/#organization` }, mainEntityOfPage: `${SITE_URL}/${canonPath(pagePath)}`, citation: citations },
       { '@type': 'FAQPage', mainEntity: c.quiz.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) }
     ]
   };
@@ -1946,13 +1952,14 @@ fs.writeFileSync(path.join(distDir, `${indexNowKey}.txt`), indexNowKey);
 // sitemap.xml + robots.txt
 // Only attach lastmod when an editorial date is known; never fabricate today's date.
 // sitemap URL 去掉 .html 后缀 + index.html → 根，与页面 canonical 保持一致，避免谷歌拿到矛盾信号
-const pages = urls.filter((u) => u.endsWith('.html')).map(canonPath);
+const indexableHtml = urls.filter((u) => u.endsWith('.html') && !fs.readFileSync(path.join(distDir,u),'utf8').includes('<meta name="robots" content="noindex'));
+const pages = indexableHtml.map(canonPath);
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${pages.map((u) => `  <url><loc>${SITE_URL}/${u}</loc>${u === canonPath(researchPath()) || u === canonPath('zh/' + researchPath()) ? `<lastmod>${BENCHMARK.editorial_updated_at}</lastmod>` : ''}</url>`).join('\n')}
 </urlset>`;
 write('sitemap.xml', sitemap);
-write('robots.txt', `User-agent: *\nAllow: /\nSitemap: ${SITE_URL}/sitemap.xml\n`);
+write('robots.txt', `User-agent: OAI-SearchBot\nAllow: /\n\nUser-agent: *\nAllow: /\n\nSitemap: ${SITE_URL}/sitemap.xml\n`);
 
 // Cloudflare Pages _headers（放在 build output 目录 dist/，Pages 部署时读取）
 // - HTML 不写规则，走 Cloudflare Pages 默认（public, max-age=0, must-revalidate），保证新鲜

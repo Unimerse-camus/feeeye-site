@@ -5,14 +5,14 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import { readJson, validDay } from './ops_util.mjs';
 
 const root=fileURLToPath(new URL('../../',import.meta.url));
-const metricKeys=['site_visits','search_clicks','search_impressions','x_posts_published','x_link_clicks','affiliate_clicks','affiliate_registrations','commission_usdt','human_hours'];
+const metricKeys=['site_visits','search_clicks','search_impressions','ai_referral_visits','bing_ai_citations','bing_ai_average_cited_pages','x_posts_published','x_link_clicks','affiliate_clicks','affiliate_registrations','commission_usdt','human_hours'];
 export function validateWeeklyInput(data) {
   const exact=(value,keys,label)=>{if(!value||JSON.stringify(Object.keys(value).sort())!==JSON.stringify(keys.slice().sort())) throw new Error('Unexpected fields: '+label);};
   exact(data,['schema_version','window','coverage','metrics','content','notes'],'root');
   exact(data.window,['from','to'],'window');
   if(data.schema_version!==1 || !validDay(data.window?.from) || !validDay(data.window?.to) || data.window.to<data.window.from || (Date.parse(data.window.to)-Date.parse(data.window.from))/86400000>7) throw new Error('Invalid weekly window');
   if(!data.coverage || !data.metrics || !Array.isArray(data.content) || !Array.isArray(data.notes)) throw new Error('Incomplete weekly input');
-  for(const source of ['cloudflare','gsc','x','affiliate']) {
+  for(const source of ['cloudflare','gsc','bing_ai','x','affiliate']) {
     const c=data.coverage[source];
     exact(c,['status','through','note'],'coverage.'+source);
     if(!c || !['complete','partial','missing'].includes(c.status) || (c.through!==null&&!validDay(c.through)) || typeof c.note!=='string' || c.note.length>240) throw new Error('Invalid coverage: '+source);
