@@ -33,7 +33,7 @@ window.EXCHANGES = {
     "has_copy_trading": true,
     "new_user_note": "KuCoin base spot 0.10% (20% off with KCS). USDT-TRC20 withdraw 1.5 USDT. EU onboarding paused (Feb 2026); US banned (Mar 2026).",
     "source": "https://www.kucoin.com/vip/level + cexorer.com/kucoin/usdt",
-    "last_updated": "2026-08-31",
+    "last_updated": "2026-08-27",
     "evidence": {
       "trading_fees": {"url":"https://www.kucoin.com/vip/level","checked_at":"2026-08-27"},
       "withdrawal_fees": {"url":"https://www.kucoin.com/assets/withdraw/USDT","checked_at":"2026-08-20","access":"live_quote"},
@@ -69,7 +69,7 @@ window.EXCHANGES = {
     "has_copy_trading": true,
     "new_user_note": "Binance base spot 0.10% (25% off with BNB). USDT-TRC20 1 USDT. Fiat deposit methods vary by region.",
     "source": "https://www.binance.com/en/fee/schedule",
-    "last_updated": "2026-08-31",
+    "last_updated": "2026-08-27",
     "evidence": {
       "trading_fees": {"url":"https://www.binance.com/en/fee/trading","checked_at":"2026-08-27"},
       "withdrawal_fees": {"url":"https://www.binance.com/en/fee/cryptoFee","checked_at":"2026-08-20","access":"live_quote"},
@@ -110,7 +110,7 @@ window.EXCHANGES = {
     "has_copy_trading": true,
     "new_user_note": "Bybit base spot 0.10%. USDT-TRC20 1 USDT. Restricted: US/China/Singapore/etc.",
     "source": "https://www.bybit.com/en/help-center/fee",
-    "last_updated": "2026-08-31",
+    "last_updated": "2026-08-27",
     "evidence": {
       "trading_fees": {"url":"https://www.bybit.com/en/help-center/article/Trading-Fee-Structure","checked_at":"2026-08-27"},
       "withdrawal_fees": {"url":"https://www.bybit.com/en-GB/help-center/article/Bybit-Fees-You-Need-to-Know","checked_at":"2026-08-20","access":"live_quote"},
@@ -143,7 +143,7 @@ window.EXCHANGES = {
     "has_copy_trading": true,
     "new_user_note": "OKX spot 0.08%/0.10% (Lv1). USDT-TRC20 1 USDT. Mainland-China KYC status changing (2026).",
     "source": "https://www.okx.com/fees",
-    "last_updated": "2026-08-31",
+    "last_updated": "2026-08-27",
     "evidence": {
       "trading_fees": {"url":"https://www.okx.com/fees","checked_at":"2026-08-27"},
       "withdrawal_fees": {"url":"https://www.okx.com/balance/withdrawal","checked_at":"2026-08-20","access":"live_quote"},
@@ -176,7 +176,7 @@ window.EXCHANGES = {
     "has_copy_trading": true,
     "new_user_note": "Bitget base spot 0.10% (20% off with BGB). USDT-TRC20 1.5 USDT.",
     "source": "https://www.bitget.com/fee",
-    "last_updated": "2026-08-31",
+    "last_updated": "2026-08-27",
     "evidence": {
       "trading_fees": {"url":"https://www.bitget.com/en-CA/support/articles/12560603820584","checked_at":"2026-08-27"},
       "withdrawal_fees": {"url":"https://www.bitget.com/fee/withdrawal","checked_at":"2026-08-20","access":"live_quote"},
@@ -208,7 +208,7 @@ window.EXCHANGES = {
     "has_copy_trading": false,
     "new_user_note": "Kraken Pro Tier 1 spot 0.40%/0.80% from July 9, 2026. USDT network fees vary materially by chain; no P2P.",
     "source": "https://support.kraken.com/articles/cross-platform-fee-tier-changes",
-    "last_updated": "2026-08-31",
+    "last_updated": "2026-08-27",
     "evidence": {
       "trading_fees": {"url":"https://support.kraken.com/articles/cross-platform-fee-tier-changes","checked_at":"2026-08-27"},
       "withdrawal_fees": {"url":"https://support.kraken.com/articles/360000767986-cryptocurrency-withdrawal-fees-and-minimums","checked_at":"2026-08-20"},
@@ -240,7 +240,7 @@ window.EXCHANGES = {
     "has_copy_trading": false,
     "new_user_note": "Coinbase Advanced spot 0.40%/0.60%. No TRC20 USDT (ERC20/Base/BSC/Arbitrum). No P2P.",
     "source": "https://www.coinbase.com/fees",
-    "last_updated": "2026-08-31",
+    "last_updated": "2026-08-27",
     "evidence": {
       "trading_fees": {"url":"https://help.coinbase.com/en/coinbase/trading-and-funding/advanced-trade/advanced-trade-fees","checked_at":"2026-08-27","access":"account_tier"},
       "withdrawal_fees": {"url":"https://help.coinbase.com/en/coinbase/trading-and-funding/pricing-and-fees/fees","checked_at":"2026-08-20","access":"dynamic_quote"},

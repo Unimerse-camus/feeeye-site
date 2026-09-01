@@ -8,3 +8,8 @@ dist/
 # 本地临时
 .env
 .env.local
+
+# Local review artifacts; never publish a draft queue or review metadata.
+ops/automation/generated/
+ops/automation/working/
+ops/automation/reports/private/

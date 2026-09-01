@@ -1,0 +1,17 @@
+{
+  "id": "feeeye-launch",
+  "status": "draft",
+  "account": null,
+  "publishing_enabled": false,
+  "approval": null,
+  "purpose": "Brand and beginner education only. No current exchange-rate or ranking claims. Choose one account language; do not publish both language sets by default.",
+  "bio_en": "Crypto fee research, calculators & beginner guides. See the fees. Know the trade-offs. Educational content, not investment advice.",
+  "posts": [
+    {"id":"launch-en","locale":"en","suggested_order":1,"image":"assets/social/x-header-v1.png","text":"See the fees. Know the trade-offs.\nFeeEye brings crypto fee research, calculators and beginner guides together. Start with the risks and questions to ask before you trade.\nhttps://feeeye.com/learn/?utm_source=x&utm_medium=social&utm_campaign=feeeye-launch"},
+    {"id":"cost-en","locale":"en","suggested_order":2,"image":null,"text":"A trading fee is only one part of the bill. Spread, slippage, funding and withdrawal costs need separate checks. Learn what to include before comparing platforms.\nhttps://feeeye.com/learn/crypto-total-cost?utm_source=x&utm_medium=social&utm_campaign=feeeye-launch"},
+    {"id":"transfer-en","locale":"en","suggested_order":3,"image":null,"text":"Before sending crypto: check the asset, receiving network, address and any required memo. A familiar token name does not make every network compatible.\nhttps://feeeye.com/learn/safe-crypto-transfer?utm_source=x&utm_medium=social&utm_campaign=feeeye-launch"},
+    {"id":"launch-zh","locale":"zh","suggested_order":1,"image":"assets/social/x-header-v1.png","text":"看清费用，也看清取舍。FeeEye把费用研究、计算工具和新手教程放在一起。先了解风险和交易前该问的问题，再考虑下一步。\nhttps://feeeye.com/zh/learn/?utm_source=x&utm_medium=social&utm_campaign=feeeye-launch"},
+    {"id":"cost-zh","locale":"zh","suggested_order":2,"image":null,"text":"交易手续费不是全部账单。价差、滑点、入金和提币成本，都需要单独检查。比较平台前，先了解哪些成本不能漏算。\nhttps://feeeye.com/zh/learn/crypto-total-cost?utm_source=x&utm_medium=social&utm_campaign=feeeye-launch"},
+    {"id":"transfer-zh","locale":"zh","suggested_order":3,"image":null,"text":"转账前，核对资产、接收网络、地址和必要的Memo。币名一样，不代表所有网络都能互通。先用检查清单逐项确认。\nhttps://feeeye.com/zh/learn/safe-crypto-transfer?utm_source=x&utm_medium=social&utm_campaign=feeeye-launch"}
+  ]
+}

@@ -3,13 +3,6 @@
 name: refresh-coin-data
 
 on:
-  push:
-    branches:
-      - main
-    # CI 自己 push 的是 data/** 文件，忽略避免无限循环；其余代码变更都会触发
-    paths-ignore:
-      - 'data/**'
-      - 'dist/**'
   schedule:
     # UTC 16:00 = 北京时间 00:00，每天一次
     - cron: '0 16 * * *'
@@ -17,6 +10,11 @@ on:
 
 permissions:
   contents: write
+  pull-requests: write
+
+concurrency:
+  group: refresh-market-data
+  cancel-in-progress: false
 
 jobs:
   refresh:
@@ -47,21 +45,36 @@ jobs:
           COINGECKO_API_KEY: ${{ secrets.COINGECKO_API_KEY }}
         run: node build/fetch_exchange_meta.mjs
 
-      - name: Commit and push if changed
+      - name: Validate candidate data before committing
+        run: node build/validate_local.mjs
+
+      - name: Commit candidate branch if changed
+        id: candidate
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add data/coins.json data/exchanges.js
           if git diff --cached --quiet; then
             echo "::notice::data unchanged, nothing to push"
+            echo "changed=false" >> "$GITHUB_OUTPUT"
           else
+            # Learn the current dedicated-branch tip so force-with-lease fails closed on an unexpected concurrent update.
+            git fetch origin refs/heads/automation/refresh-market-data:refs/remotes/origin/automation/refresh-market-data || true
+            git switch -c automation/refresh-market-data
             git commit -m "chore: refresh CoinGecko data ($(date -u +%Y-%m-%d))"
-            # 同步远程（防 non-fast-forward：CI 跑 fetch 期间用户/AI 可能 push 新代码）
-            git fetch origin main
-            if ! git rebase origin/main; then
-              echo "::error::Rebase conflict — remote has diverged, manual intervention needed"
-              git status
-              exit 1
-            fi
-            git push origin main
+            # Validate the exact committed tree; never push data directly to production main.
+            node build/validate_local.mjs
+            git push --force-with-lease origin automation/refresh-market-data
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Create or update review PR
+        if: steps.candidate.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh pr view automation/refresh-market-data --json number >/dev/null 2>&1; then
+            gh pr edit automation/refresh-market-data --title "chore: refresh market data" --body "Automated CoinGecko candidate. Review source dates and required checks before merge."
+          else
+            gh pr create --base main --head automation/refresh-market-data --title "chore: refresh market data" --body "Automated CoinGecko candidate. Review source dates and required checks before merge."
           fi
