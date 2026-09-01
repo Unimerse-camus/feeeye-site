@@ -86,6 +86,6 @@ node build/ops/source_review.mjs --require-current
 
 ## 第四批：低频分发计划与观察节点
 
-完整说明见`docs/automation-phase4-distribution-plan-2026-09-01.md`。新增`distribution_plan.mjs`，只在存在匹配生产版本的验证回执时生成本地待审计划：单一账号语言、七天最多三条、注册UTM、内容/部署哈希、幂等键，以及发布回执、24小时、7天、28天复盘节点。
+完整说明见`docs/automation-phase4-distribution-plan-2026-09-01.md`，渠道依据见`docs/crypto-tools-channel-research-2026-09-01.md`。`channel-policy.json`把首个28天免费组合预注册为搜索、YouTube、X、问题社区和开发者/发布渠道；X只占候选投入的15%。`distribution_plan.mjs`是首个渠道执行模块，只在存在匹配生产版本的验证回执时生成本地待审计划：单一账号语言、七天最多三条、注册UTM、内容/部署哈希、幂等键，以及发布回执、24小时、7天、28天复盘节点。
 
 该计划仍固定`publishing_enabled=false`，不会操作X、自动互动或提交搜索引擎。所有输出只能写入已忽略的`ops/automation/working/`，真实发布必须另行审批并由人工或平台原生排程完成。
