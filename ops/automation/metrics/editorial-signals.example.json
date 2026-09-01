@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "window": {"from":"2026-08-05","to":"2026-09-01"},
+  "coverage": {
+    "gsc": {"status":"missing","through":null,"note_code":"no_authorized_export"},
+    "bing_ai": {"status":"missing","through":null,"note_code":"no_authorized_export"},
+    "community": {"status":"missing","through":null,"note_code":"no_authorized_export"}
+  },
+  "topics": [
+    {"id":"before-you-start","evidence_status":"current","search_impressions":null,"search_clicks":null,"ai_citations":null,"community_questions":null,"materially_updated_at":"2026-08-25"},
+    {"id":"avoid-crypto-scams","evidence_status":"current","search_impressions":null,"search_clicks":null,"ai_citations":null,"community_questions":null,"materially_updated_at":"2026-08-25"},
+    {"id":"secure-crypto-account","evidence_status":"current","search_impressions":null,"search_clicks":null,"ai_citations":null,"community_questions":null,"materially_updated_at":"2026-08-25"},
+    {"id":"choose-crypto-exchange","evidence_status":"current","search_impressions":null,"search_clicks":null,"ai_citations":null,"community_questions":null,"materially_updated_at":"2026-08-25"},
+    {"id":"first-spot-trade","evidence_status":"current","search_impressions":null,"search_clicks":null,"ai_citations":null,"community_questions":null,"materially_updated_at":"2026-08-25"},
+    {"id":"crypto-total-cost","evidence_status":"current","search_impressions":null,"search_clicks":null,"ai_citations":null,"community_questions":null,"materially_updated_at":"2026-08-25"},
+    {"id":"safe-crypto-transfer","evidence_status":"current","search_impressions":null,"search_clicks":null,"ai_citations":null,"community_questions":null,"materially_updated_at":"2026-08-25"},
+    {"id":"custody-vs-self-custody","evidence_status":"current","search_impressions":null,"search_clicks":null,"ai_citations":null,"community_questions":null,"materially_updated_at":"2026-08-25"}
+  ]
+}

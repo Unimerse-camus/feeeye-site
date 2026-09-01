@@ -93,3 +93,7 @@ node build/ops/source_review.mjs --require-current
 ## SEO + GEO
 
 完整说明见`docs/seo-geo-operations-2026-09-01.md`。全站生成后运行`seo_geo_audit.mjs`，验证canonical、三组hreflang、站点实体、文章来源、FAQ字段和OAI-SearchBot规则。周报同时接受传统搜索、AI聚合引荐和Bing AI引用指标；没有授权导出时保持缺失，不估算或编造。
+
+## 第五批：选题与统一多渠道简报
+
+完整说明见`docs/automation-phase5-editorial-pipeline-2026-09-01.md`。`topic_queue.mjs`只使用28天聚合计数生成最多5个候选，原始查询、帖子和个人信息禁止进入输入；选题仍需人工选择。`multichannel_brief.mjs`把已审校主题转换为SEO/GEO更新要求、YouTube分镜和社区回答材料，绑定构建、来源、复核日期和内容哈希，所有外部操作保持关闭。
