@@ -4,6 +4,7 @@
   "coverage": {
     "cloudflare": {"status":"missing","through":null,"note":"No authorized export supplied"},
     "gsc": {"status":"missing","through":null,"note":"No authorized export supplied"},
+    "bing_ai": {"status":"missing","through":null,"note":"No authorized Bing AI Performance export supplied"},
     "x": {"status":"partial","through":"2026-09-07","note":"Manual public post counts only"},
     "affiliate": {"status":"missing","through":null,"note":"No aggregate backend export supplied"}
   },
@@ -11,6 +12,9 @@
     "site_visits": null,
     "search_clicks": null,
     "search_impressions": null,
+    "ai_referral_visits": null,
+    "bing_ai_citations": null,
+    "bing_ai_average_cited_pages": null,
     "x_posts_published": 0,
     "x_link_clicks": null,
     "affiliate_clicks": null,

@@ -25,7 +25,9 @@ export function canonicalHtmlMap(dist) {
       if(entry.isDirectory()) walk(file);
       else if(entry.name.endsWith('.html')) {
         const body=fs.readFileSync(file);
-        const match=body.toString('utf8').match(/<link rel="canonical" href="(https:\/\/feeeye\.com\/[^"<]*)">/);
+        const html=body.toString('utf8');
+        if(html.includes('<meta name="robots" content="noindex')) continue;
+        const match=html.match(/<link rel="canonical" href="(https:\/\/feeeye\.com\/[^"<]*)">/);
         if(!match) continue;
         if(out[match[1]]) throw new Error('Duplicate canonical: '+match[1]);
         out[match[1]]={path:path.relative(dist,file),sha256:sha256(body)};

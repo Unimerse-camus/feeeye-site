@@ -10,7 +10,7 @@ const endpoints=[
   {path:'/zh/learn/',contains:'新手'},
   {path:'/tools/total-cost-calculator.html',contains:'cost'},
   {path:'/sitemap.xml',contains:'<urlset'},
-  {path:'/robots.txt',contains:'Sitemap:'},
+  {path:'/robots.txt',contains:['Sitemap:','User-agent: OAI-SearchBot','Allow: /']},
   {path:'/release.json',contains:'build_id'}
 ];
 export async function healthCheck({baseUrl,fetchImpl=fetch,checkedAt=new Date().toISOString()}) {
@@ -21,7 +21,8 @@ export async function healthCheck({baseUrl,fetchImpl=fetch,checkedAt=new Date().
   for(const item of endpoints) {
     try {
       const start=Date.now(), response=await fetchImpl(new URL(item.path,base),{redirect:'follow'}), body=await response.text();
-      results.push({path:item.path,status:response.status,ok:response.ok&&body.includes(item.contains),elapsed_ms:Math.max(0,Date.now()-start)});
+      const required=Array.isArray(item.contains)?item.contains:[item.contains];
+      results.push({path:item.path,status:response.status,ok:response.ok&&required.every(value=>body.includes(value)),elapsed_ms:Math.max(0,Date.now()-start)});
     } catch(error) {results.push({path:item.path,status:null,ok:false,error:error.name||'Error'});}
   }
   const failed=results.filter(x=>!x.ok);
