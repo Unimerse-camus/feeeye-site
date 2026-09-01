@@ -6,9 +6,9 @@
  *   - coins   → CoinGecko /exchanges/{id} 的 coins（有活跃现货市场的币种数，统一口径）
  *   - volume  → trade_volume_24h_btc × BTC 价，换算 USD，格式 "≈$X.XXB"
  *   - trust   → trust_score（10 分制）
- *   - last_updated → 当天日期（数据每天自动校准）
+ *   - market_data_retrieved_at → 成功拉取字段的时间；不更改人工费率复核日期
  *
- * 只更新这四个字段，绝不覆盖人工核实的编辑字段
+ * 只更新行情字段及其获取时间，绝不覆盖人工核实的编辑字段
  * （reserve / cold / licenses / security / incident / max_leverage / has_options 等）。
  *
  * 用法：
@@ -20,7 +20,7 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, '..');
@@ -65,7 +65,40 @@ async function cgGet(url, tries = 3) {
 
 // USD 金额 → "X.XXB" 字符串（去掉尾随 0）
 function fmtB(usd) {
-  return (usd / 1e9).toFixed(2).replace(/\.?0+$/, '') + 'B';
+  return ((usd / 1e9).toFixed(2).replace(/\.?0+$/, '') || '0') + 'B';
+}
+
+// Pure update boundary: no network and no changes to fee evidence or last_updated.
+export function updateExchangeMetadata(src, slug, detail, btcUsd, retrievedAt) {
+  if (!/^[a-z]+$/.test(slug) || !Number.isFinite(Date.parse(retrievedAt))) throw new Error('Invalid metadata identity/time');
+  if (!Number.isSafeInteger(detail?.coins) || detail.coins <= 0 ||
+      !Number.isInteger(detail?.trust_score) || detail.trust_score < 0 || detail.trust_score > 10) return src;
+  const marker = 'window.EXCHANGE_COMPARE = ';
+  const offset = src.indexOf(marker);
+  if (offset < 0) throw new Error('Missing EXCHANGE_COMPARE');
+  const prefix = src.slice(0, offset), tail = src.slice(offset);
+  const re = new RegExp('("' + slug + '": \\{\\n)([^\\n]*)(\\n)');
+  let matched = false;
+  const updated = tail.replace(re, (_m, head, line, end) => {
+    matched = true;
+    const vol = detail.trade_volume_24h_btc;
+    const validVol = Number.isFinite(vol) && vol >= 0 && Number.isFinite(btcUsd) && btcUsd > 0 && Number.isFinite(vol * btcUsd);
+    const fields = { coins: detail.coins, trust: detail.trust_score };
+    if (validVol) fields.volume = '≈$' + fmtB(vol * btcUsd);
+    for (const [key,value] of Object.entries(fields)) {
+      const field = new RegExp('("' + key + '": )("[^"]*"|[0-9.]+)');
+      if (!field.test(line)) throw new Error('Missing metadata field: ' + slug + '.' + key);
+      line = line.replace(field, (_m, lead) => lead + JSON.stringify(value));
+    }
+    const stamp = /, "market_data_retrieved_at": (\{[^}]*\})/;
+    const previous = line.match(stamp);
+    const times = previous ? JSON.parse(previous[1]) : {};
+    for (const key of Object.keys(fields)) times[key] = retrievedAt;
+    line = line.replace(stamp, '').replace(/,?$/, '') + ', "market_data_retrieved_at": ' + JSON.stringify(times) + ',';
+    return head + line + end;
+  });
+  if (!matched) throw new Error('Missing metadata record: ' + slug);
+  return prefix + updated;
 }
 
 async function main() {
@@ -94,39 +127,15 @@ async function main() {
       continue;
     }
 
-    const coins = detail?.coins;
-    const trust = detail?.trust_score;
-    const volBtc = detail?.trade_volume_24h_btc;
-    if (coins == null || trust == null) {
-      console.warn(`  ⚠️ ${slug} 缺 coins/trust (coins=${coins} trust=${trust}) — 跳过`);
+    if (!detail) {
+      console.warn('Skipping ' + slug + ': no response');
       continue;
     }
-
-    // volume 仅在 BTC 价可用且 volBtc 有效时更新；否则保持原值
-    const newVol = (btcUsd && volBtc != null) ? `≈$${fmtB(volBtc * btcUsd)}` : null;
-
-    // 精确替换该 slug 在 EXCHANGE_COMPARE 里的 "coins": N, "volume": "...", "trust": N
-    // 锚定 "slug": { 后第一行（含 max_leverage ... security）
-    // 捕获组：p1=前缀, p2=原coins, p3=volume前缀, p4=原volume, p5=trust前缀, p6=原trust
-    // 用「函数替换」而非「字符串替换」：newVol 含 "$" 符号，字符串替换会把 "$1" 误解析为捕获组
-    const re = new RegExp(
-      `("${slug}": \\{\\n    "max_leverage"[^\\n]*?"coins": )(\\d+)(, "volume": ")("[^"]*)(", "trust": )(\\d+)`
-    );
-    const next = src.replace(re, (_m, p1, _oldCoins, p3, oldVol, p5, _oldTrust) => {
-      const vol = newVol != null ? newVol : oldVol;
-      return `${p1}${coins}${p3}${vol}${p5}${trust}`;
-    });
-    if (next === src) {
-      console.warn(`  ⚠️ ${slug} 正则未匹配（格式可能已变），保持原值`);
-      continue;
-    }
+    const next = updateExchangeMetadata(src, slug, detail, btcUsd, new Date().toISOString());
+    if (next === src) console.warn('Skipping ' + slug + ': invalid metadata');
+    else console.log('Updated market metadata only: ' + slug);
     src = next;
-    console.log(`  ✓ ${slug}: coins=${coins}, volume=${newVol || '保持原值'}, trust=${trust}`);
   }
-
-  // 更新所有所的 last_updated 为今天（数据每天自动校准 coins/volume/trust）
-  const today = new Date().toISOString().slice(0, 10);
-  src = src.replace(/"last_updated": "[^"]*"/g, `"last_updated": "${today}"`);
 
   if (src === orig) {
     console.log('无变化，不写回');
@@ -142,7 +151,7 @@ async function main() {
   console.log('已写回 data/exchanges.js');
 }
 
-main().catch((e) => {
+if (process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href) main().catch((e) => {
   console.error('❌ fetch_exchange_meta 失败:', e.message);
   process.exit(1);
 });

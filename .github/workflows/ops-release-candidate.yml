@@ -1,0 +1,28 @@
+name: ops-release-candidate
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  candidate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Validate exact source revision
+        run: node build/validate_local.mjs
+      - name: Build deployment and URL-delta candidate
+        run: node build/ops/deployment_manifest.mjs --out ops/automation/working/release-candidate.json --quiet
+      - name: Upload candidate for human review
+        uses: actions/upload-artifact@v4
+        with:
+          name: feeeye-release-candidate-${{ github.sha }}
+          path: ops/automation/working/release-candidate.json
+          if-no-files-found: error
+          retention-days: 14

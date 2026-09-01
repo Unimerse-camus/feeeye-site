@@ -1,0 +1,6 @@
+{
+  "schema_version": 1,
+  "publishing_enabled": false,
+  "channels": {"website": false, "x": false, "youtube": false, "reddit": false},
+  "mode": "local_draft_only"
+}

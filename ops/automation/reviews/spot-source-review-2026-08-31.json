@@ -1,0 +1,107 @@
+{
+  "schema_version": 1,
+  "id": "spot-source-review-2026-08-31",
+  "observed_at": "2026-08-31",
+  "base_snapshot_hash": "9304365b07e154dbed4e3ce9c611b9e5421af60ecc1dcbd3223ab55ca07b6681",
+  "method": "Agent-assisted reading of public official pages; no account access, no executed orders, no regional eligibility verification. Candidate evidence only; not human publishing approval.",
+  "records": [
+    {
+      "slug": "binance",
+      "status": "corroborated_only",
+      "rate_ppm": 1000,
+      "kind": "published_rate",
+      "scope": "Official Academy typical spot fee, not a loaded account/region fee schedule.",
+      "sources": [
+        "https://www.binance.com/en/fee/trading",
+        "https://www.binance.com/en/academy/articles/how-to-calculate-transaction-fees-on-binance"
+      ],
+      "evidence_note": "Fee schedule redirected to en-GB and returned No records found. Official Academy lists 0.10% as a typical spot taker fee; exact rates depend on pair and account.",
+      "next_action": "Check the applicable regional fee schedule or an authorized account preview; do not treat an educational example as a complete current schedule."
+    },
+    {
+      "slug": "okx",
+      "status": "scope_warning",
+      "rate_ppm": 1000,
+      "kind": "published_rate",
+      "scope": "Standard group schedule differs from Europe EEA account conditions.",
+      "sources": [
+        "https://www.okx.com/en-gb/help/advance-notice-spot-and-futures-trading-fee-adjustment",
+        "https://www.okx.com/en-eu/help/what-are-the-new-trading-fees-for-eea-users"
+      ],
+      "evidence_note": "Standard-group announcement retains Regular taker 0.1000%. EEA guide (updated Aug 5) lists Regular 0.350% without X-Perps account and 0.1000% with it. Upcoming Sep 9 VIP7/8 change is not a new Regular rate.",
+      "variants": [
+        {
+          "region": "EEA",
+          "condition": "No X-Perps account",
+          "rate_ppm": 3500
+        },
+        {
+          "region": "EEA",
+          "condition": "X-Perps account opened",
+          "rate_ppm": 1000
+        }
+      ],
+      "next_action": "Split comparison by region/entity/account condition. Do not recommend opening derivatives accounts to reduce spot fees. Rebuild and approve affected chart/page before promotion."
+    },
+    {
+      "slug": "kucoin",
+      "status": "confirmed_in_scope",
+      "rate_ppm": 1000,
+      "kind": "published_rate",
+      "scope": "VIP 0, Spot Class A, no KCS discount; excludes Classes B and C.",
+      "sources": [
+        "https://www.kucoin.com/support/48142946141635"
+      ],
+      "evidence_note": "Public VIP table lists Class A VIP0 taker 0.1%; B 0.2% and C 0.3%. The original dynamic VIP endpoint did not expose a usable table.",
+      "next_action": "Use explicit Class A label and confirm selected pair classification and regional entity before claiming an executable quote."
+    },
+    {
+      "slug": "bybit",
+      "status": "confirmed_in_scope",
+      "rate_ppm": 1000,
+      "kind": "published_rate",
+      "scope": "VIP 0 standard crypto-crypto spot only; no special zones or fiat-crypto pairs.",
+      "sources": [
+        "https://www.bybit.com/en/help-center/article/Trading-Fee-Structure"
+      ],
+      "evidence_note": "Official table updated Jul 30 lists VIP0 crypto-crypto taker 0.1000%; article explicitly says actual regional rates may vary.",
+      "next_action": "Preserve crypto-crypto scope and regional caveat; account fee page is needed for individual quotes."
+    },
+    {
+      "slug": "bitget",
+      "status": "confirmed_in_scope",
+      "rate_ppm": 1000,
+      "kind": "published_rate",
+      "scope": "Published base spot maker/taker, no BGB/VIP discount; available pairs depend on region.",
+      "sources": [
+        "https://www.bitget.com/en-CA/support/articles/12560603820584"
+      ],
+      "evidence_note": "Official support guide states base taker 0.1%; regional pair restrictions remain. Reading an en-CA article does not establish Canadian account eligibility.",
+      "next_action": "Retain entity/pair eligibility caveat; do not infer availability from language URL."
+    },
+    {
+      "slug": "coinbase",
+      "status": "unconfirmed",
+      "rate_ppm": null,
+      "kind": "unknown",
+      "scope": "Coinbase Advanced; account tier and order preview required.",
+      "sources": [
+        "https://help.coinbase.com/en/coinbase/trading-and-funding/advanced-trade/advanced-trade-fees"
+      ],
+      "evidence_note": "Current public help text explains tiers and calculation but does not state the old 0.60% numeric ceiling; full schedule requires sign-in. This does not prove the rate changed.",
+      "next_action": "Keep current numeric rate unknown. Use an authorized account preview or a current public official schedule before assigning any ceiling."
+    },
+    {
+      "slug": "kraken",
+      "status": "confirmed_in_scope",
+      "rate_ppm": 8000,
+      "kind": "published_rate",
+      "scope": "Kraken Pro Tier1 spot schedule; excludes Instant Buy and separate stablecoin/FX schedules.",
+      "sources": [
+        "https://support.kraken.com/articles/cross-platform-fee-tier-changes"
+      ],
+      "evidence_note": "July9 table lists Tier1 spot taker 0.80%; tier can improve with platform assets or other product volume. It is not a quote for every Kraken product.",
+      "next_action": "Retain Pro/Tier1 scope, effective date and exclusions; account tier and pair still need checking."
+    }
+  ]
+}

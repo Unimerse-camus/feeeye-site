@@ -20,7 +20,7 @@
     ['learn/avoid-crypto-scams.html', svg.shield, '安全与防骗'],
     ['learn/crypto-total-cost.html', svg.receipt, '买币与费用'],
     ['learn/safe-crypto-transfer.html', svg.wallet, '钱包与转账'],
-    ['research/1000-usdt-spot-cost.html', svg.receipt, '1000 USDT 费率实测'],
+    ['research/1000-usdt-spot-cost.html', svg.receipt, '1000 USDT 费率对比'],
     ['tools/glossary.zh.html', svg.route, '术语表']
   ] : [
     ['learn/index.html', svg.route, 'Beginner Path'],

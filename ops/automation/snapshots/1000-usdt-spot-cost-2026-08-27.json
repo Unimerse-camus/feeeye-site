@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "id": "1000-usdt-spot-cost",
+  "version": "2026-08-27-v1",
+  "source_reviewed_at": "2026-08-27",
+  "editorial_updated_at": "2026-08-31",
+  "provenance": "Migrated from the existing 2026-08-27 FeeEye benchmark; not freshly verified during migration. Historical public-rate calculation, not executed trades.",
+  "notional": 1000,
+  "unit": "USDT-equivalent",
+  "scope": "Standard crypto spot taker; entry regular tier; no token/VIP/campaign discounts. Regional entities and available pairs differ; not a universal executable quote.",
+  "exclusions": ["spread", "slippage", "funding", "withdrawal", "tax"],
+  "rows": [
+    {"slug":"binance","name":"Binance","rate_ppm":1000,"kind":"published_rate","basis":{"en":"Regular tier; standard spot","zh":"普通用户；标准现货"},"source":"https://www.binance.com/en/fee/trading","verified_at":"2026-08-27","effective_at":null},
+    {"slug":"okx","name":"OKX","rate_ppm":1000,"kind":"published_rate","basis":{"en":"Regular tier; standard spot","zh":"普通用户；标准现货"},"source":"https://www.okx.com/fees","verified_at":"2026-08-27","effective_at":null},
+    {"slug":"kucoin","name":"KuCoin","rate_ppm":1000,"kind":"published_rate","basis":{"en":"LV 0; standard spot class","zh":"LV 0；标准现货分组"},"source":"https://www.kucoin.com/vip/level","verified_at":"2026-08-27","effective_at":null},
+    {"slug":"bybit","name":"Bybit","rate_ppm":1000,"kind":"published_rate","basis":{"en":"Non-VIP; standard spot","zh":"非VIP；标准现货"},"source":"https://www.bybit.com/en/help-center/article/Trading-Fee-Structure","verified_at":"2026-08-27","effective_at":null},
+    {"slug":"bitget","name":"Bitget","rate_ppm":1000,"kind":"published_rate","basis":{"en":"Regular tier; standard spot","zh":"普通用户；标准现货"},"source":"https://www.bitget.com/en-CA/support/articles/12560603820584","verified_at":"2026-08-27","effective_at":null},
+    {"slug":"coinbase","name":"Coinbase Advanced","rate_ppm":6000,"kind":"ceiling","basis":{"en":"Published ceiling; sign in for account tier","zh":"公开上限；登录查看账户档位"},"source":"https://help.coinbase.com/en/coinbase/trading-and-funding/advanced-trade/advanced-trade-fees","verified_at":"2026-08-27","effective_at":null},
+    {"slug":"kraken","name":"Kraken Pro","rate_ppm":8000,"kind":"published_rate","basis":{"en":"Tier 1; effective 2026-07-09","zh":"Tier 1；2026-07-09起生效"},"source":"https://support.kraken.com/articles/cross-platform-fee-tier-changes","verified_at":"2026-08-27","effective_at":"2026-07-09"}
+  ]
+}

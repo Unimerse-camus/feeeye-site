@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "window": {"from":"2026-09-01","to":"2026-09-07"},
+  "coverage": {
+    "cloudflare": {"status":"missing","through":null,"note":"No authorized export supplied"},
+    "gsc": {"status":"missing","through":null,"note":"No authorized export supplied"},
+    "x": {"status":"partial","through":"2026-09-07","note":"Manual public post counts only"},
+    "affiliate": {"status":"missing","through":null,"note":"No aggregate backend export supplied"}
+  },
+  "metrics": {
+    "site_visits": null,
+    "search_clicks": null,
+    "search_impressions": null,
+    "x_posts_published": 0,
+    "x_link_clicks": null,
+    "affiliate_clicks": null,
+    "affiliate_registrations": null,
+    "commission_usdt": null,
+    "human_hours": null
+  },
+  "content": [],
+  "notes": ["Example only; null means missing and must not be converted to zero."]
+}

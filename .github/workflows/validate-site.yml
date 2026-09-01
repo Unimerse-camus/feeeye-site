@@ -27,6 +27,14 @@ jobs:
         run: node build/submit_indexnow.mjs
       - name: Test privacy-minimal analytics contract
         run: node build/test_analytics_contract.mjs
+      - name: Test frozen benchmark and local-only content packs
+        run: node build/ops/test_operations.mjs
+      - name: Test source review and promotion hold
+        run: node build/ops/test_source_review.mjs
+      - name: Test brand launch drafts
+        run: node build/ops/test_launch_campaign.mjs
+      - name: Test approval, deployment, health, and reporting workflow
+        run: node build/ops/test_workflow_phase3.mjs
       - name: Reject broken generated comparison values
         run: |
           if grep -R -E ">undefined<|>NaN<|null×" dist/compare dist/zh/compare; then

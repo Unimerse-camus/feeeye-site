@@ -2,7 +2,7 @@
 
 ## 当前状态（2026-08-27）
 
-- 线上尚未检测到 Cloudflare Web Analytics Beacon 或已生效的 Zaraz 自定义事件。
+- 2026-08-27后台曾确认Cloudflare Web Analytics已启用且排除EU访客；本轮未重新核验后台。Zaraz自定义事件接收端仍未确认启用，两者不可混为一谈。
 - 代码已接入 `/assets/analytics.js`：只有 `window.zaraz.track` 存在时才发送白名单事件，否则完全无操作。
 - 不设置 FeeEye 用户 ID，不读取 Cookie，不发送金额、钱包地址、持仓、姓名、邮箱或完整搜索词。
 - 中英文隐私政策已列出服务商、允许字段和事件范围；Cloudflare 后台启用前后都保持准确。
@@ -16,8 +16,8 @@ Cloudflare 官方 API：https://developers.cloudflare.com/zaraz/web-api/track/
 | `coin_search_open` | 首页币种搜索第一次获得焦点 | 无 |
 | `coin_search_result_open` | 打开搜索结果或精确币种 | `symbol`, `position` |
 | `coin_search_no_result` | 主动提交无结果搜索 | `query_length` |
-| `tool_use` | 工具页第一次有效输入、选择或点击 | `tool` |
-| `learn_article_complete` | 学习文章来源区进入视口 | `article_id` |
+| `tool_interaction` | 工具页第一次有效输入、选择或点击 | `tool` |
+| `article_end_view` | 学习文章来源区进入视口 | `article_id` |
 | `learn_quiz_open` | 展开一道自测 | `article_id`, `question_number` |
 | `learn_tool_open` | 从教程打开相关工具 | `article_id`, `tool` |
 | `research_tool_open` | 从原创benchmark打开相关工具 | `benchmark_id`, `tool` |
@@ -30,7 +30,7 @@ Cloudflare 官方 API：https://developers.cloudflare.com/zaraz/web-api/track/
 - `page_type`：受控页面类型
 - URL中存在时的受控 `utm_source`、`utm_medium`、`utm_campaign`
 
-UTM 只允许小写字母、数字、点、下划线和连字符，最长48字符；其他查询参数不会发送。
+UTM按渠道与medium配对、活动ID枚举校验。未知值、重复参数、经过清洗才匹配的值全部丢弃。注册表在assets/analytics.js；新增活动必须同步测试。其他查询参数不会发送。
 
 ## 明确禁止采集
 
@@ -54,8 +54,8 @@ UTM 只允许小写字母、数字、点、下划线和连字符，最长48字�
 - 搜索使用率：`coin_search_open / 首页浏览量`
 - 搜索选择率：`coin_search_result_open / coin_search_open`
 - 无结果率：`coin_search_no_result / coin_search_open`
-- 工具有效使用率：`tool_use / 工具页浏览量`
-- 学习完成率：`learn_article_complete / 学习文章浏览量`
+- 工具首次互动率（不等于计算成功）：`tool_interaction / 工具页浏览量`
+- 来源区可见率（不等于学习完成）：`article_end_view / 学习文章浏览量`
 - 教程到工具率：`learn_tool_open / 学习文章浏览量`
 - Benchmark到工具率：`research_tool_open / benchmark浏览量`
 - 高风险功能兴趣：`compare_advanced_open / 对比页浏览量`
@@ -63,6 +63,6 @@ UTM 只允许小写字母、数字、点、下划线和连字符，最长48字�
 
 运营北极星不是页面浏览量，而是：
 
-> 每周完成一次工具使用、学习文章或交易所条件比较的聚合访问次数。
+> 长期目标是帮助用户完成一次有效任务。目前仅有互动代理指标；任务成功事件与接收端未完成时，完成率标为“未接通”，不估算。
 
 affiliate后台的点击、注册、激活、交易量和佣金单独按周汇总，不与站内匿名事件拼成用户画像。

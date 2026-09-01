@@ -3,8 +3,8 @@
     coin_search_open: [],
     coin_search_result_open: ['symbol', 'position'],
     coin_search_no_result: ['query_length'],
-    tool_use: ['tool'],
-    learn_article_complete: ['article_id'],
+    tool_interaction: ['tool'],
+    article_end_view: ['article_id'],
     learn_quiz_open: ['article_id', 'question_number'],
     learn_tool_open: ['article_id', 'tool'],
     research_tool_open: ['benchmark_id', 'tool'],
@@ -46,9 +46,19 @@
     var source = cleanText(params.get('utm_source'));
     var medium = cleanText(params.get('utm_medium'));
     var campaign = cleanText(params.get('utm_campaign'));
-    if (source) out.utm_source = source;
-    if (medium) out.utm_medium = medium;
-    if (campaign) out.utm_campaign = campaign;
+    var channels = { x: 'social', youtube: 'video', reddit: 'community', telegram: 'social', newsletter: 'email' };
+    var campaigns = ['1000-usdt-fee', 'safe-transfer', 'usdt-cost-2026-09', 'feeeye-launch'];
+    // Reject unknown/raw identifiers instead of turning arbitrary personal text into valid-looking tags.
+    if (params.getAll('utm_source').length === 1 && params.getAll('utm_medium').length === 1 &&
+        params.getAll('utm_campaign').length === 1 &&
+        params.get('utm_source') === source && params.get('utm_medium') === medium &&
+        params.get('utm_campaign') === campaign &&
+        Object.prototype.hasOwnProperty.call(channels, source) && channels[source] === medium &&
+        campaigns.indexOf(campaign) !== -1) {
+      out.utm_source = source;
+      out.utm_medium = medium;
+      out.utm_campaign = campaign;
+    }
     return out;
   }
   function track(name, properties) {
@@ -90,13 +100,13 @@
         if (usedTool || event.target.closest('header,.foot')) return;
         if (!event.target.matches('input,select,textarea')) return;
         usedTool = true;
-        track('tool_use', { tool: location.pathname.split('/').pop().replace(/(?:\.zh)?\.html$/, '') });
+        track('tool_interaction', { tool: location.pathname.split('/').pop().replace(/(?:\.zh)?\.html$/, '') });
       });
       document.addEventListener('click', function (event) {
         if (usedTool || event.target.closest('header,.foot,a')) return;
         if (!event.target.closest('button,.filter,.tab')) return;
         usedTool = true;
-        track('tool_use', { tool: location.pathname.split('/').pop().replace(/(?:\.zh)?\.html$/, '') });
+        track('tool_interaction', { tool: location.pathname.split('/').pop().replace(/(?:\.zh)?\.html$/, '') });
       });
     }
 
@@ -118,7 +128,7 @@
         var observer = new IntersectionObserver(function (entries) {
           if (completed || !entries.some(function (entry) { return entry.isIntersecting; })) return;
           completed = true;
-          track('learn_article_complete', { article_id: articleId });
+          track('article_end_view', { article_id: articleId });
           observer.disconnect();
         }, { threshold: 0.25 });
         observer.observe(finish);
