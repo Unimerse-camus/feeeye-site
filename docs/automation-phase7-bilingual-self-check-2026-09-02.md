@@ -24,13 +24,15 @@
 main合并后，`postdeploy-bilingual.yml`自动：
 
 1. 用该Git提交重新构建候选；
-2. 最多等待10分钟，直到线上release的Git revision和build ID同时匹配；
+2. 从Cloudflare Pages官方生产别名读取部署，直到release的Git revision和build ID同时匹配；
 3. 获取8组中英文学习页；
 4. 核对HTTP、canonical、双向hreflang与x-default；
 5. 核对Article日期、原始来源集合、FAQ数量、章节数量和高风险标记；
 6. 保存28天GitHub artifact回执。
 
 线上构建变化、任一语言404、来源不同、FAQ不同或hreflang错误都会让工作流失败，并令`distribution_allowed=false`。这属于发布后告警和社交分发门禁，不能撤销已经发生的Cloudflare部署；需要通过新修复PR恢复。
+
+GitHub托管Runner访问`feeeye.com`会被Cloudflare自定义域名策略返回403，因此自动校验从同一Pages项目的生产别名`feeeye-site.pages.dev`读取字节，但仍强制页面canonical和hreflang指向`https://feeeye.com`。独立健康检查继续验证用户域名本身。
 
 `distribution_plan.mjs`现在强制要求这一回执。中英文校验状态不是`verified`、存在任一失败项，或build/revision与生产验证不同，后续X分发计划无法生成。
 

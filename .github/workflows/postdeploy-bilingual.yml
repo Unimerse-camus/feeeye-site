@@ -20,9 +20,9 @@ jobs:
       - name: Build the exact candidate
         run: node build/generate.mjs
       - name: Wait for the matching Cloudflare production release
-        run: node build/ops/wait_for_deployment.mjs --base-url https://feeeye.com --expected-revision "$GITHUB_SHA" --attempts 36 --delay-ms 10000 --timeout-ms 10000 --out ops/automation/working/postdeploy-release.json
+        run: node build/ops/wait_for_deployment.mjs --base-url https://feeeye-site.pages.dev --expected-revision "$GITHUB_SHA" --attempts 36 --delay-ms 10000 --timeout-ms 10000 --out ops/automation/working/postdeploy-release.json
       - name: Verify every English and Chinese learning pair
-        run: node build/ops/live_bilingual_check.mjs --base-url https://feeeye.com --expected-release ops/automation/working/postdeploy-release.json --all --out ops/automation/working/postdeploy-bilingual.json
+        run: node build/ops/live_bilingual_check.mjs --base-url https://feeeye.com --fetch-base-url https://feeeye-site.pages.dev --expected-release ops/automation/working/postdeploy-release.json --all --out ops/automation/working/postdeploy-bilingual.json
       - name: Upload post-deployment evidence
         if: always()
         uses: actions/upload-artifact@v4
