@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "id": "zh-home-snippet-2026-09-02",
+  "status": "candidate",
+  "canonical": "https://feeeye.com/zh/",
+  "locale": "zh",
+  "baseline": {
+    "window": {"from":"2026-08-05","to":"2026-09-01"},
+    "through": "2026-08-30",
+    "coverage": "partial",
+    "impressions": 71,
+    "clicks": 0,
+    "ctr": 0,
+    "average_position": 4.2
+  },
+  "change_scope": ["title", "description", "h1"],
+  "before": {
+    "title": "FeeEye——免费加密货币费率计算器与交易所数据",
+    "description": "免费加密货币工具：对比交易所费率、查找代币在哪里购买、查看提币成本。无需注册。",
+    "h1": "免费加密货币工具与交易所数据"
+  },
+  "after": {
+    "title": "加密货币手续费计算器与交易所费用对比｜FeeEye",
+    "description": "免费估算现货交易、入金与提币基础成本，对比主要交易所手续费、提币费用和公开安全信息。无需注册；操作前请以官方页面为准。",
+    "h1": "加密货币手续费计算与交易所费用对比"
+  },
+  "hypothesis": "A clearer task-led title, description, and H1 may improve snippet relevance without changing page scope.",
+  "guardrails": {
+    "observation_days_after_deployment": 28,
+    "minimum_impressions_before_review": 30,
+    "no_new_page": true,
+    "no_interim_copy_changes": true,
+    "raw_queries_stored": false
+  },
+  "approval_required": true,
+  "deployment_verified": false
+}
