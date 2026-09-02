@@ -1,0 +1,6 @@
+{
+  "schema_version": 1,
+  "window": {"from":"2026-08-05","to":"2026-09-01"},
+  "coverage": {"gsc":{"status":"missing","through":null,"note_code":"no_authorized_export"}},
+  "pages": []
+}

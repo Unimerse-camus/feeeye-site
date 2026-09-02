@@ -97,3 +97,7 @@ node build/ops/source_review.mjs --require-current
 ## 第五批：选题与统一多渠道简报
 
 完整说明见`docs/automation-phase5-editorial-pipeline-2026-09-01.md`。`topic_queue.mjs`只使用28天聚合计数生成最多5个候选，原始查询、帖子和个人信息禁止进入输入；选题仍需人工选择。`multichannel_brief.mjs`把已审校主题转换为SEO/GEO更新要求、YouTube分镜和社区回答材料，绑定构建、来源、复核日期和内容哈希，所有外部操作保持关闭。
+
+## 第六批：页面级搜索机会
+
+完整说明见`docs/automation-phase6-page-opportunities-2026-09-02.md`。`page_opportunity_queue.mjs`只接收GSC网页维度聚合数据，先合并`.html`与无后缀canonical变体，再按预注册阈值生成已有页面审查候选。查询词、任意URL、自动建页和自动改标题均被拒绝。
