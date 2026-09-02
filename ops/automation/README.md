@@ -105,3 +105,7 @@ node build/ops/source_review.mjs --require-current
 ## 第七批：中英文自校验
 
 完整说明见`docs/automation-phase7-bilingual-self-check-2026-09-02.md`。`bilingual_parity.mjs`在发布前比较中英文简报的主题、风险、来源、结构、披露和衡量节点；`postdeploy-bilingual.yml`在main部署后等待精确release，再核对8组线上页面的canonical、hreflang、文章来源、FAQ和风险标记。失败时禁止后续分发，不自动翻译或覆盖内容。
+
+## 第八批：无人值守策略与自动分析
+
+完整说明见`docs/automation-phase8-autonomous-operations-2026-09-02.md`。`autonomy-policy.json`取消逐条审批，但默认保持shadow；`autonomy_engine.mjs`只允许官方API执行器并要求来源、部署、双语、落地页和幂等门禁。`autonomous_analysis.mjs`自动做observe、hold、maintain、scale或stop决策，放大上限为1.25，任何规则或完整性失败立即停止。
