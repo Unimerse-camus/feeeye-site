@@ -35,8 +35,13 @@ function validateVerification(verification) {
   if(verification?.schema_version!==1 || verification.status!=='verified' || verification.base_url!=='https://feeeye.com' || !/^[a-f0-9]{64}$/.test(verification.build_id||'') || !/^[a-f0-9]{40}$/.test(verification.source_revision||'') || !validInstant(verification.checked_at) || !Array.isArray(verification.checks) || verification.checks.some(x=>x.ok!==true) || REQUIRED_VERIFIED_PATHS.some(x=>!covered.has(x))) throw new Error('A successful production verification receipt with source revision is required');
   return verification;
 }
-export function buildDistributionPlan({campaign,locale,startAt,verification,createdAt=new Date().toISOString(),dist=path.join(root,'dist')}) {
+function validateBilingualVerification(bilingual,verification) {
+  if(bilingual?.schema_version!==1||bilingual.status!=='verified'||bilingual.distribution_allowed!==true||bilingual.failed_count!==0||bilingual.build_id!==verification.build_id||bilingual.source_revision!==verification.source_revision||!validInstant(bilingual.checked_at)||!Array.isArray(bilingual.results)||bilingual.results.some(x=>x.status!=='passed'))throw new Error('Matching bilingual production verification is required');
+  return bilingual;
+}
+export function buildDistributionPlan({campaign,locale,startAt,verification,bilingualVerification,createdAt=new Date().toISOString(),dist=path.join(root,'dist')}) {
   validateVerification(verification);
+  validateBilingualVerification(bilingualVerification,verification);
   const localRelease=readJson(path.join(dist,'release.json'));
   if(localRelease.build_id!==verification.build_id) throw new Error('Validated local build does not match the production receipt');
   if(!['en','zh'].includes(locale) || !validInstant(startAt) || !validInstant(createdAt)) throw new Error('Invalid locale or schedule time');
@@ -54,19 +59,19 @@ export function buildDistributionPlan({campaign,locale,startAt,verification,crea
     const identity={campaign_id:campaign.id,channel:'x',locale,post_id:post.id,content_hash:hash,build_id:verification.build_id,scheduled_at:scheduledAt};
     return {id:post.id,order:index+1,scheduled_at:scheduledAt,text:post.text,image:post.image,landing_url:url.toString(),utm:{source:'x',medium:'social',campaign:campaign.id},idempotency_key:sha256(stable(identity)),checkpoints:CHECKPOINTS.map(([kind,days])=>({kind,due_at:instant(scheduledAt,days)}))};
   });
-  return {schema_version:1,id:`${campaign.id}-x-${locale}`,status:'draft',publishing_enabled:false,created_at:createdAt,campaign_id:campaign.id,channel:'x',target_account:'FeeEyeOfficial',locale,content_hash:hash,deployment:{base_url:verification.base_url,build_id:verification.build_id,source_revision:verification.source_revision,verified_at:verification.checked_at},policy:{delivery_mode:'manual_or_native',max_posts_per_7_days:3,automatic_replies:false,automatic_likes:false,automatic_direct_messages:false},items};
+  return {schema_version:1,id:`${campaign.id}-x-${locale}`,status:'draft',publishing_enabled:false,created_at:createdAt,campaign_id:campaign.id,channel:'x',target_account:'FeeEyeOfficial',locale,content_hash:hash,deployment:{base_url:verification.base_url,build_id:verification.build_id,source_revision:verification.source_revision,verified_at:verification.checked_at,bilingual_verified_at:bilingualVerification.checked_at},policy:{delivery_mode:'manual_or_native',max_posts_per_7_days:3,automatic_replies:false,automatic_likes:false,automatic_direct_messages:false},items};
 }
-export function validateDistributionPlan(plan,{campaign,verification,dist=path.join(root,'dist')}) {
-  const rebuilt=buildDistributionPlan({campaign,locale:plan.locale,startAt:plan.items?.[0]?.scheduled_at,verification,createdAt:plan.created_at,dist});
+export function validateDistributionPlan(plan,{campaign,verification,bilingualVerification,dist=path.join(root,'dist')}) {
+  const rebuilt=buildDistributionPlan({campaign,locale:plan.locale,startAt:plan.items?.[0]?.scheduled_at,verification,bilingualVerification,createdAt:plan.created_at,dist});
   if(stable(plan)!==stable(rebuilt)) throw new Error('Distribution plan is stale or has been modified');
   return plan;
 }
 
 if(process.argv[1] && import.meta.url===pathToFileURL(path.resolve(process.argv[1])).href) {
-  const args=process.argv.slice(2), locale=args[args.indexOf('--locale')+1], startAt=args[args.indexOf('--start-at')+1], verificationFile=args[args.indexOf('--verification')+1];
-  if(!locale || !startAt || !verificationFile) throw new Error('Usage: --locale en|zh --start-at ISO --verification FILE [--out FILE]');
+  const args=process.argv.slice(2), locale=args[args.indexOf('--locale')+1], startAt=args[args.indexOf('--start-at')+1], verificationFile=args[args.indexOf('--verification')+1], bilingualFile=args[args.indexOf('--bilingual-verification')+1];
+  if(!locale || !startAt || !verificationFile || !bilingualFile) throw new Error('Usage: --locale en|zh --start-at ISO --verification FILE --bilingual-verification FILE [--out FILE]');
   const campaign=readJson(path.join(root,'ops/automation/campaigns/x-launch-2026-08-31.json'));
-  const plan=buildDistributionPlan({campaign,locale,startAt,verification:readJson(verificationFile)});
+  const plan=buildDistributionPlan({campaign,locale,startAt,verification:readJson(verificationFile),bilingualVerification:readJson(bilingualFile)});
   const out=args.indexOf('--out');
   if(out>=0) writeNewJson(args[out+1],plan,path.join(root,'ops/automation/working'));
   console.log(JSON.stringify(plan,null,2));

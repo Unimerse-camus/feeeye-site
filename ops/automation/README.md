@@ -101,3 +101,7 @@ node build/ops/source_review.mjs --require-current
 ## 第六批：页面级搜索机会
 
 完整说明见`docs/automation-phase6-page-opportunities-2026-09-02.md`。`page_opportunity_queue.mjs`只接收GSC网页维度聚合数据，先合并`.html`与无后缀canonical变体，再按预注册阈值生成已有页面审查候选。查询词、任意URL、自动建页和自动改标题均被拒绝。
+
+## 第七批：中英文自校验
+
+完整说明见`docs/automation-phase7-bilingual-self-check-2026-09-02.md`。`bilingual_parity.mjs`在发布前比较中英文简报的主题、风险、来源、结构、披露和衡量节点；`postdeploy-bilingual.yml`在main部署后等待精确release，再核对8组线上页面的canonical、hreflang、文章来源、FAQ和风险标记。失败时禁止后续分发，不自动翻译或覆盖内容。

@@ -10,7 +10,7 @@
 
 ## 强制约束
 
-- 只接受`https://feeeye.com`的已验证生产回执，且必须包含64位build ID和40位Git source revision。
+- 只接受`https://feeeye.com`的已验证生产回执，且必须包含64位build ID和40位Git source revision；还必须提供同一build和revision的中英文线上校验回执，且`distribution_allowed=true`。
 - 计划绑定campaign内容哈希、部署build、Git修订和具体排程；任一变化都会使旧计划失效。
 - 一个计划只允许英文或中文其中一组，不允许同一账号默认双语重复发布。
 - 每条草稿只能有一个FeeEye链接，且只能使用注册的`x / social / feeeye-launch` UTM组合。
@@ -27,6 +27,7 @@ node build/ops/distribution_plan.mjs \
   --locale en \
   --start-at 2026-09-03T01:30:00.000Z \
   --verification ops/automation/working/production-verification.json \
+  --bilingual-verification ops/automation/working/postdeploy-bilingual.json \
   --out ops/automation/working/feeeye-launch-en-plan.json
 ```
 
