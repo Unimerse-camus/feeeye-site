@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "window_days": 28,
+  "raw_queries_allowed": false,
+  "personal_dimensions_allowed": false,
+  "automatic_page_creation": false,
+  "automatic_publication": false,
+  "sources": {
+    "gsc": {"status":"connector_ready_credentials_and_private_key_missing","auth":"oauth2_webmasters_readonly","dimensions":["page"]},
+    "bing": {"status":"blocked_new_rest_auth_and_schema_required","legacy_soap_pox_allowed":false,"legacy_retired_at":"2026-08-31"},
+    "cloudflare": {"status":"blocked_zone_dataset_introspection_required","auth":"account_analytics_read_token"}
+  }
+}

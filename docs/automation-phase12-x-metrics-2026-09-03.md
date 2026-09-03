@@ -13,12 +13,12 @@
 - 没有到期检查点时不调用X API。
 - 每个回执每次只处理最早的一个未完成检查点。
 - 每次最多处理3个帖子；先执行一次精确账号检查，再逐帖读取。
-- 快照以排他创建写入`automation-receipts/x-metrics/<idempotency>/<checkpoint>.json`；已存在时跳过。
+- 快照使用`FEEEYE_OPS_DATA_KEY`执行AES-256-GCM认证加密后，以排他创建写入`automation-receipts/x-metrics/<idempotency>/<checkpoint>.json.enc`；公开分支不出现指标明文，已存在时跳过。
 - Live Trial与指标采集共享`x-receipt-ledger`并发锁，避免同时推送回执分支。
 
 ## 工作流状态
 
-`x-metrics.yml`支持手动运行和每日08:07 UTC（北京时间16:07）检查，位于首帖15:48检查点之后约19分钟。定时执行必须存在仓库变量`FEEEYE_X_METRICS=enabled`；当前变量不存在，因此计划任务会被跳过。手动运行只在有到期检查点时调用X。
+`x-metrics.yml`支持手动运行和每日08:07 UTC（北京时间16:07）检查，位于首帖15:48检查点之后约19分钟。定时执行必须存在仓库变量`FEEEYE_X_METRICS=enabled`和32字节加密密钥Secret；缺少密钥会在任何X API调用前失败。发现公开分支隐私边界后，变量已于2026-09-03改回`disabled`，待加密版本部署和密钥配置后再启用。
 
 官方依据：
 

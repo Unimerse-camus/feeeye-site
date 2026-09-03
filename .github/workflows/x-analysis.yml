@@ -35,7 +35,9 @@ jobs:
           node-version: 24
       - name: Generate deterministic non-publishing analysis
         working-directory: source
-        run: node build/ops/x_metrics_analysis.mjs --store ../receipt-ledger --ledger-store ../receipt-ledger --out ops/automation/working/x-analysis-report.json
+        env:
+          FEEEYE_OPS_DATA_KEY: ${{ secrets.FEEEYE_OPS_DATA_KEY }}
+        run: node build/ops/x_metrics_analysis.mjs --store ../receipt-ledger --ledger-store ../receipt-ledger --out ops/automation/working/x-analysis-report.json.enc
       - name: Commit new analysis only to the receipt ledger
         working-directory: receipt-ledger
         run: |
@@ -49,6 +51,6 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: x-analysis-${{ github.sha }}-${{ github.run_id }}
-          path: source/ops/automation/working/x-analysis-report.json
+          path: source/ops/automation/working/x-analysis-report.json.enc
           if-no-files-found: error
           retention-days: 30

@@ -2,7 +2,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
-import { sha256, stable, validInstant, writeNewJson } from './ops_util.mjs';
+import { sha256, stable, validInstant } from './ops_util.mjs';
+import { privateDataKey, readEncryptedJson, writeEncryptedJson } from './private_data_crypto.mjs';
 
 const root=fileURLToPath(new URL('../../',import.meta.url));
 const CHECKPOINTS=['24h','7d','28d'];
@@ -18,14 +19,14 @@ export function validateMetricsSnapshot(snapshot) {
   return snapshot;
 }
 
-export function loadMetricsSnapshots(storeRoot) {
+export function loadMetricsSnapshots(storeRoot,dataKey) {
   const dir=path.join(path.resolve(storeRoot),'x-metrics');if(!fs.existsSync(dir))return[];const snapshots=[];
-  for(const key of fs.readdirSync(dir).sort()){
-    if(!/^[a-f0-9]{64}$/.test(key))throw new Error('Unexpected X metrics ledger directory');
-    const keyDir=path.join(dir,key);
+  for(const directoryKey of fs.readdirSync(dir).sort()){
+    if(!/^[a-f0-9]{64}$/.test(directoryKey))throw new Error('Unexpected X metrics ledger directory');
+    const keyDir=path.join(dir,directoryKey);
     for(const file of fs.readdirSync(keyDir).sort()){
-      if(!/^(24h|7d|28d)\.json$/.test(file))throw new Error('Unexpected X metrics ledger file');
-      const snapshot=validateMetricsSnapshot(JSON.parse(fs.readFileSync(path.join(keyDir,file),'utf8')));if(snapshot.idempotency_key!==key||`${snapshot.checkpoint}.json`!==file)throw new Error('X metrics ledger path mismatch');snapshots.push(snapshot);
+      if(!/^(24h|7d|28d)\.json\.enc$/.test(file))throw new Error('Unexpected X metrics ledger file');
+      const snapshot=validateMetricsSnapshot(readEncryptedJson(path.join(keyDir,file),dataKey));if(snapshot.idempotency_key!==directoryKey||`${snapshot.checkpoint}.json.enc`!==file)throw new Error('X metrics ledger path mismatch');snapshots.push(snapshot);
     }
   }
   return snapshots;
@@ -44,15 +45,13 @@ export function analyzeXMetrics(snapshots) {
   return{schema_version:1,status:'analyzed',analysis_id:sha256(stable(input)),decision,reason,cadence_multiplier:1,automatic_publish_allowed:false,snapshot_count:valid.length,post_count:groups.size,completed_28d_samples:completed.length,facts};
 }
 
-export function recordAnalysis(storeRoot,report) {
+export function recordAnalysis(storeRoot,report,key) {
   if(report.status==='no_metrics')return{created:false,file:null};
-  const dir=path.join(path.resolve(storeRoot),'x-analysis'),file=path.join(dir,`${report.analysis_id}.json`),body=JSON.stringify(report,null,2)+'\n';fs.mkdirSync(dir,{recursive:true});
-  try{fs.writeFileSync(file,body,{flag:'wx',mode:0o600});return{created:true,file};}
-  catch(error){if(error.code!=='EEXIST')throw error;if(stable(JSON.parse(fs.readFileSync(file,'utf8')))!==stable(report))throw new Error('X analysis ID exists with different immutable content');return{created:false,file};}
+  const file=path.join(path.resolve(storeRoot),'x-analysis',`${report.analysis_id}.json.enc`);return writeEncryptedJson(file,report,key);
 }
 
 if(process.argv[1]&&import.meta.url===pathToFileURL(path.resolve(process.argv[1])).href){
   const args=process.argv.slice(2),value=flag=>{const index=args.indexOf(flag);return index>=0?args[index+1]:null;},store=value('--store'),out=value('--out'),ledgerStore=value('--ledger-store');
   if(!store||!out)throw new Error('Usage: --store DIR --out FILE [--ledger-store DIR]');
-  const report=analyzeXMetrics(loadMetricsSnapshots(store));if(ledgerStore)recordAnalysis(ledgerStore,report);writeNewJson(out,report,path.join(root,'ops/automation/working'));console.log(JSON.stringify({status:report.status,analysis_id:report.analysis_id,decision:report.decision,reason:report.reason,snapshot_count:report.snapshot_count,automatic_publish_allowed:false}));
+  const key=privateDataKey(),report=analyzeXMetrics(loadMetricsSnapshots(store,key));if(ledgerStore)recordAnalysis(ledgerStore,report,key);const target=path.resolve(out),working=path.resolve(root,'ops/automation/working')+path.sep;if(!target.startsWith(working)||!target.endsWith('.json.enc'))throw new Error('Encrypted analysis output must be inside ops/automation/working');writeEncryptedJson(target,report,key);console.log(JSON.stringify({status:report.status,analysis_id:report.analysis_id,decision:report.decision,reason:report.reason,snapshot_count:report.snapshot_count,automatic_publish_allowed:false}));
 }
