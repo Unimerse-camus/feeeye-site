@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "id": "feeeye-autonomy-v1",
+  "mode": "autonomous",
+  "publishing_enabled": true,
+  "per_item_approval_required": false,
+  "emergency_stop_engaged": false,
+  "budget": {"monthly_usd_cap":5,"auto_recharge":false},
+  "allowed_content_types": ["brand_education","evergreen_safety","methodology","verified_page_update"],
+  "blocked_content_types": ["price_prediction","personalized_advice","unsolicited_reply","direct_message","unverified_current_fee_claim"],
+  "required_gates": ["source_current","deployment_verified","bilingual_verified","landing_pages_valid","idempotency_key"],
+  "channels": {
+    "website": {"enabled":false,"executor":"github_pr_auto_merge","blocker":"auto_merge_not_configured"},
+    "x": {"enabled":true,"executor":"official_x_api","blocker":""},
+    "youtube": {"enabled":false,"executor":"official_youtube_api","blocker":"oauth_and_api_audit_required"},
+    "reddit": {"enabled":false,"executor":"official_reddit_api","blocker":"api_access_and_platform_approval_required"}
+  }
+}

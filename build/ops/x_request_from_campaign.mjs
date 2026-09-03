@@ -30,8 +30,8 @@ export function requestFromCampaign({campaign,postId,verification,bilingualVerif
 }
 
 if(process.argv[1]&&import.meta.url===pathToFileURL(path.resolve(process.argv[1])).href){
-  const args=process.argv.slice(2),value=flag=>{const index=args.indexOf(flag);return index>=0?args[index+1]:null;},postId=value('--post-id'),verificationFile=value('--verification'),bilingualFile=value('--bilingual-verification'),out=value('--out'),leadMinutes=value('--lead-minutes')===null?5:Number(value('--lead-minutes'));
+  const args=process.argv.slice(2),value=flag=>{const index=args.indexOf(flag);return index>=0?args[index+1]:null;},postId=value('--post-id'),verificationFile=value('--verification'),bilingualFile=value('--bilingual-verification'),out=value('--out'),leadMinutes=value('--lead-minutes')===null?5:Number(value('--lead-minutes')),policyFile=value('--policy')||path.join(root,'ops/automation/autonomy-policy.json');
   if(!postId||!verificationFile||!bilingualFile||!out)throw new Error('Usage: --post-id ID --verification FILE --bilingual-verification FILE --out FILE');
-  const request=requestFromCampaign({campaign:readJson(path.join(root,'ops/automation/campaigns/x-launch-2026-08-31.json')),postId,verification:readJson(verificationFile),bilingualVerification:readJson(bilingualFile),policy:readJson(path.join(root,'ops/automation/autonomy-policy.json')),leadMinutes});
+  const request=requestFromCampaign({campaign:readJson(path.join(root,'ops/automation/campaigns/x-launch-2026-08-31.json')),postId,verification:readJson(verificationFile),bilingualVerification:readJson(bilingualFile),policy:readJson(policyFile),leadMinutes});
   writeNewJson(out,request,path.join(root,'ops/automation/working'));console.log(JSON.stringify({request_id:request.request_id,post_id:postId,post_created:false}));
 }
