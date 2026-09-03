@@ -1,0 +1,58 @@
+name: x-metrics
+
+on:
+  workflow_dispatch:
+  schedule:
+    # 08:07 UTC = 16:07 Asia/Shanghai, shortly after the first post's 15:48 checkpoints.
+    - cron: '7 8 * * *'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: x-receipt-ledger
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    if: github.event_name == 'workflow_dispatch' || vars.FEEEYE_X_METRICS == 'enabled'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out main source
+        uses: actions/checkout@v7
+        with:
+          path: source
+      - name: Check out append-only receipt ledger
+        uses: actions/checkout@v7
+        with:
+          ref: automation-receipts
+          path: receipt-ledger
+          fetch-depth: 1
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+      - name: Collect only due aggregate checkpoints
+        working-directory: source
+        env:
+          FEEEYE_X_CONSUMER_KEY: ${{ secrets.FEEEYE_X_CONSUMER_KEY }}
+          FEEEYE_X_CONSUMER_SECRET: ${{ secrets.FEEEYE_X_CONSUMER_SECRET }}
+          FEEEYE_X_ACCESS_TOKEN: ${{ secrets.FEEEYE_X_ACCESS_TOKEN }}
+          FEEEYE_X_ACCESS_TOKEN_SECRET: ${{ secrets.FEEEYE_X_ACCESS_TOKEN_SECRET }}
+        run: node build/ops/x_metrics_collector.mjs --store ../receipt-ledger --max-posts 3 --out ops/automation/working/x-metrics-report.json
+      - name: Commit new aggregate snapshots only to the receipt ledger
+        working-directory: receipt-ledger
+        run: |
+          if test -z "$(git status --porcelain -- x-metrics)"; then exit 0; fi
+          git config user.name feeeye-automation
+          git config user.email 272079875+Unimerse-camus@users.noreply.github.com
+          git add x-metrics
+          git commit -m "record X metrics $GITHUB_RUN_ID"
+          git push origin HEAD:automation-receipts
+      - name: Upload aggregate-only report
+        uses: actions/upload-artifact@v7
+        with:
+          name: x-metrics-${{ github.sha }}-${{ github.run_id }}
+          path: source/ops/automation/working/x-metrics-report.json
+          if-no-files-found: error
+          retention-days: 30
