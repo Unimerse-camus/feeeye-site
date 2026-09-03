@@ -1,0 +1,54 @@
+name: x-preflight
+
+on:
+  workflow_dispatch:
+    inputs:
+      post_id:
+        description: Frozen text-only FeeEye education post to validate
+        required: true
+        type: choice
+        options:
+          - transfer-en
+          - cost-en
+          - transfer-zh
+          - cost-zh
+
+permissions:
+  contents: read
+
+concurrency:
+  group: x-preflight
+  cancel-in-progress: false
+
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Generate and validate exact candidate build
+        run: node build/generate.mjs
+      - name: Wait for exact deployed release without calling X
+        run: node build/ops/wait_for_deployment.mjs --base-url https://feeeye-site.pages.dev --expected-revision "$GITHUB_SHA" --attempts 36 --delay-ms 10000 --timeout-ms 10000 --out ops/automation/working/x-preflight-release.json
+      - name: Verify live bilingual pages without calling X
+        run: node build/ops/live_bilingual_check.mjs --base-url https://feeeye.com --fetch-base-url https://feeeye-site.pages.dev --expected-release ops/automation/working/x-preflight-release.json --all --out ops/automation/working/x-preflight-bilingual.json
+      - name: Build one hash-bound X request
+        env:
+          FEEEYE_X_POST_ID: ${{ inputs.post_id }}
+        run: node build/ops/x_request_from_campaign.mjs --post-id "$FEEEYE_X_POST_ID" --verification ops/automation/working/x-preflight-release.json --bilingual-verification ops/automation/working/x-preflight-bilingual.json --out ops/automation/working/x-request.json
+      - name: Produce blocked shadow preflight report
+        run: node build/ops/x_publish_executor.mjs --request ops/automation/working/x-request.json --preflight-out ops/automation/working/x-preflight-report.json
+      - name: Upload non-publishing preflight evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: x-preflight-${{ inputs.post_id }}-${{ github.sha }}
+          path: |
+            ops/automation/working/x-preflight-release.json
+            ops/automation/working/x-preflight-bilingual.json
+            ops/automation/working/x-request.json
+            ops/automation/working/x-preflight-report.json
+          if-no-files-found: error
+          retention-days: 30
