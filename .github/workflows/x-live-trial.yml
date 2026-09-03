@@ -1,0 +1,87 @@
+name: x-live-trial
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirmation:
+        description: Type PUBLISH_TRANSFER_EN_ONCE for the separately authorized one-post trial
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: x-live-trial
+  cancel-in-progress: false
+
+jobs:
+  trial:
+    if: inputs.confirmation == 'PUBLISH_TRANSFER_EN_ONCE' && vars.FEEEYE_X_LIVE_TRIAL == 'enabled'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out exact main source
+        uses: actions/checkout@v7
+        with:
+          path: source
+      - name: Check out append-only receipt ledger before any X access
+        uses: actions/checkout@v7
+        with:
+          ref: automation-receipts
+          path: receipt-ledger
+          fetch-depth: 1
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+      - name: Validate source and generate exact build
+        working-directory: source
+        run: node build/validate_local.mjs
+      - name: Wait for exact deployed release
+        working-directory: source
+        run: node build/ops/wait_for_deployment.mjs --base-url https://feeeye-site.pages.dev --expected-revision "$GITHUB_SHA" --attempts 36 --delay-ms 10000 --timeout-ms 10000 --out ops/automation/working/x-live-release.json
+      - name: Verify all bilingual pages
+        working-directory: source
+        run: node build/ops/live_bilingual_check.mjs --base-url https://feeeye.com --fetch-base-url https://feeeye-site.pages.dev --expected-release ops/automation/working/x-live-release.json --all --out ops/automation/working/x-live-bilingual.json
+      - name: Build one transfer-en request with no scheduling delay
+        working-directory: source
+        run: node build/ops/x_request_from_campaign.mjs --post-id transfer-en --lead-minutes 0 --verification ops/automation/working/x-live-release.json --bilingual-verification ops/automation/working/x-live-bilingual.json --out ops/automation/working/x-request.json
+      - name: Stop if an immutable receipt already exists
+        id: receipt
+        working-directory: source
+        run: node build/ops/x_receipt_store.mjs --lookup --store ../receipt-ledger --request ops/automation/working/x-request.json --github-output "$GITHUB_OUTPUT"
+      - name: Publish exactly one root post through the official X API
+        if: steps.receipt.outputs.exists != 'true'
+        working-directory: source
+        env:
+          FEEEYE_X_CONSUMER_KEY: ${{ secrets.FEEEYE_X_CONSUMER_KEY }}
+          FEEEYE_X_CONSUMER_SECRET: ${{ secrets.FEEEYE_X_CONSUMER_SECRET }}
+          FEEEYE_X_ACCESS_TOKEN: ${{ secrets.FEEEYE_X_ACCESS_TOKEN }}
+          FEEEYE_X_ACCESS_TOKEN_SECRET: ${{ secrets.FEEEYE_X_ACCESS_TOKEN_SECRET }}
+          FEEEYE_X_PUBLISHING_ENABLED: ${{ vars.FEEEYE_X_LIVE_TRIAL }}
+        run: node build/ops/x_publish_executor.mjs --request ops/automation/working/x-request.json --execute --out ops/automation/working/x-receipt.json
+      - name: Record immutable receipt
+        if: steps.receipt.outputs.exists != 'true'
+        working-directory: source
+        run: node build/ops/x_receipt_store.mjs --store ../receipt-ledger --request ops/automation/working/x-request.json --receipt ops/automation/working/x-receipt.json
+      - name: Commit receipt only to the non-deployment ledger branch
+        if: steps.receipt.outputs.exists != 'true'
+        working-directory: receipt-ledger
+        run: |
+          git config user.name feeeye-automation
+          git config user.email 272079875+Unimerse-camus@users.noreply.github.com
+          git add x
+          git commit -m "record X receipt $GITHUB_RUN_ID"
+          git push origin HEAD:automation-receipts
+      - name: Upload bounded trial evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: x-live-trial-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            source/ops/automation/working/x-live-release.json
+            source/ops/automation/working/x-live-bilingual.json
+            source/ops/automation/working/x-request.json
+            source/ops/automation/working/x-receipt.json
+          if-no-files-found: warn
+          retention-days: 30

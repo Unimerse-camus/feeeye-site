@@ -32,6 +32,13 @@ export function loadXReceipt(storeRoot,idempotencyKey) {
 
 if(process.argv[1]&&import.meta.url===pathToFileURL(path.resolve(process.argv[1])).href){
   const args=process.argv.slice(2),value=flag=>{const index=args.indexOf(flag);return index>=0?args[index+1]:null;},store=value('--store'),requestFile=value('--request'),receiptFile=value('--receipt');
-  if(!store||!requestFile||!receiptFile)throw new Error('Usage: --store DIR --request FILE --receipt FILE');
+  if(args.includes('--lookup')){
+    if(!store||!requestFile)throw new Error('Usage: --lookup --store DIR --request FILE [--github-output FILE]');
+    const request=readJson(requestFile),receipt=loadXReceipt(store,request.gates.idempotency_key);if(receipt)validateXReceipt(receipt,request);
+    const result={exists:Boolean(receipt),post_url:receipt?.post_url??null};const output=value('--github-output');
+    if(output)fs.appendFileSync(output,`exists=${result.exists}\n`);console.log(JSON.stringify(result));
+  }else{
+    if(!store||!requestFile||!receiptFile)throw new Error('Usage: --store DIR --request FILE --receipt FILE');
   const result=recordXReceipt(store,readJson(receiptFile),readJson(requestFile));console.log(JSON.stringify({created:result.created,file:path.relative(path.resolve(store),result.file)}));
+  }
 }

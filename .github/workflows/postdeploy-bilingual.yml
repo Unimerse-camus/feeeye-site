@@ -13,8 +13,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 12
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
           node-version: 20
       - name: Build the exact candidate
@@ -25,7 +25,7 @@ jobs:
         run: node build/ops/live_bilingual_check.mjs --base-url https://feeeye.com --fetch-base-url https://feeeye-site.pages.dev --expected-release ops/automation/working/postdeploy-release.json --all --out ops/automation/working/postdeploy-bilingual.json
       - name: Upload post-deployment evidence
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: bilingual-postdeploy-${{ github.sha }}
           path: ops/automation/working/postdeploy-*.json

@@ -11,8 +11,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 12
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
           node-version: 20
       - name: Validate exact source revision
@@ -20,7 +20,7 @@ jobs:
       - name: Build deployment and URL-delta candidate
         run: node build/ops/deployment_manifest.mjs --out ops/automation/working/release-candidate.json --quiet
       - name: Upload candidate for human review
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: feeeye-release-candidate-${{ github.sha }}
           path: ops/automation/working/release-candidate.json
