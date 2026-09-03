@@ -1,6 +1,6 @@
 # FeeEye 自动化运营第八阶段：无人值守策略与结果决策
 
-日期：2026-09-02。状态：shadow；不需要逐条内容审批，但尚未配置平台API凭据、预算或OAuth，因此不会真实发布。
+日期：2026-09-02，2026-09-03补充X连接门禁。状态：shadow；不需要逐条内容审批。X的四项OAuth 1.0a凭据已由账号所有者添加到GitHub Secrets；仓库政策登记月度消费上限为5美元且禁止自动充值，外部控制台设置仍需在首次连接前复核。尚未执行只读连接检查或实现发布执行器，因此不会真实发布。
 
 ## 目标模式
 
@@ -11,11 +11,11 @@
 ## 渠道边界
 
 - 网站：需要GitHub自动PR和auto-merge配置。
-- X：只使用官方X API。当前API按量付费，政策文件要求正数月度预算上限且禁止auto-recharge；浏览器自动化被拒绝。
+- X：只使用官方X API。当前API按量付费，政策文件固定5美元月度预算上限且禁止auto-recharge；浏览器自动化被拒绝。`x-connection-check.yml`只能手动触发，对`/2/users/me`执行一次OAuth 1.0a只读身份检查，必须精确匹配`@FeeEyeOfficial`，不会创建帖子。
 - YouTube：只使用官方Data API和OAuth。未完成API项目审计前，自动上传会被限制为私密。
 - Reddit：只有获得官方API和平台批准后才启用。
 
-当前`mode=shadow`、`publishing_enabled=false`，四个渠道均有明确blocker。凭据文件和Token不进入仓库。
+当前`mode=shadow`、`publishing_enabled=false`，四个渠道均有明确blocker。凭据文件和Token不进入仓库；X连接检查只返回脱敏的账号名、只读标志和`post_created=false`。
 
 ## 自动结果决策
 
@@ -23,4 +23,4 @@
 
 ## 仍需一次性设置
 
-彻底启用前必须完成一次性的开发者账号、OAuth、平台用途声明、预算上限和Secrets配置。这些不是内容审核，而是平台授权和财务权限；缺失时系统必须保持shadow。
+彻底启用前必须完成一次性的开发者账号、OAuth、平台用途声明、预算上限和Secrets配置。这些不是内容审核，而是平台授权和财务权限；缺失时系统必须保持shadow。X目前仍需先让只读连接检查在GitHub Actions中通过，再实现带幂等回执、频率限制和失败停机的发布执行器，不能用连接成功替代发布安全验收。

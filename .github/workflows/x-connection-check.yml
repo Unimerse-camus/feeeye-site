@@ -1,0 +1,28 @@
+name: x-connection-check
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: x-connection-check
+  cancel-in-progress: false
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Test connection to the exact FeeEye X account without posting
+        env:
+          FEEEYE_X_CONSUMER_KEY: ${{ secrets.FEEEYE_X_CONSUMER_KEY }}
+          FEEEYE_X_CONSUMER_SECRET: ${{ secrets.FEEEYE_X_CONSUMER_SECRET }}
+          FEEEYE_X_ACCESS_TOKEN: ${{ secrets.FEEEYE_X_ACCESS_TOKEN }}
+          FEEEYE_X_ACCESS_TOKEN_SECRET: ${{ secrets.FEEEYE_X_ACCESS_TOKEN_SECRET }}
+        run: node build/ops/x_connection_check.mjs --expected-username FeeEyeOfficial
