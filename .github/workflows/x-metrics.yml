@@ -39,6 +39,7 @@ jobs:
           FEEEYE_X_CONSUMER_SECRET: ${{ secrets.FEEEYE_X_CONSUMER_SECRET }}
           FEEEYE_X_ACCESS_TOKEN: ${{ secrets.FEEEYE_X_ACCESS_TOKEN }}
           FEEEYE_X_ACCESS_TOKEN_SECRET: ${{ secrets.FEEEYE_X_ACCESS_TOKEN_SECRET }}
+          FEEEYE_OPS_DATA_KEY: ${{ secrets.FEEEYE_OPS_DATA_KEY }}
         run: node build/ops/x_metrics_collector.mjs --store ../receipt-ledger --max-posts 3 --out ops/automation/working/x-metrics-report.json
       - name: Commit new aggregate snapshots only to the receipt ledger
         working-directory: receipt-ledger

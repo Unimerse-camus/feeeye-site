@@ -1,0 +1,72 @@
+name: search-signals-gsc
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '17 2 * * 1'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: x-receipt-ledger
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    if: github.event_name == 'workflow_dispatch' || vars.FEEEYE_GSC == 'enabled'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out trusted main source
+        uses: actions/checkout@v7
+        with:
+          ref: main
+          path: source
+      - name: Check out aggregate receipt ledger
+        uses: actions/checkout@v7
+        with:
+          ref: automation-receipts
+          path: receipt-ledger
+          fetch-depth: 1
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+      - name: Generate canonical page inventory
+        working-directory: source
+        run: node build/generate.mjs
+      - name: Collect final 28-day GSC page aggregates
+        working-directory: source
+        env:
+          FEEEYE_GSC_CLIENT_ID: ${{ secrets.FEEEYE_GSC_CLIENT_ID }}
+          FEEEYE_GSC_CLIENT_SECRET: ${{ secrets.FEEEYE_GSC_CLIENT_SECRET }}
+          FEEEYE_GSC_REFRESH_TOKEN: ${{ secrets.FEEEYE_GSC_REFRESH_TOKEN }}
+          FEEEYE_OPS_DATA_KEY: ${{ secrets.FEEEYE_OPS_DATA_KEY }}
+          FEEEYE_GSC_SITE_URL: ${{ vars.FEEEYE_GSC_SITE_URL }}
+        run: node build/ops/gsc_page_signals.mjs --ledger-store ../receipt-ledger --out ops/automation/working/gsc-page-signals.json --summary-out ops/automation/working/gsc-summary.json
+      - name: Build existing-page opportunity queue
+        working-directory: source
+        run: node build/ops/page_opportunity_queue.mjs --input ops/automation/working/gsc-page-signals.json --out ops/automation/working/gsc-page-opportunities.json
+      - name: Encrypt private opportunity details before retention
+        working-directory: source
+        env:
+          FEEEYE_OPS_DATA_KEY: ${{ secrets.FEEEYE_OPS_DATA_KEY }}
+        run: node build/ops/private_data_crypto.mjs --encrypt --input ops/automation/working/gsc-page-opportunities.json --out ops/automation/working/gsc-page-opportunities.json.enc
+      - name: Commit aggregate page data only to the receipt ledger
+        working-directory: receipt-ledger
+        run: |
+          if test -z "$(git status --porcelain -- search/gsc)"; then exit 0; fi
+          git config user.name feeeye-automation
+          git config user.email 272079875+Unimerse-camus@users.noreply.github.com
+          git add search/gsc
+          git commit -m "record GSC page signals $GITHUB_RUN_ID"
+          git push origin HEAD:automation-receipts
+      - name: Upload page-only search evidence
+        uses: actions/upload-artifact@v7
+        with:
+          name: gsc-page-signals-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            source/ops/automation/working/gsc-summary.json
+            source/ops/automation/working/gsc-page-opportunities.json.enc
+          if-no-files-found: error
+          retention-days: 30

@@ -18,4 +18,4 @@
 
 ## 自动工作流
 
-`x-analysis.yml`在成功的`x-metrics`工作流之后触发，或可手动运行。自动触发要求`FEEEYE_X_ANALYSIS=enabled`；当前变量不存在。工作流不加载任何X Secret、不访问X API，只把确定性分析追加到`automation-receipts/x-analysis/`并上传30天证据产物。
+`x-analysis.yml`在成功的`x-metrics`工作流之后触发，或可手动运行。自动触发要求`FEEEYE_X_ANALYSIS=enabled`。工作流不加载任何X Secret、不访问X API；它使用`FEEEYE_OPS_DATA_KEY`解密指标并把确定性分析重新以AES-256-GCM密文追加到`automation-receipts/x-analysis/`，30天证据产物同样只上传密文。

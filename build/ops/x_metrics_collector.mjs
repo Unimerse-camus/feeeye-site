@@ -3,6 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { buildOAuthHeader, credentialsFromEnv } from './x_connection_check.mjs';
+import { privateDataKey, writeEncryptedJson } from './private_data_crypto.mjs';
 import { stable, validInstant, writeNewJson } from './ops_util.mjs';
 
 const root=fileURLToPath(new URL('../../',import.meta.url));
@@ -29,7 +30,7 @@ export function dueMetrics(receipts,storeRoot,now=new Date().toISOString()) {
   const due=[];
   for(const receipt of receipts){
     for(const [checkpoint,days] of CHECKPOINTS){
-      const dueAt=new Date(Date.parse(receipt.recorded_at)+days*DAY).toISOString(),file=path.join(path.resolve(storeRoot),'x-metrics',receipt.idempotency_key,`${checkpoint}.json`);
+      const dueAt=new Date(Date.parse(receipt.recorded_at)+days*DAY).toISOString(),file=path.join(path.resolve(storeRoot),'x-metrics',receipt.idempotency_key,`${checkpoint}.json.enc`);
       if(Date.parse(now)>=Date.parse(dueAt)&&!fs.existsSync(file)){due.push({receipt,checkpoint,due_at:dueAt,file});break;}
     }
   }
@@ -49,10 +50,11 @@ async function get(credentials,url,fetchImpl) {
   return fetchImpl(url,{method:'GET',headers:{Accept:'application/json',Authorization:buildOAuthHeader(credentials,{url}),'User-Agent':'FeeEye-X-Metrics/1.0'},signal:AbortSignal.timeout(15_000)});
 }
 
-export async function collectDueMetrics({storeRoot,credentials,now=new Date().toISOString(),maxPosts=3,fetchImpl=fetch}) {
+export async function collectDueMetrics({storeRoot,credentials,dataKey=null,now=new Date().toISOString(),maxPosts=3,fetchImpl=fetch}) {
   if(!Number.isInteger(maxPosts)||maxPosts<1||maxPosts>3)throw new Error('Metrics post cap must be 1 to 3');
   const due=dueMetrics(listReceipts(storeRoot),storeRoot,now).slice(0,maxPosts);
   if(!due.length)return{schema_version:1,status:'no_due_checkpoints',observed_at:now,api_reads:0,snapshots:[]};
+  if(!dataKey)throw new Error('Private data key is required before X metrics API access');
   const me=await get(credentials,'https://api.x.com/2/users/me',fetchImpl);
   if(!me.ok)throw new Error(`X metrics identity check failed (HTTP ${me.status})`);
   const account=(await me.json())?.data;if(!account?.id||account.username?.toLowerCase()!=='feeeyeofficial')throw new Error('X metrics identity mismatch');
@@ -63,7 +65,7 @@ export async function collectDueMetrics({storeRoot,credentials,now=new Date().to
     const post=(await response.json())?.data;if(post?.id!==postId)throw new Error('X metrics response post mismatch');
     const metrics=metricsFromPost(post),missing=METRIC_FIELDS.filter(field=>metrics[field]===null);
     const snapshot={schema_version:1,account:'@FeeEyeOfficial',request_id:item.receipt.request_id,idempotency_key:item.receipt.idempotency_key,post_url:item.receipt.post_url,checkpoint:item.checkpoint,due_at:item.due_at,observed_at:now,lag_minutes:Math.floor((Date.parse(now)-Date.parse(item.due_at))/60_000),metrics,missing_fields:missing};
-    fs.mkdirSync(path.dirname(item.file),{recursive:true});fs.writeFileSync(item.file,JSON.stringify(snapshot,null,2)+'\n',{flag:'wx',mode:0o600});snapshots.push(snapshot);
+    writeEncryptedJson(item.file,snapshot,dataKey);snapshots.push(snapshot);
   }
   return{schema_version:1,status:'collected',observed_at:now,api_reads:1+snapshots.length,snapshots:snapshots.map(item=>({post_url:item.post_url,checkpoint:item.checkpoint,due_at:item.due_at,observed_at:item.observed_at,missing_fields:item.missing_fields}))};
 }
@@ -71,5 +73,5 @@ export async function collectDueMetrics({storeRoot,credentials,now=new Date().to
 if(process.argv[1]&&import.meta.url===pathToFileURL(path.resolve(process.argv[1])).href){
   const args=process.argv.slice(2),value=flag=>{const index=args.indexOf(flag);return index>=0?args[index+1]:null;},store=value('--store'),out=value('--out'),cap=Number(value('--max-posts')||3);
   if(!store||!out)throw new Error('Usage: --store DIR --out FILE [--max-posts 1..3]');
-  const report=await collectDueMetrics({storeRoot:store,credentials:credentialsFromEnv(),maxPosts:cap});writeNewJson(out,report,path.join(root,'ops/automation/working'));console.log(JSON.stringify(report));
+  const key=privateDataKey(),report=await collectDueMetrics({storeRoot:store,credentials:credentialsFromEnv(),dataKey:key,maxPosts:cap});writeNewJson(out,report,path.join(root,'ops/automation/working'));console.log(JSON.stringify(report));
 }
