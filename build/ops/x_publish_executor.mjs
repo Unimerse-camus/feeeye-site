@@ -118,12 +118,14 @@ export async function executeXPublish(request,policy,{credentials,fetchImpl=fetc
 }
 
 if(process.argv[1]&&import.meta.url===pathToFileURL(path.resolve(process.argv[1])).href){
-  const args=process.argv.slice(2),requestFile=args[args.indexOf('--request')+1],policyFile=args[args.indexOf('--policy')+1]||path.join(root,'ops/automation/autonomy-policy.json');
-  if(!requestFile)throw new Error('Usage: --request FILE [--policy FILE] [--execute --out FILE]');
+  const args=process.argv.slice(2),value=flag=>{const index=args.indexOf(flag);return index>=0?args[index+1]:null;},requestFile=value('--request'),policyFile=value('--policy')||path.join(root,'ops/automation/autonomy-policy.json');
+  if(!requestFile)throw new Error('Usage: --request FILE [--policy FILE] [--preflight-out FILE | --execute --out FILE]');
+  const requestPath=path.resolve(requestFile),queueRoot=path.resolve(root,'ops/automation');
+  if(!requestPath.startsWith(queueRoot+path.sep)||path.extname(requestPath)!=='.json')throw new Error('Request must be a JSON file inside ops/automation');
   const request=readJson(requestFile),policy=readJson(policyFile),execute=args.includes('--execute');
-  if(!execute){console.log(JSON.stringify(evaluateXPublishPreflight(request,policy,{liveFlag:false}),null,2));}
+  if(!execute){const report=evaluateXPublishPreflight(request,policy,{liveFlag:false}),preflightOut=value('--preflight-out');if(preflightOut)writeNewJson(preflightOut,report,path.join(root,'ops/automation/working'));console.log(JSON.stringify(report,null,2));}
   else{
-    const out=args[args.indexOf('--out')+1];if(!out)throw new Error('--execute requires --out inside ops/automation/working');
+    const out=value('--out');if(!out)throw new Error('--execute requires --out inside ops/automation/working');
     const receipt=await executeXPublish(request,policy,{credentials:credentialsFromEnv(),liveFlag:process.env.FEEEYE_X_PUBLISHING_ENABLED==='enabled'});
     writeNewJson(out,receipt,path.join(root,'ops/automation/working'));console.log(JSON.stringify(receipt));
   }
