@@ -43,6 +43,8 @@ jobs:
         run: node build/ops/test_x_preflight_receipts.mjs
       - name: Test disabled X live-trial workflow offline
         run: node build/ops/test_x_live_trial_workflow.mjs
+      - name: Test aggregate X metrics collector offline
+        run: node build/ops/test_x_metrics_collector.mjs
       - name: Reject broken generated comparison values
         run: |
           if grep -R -E ">undefined<|>NaN<|null×" dist/compare dist/zh/compare; then
