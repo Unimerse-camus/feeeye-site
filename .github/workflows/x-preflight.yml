@@ -25,8 +25,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 12
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
           node-version: 20
       - name: Generate and validate exact candidate build
@@ -42,7 +42,7 @@ jobs:
       - name: Produce blocked shadow preflight report
         run: node build/ops/x_publish_executor.mjs --request ops/automation/working/x-request.json --preflight-out ops/automation/working/x-preflight-report.json
       - name: Upload non-publishing preflight evidence
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: x-preflight-${{ inputs.post_id }}-${{ github.sha }}
           path: |

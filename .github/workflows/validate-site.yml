@@ -13,8 +13,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
           node-version: 20
       - name: Audit exchange data contract
@@ -41,6 +41,8 @@ jobs:
         run: node build/ops/test_x_publish_executor.mjs
       - name: Test X preflight and append-only receipts offline
         run: node build/ops/test_x_preflight_receipts.mjs
+      - name: Test disabled X live-trial workflow offline
+        run: node build/ops/test_x_live_trial_workflow.mjs
       - name: Reject broken generated comparison values
         run: |
           if grep -R -E ">undefined<|>NaN<|null×" dist/compare dist/zh/compare; then

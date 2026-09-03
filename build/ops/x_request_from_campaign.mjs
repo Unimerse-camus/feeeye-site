@@ -16,22 +16,22 @@ function verifiedDeployment(verification,bilingual) {
   return{base_url:'https://feeeye.com',build_id:verification.build_id,source_revision:verification.source_revision,verified_at:verification.checked_at,bilingual_verified_at:bilingual.checked_at};
 }
 
-export function requestFromCampaign({campaign,postId,verification,bilingualVerification,policy,createdAt=new Date().toISOString()}) {
+export function requestFromCampaign({campaign,postId,verification,bilingualVerification,policy,createdAt=new Date().toISOString(),leadMinutes=5}) {
   if(campaign?.id!=='feeeye-launch'||campaign.status!=='draft'||campaign.publishing_enabled!==false||campaign.approval!==null)throw new Error('Frozen FeeEye launch campaign is required');
   if(!Object.prototype.hasOwnProperty.call(CONTENT_TYPES,postId))throw new Error('Only text-only education posts are supported');
-  if(!validInstant(createdAt))throw new Error('Canonical request time is required');
+  if(!validInstant(createdAt)||![0,5].includes(leadMinutes))throw new Error('Canonical request time and allowed lead are required');
   const post=campaign.posts?.find(item=>item.id===postId);
   if(!post||post.image!==null||!['en','zh'].includes(post.locale))throw new Error('Text-only campaign post is missing or invalid');
   const urls=post.text.match(/https:\/\/\S+/g)||[];
   if(urls.length!==1)throw new Error('Campaign post must have exactly one URL');
-  const notBefore=new Date(Date.parse(createdAt)+5*60_000).toISOString();
+  const notBefore=new Date(Date.parse(createdAt)+leadMinutes*60_000).toISOString();
   const expiresAt=new Date(Date.parse(notBefore)+15*60_000).toISOString();
   return buildXPublishRequest({schema_version:1,request_id:`${post.id}-${verification.source_revision.slice(0,12)}`,channel:'x',target_account:'FeeEyeOfficial',locale:post.locale,content_type:CONTENT_TYPES[post.id],created_at:createdAt,not_before:notBefore,expires_at:expiresAt,text:post.text,landing_url:urls[0],deployment:verifiedDeployment(verification,bilingualVerification),gates:{source_current:true,deployment_verified:true,bilingual_verified:true,landing_pages_valid:true}},policy);
 }
 
 if(process.argv[1]&&import.meta.url===pathToFileURL(path.resolve(process.argv[1])).href){
-  const args=process.argv.slice(2),value=flag=>{const index=args.indexOf(flag);return index>=0?args[index+1]:null;},postId=value('--post-id'),verificationFile=value('--verification'),bilingualFile=value('--bilingual-verification'),out=value('--out');
+  const args=process.argv.slice(2),value=flag=>{const index=args.indexOf(flag);return index>=0?args[index+1]:null;},postId=value('--post-id'),verificationFile=value('--verification'),bilingualFile=value('--bilingual-verification'),out=value('--out'),leadMinutes=value('--lead-minutes')===null?5:Number(value('--lead-minutes'));
   if(!postId||!verificationFile||!bilingualFile||!out)throw new Error('Usage: --post-id ID --verification FILE --bilingual-verification FILE --out FILE');
-  const request=requestFromCampaign({campaign:readJson(path.join(root,'ops/automation/campaigns/x-launch-2026-08-31.json')),postId,verification:readJson(verificationFile),bilingualVerification:readJson(bilingualFile),policy:readJson(path.join(root,'ops/automation/autonomy-policy.json'))});
+  const request=requestFromCampaign({campaign:readJson(path.join(root,'ops/automation/campaigns/x-launch-2026-08-31.json')),postId,verification:readJson(verificationFile),bilingualVerification:readJson(bilingualFile),policy:readJson(path.join(root,'ops/automation/autonomy-policy.json')),leadMinutes});
   writeNewJson(out,request,path.join(root,'ops/automation/working'));console.log(JSON.stringify({request_id:request.request_id,post_id:postId,post_created:false}));
 }
