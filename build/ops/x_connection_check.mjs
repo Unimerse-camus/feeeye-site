@@ -24,7 +24,9 @@ export function credentialsFromEnv(env = process.env) {
   };
 }
 
-export function buildOAuthHeader(credentials, { nonce = crypto.randomBytes(18).toString('hex'), timestamp = Math.floor(Date.now() / 1000) } = {}) {
+export function buildOAuthHeader(credentials, { method = 'GET', url = API_URL, nonce = crypto.randomBytes(18).toString('hex'), timestamp = Math.floor(Date.now() / 1000) } = {}) {
+  const parsed = new URL(url);
+  const baseUrl = `${parsed.origin}${parsed.pathname}`;
   const oauth = {
     oauth_consumer_key: credentials.consumerKey,
     oauth_nonce: nonce,
@@ -33,8 +35,11 @@ export function buildOAuthHeader(credentials, { nonce = crypto.randomBytes(18).t
     oauth_token: credentials.accessToken,
     oauth_version: '1.0'
   };
-  const normalized = Object.entries(oauth).sort(([a], [b]) => a.localeCompare(b)).map(([key, value]) => `${encode(key)}=${encode(value)}`).join('&');
-  const base = `GET&${encode(API_URL)}&${encode(normalized)}`;
+  const parameters = [...parsed.searchParams.entries(), ...Object.entries(oauth)]
+    .map(([key, value]) => [encode(key), encode(value)])
+    .sort(([ak, av], [bk, bv]) => ak === bk ? av.localeCompare(bv) : ak.localeCompare(bk));
+  const normalized = parameters.map(([key, value]) => `${key}=${value}`).join('&');
+  const base = `${method.toUpperCase()}&${encode(baseUrl)}&${encode(normalized)}`;
   const signingKey = `${encode(credentials.consumerSecret)}&${encode(credentials.accessTokenSecret)}`;
   oauth.oauth_signature = crypto.createHmac('sha1', signingKey).update(base).digest('base64');
   return `OAuth ${Object.entries(oauth).sort(([a], [b]) => a.localeCompare(b)).map(([key, value]) => `${encode(key)}="${encode(value)}"`).join(', ')}`;

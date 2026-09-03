@@ -22,6 +22,9 @@ assert.match(header, /^OAuth /);
 assert.match(header, /oauth_signature_method="HMAC-SHA1"/);
 assert.match(header, /oauth_signature=/);
 assert.doesNotMatch(header, /consumer-secret|access-token-secret/);
+const queryHeader = buildOAuthHeader(credentials, { url: 'https://api.x.com/2/users/33391143/tweets?max_results=10&exclude=replies%2Cretweets', nonce: 'fixed-nonce', timestamp: 1_700_000_000 });
+assert.notEqual(queryHeader, header);
+assert.doesNotMatch(queryHeader, /consumer-secret|access-token-secret/);
 
 let requested;
 const successFetch = async (url, options) => {
