@@ -1,7 +1,7 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "id": "zh-home-snippet-2026-09-02",
-  "status": "candidate",
+  "status": "observing",
   "canonical": "https://feeeye.com/zh/",
   "locale": "zh",
   "baseline": {
@@ -30,8 +30,17 @@
     "minimum_impressions_before_review": 30,
     "no_new_page": true,
     "no_interim_copy_changes": true,
-    "raw_queries_stored": false
+    "raw_queries_stored": false,
+    "no_overlapping_page_experiment": true,
+    "automatic_mutation": false,
+    "automatic_publication": false
   },
-  "approval_required": true,
-  "deployment_verified": false
+  "approval_required": false,
+  "deployment": {
+    "verified": true,
+    "verified_at": "2026-09-02T06:56:51.751Z",
+    "source_revision": "5f0e950525d6eb2804d957853afeb7906549dd79",
+    "build_id": "98f3dd076477305a523cbe2fe9638f635d7a03a1836e566912de14488c5cb468",
+    "review_not_before": "2026-09-30"
+  }
 }

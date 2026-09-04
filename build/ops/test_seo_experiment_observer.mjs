@@ -1,0 +1,19 @@
+#!/usr/bin/env node
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { experimentObservationSummary, loadLatestGsc, observeExperiment, recordExperimentObservation, validateExperiment } from './seo_experiment_observer.mjs';
+import { readEncryptedJson, writeEncryptedJson } from './private_data_crypto.mjs';
+
+const root=fileURLToPath(new URL('../../',import.meta.url)),workflow=fs.readFileSync(path.join(root,'.github/workflows/seo-experiment-observer.yml'),'utf8'),experiment=validateExperiment(JSON.parse(fs.readFileSync(path.join(root,'ops/automation/experiments/zh-home-snippet-2026-09-02.json'),'utf8')));
+assert.match(workflow,/cron: '57 2 \* \* 1'/);assert.match(workflow,/vars\.FEEEYE_EXPERIMENT_OBSERVER == 'enabled'/);assert.match(workflow,/FEEEYE_OPS_DATA_KEY/);assert.doesNotMatch(workflow,/FEEEYE_GSC_CLIENT|FEEEYE_CLOUDFLARE|FEEEYE_X_|googleapis|api\.x\.com|cloudflare\.com\/client/);
+assert.equal(experiment.status,'observing');assert.equal(experiment.deployment.review_not_before,'2026-09-30');assert.equal(experiment.guardrails.no_overlapping_page_experiment,true);
+const key=Buffer.alloc(32,7),store=fs.mkdtempSync(path.join(os.tmpdir(),'feeeye-experiment-observer-')),gscDir=path.join(store,'search','gsc');fs.mkdirSync(gscDir,{recursive:true});
+const signals=(from,to,impressions=35,present=true)=>({schema_version:1,window:{from,to},coverage:{gsc:{status:'complete',through:to,note_code:'complete_aggregate_export'}},pages:present?[{url:'https://feeeye.com/zh/',clicks:2,impressions,average_position:4.1}]:[]});
+const early=signals('2026-08-04','2026-08-31',71);writeEncryptedJson(path.join(gscDir,'2026-08-31.json.enc'),early,key);assert.deepEqual(loadLatestGsc(store,key),early);const waiting=observeExperiment({experiment,gsc:early,dist:path.join(root,'dist')});assert.equal(waiting.status,'waiting_for_complete_postdeploy_window');assert.equal(waiting.sample_gate_met,false);assert.equal(waiting.next_experiment_allowed,false);
+const low=observeExperiment({experiment,gsc:signals('2026-09-03','2026-09-30',29),dist:path.join(root,'dist')});assert.equal(low.status,'extend_observation');assert.equal(low.reason,'minimum_impressions_not_met');const missing=observeExperiment({experiment,gsc:signals('2026-09-03','2026-09-30',0,false),dist:path.join(root,'dist')});assert.equal(missing.status,'extend_observation');assert.equal(missing.observed,null);
+const ready=observeExperiment({experiment,gsc:signals('2026-09-03','2026-09-30'),dist:path.join(root,'dist')});assert.equal(ready.status,'ready_for_review');assert.equal(ready.sample_gate_met,true);assert.equal(ready.automatic_site_change_allowed,false);assert.equal(ready.automatic_publication_allowed,false);const ledger=fs.mkdtempSync(path.join(os.tmpdir(),'feeeye-experiment-ledger-'));assert.equal(recordExperimentObservation(ledger,ready,key).created,true);assert.equal(recordExperimentObservation(ledger,ready,key).created,false);const file=path.join(ledger,'experiments',`${experiment.id}__2026-09-30.json.enc`);assert.deepEqual(readEncryptedJson(file,key),ready);assert.doesNotMatch(fs.readFileSync(file,'utf8'),/feeeye\.com|impressions|clicks|average_position/);const summary=experimentObservationSummary(ready);assert.equal(summary.private_metrics_logged,false);assert.doesNotMatch(JSON.stringify(summary),/feeeye\.com|impressions|clicks|average_position|canonical/);
+assert.throws(()=>observeExperiment({experiment:{...experiment,status:'candidate'},gsc:early,dist:path.join(root,'dist')}),/Invalid active/);assert.throws(()=>validateExperiment({...experiment,deployment:{...experiment.deployment,review_not_before:'2026-09-29'}}),/28-day freeze/);
+console.log('[OK] SEO experiment observer: reconciled deployment, 28-day freeze, final aggregate gate, encrypted observations, no overlap, and no automatic changes.');
