@@ -25,16 +25,25 @@ async function query(token,body,fetchImpl) {
   return json.data;
 }
 
+async function fieldsForType(token,name,fetchImpl) {
+  if(!name||!/^[A-Za-z_][A-Za-z0-9_]*$/.test(name))throw new Error('Cloudflare GraphQL type name is invalid');
+  const data=await query(token,{query:`query FeeEyeTypeSchema { __type(name: "${name}") { fields(includeDeprecated: true) { name type { ${typeRef} } args { name type { ${typeRef} } } } } }`},fetchImpl);
+  const fields=data?.__type?.fields;
+  if(!Array.isArray(fields))throw new Error('Cloudflare GraphQL type is unavailable');
+  return fields;
+}
+
 export async function probeCloudflareAnalytics({token,fetchImpl=fetch,observedAt=new Date().toISOString()}={}) {
   if(!token)throw new Error('Cloudflare analytics token is required');
-  const account=await query(token,{query:`query FeeEyeAccountSchema { __type(name: "Account") { fields(includeDeprecated: true) { name type { ${typeRef} } args { name type { ${typeRef} } } } } }`},fetchImpl);
-  const fields=account?.__type?.fields;
-  if(!Array.isArray(fields))throw new Error('Cloudflare Account GraphQL type is unavailable');
+  const root=await query(token,{query:`query FeeEyeRootSchema { __schema { queryType { fields(includeDeprecated: true) { name type { ${typeRef} } } } } }`},fetchImpl);
+  const viewerType=unwrap(root?.__schema?.queryType?.fields?.find(field=>field.name==='viewer')?.type);
+  const viewerFields=await fieldsForType(token,viewerType,fetchImpl),accountType=unwrap(viewerFields.find(field=>field.name==='accounts')?.type);
+  const fields=await fieldsForType(token,accountType,fetchImpl);
   const datasets=fields.filter(field=>ALLOWED_DATASETS.includes(field.name)).map(field=>({name:field.name,result_type:unwrap(field.type),arguments:(field.args||[]).map(arg=>arg.name).sort()})).sort((a,b)=>a.name.localeCompare(b.name));
   const types=[];
   for(const name of [...new Set(datasets.map(item=>item.result_type).filter(Boolean))]){
-    const data=await query(token,{query:`query FeeEyeDatasetSchema { __type(name: "${name}") { fields(includeDeprecated: true) { name type { ${typeRef} } } } }`},fetchImpl);
-    types.push({name,fields:(data?.__type?.fields||[]).map(field=>({name:field.name,type:unwrap(field.type)})).sort((a,b)=>a.name.localeCompare(b.name))});
+    const datasetFields=await fieldsForType(token,name,fetchImpl);
+    types.push({name,fields:datasetFields.map(field=>({name:field.name,type:unwrap(field.type)})).sort((a,b)=>a.name.localeCompare(b.name))});
   }
   return{schema_version:1,observed_at:observedAt,account_bound:FEEEYE_CLOUDFLARE_ACCOUNT_ID,site_tag_bound:FEEEYE_CLOUDFLARE_SITE_TAG,hostname_bound:'feeeye.com',permission_required:'Account Analytics Read',probe_kind:'schema_only',data_rows_read:0,datasets,types};
 }
