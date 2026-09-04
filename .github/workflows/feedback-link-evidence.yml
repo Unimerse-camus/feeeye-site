@@ -1,0 +1,55 @@
+name: feedback-link-evidence
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '37 3 * * 1'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: x-receipt-ledger
+  cancel-in-progress: false
+
+jobs:
+  check:
+    if: github.event_name == 'workflow_dispatch' || vars.FEEEYE_FEEDBACK_LINK_EVIDENCE == 'enabled'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out trusted main source
+        uses: actions/checkout@v7
+        with:
+          ref: main
+          path: source
+      - name: Check out encrypted operations ledger
+        uses: actions/checkout@v7
+        with:
+          ref: automation-receipts
+          path: receipt-ledger
+          fetch-depth: 1
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+      - name: Collect registered official link evidence
+        working-directory: source
+        env:
+          FEEEYE_OPS_DATA_KEY: ${{ secrets.FEEEYE_OPS_DATA_KEY }}
+        run: node build/ops/feedback_link_evidence.mjs --store ../receipt-ledger --ledger-store ../receipt-ledger --out ops/automation/working/feedback-link-evidence.json.enc
+      - name: Commit encrypted link evidence only
+        working-directory: receipt-ledger
+        run: |
+          if test -z "$(git status --porcelain -- feedback/link-evidence)"; then exit 0; fi
+          git config user.name feeeye-automation
+          git config user.email 272079875+Unimerse-camus@users.noreply.github.com
+          git add feedback/link-evidence
+          git commit -m "record feedback link evidence $GITHUB_RUN_ID"
+          git push origin HEAD:automation-receipts
+      - name: Upload encrypted link evidence
+        uses: actions/upload-artifact@v7
+        with:
+          name: feedback-link-evidence-${{ github.sha }}-${{ github.run_id }}
+          path: source/ops/automation/working/feedback-link-evidence.json.enc
+          if-no-files-found: error
+          retention-days: 30
