@@ -7,10 +7,14 @@
     article_end_view: ['article_id'],
     learn_quiz_open: ['article_id', 'question_number'],
     learn_tool_open: ['article_id', 'tool'],
+    content_feedback: ['article_id', 'sentiment', 'reason'],
     research_tool_open: ['benchmark_id', 'tool'],
     compare_advanced_open: ['pair'],
     exchange_outbound_open: ['exchange']
   };
+  var FEEDBACK_ARTICLES = ['before-you-start','avoid-crypto-scams','secure-crypto-account','choose-crypto-exchange','first-spot-trade','crypto-total-cost','safe-crypto-transfer','custody-vs-self-custody'];
+  var FEEDBACK_SENTIMENTS = ['helpful','needs_improvement'];
+  var FEEDBACK_REASONS = ['none','unclear','missing_step','outdated','broken_link','other'];
   var EXCHANGE_HOSTS = {
     'binance.com': 'binance', 'www.binance.com': 'binance',
     'okx.com': 'okx', 'www.okx.com': 'okx',
@@ -63,6 +67,13 @@
   }
   function track(name, properties) {
     if (!Object.prototype.hasOwnProperty.call(EVENT_FIELDS, name)) return false;
+    if (name === 'content_feedback') {
+      var article = cleanText(properties && properties.article_id);
+      var sentiment = cleanText(properties && properties.sentiment);
+      var reason = cleanText(properties && properties.reason);
+      if (FEEDBACK_ARTICLES.indexOf(article) === -1 || FEEDBACK_SENTIMENTS.indexOf(sentiment) === -1 || FEEDBACK_REASONS.indexOf(reason) === -1) return false;
+      if ((sentiment === 'helpful') !== (reason === 'none')) return false;
+    }
     var allowed = EVENT_FIELDS[name];
     var payload = {
       lang: (document.documentElement.lang || 'en').toLowerCase().indexOf('zh') === 0 ? 'zh' : 'en',
@@ -132,6 +143,38 @@
           observer.disconnect();
         }, { threshold: 0.25 });
         observer.observe(finish);
+      }
+      var feedback = document.querySelector('[data-content-feedback]');
+      if (feedback) {
+        var feedbackKey = 'feeeye_feedback_v1_' + ((document.documentElement.lang || 'en').toLowerCase().indexOf('zh') === 0 ? 'zh' : 'en') + '_' + articleId;
+        var feedbackDone = false;
+        try { feedbackDone = sessionStorage.getItem(feedbackKey) === '1'; } catch (_) {}
+        var prompt = feedback.querySelector('[data-feedback-prompt]');
+        var reasons = feedback.querySelector('[data-feedback-reasons]');
+        var thanks = feedback.querySelector('[data-feedback-thanks]');
+        var unavailable = feedback.querySelector('[data-feedback-unavailable]');
+        function finishFeedback(sentiment, reason) {
+          if (feedbackDone) return;
+          if (!track('content_feedback', { article_id: articleId, sentiment: sentiment, reason: reason })) {
+            if (reasons) reasons.hidden = true;
+            if (unavailable) unavailable.hidden = false;
+            return;
+          }
+          feedbackDone = true;
+          try { sessionStorage.setItem(feedbackKey, '1'); } catch (_) {}
+          if (prompt) prompt.hidden = true;
+          if (reasons) reasons.hidden = true;
+          if (thanks) thanks.hidden = false;
+        }
+        if (feedbackDone) { if (prompt) prompt.hidden = true; if (thanks) thanks.hidden = false; }
+        feedback.addEventListener('click', function (event) {
+          var button = event.target.closest && event.target.closest('button[data-feedback-value]');
+          if (!button || feedbackDone) return;
+          var value = button.getAttribute('data-feedback-value');
+          if (value === 'helpful') finishFeedback('helpful', 'none');
+          else if (value === 'needs_improvement') { if (reasons) reasons.hidden = false; }
+          else if (FEEDBACK_REASONS.indexOf(value) !== -1 && value !== 'none') finishFeedback('needs_improvement', value);
+        });
       }
     }
 
