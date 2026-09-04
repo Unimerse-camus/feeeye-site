@@ -1,0 +1,64 @@
+name: zaraz-feedback
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '7 3 * * 1'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: x-receipt-ledger
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    if: github.event_name == 'workflow_dispatch' || vars.FEEEYE_FEEDBACK == 'enabled'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out trusted main source
+        uses: actions/checkout@v7
+        with:
+          ref: main
+          path: source
+      - name: Check out encrypted operations ledger
+        uses: actions/checkout@v7
+        with:
+          ref: automation-receipts
+          path: receipt-ledger
+          fetch-depth: 1
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+      - name: Collect allowlisted aggregate feedback
+        working-directory: source
+        env:
+          FEEEYE_CLOUDFLARE_ANALYTICS_TOKEN: ${{ secrets.FEEEYE_CLOUDFLARE_ANALYTICS_TOKEN }}
+          FEEEYE_CLOUDFLARE_ZONE_ID: ${{ vars.FEEEYE_CLOUDFLARE_ZONE_ID }}
+          FEEEYE_OPS_DATA_KEY: ${{ secrets.FEEEYE_OPS_DATA_KEY }}
+        run: node build/ops/zaraz_feedback_collector.mjs --ledger-store ../receipt-ledger --out-encrypted ops/automation/working/zaraz-feedback.json.enc --summary-out ops/automation/working/zaraz-feedback-summary.json
+      - name: Build encrypted content improvement queue
+        working-directory: source
+        env:
+          FEEEYE_OPS_DATA_KEY: ${{ secrets.FEEEYE_OPS_DATA_KEY }}
+        run: node build/ops/feedback_improvement_queue.mjs --input-encrypted ops/automation/working/zaraz-feedback.json.enc --out-encrypted ops/automation/working/feedback-improvement-queue.json.enc
+      - name: Commit encrypted feedback snapshot only
+        working-directory: receipt-ledger
+        run: |
+          if test -z "$(git status --porcelain -- feedback/zaraz)"; then exit 0; fi
+          git config user.name feeeye-automation
+          git config user.email 272079875+Unimerse-camus@users.noreply.github.com
+          git add feedback/zaraz
+          git commit -m "record aggregate feedback $GITHUB_RUN_ID"
+          git push origin HEAD:automation-receipts
+      - name: Upload safe summary and encrypted queue
+        uses: actions/upload-artifact@v7
+        with:
+          name: zaraz-feedback-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            source/ops/automation/working/zaraz-feedback-summary.json
+            source/ops/automation/working/feedback-improvement-queue.json.enc
+          if-no-files-found: error
+          retention-days: 30

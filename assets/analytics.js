@@ -7,14 +7,19 @@
     article_end_view: ['article_id'],
     learn_quiz_open: ['article_id', 'question_number'],
     learn_tool_open: ['article_id', 'tool'],
-    content_feedback: ['article_id', 'sentiment', 'reason'],
+    content_feedback_helpful: [],
+    content_feedback_unclear: [],
+    content_feedback_missing_step: [],
+    content_feedback_outdated: [],
+    content_feedback_broken_link: [],
+    content_feedback_other: [],
     research_tool_open: ['benchmark_id', 'tool'],
     compare_advanced_open: ['pair'],
     exchange_outbound_open: ['exchange']
   };
   var FEEDBACK_ARTICLES = ['before-you-start','avoid-crypto-scams','secure-crypto-account','choose-crypto-exchange','first-spot-trade','crypto-total-cost','safe-crypto-transfer','custody-vs-self-custody'];
-  var FEEDBACK_SENTIMENTS = ['helpful','needs_improvement'];
   var FEEDBACK_REASONS = ['none','unclear','missing_step','outdated','broken_link','other'];
+  var FEEDBACK_EVENTS = {none:'content_feedback_helpful',unclear:'content_feedback_unclear',missing_step:'content_feedback_missing_step',outdated:'content_feedback_outdated',broken_link:'content_feedback_broken_link',other:'content_feedback_other'};
   var EXCHANGE_HOSTS = {
     'binance.com': 'binance', 'www.binance.com': 'binance',
     'okx.com': 'okx', 'www.okx.com': 'okx',
@@ -67,13 +72,6 @@
   }
   function track(name, properties) {
     if (!Object.prototype.hasOwnProperty.call(EVENT_FIELDS, name)) return false;
-    if (name === 'content_feedback') {
-      var article = cleanText(properties && properties.article_id);
-      var sentiment = cleanText(properties && properties.sentiment);
-      var reason = cleanText(properties && properties.reason);
-      if (FEEDBACK_ARTICLES.indexOf(article) === -1 || FEEDBACK_SENTIMENTS.indexOf(sentiment) === -1 || FEEDBACK_REASONS.indexOf(reason) === -1) return false;
-      if ((sentiment === 'helpful') !== (reason === 'none')) return false;
-    }
     var allowed = EVENT_FIELDS[name];
     var payload = {
       lang: (document.documentElement.lang || 'en').toLowerCase().indexOf('zh') === 0 ? 'zh' : 'en',
@@ -155,7 +153,8 @@
         var unavailable = feedback.querySelector('[data-feedback-unavailable]');
         function finishFeedback(sentiment, reason) {
           if (feedbackDone) return;
-          if (!track('content_feedback', { article_id: articleId, sentiment: sentiment, reason: reason })) {
+          var eventName = FEEDBACK_ARTICLES.indexOf(articleId) !== -1 && ((sentiment === 'helpful' && reason === 'none') || (sentiment === 'needs_improvement' && reason !== 'none')) ? FEEDBACK_EVENTS[reason] : null;
+          if (!eventName || !track(eventName)) {
             if (reasons) reasons.hidden = true;
             if (unavailable) unavailable.hidden = false;
             return;
