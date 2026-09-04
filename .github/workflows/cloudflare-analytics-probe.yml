@@ -1,0 +1,31 @@
+name: cloudflare-analytics-probe
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out trusted main source
+        uses: actions/checkout@v7
+        with:
+          ref: main
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+      - name: Probe schema only
+        env:
+          FEEEYE_CLOUDFLARE_ANALYTICS_TOKEN: ${{ secrets.FEEEYE_CLOUDFLARE_ANALYTICS_TOKEN }}
+        run: node build/ops/cloudflare_analytics_probe.mjs --out ops/automation/working/cloudflare-analytics-schema.json
+      - name: Upload non-data schema capability report
+        uses: actions/upload-artifact@v7
+        with:
+          name: cloudflare-analytics-schema-${{ github.sha }}-${{ github.run_id }}
+          path: ops/automation/working/cloudflare-analytics-schema.json
+          if-no-files-found: error
+          retention-days: 7
