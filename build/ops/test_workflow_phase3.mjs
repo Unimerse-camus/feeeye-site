@@ -14,6 +14,9 @@ import { readJson } from './ops_util.mjs';
 import { validateDeltaSubmission, run as runIndexNow } from '../submit_indexnow.mjs';
 
 const root=fileURLToPath(new URL('../../',import.meta.url));
+const healthWorkflow=fs.readFileSync(path.join(root,'.github/workflows/ops-health.yml'),'utf8');
+assert.match(healthWorkflow,/default: https:\/\/feeeye-site\.pages\.dev/);
+assert.match(healthWorkflow,/inputs\.base_url \|\| 'https:\/\/feeeye-site\.pages\.dev'/);
 const refreshWorkflow=fs.readFileSync(path.join(root,'.github/workflows/refresh-coins.yml'),'utf8');
 assert.ok(!/\n  push:\n/.test(refreshWorkflow));
 assert.ok(!refreshWorkflow.includes('git push origin main'));

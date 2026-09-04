@@ -6,7 +6,7 @@ on:
       base_url:
         description: HTTPS site origin to check
         required: true
-        default: https://feeeye.com
+        default: https://feeeye-site.pages.dev
   schedule:
     # 01:17 UTC = 09:17 Asia/Shanghai. Non-round minute reduces scheduler contention.
     - cron: '17 1 * * *'
@@ -27,5 +27,7 @@ jobs:
           node-version: 20
       - name: Check public FeeEye endpoints
         env:
-          FEEEYE_HEALTH_BASE_URL: ${{ inputs.base_url || 'https://feeeye.com' }}
+          # GitHub-hosted runners are blocked by the public-domain WAF. Check the
+          # same immutable production deployment through its Pages origin.
+          FEEEYE_HEALTH_BASE_URL: ${{ inputs.base_url || 'https://feeeye-site.pages.dev' }}
         run: node build/ops/health_check.mjs --base-url "$FEEEYE_HEALTH_BASE_URL"
