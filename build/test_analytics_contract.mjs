@@ -39,14 +39,10 @@ for(const event of ['unknown_event','tool_use','learn_article_complete']) assert
 assert.equal(captured.length,n);
 api.track('tool_interaction',{tool:'total-cost-calculator'});
 api.track('article_end_view',{article_id:'safe-crypto-transfer'});
-assert.equal(api.track('content_feedback',{article_id:'safe-crypto-transfer',sentiment:'helpful',reason:'none',comment:'private text',email:'a@example.com'}),true);
-assert.equal(captured.at(-1).payload.comment,undefined);assert.equal(captured.at(-1).payload.email,undefined);assert.equal(captured.at(-1).payload.reason,'none');
-assert.equal(api.track('content_feedback',{article_id:'safe-crypto-transfer',sentiment:'needs_improvement',reason:'unclear'}),true);
-assert.equal(api.track('content_feedback',{article_id:'safe-crypto-transfer',sentiment:'needs_improvement',reason:'free text'}),false);
-assert.equal(api.track('content_feedback',{article_id:'../../secret',sentiment:'helpful',reason:'none'}),false);
-assert.equal(api.track('content_feedback',{article_id:'safe-crypto-transfer',sentiment:'helpful',reason:'unclear'}),false);
-for(const article_id of ['before-you-start','avoid-crypto-scams','secure-crypto-account','choose-crypto-exchange','first-spot-trade','crypto-total-cost','safe-crypto-transfer','custody-vs-self-custody']) assert.equal(api.track('content_feedback',{article_id,sentiment:'helpful',reason:'none'}),true);
-assert.equal(captured.length,n+12);
+for(const event of ['content_feedback_helpful','content_feedback_unclear','content_feedback_missing_step','content_feedback_outdated','content_feedback_broken_link','content_feedback_other']) {assert.equal(api.track(event,{comment:'private text',email:'a@example.com',article_id:'private'}),true);assert.equal(captured.at(-1).payload.comment,undefined);assert.equal(captured.at(-1).payload.email,undefined);assert.equal(captured.at(-1).payload.article_id,undefined);}
+assert.equal(api.track('content_feedback_private',{comment:'secret'}),false);
+assert.equal(api.track('content_feedback',{article_id:'safe-crypto-transfer',sentiment:'helpful',reason:'none'}),false);
+assert.equal(captured.length,n+8);
 window.zaraz=null;
 assert.equal(api.track('coin_search_open'),false);
 window.zaraz={track:()=>{throw new Error('offline');}};
