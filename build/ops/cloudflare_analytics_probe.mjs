@@ -33,23 +33,35 @@ async function fieldsForType(token,name,fetchImpl) {
   return fields;
 }
 
+async function inputFieldsForType(token,name,fetchImpl) {
+  if(!name||!/^[A-Za-z_][A-Za-z0-9_]*$/.test(name))throw new Error('Cloudflare GraphQL input type name is invalid');
+  const data=await query(token,{query:`query FeeEyeInputSchema { __type(name: "${name}") { inputFields { name type { ${typeRef} } } } }`},fetchImpl);
+  const fields=data?.__type?.inputFields;
+  if(!Array.isArray(fields))throw new Error('Cloudflare GraphQL input type is unavailable');
+  return fields;
+}
+
 export async function probeCloudflareAnalytics({token,fetchImpl=fetch,observedAt=new Date().toISOString()}={}) {
   if(!token)throw new Error('Cloudflare analytics token is required');
   const root=await query(token,{query:`query FeeEyeRootSchema { __schema { queryType { fields(includeDeprecated: true) { name type { ${typeRef} } } } } }`},fetchImpl);
   const viewerType=unwrap(root?.__schema?.queryType?.fields?.find(field=>field.name==='viewer')?.type);
   const viewerFields=await fieldsForType(token,viewerType,fetchImpl),accountType=unwrap(viewerFields.find(field=>field.name==='accounts')?.type);
   const fields=await fieldsForType(token,accountType,fetchImpl);
-  const datasets=fields.filter(field=>ALLOWED_DATASETS.includes(field.name)).map(field=>({name:field.name,result_type:unwrap(field.type),arguments:(field.args||[]).map(arg=>arg.name).sort()})).sort((a,b)=>a.name.localeCompare(b.name));
+  const datasets=fields.filter(field=>ALLOWED_DATASETS.includes(field.name)).map(field=>({name:field.name,result_type:unwrap(field.type),arguments:(field.args||[]).map(arg=>({name:arg.name,type:unwrap(arg.type)})).sort((a,b)=>a.name.localeCompare(b.name))})).sort((a,b)=>a.name.localeCompare(b.name));
   const types=[];
   for(const name of [...new Set(datasets.map(item=>item.result_type).filter(Boolean))]){
     const datasetFields=await fieldsForType(token,name,fetchImpl);
     types.push({name,fields:datasetFields.map(field=>({name:field.name,type:unwrap(field.type)})).sort((a,b)=>a.name.localeCompare(b.name))});
   }
-  return{schema_version:1,observed_at:observedAt,account_bound:FEEEYE_CLOUDFLARE_ACCOUNT_ID,site_tag_bound:FEEEYE_CLOUDFLARE_SITE_TAG,hostname_bound:'feeeye.com',permission_required:'Account Analytics Read',probe_kind:'schema_only',data_rows_read:0,datasets,types};
+  const nestedNames=[...new Set(types.flatMap(type=>type.fields.filter(field=>['avg','dimensions','quantiles','sum','uniq'].includes(field.name)).map(field=>field.type)).filter(Boolean))];
+  const nested=[];for(const name of nestedNames){const nestedFields=await fieldsForType(token,name,fetchImpl);nested.push({name,fields:nestedFields.map(field=>({name:field.name,type:unwrap(field.type)})).sort((a,b)=>a.name.localeCompare(b.name))});}
+  const inputNames=[...new Set(datasets.flatMap(dataset=>dataset.arguments.filter(arg=>arg.name==='filter').map(arg=>arg.type)).filter(Boolean))];
+  const inputs=[];for(const name of inputNames){const inputFields=await inputFieldsForType(token,name,fetchImpl);inputs.push({name,fields:inputFields.map(field=>({name:field.name,type:unwrap(field.type)})).sort((a,b)=>a.name.localeCompare(b.name))});}
+  return{schema_version:1,observed_at:observedAt,account_bound:FEEEYE_CLOUDFLARE_ACCOUNT_ID,site_tag_bound:FEEEYE_CLOUDFLARE_SITE_TAG,hostname_bound:'feeeye.com',permission_required:'Account Analytics Read',probe_kind:'schema_only',data_rows_read:0,datasets,types,nested,inputs};
 }
 
 export function cloudflareProbeSummary(result) {
-  return{schema_version:result.schema_version,observed_at:result.observed_at,probe_kind:result.probe_kind,data_rows_read:result.data_rows_read,dataset_names:result.datasets.map(item=>item.name),dataset_count:result.datasets.length,type_count:result.types.length,private_details_logged:false};
+  return{schema_version:result.schema_version,observed_at:result.observed_at,probe_kind:result.probe_kind,data_rows_read:result.data_rows_read,dataset_names:result.datasets.map(item=>item.name),dataset_count:result.datasets.length,type_count:result.types.length,nested_type_count:result.nested.length,input_type_count:result.inputs.length,private_details_logged:false};
 }
 
 if(process.argv[1]&&import.meta.url===pathToFileURL(path.resolve(process.argv[1])).href){
