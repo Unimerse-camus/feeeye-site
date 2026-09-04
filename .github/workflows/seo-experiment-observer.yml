@@ -1,0 +1,58 @@
+name: seo-experiment-observer
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '57 2 * * 1'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: x-receipt-ledger
+  cancel-in-progress: false
+
+jobs:
+  observe:
+    if: github.event_name == 'workflow_dispatch' || vars.FEEEYE_EXPERIMENT_OBSERVER == 'enabled'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out trusted main source
+        uses: actions/checkout@v7
+        with:
+          ref: main
+          path: source
+      - name: Check out encrypted operations ledger
+        uses: actions/checkout@v7
+        with:
+          ref: automation-receipts
+          path: receipt-ledger
+          fetch-depth: 1
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+      - name: Generate canonical inventory
+        working-directory: source
+        run: node build/generate.mjs
+      - name: Observe active SEO experiment from encrypted aggregate data
+        working-directory: source
+        env:
+          FEEEYE_OPS_DATA_KEY: ${{ secrets.FEEEYE_OPS_DATA_KEY }}
+        run: node build/ops/seo_experiment_observer.mjs --store ../receipt-ledger --ledger-store ../receipt-ledger --experiment ops/automation/experiments/zh-home-snippet-2026-09-02.json --out ops/automation/working/seo-experiment-observation.json.enc
+      - name: Commit encrypted observation only
+        working-directory: receipt-ledger
+        run: |
+          if test -z "$(git status --porcelain -- experiments)"; then exit 0; fi
+          git config user.name feeeye-automation
+          git config user.email 272079875+Unimerse-camus@users.noreply.github.com
+          git add experiments
+          git commit -m "record SEO experiment observation $GITHUB_RUN_ID"
+          git push origin HEAD:automation-receipts
+      - name: Upload encrypted observation
+        uses: actions/upload-artifact@v7
+        with:
+          name: seo-experiment-observation-${{ github.sha }}-${{ github.run_id }}
+          path: source/ops/automation/working/seo-experiment-observation.json.enc
+          if-no-files-found: error
+          retention-days: 30
