@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "updated_at": "2026-09-07",
+  "coins": [
+    { "symbol": "AKE", "name": "Akedo", "cg_id": "akedo", "last_seen": "2026-08-29" },
+    { "symbol": "ANSEM", "name": "The Black Bull", "cg_id": "the-black-bull", "last_seen": "2026-08-29" },
+    { "symbol": "APEPE", "name": "Ape and Pepe", "cg_id": "ape-and-pepe", "last_seen": "2026-08-26" },
+    { "symbol": "BASECAT", "name": "Basecat", "cg_id": "basecat", "last_seen": "2026-08-24" },
+    { "symbol": "CATALORIAN", "name": "Elon's Space Cat", "cg_id": "elon-s-space-cat", "last_seen": "2026-08-23" },
+    { "symbol": "CFG", "name": "Centrifuge", "cg_id": "centrifuge-2", "last_seen": "2026-08-25" },
+    { "symbol": "CFX", "name": "Conflux", "cg_id": "conflux-token", "last_seen": "2026-08-27" },
+    { "symbol": "CYBERLEEK", "name": "CyberLeek", "cg_id": "cyberleek", "last_seen": "2026-08-24" },
+    { "symbol": "DAI", "name": "Dai", "cg_id": "dai", "last_seen": "2026-08-12" },
+    { "symbol": "FARTCOIN", "name": "Fartcoin", "cg_id": "fartcoin", "last_seen": "2026-08-29" },
+    { "symbol": "FIGR_HELOC", "name": "Figure Heloc", "cg_id": "figure-heloc", "last_seen": "2026-08-12" },
+    { "symbol": "FOLD", "name": "The Interfold", "cg_id": "interfold", "last_seen": "2026-08-25" },
+    { "symbol": "JASMY", "name": "JasmyCoin", "cg_id": "jasmycoin", "last_seen": "2026-08-25" },
+    { "symbol": "JTO", "name": "Jito", "cg_id": "jito-governance-token", "last_seen": "2026-08-30" },
+    { "symbol": "KNTQ", "name": "Kinetiq", "cg_id": "kinetiq", "last_seen": "2026-08-24" },
+    { "symbol": "NCT", "name": "PolySwarm", "cg_id": "polyswarm", "last_seen": "2026-08-26" },
+    { "symbol": "PEAQ", "name": "peaq", "cg_id": "peaq-2", "last_seen": "2026-08-25" },
+    { "symbol": "USDS", "name": "USDS", "cg_id": "usds", "last_seen": "2026-08-12" },
+    { "symbol": "USDT", "name": "Tether", "cg_id": "tether", "last_seen": "2026-08-12" },
+    { "symbol": "VELVET", "name": "Velvet", "cg_id": "velvet", "last_seen": "2026-08-23" },
+    { "symbol": "ZANO", "name": "Zano", "cg_id": "zano", "last_seen": "2026-08-24" }
+  ]
+}
