@@ -25,10 +25,12 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { loadCoinUrlRegistry, mergeCoinUrlRegistry } from './coin_url_registry.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, '..');
 const outPath = path.join(root, 'data', 'coins.json');
+const registryPath = path.join(root, 'data', 'coin-url-registry.json');
 
 const CG = 'https://pro-api.coingecko.com/api/v3';
 
@@ -170,6 +172,7 @@ const CATEGORY_OVERRIDE = {
 };
 
 async function main() {
+  const previousCoins=fs.existsSync(outPath)?JSON.parse(fs.readFileSync(outPath,'utf8')).coins||[]:[];
   console.log(`🔄 Fetching top ${TOP} coins from CoinGecko...`);
   const markets = [];
   for (let page = 1; markets.length < TOP; page++) {
@@ -318,7 +321,10 @@ async function main() {
     trending_count: coins.filter((c) => c.trending).length,
     hotlist_count: coins.filter((c) => c.hotlist).length
   };
+  const today=new Date().toISOString().slice(0,10);
+  const registry=mergeCoinUrlRegistry(loadCoinUrlRegistry(registryPath),previousCoins,coins,today);
   fs.writeFileSync(outPath, JSON.stringify({ meta, coins }, null, 2));
+  fs.writeFileSync(registryPath, JSON.stringify(registry, null, 2)+'\n');
   console.log(`✅ Wrote ${coins.length} coins → data/coins.json (removed ${skipped} junk: stablecoins/RWA funds/bad symbols)`);
   console.log(`   coverage_mode=${meta.coverage_mode}`);
   const kc = coins.filter((c) => c.exchanges.includes('kucoin')).length;

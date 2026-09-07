@@ -20,6 +20,7 @@ import { fileURLToPath } from 'node:url';
 import { validateExchangeData } from './exchange_data_validation.mjs';
 import { auditGlossaryFile } from './audit_glossary_data.mjs';
 import { LEARNING_ARTICLES, LEARNING_REVIEWED_AT, LEARNING_SOURCES, validateLearningContent } from './learning_content.mjs';
+import { coinUrlSlug, loadCoinUrlRegistry } from './coin_url_registry.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, '..');
@@ -195,6 +196,8 @@ if (fs.existsSync(coinJsonPath)) {
 }
 const COIN_MAP = Object.fromEntries(COIN_LIST.map((c) => [c.symbol.toUpperCase(), c]));
 const coinCount = COIN_LIST.length;
+const activeCoinSymbols=new Set(COIN_LIST.map(c=>c.symbol.toUpperCase()));
+const retiredCoins=loadCoinUrlRegistry(path.join(dataDir,'coin-url-registry.json')).coins.filter(c=>!activeCoinSymbols.has(c.symbol));
 
 // ---- 格式化 ----
 function esc(s) { return String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])); }
@@ -1052,6 +1055,26 @@ function whereToBuy(c, lang) {
   return page({ lang, title: T(lang, 'wbTitle', { n: name, s: symbol }), desc: T(lang, 'wbDesc', { n: name, s: symbol }), body, jsonLd, path: `${lang === 'zh' ? 'zh/' : ''}where-to-buy/${c.symbol.toLowerCase()}.html`, affiliate: true });
 }
 
+function coinDirectoryPage(lang) {
+  const zh=lang==='zh';
+  const sorted=[...COIN_LIST].sort((a,b)=>a.rank-b.rank);
+  const items=sorted.map(c=>`<li><a href="${absPath(lang,`where-to-buy/${coinUrlSlug(c.symbol)}.html`)}">${esc(c.name)} (${esc(c.symbol)})</a></li>`).join('');
+  const title=zh?'币种购买信息目录 — FeeEye':'Coin availability directory — FeeEye';
+  const desc=zh?'浏览 FeeEye 当前有数据支持的币种购买与交易所覆盖页面。':'Browse coin availability pages currently supported by FeeEye data.';
+  const body=`<main class="learn-page"><article class="learn-article"><h1>${title}</h1><p class="learn-article-summary">${desc}</p><p>${zh?'币种排名与交易所覆盖会变化；请在操作前到交易所官网复核地区限制、币种、网络和费用。':'Rankings and exchange coverage change. Verify region eligibility, asset, network and fees on the exchange before acting.'}</p><ul>${items}</ul></article></main>`;
+  const jsonLd={'@context':'https://schema.org','@type':'ItemList',name:title,itemListElement:sorted.map((c,index)=>({'@type':'ListItem',position:index+1,name:`${c.name} (${c.symbol})`,url:`${SITE_URL}/${canonPath(`${lang==='zh'?'zh/':''}where-to-buy/${coinUrlSlug(c.symbol)}.html`)}`}))};
+  return page({lang,title,desc,body,jsonLd,path:`${lang==='zh'?'zh/':''}where-to-buy/index.html`,affiliate:false,noDisc:true});
+}
+
+function retiredCoinPage(coin,lang) {
+  const zh=lang==='zh',symbol=coin.symbol,name=coin.name;
+  const title=zh?`${name}（${symbol}）当前无可用数据 — FeeEye`:`${name} (${symbol}) data currently unavailable — FeeEye`;
+  const desc=zh?`FeeEye 当前没有 ${symbol} 的有效市场与交易所覆盖快照。`:`FeeEye does not currently have a valid market and exchange-coverage snapshot for ${symbol}.`;
+  const warning=zh?`该币种最后一次出现在 FeeEye 数据集的日期为 ${coin.last_seen}。它可能已移出监测范围、被归为不适合购买页的资产，或更改了市场身份。`:`This symbol last appeared in FeeEye's dataset on ${coin.last_seen}. It may have moved outside the monitored set, been excluded from purchase pages, or changed market identity.`;
+  const body=`<main class="learn-page"><article class="learn-article"><h1>${title}</h1><p class="learn-article-summary">${desc}</p><div class="learn-warning"><b>${zh?'不要依赖旧数据：':'Do not rely on archived availability: '}</b>${warning}</div><p>${zh?'请先核对代号、合约地址和官方来源，再决定是否继续。':'Verify the ticker, contract address and official sources before deciding whether to continue.'}</p><p><a class="cta" href="${absPath(lang,'index.html')}">${zh?'搜索当前支持的币种':'Search currently supported coins'}</a> <a class="cta" href="${absPath(lang,learnPath('choose-crypto-exchange'))}">${zh?'查看平台选择教程':'Read the exchange-selection guide'}</a></p></article></main>`;
+  return page({lang,title,desc,body,path:`${lang==='zh'?'zh/':''}where-to-buy/${coinUrlSlug(symbol)}.html`,affiliate:false,noDisc:true,noIndex:true});
+}
+
 function exchangePage(slug, lang) {
   const ex = EX[slug];
   const zh = lang === 'zh';
@@ -1893,8 +1916,12 @@ for (const lang of ['en', 'zh']) {
     write(`${lang === 'zh' ? 'zh/' : ''}${learnPath(article.slug)}`, learningArticlePage(article, lang)); count++;
   }
   write(`${lang === 'zh' ? 'zh/' : ''}${researchPath()}`, researchBenchmarkPage(lang)); count++;
+  write(`${lang === 'zh' ? 'zh/' : ''}where-to-buy/index.html`,coinDirectoryPage(lang));count++;
   for (const c of COIN_LIST) {
     write(`${lang === 'zh' ? 'zh/' : ''}where-to-buy/${c.symbol.toLowerCase()}.html`, whereToBuy(c, lang)); count++;
+  }
+  for(const coin of retiredCoins){
+    write(`${lang==='zh'?'zh/':''}where-to-buy/${coinUrlSlug(coin.symbol)}.html`,retiredCoinPage(coin,lang));count++;
   }
   for (const slug of Object.keys(EX)) {
     write(`${lang === 'zh' ? 'zh/' : ''}exchanges/${slug}.html`, exchangePage(slug, lang)); count++;
