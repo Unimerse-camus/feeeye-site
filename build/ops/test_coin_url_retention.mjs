@@ -7,6 +7,9 @@ import { coinPageSlug, loadCoinUrlRegistry, mergeCoinUrlRegistry } from '../coin
 
 const root=fileURLToPath(new URL('../../',import.meta.url));
 const registry=loadCoinUrlRegistry(path.join(root,'data','coin-url-registry.json'));
+const currentCoins=JSON.parse(fs.readFileSync(path.join(root,'data','coins.json'),'utf8')).coins;
+assert.ok(Array.isArray(currentCoins)&&currentCoins.length>0);
+const activeCoin=currentCoins[0],activeSlug=coinPageSlug(activeCoin.symbol);
 assert.equal(coinPageSlug('INDEX'),'index-token');
 assert.equal(coinPageSlug('BTC'),'btc');
 const reported404Paths=['/where-to-buy/velvet.html','/where-to-buy/cyberleek.html','/zh/where-to-buy/fartcoin.html','/where-to-buy/velvet','/zh/where-to-buy/ansem.html','/where-to-buy/ansem.html','/where-to-buy/cyberleek','/zh/where-to-buy/ake.html','/where-to-buy/catalorian','/zh/where-to-buy/ansem','/where-to-buy/ansem','/where-to-buy/catalorian.html','/zh/where-to-buy/apepe','/zh/where-to-buy/fartcoin','/zh/where-to-buy/jto.html','/where-to-buy/basecat','/where-to-buy/usdt.html','/zh/where-to-buy/fold.html','/where-to-buy/kntq','/zh/where-to-buy/cfg.html','/where-to-buy/figr_heloc.html','/where-to-buy/dai.html','/zh/where-to-buy/','/where-to-buy/','/zh/where-to-buy/cyberleek','/zh/where-to-buy/peaq.html','/where-to-buy/usds.html','/zh/where-to-buy/apepe.html','/zh/where-to-buy/jasmy.html','/zh/where-to-buy/real.html','/zh/where-to-buy/cfx.html','/zh/where-to-buy/nct.html','/where-to-buy/cfx.html','/zh/where-to-buy/basecat','/where-to-buy/zano'];
@@ -20,9 +23,9 @@ for(const locale of ['', 'zh/']){
   assert.match(retired,/2026-08-23/);
   const directory=fs.readFileSync(path.join(root,'dist',locale,'where-to-buy','index.html'),'utf8');
   assert.doesNotMatch(directory,/<meta name="robots" content="noindex/);
-  assert.match(directory,/where-to-buy\/btc\.html/);
+  assert.ok(directory.includes(`where-to-buy/${activeSlug}.html`));
 }
-const active=fs.readFileSync(path.join(root,'dist','where-to-buy','real.html'),'utf8');
+const active=fs.readFileSync(path.join(root,'dist','where-to-buy',`${activeSlug}.html`),'utf8');
 assert.doesNotMatch(active,/<meta name="robots" content="noindex/);
 const sitemap=fs.readFileSync(path.join(root,'dist','sitemap.xml'),'utf8');
 assert.match(sitemap,/<loc>https:\/\/feeeye.com\/where-to-buy\/<\/loc>/);
