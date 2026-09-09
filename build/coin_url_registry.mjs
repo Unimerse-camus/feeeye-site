@@ -10,6 +10,11 @@ export function coinUrlSlug(symbol) {
   return value.toLowerCase();
 }
 
+export function coinPageSlug(symbol) {
+  const slug=coinUrlSlug(symbol);
+  return slug==='index'?'index-token':slug;
+}
+
 export function validateCoinUrlRegistry(registry) {
   exact(registry,['schema_version','updated_at','coins'],'coin URL registry');
   if(registry.schema_version!==1||!DAY_RE.test(registry.updated_at)||!Array.isArray(registry.coins))throw new Error('Invalid coin URL registry');
