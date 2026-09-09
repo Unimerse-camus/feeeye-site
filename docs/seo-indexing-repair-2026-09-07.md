@@ -12,3 +12,9 @@ The 404 examples were concentrated in `/where-to-buy/`. Daily CoinGecko snapshot
 - a regression test covering all 35 Search Console example paths and ensuring historical pages stay out of the sitemap.
 
 The separate `refresh-coin-data` failure was not a CoinGecko collection failure. Data collection, offline validation, the candidate commit and the dedicated branch push succeeded. The final PR step failed because the repository setting does not currently permit GitHub Actions to create pull requests. Enabling that repository permission is a separate access-control change and is not performed by this code repair.
+
+## 2026-09-09 follow-up
+
+After the permission was enabled, the next candidate introduced the legitimate ticker `INDEX`. Its historical symbol-based route collided with the reserved directory file `/where-to-buy/index.html`, and the Phase 27 regression test correctly stopped the refresh before commit or deployment. Phase 27b maps only that reserved ticker to `/where-to-buy/index-token`; all existing coin URLs remain unchanged.
+
+The Phase 27 post-deployment bilingual check also observed one stale `release.json` response immediately after an exact deployment receipt. Phase 27b adds a bounded cache-busted stability check: at most three release reads, followed by the same fail-closed bilingual verification. A permanently mismatched build or revision is still rejected.

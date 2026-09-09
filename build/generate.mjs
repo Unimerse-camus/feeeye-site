@@ -20,7 +20,7 @@ import { fileURLToPath } from 'node:url';
 import { validateExchangeData } from './exchange_data_validation.mjs';
 import { auditGlossaryFile } from './audit_glossary_data.mjs';
 import { LEARNING_ARTICLES, LEARNING_REVIEWED_AT, LEARNING_SOURCES, validateLearningContent } from './learning_content.mjs';
-import { coinUrlSlug, loadCoinUrlRegistry } from './coin_url_registry.mjs';
+import { coinPageSlug, loadCoinUrlRegistry } from './coin_url_registry.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, '..');
@@ -475,7 +475,7 @@ function coinsPage(lang) {
   const title = zh ? '全部币种 — 在哪里购买' : 'All Coins — Where to Buy';
   const desc = zh ? `浏览全部追踪币种，搜索并找到每个币在哪里买。` : `Browse all tracked coins and find where to buy each.`;
   const items = [...COIN_LIST].sort((a, b) => a.rank - b.rank)
-    .map((c) => `<a class="pill" data-sym="${c.symbol.toLowerCase()}" href="${lang === 'zh' ? '/zh/' : '/'}where-to-buy/${c.symbol.toLowerCase()}.html">${esc(c.name)} (${esc(c.symbol)})</a>`)
+    .map((c) => `<a class="pill" data-sym="${c.symbol.toLowerCase()}" href="${lang === 'zh' ? '/zh/' : '/'}where-to-buy/${coinPageSlug(c.symbol)}.html">${esc(c.name)} (${esc(c.symbol)})</a>`)
     .join('');
   const body = `
   <h1>${zh ? '全部币种' : 'All Coins'}</h1>
@@ -1052,17 +1052,17 @@ function whereToBuy(c, lang) {
       { '@type': 'Question', name: T(lang, 'wbQ1', { n: name, s: symbol }), acceptedAnswer: { '@type': 'Answer', text: T(lang, 'wbA1', { n: name, s: symbol, c: c.exchanges.length }) } }
     ]
   };
-  return page({ lang, title: T(lang, 'wbTitle', { n: name, s: symbol }), desc: T(lang, 'wbDesc', { n: name, s: symbol }), body, jsonLd, path: `${lang === 'zh' ? 'zh/' : ''}where-to-buy/${c.symbol.toLowerCase()}.html`, affiliate: true });
+  return page({ lang, title: T(lang, 'wbTitle', { n: name, s: symbol }), desc: T(lang, 'wbDesc', { n: name, s: symbol }), body, jsonLd, path: `${lang === 'zh' ? 'zh/' : ''}where-to-buy/${coinPageSlug(c.symbol)}.html`, affiliate: true });
 }
 
 function coinDirectoryPage(lang) {
   const zh=lang==='zh';
   const sorted=[...COIN_LIST].sort((a,b)=>a.rank-b.rank);
-  const items=sorted.map(c=>`<li><a href="${absPath(lang,`where-to-buy/${coinUrlSlug(c.symbol)}.html`)}">${esc(c.name)} (${esc(c.symbol)})</a></li>`).join('');
+  const items=sorted.map(c=>`<li><a href="${absPath(lang,`where-to-buy/${coinPageSlug(c.symbol)}.html`)}">${esc(c.name)} (${esc(c.symbol)})</a></li>`).join('');
   const title=zh?'币种购买信息目录 — FeeEye':'Coin availability directory — FeeEye';
   const desc=zh?'浏览 FeeEye 当前有数据支持的币种购买与交易所覆盖页面。':'Browse coin availability pages currently supported by FeeEye data.';
   const body=`<main class="learn-page"><article class="learn-article"><h1>${title}</h1><p class="learn-article-summary">${desc}</p><p>${zh?'币种排名与交易所覆盖会变化；请在操作前到交易所官网复核地区限制、币种、网络和费用。':'Rankings and exchange coverage change. Verify region eligibility, asset, network and fees on the exchange before acting.'}</p><ul>${items}</ul></article></main>`;
-  const jsonLd={'@context':'https://schema.org','@type':'ItemList',name:title,itemListElement:sorted.map((c,index)=>({'@type':'ListItem',position:index+1,name:`${c.name} (${c.symbol})`,url:`${SITE_URL}/${canonPath(`${lang==='zh'?'zh/':''}where-to-buy/${coinUrlSlug(c.symbol)}.html`)}`}))};
+  const jsonLd={'@context':'https://schema.org','@type':'ItemList',name:title,itemListElement:sorted.map((c,index)=>({'@type':'ListItem',position:index+1,name:`${c.name} (${c.symbol})`,url:`${SITE_URL}/${canonPath(`${lang==='zh'?'zh/':''}where-to-buy/${coinPageSlug(c.symbol)}.html`)}`}))};
   return page({lang,title,desc,body,jsonLd,path:`${lang==='zh'?'zh/':''}where-to-buy/index.html`,affiliate:false,noDisc:true});
 }
 
@@ -1072,7 +1072,7 @@ function retiredCoinPage(coin,lang) {
   const desc=zh?`FeeEye 当前没有 ${symbol} 的有效市场与交易所覆盖快照。`:`FeeEye does not currently have a valid market and exchange-coverage snapshot for ${symbol}.`;
   const warning=zh?`该币种最后一次出现在 FeeEye 数据集的日期为 ${coin.last_seen}。它可能已移出监测范围、被归为不适合购买页的资产，或更改了市场身份。`:`This symbol last appeared in FeeEye's dataset on ${coin.last_seen}. It may have moved outside the monitored set, been excluded from purchase pages, or changed market identity.`;
   const body=`<main class="learn-page"><article class="learn-article"><h1>${title}</h1><p class="learn-article-summary">${desc}</p><div class="learn-warning"><b>${zh?'不要依赖旧数据：':'Do not rely on archived availability: '}</b>${warning}</div><p>${zh?'请先核对代号、合约地址和官方来源，再决定是否继续。':'Verify the ticker, contract address and official sources before deciding whether to continue.'}</p><p><a class="cta" href="${absPath(lang,'index.html')}">${zh?'搜索当前支持的币种':'Search currently supported coins'}</a> <a class="cta" href="${absPath(lang,learnPath('choose-crypto-exchange'))}">${zh?'查看平台选择教程':'Read the exchange-selection guide'}</a></p></article></main>`;
-  return page({lang,title,desc,body,path:`${lang==='zh'?'zh/':''}where-to-buy/${coinUrlSlug(symbol)}.html`,affiliate:false,noDisc:true,noIndex:true});
+  return page({lang,title,desc,body,path:`${lang==='zh'?'zh/':''}where-to-buy/${coinPageSlug(symbol)}.html`,affiliate:false,noDisc:true,noIndex:true});
 }
 
 function exchangePage(slug, lang) {
@@ -1764,7 +1764,7 @@ function indexPage(lang) {
     if (!searchKeysBySymbol[symbol]) searchKeysBySymbol[symbol] = [];
     searchKeysBySymbol[symbol].push(key);
   });
-  const coinSearchItems = COIN_LIST.map((c) => ({ symbol: c.symbol, name: c.name, keys: searchKeysBySymbol[c.symbol] || [], rank: c.rank || 999999, category: catOf(c) }));
+  const coinSearchItems = COIN_LIST.map((c) => ({ symbol: c.symbol, slug: coinPageSlug(c.symbol), name: c.name, keys: searchKeysBySymbol[c.symbol] || [], rank: c.rank || 999999, category: catOf(c) }));
   const searchPh = lang === 'zh' ? '搜索币种，如 BTC、ETH、SOL' : 'Search a coin, e.g. BTC, ETH, SOL';
   const searchBtn = lang === 'zh' ? '搜索' : 'Search';
   const searchNf = lang === 'zh' ? '未找到该币种，请检查币种代号' : 'Coin not found — check the ticker';
@@ -1834,7 +1834,7 @@ function indexPage(lang) {
       input.setAttribute('aria-activedescendant',options[active].id);
     }
     function metric(name,properties){if(window.FeeEyeAnalytics) window.FeeEyeAnalytics.track(name,properties||{});}
-    function openCoin(symbol,position){metric('coin_search_result_open',{symbol:symbol,position:position||0});location.href = PREFIX + symbol.toLowerCase() + '.html';}
+    function openCoin(symbol,position){var item=ITEMS.find(function(candidate){return candidate.symbol===symbol;});metric('coin_search_result_open',{symbol:symbol,position:position||0});location.href = PREFIX + (item?item.slug:symbol.toLowerCase()) + '.html';}
     function render(){
       var q = norm(input.value);
       results = ITEMS.filter(function(item){
@@ -1918,10 +1918,10 @@ for (const lang of ['en', 'zh']) {
   write(`${lang === 'zh' ? 'zh/' : ''}${researchPath()}`, researchBenchmarkPage(lang)); count++;
   write(`${lang === 'zh' ? 'zh/' : ''}where-to-buy/index.html`,coinDirectoryPage(lang));count++;
   for (const c of COIN_LIST) {
-    write(`${lang === 'zh' ? 'zh/' : ''}where-to-buy/${c.symbol.toLowerCase()}.html`, whereToBuy(c, lang)); count++;
+    write(`${lang === 'zh' ? 'zh/' : ''}where-to-buy/${coinPageSlug(c.symbol)}.html`, whereToBuy(c, lang)); count++;
   }
   for(const coin of retiredCoins){
-    write(`${lang==='zh'?'zh/':''}where-to-buy/${coinUrlSlug(coin.symbol)}.html`,retiredCoinPage(coin,lang));count++;
+    write(`${lang==='zh'?'zh/':''}where-to-buy/${coinPageSlug(coin.symbol)}.html`,retiredCoinPage(coin,lang));count++;
   }
   for (const slug of Object.keys(EX)) {
     write(`${lang === 'zh' ? 'zh/' : ''}exchanges/${slug}.html`, exchangePage(slug, lang)); count++;
@@ -2013,8 +2013,8 @@ write('_headers', [
 ].join('\n'));
 
 // 404 兜底页（绝对链接，防止任何相对链接在错误路径下继续叠层）；en/zh 各一份纯语言模板
-const hotCoins = [...COIN_LIST].sort((a, b) => a.rank - b.rank).slice(0, 10).map((c) => `<a href="/where-to-buy/${c.symbol.toLowerCase()}.html">${c.symbol}</a>`).join(' · ');
-const hotCoinsZh = [...COIN_LIST].sort((a, b) => a.rank - b.rank).slice(0, 10).map((c) => `<a href="/zh/where-to-buy/${c.symbol.toLowerCase()}.html">${c.symbol}</a>`).join(' · ');
+const hotCoins = [...COIN_LIST].sort((a, b) => a.rank - b.rank).slice(0, 10).map((c) => `<a href="/where-to-buy/${coinPageSlug(c.symbol)}.html">${c.symbol}</a>`).join(' · ');
+const hotCoinsZh = [...COIN_LIST].sort((a, b) => a.rank - b.rank).slice(0, 10).map((c) => `<a href="/zh/where-to-buy/${coinPageSlug(c.symbol)}.html">${c.symbol}</a>`).join(' · ');
 write('404.html', `<!doctype html>
 <html lang="en">
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
