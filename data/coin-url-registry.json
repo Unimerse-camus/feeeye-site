@@ -1,27 +1,954 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-09-07",
+  "updated_at": "2026-09-12",
   "coins": [
-    { "symbol": "AKE", "name": "Akedo", "cg_id": "akedo", "last_seen": "2026-08-29" },
-    { "symbol": "ANSEM", "name": "The Black Bull", "cg_id": "the-black-bull", "last_seen": "2026-08-29" },
-    { "symbol": "APEPE", "name": "Ape and Pepe", "cg_id": "ape-and-pepe", "last_seen": "2026-08-26" },
-    { "symbol": "BASECAT", "name": "Basecat", "cg_id": "basecat", "last_seen": "2026-08-24" },
-    { "symbol": "CATALORIAN", "name": "Elon's Space Cat", "cg_id": "elon-s-space-cat", "last_seen": "2026-08-23" },
-    { "symbol": "CFG", "name": "Centrifuge", "cg_id": "centrifuge-2", "last_seen": "2026-08-25" },
-    { "symbol": "CFX", "name": "Conflux", "cg_id": "conflux-token", "last_seen": "2026-08-27" },
-    { "symbol": "CYBERLEEK", "name": "CyberLeek", "cg_id": "cyberleek", "last_seen": "2026-08-24" },
-    { "symbol": "DAI", "name": "Dai", "cg_id": "dai", "last_seen": "2026-08-12" },
-    { "symbol": "FARTCOIN", "name": "Fartcoin", "cg_id": "fartcoin", "last_seen": "2026-08-29" },
-    { "symbol": "FIGR_HELOC", "name": "Figure Heloc", "cg_id": "figure-heloc", "last_seen": "2026-08-12" },
-    { "symbol": "FOLD", "name": "The Interfold", "cg_id": "interfold", "last_seen": "2026-08-25" },
-    { "symbol": "JASMY", "name": "JasmyCoin", "cg_id": "jasmycoin", "last_seen": "2026-08-25" },
-    { "symbol": "JTO", "name": "Jito", "cg_id": "jito-governance-token", "last_seen": "2026-08-30" },
-    { "symbol": "KNTQ", "name": "Kinetiq", "cg_id": "kinetiq", "last_seen": "2026-08-24" },
-    { "symbol": "NCT", "name": "PolySwarm", "cg_id": "polyswarm", "last_seen": "2026-08-26" },
-    { "symbol": "PEAQ", "name": "peaq", "cg_id": "peaq-2", "last_seen": "2026-08-25" },
-    { "symbol": "USDS", "name": "USDS", "cg_id": "usds", "last_seen": "2026-08-12" },
-    { "symbol": "USDT", "name": "Tether", "cg_id": "tether", "last_seen": "2026-08-12" },
-    { "symbol": "VELVET", "name": "Velvet", "cg_id": "velvet", "last_seen": "2026-08-23" },
-    { "symbol": "ZANO", "name": "Zano", "cg_id": "zano", "last_seen": "2026-08-24" }
+    {
+      "symbol": "A7A5",
+      "name": "A7A5",
+      "cg_id": "a7a5",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "AAVE",
+      "name": "Aave",
+      "cg_id": "aave",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "ADA",
+      "name": "Cardano",
+      "cg_id": "cardano",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "AERO",
+      "name": "Aerodrome Finance",
+      "cg_id": "aerodrome-finance",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "AI",
+      "name": "Artificial Inu",
+      "cg_id": "artificial-inu-3",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "AKE",
+      "name": "Akedo",
+      "cg_id": "akedo",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "ALGO",
+      "name": "Algorand",
+      "cg_id": "algorand",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "ANSEM",
+      "name": "The Black Bull",
+      "cg_id": "the-black-bull",
+      "last_seen": "2026-08-29"
+    },
+    {
+      "symbol": "APEPE",
+      "name": "Ape and Pepe",
+      "cg_id": "ape-and-pepe",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "APT",
+      "name": "Aptos",
+      "cg_id": "aptos",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "APXUSD",
+      "name": "apxUSD",
+      "cg_id": "apxusd",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "ARB",
+      "name": "Arbitrum",
+      "cg_id": "arbitrum",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "ASTER",
+      "name": "Aster",
+      "cg_id": "aster-2",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "ATOM",
+      "name": "Cosmos Hub",
+      "cg_id": "cosmos",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "AVAX",
+      "name": "Avalanche",
+      "cg_id": "avalanche-2",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "BASECAT",
+      "name": "Basecat",
+      "cg_id": "basecat",
+      "last_seen": "2026-08-24"
+    },
+    {
+      "symbol": "BCAP",
+      "name": "Blockchain Capital",
+      "cg_id": "blockchain-capital",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "BCH",
+      "name": "Bitcoin Cash",
+      "cg_id": "bitcoin-cash",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "BDX",
+      "name": "Beldex",
+      "cg_id": "beldex",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "BGB",
+      "name": "Bitget Token",
+      "cg_id": "bitget-token",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "BNB",
+      "name": "BNB",
+      "cg_id": "binancecoin",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "BONK",
+      "name": "Bonk",
+      "cg_id": "bonk",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "BSV",
+      "name": "Bitcoin SV",
+      "cg_id": "bitcoin-cash-sv",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "BTC",
+      "name": "Bitcoin",
+      "cg_id": "bitcoin",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "BTT",
+      "name": "BitTorrent",
+      "cg_id": "bittorrent",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "BTW",
+      "name": "Bitway",
+      "cg_id": "bitway",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "CAKE",
+      "name": "PancakeSwap",
+      "cg_id": "pancakeswap-token",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "CASHCAT",
+      "name": "Cash Cat",
+      "cg_id": "cash-cat",
+      "last_seen": "2026-08-31"
+    },
+    {
+      "symbol": "CATALORIAN",
+      "name": "Elon's Space Cat",
+      "cg_id": "elon-s-space-cat",
+      "last_seen": "2026-08-23"
+    },
+    {
+      "symbol": "CC",
+      "name": "Canton",
+      "cg_id": "canton-network",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "CFG",
+      "name": "Centrifuge",
+      "cg_id": "centrifuge-2",
+      "last_seen": "2026-08-25"
+    },
+    {
+      "symbol": "CFX",
+      "name": "Conflux",
+      "cg_id": "conflux-token",
+      "last_seen": "2026-08-27"
+    },
+    {
+      "symbol": "CRO",
+      "name": "Cronos",
+      "cg_id": "crypto-com-chain",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "CRV",
+      "name": "Curve DAO",
+      "cg_id": "curve-dao-token",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "CYBERLEEK",
+      "name": "CyberLeek",
+      "cg_id": "cyberleek",
+      "last_seen": "2026-08-24"
+    },
+    {
+      "symbol": "DAI",
+      "name": "Dai",
+      "cg_id": "dai",
+      "last_seen": "2026-08-12"
+    },
+    {
+      "symbol": "DASH",
+      "name": "Dash",
+      "cg_id": "dash",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "DCR",
+      "name": "Decred",
+      "cg_id": "decred",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "DOGE",
+      "name": "Dogecoin",
+      "cg_id": "dogecoin",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "DOT",
+      "name": "Polkadot",
+      "cg_id": "polkadot",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "EMBER",
+      "name": "embercurve",
+      "cg_id": "embercurve",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "ENA",
+      "name": "Ethena",
+      "cg_id": "ethena",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "ENS",
+      "name": "Ethereum Name Service",
+      "cg_id": "ethereum-name-service",
+      "last_seen": "2026-08-31"
+    },
+    {
+      "symbol": "ETC",
+      "name": "Ethereum Classic",
+      "cg_id": "ethereum-classic",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "ETH",
+      "name": "Ethereum",
+      "cg_id": "ethereum",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "ETHFI",
+      "name": "Ether.fi",
+      "cg_id": "ether-fi",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "FARTCOIN",
+      "name": "Fartcoin",
+      "cg_id": "fartcoin",
+      "last_seen": "2026-08-29"
+    },
+    {
+      "symbol": "FET",
+      "name": "Artificial Superintelligence Alliance",
+      "cg_id": "fetch-ai",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "FF",
+      "name": "Falcon Finance",
+      "cg_id": "falcon-finance-ff",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "FIGR_HELOC",
+      "name": "Figure Heloc",
+      "cg_id": "figure-heloc",
+      "last_seen": "2026-08-12"
+    },
+    {
+      "symbol": "FIL",
+      "name": "Filecoin",
+      "cg_id": "filecoin",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "FLOKI",
+      "name": "FLOKI",
+      "cg_id": "floki",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "FLR",
+      "name": "Flare",
+      "cg_id": "flare-networks",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "FOLD",
+      "name": "The Interfold",
+      "cg_id": "interfold",
+      "last_seen": "2026-08-25"
+    },
+    {
+      "symbol": "GNO",
+      "name": "Gnosis",
+      "cg_id": "gnosis",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "GRAM",
+      "name": "Gram (prev. Toncoin)",
+      "cg_id": "the-open-network",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "GT",
+      "name": "Gate",
+      "cg_id": "gatechain-token",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "HASH",
+      "name": "Provenance Blockchain",
+      "cg_id": "hash-2",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "HBAR",
+      "name": "Hedera",
+      "cg_id": "hedera-hashgraph",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "HNT",
+      "name": "Helium",
+      "cg_id": "helium",
+      "last_seen": "2026-08-31"
+    },
+    {
+      "symbol": "HTX",
+      "name": "HTX DAO",
+      "cg_id": "htx-dao",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "HYPE",
+      "name": "Hyperliquid",
+      "cg_id": "hyperliquid",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "ICP",
+      "name": "Internet Computer",
+      "cg_id": "internet-computer",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "INJ",
+      "name": "Injective",
+      "cg_id": "injective-protocol",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "JASMY",
+      "name": "JasmyCoin",
+      "cg_id": "jasmycoin",
+      "last_seen": "2026-08-25"
+    },
+    {
+      "symbol": "JST",
+      "name": "JUST",
+      "cg_id": "just",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "JTO",
+      "name": "Jito",
+      "cg_id": "jito-governance-token",
+      "last_seen": "2026-08-30"
+    },
+    {
+      "symbol": "JUP",
+      "name": "Jupiter",
+      "cg_id": "jupiter-exchange-solana",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "KAG",
+      "name": "Kinesis Silver",
+      "cg_id": "kinesis-silver",
+      "last_seen": "2026-08-31"
+    },
+    {
+      "symbol": "KAS",
+      "name": "Kaspa",
+      "cg_id": "kaspa",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "KAU",
+      "name": "Kinesis Gold",
+      "cg_id": "kinesis-gold",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "KCS",
+      "name": "KuCoin",
+      "cg_id": "kucoin-shares",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "KITE",
+      "name": "Kite",
+      "cg_id": "kite-2",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "KNTQ",
+      "name": "Kinetiq",
+      "cg_id": "kinetiq",
+      "last_seen": "2026-08-24"
+    },
+    {
+      "symbol": "LAB",
+      "name": "LAB",
+      "cg_id": "lab",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "LAPTOP",
+      "name": "Hunter Biden's Laptop",
+      "cg_id": "hunter-biden-s-laptop-3",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "LDO",
+      "name": "Lido DAO",
+      "cg_id": "lido-dao",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "LEO",
+      "name": "LEO Token",
+      "cg_id": "leo-token",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "LINK",
+      "name": "Chainlink",
+      "cg_id": "chainlink",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "LIT",
+      "name": "Lighter",
+      "cg_id": "lighter",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "LTC",
+      "name": "Litecoin",
+      "cg_id": "litecoin",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "LUNC",
+      "name": "Terra Luna Classic",
+      "cg_id": "terra-luna",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "M",
+      "name": "MemeCore",
+      "cg_id": "memecore",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "MNT",
+      "name": "Mantle",
+      "cg_id": "mantle",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "MON",
+      "name": "Monad",
+      "cg_id": "monad",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "MORPHO",
+      "name": "Morpho",
+      "cg_id": "morpho",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "NCT",
+      "name": "PolySwarm",
+      "cg_id": "polyswarm",
+      "last_seen": "2026-08-26"
+    },
+    {
+      "symbol": "NEAR",
+      "name": "NEAR Protocol",
+      "cg_id": "near",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "NEXO",
+      "name": "NEXO",
+      "cg_id": "nexo",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "NFT",
+      "name": "AINFT",
+      "cg_id": "apenft",
+      "last_seen": "2026-08-31"
+    },
+    {
+      "symbol": "NIGHT",
+      "name": "Midnight",
+      "cg_id": "midnight-3",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "OHM",
+      "name": "Olympus",
+      "cg_id": "olympus",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "OKB",
+      "name": "OKB",
+      "cg_id": "okb",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "ONDO",
+      "name": "Ondo",
+      "cg_id": "ondo-finance",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "OP",
+      "name": "Optimism",
+      "cg_id": "optimism",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "PAXG",
+      "name": "PAX Gold",
+      "cg_id": "pax-gold",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "PEAQ",
+      "name": "peaq",
+      "cg_id": "peaq-2",
+      "last_seen": "2026-08-25"
+    },
+    {
+      "symbol": "PENDLE",
+      "name": "Pendle",
+      "cg_id": "pendle",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "PENGU",
+      "name": "Pudgy Penguins",
+      "cg_id": "pudgy-penguins",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "PEPE",
+      "name": "Pepe",
+      "cg_id": "pepe",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "PI",
+      "name": "Pi Network",
+      "cg_id": "pi-network",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "PIEVERSE",
+      "name": "Pieverse",
+      "cg_id": "pieverse",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "POL",
+      "name": "POL (ex-MATIC)",
+      "cg_id": "polygon-ecosystem-token",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "PONS",
+      "name": "Pons",
+      "cg_id": "pons",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "PUMP",
+      "name": "Pump.fun",
+      "cg_id": "pump-fun",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "PYTH",
+      "name": "Pyth Network",
+      "cg_id": "pyth-network",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "QNT",
+      "name": "Quant",
+      "cg_id": "quant-network",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "RAIN",
+      "name": "Rain",
+      "cg_id": "rain",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "RAM",
+      "name": "Ramses",
+      "cg_id": "ramses",
+      "last_seen": "2026-08-31"
+    },
+    {
+      "symbol": "RAY",
+      "name": "Raydium",
+      "cg_id": "raydium",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "REAL",
+      "name": "RealLink",
+      "cg_id": "reallink",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "RENDER",
+      "name": "Render",
+      "cg_id": "render-token",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "REUSD",
+      "name": "Re Protocol reUSD",
+      "cg_id": "re-protocol-reusd",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "SEI",
+      "name": "Sei",
+      "cg_id": "sei-network",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "SHIB",
+      "name": "Shiba Inu",
+      "cg_id": "shiba-inu",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "SKR",
+      "name": "Seeker",
+      "cg_id": "seeker",
+      "last_seen": "2026-08-31"
+    },
+    {
+      "symbol": "SKY",
+      "name": "Sky",
+      "cg_id": "sky",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "SOFID",
+      "name": "SoFiUSD",
+      "cg_id": "sofiusd",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "SOL",
+      "name": "Solana",
+      "cg_id": "solana",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "SPX",
+      "name": "SPX6900",
+      "cg_id": "spx6900",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "STABLE",
+      "name": "​​Stable",
+      "cg_id": "stable-2",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "STONK",
+      "name": "STONK",
+      "cg_id": "stonk-3",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "STONKBROKER",
+      "name": "StonkBroker",
+      "cg_id": "stonkbroker",
+      "last_seen": "2026-08-31"
+    },
+    {
+      "symbol": "STX",
+      "name": "Stacks",
+      "cg_id": "blockstack",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "SUI",
+      "name": "Sui",
+      "cg_id": "sui",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "SUN",
+      "name": "Sun Token",
+      "cg_id": "sun-token",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "SYRUP",
+      "name": "Maple Finance",
+      "cg_id": "syrup",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "TAO",
+      "name": "Bittensor",
+      "cg_id": "bittensor",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "TIA",
+      "name": "Celestia",
+      "cg_id": "celestia",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "TIBBIR",
+      "name": "Ribbita by Virtuals",
+      "cg_id": "ribbita-by-virtuals",
+      "last_seen": "2026-08-31"
+    },
+    {
+      "symbol": "TRUMP",
+      "name": "Official Trump",
+      "cg_id": "official-trump",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "TRX",
+      "name": "TRON",
+      "cg_id": "tron",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "UB",
+      "name": "Unibase",
+      "cg_id": "unibase",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "UNI",
+      "name": "Uniswap",
+      "cg_id": "uniswap",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "UP",
+      "name": "up",
+      "cg_id": "up-2",
+      "last_seen": "2026-08-31"
+    },
+    {
+      "symbol": "USDS",
+      "name": "USDS",
+      "cg_id": "usds",
+      "last_seen": "2026-08-12"
+    },
+    {
+      "symbol": "USDT",
+      "name": "Tether",
+      "cg_id": "tether",
+      "last_seen": "2026-08-12"
+    },
+    {
+      "symbol": "USELESS",
+      "name": "Useless Coin",
+      "cg_id": "useless-3",
+      "last_seen": "2026-08-31"
+    },
+    {
+      "symbol": "USX",
+      "name": "USX",
+      "cg_id": "usx",
+      "last_seen": "2026-08-31"
+    },
+    {
+      "symbol": "USYC",
+      "name": "Circle USYC",
+      "cg_id": "hashnote-usyc",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "VELVET",
+      "name": "Velvet",
+      "cg_id": "velvet",
+      "last_seen": "2026-08-23"
+    },
+    {
+      "symbol": "VET",
+      "name": "VeChain",
+      "cg_id": "vechain",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "VIRTUAL",
+      "name": "Virtuals Protocol",
+      "cg_id": "virtual-protocol",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "VVV",
+      "name": "Venice Token",
+      "cg_id": "venice-token",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "WBT",
+      "name": "WhiteBIT Coin",
+      "cg_id": "whitebit",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "WIF",
+      "name": "dogwifhat",
+      "cg_id": "dogwifcoin",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "WLD",
+      "name": "Worldcoin",
+      "cg_id": "worldcoin-wld",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "WLFI",
+      "name": "World Liberty Financial",
+      "cg_id": "world-liberty-financial",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "XAUT",
+      "name": "Tether Gold",
+      "cg_id": "tether-gold",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "XDC",
+      "name": "XDC Network",
+      "cg_id": "xdce-crowd-sale",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "XLM",
+      "name": "Stellar",
+      "cg_id": "stellar",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "XMR",
+      "name": "Monero",
+      "cg_id": "monero",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "XRP",
+      "name": "XRP",
+      "cg_id": "ripple",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "XTZ",
+      "name": "Tezos",
+      "cg_id": "tezos",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "ZANO",
+      "name": "Zano",
+      "cg_id": "zano",
+      "last_seen": "2026-08-24"
+    },
+    {
+      "symbol": "ZCAT",
+      "name": "Anonymous Cat",
+      "cg_id": "anonymous-cat",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "ZEC",
+      "name": "Zcash",
+      "cg_id": "zcash",
+      "last_seen": "2026-09-12"
+    },
+    {
+      "symbol": "ZRO",
+      "name": "LayerZero",
+      "cg_id": "layerzero",
+      "last_seen": "2026-09-12"
+    }
   ]
 }
