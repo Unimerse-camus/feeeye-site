@@ -22,13 +22,15 @@ jobs:
     steps:
       - name: Check out trusted main source
         uses: actions/checkout@v7
-        ref: main
-        path: source
+        with:
+          ref: main
+          path: source
       - name: Check out encrypted operations ledger
         uses: actions/checkout@v7
-        ref: automation-receipts
-        path: receipt-ledger
-        fetch-depth: 1
+        with:
+          ref: automation-receipts
+          path: receipt-ledger
+          fetch-depth: 1
       - uses: actions/setup-node@v7
         with:
           node-version: 24
