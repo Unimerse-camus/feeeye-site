@@ -22,6 +22,12 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v7
+      - name: Check out encrypted operations ledger
+        uses: actions/checkout@v7
+        with:
+          ref: automation-receipts
+          # Full history: ledger_freshness reads the last commit date per directory.
+          path: receipt-ledger
       - uses: actions/setup-node@v7
         with:
           node-version: 20
@@ -31,3 +37,5 @@ jobs:
           # same immutable production deployment through its Pages origin.
           FEEEYE_HEALTH_BASE_URL: ${{ inputs.base_url || 'https://feeeye-site.pages.dev' }}
         run: node build/ops/health_check.mjs --base-url "$FEEEYE_HEALTH_BASE_URL"
+      - name: Check operations ledger freshness
+        run: node build/ops/ledger_freshness.mjs --store receipt-ledger
