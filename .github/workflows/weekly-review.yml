@@ -1,0 +1,55 @@
+name: weekly-review
+
+on:
+  workflow_dispatch:
+  schedule:
+    # 04:47 UTC Monday = 12:47 Asia/Shanghai. Runs after the Monday collection batch
+    # (02:17-03:37 UTC) completes; non-round minute reduces scheduler contention.
+    - cron: '47 4 * * 1'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: x-receipt-ledger
+  cancel-in-progress: false
+
+jobs:
+  review:
+    if: github.event_name == 'workflow_dispatch' || vars.FEEEYE_WEEKLY_REVIEW == 'enabled'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out trusted main source
+        uses: actions/checkout@v7
+        ref: main
+        path: source
+      - name: Check out encrypted operations ledger
+        uses: actions/checkout@v7
+        ref: automation-receipts
+        path: receipt-ledger
+        fetch-depth: 1
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+      - name: Assemble and render encrypted weekly report
+        working-directory: source
+        env:
+          FEEEYE_OPS_DATA_KEY: ${{ secrets.FEEEYE_OPS_DATA_KEY }}
+        run: node build/ops/weekly_review.mjs --render --store ../receipt-ledger
+      - name: Commit encrypted weekly report only
+        working-directory: receipt-ledger
+        run: |
+          if test -z "$(git status --porcelain -- reports/weekly)"; then exit 0; fi
+          git config user.name feeeye-automation
+          git config user.email 272079875+Unimerse-camus@users.noreply.github.com
+          git add reports/weekly
+          git commit -m "record weekly review $GITHUB_RUN_ID"
+          git push origin HEAD:automation-receipts
+      - name: Upload encrypted weekly report
+        uses: actions/upload-artifact@v7
+        with:
+          name: weekly-review-${{ github.sha }}-${{ github.run_id }}
+          path: receipt-ledger/reports/weekly/*.md.enc
+          if-no-files-found: error
+          retention-days: 30

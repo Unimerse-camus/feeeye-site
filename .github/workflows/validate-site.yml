@@ -35,6 +35,8 @@ jobs:
         run: node build/ops/test_launch_campaign.mjs
       - name: Test approval, deployment, health, and reporting workflow
         run: node build/ops/test_workflow_phase3.mjs
+      - name: Test weekly review ledger assembly offline
+        run: node build/ops/test_weekly_review.mjs
       - name: Test secret-safe X connection checker offline
         run: node build/ops/test_x_connection_check.mjs
       - name: Test fail-closed X publishing executor offline
