@@ -10,6 +10,8 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import { readJson, sha256, validDay } from './ops_util.mjs';
 import { privateDataKey, readEncryptedJson, writeEncryptedJson } from './private_data_crypto.mjs';
 import { buildWeeklyReport, validateWeeklyInput } from './weekly_report.mjs';
+import { reviewContentLifecycle, lifecycleMarkdown } from './content_lifecycle_review.mjs';
+import { latestDatedReceipt, loadXReceipts } from './ledger_reads.mjs';;
 
 const root = fileURLToPath(new URL('../../', import.meta.url));
 const DAY = 86_400_000;
@@ -60,12 +62,7 @@ export function validateManualSupplement(data, expectedLabel) {
   return data;
 }
 
-function latestDatedReceipt(store, folder, key) {
-  const dir = path.join(path.resolve(store), ...folder.split('/'));
-  if (!fs.existsSync(dir)) return null;
-  const files = fs.readdirSync(dir).filter(name => /^\d{4}-\d{2}-\d{2}\.json\.enc$/.test(name)).sort();
-  return files.length ? readEncryptedJson(path.join(dir, files.at(-1)), key) : null;
-}
+function manualReceiptPath(store, label) { return path.join(path.resolve(store), 'manual', `weekly-${label}.json.enc`); }
 
 function loadLatestXAnalysis(store, key) {
   const dir = path.join(path.resolve(store), 'x-analysis');
@@ -79,18 +76,6 @@ function loadLatestXAnalysis(store, key) {
   }
   return best ? { report: best, observedThrough: bestObserved || null } : null;
 }
-
-function loadXReceipts(store) {
-  const dir = path.join(path.resolve(store), 'x');
-  if (!fs.existsSync(dir)) return [];
-  return fs.readdirSync(dir).filter(name => /^[a-f0-9]{64}\.json$/.test(name)).map(name => {
-    const receipt = readJson(path.join(dir, name));
-    if (receipt?.schema_version !== 1 || typeof receipt.recorded_at !== 'string' || typeof receipt.post_created !== 'boolean') throw new Error('Invalid X publish receipt');
-    return receipt;
-  });
-}
-
-function manualReceiptPath(store, label) { return path.join(path.resolve(store), 'manual', `weekly-${label}.json.enc`); }
 
 // 阶段 29:读入账本新鲜度报告,把降级告警写进周报 notes(fail-open,文件缺失时跳过)。
 function loadFreshnessWarnings(file) {
@@ -191,7 +176,8 @@ export function assembleWeeklyInput({ store, to, key, freshnessFile = null }) {
 
 export function renderWeeklyReport({ store, to, key, freshnessFile = null }) {
   const input = assembleWeeklyInput({ store, to, key, freshnessFile });
-  const markdown = buildWeeklyReport(input);
+  const lifecycle = reviewContentLifecycle({ store, key, to });
+  const markdown = buildWeeklyReport(input) + '\n' + lifecycleMarkdown(lifecycle);
   const label = weekLabel(to);
   // 内容寻址文件名:同内容重跑幂等;manual 补充晚到后的重跑生成新版本,旧版本保留供审计。
   const digest = sha256(markdown).slice(0, 16);
@@ -201,11 +187,13 @@ export function renderWeeklyReport({ store, to, key, freshnessFile = null }) {
     label, window: input.window,
     coverage: Object.fromEntries(Object.entries(input.coverage).map(([source, value]) => [source, value.status])),
     ledger_status: input.notes.some(note => note.startsWith('复盘链路降级')) ? 'degraded' : 'ok',
+    lifecycle_items: lifecycle.items.length,
+    lifecycle_due: lifecycle.items.reduce((n, item) => n + item.checkpoints.filter(checkpoint => checkpoint.status !== 'pending').length, 0),
     x_posts_published: input.metrics.x_posts_published,
     threshold_content_items: input.content.filter(row => row.effective_visits !== null && row.effective_visits >= 30).length,
     encrypted_report: relative
   };
-  return { input, markdown, summary };
+  return { input, markdown, summary, lifecycle };
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href) {
