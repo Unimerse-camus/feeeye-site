@@ -41,7 +41,7 @@ const TO = '2026-10-18', FROM = '2026-10-12';
 // Seed ledger: GSC trailing aggregate, Cloudflare daily series, one X publish receipt, X analysis.
 enc('search/gsc/2026-10-16.json.enc', {
   schema_version: 1,
-  window: { from: '2026-09-18', to: '2026-10-16' },
+  window: { from: '2026-09-19', to: '2026-10-16' },
   coverage: { gsc: { status: 'complete', through: '2026-10-16', note_code: 'complete_aggregate_export' } },
   pages: [
     { url: 'https://feeeye.com/zh/', clicks: 4, impressions: 71, average_position: 4.2 },

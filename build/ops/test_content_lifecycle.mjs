@@ -73,7 +73,7 @@ enc(`x-metrics/${xKey}/7d.json.enc`, {
   metrics: { impressions: 210, likes: 3, replies: 1, reposts: 0, quotes: 0, bookmarks: 1, engagements: 5, url_clicks: 40, profile_clicks: 2 }, missing_fields: []
 });
 enc('search/gsc/2026-10-16.json.enc', {
-  schema_version: 1, window: { from: '2026-09-18', to: '2026-10-16' },
+  schema_version: 1, window: { from: '2026-09-19', to: '2026-10-16' },
   coverage: { gsc: { status: 'complete', through: '2026-10-16', note_code: 'complete_aggregate_export' } },
   pages: [{ url: 'https://feeeye.com/learn/safe-crypto-transfer.html', clicks: 5, impressions: 120, average_position: 8.3 }]
 });

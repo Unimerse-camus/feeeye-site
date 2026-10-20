@@ -59,7 +59,7 @@ affiliate-site/
 | P3 SEO | 程序化生成器 + 118 币 where-to-buy（已滤稳定币/RWA 基金）+ 21 国家页 + 真实价格 + CoinGecko 摄取管线（含 A1 币种过滤） ✅ | 完成 |
 | P4 GEO | 1000 USDT现货基础费率原创benchmark（中英页面、7所官方证据、可分享SVG）✅ | 首份完成 |
 | P5 内容 | 新手学习中心 ✅；1000 USDT benchmark 的YouTube脚本、5个社区回答模板和3条X内容 ✅ | 素材完成，外部发布待人工执行 |
-| P5 运营 | 返佣追踪看板 ✅ + 免费渠道90天执行表 ✅ + 隐私最小化事件层 ✅ + IndexNow 提交工具 ✅;Cloudflare/GSC 后台已接入采集;**自动化周报复盘闭环 ✅**(Phase 28 `weekly-review.yml` 周一自动装配加密周报 + Phase 29 账本新鲜度每日自检;规划见 `docs/operations-review-automation-plan-2026-10-20.md`) | 每周一自动出周报;内容生命周期/下周提案/趋势为阶段 3-5 待做 |
+| P5 运营 | 返佣追踪看板 ✅ + 免费渠道90天执行表 ✅ + 隐私最小化事件层 ✅ + IndexNow 提交工具 ✅;Cloudflare/GSC 后台已接入采集;**自动化周报复盘闭环 ✅**(Phase 28-31:周一自动装配加密周报 + 账本新鲜度每日自检 + 内容生命周期检查点 + 下周提案决策出口;规划见 `docs/operations-review-automation-plan-2026-10-20.md`) | 每周一自动出周报+提案;4 周趋势与 affiliate 漏斗为阶段 5 待做 |
 | P6 二级 | 招 KOL/群主/工具开发者 | 未开始 |
 | P7 放大 | 多所 affiliate + A/B | 未开始 |
 | 工具库 | 工具矩阵规划 ✅（`docs/tools-roadmap.md`：T1 全成本 → T2 智能对比 → T3 清算 → T4 Gas [MVP] → T5 跨平台盈亏 → T6 DCA [扩展] → T7 P2P → T8 代币安全 [地区化]；融合 2026-08-13 工具调研 PRD 8 工具 + 痛点硬数据 + 地区差异化 + 返佣嵌入原则）+ 竞品调研 ✅（`docs/tools-competitor-research.md`） | **已上线 7 个工具（均 en+zh）**：T1 全成本计算器 ✅、T2 交易所综合对比器（14 维度）✅、合约工具箱（仓位/强平/盈亏）✅、基础费率计算器 ✅、持仓记账本（T5）✅、代币安全检查（T8）✅、术语表 ✅；待做：T4 Gas 追踪、T6 DCA、T7 P2P |
