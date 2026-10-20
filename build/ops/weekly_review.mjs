@@ -11,6 +11,7 @@ import { readJson, sha256, validDay } from './ops_util.mjs';
 import { privateDataKey, readEncryptedJson, writeEncryptedJson } from './private_data_crypto.mjs';
 import { buildWeeklyReport, validateWeeklyInput } from './weekly_report.mjs';
 import { reviewContentLifecycle, lifecycleMarkdown } from './content_lifecycle_review.mjs';
+import { buildWeeklyProposal, proposalMarkdown } from './weekly_proposal.mjs';
 import { latestDatedReceipt, loadXReceipts } from './ledger_reads.mjs';;
 
 const root = fileURLToPath(new URL('../../', import.meta.url));
@@ -177,7 +178,8 @@ export function assembleWeeklyInput({ store, to, key, freshnessFile = null }) {
 export function renderWeeklyReport({ store, to, key, freshnessFile = null }) {
   const input = assembleWeeklyInput({ store, to, key, freshnessFile });
   const lifecycle = reviewContentLifecycle({ store, key, to });
-  const markdown = buildWeeklyReport(input) + '\n' + lifecycleMarkdown(lifecycle);
+  const proposal = buildWeeklyProposal({ store, key, to, weeklyInput: input, lifecycle });
+  const markdown = buildWeeklyReport(input) + '\n' + lifecycleMarkdown(lifecycle) + '\n' + proposalMarkdown(proposal);
   const label = weekLabel(to);
   // 内容寻址文件名:同内容重跑幂等;manual 补充晚到后的重跑生成新版本,旧版本保留供审计。
   const digest = sha256(markdown).slice(0, 16);
@@ -189,11 +191,12 @@ export function renderWeeklyReport({ store, to, key, freshnessFile = null }) {
     ledger_status: input.notes.some(note => note.startsWith('复盘链路降级')) ? 'degraded' : 'ok',
     lifecycle_items: lifecycle.items.length,
     lifecycle_due: lifecycle.items.reduce((n, item) => n + item.checkpoints.filter(checkpoint => checkpoint.status !== 'pending').length, 0),
+    proposal_candidates: proposal.topic_candidates.length,
     x_posts_published: input.metrics.x_posts_published,
     threshold_content_items: input.content.filter(row => row.effective_visits !== null && row.effective_visits >= 30).length,
     encrypted_report: relative
   };
-  return { input, markdown, summary, lifecycle };
+  return { input, markdown, summary, lifecycle, proposal };
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href) {
