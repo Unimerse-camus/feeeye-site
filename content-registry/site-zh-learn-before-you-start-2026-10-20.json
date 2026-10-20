@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "content_id": "site-zh-learn-before-you-start-2026-10-20",
+  "channel": "site",
+  "landing_url": "https://feeeye.com/zh/learn/before-you-start",
+  "published_at": "2026-10-20",
+  "checkpoints": [
+    "7d",
+    "28d"
+  ],
+  "source": "postdeploy",
+  "registered_at": "2026-10-20T09:24:19.283Z",
+  "notes": []
+}
