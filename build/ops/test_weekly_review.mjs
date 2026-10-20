@@ -25,6 +25,11 @@ assert.match(workflow, /ref: automation-receipts/);
 assert.match(workflow, /concurrency:\s*\n\s*group: x-receipt-ledger/);
 assert.ok(!workflow.includes('git push origin HEAD:main'));
 assert.ok(!workflow.includes('origin/main'));
+// Structural guard: every checkout step must pass ref/path via with:, otherwise the
+// workflow file fails to parse and its schedule never registers.
+const checkoutBlocks = workflow.split('- name:').filter(block => block.includes('uses: actions/checkout@'));
+assert.ok(checkoutBlocks.length >= 2);
+for (const block of checkoutBlocks) assert.match(block.replace(/\n\s+- name:.*$/s, ''), /with:\s*\n\s+ref:/);
 
 // Window helpers: 2026-10-18 is a Sunday inside ISO week 42.
 assert.deepEqual(weekWindow('2026-10-18'), { from: '2026-10-12', to: '2026-10-18' });
