@@ -122,10 +122,22 @@ assert.equal(stale.coverage.gsc.status, 'missing');
 assert.match(stale.coverage.gsc.note, /stale/);
 assert.equal(stale.metrics.search_clicks, null);
 
+// Freshness integration: degraded ledger warnings land in the report notes, not in coverage.
+const freshnessFile = path.join(store, 'freshness.json');
+fs.writeFileSync(freshnessFile, JSON.stringify({ schema_version: 1, generated_at: '2026-10-20T04:47:00.000Z', status: 'degraded', checks: [], warnings: ['复盘链路降级:search/gsc 最近提交已 12 天(上限 8 天)'] }));
+const degraded = renderWeeklyReport({ store, to: TO, key, freshnessFile });
+assert.equal(degraded.summary.ledger_status, 'degraded');
+assert.ok(degraded.input.notes.some(note => note.startsWith('复盘链路降级:search/gsc')));
+assert.match(degraded.markdown, /## 备注/);
+assert.match(degraded.markdown, /- 复盘链路降级:search\/gsc 最近提交已 12 天/);
+assert.throws(() => renderWeeklyReport({ store, to: TO, key, freshnessFile: path.join(store, 'missing-freshness.json') }), { code: 'ENOENT' });
+fs.writeFileSync(path.join(store, 'bad-freshness.json'), JSON.stringify({ schema_version: 2, warnings: [] }));
+assert.throws(() => renderWeeklyReport({ store, to: TO, key, freshnessFile: path.join(store, 'bad-freshness.json') }), /Invalid ledger freshness report/);
+
 // CLI wiring: --render with the env key end-to-end on the seeded store. The manual supplement
 // landed after the first render, so this pass produces a distinct content-addressed version
 // instead of colliding with the immutable earlier file.
-const cli = execFileSync(process.execPath, [path.join(root, 'build/ops/weekly_review.mjs'), '--render', '--store', store, '--to', TO], { env: { ...process.env, FEEEYE_OPS_DATA_KEY: envKey } });
+const cli = execFileSync(process.execPath, [path.join(root, 'build/ops/weekly_review.mjs'), '--render', '--store', store, '--to', TO, '--freshness-report', freshnessFile], { env: { ...process.env, FEEEYE_OPS_DATA_KEY: envKey } });
 const summary = JSON.parse(cli.toString());
 assert.equal(summary.label, '2026-W42');
 assert.equal(summary.coverage.affiliate, 'complete');

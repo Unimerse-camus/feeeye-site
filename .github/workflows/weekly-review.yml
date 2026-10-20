@@ -29,16 +29,21 @@ jobs:
         uses: actions/checkout@v7
         with:
           ref: automation-receipts
+          # Full history: ledger_freshness reads the last commit date per directory.
           path: receipt-ledger
-          fetch-depth: 1
       - uses: actions/setup-node@v7
         with:
           node-version: 24
+      - name: Check ledger freshness
+        working-directory: source
+        run: |
+          mkdir -p ops/automation/working
+          node build/ops/ledger_freshness.mjs --store ../receipt-ledger > ops/automation/working/ledger-freshness.json
       - name: Assemble and render encrypted weekly report
         working-directory: source
         env:
           FEEEYE_OPS_DATA_KEY: ${{ secrets.FEEEYE_OPS_DATA_KEY }}
-        run: node build/ops/weekly_review.mjs --render --store ../receipt-ledger
+        run: node build/ops/weekly_review.mjs --render --store ../receipt-ledger --freshness-report ops/automation/working/ledger-freshness.json
       - name: Commit encrypted weekly report only
         working-directory: receipt-ledger
         run: |

@@ -37,6 +37,8 @@ jobs:
         run: node build/ops/test_workflow_phase3.mjs
       - name: Test weekly review ledger assembly offline
         run: node build/ops/test_weekly_review.mjs
+      - name: Test ledger freshness self-check offline
+        run: node build/ops/test_ledger_freshness.mjs
       - name: Test secret-safe X connection checker offline
         run: node build/ops/test_x_connection_check.mjs
       - name: Test fail-closed X publishing executor offline

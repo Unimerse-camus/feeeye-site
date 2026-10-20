@@ -34,7 +34,8 @@ export function buildWeeklyReport(data) {
   const rows=data.content.length?data.content.map(x=>`| ${x.id} | ${x.channel} | ${shown(x.effective_visits)} | ${x.human_hours} |`).join('\n'):'| — | — | — | — |';
   const comparable=data.content.filter(x=>x.effective_visits!==null&&x.human_hours>0&&x.effective_visits>=30).map(x=>({...x,visits_per_hour:x.effective_visits/x.human_hours})).sort((a,b)=>b.visits_per_hour-a.visits_per_hour);
   const recommendation=comparable.length>=2?`仅供下周排序参考：${comparable.slice(0,2).map(x=>x.id).join('、')}。样本门槛不是统计显著性。`:'数据不足，维持当前低频节奏，不自动增加发帖量。';
-  return `# FeeEye 运营周报\n\n观察窗口：${data.window.from} 至 ${data.window.to}\n\n## 数据覆盖\n\n| 来源 | 状态 | 截止 | 说明 |\n|---|---|---|---|\n${coverage}\n\n## 聚合指标\n\n| 指标 | 值 |\n|---|---|\n${metrics}\n\n## 内容效率\n\n| 内容 | 渠道 | 有效访问/结果 | 人工小时 |\n|---|---|---:|---:|\n${rows}\n\n## 结论\n\n${recommendation}\n\n未知值保持“未提供”，不按0处理；不同平台数据不拼成个人画像或确定归因漏斗。\n`;
+  const notes=data.notes.length?`\n## 备注\n\n${data.notes.map(note=>`- ${note}`).join('\n')}\n`:'';
+  return `# FeeEye 运营周报\n\n观察窗口：${data.window.from} 至 ${data.window.to}\n\n## 数据覆盖\n\n| 来源 | 状态 | 截止 | 说明 |\n|---|---|---|---|\n${coverage}\n\n## 聚合指标\n\n| 指标 | 值 |\n|---|---|\n${metrics}\n\n## 内容效率\n\n| 内容 | 渠道 | 有效访问/结果 | 人工小时 |\n|---|---|---:|---:|\n${rows}\n\n## 结论\n\n${recommendation}\n${notes}\n未知值保持“未提供”，不按0处理；不同平台数据不拼成个人画像或确定归因漏斗。\n`;
 }
 if(process.argv[1] && import.meta.url===pathToFileURL(path.resolve(process.argv[1])).href) {
   const args=process.argv.slice(2), input=args[args.indexOf('--input')+1];

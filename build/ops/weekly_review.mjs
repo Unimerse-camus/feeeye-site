@@ -92,6 +92,14 @@ function loadXReceipts(store) {
 
 function manualReceiptPath(store, label) { return path.join(path.resolve(store), 'manual', `weekly-${label}.json.enc`); }
 
+// 阶段 29:读入账本新鲜度报告,把降级告警写进周报 notes(fail-open,文件缺失时跳过)。
+function loadFreshnessWarnings(file) {
+  if (!file) return [];
+  const report = readJson(file);
+  if (report?.schema_version !== 1 || !Array.isArray(report.warnings) || report.warnings.some(warning => typeof warning !== 'string' || warning.length > 240)) throw new Error('Invalid ledger freshness report');
+  return report.warnings.slice();
+}
+
 export function stageManualSupplement(store, data, key) {
   const label = weekLabel(data.window.to);
   validateManualSupplement(data, label);
@@ -100,10 +108,12 @@ export function stageManualSupplement(store, data, key) {
 
 const coverage = (status, through, note) => ({ status, through, note });
 
-export function assembleWeeklyInput({ store, to, key }) {
+export function assembleWeeklyInput({ store, to, key, freshnessFile = null }) {
   const window = weekWindow(to);
   const metrics = { site_visits: null, search_clicks: null, search_impressions: null, ai_referral_visits: null, bing_ai_citations: null, bing_ai_average_cited_pages: null, x_posts_published: 0, x_link_clicks: null, affiliate_clicks: null, affiliate_registrations: null, commission_usdt: null, human_hours: null };
-  const notes = [`Assembled ${new Date().toISOString()} by build/ops/weekly_review.mjs from encrypted ledger receipts.`];
+  // 不放实时时间戳:时间由账本提交与内容寻址文件名承载,保证同输入重跑幂等。
+  const notes = ['Assembled from encrypted ledger receipts by build/ops/weekly_review.mjs.'];
+  notes.push(...loadFreshnessWarnings(freshnessFile));
 
   // GSC:回执是 trailing 28 天、终值口径的页面聚合,与周窗口不同宽——只作趋势可比使用,coverage 标 partial。
   const gsc = latestDatedReceipt(store, 'search/gsc', key);
@@ -179,8 +189,8 @@ export function assembleWeeklyInput({ store, to, key }) {
   return validateWeeklyInput(input);
 }
 
-export function renderWeeklyReport({ store, to, key }) {
-  const input = assembleWeeklyInput({ store, to, key });
+export function renderWeeklyReport({ store, to, key, freshnessFile = null }) {
+  const input = assembleWeeklyInput({ store, to, key, freshnessFile });
   const markdown = buildWeeklyReport(input);
   const label = weekLabel(to);
   // 内容寻址文件名:同内容重跑幂等;manual 补充晚到后的重跑生成新版本,旧版本保留供审计。
@@ -190,6 +200,7 @@ export function renderWeeklyReport({ store, to, key }) {
   const summary = {
     label, window: input.window,
     coverage: Object.fromEntries(Object.entries(input.coverage).map(([source, value]) => [source, value.status])),
+    ledger_status: input.notes.some(note => note.startsWith('复盘链路降级')) ? 'degraded' : 'ok',
     x_posts_published: input.metrics.x_posts_published,
     threshold_content_items: input.content.filter(row => row.effective_visits !== null && row.effective_visits >= 30).length,
     encrypted_report: relative
@@ -209,11 +220,11 @@ if (process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.ar
     console.log(JSON.stringify({ staged: true, created: result.created, file: path.relative(path.resolve(store), result.file) }));
   } else if (args.includes('--render')) {
     const to = value('--to') || new Date(Date.now() - DAY).toISOString().slice(0, 10);
-    const { summary } = renderWeeklyReport({ store, to, key });
+    const { summary } = renderWeeklyReport({ store, to, key, freshnessFile: value('--freshness-report') });
     console.log(JSON.stringify(summary));
   } else if (args.includes('--assemble')) {
     const to = value('--to') || new Date(Date.now() - DAY).toISOString().slice(0, 10);
-    console.log(JSON.stringify(assembleWeeklyInput({ store, to, key })));
+    console.log(JSON.stringify(assembleWeeklyInput({ store, to, key, freshnessFile: value('--freshness-report') })));
   } else {
     throw new Error('Provide --stage-manual, --assemble, or --render');
   }
