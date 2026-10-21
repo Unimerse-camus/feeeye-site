@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "content_id": "site-learn-crypto-total-cost-2026-10-21",
+  "channel": "site",
+  "landing_url": "https://feeeye.com/learn/crypto-total-cost",
+  "published_at": "2026-10-21",
+  "checkpoints": [
+    "7d",
+    "28d"
+  ],
+  "source": "postdeploy",
+  "registered_at": "2026-10-21T00:30:03.263Z",
+  "notes": []
+}
