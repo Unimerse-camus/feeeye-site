@@ -12,6 +12,7 @@ import { privateDataKey, readEncryptedJson, writeEncryptedJson } from './private
 import { buildWeeklyReport, validateWeeklyInput } from './weekly_report.mjs';
 import { reviewContentLifecycle, lifecycleMarkdown } from './content_lifecycle_review.mjs';
 import { buildWeeklyProposal, proposalMarkdown } from './weekly_proposal.mjs';
+import { loadWeeklyInputHistory, funnelMarkdown, trendMarkdown } from './weekly_trend.mjs';
 import { latestDatedReceipt, loadXReceipts } from './ledger_reads.mjs';;
 
 const root = fileURLToPath(new URL('../../', import.meta.url));
@@ -177,14 +178,20 @@ export function assembleWeeklyInput({ store, to, key, freshnessFile = null }) {
 
 export function renderWeeklyReport({ store, to, key, freshnessFile = null }) {
   const input = assembleWeeklyInput({ store, to, key, freshnessFile });
+  const history = loadWeeklyInputHistory(store, key);
   const lifecycle = reviewContentLifecycle({ store, key, to });
-  const proposal = buildWeeklyProposal({ store, key, to, weeklyInput: input, lifecycle });
-  const markdown = buildWeeklyReport(input) + '\n' + lifecycleMarkdown(lifecycle) + '\n' + proposalMarkdown(proposal);
+  const proposal = buildWeeklyProposal({ store, key, to, weeklyInput: input, lifecycle, history });
+  const manualPath = manualReceiptPath(store, weekLabel(to));
+  const manual = fs.existsSync(manualPath) ? readEncryptedJson(manualPath, key) : null;
+  const markdown = buildWeeklyReport(input) + '\n' + lifecycleMarkdown(lifecycle) + '\n' + proposalMarkdown(proposal) + '\n' + funnelMarkdown(manual) + '\n' + trendMarkdown(history, input);
   const label = weekLabel(to);
   // 内容寻址文件名:同内容重跑幂等;manual 补充晚到后的重跑生成新版本,旧版本保留供审计。
   const digest = sha256(markdown).slice(0, 16);
   const relative = path.join('reports', 'weekly', `${label}__${digest}.md.enc`);
   writeEncryptedJson(path.join(path.resolve(store), relative), markdown, key);
+  // 结构化输入副本(趋势与连续合格窗口的历史来源):已存在同摘要文件则跳过,不改写不可变账本。
+  const historyPath = path.join(path.resolve(store), 'reports', 'weekly', `${label}__${digest}.json.enc`);
+  if (!fs.existsSync(historyPath)) writeEncryptedJson(historyPath, { schema_version: 1, rendered_at: new Date().toISOString(), input }, key);
   const summary = {
     label, window: input.window,
     coverage: Object.fromEntries(Object.entries(input.coverage).map(([source, value]) => [source, value.status])),
@@ -192,6 +199,8 @@ export function renderWeeklyReport({ store, to, key, freshnessFile = null }) {
     lifecycle_items: lifecycle.items.length,
     lifecycle_due: lifecycle.items.reduce((n, item) => n + item.checkpoints.filter(checkpoint => checkpoint.status !== 'pending').length, 0),
     proposal_candidates: proposal.topic_candidates.length,
+    funnel: manual ? 'manual' : 'missing',
+    trend_weeks: Math.min(4, history.length + 1),
     x_posts_published: input.metrics.x_posts_published,
     threshold_content_items: input.content.filter(row => row.effective_visits !== null && row.effective_visits >= 30).length,
     encrypted_report: relative

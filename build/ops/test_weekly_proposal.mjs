@@ -69,7 +69,7 @@ const siteItem = autonomous.items.find(item => item.id === 'site-learn-safe-cryp
 assert.equal(siteItem.age_days, 28);
 assert.equal(siteItem.effective_visits, 35);
 assert.equal(siteItem.human_hours, 1.5);
-assert.equal(siteItem.consecutive_qualified_windows, 0);
+assert.equal(siteItem.consecutive_qualified_windows, 1); // current week qualified, no history yet
 
 // Full proposal: every source wired, decisions from the vetted engines.
 const weeklyInput = { content: [{ id: 'site-learn-safe-crypto-transfer-en-2026-09-20', channel: 'site', human_hours: 1.5, effective_visits: 35 }] };

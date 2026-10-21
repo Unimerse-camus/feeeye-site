@@ -43,6 +43,8 @@ jobs:
         run: node build/ops/test_content_lifecycle.mjs
       - name: Test weekly proposal decision loop offline
         run: node build/ops/test_weekly_proposal.mjs
+      - name: Test weekly trend and funnel offline
+        run: node build/ops/test_weekly_trend.mjs
       - name: Test secret-safe X connection checker offline
         run: node build/ops/test_x_connection_check.mjs
       - name: Test fail-closed X publishing executor offline
