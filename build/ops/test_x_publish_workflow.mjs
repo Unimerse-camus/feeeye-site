@@ -26,7 +26,7 @@ assert.ok(workflow.includes('if: steps.receipt.outputs.exists != \'true\''));
 
 // Policy keeps the trial guardrails: X-only channel, $5 monthly cap, no auto recharge.
 const policy = readJson(path.join(root, 'ops/automation/x-publish-policy.json'));
-assert.equal(policy.id, 'feeeye-x-publish-v1');
+assert.equal(policy.id, 'feeeye-autonomy-v1'); // the executor hard-validates this policy id
 assert.equal(policy.publishing_enabled, true);
 assert.equal(policy.budget.monthly_usd_cap, 5);
 assert.equal(policy.budget.auto_recharge, false);
