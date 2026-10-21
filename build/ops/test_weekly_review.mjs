@@ -143,7 +143,7 @@ assert.equal(summary.label, '2026-W42');
 assert.equal(summary.coverage.affiliate, 'complete');
 assert.equal(summary.threshold_content_items, 1);
 assert.match(summary.encrypted_report, /^reports\/weekly\/2026-W42__[a-f0-9]{16}\.md\.enc$/);
-const versions = fs.readdirSync(path.join(store, 'reports/weekly')).filter(name => name.startsWith('2026-W42__'));
+const versions = fs.readdirSync(path.join(store, 'reports/weekly')).filter(name => name.startsWith('2026-W42__') && name.endsWith('.md.enc'));
 assert.equal(versions.length, 2);
 const latest = readEncryptedJson(path.join(store, summary.encrypted_report), key);
 assert.match(latest, /\| affiliate_clicks \| 12 \|/); // manual funnel numbers rendered into the re-run version

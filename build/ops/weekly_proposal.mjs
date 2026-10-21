@@ -15,6 +15,7 @@ import { analyzeAutonomousResults } from './autonomous_analysis.mjs';
 import { latestDatedReceipt } from './ledger_reads.mjs';
 import { loadContentRegistry, normalizeLandingUrl } from './content_registry.mjs';
 import { readEncryptedJson } from './private_data_crypto.mjs';
+import { consecutiveQualifiedWindows } from './weekly_trend.mjs';
 
 const DAY = 86_400_000;
 
@@ -72,35 +73,37 @@ export function buildEditorialSignals({ gsc, registry }) {
 
 // 自主引擎输入:从生命周期条目构造(发布年龄真实、效果取检查点观察值),
 // 治理旗标为自动填入(无违规/发布错误记录;站内双语由 postdeploy 全量校验背书),
-// consecutive_qualified_windows 固定 0(历史合格窗口统计属阶段 5)。
-export function buildAutonomousInput({ lifecycle, manualContent, to }) {
+// consecutive_qualified_windows 来自结构化周报历史 + 本周人工行(阶段 32 接通)。
+export function buildAutonomousInput({ lifecycle, manualContent, to, history = [] }) {
   const from = new Date(Date.parse(to) - 27 * DAY).toISOString().slice(0, 10);
   const hours = Object.fromEntries((manualContent || []).map(row => [row.id, row.human_hours]));
+  const currentQualified = Object.fromEntries((manualContent || []).filter(row => row.effective_visits !== null && row.effective_visits >= 30).map(row => [row.id, true]));
   const items = lifecycle.items.map(item => {
     const ageDays = Math.max(0, Math.min(365, Math.round((Date.parse(to) - Date.parse(item.published_at)) / DAY)));
     const observed = item.checkpoints.filter(checkpoint => checkpoint.status === 'observed');
     const effectiveVisits = item.channel === 'x'
       ? observed.map(checkpoint => checkpoint.metrics?.url_clicks).filter(value => value !== null && value !== undefined)
       : item.channel === 'site' ? observed.map(checkpoint => checkpoint.metrics?.clicks).filter(value => value !== null && value !== undefined) : [];
+    const visits = effectiveVisits.length ? Math.max(...effectiveVisits) : null;
     return {
       id: item.content_id, channel: item.channel, age_days: ageDays,
-      effective_visits: effectiveVisits.length ? Math.max(...effectiveVisits) : null,
+      effective_visits: currentQualified[item.content_id] ? (manualContent.find(row => row.id === item.content_id)?.effective_visits ?? visits) : visits,
       human_hours: hours[item.content_id] ?? 0,
       rule_violations: 0, publish_errors: 0, source_current: true, bilingual_verified: true,
-      consecutive_qualified_windows: 0
+      consecutive_qualified_windows: consecutiveQualifiedWindows(history, item.content_id, Boolean(currentQualified[item.content_id]))
     };
   });
   return { schema_version: 1, window: { from, to }, items };
 }
 
-export function buildWeeklyProposal({ store, key, to, weeklyInput, lifecycle }) {
+export function buildWeeklyProposal({ store, key, to, weeklyInput, lifecycle, history = [] }) {
   const registry = loadContentRegistry(store);
   const gsc = latestDatedReceipt(store, 'search/gsc', key);
   const topicQueue = gsc ? buildTopicQueue(buildEditorialSignals({ gsc, registry })) : null;
   const cross = latestCrossChannel(store, key);
   const revisions = latestRevisionPlans(store, key);
   const experiment = latestExperiment(store, key);
-  const autonomy = analyzeAutonomousResults(buildAutonomousInput({ lifecycle, manualContent: weeklyInput.content, to }));
+  const autonomy = analyzeAutonomousResults(buildAutonomousInput({ lifecycle, manualContent: weeklyInput.content, to, history }));
   return {
     schema_version: 1,
     reference_day: to,
@@ -109,7 +112,7 @@ export function buildWeeklyProposal({ store, key, to, weeklyInput, lifecycle }) 
     page_improvements: cross?.page_opportunities?.candidates ?? [],
     feedback_revisions: revisions ? { status: revisions.status, decision: revisions.decision, plan_count: revisions.plan_count, plans: (revisions.plans || []).map(plan => ({ article_id: plan.article_id, priority: plan.priority, status: plan.status, locales: plan.locales_triggered })) } : null,
     experiment: experiment ? { experiment_id: experiment.experiment_id, status: experiment.status, reason: experiment.reason, sample_gate_met: experiment.sample_gate_met, review_not_before: experiment.deployment?.review_not_before ?? null } : null,
-    autonomy: { decisions: autonomy.decisions, max_scale_multiplier: autonomy.max_scale_multiplier, flag_note: 'source_current/bilingual_verified 为自动填入旗标(无违规记录;站内双语经 postdeploy 全量校验);consecutive_qualified_windows 暂为 0,连续窗口历史属阶段 5。' },
+    autonomy: { decisions: autonomy.decisions, max_scale_multiplier: autonomy.max_scale_multiplier, flag_note: 'source_current/bilingual_verified 为自动填入旗标(无违规记录;站内双语经 postdeploy 全量校验);consecutive_qualified_windows 来自结构化周报历史 + 本周人工行,只认人背书的有效访问。' },
     channel_efficiency: weeklyInput.content.filter(row => row.effective_visits !== null && row.effective_visits >= 30).map(row => row.id),
     guardrails: { selection_required: true, scale_rule: '单条 ≥30 有效访问且连续两个合格窗口,放大上限 1.25', automatic_publication: false }
   };

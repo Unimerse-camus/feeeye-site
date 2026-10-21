@@ -1,6 +1,6 @@
 # FeeEye 运营推广规划:自动化复盘闭环(2026-10-20)
 
-> 状态:阶段 0-4 已实现(见 `docs/automation-phase28-weekly-review-2026-10-20.md` 至 `docs/automation-phase31-weekly-proposal-2026-10-20.md`);阶段 5(4 周趋势 + affiliate 漏斗)待做。
+> 状态:**五个阶段全部落地**(Phase 28-32,见 `docs/automation-phase28-weekly-review-2026-10-20.md` 至 `docs/automation-phase32-trend-funnel-2026-10-20.md`)。趋势数据自 2026-10-20 起积累,四周后满列。
 > 范围:在现有自动化底座上,补全「采集 → 汇总 → 周报 → 决策建议 → 下周执行」的复盘闭环;不新增付费渠道,不改变"人工决策、自动生产"的治理边界。
 > 依据:`docs/automation-operations-blueprint-2026-08-31.md`(W8 周报)、`docs/organic-operations-plan.md`、`docs/analytics-measurement-plan.md`、`ops/automation/README.md`、以及 2026-10-20 对仓库与 CI 的只读盘点(注:周一采集批运行正常,最近一轮为 2026-10-19,GSC/CF/跨渠道/实验/反馈五个环节全部落账本)。
 
