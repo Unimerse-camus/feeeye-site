@@ -5,7 +5,8 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { validateContentRegistration, recordContentRegistration, loadContentRegistry, normalizeLandingUrl, slugFromUrl, registrationsFromDelta, EDITORIAL_PATH_PATTERN } from './content_registry.mjs';
+import { validateContentRegistration, recordContentRegistration, loadContentRegistry, normalizeLandingUrl, slugFromUrl, registrationsFromDelta, deploymentBaseline, EDITORIAL_PATH_PATTERN } from './content_registry.mjs';
+import { delta } from './deployment_manifest.mjs';
 import { reviewContentLifecycle, lifecycleMarkdown, lifecycleThreshold } from './content_lifecycle_review.mjs';
 import { renderWeeklyReport } from './weekly_review.mjs';
 import { writeEncryptedJson } from './private_data_crypto.mjs';
@@ -77,6 +78,15 @@ enc('search/gsc/2026-10-16.json.enc', {
   coverage: { gsc: { status: 'complete', through: '2026-10-16', note_code: 'complete_aggregate_export' } },
   pages: [{ url: 'https://feeeye.com/learn/safe-crypto-transfer.html', clicks: 5, impressions: 120, average_position: 8.3 }]
 });
+
+// Regression: an unchanged-tree redeploy must not re-register anything — the baseline is
+// the most recent recorded manifest even when its build_id matches the current one.
+const fakeManifest = overrides => ({ host: 'feeeye.com', build_id: 'a'.repeat(64), urls: {}, ...overrides });
+const older = fakeManifest({ build_id: 'b'.repeat(64) });
+const same = fakeManifest({});
+const redeployDelta = delta(fakeManifest({}), deploymentBaseline([older, same], fakeManifest({})));
+assert.deepEqual([redeployDelta.created, redeployDelta.changed, redeployDelta.deleted], [[], [], []]);
+assert.equal(registrationsFromDelta(redeployDelta, { today: '2026-10-21', registeredAt: '2026-10-21T05:00:00.000Z' }).length, 0);
 
 // Lifecycle review against reference day 2026-10-18.
 const report = reviewContentLifecycle({ store, key, to: '2026-10-18' });

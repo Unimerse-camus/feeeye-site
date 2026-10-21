@@ -94,6 +94,12 @@ export function registrationsFromDelta(delta, { today, registeredAt, source = 'p
   })).map(entry => validateContentRegistration(entry));
 }
 
+// 基线 = 最近一次记录的清单(不论 build 是否相同):同树重复部署时 delta 自身返回空,
+// 不会重复登记;绝不能排除同 build 清单,否则会回退成"无基线"导致全量重登记。
+export function deploymentBaseline(priorManifests, currentManifest) {
+  return [...priorManifests].reverse().find(candidate => candidate.host === currentManifest.host) || null;
+}
+
 if (process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href) {
   const args = process.argv.slice(2), value = flag => { const index = args.indexOf(flag); return index >= 0 ? args[index + 1] : null; };
   const store = value('--store');
@@ -109,8 +115,7 @@ if (process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.ar
     const deploymentsDir = path.join(path.resolve(store), 'deployments');
     const previousFiles = fs.existsSync(deploymentsDir) ? fs.readdirSync(deploymentsDir).filter(name => /^[0-9TZ-]+-[a-f0-9]{12}\.json$/.test(name)).sort() : [];
     const priorManifests = previousFiles.map(name => readJson(path.join(deploymentsDir, name)).manifest);
-    // 文件名按时间戳排序,取「最近一次、且与本次不同树」的清单作为对比基线。
-    const previousForDelta = [...priorManifests].reverse().find(candidate => candidate.host === manifest.host && candidate.build_id !== manifest.build_id) || null;
+    const previousForDelta = deploymentBaseline(priorManifests, manifest);
     const deploymentDelta = delta(manifest, previousForDelta);
     const entries = registrationsFromDelta(deploymentDelta, { today, registeredAt: now });
     const target = path.join(deploymentsDir, `${now.replace(/[:.]/g, '')}-${manifest.build_id.slice(0, 12)}.json`);
