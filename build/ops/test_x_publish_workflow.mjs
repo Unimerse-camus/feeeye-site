@@ -35,10 +35,12 @@ assert.equal(policy.channels.website.enabled, false);
 assert.ok(policy.blocked_content_types.includes('price_prediction'));
 assert.deepEqual(policy.required_gates, ['source_current', 'deployment_verified', 'bilingual_verified', 'landing_pages_valid', 'idempotency_key']);
 
-// Authorization boundary names the one approved post and the pending language decision.
+// Authorization boundary names the approved posts and the bilingual comparison addendum.
 const authorization = fs.readFileSync(path.join(root, 'docs/x-publish-authorization-2026-10-21.md'), 'utf8');
 assert.match(authorization, /本次批准发布:`cost-en` 一条/);
-assert.match(authorization, /尚未授权/);
+assert.match(authorization, /追加批准发布:`cost-zh` 一条/);
+assert.match(authorization, /英中对照实验/);
+assert.match(authorization, /transfer-zh 在决定前继续冻结/);
 assert.match(authorization, /PUBLISH_COST-EN_ONCE/);
 assert.match(authorization, /\$5/);
 
