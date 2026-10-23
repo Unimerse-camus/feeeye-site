@@ -1,42 +1,42 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-10-19",
+  "updated_at": "2026-10-23",
   "coins": [
     {
       "symbol": "A7A5",
       "name": "A7A5",
       "cg_id": "a7a5",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "AAVE",
       "name": "Aave",
       "cg_id": "aave",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "ADA",
       "name": "Cardano",
       "cg_id": "cardano",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "AERO",
       "name": "Aerodrome Finance",
       "cg_id": "aerodrome-finance",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "AKE",
       "name": "Akedo",
       "cg_id": "akedo",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "ALGO",
       "name": "Algorand",
       "cg_id": "algorand",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "ANSEM",
@@ -54,37 +54,37 @@
       "symbol": "APT",
       "name": "Aptos",
       "cg_id": "aptos",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "APXUSD",
       "name": "apxUSD",
       "cg_id": "apxusd",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "ARB",
       "name": "Arbitrum",
       "cg_id": "arbitrum",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "ASTER",
       "name": "Aster",
       "cg_id": "aster-2",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "ATOM",
       "name": "Cosmos Hub",
       "cg_id": "cosmos",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "AVAX",
       "name": "Avalanche",
       "cg_id": "avalanche-2",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "BASECAT",
@@ -108,31 +108,37 @@
       "symbol": "BCH",
       "name": "Bitcoin Cash",
       "cg_id": "bitcoin-cash",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "BDX",
       "name": "Beldex",
       "cg_id": "beldex",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
+    },
+    {
+      "symbol": "BEAM",
+      "name": "Beam",
+      "cg_id": "beam-2",
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "BGB",
       "name": "Bitget Token",
       "cg_id": "bitget-token",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "BNB",
       "name": "BNB",
       "cg_id": "binancecoin",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "BONK",
       "name": "Bonk",
       "cg_id": "bonk",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "BP",
@@ -144,31 +150,37 @@
       "symbol": "BSV",
       "name": "Bitcoin SV",
       "cg_id": "bitcoin-cash-sv",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "BTC",
       "name": "Bitcoin",
       "cg_id": "bitcoin",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "BTT",
       "name": "BitTorrent",
       "cg_id": "bittorrent",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "BTW",
       "name": "Bitway",
       "cg_id": "bitway",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "CAKE",
       "name": "PancakeSwap",
       "cg_id": "pancakeswap-token",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
+    },
+    {
+      "symbol": "CARDS",
+      "name": "Collector Crypt",
+      "cg_id": "collector-crypt",
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "CASHCAT",
@@ -186,7 +198,7 @@
       "symbol": "CC",
       "name": "Canton",
       "cg_id": "canton-network",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "CFG",
@@ -198,25 +210,31 @@
       "symbol": "CFX",
       "name": "Conflux",
       "cg_id": "conflux-token",
-      "last_seen": "2026-08-27"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "CRO",
       "name": "Cronos",
       "cg_id": "crypto-com-chain",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "CRV",
       "name": "Curve DAO",
       "cg_id": "curve-dao-token",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "CYBERLEEK",
       "name": "CyberLeek",
       "cg_id": "cyberleek",
       "last_seen": "2026-08-24"
+    },
+    {
+      "symbol": "DACITY",
+      "name": "Dacity Coin",
+      "cg_id": "dacity-coin-3",
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "DAI",
@@ -228,7 +246,7 @@
       "symbol": "DASH",
       "name": "Dash",
       "cg_id": "dash",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "DCR",
@@ -240,25 +258,25 @@
       "symbol": "DOGE",
       "name": "Dogecoin",
       "cg_id": "dogecoin",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "DOT",
       "name": "Polkadot",
       "cg_id": "polkadot",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "DRV",
       "name": "Derive",
       "cg_id": "derive",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "ENA",
       "name": "Ethena",
       "cg_id": "ethena",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "ENS",
@@ -270,19 +288,19 @@
       "symbol": "ETC",
       "name": "Ethereum Classic",
       "cg_id": "ethereum-classic",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "ETH",
       "name": "Ethereum",
       "cg_id": "ethereum",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "ETHFI",
       "name": "Ether.fi",
       "cg_id": "ether-fi",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "FARTCOIN",
@@ -294,13 +312,13 @@
       "symbol": "FET",
       "name": "Artificial Superintelligence Alliance",
       "cg_id": "fetch-ai",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "FF",
       "name": "Falcon Finance",
       "cg_id": "falcon-finance-ff",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "FIGR_HELOC",
@@ -312,19 +330,19 @@
       "symbol": "FIL",
       "name": "Filecoin",
       "cg_id": "filecoin",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "FLOKI",
       "name": "FLOKI",
       "cg_id": "floki",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "FLR",
       "name": "Flare",
       "cg_id": "flare-networks",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "FOLD",
@@ -336,37 +354,37 @@
       "symbol": "GNO",
       "name": "Gnosis",
       "cg_id": "gnosis",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "GRAM",
       "name": "Gram (prev. Toncoin)",
       "cg_id": "the-open-network",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "GRASS",
       "name": "Grass",
       "cg_id": "grass",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "GT",
       "name": "Gate",
       "cg_id": "gatechain-token",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "HASH",
       "name": "Provenance Blockchain",
       "cg_id": "hash-2",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "HBAR",
       "name": "Hedera",
       "cg_id": "hedera-hashgraph",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "HNT",
@@ -378,25 +396,31 @@
       "symbol": "HTX",
       "name": "HTX DAO",
       "cg_id": "htx-dao",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "HYPE",
       "name": "Hyperliquid",
       "cg_id": "hyperliquid",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "ICP",
       "name": "Internet Computer",
       "cg_id": "internet-computer",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "INJ",
       "name": "Injective",
       "cg_id": "injective-protocol",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
+    },
+    {
+      "symbol": "IRYS",
+      "name": "Irys",
+      "cg_id": "irys",
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "JASMY",
@@ -408,7 +432,7 @@
       "symbol": "JST",
       "name": "JUST",
       "cg_id": "just",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "JTO",
@@ -420,7 +444,7 @@
       "symbol": "JUP",
       "name": "Jupiter",
       "cg_id": "jupiter-exchange-solana",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "KAG",
@@ -432,25 +456,25 @@
       "symbol": "KAS",
       "name": "Kaspa",
       "cg_id": "kaspa",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "KAU",
       "name": "Kinesis Gold",
       "cg_id": "kinesis-gold",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "KCS",
       "name": "KuCoin",
       "cg_id": "kucoin-shares",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "KITE",
       "name": "Kite",
       "cg_id": "kite-2",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "KNTQ",
@@ -462,31 +486,31 @@
       "symbol": "LDO",
       "name": "Lido DAO",
       "cg_id": "lido-dao",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "LEO",
       "name": "LEO Token",
       "cg_id": "leo-token",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "LINK",
       "name": "Chainlink",
       "cg_id": "chainlink",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "LIT",
       "name": "Lighter",
       "cg_id": "lighter",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "LTC",
       "name": "Litecoin",
       "cg_id": "litecoin",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "LUNC",
@@ -498,13 +522,13 @@
       "symbol": "M",
       "name": "MemeCore",
       "cg_id": "memecore",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "MNT",
       "name": "Mantle",
       "cg_id": "mantle",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "MON",
@@ -516,7 +540,7 @@
       "symbol": "MORPHO",
       "name": "Morpho",
       "cg_id": "morpho",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "NCT",
@@ -528,13 +552,13 @@
       "symbol": "NEAR",
       "name": "NEAR Protocol",
       "cg_id": "near",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "NEXO",
       "name": "NEXO",
       "cg_id": "nexo",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "NFT",
@@ -546,37 +570,37 @@
       "symbol": "NIGHT",
       "name": "Midnight",
       "cg_id": "midnight-3",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "OHM",
       "name": "Olympus",
       "cg_id": "olympus",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "OKB",
       "name": "OKB",
       "cg_id": "okb",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "ONDO",
       "name": "Ondo",
       "cg_id": "ondo-finance",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "OP",
       "name": "Optimism",
       "cg_id": "optimism",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "PAXG",
       "name": "PAX Gold",
       "cg_id": "pax-gold",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "PEAQ",
@@ -585,22 +609,28 @@
       "last_seen": "2026-08-25"
     },
     {
+      "symbol": "PEARL",
+      "name": "Pearl",
+      "cg_id": "pearl-2",
+      "last_seen": "2026-10-23"
+    },
+    {
       "symbol": "PENDLE",
       "name": "Pendle",
       "cg_id": "pendle",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "PENGU",
       "name": "Pudgy Penguins",
       "cg_id": "pudgy-penguins",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "PEPE",
       "name": "Pepe",
       "cg_id": "pepe",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "PHA",
@@ -612,19 +642,19 @@
       "symbol": "PI",
       "name": "Pi Network",
       "cg_id": "pi-network",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "PIEVERSE",
       "name": "Pieverse",
       "cg_id": "pieverse",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "POL",
       "name": "POL (ex-MATIC)",
       "cg_id": "polygon-ecosystem-token",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "PONS",
@@ -642,25 +672,25 @@
       "symbol": "PUMP",
       "name": "Pump.fun",
       "cg_id": "pump-fun",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "PYTH",
       "name": "Pyth Network",
       "cg_id": "pyth-network",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "Q",
       "name": "Quack AI",
       "cg_id": "quack-ai",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "QNT",
       "name": "Quant",
       "cg_id": "quant-network",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "QTC",
@@ -672,7 +702,7 @@
       "symbol": "RAIN",
       "name": "Rain",
       "cg_id": "rain",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "RAM",
@@ -684,7 +714,7 @@
       "symbol": "RAY",
       "name": "Raydium",
       "cg_id": "raydium",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "REAL",
@@ -696,25 +726,25 @@
       "symbol": "RENDER",
       "name": "Render",
       "cg_id": "render-token",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "REUSD",
       "name": "Re Protocol reUSD",
       "cg_id": "re-protocol-reusd",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "SEI",
       "name": "Sei",
       "cg_id": "sei-network",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "SHIB",
       "name": "Shiba Inu",
       "cg_id": "shiba-inu",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "SKR",
@@ -726,31 +756,31 @@
       "symbol": "SKY",
       "name": "Sky",
       "cg_id": "sky",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "SOFID",
       "name": "SoFiUSD",
       "cg_id": "sofiusd",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "SOL",
       "name": "Solana",
       "cg_id": "solana",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "SPX",
       "name": "SPX6900",
       "cg_id": "spx6900",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "STABLE",
       "name": "​​Stable",
       "cg_id": "stable-2",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "STARTUPSI",
@@ -768,37 +798,37 @@
       "symbol": "STRK",
       "name": "Starknet",
       "cg_id": "starknet",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "STX",
       "name": "Stacks",
       "cg_id": "blockstack",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "SUI",
       "name": "Sui",
       "cg_id": "sui",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "SUN",
       "name": "Sun Token",
       "cg_id": "sun-token",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "TAO",
       "name": "Bittensor",
       "cg_id": "bittensor",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "TIA",
       "name": "Celestia",
       "cg_id": "celestia",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "TIBBIR",
@@ -810,25 +840,31 @@
       "symbol": "TRUMP",
       "name": "Official Trump",
       "cg_id": "official-trump",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "TRX",
       "name": "TRON",
       "cg_id": "tron",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "UB",
       "name": "Unibase",
       "cg_id": "unibase",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
+    },
+    {
+      "symbol": "UHI",
+      "name": "Universal High Income",
+      "cg_id": "universal-high-income-2",
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "UNI",
       "name": "Uniswap",
       "cg_id": "uniswap",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "UP",
@@ -864,7 +900,7 @@
       "symbol": "USYC",
       "name": "Circle USYC",
       "cg_id": "hashnote-usyc",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "VELVET",
@@ -876,85 +912,85 @@
       "symbol": "VET",
       "name": "VeChain",
       "cg_id": "vechain",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "VIRTUAL",
       "name": "Virtuals Protocol",
       "cg_id": "virtual-protocol",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "VVV",
       "name": "Venice Token",
       "cg_id": "venice-token",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "WBT",
       "name": "WhiteBIT Coin",
       "cg_id": "whitebit",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "WIF",
       "name": "dogwifhat",
       "cg_id": "dogwifcoin",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "WLD",
       "name": "Worldcoin",
       "cg_id": "worldcoin-wld",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "WLFI",
       "name": "World Liberty Financial",
       "cg_id": "world-liberty-financial",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "XAUT",
       "name": "Tether Gold",
       "cg_id": "tether-gold",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "XDC",
       "name": "XDC Network",
       "cg_id": "xdce-crowd-sale",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "XLM",
       "name": "Stellar",
       "cg_id": "stellar",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "XMR",
       "name": "Monero",
       "cg_id": "monero",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "XPL",
       "name": "Plasma",
       "cg_id": "plasma",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "XRP",
       "name": "XRP",
       "cg_id": "ripple",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "XTZ",
       "name": "Tezos",
       "cg_id": "tezos",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "ZANO",
@@ -966,13 +1002,13 @@
       "symbol": "ZEC",
       "name": "Zcash",
       "cg_id": "zcash",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     },
     {
       "symbol": "ZRO",
       "name": "LayerZero",
       "cg_id": "layerzero",
-      "last_seen": "2026-10-19"
+      "last_seen": "2026-10-23"
     }
   ]
 }
