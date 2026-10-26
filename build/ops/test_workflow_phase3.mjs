@@ -23,6 +23,7 @@ assert.ok(!refreshWorkflow.includes('git push origin main'));
 assert.ok(refreshWorkflow.includes('pull-requests: write'));
 assert.ok(refreshWorkflow.includes('git push --force-with-lease origin automation/refresh-market-data'));
 assert.ok(refreshWorkflow.includes('gh pr create --base main'));
+assert.ok(refreshWorkflow.includes("gh pr list --head automation/refresh-market-data --state open"), 'refresh must only edit an OPEN review PR; viewing a merged PR edits the wrong one');
 const campaign=readJson(path.join(root,'ops/automation/campaigns/x-launch-2026-08-31.json'));
 let item=draftItem(campaign,'en');
 assert.equal(item.status,'draft');assert.equal(item.post_ids.length,3);assert.equal(item.publishing_enabled,false);
