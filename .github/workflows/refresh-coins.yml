@@ -73,7 +73,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          if gh pr view automation/refresh-market-data --json number >/dev/null 2>&1; then
+          if gh pr list --head automation/refresh-market-data --state open --json number --jq 'length' | grep -qv '^0$'; then
             gh pr edit automation/refresh-market-data --title "chore: refresh market data" --body "Automated CoinGecko candidate. Review source dates and required checks before merge."
           else
             gh pr create --base main --head automation/refresh-market-data --title "chore: refresh market data" --body "Automated CoinGecko candidate. Review source dates and required checks before merge."
