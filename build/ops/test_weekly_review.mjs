@@ -19,7 +19,7 @@ const enc = (rel, value) => writeEncryptedJson(path.join(store, rel), value, key
 
 // Workflow contract: scheduled, ledger-gated, never publishes to main.
 const workflow = fs.readFileSync(path.join(root, '.github/workflows/weekly-review.yml'), 'utf8');
-assert.match(workflow, /cron: '47 4 \* \* 1'/);
+assert.match(workflow, /cron: '17 10 \* \* 1'/);
 assert.match(workflow, /vars\.FEEEYE_WEEKLY_REVIEW == 'enabled'/);
 assert.match(workflow, /ref: automation-receipts/);
 assert.match(workflow, /concurrency:\s*\n\s*group: x-receipt-ledger/);

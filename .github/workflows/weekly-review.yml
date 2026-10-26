@@ -3,9 +3,9 @@ name: weekly-review
 on:
   workflow_dispatch:
   schedule:
-    # 04:47 UTC Monday = 12:47 Asia/Shanghai. Runs after the Monday collection batch
-    # (02:17-03:37 UTC) completes; non-round minute reduces scheduler contention.
-    - cron: '47 4 * * 1'
+    # 10:17 UTC Monday = 18:17 Asia/Shanghai. Observed GitHub scheduler delay pushed
+    # the collection batch to ~08:44 UTC completion, so the review runs after it.
+    - cron: '17 10 * * 1'
 
 permissions:
   contents: write
