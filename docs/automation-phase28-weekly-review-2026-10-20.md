@@ -32,4 +32,4 @@ X 发布回执的 `reconciled` 字段语义是「该请求是否匹配到已存�
 1. 合并本阶段 PR 与 PR #35。
 2. 在仓库 Settings → Secrets and variables → Actions 添加变量 `FEEEYE_WEEKLY_REVIEW = enabled`。
 3. (可选)首跑验证:Actions → weekly-review → Run workflow。
-4. 每周日仪式:填人工补充 JSON → `FEEEYE_OPS_DATA_KEY=<base64> node build/ops/weekly_review.mjs --stage-manual --input weekly.json --store <账本 checkout>` → 提交账本分支。
+4. 每周日仪式(affiliate 自 2026-10-26 暂缓,manual 只填 human_hours 与内容行,可选):`FEEEYE_OPS_DATA_KEY=<base64> node build/ops/weekly_review.mjs --stage-manual --input weekly.json --store <账本 checkout>` → 提交账本分支。
