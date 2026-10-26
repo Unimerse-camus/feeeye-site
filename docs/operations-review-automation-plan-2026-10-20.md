@@ -82,7 +82,7 @@
 - `--assemble`(CI 内执行):从账本 checkout 读取本周各目录最新加密回执(search/、analytics/、cross-channel/、experiments/、x-metrics/、x-analysis/、feedback/)+ 本周 manual 密文 → 解密 → 映射填充 `validateWeeklyInput` 的 12 项指标与 coverage → 产出周报输入 JSON。映射规则固定并写测试:GSC 回执→search_clicks/impressions;CF 回执→site_visits/ai_referral_visits;X 分析→x_posts_published/x_link_clicks;manual→affiliate 三项+human_hours;某源回执缺失→null+missing,不阻断。
 - `--render`:调用现有 `buildWeeklyReport` 渲染 Markdown,**加密写入账本 `reports/weekly/<ISO周>.md.enc`**,同时把不含数字的"结构摘要"(coverage 表 + 是否达到 30 访问门槛的布尔值 + 建议行)输出到 workflow 日志。
 
-**新增 `.github/workflows/weekly-review.yml`**:schedule 周一 04:47 UTC(北京 12:47,在 03:37 feedback-link-evidence 之后留足缓冲) + workflow_dispatch;`vars.FEEEYE_WEEKLY_REVIEW == 'enabled'` 门控;artifact 上传加密周报,30 天保留。
+**新增 `.github/workflows/weekly-review.yml`**:schedule 周一 10:17 UTC(北京 18:17,在 03:37 feedback-link-evidence 之后留足缓冲) + workflow_dispatch;`vars.FEEEYE_WEEKLY_REVIEW == 'enabled'` 门控;artifact 上传加密周报,30 天保留。
 
 **验收**:
 - 空 manual 时周报仍生成,affiliate 全 null、coverage 标 missing,退出码 0;

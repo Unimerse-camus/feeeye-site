@@ -13,7 +13,7 @@
   - `--assemble`:从账本读取各来源最新加密回执并映射为 `weekly_report.mjs` 的输入——GSC(trailing 28 天页面聚合,coverage 如实标 partial)、Cloudflare(逐日序列按周窗口切片,EU 排除口径保留)、X(窗口内真实发布回执计数 + 最新指标分析中各帖最新检查点的 url_clicks 累计)、人工补充(affiliate/人工小时/内容行/Bing)。
   - `--render`:装配 → 渲染 → 以内容寻址文件名(`reports/weekly/<周标签>__<sha256 前 16 位>.md.enc`)加密写回账本。同内容重跑幂等;人工补充晚到后的重跑生成新版本,旧版本保留供审计。
   - 缺失语义:某来源回执缺失或过期(GSC 超 10 天)→ 该组指标 null + coverage missing,生成不中断;周报 notes 记录降级原因。
-- `.github/workflows/weekly-review.yml`:周一 04:47 UTC(北京 12:47,在采集批之后),`vars.FEEEYE_WEEKLY_REVIEW == 'enabled'` 门控 + 手动触发;与账本写入方共享 `x-receipt-ledger` concurrency 组;只提交 `reports/weekly` 并上传加密 artifact(30 天)。
+- `.github/workflows/weekly-review.yml`:周一 10:17 UTC(北京 18:17,在采集批之后),`vars.FEEEYE_WEEKLY_REVIEW == 'enabled'` 门控 + 手动触发;与账本写入方共享 `x-receipt-ledger` concurrency 组;只提交 `reports/weekly` 并上传加密 artifact(30 天)。
 - `build/ops/test_weekly_review.mjs`:覆盖工作流契约、窗口/周标签、装配映射、部分覆盖(6/7 天)、无人工补充、人工 schema 拒绝、过期降级、内容寻址重渲染、CLI 端到端;已接入 `validate-site`。
 
 ## 语义修正(2026-10-20)
