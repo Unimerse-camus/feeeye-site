@@ -237,6 +237,12 @@
       "last_seen": "2026-10-25"
     },
     {
+      "symbol": "DACITYCOIN",
+      "name": "AudaCity",
+      "cg_id": "audacity-4",
+      "last_seen": "2026-11-15"
+    },
+    {
       "symbol": "DAI",
       "name": "Dai",
       "cg_id": "dai",
@@ -543,10 +549,16 @@
       "last_seen": "2026-11-15"
     },
     {
+      "symbol": "MACCA",
+      "name": "Macca the Gator",
+      "cg_id": "macca-the-gator-2",
+      "last_seen": "2026-11-15"
+    },
+    {
       "symbol": "MIHAO",
       "name": "ni hao cat",
       "cg_id": "ni-hao-cat",
-      "last_seen": "2026-11-14"
+      "last_seen": "2026-11-15"
     },
     {
       "symbol": "MNT",

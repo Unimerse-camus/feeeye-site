@@ -305,37 +305,37 @@ window.getAllDepositMethods = function () {
 //   security（安全）= 编辑综合（历史事件 + 储备/冷存储），非官方评级
 window.EXCHANGE_COMPARE = {
   "kucoin": {
-    "max_leverage": 100, "has_options": true, "has_leveraged_tokens": true, "has_margin": true, "coins": 788, "volume": "≈$3.88B", "trust": 9, "security": 8, "market_data_retrieved_at": {"coins":"2026-11-15T13:57:54.191Z","trust":"2026-11-15T13:57:54.191Z","volume":"2026-11-15T13:57:54.191Z"},
+    "max_leverage": 100, "has_options": true, "has_leveraged_tokens": true, "has_margin": true, "coins": 788, "volume": "≈$3.37B", "trust": 9, "security": 8, "market_data_retrieved_at": {"coins":"2026-11-15T21:03:04.234Z","trust":"2026-11-15T21:03:04.234Z","volume":"2026-11-15T21:03:04.234Z"},
     "kyc": {"en": "Mandatory", "zh": "强制 KYC"}, "licenses": {"en": "Seychelles + AU + EU (Estonia) + Bermuda", "zh": "塞舌尔 + 澳大利亚 + 欧盟（爱沙尼亚）+ 百慕大"},
     "reserve": {"en": "100%+ (PoR)", "zh": "100%+（储备证明 PoR）"}, "cold": {"en": "95%+", "zh": "95%+"}, "incident": {"en": "2020 $281M hack (fully compensated)", "zh": "2020 年 2.81 亿美元被盗（已全额赔付）"}
   },
   "binance": {
-    "max_leverage": 125, "has_options": true, "has_leveraged_tokens": true, "has_margin": true, "coins": 518, "volume": "≈$11.39B", "trust": 10, "security": 9, "market_data_retrieved_at": {"coins":"2026-11-15T13:57:55.792Z","trust":"2026-11-15T13:57:55.792Z","volume":"2026-11-15T13:57:55.792Z"},
+    "max_leverage": 125, "has_options": true, "has_leveraged_tokens": true, "has_margin": true, "coins": 518, "volume": "≈$9.51B", "trust": 10, "security": 9, "market_data_retrieved_at": {"coins":"2026-11-15T21:03:05.661Z","trust":"2026-11-15T21:03:05.661Z","volume":"2026-11-15T21:03:05.661Z"},
     "kyc": {"en": "Mandatory", "zh": "强制 KYC"}, "licenses": {"en": "ADGM Abu Dhabi + VARA Dubai + multiple (no EU MiCA)", "zh": "阿布扎比 ADGM + 迪拜 VARA + 其他牌照（欧盟无 MiCA）"},
     "reserve": {"en": "~101% (PoR)", "zh": "约 101%（储备证明 PoR）"}, "cold": {"en": "~95% (est.)", "zh": "约 95%（估算）"}, "incident": {"en": "2019 $40M hack (compensated); 2023 US DOJ AML settlement", "zh": "2019 年 4000 万美元被盗（已赔付）；2023 年美国司法部反洗钱和解"}
   },
   "bybit": {
-    "max_leverage": 100, "has_options": true, "has_leveraged_tokens": false, "has_margin": true, "coins": 389, "volume": "≈$2.9B", "trust": 8, "security": 7, "market_data_retrieved_at": {"coins":"2026-11-15T13:57:58.774Z","trust":"2026-11-15T13:57:58.774Z","volume":"2026-11-15T13:57:58.774Z"},
+    "max_leverage": 100, "has_options": true, "has_leveraged_tokens": false, "has_margin": true, "coins": 389, "volume": "≈$2.4B", "trust": 8, "security": 7, "market_data_retrieved_at": {"coins":"2026-11-15T21:03:08.586Z","trust":"2026-11-15T21:03:08.586Z","volume":"2026-11-15T21:03:08.586Z"},
     "kyc": {"en": "Mandatory", "zh": "强制 KYC"}, "licenses": {"en": "VARA Dubai + EU (MiCA)", "zh": "迪拜 VARA + 欧盟（MiCA）"},
     "reserve": {"en": ">100% (Hacken)", "zh": ">100%（Hacken 审计）"}, "cold": {"en": "95%", "zh": "95%"}, "incident": {"en": "2025 Feb $1.46B hack (fully compensated)", "zh": "2025 年 2 月 14.6 亿美元被盗（已全额赔付）"}
   },
   "okx": {
-    "max_leverage": 100, "has_options": true, "has_leveraged_tokens": true, "has_margin": true, "coins": 303, "volume": "≈$3.77B", "trust": 10, "security": 9, "market_data_retrieved_at": {"coins":"2026-11-15T13:57:57.223Z","trust":"2026-11-15T13:57:57.223Z","volume":"2026-11-15T13:57:57.223Z"},
+    "max_leverage": 100, "has_options": true, "has_leveraged_tokens": true, "has_margin": true, "coins": 303, "volume": "≈$2.98B", "trust": 10, "security": 9, "market_data_retrieved_at": {"coins":"2026-11-15T21:03:07.083Z","trust":"2026-11-15T21:03:07.083Z","volume":"2026-11-15T21:03:07.083Z"},
     "kyc": {"en": "Mandatory", "zh": "强制 KYC"}, "licenses": {"en": "Malta (EU MiCA) + VARA Dubai + Singapore MAS; HK VASP application withdrawn", "zh": "马耳他（欧盟 MiCA）+ 迪拜 VARA + 新加坡 MAS；香港 VASP 申请已撤回"},
     "reserve": {"en": "105% / 112%", "zh": "105% / 112%"}, "cold": {"en": "95%+", "zh": "95%+"}, "incident": {"en": "No hack; 2025 US DOJ settlement (AML)", "zh": "无黑客事件；2025 年美国司法部反洗钱和解"}
   },
   "bitget": {
-    "max_leverage": 125, "has_options": true, "has_leveraged_tokens": true, "has_margin": true, "coins": 568, "volume": "≈$1.97B", "trust": 10, "security": 8, "market_data_retrieved_at": {"coins":"2026-11-15T13:58:00.219Z","trust":"2026-11-15T13:58:00.219Z","volume":"2026-11-15T13:58:00.219Z"},
+    "max_leverage": 125, "has_options": true, "has_leveraged_tokens": true, "has_margin": true, "coins": 567, "volume": "≈$1.66B", "trust": 10, "security": 8, "market_data_retrieved_at": {"coins":"2026-11-15T21:03:10.045Z","trust":"2026-11-15T21:03:10.045Z","volume":"2026-11-15T21:03:10.045Z"},
     "kyc": {"en": "Mandatory for core services", "zh": "核心服务强制 KYC"}, "licenses": {"en": "EU MiCAR application submitted to Austria FMA (not yet approved)", "zh": "已向奥地利 FMA 提交欧盟 MiCAR 申请（尚未获批）"},
     "reserve": {"en": "123–163%", "zh": "123–163%"}, "cold": {"en": "95%", "zh": "95%"}, "incident": {"en": "No external hack", "zh": "无外部黑客事件"}
   },
   "kraken": {
-    "max_leverage": 50, "has_options": false, "has_leveraged_tokens": false, "has_margin": true, "coins": 723, "volume": "≈$1.77B", "trust": 10, "security": 10, "market_data_retrieved_at": {"coins":"2026-11-15T13:58:02.276Z","trust":"2026-11-15T13:58:02.276Z","volume":"2026-11-15T13:58:02.276Z"},
+    "max_leverage": 50, "has_options": false, "has_leveraged_tokens": false, "has_margin": true, "coins": 723, "volume": "≈$1.38B", "trust": 10, "security": 10, "market_data_retrieved_at": {"coins":"2026-11-15T21:03:11.574Z","trust":"2026-11-15T21:03:11.574Z","volume":"2026-11-15T21:03:11.574Z"},
     "kyc": {"en": "Strict (US-licensed)", "zh": "严格（美国持牌）"}, "licenses": {"en": "US + EU (MiCA) + UK + Canada", "zh": "美国 + 欧盟（MiCA）+ 英国 + 加拿大"},
     "reserve": {"en": "~101% (PoR)", "zh": "约 101%（储备证明 PoR）"}, "cold": {"en": "95%", "zh": "95%"}, "incident": {"en": "No major hack", "zh": "无重大黑客事件"}
   },
   "coinbase": {
-    "max_leverage": 10, "has_options": false, "has_leveraged_tokens": false, "has_margin": true, "coins": 408, "volume": "≈$3.36B", "trust": 10, "security": 9, "market_data_retrieved_at": {"coins":"2026-11-15T13:58:03.811Z","trust":"2026-11-15T13:58:03.811Z","volume":"2026-11-15T13:58:03.811Z"},
+    "max_leverage": 10, "has_options": false, "has_leveraged_tokens": false, "has_margin": true, "coins": 408, "volume": "≈$2.46B", "trust": 10, "security": 9, "market_data_retrieved_at": {"coins":"2026-11-15T21:03:13.029Z","trust":"2026-11-15T21:03:13.029Z","volume":"2026-11-15T21:03:13.029Z"},
     "kyc": {"en": "Strict (US-listed)", "zh": "严格（美国上市）"}, "licenses": {"en": "US (NYSE) + EU + UK", "zh": "美国（NYSE）+ 欧盟 + 英国"},
     "reserve": {"en": "Public audits (no PoR)", "zh": "公开审计（无 PoR）"}, "cold": {"en": "98%+", "zh": "98%+"}, "incident": {"en": "No hack; 2024 customer data breach", "zh": "无黑客事件；2024 年客户数据泄露"}
   }
