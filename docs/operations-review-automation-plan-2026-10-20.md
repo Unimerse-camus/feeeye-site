@@ -22,7 +22,7 @@
 
 | 环节 | 工作流 / 脚本 | 节奏 | 产物 |
 |---|---|---|---|
-| 数据刷新 | refresh-coin-data | 每日 16:00 UTC → 审核 PR | data PR(#35 待合并,分支每日自动更新) |
+| 数据刷新 | refresh-coin-data + refresh-automerge(Phase 33) | 每日 16:00 UTC → 白名单门控自动合并 | 三文件白名单 + 必需校验通过才合并 |
 | 站点健康 | ops-health | 每日 01:17 UTC | 日检摘要 |
 | GSC 信号 | search-signals-gsc | 周一 02:17 UTC | 加密回执 `search/` |
 | CF 分析 | cloudflare-analytics | 周一 02:27 UTC | 加密回执 `analytics/` |
