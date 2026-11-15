@@ -5,6 +5,7 @@
 // (YouTube/社区,--register 手动)。X 帖不需要登记——发布回执本身就是登记。
 // 登记只记录「什么内容、什么地址、哪天发布」;效果数据由 lifecycle review
 // 在检查点到期时从 GSC/X 指标回执里现查,不落登记表。
+import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
@@ -75,12 +76,17 @@ export function slugFromUrl(url) {
   return slug || 'root';
 }
 
-// 从部署差异推导登记项:新增或实质变更(sha256 变)的编辑页 → 以部署日为发布日登记。
+// 编辑性内容的源文件:只有这些路径的提交才可能代表「实质再发布」。
+// 数据合并(coins/exchanges)会改全站页脚快照日期 → 全站哈希变化,不是编辑性变更。
+export const EDITORIAL_SOURCE_PATHS = ['build/learning_content.mjs', 'ops/automation/snapshots/'];
+
+// 从部署差异推导登记项:新增的编辑页总是登记;「变更」的编辑页仅当编辑源文件
+// 在两次部署的提交区间内变化时才登记(数据快照引起的哈希漂移不触发重登记)。
 // 同一天重复部署同一内容 → content_id 相同 → 幂等;次日的实质再变更 → 新 content_id。
-export function registrationsFromDelta(delta, { today, registeredAt, source = 'postdeploy' }) {
+export function registrationsFromDelta(delta, { today, registeredAt, source = 'postdeploy', editorialSourcesChanged = false }) {
   if (!validDay(today)) throw new Error('Invalid registration date');
-  const changedSet = new Set(delta.changed);
-  const editorial = [...delta.created, ...delta.changed].filter(url => EDITORIAL_PATH_PATTERN.test(new URL(url).pathname));
+  const changedSet = new Set(editorialSourcesChanged ? delta.changed : []);
+  const editorial = [...delta.created, ...(editorialSourcesChanged ? delta.changed : [])].filter(url => EDITORIAL_PATH_PATTERN.test(new URL(url).pathname));
   return editorial.map(url => ({
     schema_version: 1,
     content_id: `site-${slugFromUrl(url)}-${today}`,
@@ -100,6 +106,15 @@ export function deploymentBaseline(priorManifests, currentManifest) {
   return [...priorManifests].reverse().find(candidate => candidate.host === currentManifest.host) || null;
 }
 
+// 编辑源在两次部署提交之间是否变化:git diff --name-only prev..current -- <编辑路径>。
+// 任一源路径有提交 → 视为可能实质再发布;数据文件-only 的合并恒为 false。
+export function editorialSourcesTouched(sourceRepo, previousRevision, currentRevision) {
+  if (!/^[a-f0-9]{40}$/.test(previousRevision || '') || !/^[a-f0-9]{40}$/.test(currentRevision || '')) throw new Error('Deployment revisions are required for the editorial-source check');
+  const out = execFileSync('git', ['-C', path.resolve(sourceRepo), 'diff', '--name-only', `${previousRevision}..${currentRevision}`, '--', ...EDITORIAL_SOURCE_PATHS], { encoding: 'utf8' });
+  return out.trim().length > 0;
+}
+const rootOf = distDir => path.resolve(distDir, '..');
+
 if (process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href) {
   const args = process.argv.slice(2), value = flag => { const index = args.indexOf(flag); return index >= 0 ? args[index + 1] : null; };
   const store = value('--store');
@@ -114,10 +129,13 @@ if (process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.ar
     const envelope = { schema_version: 1, recorded_at: now, manifest };
     const deploymentsDir = path.join(path.resolve(store), 'deployments');
     const previousFiles = fs.existsSync(deploymentsDir) ? fs.readdirSync(deploymentsDir).filter(name => /^[0-9TZ-]+-[a-f0-9]{12}\.json$/.test(name)).sort() : [];
-    const priorManifests = previousFiles.map(name => readJson(path.join(deploymentsDir, name)).manifest);
+    const priorEnvelopes = previousFiles.map(name => readJson(path.join(deploymentsDir, name)));
+    const priorManifests = priorEnvelopes.map(envelope => envelope.manifest);
     const previousForDelta = deploymentBaseline(priorManifests, manifest);
     const deploymentDelta = delta(manifest, previousForDelta);
-    const entries = registrationsFromDelta(deploymentDelta, { today, registeredAt: now });
+    const previousRevision = [...priorEnvelopes].reverse().find(envelope => envelope.manifest.build_id !== manifest.build_id)?.manifest.source_revision ?? null;
+    const editorialSourcesChanged = previousRevision && manifest.source_revision ? editorialSourcesTouched(value('--source') || path.join(rootOf(value('--dist') || 'dist')), previousRevision, manifest.source_revision) : false;
+    const entries = registrationsFromDelta(deploymentDelta, { today, registeredAt: now, editorialSourcesChanged });
     const target = path.join(deploymentsDir, `${now.replace(/[:.]/g, '')}-${manifest.build_id.slice(0, 12)}.json`);
     fs.mkdirSync(deploymentsDir, { recursive: true });
     if (!fs.existsSync(target)) fs.writeFileSync(target, JSON.stringify(envelope, null, 2) + '\n', { flag: 'wx', mode: 0o644 });

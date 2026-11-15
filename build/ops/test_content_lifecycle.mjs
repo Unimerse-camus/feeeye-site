@@ -1,11 +1,12 @@
 #!/usr/bin/env node
 import assert from 'node:assert/strict';
+import { execFileSync } from 'node:child_process';
 import crypto from 'node:crypto';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { validateContentRegistration, recordContentRegistration, loadContentRegistry, normalizeLandingUrl, slugFromUrl, registrationsFromDelta, deploymentBaseline, EDITORIAL_PATH_PATTERN } from './content_registry.mjs';
+import { validateContentRegistration, recordContentRegistration, loadContentRegistry, normalizeLandingUrl, slugFromUrl, registrationsFromDelta, deploymentBaseline, editorialSourcesTouched, EDITORIAL_PATH_PATTERN } from './content_registry.mjs';
 import { delta } from './deployment_manifest.mjs';
 import { reviewContentLifecycle, lifecycleMarkdown, lifecycleThreshold } from './content_lifecycle_review.mjs';
 import { renderWeeklyReport } from './weekly_review.mjs';
@@ -54,15 +55,48 @@ assert.throws(() => loadContentRegistry(store), /Registry path mismatch/);
 fs.unlinkSync(path.join(store, 'content-registry/orphan.json'));
 
 // Deployment delta → registrations: only editorial paths, created vs republished note, per-day idempotent ids.
+// Data-only merges (footer snapshot churn) must NOT re-register changed pages.
+const dataOnly = registrationsFromDelta({
+  created: ['https://feeeye.com/zh/learn/first-spot-trade.html', 'https://feeeye.com/where-to-buy/btc.html'],
+  changed: ['https://feeeye.com/research/1000-usdt-spot-cost.html', 'https://feeeye.com/tools/fee-calculator.html'],
+  deleted: []
+}, { today: '2026-10-26', registeredAt: '2026-10-26T05:00:00.000Z', editorialSourcesChanged: false });
+assert.deepEqual(dataOnly.map(item => item.content_id), ['site-zh-learn-first-spot-trade-2026-10-26']);
+// Genuine editorial-source commits re-register the changed editorial pages with a republish note.
 const registrations = registrationsFromDelta({
   created: ['https://feeeye.com/zh/learn/first-spot-trade.html', 'https://feeeye.com/where-to-buy/btc.html'],
   changed: ['https://feeeye.com/research/1000-usdt-spot-cost.html', 'https://feeeye.com/tools/fee-calculator.html'],
   deleted: []
-}, { today: '2026-10-26', registeredAt: '2026-10-26T05:00:00.000Z' });
+}, { today: '2026-10-26', registeredAt: '2026-10-26T05:00:00.000Z', editorialSourcesChanged: true });
 assert.deepEqual(registrations.map(item => item.content_id), ['site-zh-learn-first-spot-trade-2026-10-26', 'site-research-1000-usdt-spot-cost-2026-10-26']);
 assert.deepEqual(registrations[0].notes, []);
 assert.deepEqual(registrations[1].notes, ['republished: content hash changed']);
 assert.equal(registrationsFromDelta({ created: [], changed: [], deleted: [] }, { today: '2026-10-26', registeredAt: '2026-10-26T05:00:00.000Z' }).length, 0);
+
+// Revision-based editorial-source detection on a temp git repo.
+const sourceRepo = fs.mkdtempSync(path.join(os.tmpdir(), 'feeeye-editorial-src-'));
+const gitIn = (args, env = {}) => execFileSync('git', args, { cwd: sourceRepo, encoding: 'utf8', env: { ...process.env, ...env } });
+gitIn(['init', '-q']); gitIn(['config', 'user.name', 't']); gitIn(['config', 'user.email', 't@e.invalid']);
+fs.mkdirSync(path.join(sourceRepo, 'build'), { recursive: true });
+fs.mkdirSync(path.join(sourceRepo, 'data'), { recursive: true });
+fs.writeFileSync(path.join(sourceRepo, 'build/learning_content.mjs'), 'v1');
+fs.writeFileSync(path.join(sourceRepo, 'data/coins.json'), 'v1');
+gitIn(['add', '.']); gitIn(['commit', '-q', '-m', 'base'], { GIT_COMMITTER_DATE: '2026-10-01T00:00:00Z', GIT_AUTHOR_DATE: '2026-10-01T00:00:00Z' });
+const base = gitIn(['rev-parse', 'HEAD']).trim();
+fs.writeFileSync(path.join(sourceRepo, 'data/coins.json'), 'v2');
+gitIn(['add', '.']); gitIn(['commit', '-q', '-m', 'data only'], { GIT_COMMITTER_DATE: '2026-10-02T00:00:00Z', GIT_AUTHOR_DATE: '2026-10-02T00:00:00Z' });
+const dataRev = gitIn(['rev-parse', 'HEAD']).trim();
+fs.writeFileSync(path.join(sourceRepo, 'build/learning_content.mjs'), 'v2');
+gitIn(['add', '.']); gitIn(['commit', '-q', '-m', 'editorial'], { GIT_COMMITTER_DATE: '2026-10-03T00:00:00Z', GIT_AUTHOR_DATE: '2026-10-03T00:00:00Z' });
+const editorialRev = gitIn(['rev-parse', 'HEAD']).trim();
+assert.equal(editorialSourcesTouched(sourceRepo, base, dataRev), false);
+assert.equal(editorialSourcesTouched(sourceRepo, base, editorialRev), true);
+assert.throws(() => editorialSourcesTouched(sourceRepo, 'short', editorialRev), /revisions are required/);
+
+// Workflow contract: full-history source checkout and the --source flag.
+const postdeployYaml = fs.readFileSync(path.join(root, '.github/workflows/postdeploy-bilingual.yml'), 'utf8');
+assert.match(postdeployYaml, /fetch-depth: 0/);
+assert.match(postdeployYaml, /--register-deployment --store receipt-ledger --dist dist --source \./);
 
 // Ledger fixtures: one X post (2026-09-03) with only its 7d metrics snapshot, plus a GSC page receipt.
 const xKey = 'a'.repeat(64);
