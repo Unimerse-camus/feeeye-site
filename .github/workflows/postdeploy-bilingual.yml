@@ -18,6 +18,10 @@ jobs:
     timeout-minutes: 12
     steps:
       - uses: actions/checkout@v7
+        with:
+          # Full history: the content registry diffs editorial source paths
+          # between the previous and current deployment revisions.
+          fetch-depth: 0
       - name: Check out encrypted operations ledger
         uses: actions/checkout@v7
         with:
@@ -33,7 +37,7 @@ jobs:
       - name: Verify every English and Chinese learning pair
         run: node build/ops/live_bilingual_check.mjs --base-url https://feeeye.com --fetch-base-url https://feeeye-site.pages.dev --expected-release ops/automation/working/postdeploy-release.json --all --out ops/automation/working/postdeploy-bilingual.json
       - name: Record deployment manifest and register editorial content
-        run: node build/ops/content_registry.mjs --register-deployment --store receipt-ledger --dist dist
+        run: node build/ops/content_registry.mjs --register-deployment --store receipt-ledger --dist dist --source .
       - name: Commit registry and deployment records only
         working-directory: receipt-ledger
         run: |
