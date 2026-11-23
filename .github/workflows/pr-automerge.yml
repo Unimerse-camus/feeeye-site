@@ -1,0 +1,31 @@
+name: pr-automerge
+
+on:
+  pull_request:
+    types:
+      - opened
+      - labeled
+      - reopened
+      - ready_for_review
+      - synchronize
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  enable-automerge:
+    if: >-
+      !github.event.pull_request.draft &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      (
+        contains(github.event.pull_request.labels.*.name, 'automerge') ||
+        startsWith(github.head_ref, 'auto/')
+      )
+    runs-on: ubuntu-latest
+    steps:
+      - name: Enable GitHub auto-merge (squash)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+        run: gh pr merge --auto --squash --delete-branch "$PR_URL"
