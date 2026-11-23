@@ -29,7 +29,7 @@
   .panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;margin-top:10px}
   label{display:block;font-size:13px;color:var(--sub);margin-bottom:5px;font-weight:600}
   input{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:9px;font-size:15px;background:#fff;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
-  .seg{display:flex;gap:8px;margin-bottom:14px}
+  .seg{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
   .seg button{flex:1;padding:9px;border:1px solid var(--line);background:#fff;border-radius:9px;cursor:pointer;font-weight:600;color:var(--sub)}
   .seg button.on{background:var(--brand);color:#fff;border-color:var(--brand)}
   .btn{margin-top:14px;background:var(--brand);color:#fff;border:none;padding:12px 18px;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;width:100%}
@@ -104,7 +104,7 @@
   <div class="foot">
     数据源：GoPlus（以太坊）+ RugCheck（Solana），实时。本工具帮你识别明显骗局特征——<b>不构成</b>安全保证，也<b>不构成</b>投资建议。请自行做好研究。<br>
     如有任何功能需求和建议，或网页有错误需要修正，请联系 <a href="mailto:feeeyeofficial@gmail.com">feeeyeofficial@gmail.com</a><br>
-    <a href="/zh/">首页</a> · <a href="/zh/privacy.html">隐私政策</a> · <a href="/zh/terms.html">使用条款</a>
+    <a href="/zh/">首页</a> · <a href="/zh/about.html">关于我们</a> · <a href="/zh/privacy.html">隐私政策</a> · <a href="/zh/terms.html">使用条款</a>
   </div>
 </div>
 
@@ -124,7 +124,7 @@
       { label: 'SHIB', a: '0x95ad61b0a150d79219dcf64e1e6cc01f0b64c4ce' },
       { label: 'PEPE', a: '0x6982508145454ce325ddbe47a25d4ec3d2311933' }
     ],
-    sol: [
+    bsc: [{ label: 'USDT', a: '0x55d398326f99059ff775485246999027b3197955' }, { label: 'CAKE', a: '0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82' }], base: [{ label: 'USDC', a: '0x833589fcd6edb6e08f4c7c32d4f71b54bda02913' }], arb: [{ label: 'ARB', a: '0x912ce59144191c1204e64559fe8253a0e49e6548' }], sol: [
       { label: 'WIF', a: 'EKpQGSJtjMFqKZ9KQanSqYXRcF8fBopzLHYxdM65zcjm' },
       { label: 'POPCAT', a: '7GCihgDB8fe6KNjn2MYtkzZcRjQy3t9GHdC8uHYmW2hr' },
       { label: 'BONK', a: 'DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263' }
@@ -171,9 +171,9 @@
     btn.disabled = true;
     loading.style.display = 'block';
     result.style.display = 'none';
-    var url = chain === 'sol'
+    var EVM_CHAIN_IDS = { eth: '1', bsc: '56', base: '8453', arb: '42161' }; var url = chain === 'sol'
       ? 'https://api.rugcheck.xyz/v1/tokens/' + a + '/report'
-      : 'https://api.gopluslabs.io/api/v1/token_security/1?contract_addresses=' + a;
+      : 'https://api.gopluslabs.io/api/v1/token_security/' + (EVM_CHAIN_IDS[chain] || '1') + '?contract_addresses=' + a;
     fetch(url)
       .then(function(r){ if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
       .then(function(data){
