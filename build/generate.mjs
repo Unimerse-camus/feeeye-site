@@ -1021,7 +1021,7 @@ function whereToBuy(c, lang) {
   // 无上架数据时降级为空态提示，其余渲染可切换子项的下拉维度列
   const toggleBlock = slugs.length === 0
     ? `<p class="intro">${esc(T(lang, 'wbEmpty', { s: symbol }))}</p>`
-    : `<p class="wb-toggle-tip">${esc(T(lang, 'wbToggle'))}</p>
+    : `<p class="wb-toggle-tip">${esc(L('Beginner tip: Focus on the first two columns (Deposit + Spot taker) for buying coins. Futures is only for derivatives.', '新手提示：买现货只需重点看前两列（入金方式 + 现货吃单费率），合约列仅针对衍生品交易。'))}</p><p class="wb-toggle-tip">${esc(T(lang, 'wbToggle'))}</p>
   <div class="scroll"><table class="wb-table"><thead><tr>${ths}</tr></thead><tbody>${rows}</tbody></table></div>
   ${notesHtml}
   <script>
@@ -1193,7 +1193,7 @@ function exchangePage(slug, lang) {
         <div class="exchange-stat"><span>${esc(L('Base spot maker / taker', '现货基础挂单 / 吃单'))}</span><b>${pct(ex.spot.maker)} / ${pct(ex.spot.taker)}</b><small>${esc(L('Regular user snapshot', '普通用户费率快照'))}</small></div>
         <div class="exchange-stat"><span>${esc(L('Base futures maker / taker', '合约基础挂单 / 吃单'))}</span><b>${pct(ex.futures.maker)} / ${pct(ex.futures.taker)}</b><small>${esc(L('Leverage can liquidate positions', '杠杆可能触发强平'))}</small></div>
         <div class="exchange-stat"><span>${esc(L('Lowest listed USDT withdrawal', '最低 USDT 提币费'))}</span><b>${esc(cheapestWithdrawalText)}</b><small>${esc(L('Network must match the receiving wallet', '必须与接收钱包网络一致'))}</small></div>
-        <div class="exchange-stat"><span>${esc(L('Maximum listed leverage', '页面记录最高杠杆'))}</span><b>${cd.max_leverage ? cd.max_leverage + 'x' : '—'}</b><small>${esc(L('High risk · not for beginners', '高风险 · 不建议新手使用'))}</small></div>
+        <div class="exchange-stat"><span>${esc(L('Deposit options', '支持入金方式'))}</span><b>${esc((ex.deposit_methods || []).slice(0, 3).join(' · ') || '-')}</b><small>${esc(L('Fiat, card or P2P supported', '支持法币、银行卡或 P2P 入金'))}</small></div>
       </div>
       ${evidenceHtml}
     </section>
@@ -1240,7 +1240,7 @@ function exchangePage(slug, lang) {
       <div class="exchange-section-head"><div><h2>${esc(L('Safety and compliance', '安全与合规'))}</h2><p>${esc(L('These are public disclosures and recorded events, not a guarantee that funds cannot be lost.', '以下为公开披露与事件记录，不代表资金不会遭受损失。'))}</p></div></div>
       <div class="exchange-safety-grid">
         <div class="exchange-subcard"><h3>${esc(L('Current disclosures', '当前披露'))}</h3><div class="sec-list"><div class="srow"><span>${esc(T(lang, 'exReserve'))}</span><b>${esc(secV(cd.reserve))}</b></div><div class="srow"><span>${esc(T(lang, 'exCold'))}</span><b>${esc(secV(cd.cold))}</b></div><div class="srow"><span>${esc(T(lang, 'exLicenses'))}</span><b>${esc(secV(cd.licenses))}</b></div><div class="srow"><span>${esc(T(lang, 'exKyc'))}</span><b>${esc(secV(cd.kyc))}</b></div></div></div>
-        <div class="exchange-subcard"><h3>${esc(L('Recorded incidents', '事件记录'))}</h3><div class="sec-list"><div class="srow inc-head"><span>${esc(T(lang, 'exIncident'))}</span><b>${esc(T(lang, 'exResponse'))}</b></div>${incidentHtml || `<div class="srow"><span>—</span></div>`}</div></div>
+        <div class="exchange-subcard"><h3>${esc(L('Recorded incidents', '事件记录'))}</h3><details><summary style="cursor:pointer;font-weight:600;font-size:13px;color:var(--sub)">${esc(L('View historical disclosures & incident log', '查看历史合规披露与事件记录'))}</summary><div class="sec-list"><div class="srow inc-head"><span>${esc(T(lang, 'exIncident'))}</span><b>${esc(T(lang, 'exResponse'))}</b></div>${incidentHtml || `<div class="srow"><span>—</span></div>`}</div></details></div>
       </div>
       <div class="compare-source-links">${detailSourceLink('kyc', L('KYC source', 'KYC 来源'))}${detailSourceLink('regulation', L('Licence source', '牌照来源'))}${detailSourceLink('reserves', L('Reserve source', '储备来源'))}</div>
     </section>
@@ -1248,6 +1248,7 @@ function exchangePage(slug, lang) {
     <section class="exchange-section" id="checklist">
       <div class="exchange-section-head"><div><h2>${esc(L('Before opening an account', '注册前检查清单'))}</h2><p>${esc(L(`Complete these checks on ${ex.name}’s current pages before depositing funds.`, `入金前请在 ${ex.name} 当前页面逐项确认。`))}</p></div></div>
       <ul class="exchange-checklist"><li>${esc(L('Your residence and required product are supported.', '你的居住地与所需产品均可使用。'))}</li><li>${esc(L('You understand KYC requirements and account entity.', '你理解 KYC 要求及实际签约主体。'))}</li><li>${esc(L('The live fee screen matches your payment method and tier.', '实时费率与你的支付方式和等级一致。'))}</li><li>${esc(L('The withdrawal network matches the receiving wallet exactly.', '提币网络与接收钱包完全一致。'))}</li><li>${esc(L('Two-factor authentication and anti-phishing code are enabled.', '已开启双重验证和防钓鱼码。'))}</li><li>${esc(L('Leveraged products remain disabled unless you understand liquidation.', '不理解强平机制时，不开启杠杆产品。'))}</li></ul>
+      <div<div class="exchange-subcard" style="margin-bottom:14px"><h3>${esc(L('What to expect when signing up (3 quick steps)', '开户前 3 步预期（约 5 分钟）'))}</h3><ul class="exchange-checklist" style="margin:6px 0 0"><li>${esc(L('1. Register with email or phone for free — no deposit required to explore.', '1. 用邮箱或手机号免费注册，无需立即充值即可浏览。'))}</li><li>${esc(L('2. Complete standard KYC with your ID or passport (usually takes ~5 minutes).', '2. 准备身份证或护照完成基础身份认证（通常约 5 分钟）。'))}</li><li>${esc(L('3. Start with a small test spot buy and always match the withdrawal network.', '3. 建议先小额买币测试，提币时务必核对接收网络一致。'))}</li></ul></div>
       <div class="exchange-final"><p>${esc(T(lang, 'exNote'))}<br>${esc(T(lang, 'exCompare'))}${cmpLinks}</p>${linkFor(slug) ? ctaHtml(slug, esc(T(lang, 'ctaAcct', { x: ex.name })), lang) : ''}</div>
     </section>
   </div>`;

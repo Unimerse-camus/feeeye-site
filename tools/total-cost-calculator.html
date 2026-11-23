@@ -89,14 +89,14 @@
 
     <!-- 4 tabs -->
     <div class="tabs">
-      <button class="tab active" data-view="deposit">① Deposit</button>
+      <button class="tab" data-view="deposit">① Deposit</button>
       <button class="tab" data-view="trade">② Trading</button>
       <button class="tab" data-view="withdraw">③ Withdraw</button>
-      <button class="tab" data-view="total">④ Base total</button>
+      <button class="tab active" data-view="total">④ Base total</button>
     </div>
 
     <!-- Deposit tab -->
-    <div class="tabpane active" data-view="deposit">
+    <div class="tabpane" data-view="deposit">
       <div class="grid">
         <div>
           <label for="deposit-d">Deposit method</label>
@@ -150,7 +150,7 @@
     </div>
 
     <!-- Base total tab: all parameters -->
-    <div class="tabpane" data-view="total">
+    <div class="tabpane active" data-view="total">
       <div class="grid">
         <div>
           <label for="deposit-a">Deposit method</label>
@@ -200,7 +200,7 @@
 <script src="../data/coin-prices.js"></script>
 <script>
 (function(){
-  var state = { deposit:"Bank transfer", coin:"USDT", usdIntent:1000, order:"taker", trades:3, network:"TRC20", view:"deposit" };
+  var state = { deposit:"Bank transfer", coin:"USDT", usdIntent:1000, order:"taker", trades:3, network:"TRC20", view:"total" };
   var LABEL = { cheapest:"← cheapest", signup:"Sign up", save:"save", note:"Note" };
   var DYNAMIC_NET = { ERC20: true };
   var METHOD = {
@@ -464,9 +464,9 @@
     var bestRow = rows[0], worstRow = rows[rows.length-1];
     if(bestRow && worstRow && bestRow.slug!==worstRow.slug){
       var diff = worstRow.mid - bestRow.mid;
-      html += '<p class="intro" style="margin-top:12px;font-size:14px">For the full deposit → '+trades+' trades → withdrawal flow, the cheapest (<b>'+bestRow.name+'</b>) beats the priciest ('+worstRow.name+') by about <b class="best">'+fmt(diff)+' USDT</b> (midpoint).</p>';
+      var tiedBest = rows.filter(function(r){ return Math.abs(r.mid - bestRow.mid) < 0.001; }); var bestPhrase = tiedBest.length > 1 ? tiedBest.map(function(r){ return '<b>'+r.name+'</b>'; }).join(', ') + ' tie for the lowest total cost (same deposit, spot & withdrawal fees) and beat' : 'the cheapest (<b>'+bestRow.name+'</b>) beats'; html += '<p class="intro" style="margin-top:12px;font-size:14px">For the full deposit → '+trades+' trades → withdrawal flow, '+bestPhrase+' the priciest ('+worstRow.name+') by about <b class="best">'+fmt(diff)+' USDT</b> (midpoint).</p>';
     }
-    html += '<div class="formula"><b>Base-cost formula:</b><br><code>Base cost = deposit fee + trading fee (amount × '+pct(window.EXCHANGES.kucoin.spot[state.order])+' × '+trades+' trades) + withdrawal fee ('+net+')</code>. Excludes spread, slippage, FX and external payment charges. Snapshot <span id="upd2"></span> — verify on the exchange before trading.</div>';
+    html += '<p class="detail" style="margin-top:6px">New to crypto? Start with a 0% bank/P2P deposit option above, complete quick KYC (~5 min), and click Sign up to begin.</p>'; html += '<div class="formula"><b>Base-cost formula:</b><br><code>Base cost = deposit fee + trading fee (amount × '+pct(window.EXCHANGES.kucoin.spot[state.order])+' × '+trades+' trades) + withdrawal fee ('+net+')</code>. Excludes spread, slippage, FX and external payment charges. Snapshot <span id="upd2"></span> — verify on the exchange before trading.</div>';
     resultA.innerHTML = html;
     resultA.innerHTML += '<div class="fees-note"><b>Withdrawal safety:</b> the sending exchange and receiving wallet must use the same network. VIP tiers and platform-token discounts may change the actual rate; verify the live fee on the exchange.</div>';
     document.getElementById("upd2").textContent = window.EXCHANGES.kucoin.last_updated;
