@@ -1,0 +1,1552 @@
+{
+  "schema_version": 1,
+  "recorded_at": "2026-11-23T06:45:57.551Z",
+  "manifest": {
+    "schema_version": 1,
+    "host": "feeeye.com",
+    "build_id": "fbc37060e6a06d7c55afbcf04cb7f463acf20b4c1775ce1a646f033dce15bcec",
+    "source_revision": "6185068fd0cb52a2a9a73855a3a305bf5f15374e",
+    "canonical_url_count": 384,
+    "public_file_count": 559,
+    "sitemap_sha256": "8136b30de3182379af4edfcd1213987373fa26596999b29c7df3eb453b09928f",
+    "urls": {
+      "https://feeeye.com/": {
+        "path": "index.html",
+        "sha256": "083abd12ff2350fa2f3baad2e5ee54c2120dc6e62164d347974b772f28d9049f"
+      },
+      "https://feeeye.com/about": {
+        "path": "about.html",
+        "sha256": "5f60425db352e5b61da723ddbfcfd17bc86796818b5e82ab7491739bda76e1ab"
+      },
+      "https://feeeye.com/ae/exchanges": {
+        "path": "ae/exchanges.html",
+        "sha256": "ae36ee8a1f11148ebd8c1f04d18494d9a1c6d9ffe0e296e5f297603df77dcf38"
+      },
+      "https://feeeye.com/au/exchanges": {
+        "path": "au/exchanges.html",
+        "sha256": "959b03beac3dcdbfcac43e959ddd030546515cce261aae2a7e212cef81c86291"
+      },
+      "https://feeeye.com/br/exchanges": {
+        "path": "br/exchanges.html",
+        "sha256": "df776e826831cd7eb02a5cdd85bee3c0f228da8b25d9a0e831fd579e61d9f4fd"
+      },
+      "https://feeeye.com/ca/exchanges": {
+        "path": "ca/exchanges.html",
+        "sha256": "5df6f6029d6a9c551d413965fc5ca0f8804820301170dc756e6232672ef24c11"
+      },
+      "https://feeeye.com/coins": {
+        "path": "coins.html",
+        "sha256": "1570fad7670cbea35bc213cfa7a45332e8c39cd39c482e98232674e4e1d1959b"
+      },
+      "https://feeeye.com/compare/binance-vs-bitget": {
+        "path": "compare/binance-vs-bitget.html",
+        "sha256": "90d88f00d33264df9603b6367506c30169c67db5bb1b8307a0a1e17bcbf92190"
+      },
+      "https://feeeye.com/compare/binance-vs-bybit": {
+        "path": "compare/binance-vs-bybit.html",
+        "sha256": "8fea73e2563c1518f1d759cbe3a85e251b8b762941c0dcb026f4f346f68676fd"
+      },
+      "https://feeeye.com/compare/binance-vs-coinbase": {
+        "path": "compare/binance-vs-coinbase.html",
+        "sha256": "f0c02d33f6311e1a502eef2fea8010c08bb0ea0c92cfff36ff76b64b818ae9c8"
+      },
+      "https://feeeye.com/compare/binance-vs-kraken": {
+        "path": "compare/binance-vs-kraken.html",
+        "sha256": "6391e43634ad2b32e80ba33dabd0c7eaab0d0a121216cc95b79f2d0ff33e8291"
+      },
+      "https://feeeye.com/compare/binance-vs-kucoin": {
+        "path": "compare/binance-vs-kucoin.html",
+        "sha256": "c65d76c53a60da29162d47270cf12863ffdb38bb51f536536c1d3661b632234c"
+      },
+      "https://feeeye.com/compare/binance-vs-okx": {
+        "path": "compare/binance-vs-okx.html",
+        "sha256": "7370741f0effca847d894037bb61f28bbe0a25f8fe229eb71a5c936b0af58168"
+      },
+      "https://feeeye.com/compare/bitget-vs-bybit": {
+        "path": "compare/bitget-vs-bybit.html",
+        "sha256": "22559fa008c27413da1b083b709e6743449e6ae17e591cc5be13aa7e4f836d1b"
+      },
+      "https://feeeye.com/compare/bitget-vs-coinbase": {
+        "path": "compare/bitget-vs-coinbase.html",
+        "sha256": "7364bc6795be02487f5b94cb369d294da025a88e165863a23f321f599f7e9eda"
+      },
+      "https://feeeye.com/compare/bitget-vs-kraken": {
+        "path": "compare/bitget-vs-kraken.html",
+        "sha256": "de345117dcec2fca2dbe5fd8e9972ed77e2f9f04b12893947248a14756ccdefc"
+      },
+      "https://feeeye.com/compare/bitget-vs-kucoin": {
+        "path": "compare/bitget-vs-kucoin.html",
+        "sha256": "905e90a2b3d619390c37c68d66fa4a26c75409644a424d32556fe68688559033"
+      },
+      "https://feeeye.com/compare/bitget-vs-okx": {
+        "path": "compare/bitget-vs-okx.html",
+        "sha256": "e048fddced78faca79e047c4a0a7382c020adc3e83bc0f9f41437ee4edec15fe"
+      },
+      "https://feeeye.com/compare/bybit-vs-coinbase": {
+        "path": "compare/bybit-vs-coinbase.html",
+        "sha256": "5da059099bd08c061ccf3094687c735831c1bbaa6758460d6026e87def277642"
+      },
+      "https://feeeye.com/compare/bybit-vs-kraken": {
+        "path": "compare/bybit-vs-kraken.html",
+        "sha256": "62c65b1c889ac33a4ac98640fe01fc9848658a4a0e0b8aa197d7490617ae94cd"
+      },
+      "https://feeeye.com/compare/bybit-vs-kucoin": {
+        "path": "compare/bybit-vs-kucoin.html",
+        "sha256": "847e3a328acfb22eac2caa44b4bafa7b601fc2ac1a906aa02ad1c808bae242e7"
+      },
+      "https://feeeye.com/compare/bybit-vs-okx": {
+        "path": "compare/bybit-vs-okx.html",
+        "sha256": "f5c6d26fc4b70b21e2209989b894ab3fa27f667276774137b64be307d29aa667"
+      },
+      "https://feeeye.com/compare/coinbase-vs-kraken": {
+        "path": "compare/coinbase-vs-kraken.html",
+        "sha256": "d13012c291732f5b4d648506fb4a6e73efdf3da9bb6ffa88fc1215b7d42573e7"
+      },
+      "https://feeeye.com/compare/coinbase-vs-kucoin": {
+        "path": "compare/coinbase-vs-kucoin.html",
+        "sha256": "bbc535ea1bf12edba6ef9e1c27702253faa78d3a6d69a7bfdf1433ddcb37720c"
+      },
+      "https://feeeye.com/compare/coinbase-vs-okx": {
+        "path": "compare/coinbase-vs-okx.html",
+        "sha256": "7319fd8d559b4ba2729e36fae126d99cea51508693f097f51fe63942e5e36f3c"
+      },
+      "https://feeeye.com/compare/kraken-vs-kucoin": {
+        "path": "compare/kraken-vs-kucoin.html",
+        "sha256": "886c7843d6160e639d4d16a974984af1bafa42de6040efd52590a122ab669aa3"
+      },
+      "https://feeeye.com/compare/kraken-vs-okx": {
+        "path": "compare/kraken-vs-okx.html",
+        "sha256": "9bf62e860dcd20c049e2a3c504c737ba92c9e7a85d059a728cce708a7033b096"
+      },
+      "https://feeeye.com/compare/kucoin-vs-okx": {
+        "path": "compare/kucoin-vs-okx.html",
+        "sha256": "c160ca36ebe4cde8fda8f045dd9efc4eebc4d52b701414aec6d7c37d9d992ecc"
+      },
+      "https://feeeye.com/de/exchanges": {
+        "path": "de/exchanges.html",
+        "sha256": "c5a4bf010631dc061ca6bb7aca3559a4209aa7c2c137af451ae367a1e1cf4f04"
+      },
+      "https://feeeye.com/disclosure": {
+        "path": "disclosure.html",
+        "sha256": "bbad1f2e40408679c16da0cdcb46052dc49001353968d9446d76ade62f1c5fbe"
+      },
+      "https://feeeye.com/es/exchanges": {
+        "path": "es/exchanges.html",
+        "sha256": "7429b502e00be9fae950d93c98d9617628f131093d8d046b5b734d2fe08a1cf4"
+      },
+      "https://feeeye.com/exchanges/binance": {
+        "path": "exchanges/binance.html",
+        "sha256": "52c83a84184129e0ab735185d3a637e7a70c9649589ba87ea21b5af9de842728"
+      },
+      "https://feeeye.com/exchanges/bitget": {
+        "path": "exchanges/bitget.html",
+        "sha256": "9fecb203d32918082eb6c67e83f63fb4e68a67aa23fe42d72dd219d32a6b15c7"
+      },
+      "https://feeeye.com/exchanges/bybit": {
+        "path": "exchanges/bybit.html",
+        "sha256": "a8b67052abaf843ca2997b78d8801a06b00b0853f5e0b0c84b977aaa971e35ab"
+      },
+      "https://feeeye.com/exchanges/coinbase": {
+        "path": "exchanges/coinbase.html",
+        "sha256": "90daf64058fc06cf89419c67d4dc9655f88c741caf123dd6216979141e795b42"
+      },
+      "https://feeeye.com/exchanges/kraken": {
+        "path": "exchanges/kraken.html",
+        "sha256": "329d9174b3ba9d9971cbe843d00edc987afc0a739440e336c98b373a82de70eb"
+      },
+      "https://feeeye.com/exchanges/kucoin": {
+        "path": "exchanges/kucoin.html",
+        "sha256": "7330c4927d66d63d2e7a473eb77cae7569db683d17324369f400b328d03f6f91"
+      },
+      "https://feeeye.com/exchanges/okx": {
+        "path": "exchanges/okx.html",
+        "sha256": "5669775f06d3240d6929fd3a674dc8542fd13f3b0a7f49c7c38ccc2363f79022"
+      },
+      "https://feeeye.com/fr/exchanges": {
+        "path": "fr/exchanges.html",
+        "sha256": "98cf1960a6a5da8f306e32cbe56f0c5f20025f1263aee76b25aa9aa162b2fcd7"
+      },
+      "https://feeeye.com/gb/exchanges": {
+        "path": "gb/exchanges.html",
+        "sha256": "fede9055d3511710b4ac08d8c99c55a25bd27ef3ea4218138f45662368cfbae8"
+      },
+      "https://feeeye.com/id/exchanges": {
+        "path": "id/exchanges.html",
+        "sha256": "9c2b5da77b0e3ed9feeb086e5441be98072d0d184a497f6efbc440bbf19d9b22"
+      },
+      "https://feeeye.com/in/exchanges": {
+        "path": "in/exchanges.html",
+        "sha256": "cddb1d95c3ee28fc86567828b2750851fc6b830967a306825b9254d90e943c4e"
+      },
+      "https://feeeye.com/it/exchanges": {
+        "path": "it/exchanges.html",
+        "sha256": "cdcea064052e32f87f646b18096e8ee6a8ce75e6169522a965c6f23763ff38cd"
+      },
+      "https://feeeye.com/jp/exchanges": {
+        "path": "jp/exchanges.html",
+        "sha256": "186126fc16c27010f0231c4933d20b3a64f54811ff77d847bf2da42e82d75958"
+      },
+      "https://feeeye.com/kr/exchanges": {
+        "path": "kr/exchanges.html",
+        "sha256": "e751ed1bba83a6ec5df28d3ab4f72c3dd5dfa0beb310257b2655ad6b75aed061"
+      },
+      "https://feeeye.com/learn/": {
+        "path": "learn/index.html",
+        "sha256": "0046fa8ffac8f737b2019235ba195070efe0a9a14f8c05e849610a073184e35b"
+      },
+      "https://feeeye.com/learn/avoid-crypto-scams": {
+        "path": "learn/avoid-crypto-scams.html",
+        "sha256": "4eee2e9f785c89a91efb463e79fbdf9d0053ca4af2c1cde252c7454d12731c6b"
+      },
+      "https://feeeye.com/learn/before-you-start": {
+        "path": "learn/before-you-start.html",
+        "sha256": "758ac6f859c3fedbbb5e5f8bf5f2fcc43c8f157de110cb5f2273093894463a4a"
+      },
+      "https://feeeye.com/learn/choose-crypto-exchange": {
+        "path": "learn/choose-crypto-exchange.html",
+        "sha256": "483ef696ff242a0c32fcd003328f878bb4442b0c704e4557f53452bc50cd6d44"
+      },
+      "https://feeeye.com/learn/crypto-total-cost": {
+        "path": "learn/crypto-total-cost.html",
+        "sha256": "fdb05ccf4023514e966cb0ed91c16d0f2d51d532af6eb73f3504e04892e09420"
+      },
+      "https://feeeye.com/learn/custody-vs-self-custody": {
+        "path": "learn/custody-vs-self-custody.html",
+        "sha256": "d09ed3f050ac78180cf3aa64bc72f6b5b0ec0556a5e08f449033994a9af4dcfc"
+      },
+      "https://feeeye.com/learn/first-spot-trade": {
+        "path": "learn/first-spot-trade.html",
+        "sha256": "b3de19411dfd4adfcfc2a77d57ec4825a05f698bfa6a201a311b94429f2839ed"
+      },
+      "https://feeeye.com/learn/safe-crypto-transfer": {
+        "path": "learn/safe-crypto-transfer.html",
+        "sha256": "563d366f15dd7de3b0c06c13f6401660cbeb1cfc60a6ac73ca4a812c03a9e5be"
+      },
+      "https://feeeye.com/learn/secure-crypto-account": {
+        "path": "learn/secure-crypto-account.html",
+        "sha256": "7cff67170522462cd6e0368f8393a5d9ca5bd65e05379a85771b7a692dc3650d"
+      },
+      "https://feeeye.com/mx/exchanges": {
+        "path": "mx/exchanges.html",
+        "sha256": "12ae910e4896d345cb86d33b33d2335f15e75ce8544cbc2686b5ce5374c4b8ad"
+      },
+      "https://feeeye.com/ng/exchanges": {
+        "path": "ng/exchanges.html",
+        "sha256": "e2eef2d56c69b2f5ff5fd404143c644a1bfed684e950b4284151d11f0548db92"
+      },
+      "https://feeeye.com/ph/exchanges": {
+        "path": "ph/exchanges.html",
+        "sha256": "a82fb1148909b1f03fdd337d7bcd766c655c1f5f2f5d925c75fca14afbc2eaba"
+      },
+      "https://feeeye.com/pl/exchanges": {
+        "path": "pl/exchanges.html",
+        "sha256": "d8472797d73b5f404f6f816509cd219c6de6d9efd7be75a0c21bd23fc5913af8"
+      },
+      "https://feeeye.com/privacy": {
+        "path": "privacy.html",
+        "sha256": "f4dbab5621758155047e8761392cb6caf382965f1f6f9802a8297d18ffe555a4"
+      },
+      "https://feeeye.com/research/1000-usdt-spot-cost": {
+        "path": "research/1000-usdt-spot-cost.html",
+        "sha256": "10404e262ef82520cd78e7f6f36653b97d48dde8d2d26c597e20a2230fda8ec6"
+      },
+      "https://feeeye.com/terms": {
+        "path": "terms.html",
+        "sha256": "78211a875442ffeeba344211086a168ac5fc0aa331dfea4c855e6548c0c1fb94"
+      },
+      "https://feeeye.com/th/exchanges": {
+        "path": "th/exchanges.html",
+        "sha256": "7792d3dd1d4791537a904881988acb54b6d38764799e0ce34713cadb2cdcc7c8"
+      },
+      "https://feeeye.com/tr/exchanges": {
+        "path": "tr/exchanges.html",
+        "sha256": "fd7165ca6394b7867d4d5cadc6e282e92b3982c8bd3a0d187d948137da6ba5b5"
+      },
+      "https://feeeye.com/vn/exchanges": {
+        "path": "vn/exchanges.html",
+        "sha256": "01c0e785835457430470922b6f1e3f455f730266e6c6f66e19748ed06c95d21d"
+      },
+      "https://feeeye.com/where-to-buy/": {
+        "path": "where-to-buy/index.html",
+        "sha256": "ceeaf558952aab30b49b51f56904baed06df74c404f6c86ca10b4ee6c2d4d33a"
+      },
+      "https://feeeye.com/where-to-buy/a7a5": {
+        "path": "where-to-buy/a7a5.html",
+        "sha256": "956b28c4ca4b9d2a2ca98510c7ba0041150a73d7ac5e79506ddd42d1a897fbb4"
+      },
+      "https://feeeye.com/where-to-buy/aave": {
+        "path": "where-to-buy/aave.html",
+        "sha256": "a44bdaf14f9a5c11be6563fda1174188ae2db41225a92fae4402f01a02727465"
+      },
+      "https://feeeye.com/where-to-buy/ada": {
+        "path": "where-to-buy/ada.html",
+        "sha256": "d6f816abb17baeab004019be6b968763210750233ddd7e13ce2aaafd0c88e62c"
+      },
+      "https://feeeye.com/where-to-buy/aero": {
+        "path": "where-to-buy/aero.html",
+        "sha256": "e582d5dabe418737d32b7e6cbfa7d2865f4ed42d14a3c9eb1db2804191f7895c"
+      },
+      "https://feeeye.com/where-to-buy/ake": {
+        "path": "where-to-buy/ake.html",
+        "sha256": "a80fcccc67e89a0427bf8ee937d4053048996c76906ea3b6fe8319c0cf8ab8f2"
+      },
+      "https://feeeye.com/where-to-buy/algo": {
+        "path": "where-to-buy/algo.html",
+        "sha256": "bf2ae50fba8193e7395ae711cf2cca1df753e05cd0b5e0dccf26f77df5dcfacb"
+      },
+      "https://feeeye.com/where-to-buy/apepe": {
+        "path": "where-to-buy/apepe.html",
+        "sha256": "82aa3ef320ca97a58939d4f55ca6b709aa38dbc8855a45f091be3c1b4f95e953"
+      },
+      "https://feeeye.com/where-to-buy/apt": {
+        "path": "where-to-buy/apt.html",
+        "sha256": "e01737e2235ecb7cb4b8454c06e1e58fa7d8e5bd538f0e83378cd92cc50b3a25"
+      },
+      "https://feeeye.com/where-to-buy/apxusd": {
+        "path": "where-to-buy/apxusd.html",
+        "sha256": "e6f78a13bc3c12493c7762aedd20abc19b10562acdc0fdc26eaf2b1d536e04a0"
+      },
+      "https://feeeye.com/where-to-buy/arb": {
+        "path": "where-to-buy/arb.html",
+        "sha256": "97787730dbf8be45b845c36279bdc9e2a20c48513436ce9e1fe523317b503372"
+      },
+      "https://feeeye.com/where-to-buy/aster": {
+        "path": "where-to-buy/aster.html",
+        "sha256": "05923ff8b2c2d474ba065368a1c5243f0ff084d944ca5b6bee65ffca9dc827d7"
+      },
+      "https://feeeye.com/where-to-buy/atom": {
+        "path": "where-to-buy/atom.html",
+        "sha256": "283e927f9c6c09fd0c70c7555e0309cc2e4e68c592ac84358e1f1dc4a6ae13f5"
+      },
+      "https://feeeye.com/where-to-buy/avax": {
+        "path": "where-to-buy/avax.html",
+        "sha256": "fa402eb76734b5789ecf6e9de8dfcf8b8c5db9859cc91ce3961878660b3c8b8b"
+      },
+      "https://feeeye.com/where-to-buy/bch": {
+        "path": "where-to-buy/bch.html",
+        "sha256": "9111eb76d01481ac6e9390c05e4f94b4ba664a3f810e3a61598d7bc5d91833ac"
+      },
+      "https://feeeye.com/where-to-buy/bdx": {
+        "path": "where-to-buy/bdx.html",
+        "sha256": "ca54846afafb10eb70d2f0358caf7f2c19b19fde2f2d88f4b91b11e6a744df63"
+      },
+      "https://feeeye.com/where-to-buy/bgb": {
+        "path": "where-to-buy/bgb.html",
+        "sha256": "7f9da8ffd46aace034ac5e6bebdd50215d32704416d68fcb2495ee54d1e8b895"
+      },
+      "https://feeeye.com/where-to-buy/bnb": {
+        "path": "where-to-buy/bnb.html",
+        "sha256": "8980ed895824e78f3f4acdfd6bd4b4fb231720411c15fe46f9893ebcf8b2f556"
+      },
+      "https://feeeye.com/where-to-buy/bonk": {
+        "path": "where-to-buy/bonk.html",
+        "sha256": "2270cf5c2115fb2c32e13ccdb25b5896678c5717fd923eea3f972a2a5c5bee69"
+      },
+      "https://feeeye.com/where-to-buy/bsv": {
+        "path": "where-to-buy/bsv.html",
+        "sha256": "c116a09e1216af05112d5f7dbff65b11bf078ef9d25f27c7e332e99f2fb526f9"
+      },
+      "https://feeeye.com/where-to-buy/btc": {
+        "path": "where-to-buy/btc.html",
+        "sha256": "ef974ff715bffcd65e25bdf47cef78c353276d2e4876a6466fe632b7c29de9bf"
+      },
+      "https://feeeye.com/where-to-buy/btt": {
+        "path": "where-to-buy/btt.html",
+        "sha256": "a3a507ae047dd574c7898cd89f20e3e7d458885ca30e96a08736d92e251bd442"
+      },
+      "https://feeeye.com/where-to-buy/btw": {
+        "path": "where-to-buy/btw.html",
+        "sha256": "0470fb891ad117635273a031f42a9a806358c8a87763c970558255896fc71504"
+      },
+      "https://feeeye.com/where-to-buy/cake": {
+        "path": "where-to-buy/cake.html",
+        "sha256": "14f4797eb6963d109ef7a7a7bc9bb58ceb9781af86ae9319a4938e8528c0d277"
+      },
+      "https://feeeye.com/where-to-buy/cc": {
+        "path": "where-to-buy/cc.html",
+        "sha256": "8f49a201bc038e6582de5c81a3f8e42233273a793c6b5858386c3b46fa77b125"
+      },
+      "https://feeeye.com/where-to-buy/cro": {
+        "path": "where-to-buy/cro.html",
+        "sha256": "676a8e80a37e1d9a40facda6689f0f253c0a151fb3c81c39817549592474108c"
+      },
+      "https://feeeye.com/where-to-buy/crv": {
+        "path": "where-to-buy/crv.html",
+        "sha256": "d1394857492fbd74ce3cb4f13341aaecd0597a3634ecbd25741b58cd51c54c8a"
+      },
+      "https://feeeye.com/where-to-buy/dacitycoin": {
+        "path": "where-to-buy/dacitycoin.html",
+        "sha256": "c78318d42ba5f7d98b973e9def7f7b80be538a06af18757c41f45bceebf5862b"
+      },
+      "https://feeeye.com/where-to-buy/dash": {
+        "path": "where-to-buy/dash.html",
+        "sha256": "a2476e174ad686de0be748e6b32550a920c5a52a05739e06a3404a96481a4839"
+      },
+      "https://feeeye.com/where-to-buy/doge": {
+        "path": "where-to-buy/doge.html",
+        "sha256": "33c5be5bad17bff724c322fb88d7f98c21c66251f511475d7cda6bfdfc6ad35e"
+      },
+      "https://feeeye.com/where-to-buy/dot": {
+        "path": "where-to-buy/dot.html",
+        "sha256": "ee95b4972f86e4d2efb4eb893fa505167c5bdafd8bc2990579d82d1b5998bc4a"
+      },
+      "https://feeeye.com/where-to-buy/drv": {
+        "path": "where-to-buy/drv.html",
+        "sha256": "b27d839e4913c6e86f188a99eb6dbeff58ad7ad9458f54ca9bb96e9e813860ec"
+      },
+      "https://feeeye.com/where-to-buy/ena": {
+        "path": "where-to-buy/ena.html",
+        "sha256": "08790ab16a3962340f8fff376dcb6cc5b25824985360a3129218ed5b74508818"
+      },
+      "https://feeeye.com/where-to-buy/etc": {
+        "path": "where-to-buy/etc.html",
+        "sha256": "e43f6ea27ee8bfe25c9ec4b0197e09e7400184c50cda4b1eacff7284abd2f377"
+      },
+      "https://feeeye.com/where-to-buy/eth": {
+        "path": "where-to-buy/eth.html",
+        "sha256": "90b6ea778e2119109fa3a71ac2e3997741ae605a439baaaa8fc68c7d6373de3c"
+      },
+      "https://feeeye.com/where-to-buy/ethfi": {
+        "path": "where-to-buy/ethfi.html",
+        "sha256": "39bc430357f41586bac582f07ce1b8f13aa98cbd87f7595966e4d9e346fd4020"
+      },
+      "https://feeeye.com/where-to-buy/fet": {
+        "path": "where-to-buy/fet.html",
+        "sha256": "c9e384bdfd39d9dc99acbd6bc7d6535454d965f55971e4616734662f78990225"
+      },
+      "https://feeeye.com/where-to-buy/ff": {
+        "path": "where-to-buy/ff.html",
+        "sha256": "efe88b7cbe0551996fbcccb44d310133b121abf284b1fcea8d3d0936c532ebaf"
+      },
+      "https://feeeye.com/where-to-buy/fil": {
+        "path": "where-to-buy/fil.html",
+        "sha256": "6397420699dedcc1c65450ae037ec93d80a9586658299bdf1bfb4293678e7a3e"
+      },
+      "https://feeeye.com/where-to-buy/floki": {
+        "path": "where-to-buy/floki.html",
+        "sha256": "6035f3a09e0bcc5c7843fb557921c18f30659902cc31c4b2b7608cf72455d06e"
+      },
+      "https://feeeye.com/where-to-buy/flr": {
+        "path": "where-to-buy/flr.html",
+        "sha256": "1fe851f294caea19d43ca5c1cdb06fa1283b0e7be026e07862cab4456ee8dd6e"
+      },
+      "https://feeeye.com/where-to-buy/gato": {
+        "path": "where-to-buy/gato.html",
+        "sha256": "e8407c00579dda1517c8f33173bbedbd741061a0a4efa9daeb252176919ec5a2"
+      },
+      "https://feeeye.com/where-to-buy/gno": {
+        "path": "where-to-buy/gno.html",
+        "sha256": "be7032a962eb0b64b2609dafb8ba9b6d3a1da643f5229cb9db06364d83095071"
+      },
+      "https://feeeye.com/where-to-buy/gram": {
+        "path": "where-to-buy/gram.html",
+        "sha256": "d1d21b5fc635bc92e99c72d984cce14bba591689623e152147de25b9268d68c6"
+      },
+      "https://feeeye.com/where-to-buy/grass": {
+        "path": "where-to-buy/grass.html",
+        "sha256": "78c46e3bd6b5f5e53a881a2349930ca30532ef7e3682650eea7a7c0e924bc91f"
+      },
+      "https://feeeye.com/where-to-buy/gt": {
+        "path": "where-to-buy/gt.html",
+        "sha256": "e43e66910ed184e498c3ea5a10c77daadcd15b85588214489cccd3d198598422"
+      },
+      "https://feeeye.com/where-to-buy/hash": {
+        "path": "where-to-buy/hash.html",
+        "sha256": "ba00a1afb36522ea01ba0c76315488b492e858759fb1f7ba88b1646c61316342"
+      },
+      "https://feeeye.com/where-to-buy/hbar": {
+        "path": "where-to-buy/hbar.html",
+        "sha256": "34b95b0b1de1b2a48aad081008fcb199c3f9d0c3de3522379300fe90259597b6"
+      },
+      "https://feeeye.com/where-to-buy/htx": {
+        "path": "where-to-buy/htx.html",
+        "sha256": "5a70c2d42d50d4ea1209a93e41999ca7410a0dc8432c1052a20fb4c413227c6e"
+      },
+      "https://feeeye.com/where-to-buy/hype": {
+        "path": "where-to-buy/hype.html",
+        "sha256": "d0b979c05b33bafad3e153790ea66023c3103294983b2f5b618a8cd96dabe01c"
+      },
+      "https://feeeye.com/where-to-buy/icp": {
+        "path": "where-to-buy/icp.html",
+        "sha256": "296ab5f6344b9d54166d91cb0a3725904d6adbd989623a158278edb4d3812664"
+      },
+      "https://feeeye.com/where-to-buy/imd": {
+        "path": "where-to-buy/imd.html",
+        "sha256": "3e0e6cc8db322725f03b63f5bec79e0b8d25c99c4caf3aa22b4af2b01a89afcc"
+      },
+      "https://feeeye.com/where-to-buy/inj": {
+        "path": "where-to-buy/inj.html",
+        "sha256": "375fec9d6256cbb6b1a94f6d1f7167f4f19e53cdd58c2771aa50776c1fdb2255"
+      },
+      "https://feeeye.com/where-to-buy/jst": {
+        "path": "where-to-buy/jst.html",
+        "sha256": "c039703ca92363cea97864ef407fd18079cd942c2f61c22fc14c0ea23cc6dc29"
+      },
+      "https://feeeye.com/where-to-buy/jup": {
+        "path": "where-to-buy/jup.html",
+        "sha256": "a37c8f4e08a89ee0225c68cfc8f84089ef74396e4211dca231afde324731ab2b"
+      },
+      "https://feeeye.com/where-to-buy/kas": {
+        "path": "where-to-buy/kas.html",
+        "sha256": "095156dc39f7f30bd60f65d2f48bd59173e64a281f55be269f99cc9359b61a08"
+      },
+      "https://feeeye.com/where-to-buy/kau": {
+        "path": "where-to-buy/kau.html",
+        "sha256": "7389aaada45cf07538f86cbc0cdd03e40f1dcd9ed60d5623d46216df2ba352d3"
+      },
+      "https://feeeye.com/where-to-buy/kcs": {
+        "path": "where-to-buy/kcs.html",
+        "sha256": "94f38ea19d1d1f80a11d9a4ee97cd1e4e84c56e8c61033ef2fccf60360a19109"
+      },
+      "https://feeeye.com/where-to-buy/kite": {
+        "path": "where-to-buy/kite.html",
+        "sha256": "4dab8677c8b87fac869e21fdb17f50f88e47edcad2e6749e316d170e2ac26d7a"
+      },
+      "https://feeeye.com/where-to-buy/ldo": {
+        "path": "where-to-buy/ldo.html",
+        "sha256": "847b219423e199b823a014297c2295d662e622e90643a64dd3cc833dc1cffd55"
+      },
+      "https://feeeye.com/where-to-buy/leo": {
+        "path": "where-to-buy/leo.html",
+        "sha256": "3c46cedcd25e74eaafd46457cb2200d53822246ee0dcd6dee9220c4a9af1c78c"
+      },
+      "https://feeeye.com/where-to-buy/link": {
+        "path": "where-to-buy/link.html",
+        "sha256": "afb154bea1052ad56f9effafdd0994f56f2ff3166704976e3c0579ccb4368a3d"
+      },
+      "https://feeeye.com/where-to-buy/lit": {
+        "path": "where-to-buy/lit.html",
+        "sha256": "12485b24961439b9eea4ebb8a30a39f22b08216ac8f5a035ea13fc5e4dba4f78"
+      },
+      "https://feeeye.com/where-to-buy/ltc": {
+        "path": "where-to-buy/ltc.html",
+        "sha256": "bdd70936e354eb2f0c5c8436b8c6c2aa15b1c79ebfd574c5bb275b809811dda6"
+      },
+      "https://feeeye.com/where-to-buy/m": {
+        "path": "where-to-buy/m.html",
+        "sha256": "6d544a9bd2a3711d884fd448040264bf328ea3859f74be8f83a6100c9e2f02f2"
+      },
+      "https://feeeye.com/where-to-buy/macca": {
+        "path": "where-to-buy/macca.html",
+        "sha256": "cc16e8f2017e7db3d36e9aa922ffae87bf1162bb4b48c0c30f0d688a8c022659"
+      },
+      "https://feeeye.com/where-to-buy/mihao": {
+        "path": "where-to-buy/mihao.html",
+        "sha256": "67c03cc24ae9e180a4c102679e122ed3b2caffa91a4299ed999609dbffffd16e"
+      },
+      "https://feeeye.com/where-to-buy/mnt": {
+        "path": "where-to-buy/mnt.html",
+        "sha256": "00b94591816ae10d994ac9b2f59acf6933967b3c2d9c920603267f49dfd437e8"
+      },
+      "https://feeeye.com/where-to-buy/morpho": {
+        "path": "where-to-buy/morpho.html",
+        "sha256": "a10df0bae0a346307cf6ad6501ec6f4f982afb0b99629f4740a1985f113d44c8"
+      },
+      "https://feeeye.com/where-to-buy/near": {
+        "path": "where-to-buy/near.html",
+        "sha256": "5ac910a28c9a6e72001a8c1733d02e6d0e968c179b8b08f61c20343870bdb6b9"
+      },
+      "https://feeeye.com/where-to-buy/nexo": {
+        "path": "where-to-buy/nexo.html",
+        "sha256": "22885d3ce26a4f0a9de84c247ccbe9b3f45168248dbbb07491638fd3c0594f87"
+      },
+      "https://feeeye.com/where-to-buy/night": {
+        "path": "where-to-buy/night.html",
+        "sha256": "c61a592e8c6007375fa03aff1cb7db14507284040f846f6c3533cf8cdcaba679"
+      },
+      "https://feeeye.com/where-to-buy/ohm": {
+        "path": "where-to-buy/ohm.html",
+        "sha256": "feadd747b3bb85c681dbc9b688721db8e00e9729ffb14861733d3c606de000ca"
+      },
+      "https://feeeye.com/where-to-buy/okb": {
+        "path": "where-to-buy/okb.html",
+        "sha256": "f3ced594fb10876a1b0f65454f58011f6697c3c381dffa47d2be3a5e9dcc09d0"
+      },
+      "https://feeeye.com/where-to-buy/ondo": {
+        "path": "where-to-buy/ondo.html",
+        "sha256": "d17c2450225c6e4993144c99a93992e541c7c98f9f0cd4600201fb1d25a1b50e"
+      },
+      "https://feeeye.com/where-to-buy/op": {
+        "path": "where-to-buy/op.html",
+        "sha256": "91499fd248f531f02976190820abbf8d0a3293536c8dcaf08ca708874bba1a9b"
+      },
+      "https://feeeye.com/where-to-buy/ozo": {
+        "path": "where-to-buy/ozo.html",
+        "sha256": "09e5553b0438df19eed7ae954304b0af05c0ad2c76421108f79f1064d80ea1f0"
+      },
+      "https://feeeye.com/where-to-buy/paxg": {
+        "path": "where-to-buy/paxg.html",
+        "sha256": "1dbc1a132554576218ece45a3cdbe412d323b76de4f9355043cfee19470661ac"
+      },
+      "https://feeeye.com/where-to-buy/pc0000031": {
+        "path": "where-to-buy/pc0000031.html",
+        "sha256": "023ac0f9542d17056fafc96fc8026ff84b5f48a7fcbd659bb6afbdde0b0253dd"
+      },
+      "https://feeeye.com/where-to-buy/pearl": {
+        "path": "where-to-buy/pearl.html",
+        "sha256": "bb22f718e58889a577e15141e235ff2e795c5ef6efe430fe4e98477de28c56e2"
+      },
+      "https://feeeye.com/where-to-buy/pendle": {
+        "path": "where-to-buy/pendle.html",
+        "sha256": "716ec32fcdac7ace5493919b324c9cd4821b3b899d529368b26ccb19d48557d8"
+      },
+      "https://feeeye.com/where-to-buy/pengu": {
+        "path": "where-to-buy/pengu.html",
+        "sha256": "bbec610a15c085892c1adafb93c6084235e51e86ac1d851130e6730afa79871f"
+      },
+      "https://feeeye.com/where-to-buy/pepe": {
+        "path": "where-to-buy/pepe.html",
+        "sha256": "2e96c3c4912105826b6f2d2660aed4e98a30eb305cef5f5726380dd45951e8c8"
+      },
+      "https://feeeye.com/where-to-buy/pi": {
+        "path": "where-to-buy/pi.html",
+        "sha256": "88f495e6566833d5dc45e64b10acbbe4f176ba49b49b6199a206544ad2e54f79"
+      },
+      "https://feeeye.com/where-to-buy/pieverse": {
+        "path": "where-to-buy/pieverse.html",
+        "sha256": "2ba030fffc63dd455d9a61676de8900bcb1ac7ed20d53eba70fc88adeead4540"
+      },
+      "https://feeeye.com/where-to-buy/pol": {
+        "path": "where-to-buy/pol.html",
+        "sha256": "11c6c6743b03769e95eca8ea326652726ebcd723040435ac070be24bef6b6eb6"
+      },
+      "https://feeeye.com/where-to-buy/pump": {
+        "path": "where-to-buy/pump.html",
+        "sha256": "9c78b339fdd055babc562468c8d5afe07262a5a6367375127e9f5b06d359deb1"
+      },
+      "https://feeeye.com/where-to-buy/pyth": {
+        "path": "where-to-buy/pyth.html",
+        "sha256": "d928fbb1e3ff75298573c7a4d0aa44a54a0101ffb8acc28bd1788e0c0e9125c1"
+      },
+      "https://feeeye.com/where-to-buy/qnt": {
+        "path": "where-to-buy/qnt.html",
+        "sha256": "062a13f3a1ea6217fd3bd34064e3a2d77f9749403065c7313502499253537036"
+      },
+      "https://feeeye.com/where-to-buy/rain": {
+        "path": "where-to-buy/rain.html",
+        "sha256": "d13aa270962ceb4c35d1044274f93deff7853b2f2817f85f38548acedde3f4ef"
+      },
+      "https://feeeye.com/where-to-buy/ray": {
+        "path": "where-to-buy/ray.html",
+        "sha256": "e3a7c290a3142e67122d0e2bb401371f56e199496d5eefd42bf62883732358f8"
+      },
+      "https://feeeye.com/where-to-buy/render": {
+        "path": "where-to-buy/render.html",
+        "sha256": "97657300d217d374db791bded152770c47e6e22123e23427a8c03dd0c51b214f"
+      },
+      "https://feeeye.com/where-to-buy/reusd": {
+        "path": "where-to-buy/reusd.html",
+        "sha256": "5360f204906d10d1729859075a1510b988152c415fa2fa92ecd9a0823f7b1d0b"
+      },
+      "https://feeeye.com/where-to-buy/sei": {
+        "path": "where-to-buy/sei.html",
+        "sha256": "fa75908a846ad69b0941cd0e41c7a49fa79bcce6f81cbce39fdb205dc875cfbc"
+      },
+      "https://feeeye.com/where-to-buy/shib": {
+        "path": "where-to-buy/shib.html",
+        "sha256": "257b5a785072dcf39b4a698f81f915125d3b45fa4e031e7e55153f9c3f902558"
+      },
+      "https://feeeye.com/where-to-buy/sky": {
+        "path": "where-to-buy/sky.html",
+        "sha256": "4a83c0beaf4543a8e682d7174e71864a9f08d7fec78107cea5580c209fd6ea40"
+      },
+      "https://feeeye.com/where-to-buy/sofid": {
+        "path": "where-to-buy/sofid.html",
+        "sha256": "48b616b46cd8bf366b5f0cc1cd8f8b4f6c723a5a5b12a116ec8ea856987fc927"
+      },
+      "https://feeeye.com/where-to-buy/sol": {
+        "path": "where-to-buy/sol.html",
+        "sha256": "0abdda153782799c7b194f8963264d63bd46cf7cf596f84a76fbc3e38df7ede7"
+      },
+      "https://feeeye.com/where-to-buy/spx": {
+        "path": "where-to-buy/spx.html",
+        "sha256": "b27815b532ebea0e8209577991e28156965c0b609317b8514ed88441ddf5950d"
+      },
+      "https://feeeye.com/where-to-buy/stable": {
+        "path": "where-to-buy/stable.html",
+        "sha256": "debb0bf582b34c99d9c4510884da9bec59eb701cbf6e23b1bac1d34a719d6ec2"
+      },
+      "https://feeeye.com/where-to-buy/strk": {
+        "path": "where-to-buy/strk.html",
+        "sha256": "47900773232e85f4ef8fc18b4da490edee6cb008cf1708ec9e3fb503ed688531"
+      },
+      "https://feeeye.com/where-to-buy/stx": {
+        "path": "where-to-buy/stx.html",
+        "sha256": "ec280bd8f2d9f6d52305fffcc3d04d7a176f4ebfb1d5fcb7583fd5ad913fe351"
+      },
+      "https://feeeye.com/where-to-buy/sui": {
+        "path": "where-to-buy/sui.html",
+        "sha256": "148ae2ca8ac682a3f265dbb57dfe4392c85a76caa341fd63267f0e00f5313e1f"
+      },
+      "https://feeeye.com/where-to-buy/sun": {
+        "path": "where-to-buy/sun.html",
+        "sha256": "6c956b929c1161c6686eb99441c9070c9dd7bfa737ad435afbef6041f002f126"
+      },
+      "https://feeeye.com/where-to-buy/tao": {
+        "path": "where-to-buy/tao.html",
+        "sha256": "4a987108feaf8f29305b20af8c42c748b66833e76700f8fc962f0002c79ecfd8"
+      },
+      "https://feeeye.com/where-to-buy/tia": {
+        "path": "where-to-buy/tia.html",
+        "sha256": "898a293f7fc207d5ff2dc46e4184c991d80a6437706a79a1b4f711f0d370b155"
+      },
+      "https://feeeye.com/where-to-buy/trump": {
+        "path": "where-to-buy/trump.html",
+        "sha256": "ffd38e9b875e595c516e424b70c1cb149513afe393dc26f5cad0c87a70f0c800"
+      },
+      "https://feeeye.com/where-to-buy/trx": {
+        "path": "where-to-buy/trx.html",
+        "sha256": "b1d8479b6506eb707c88ebc8e2c312594ac1b734aede301757a28221723b5e03"
+      },
+      "https://feeeye.com/where-to-buy/ub": {
+        "path": "where-to-buy/ub.html",
+        "sha256": "1f16c9be4c6aa3de50d115c5415e90220c38d168b9d2be94d7cbed4f36964515"
+      },
+      "https://feeeye.com/where-to-buy/uni": {
+        "path": "where-to-buy/uni.html",
+        "sha256": "49550e4a455bc877f713477b909b2a2063c18c7bd9bc80f03abc10ceea7f5b88"
+      },
+      "https://feeeye.com/where-to-buy/usyc": {
+        "path": "where-to-buy/usyc.html",
+        "sha256": "e48ffa76dd027082696c67bafaa8ce151de1a14e900ff3a6318a49dd41c30d13"
+      },
+      "https://feeeye.com/where-to-buy/vet": {
+        "path": "where-to-buy/vet.html",
+        "sha256": "3f2701409af6a08fb0703bc016704e1af6644b5b0697177dd998670d4feb7bd9"
+      },
+      "https://feeeye.com/where-to-buy/virtual": {
+        "path": "where-to-buy/virtual.html",
+        "sha256": "4163208cd576e337263997379bc82bde595f9c9ec5090960c064ab01eec2cc12"
+      },
+      "https://feeeye.com/where-to-buy/vvv": {
+        "path": "where-to-buy/vvv.html",
+        "sha256": "76201be0855b9b4cdcf587967385dac157899410336e68a060e9b4b579bbd466"
+      },
+      "https://feeeye.com/where-to-buy/wbt": {
+        "path": "where-to-buy/wbt.html",
+        "sha256": "dac374f908507e3d039ef3f627371880cc4d5e1bc82854090f23d58a5e855773"
+      },
+      "https://feeeye.com/where-to-buy/wif": {
+        "path": "where-to-buy/wif.html",
+        "sha256": "8d407c1e852120ead3ed577cc65b925a6c9e9bcd6233f28b091fa29f2b7c782d"
+      },
+      "https://feeeye.com/where-to-buy/wld": {
+        "path": "where-to-buy/wld.html",
+        "sha256": "e619095aa7b16ef107914b9ab83d6d904d29fcc2a672c03e874047298866d72a"
+      },
+      "https://feeeye.com/where-to-buy/wlfi": {
+        "path": "where-to-buy/wlfi.html",
+        "sha256": "22fba3105588e68b6eaefd4b629c5d2759d3494f5dfc1b06bd6457c5b102fb8d"
+      },
+      "https://feeeye.com/where-to-buy/xaut": {
+        "path": "where-to-buy/xaut.html",
+        "sha256": "58d82a5b0a9851a6e41d19394fd483d2a4f341b343137be4811ff9fa671af9d9"
+      },
+      "https://feeeye.com/where-to-buy/xdc": {
+        "path": "where-to-buy/xdc.html",
+        "sha256": "565b367642603d9408e204b08807623f9a2e06bca80dc7960cef873d7583f2e4"
+      },
+      "https://feeeye.com/where-to-buy/xlm": {
+        "path": "where-to-buy/xlm.html",
+        "sha256": "de64c56a1c07d336c04ab8c5dd7a22103a8565731e78e5b09287259429dbd01f"
+      },
+      "https://feeeye.com/where-to-buy/xmr": {
+        "path": "where-to-buy/xmr.html",
+        "sha256": "7c997525afff23c57aa04f3da7e3dd7d55ae4ff4a44221b5245cde6e6fa06dc6"
+      },
+      "https://feeeye.com/where-to-buy/xpl": {
+        "path": "where-to-buy/xpl.html",
+        "sha256": "fc20d61c9ca7869f797fcf166ee3963985ef486684fb04d1b0d56f3b17d4f20e"
+      },
+      "https://feeeye.com/where-to-buy/xrp": {
+        "path": "where-to-buy/xrp.html",
+        "sha256": "43be59d26c6d0d249aef3e3a1449f10af57962b35527cc7455aa9098dd7e0e50"
+      },
+      "https://feeeye.com/where-to-buy/xtz": {
+        "path": "where-to-buy/xtz.html",
+        "sha256": "e330a9c6d46a082faca7f7e8bf6114109f76280492be4bfa1ff63bdec004a5a2"
+      },
+      "https://feeeye.com/where-to-buy/zec": {
+        "path": "where-to-buy/zec.html",
+        "sha256": "cd16f73d58ff17c805608ca2e5cc90f7cae6e74e1ba6b43158f67782c0465a33"
+      },
+      "https://feeeye.com/where-to-buy/zro": {
+        "path": "where-to-buy/zro.html",
+        "sha256": "924b595a477b860abd9c59db7aa79bbb334ad5a7c8e75ed275e39895ca081623"
+      },
+      "https://feeeye.com/za/exchanges": {
+        "path": "za/exchanges.html",
+        "sha256": "e4d8f546b013f43207c7192d72478d26937d856a37670056724cc61f1e0f62c7"
+      },
+      "https://feeeye.com/zh/": {
+        "path": "zh/index.html",
+        "sha256": "e48cdaedc4e6ee2995f9a5c7d92cd72015750b9d75290ab0c25fa0307063ee74"
+      },
+      "https://feeeye.com/zh/about": {
+        "path": "zh/about.html",
+        "sha256": "a6d818702a3d397e82ffd2541bc4f351a07bc31b1a4a90ec2d7c311717a3defc"
+      },
+      "https://feeeye.com/zh/ae/exchanges": {
+        "path": "zh/ae/exchanges.html",
+        "sha256": "70f9583b3de09e6f67d31cb0718ada61036c1f31ad278ec38726e793bb2cbf75"
+      },
+      "https://feeeye.com/zh/au/exchanges": {
+        "path": "zh/au/exchanges.html",
+        "sha256": "53d3e3375bf104c0f3b686fca92bf7fbd973dcdc0f56821ea51724ed8d2c2d53"
+      },
+      "https://feeeye.com/zh/br/exchanges": {
+        "path": "zh/br/exchanges.html",
+        "sha256": "977619d29dea6512025f442bb02d0ffc31b834b27642a32b5cf5baf569c9c346"
+      },
+      "https://feeeye.com/zh/ca/exchanges": {
+        "path": "zh/ca/exchanges.html",
+        "sha256": "cc913ea651b42e4f89dd55b2a832bceb245c079deb8ecc16db58972242b784ae"
+      },
+      "https://feeeye.com/zh/coins": {
+        "path": "zh/coins.html",
+        "sha256": "20d7a35eec86886e33ee1a1a3e2903e5ab35cc6eaf351fc5ac06b120c6af2f58"
+      },
+      "https://feeeye.com/zh/compare/binance-vs-bitget": {
+        "path": "zh/compare/binance-vs-bitget.html",
+        "sha256": "4e03222faa2f131623feb3217ff248b38696d1f72a7d7e8ab29d4900ff2e810e"
+      },
+      "https://feeeye.com/zh/compare/binance-vs-bybit": {
+        "path": "zh/compare/binance-vs-bybit.html",
+        "sha256": "b35b2075bec7256a330d0a8c6916527c5c0c428d5d8a53b1924cf2fa9a48d26c"
+      },
+      "https://feeeye.com/zh/compare/binance-vs-coinbase": {
+        "path": "zh/compare/binance-vs-coinbase.html",
+        "sha256": "65a2cb3ad6ef8b06af24136bae54aec84493d4c1a160ee4e50b809f810c99517"
+      },
+      "https://feeeye.com/zh/compare/binance-vs-kraken": {
+        "path": "zh/compare/binance-vs-kraken.html",
+        "sha256": "751b603f2cf4c1da9861730b55df5f858e81dfe9839064f15a976c453cf38409"
+      },
+      "https://feeeye.com/zh/compare/binance-vs-kucoin": {
+        "path": "zh/compare/binance-vs-kucoin.html",
+        "sha256": "3538cdb7d4eaa1ca5e86ba8e225b95e5eb4d628f91fb78f36e485db93c14669a"
+      },
+      "https://feeeye.com/zh/compare/binance-vs-okx": {
+        "path": "zh/compare/binance-vs-okx.html",
+        "sha256": "2312ecb1f4413f175cf6609db6cd6916594b3345e18a658a73a33c1b6f479d74"
+      },
+      "https://feeeye.com/zh/compare/bitget-vs-bybit": {
+        "path": "zh/compare/bitget-vs-bybit.html",
+        "sha256": "c65e2eaf626f2742371a097ba3aa38b4e212ddcbf23de556e6621bec883280e8"
+      },
+      "https://feeeye.com/zh/compare/bitget-vs-coinbase": {
+        "path": "zh/compare/bitget-vs-coinbase.html",
+        "sha256": "0db1cae516ff6690d3d1b20c4569618962258899553d23b09c8fbe9efa56fc96"
+      },
+      "https://feeeye.com/zh/compare/bitget-vs-kraken": {
+        "path": "zh/compare/bitget-vs-kraken.html",
+        "sha256": "bd757234e5b3837016088526dee8c6725c6d55c55f419f1d9578b50c7666894a"
+      },
+      "https://feeeye.com/zh/compare/bitget-vs-kucoin": {
+        "path": "zh/compare/bitget-vs-kucoin.html",
+        "sha256": "90d272215f7a9752bbac2dde4f4b56ec7cf6ea0513f7f478924a9b6357841f47"
+      },
+      "https://feeeye.com/zh/compare/bitget-vs-okx": {
+        "path": "zh/compare/bitget-vs-okx.html",
+        "sha256": "436e0f9d116bc65c587df3fa119e6a32b00980ee76df2d97d5fcf10847ed8b84"
+      },
+      "https://feeeye.com/zh/compare/bybit-vs-coinbase": {
+        "path": "zh/compare/bybit-vs-coinbase.html",
+        "sha256": "3eebf7ad55e495aa561c8b006611875b3eee1d6138af80fa0690ca7f547cd37a"
+      },
+      "https://feeeye.com/zh/compare/bybit-vs-kraken": {
+        "path": "zh/compare/bybit-vs-kraken.html",
+        "sha256": "4261eea19906510b12208f5864a4132e4d4912a2765add95f515890077f731bf"
+      },
+      "https://feeeye.com/zh/compare/bybit-vs-kucoin": {
+        "path": "zh/compare/bybit-vs-kucoin.html",
+        "sha256": "a4d36ffc42e68c0933d06c70ee7c45bea1b0555b432028435742276497f033ca"
+      },
+      "https://feeeye.com/zh/compare/bybit-vs-okx": {
+        "path": "zh/compare/bybit-vs-okx.html",
+        "sha256": "af3343c90b1a12d28d145e4298b4d8cada9837edf4591b04918b3ea80eb8460b"
+      },
+      "https://feeeye.com/zh/compare/coinbase-vs-kraken": {
+        "path": "zh/compare/coinbase-vs-kraken.html",
+        "sha256": "60e7db9df4d532b9f05b95e3f12f6b021c9f03026f1f1dde5782efe9e20ed863"
+      },
+      "https://feeeye.com/zh/compare/coinbase-vs-kucoin": {
+        "path": "zh/compare/coinbase-vs-kucoin.html",
+        "sha256": "7c8a936aec2f999344eff8e9623bc50fa0fa020ce4a361f62b738e49822310c2"
+      },
+      "https://feeeye.com/zh/compare/coinbase-vs-okx": {
+        "path": "zh/compare/coinbase-vs-okx.html",
+        "sha256": "4a5b1e1ba43328596ccb15e1d542438b8dd94877a0915dd7acfb3e7567b9f5ac"
+      },
+      "https://feeeye.com/zh/compare/kraken-vs-kucoin": {
+        "path": "zh/compare/kraken-vs-kucoin.html",
+        "sha256": "76f9a840393cb2ccfb22991f8f469ddda215dd140f78e7d9d08ada5fb6318cae"
+      },
+      "https://feeeye.com/zh/compare/kraken-vs-okx": {
+        "path": "zh/compare/kraken-vs-okx.html",
+        "sha256": "f8a5224c3783b0baeccce1b793a526834f4b161da959b5207dd6d6ea3a8e1fce"
+      },
+      "https://feeeye.com/zh/compare/kucoin-vs-okx": {
+        "path": "zh/compare/kucoin-vs-okx.html",
+        "sha256": "04e7c6c31ae8cab403eed4f92fda050e00411a2a2163e3e8d4a9181eabb26721"
+      },
+      "https://feeeye.com/zh/de/exchanges": {
+        "path": "zh/de/exchanges.html",
+        "sha256": "0432c3c0b550ba40f3ee8b4469db52e9fce2a0d78a35614be40de5cfc5affb24"
+      },
+      "https://feeeye.com/zh/disclosure": {
+        "path": "zh/disclosure.html",
+        "sha256": "12edfe975647a02f8b3ea932c024270d9716b2c5d93cea842475133d603fdc53"
+      },
+      "https://feeeye.com/zh/es/exchanges": {
+        "path": "zh/es/exchanges.html",
+        "sha256": "7607ce1482a2a612f1312964def49f0ae0224d1cf929323ee4ebb78eb02e0457"
+      },
+      "https://feeeye.com/zh/exchanges/binance": {
+        "path": "zh/exchanges/binance.html",
+        "sha256": "c71dad3b9e4095ddfde7a77296653f0d5ad11ba0fdf031f84291cf2dead87c69"
+      },
+      "https://feeeye.com/zh/exchanges/bitget": {
+        "path": "zh/exchanges/bitget.html",
+        "sha256": "67bc7c3461c52b6be589fcf3ac29781526a9b527fdde9310c9c01ea4e66ad12a"
+      },
+      "https://feeeye.com/zh/exchanges/bybit": {
+        "path": "zh/exchanges/bybit.html",
+        "sha256": "98d99bdf8e2f0da407bfe2d33e8e6e4a5164c95134330a8077cf768985c3ed5a"
+      },
+      "https://feeeye.com/zh/exchanges/coinbase": {
+        "path": "zh/exchanges/coinbase.html",
+        "sha256": "0ffd4744f2b2d2ae251017dbe10df93e32ff36c72d4d117e8d562a18b3bad40f"
+      },
+      "https://feeeye.com/zh/exchanges/kraken": {
+        "path": "zh/exchanges/kraken.html",
+        "sha256": "fa2b7e76ee288d10253ce9697e13ff33f7f4b1056c5da08d0c1fb6e8b028e3a6"
+      },
+      "https://feeeye.com/zh/exchanges/kucoin": {
+        "path": "zh/exchanges/kucoin.html",
+        "sha256": "3a3763c58f37938696d6eea88cbc629265d243b5a95c0d1cf40ccc4499539891"
+      },
+      "https://feeeye.com/zh/exchanges/okx": {
+        "path": "zh/exchanges/okx.html",
+        "sha256": "ab1b964398fd977886658028c6542a7da136301ceacf91199046583560099405"
+      },
+      "https://feeeye.com/zh/fr/exchanges": {
+        "path": "zh/fr/exchanges.html",
+        "sha256": "5a95a8ceeb397b7ac7e75974ffb026cc4b272851ac4f1ebe0bee13fc63105bce"
+      },
+      "https://feeeye.com/zh/gb/exchanges": {
+        "path": "zh/gb/exchanges.html",
+        "sha256": "a516368126d0e7b2eff2225c7a049cc6d968b95f28ef459509fd19f67a7da7f1"
+      },
+      "https://feeeye.com/zh/id/exchanges": {
+        "path": "zh/id/exchanges.html",
+        "sha256": "ce9626431eb2013ac57812e5675ad3beffdc59b322c3d1e386ace08ac1e160c8"
+      },
+      "https://feeeye.com/zh/in/exchanges": {
+        "path": "zh/in/exchanges.html",
+        "sha256": "8b13f79c6d478e045d021eb4eaa0af9d6138d6d6010d3b77be5348c752be32b7"
+      },
+      "https://feeeye.com/zh/it/exchanges": {
+        "path": "zh/it/exchanges.html",
+        "sha256": "03a052a7d0399f36dd9e2df335008b2d3dfcc893ed57fac295b44b6d00f1b362"
+      },
+      "https://feeeye.com/zh/jp/exchanges": {
+        "path": "zh/jp/exchanges.html",
+        "sha256": "f9a3f175adc2497ee7662c7cf820e2407253d7f3bd56f730fb87fa68350cc839"
+      },
+      "https://feeeye.com/zh/kr/exchanges": {
+        "path": "zh/kr/exchanges.html",
+        "sha256": "94f74790197364ad7d44d790bdf122a408cb46ab9586d2189e2541a7fa8dfac2"
+      },
+      "https://feeeye.com/zh/learn/": {
+        "path": "zh/learn/index.html",
+        "sha256": "32b02b2de03c0a1ab5ce6d26d889fd868ca374dcee482def0b1431a0681e0b09"
+      },
+      "https://feeeye.com/zh/learn/avoid-crypto-scams": {
+        "path": "zh/learn/avoid-crypto-scams.html",
+        "sha256": "d7ddc1e438f72f13e2c21667739ebc743a6621c35fb67429c2182ed41dbd5a76"
+      },
+      "https://feeeye.com/zh/learn/before-you-start": {
+        "path": "zh/learn/before-you-start.html",
+        "sha256": "8a03d5c9cedeac9ecb39d6f01ac410f5d76c36cca71db89ed1e2f29664650e75"
+      },
+      "https://feeeye.com/zh/learn/choose-crypto-exchange": {
+        "path": "zh/learn/choose-crypto-exchange.html",
+        "sha256": "a64897b5496e29108fae66027801fdd6b4141a99e601523748080cb072d14183"
+      },
+      "https://feeeye.com/zh/learn/crypto-total-cost": {
+        "path": "zh/learn/crypto-total-cost.html",
+        "sha256": "9f0ec13601eb0d2434f44b13f67593b39cd263706a4c3c30ac30e3aac08094d7"
+      },
+      "https://feeeye.com/zh/learn/custody-vs-self-custody": {
+        "path": "zh/learn/custody-vs-self-custody.html",
+        "sha256": "7e74d4abeafa969c9f5816748cc7122b3296bea4b15283fb0fd55ec26e26ae4d"
+      },
+      "https://feeeye.com/zh/learn/first-spot-trade": {
+        "path": "zh/learn/first-spot-trade.html",
+        "sha256": "7c97d49f72cd096001643b128b7a8ef6864b92dedc6e1a219483366764e670dc"
+      },
+      "https://feeeye.com/zh/learn/safe-crypto-transfer": {
+        "path": "zh/learn/safe-crypto-transfer.html",
+        "sha256": "4d20ce3bfaf8cdcc6f8200dae8de53dbe786bda92ead4ab4cf07f2f78c6fc0f6"
+      },
+      "https://feeeye.com/zh/learn/secure-crypto-account": {
+        "path": "zh/learn/secure-crypto-account.html",
+        "sha256": "eb8a2725b21c8abef7f0c2f3d03147f7473b8e7e31b8ef1d0d421eaf6a10ba8a"
+      },
+      "https://feeeye.com/zh/mx/exchanges": {
+        "path": "zh/mx/exchanges.html",
+        "sha256": "2b43954664cfffd630a24eaa85ffce843b379d3024b772b5ac4f40e2d547ec77"
+      },
+      "https://feeeye.com/zh/ng/exchanges": {
+        "path": "zh/ng/exchanges.html",
+        "sha256": "939d3aca5ddc2b8c02628a5d8e7bdf389a9a7bc1da2111468e6951ea5b8bb73d"
+      },
+      "https://feeeye.com/zh/ph/exchanges": {
+        "path": "zh/ph/exchanges.html",
+        "sha256": "e76367db4e9039644b77727e645b3e0d3710479babd137fd1f2db6f5f466fbe8"
+      },
+      "https://feeeye.com/zh/pl/exchanges": {
+        "path": "zh/pl/exchanges.html",
+        "sha256": "21a71c77c7999643a9b9a3c278957dd103a5ef2b1ad86682f23e58c9354a4a35"
+      },
+      "https://feeeye.com/zh/privacy": {
+        "path": "zh/privacy.html",
+        "sha256": "ecf189d81ab5e06515bbe40523beb6b5bcdf7e5e1ae6dde6fbcbc5c38f9bdc91"
+      },
+      "https://feeeye.com/zh/research/1000-usdt-spot-cost": {
+        "path": "zh/research/1000-usdt-spot-cost.html",
+        "sha256": "102d2187e04b0cd7eeec4f5686c555c6ca36515e7254b5a8f6b0a55c35fb966f"
+      },
+      "https://feeeye.com/zh/terms": {
+        "path": "zh/terms.html",
+        "sha256": "9ef55ae8a2b73c9fc1a66aa0c13558906de114b429ad3afb969887ee3bacb4f4"
+      },
+      "https://feeeye.com/zh/th/exchanges": {
+        "path": "zh/th/exchanges.html",
+        "sha256": "2087d3889ae48443f4ba01db22e9d6402d65e933b7c4cea03c35d98aff5475dc"
+      },
+      "https://feeeye.com/zh/tr/exchanges": {
+        "path": "zh/tr/exchanges.html",
+        "sha256": "92a4eed15603b2dba889a84961aac889acc9235204511befb992124a423e8a07"
+      },
+      "https://feeeye.com/zh/vn/exchanges": {
+        "path": "zh/vn/exchanges.html",
+        "sha256": "e45ecfbb842fcbaba36b3fb243f5cb5f049e6b92612a95ec5de473c2aaf89bd1"
+      },
+      "https://feeeye.com/zh/where-to-buy/": {
+        "path": "zh/where-to-buy/index.html",
+        "sha256": "bec9c18501c4de0ac8d2225dedc07222756f7372cd8e6ef6e9dea040e15c2bed"
+      },
+      "https://feeeye.com/zh/where-to-buy/a7a5": {
+        "path": "zh/where-to-buy/a7a5.html",
+        "sha256": "121f9573b226c958b968dcf46109be4eb84c84bf77f66418489a8797d329c967"
+      },
+      "https://feeeye.com/zh/where-to-buy/aave": {
+        "path": "zh/where-to-buy/aave.html",
+        "sha256": "4aa7ccac41049d7e864fa30b4f188d88f1eaecc0c090b23aded2a4432a70a35b"
+      },
+      "https://feeeye.com/zh/where-to-buy/ada": {
+        "path": "zh/where-to-buy/ada.html",
+        "sha256": "ccb1c1fc4020d4577c7e620a88d6ccbfa9947149cd931e24d5d652ab3241a36e"
+      },
+      "https://feeeye.com/zh/where-to-buy/aero": {
+        "path": "zh/where-to-buy/aero.html",
+        "sha256": "61ca4245ac294119c7ee61a79d33b149bd375916dac6353363a41e2dbd4de24b"
+      },
+      "https://feeeye.com/zh/where-to-buy/ake": {
+        "path": "zh/where-to-buy/ake.html",
+        "sha256": "5975624108de8abf68001fd72f2ba4b107a3e14a00e5e3256af02380ecf3d381"
+      },
+      "https://feeeye.com/zh/where-to-buy/algo": {
+        "path": "zh/where-to-buy/algo.html",
+        "sha256": "858a068af1d8f9bf17f6066bef453e872b2e8e9dc0ae4909f5f2ac12436c1191"
+      },
+      "https://feeeye.com/zh/where-to-buy/apepe": {
+        "path": "zh/where-to-buy/apepe.html",
+        "sha256": "1b50a4587391b07ffe7b87f461307a05b2f53710130e6a5214efec54f8e2b221"
+      },
+      "https://feeeye.com/zh/where-to-buy/apt": {
+        "path": "zh/where-to-buy/apt.html",
+        "sha256": "62021239da0ff29725c6fc6a1543fd1f0a5d880f6cb93c201c870b30040b9e21"
+      },
+      "https://feeeye.com/zh/where-to-buy/apxusd": {
+        "path": "zh/where-to-buy/apxusd.html",
+        "sha256": "780985ba0ef74fc184448e88b4b10e30c16f5c96e01110b89347d43c29785506"
+      },
+      "https://feeeye.com/zh/where-to-buy/arb": {
+        "path": "zh/where-to-buy/arb.html",
+        "sha256": "1f41240930a7e65c2df24da63c1b8c9313da18e6d30823fd15440eb0c76b73cc"
+      },
+      "https://feeeye.com/zh/where-to-buy/aster": {
+        "path": "zh/where-to-buy/aster.html",
+        "sha256": "e90c6c28488b5ea251ef938d7f5e73f4a275c9851852f38a9d7df22013ae0f07"
+      },
+      "https://feeeye.com/zh/where-to-buy/atom": {
+        "path": "zh/where-to-buy/atom.html",
+        "sha256": "23efa8730a2c5221c01497a099482de9d738a8be0a6e867b076edb0f1a05bf30"
+      },
+      "https://feeeye.com/zh/where-to-buy/avax": {
+        "path": "zh/where-to-buy/avax.html",
+        "sha256": "7631e8089165d58980ef7da55f7435cfe104fe55cc88bb3dd7e99ef9cb26982c"
+      },
+      "https://feeeye.com/zh/where-to-buy/bch": {
+        "path": "zh/where-to-buy/bch.html",
+        "sha256": "daf98f08cca2a4174d8ec6d260833b73b81aa300d19f762080ae01671bf4baf7"
+      },
+      "https://feeeye.com/zh/where-to-buy/bdx": {
+        "path": "zh/where-to-buy/bdx.html",
+        "sha256": "eb5d7e0d35c3c028c9e949b8dc12e224f7b89585af2295b3a52fb6efb2d65659"
+      },
+      "https://feeeye.com/zh/where-to-buy/bgb": {
+        "path": "zh/where-to-buy/bgb.html",
+        "sha256": "e20a790ef331504f3f513ea975aefe07410cffe9ea35a85d27916914a6f4fd58"
+      },
+      "https://feeeye.com/zh/where-to-buy/bnb": {
+        "path": "zh/where-to-buy/bnb.html",
+        "sha256": "bc31f07ccf80f60c96cdda9a5419a4c1e2292530e08b2498d0a770c7c1e3cc32"
+      },
+      "https://feeeye.com/zh/where-to-buy/bonk": {
+        "path": "zh/where-to-buy/bonk.html",
+        "sha256": "26df3ca7bf3415dec63947923f0f4457c6f2d6ea9c123af1fe40f9bfc89334df"
+      },
+      "https://feeeye.com/zh/where-to-buy/bsv": {
+        "path": "zh/where-to-buy/bsv.html",
+        "sha256": "9cfb474450bbf5e7a076db3af614ea4038cdca35669341810d35770d650e4578"
+      },
+      "https://feeeye.com/zh/where-to-buy/btc": {
+        "path": "zh/where-to-buy/btc.html",
+        "sha256": "1443ef69a404ee7bb8ed86c4ea3b9fcda840fd63ff56a8703e5987318317cb3d"
+      },
+      "https://feeeye.com/zh/where-to-buy/btt": {
+        "path": "zh/where-to-buy/btt.html",
+        "sha256": "628717c229b9947db2cf9ea5e8686008fe14186f219c9e8288ccae8dbdfea62d"
+      },
+      "https://feeeye.com/zh/where-to-buy/btw": {
+        "path": "zh/where-to-buy/btw.html",
+        "sha256": "54536aa2ea523008e3e300b8fb8054441a0096a459c58f1f085c706be4ca8301"
+      },
+      "https://feeeye.com/zh/where-to-buy/cake": {
+        "path": "zh/where-to-buy/cake.html",
+        "sha256": "644a1586bef42bcbfb81dac9fec986f98a5361270986712a6f794ba1c2d1c2bf"
+      },
+      "https://feeeye.com/zh/where-to-buy/cc": {
+        "path": "zh/where-to-buy/cc.html",
+        "sha256": "4acf1d5ef0f4ffa4f08352283f99e5ab69c87cab60257085e54719d3953fac5c"
+      },
+      "https://feeeye.com/zh/where-to-buy/cro": {
+        "path": "zh/where-to-buy/cro.html",
+        "sha256": "bf2f5df41f5fa448f09429b4a6634403c0755c8600efe0e4b294694ebe88c5bf"
+      },
+      "https://feeeye.com/zh/where-to-buy/crv": {
+        "path": "zh/where-to-buy/crv.html",
+        "sha256": "854b335ca4d1429d0624641490f6abff499fa3d03b771d26716072c36998509a"
+      },
+      "https://feeeye.com/zh/where-to-buy/dacitycoin": {
+        "path": "zh/where-to-buy/dacitycoin.html",
+        "sha256": "0feab41ae3c4f144ff617c6f1a1c7742e245b02a9e05364b7e717e5c383191af"
+      },
+      "https://feeeye.com/zh/where-to-buy/dash": {
+        "path": "zh/where-to-buy/dash.html",
+        "sha256": "acd50e9fdd2f85ab853e93826ed044cea95ba6bd43c1c10c3e4e266961ee3692"
+      },
+      "https://feeeye.com/zh/where-to-buy/doge": {
+        "path": "zh/where-to-buy/doge.html",
+        "sha256": "4cba45353134fe7518cd5c786eac15d27482a1bb0dd1fffd46ffcafdb02d901d"
+      },
+      "https://feeeye.com/zh/where-to-buy/dot": {
+        "path": "zh/where-to-buy/dot.html",
+        "sha256": "617683eaa81df02c320327aadbc97a169f64b61fca1e96c592410a19eb466446"
+      },
+      "https://feeeye.com/zh/where-to-buy/drv": {
+        "path": "zh/where-to-buy/drv.html",
+        "sha256": "ad11891a5372e782201d209f471aa37bf92729fea0ca787fc57e8e2fb65d30c2"
+      },
+      "https://feeeye.com/zh/where-to-buy/ena": {
+        "path": "zh/where-to-buy/ena.html",
+        "sha256": "9a30c07f49270f8e7443cc7f116e838734202c9e09edb3cde211cab3e9fca6e6"
+      },
+      "https://feeeye.com/zh/where-to-buy/etc": {
+        "path": "zh/where-to-buy/etc.html",
+        "sha256": "8698a11101e7c0b56b2f6097b38e9467c6e1b9635bae3ef4e0c798776827d87b"
+      },
+      "https://feeeye.com/zh/where-to-buy/eth": {
+        "path": "zh/where-to-buy/eth.html",
+        "sha256": "e1b3d24c647d54e32765691f9145ff3e4587725ee9c2f8e4b7d4760e24d46a3b"
+      },
+      "https://feeeye.com/zh/where-to-buy/ethfi": {
+        "path": "zh/where-to-buy/ethfi.html",
+        "sha256": "83283b747c30447c314b8d1d287670531aae48ab0aaa6896decfa41ad46572f4"
+      },
+      "https://feeeye.com/zh/where-to-buy/fet": {
+        "path": "zh/where-to-buy/fet.html",
+        "sha256": "4e209b01ce2061e163bb80459b9a8aece08d86ecfa29c85027773b1d9b1a3d4c"
+      },
+      "https://feeeye.com/zh/where-to-buy/ff": {
+        "path": "zh/where-to-buy/ff.html",
+        "sha256": "862b394b95f894399c238a040552653a093031a3fac373dc0c567c7c92f376df"
+      },
+      "https://feeeye.com/zh/where-to-buy/fil": {
+        "path": "zh/where-to-buy/fil.html",
+        "sha256": "da06d2095df197e73a84c0a4a5264df446300715f5549fef0d04c751a96719cb"
+      },
+      "https://feeeye.com/zh/where-to-buy/floki": {
+        "path": "zh/where-to-buy/floki.html",
+        "sha256": "12c1b8dd96a7413d2ed857ad7076f59fb8e1317343ffdf0ddedc21495dc584e0"
+      },
+      "https://feeeye.com/zh/where-to-buy/flr": {
+        "path": "zh/where-to-buy/flr.html",
+        "sha256": "fe0d61f508c4432e51d38becd3bb69eb54df9973a4fce31087f5e6190d133af0"
+      },
+      "https://feeeye.com/zh/where-to-buy/gato": {
+        "path": "zh/where-to-buy/gato.html",
+        "sha256": "b19b6bc01cd2d449c1a3b30ec4e960dcd1cfb32f61563b14fb01fe8f390d3b2d"
+      },
+      "https://feeeye.com/zh/where-to-buy/gno": {
+        "path": "zh/where-to-buy/gno.html",
+        "sha256": "b259de015cfd6335ee833e51303fdcd26c5fdf5ade2f4c93750ab53e03bbae0e"
+      },
+      "https://feeeye.com/zh/where-to-buy/gram": {
+        "path": "zh/where-to-buy/gram.html",
+        "sha256": "ba4840f83de121bedf8a1433b1a28afde5784f0b078d12da3f4ab7cf80faa26a"
+      },
+      "https://feeeye.com/zh/where-to-buy/grass": {
+        "path": "zh/where-to-buy/grass.html",
+        "sha256": "d0e34cd31702364b6914a041af425d99b4b9e504dfefbac019f50032b3afd390"
+      },
+      "https://feeeye.com/zh/where-to-buy/gt": {
+        "path": "zh/where-to-buy/gt.html",
+        "sha256": "fb91b1bd2ac194ee69bd56a6925b0d08b9ede0da4a873ee93ca72763f137049a"
+      },
+      "https://feeeye.com/zh/where-to-buy/hash": {
+        "path": "zh/where-to-buy/hash.html",
+        "sha256": "d8abc24c2ef9d8bb88f8da00388433905850b37fc8f15f800f6640e404657eab"
+      },
+      "https://feeeye.com/zh/where-to-buy/hbar": {
+        "path": "zh/where-to-buy/hbar.html",
+        "sha256": "bb0853d59f694fd1eece50c5fc22206b7e49323a02d2fda2c22336746bdc5f7b"
+      },
+      "https://feeeye.com/zh/where-to-buy/htx": {
+        "path": "zh/where-to-buy/htx.html",
+        "sha256": "56fde1b9fb740417462dc8523ef08066aa2d4a010db900ebfac626da3d907b28"
+      },
+      "https://feeeye.com/zh/where-to-buy/hype": {
+        "path": "zh/where-to-buy/hype.html",
+        "sha256": "c0510e4c300bdb2becf2e9546ab5007864bd4a4407377ca930cbce7e2698cb05"
+      },
+      "https://feeeye.com/zh/where-to-buy/icp": {
+        "path": "zh/where-to-buy/icp.html",
+        "sha256": "8173f303214e2b73d411e3d4a3849e0b85fe9cd132cbd501253e30de27549b1d"
+      },
+      "https://feeeye.com/zh/where-to-buy/imd": {
+        "path": "zh/where-to-buy/imd.html",
+        "sha256": "b06954fa5ee0f3516b14447ef6a21c03f9f5b3a3ec61aedd768580ff4ca3ae10"
+      },
+      "https://feeeye.com/zh/where-to-buy/inj": {
+        "path": "zh/where-to-buy/inj.html",
+        "sha256": "99eb41e2d4c371506e519bf75aa75fb6e9ccb7f5a6071ac54dfb8f9d7e2f85fb"
+      },
+      "https://feeeye.com/zh/where-to-buy/jst": {
+        "path": "zh/where-to-buy/jst.html",
+        "sha256": "530e24b49cd1658982808ca2d674cfdf4c348fd2179586d88650b82b7b508e6b"
+      },
+      "https://feeeye.com/zh/where-to-buy/jup": {
+        "path": "zh/where-to-buy/jup.html",
+        "sha256": "6219b13175515d7a37082714528b8005aa8c43f996b5bdc64a6ed64d91a0a114"
+      },
+      "https://feeeye.com/zh/where-to-buy/kas": {
+        "path": "zh/where-to-buy/kas.html",
+        "sha256": "46c867165b8855e39c17b7690ab4b697995f7f41ae292f58c3a21b3d8cfd9126"
+      },
+      "https://feeeye.com/zh/where-to-buy/kau": {
+        "path": "zh/where-to-buy/kau.html",
+        "sha256": "ac702c2a63b59dc2870a490ecca55346dd6abbae47ef0057a469aec6dd68279c"
+      },
+      "https://feeeye.com/zh/where-to-buy/kcs": {
+        "path": "zh/where-to-buy/kcs.html",
+        "sha256": "1a133838c1df0ae24ff5a1415fc3aecc703161a029f4700c5dd0e97ff39ce32d"
+      },
+      "https://feeeye.com/zh/where-to-buy/kite": {
+        "path": "zh/where-to-buy/kite.html",
+        "sha256": "3d4dfe958217eab85fd93a6a9332dac7d416c00a4d2cdefd45b1f6c35db966ea"
+      },
+      "https://feeeye.com/zh/where-to-buy/ldo": {
+        "path": "zh/where-to-buy/ldo.html",
+        "sha256": "5252e3fddbb2552d76c73ff9f6f9e6a6f01e17c67eb5d72d90afd914a9107313"
+      },
+      "https://feeeye.com/zh/where-to-buy/leo": {
+        "path": "zh/where-to-buy/leo.html",
+        "sha256": "c93656140f578357e2d6a52ad12a1861963763b1814d1e30b822252c8b42add4"
+      },
+      "https://feeeye.com/zh/where-to-buy/link": {
+        "path": "zh/where-to-buy/link.html",
+        "sha256": "f59ebf6ba14eeb671e279403b81e1c8e0b7eed5d1d1e599c387d369efaa09cfb"
+      },
+      "https://feeeye.com/zh/where-to-buy/lit": {
+        "path": "zh/where-to-buy/lit.html",
+        "sha256": "a794b9154d8e7502a353cf7c997b06eb48daf271a097b258b519434295d34605"
+      },
+      "https://feeeye.com/zh/where-to-buy/ltc": {
+        "path": "zh/where-to-buy/ltc.html",
+        "sha256": "17b2a147865cc25d9a28e0f0ea2afc2558aca82d2b9e8ea8b7522cf96a593c33"
+      },
+      "https://feeeye.com/zh/where-to-buy/m": {
+        "path": "zh/where-to-buy/m.html",
+        "sha256": "6df435ab4e138491e2273505f0b29fd649944581eaad08da400a7e6a2947e3d9"
+      },
+      "https://feeeye.com/zh/where-to-buy/macca": {
+        "path": "zh/where-to-buy/macca.html",
+        "sha256": "ba41aded9ceb165943359b7b09fd9dde42094678e8eddc238467691120756578"
+      },
+      "https://feeeye.com/zh/where-to-buy/mihao": {
+        "path": "zh/where-to-buy/mihao.html",
+        "sha256": "ba0ae9cb85414d13f05d953fab2109180d41c08bef8abea204a44739f5301f0a"
+      },
+      "https://feeeye.com/zh/where-to-buy/mnt": {
+        "path": "zh/where-to-buy/mnt.html",
+        "sha256": "7d71fbc7852457dd1bfbef81d413e1752fe7314287e71d84bbddfbe1073a3082"
+      },
+      "https://feeeye.com/zh/where-to-buy/morpho": {
+        "path": "zh/where-to-buy/morpho.html",
+        "sha256": "39cac8a4b7466e7db7c4173f42ef6b8f24f1fe68a23bacc623c54fb3d82b8dc8"
+      },
+      "https://feeeye.com/zh/where-to-buy/near": {
+        "path": "zh/where-to-buy/near.html",
+        "sha256": "fe4ef755a4bec4e8fa85775771c48a90235cd45d4ce51a92458043eefc20dcd7"
+      },
+      "https://feeeye.com/zh/where-to-buy/nexo": {
+        "path": "zh/where-to-buy/nexo.html",
+        "sha256": "f755366f7f640926fe3d6acf559072ce3850a2bb600f0992909073ad8d470afc"
+      },
+      "https://feeeye.com/zh/where-to-buy/night": {
+        "path": "zh/where-to-buy/night.html",
+        "sha256": "7e9f61cb8a8dcb30b9808f7875defb457c04f04ba11050a1c4df5ebb5d25f27e"
+      },
+      "https://feeeye.com/zh/where-to-buy/ohm": {
+        "path": "zh/where-to-buy/ohm.html",
+        "sha256": "4598fc8f2ab094c8adfabe9d5bdf8c38fe0d366f99f903415862c375cac61ed1"
+      },
+      "https://feeeye.com/zh/where-to-buy/okb": {
+        "path": "zh/where-to-buy/okb.html",
+        "sha256": "91b6909935f2bfd13ec56485c1ec9e0c61c6f05a01e0dacd04d4b7ef2d361278"
+      },
+      "https://feeeye.com/zh/where-to-buy/ondo": {
+        "path": "zh/where-to-buy/ondo.html",
+        "sha256": "960229e336738071257e8a16bb2b9d7e90a421bb86444af7c975bf6723f27c3f"
+      },
+      "https://feeeye.com/zh/where-to-buy/op": {
+        "path": "zh/where-to-buy/op.html",
+        "sha256": "392e8f77712f19e4eba75a573bb9dd8f8fa5fcc3b59348065320f53059a6a34f"
+      },
+      "https://feeeye.com/zh/where-to-buy/ozo": {
+        "path": "zh/where-to-buy/ozo.html",
+        "sha256": "94ab90447329a24a6428fe02da34a5e7f601a13e2c6ebe581045ada924a8d765"
+      },
+      "https://feeeye.com/zh/where-to-buy/paxg": {
+        "path": "zh/where-to-buy/paxg.html",
+        "sha256": "3bd4b76c9361f5ecfc56880a346be6d115a3d22ed7d6619dfe0ba3150f9c9dad"
+      },
+      "https://feeeye.com/zh/where-to-buy/pc0000031": {
+        "path": "zh/where-to-buy/pc0000031.html",
+        "sha256": "9fe7772acdd6199e77e80ecc29021ebb91ffe6071d4af61e5f6191bcd2005f02"
+      },
+      "https://feeeye.com/zh/where-to-buy/pearl": {
+        "path": "zh/where-to-buy/pearl.html",
+        "sha256": "bae89092e15f711854abf2034b5fc9314caa6954e4d62485caee039138ae7aee"
+      },
+      "https://feeeye.com/zh/where-to-buy/pendle": {
+        "path": "zh/where-to-buy/pendle.html",
+        "sha256": "3e604a64c40aa20c90c70ef8eec32ea88bf8e0b2356956cbd8f22a991afc7ccd"
+      },
+      "https://feeeye.com/zh/where-to-buy/pengu": {
+        "path": "zh/where-to-buy/pengu.html",
+        "sha256": "bf838202b95dd787a590b9d67e13c1a76a579c27811f6c8e0f3077fb4808f6fa"
+      },
+      "https://feeeye.com/zh/where-to-buy/pepe": {
+        "path": "zh/where-to-buy/pepe.html",
+        "sha256": "04ddfc5bd9766740d951e3f13acadc5db6f120336d057a2fc355bfe824d10176"
+      },
+      "https://feeeye.com/zh/where-to-buy/pi": {
+        "path": "zh/where-to-buy/pi.html",
+        "sha256": "a91207f03bf2fc8cc4d602fbac6f3941e43878cd7dd7ff3645a6a835ad475179"
+      },
+      "https://feeeye.com/zh/where-to-buy/pieverse": {
+        "path": "zh/where-to-buy/pieverse.html",
+        "sha256": "314cb326710579af377e7a38fc55ada6af4f30e9342ee1461789d53574ae0163"
+      },
+      "https://feeeye.com/zh/where-to-buy/pol": {
+        "path": "zh/where-to-buy/pol.html",
+        "sha256": "9600c6c91575ac3c73d443faf1cc669c026cfc5e8a6dbd7113737a4efc15f44d"
+      },
+      "https://feeeye.com/zh/where-to-buy/pump": {
+        "path": "zh/where-to-buy/pump.html",
+        "sha256": "d40cd4382b837fc9c64f1def239f17c0a3579ff630a589180e4ef6181c765f13"
+      },
+      "https://feeeye.com/zh/where-to-buy/pyth": {
+        "path": "zh/where-to-buy/pyth.html",
+        "sha256": "ab36a9af352871c83200522dda1827a72eab85f839f1d9e90e3d8b833d4a9add"
+      },
+      "https://feeeye.com/zh/where-to-buy/qnt": {
+        "path": "zh/where-to-buy/qnt.html",
+        "sha256": "2f341a8e381c1f5e542d39c30c50340b3abc4cc9f9bf2133bb047634cf8d7863"
+      },
+      "https://feeeye.com/zh/where-to-buy/rain": {
+        "path": "zh/where-to-buy/rain.html",
+        "sha256": "eb65625d1e0fdb694d5ea7ff9ec82131b94c674d15853018d007e8e9f999d162"
+      },
+      "https://feeeye.com/zh/where-to-buy/ray": {
+        "path": "zh/where-to-buy/ray.html",
+        "sha256": "ebc50d0d2377daf7a85700927e22d0d42206363db01df76318623b1d1eae921a"
+      },
+      "https://feeeye.com/zh/where-to-buy/render": {
+        "path": "zh/where-to-buy/render.html",
+        "sha256": "dcd42f60a296c58eeaf6ccd63c492150a1425b8323717bdd0d90dbcf05c939a4"
+      },
+      "https://feeeye.com/zh/where-to-buy/reusd": {
+        "path": "zh/where-to-buy/reusd.html",
+        "sha256": "974cf4cd9e15a89dbfc6a50f7eaad6f5b645512eca595ef89efbde626482e68d"
+      },
+      "https://feeeye.com/zh/where-to-buy/sei": {
+        "path": "zh/where-to-buy/sei.html",
+        "sha256": "2807c3ae17e28d7d2f7e453b28c87afee6f19f71348b84a1a64cee90bb9d9176"
+      },
+      "https://feeeye.com/zh/where-to-buy/shib": {
+        "path": "zh/where-to-buy/shib.html",
+        "sha256": "2a58b15e304c2679773b731fa4e94849fe97ba96cfee816ec643f3e222f71c10"
+      },
+      "https://feeeye.com/zh/where-to-buy/sky": {
+        "path": "zh/where-to-buy/sky.html",
+        "sha256": "7c6d381355ac7673292e005a9770f71b545d80efaa85a578b0cc0f5fab30db28"
+      },
+      "https://feeeye.com/zh/where-to-buy/sofid": {
+        "path": "zh/where-to-buy/sofid.html",
+        "sha256": "e9f9d1c5b3b5e7d0cee08d4e7d9fdb7603829716be5b611f6caaa84299297682"
+      },
+      "https://feeeye.com/zh/where-to-buy/sol": {
+        "path": "zh/where-to-buy/sol.html",
+        "sha256": "991c586f7d82b4bb6323452a2772a3d40faf0ccf8b42d53d4d9b75995a72f5a8"
+      },
+      "https://feeeye.com/zh/where-to-buy/spx": {
+        "path": "zh/where-to-buy/spx.html",
+        "sha256": "c4b94fb37a74233ab1628ad56a7a05e5da8417e44bd9b96457d7391411f76d3c"
+      },
+      "https://feeeye.com/zh/where-to-buy/stable": {
+        "path": "zh/where-to-buy/stable.html",
+        "sha256": "ea2e70b33293e485fbc3355aba0ccb0a75b46ace35a6a0f266235d564d032008"
+      },
+      "https://feeeye.com/zh/where-to-buy/strk": {
+        "path": "zh/where-to-buy/strk.html",
+        "sha256": "367f5386bb0feabec418f19fa6f659d25269858c527ebf98fbee6f692b7ad9d3"
+      },
+      "https://feeeye.com/zh/where-to-buy/stx": {
+        "path": "zh/where-to-buy/stx.html",
+        "sha256": "46aff36b7a2dcecb8371db6701641b10cfe16b793ac73467b2cbf17b83ed3afc"
+      },
+      "https://feeeye.com/zh/where-to-buy/sui": {
+        "path": "zh/where-to-buy/sui.html",
+        "sha256": "0c7c93eee3df1facf1a72acb54ed257e1e544140871eff0ebf735a437c77582b"
+      },
+      "https://feeeye.com/zh/where-to-buy/sun": {
+        "path": "zh/where-to-buy/sun.html",
+        "sha256": "eeeeb50df40a4ba10cf3fe8d9d9de8d56dd2cf64644e653b504c8516a2177785"
+      },
+      "https://feeeye.com/zh/where-to-buy/tao": {
+        "path": "zh/where-to-buy/tao.html",
+        "sha256": "483484e54e1eb446568958361b2099b8becd26a51dfa33642597fe16d9638aeb"
+      },
+      "https://feeeye.com/zh/where-to-buy/tia": {
+        "path": "zh/where-to-buy/tia.html",
+        "sha256": "5e1431047c33155723ea0cd616840b2114ada19e4ae140633644623ff3803199"
+      },
+      "https://feeeye.com/zh/where-to-buy/trump": {
+        "path": "zh/where-to-buy/trump.html",
+        "sha256": "479ba1ecf8bf7b0e42fe41cee9cd8f2e07225e5ed10f346c71ed58a722081e3b"
+      },
+      "https://feeeye.com/zh/where-to-buy/trx": {
+        "path": "zh/where-to-buy/trx.html",
+        "sha256": "3efeebe1deb9d4cc4eabcbec3876d868bb0f2ad4931604e17b0bb45a628b2bd2"
+      },
+      "https://feeeye.com/zh/where-to-buy/ub": {
+        "path": "zh/where-to-buy/ub.html",
+        "sha256": "1193d55f333593cef359fa21e36988379ba0c050c679fd44187e553f73b2d0cd"
+      },
+      "https://feeeye.com/zh/where-to-buy/uni": {
+        "path": "zh/where-to-buy/uni.html",
+        "sha256": "ac30cff070002fbd2f1b4878667749e9ab72d9c1c3c93ae8556068fde1001b13"
+      },
+      "https://feeeye.com/zh/where-to-buy/usyc": {
+        "path": "zh/where-to-buy/usyc.html",
+        "sha256": "c720d6fff33d0be839dbee9cbcca3374ca0da81b95bdf94401ae0ab4eaeb28e4"
+      },
+      "https://feeeye.com/zh/where-to-buy/vet": {
+        "path": "zh/where-to-buy/vet.html",
+        "sha256": "b90d8aefd2e9778ccbacd1c230400a8e7884599ae16ef04615837d887d44a4b6"
+      },
+      "https://feeeye.com/zh/where-to-buy/virtual": {
+        "path": "zh/where-to-buy/virtual.html",
+        "sha256": "357a347c765ff8bd135ba8867bfad9620370aa6120a461a6b8b10f9a323160f7"
+      },
+      "https://feeeye.com/zh/where-to-buy/vvv": {
+        "path": "zh/where-to-buy/vvv.html",
+        "sha256": "350e2458ff76399eebe6c7b34b37b6ed88eaf17f23307be64145c4d3661e1709"
+      },
+      "https://feeeye.com/zh/where-to-buy/wbt": {
+        "path": "zh/where-to-buy/wbt.html",
+        "sha256": "44cbec6a58b61da768e39c3c5edbac50d9badf06c79c1d93052b3588a21a0d4c"
+      },
+      "https://feeeye.com/zh/where-to-buy/wif": {
+        "path": "zh/where-to-buy/wif.html",
+        "sha256": "590a8e6904591f30a5b31dda8214269c47ad5cea0df84c8eadfe3aed87326566"
+      },
+      "https://feeeye.com/zh/where-to-buy/wld": {
+        "path": "zh/where-to-buy/wld.html",
+        "sha256": "d6983ebfca80987f8abd26f1d89e5873b28eddd5ae083e09350a669f0fdd7ad8"
+      },
+      "https://feeeye.com/zh/where-to-buy/wlfi": {
+        "path": "zh/where-to-buy/wlfi.html",
+        "sha256": "9ab689ca5c0aae5b7fd8185bae7db2e9e7628b3ce7f0affc3493725d83c54a08"
+      },
+      "https://feeeye.com/zh/where-to-buy/xaut": {
+        "path": "zh/where-to-buy/xaut.html",
+        "sha256": "d124e24a1f8f6a0c25ea0643e7b73801ce9d1ef1ba1277305800b85d2d8971da"
+      },
+      "https://feeeye.com/zh/where-to-buy/xdc": {
+        "path": "zh/where-to-buy/xdc.html",
+        "sha256": "c3e6bdeb3b43563c1f52ed36370e10d4a93d0c240e4b7363d17b8b1ced4688f2"
+      },
+      "https://feeeye.com/zh/where-to-buy/xlm": {
+        "path": "zh/where-to-buy/xlm.html",
+        "sha256": "247b23149a443068d74acd782ddf11001a96d684252abf2a1a4728dc89d9f158"
+      },
+      "https://feeeye.com/zh/where-to-buy/xmr": {
+        "path": "zh/where-to-buy/xmr.html",
+        "sha256": "c680409465e9c8307c19a0425148c88afaa6b7e55cd5ef0eed441147ff06feab"
+      },
+      "https://feeeye.com/zh/where-to-buy/xpl": {
+        "path": "zh/where-to-buy/xpl.html",
+        "sha256": "d17d7124f80ca72c6dcf3636e45052693ba287765d206349890459ad3cf6e2b9"
+      },
+      "https://feeeye.com/zh/where-to-buy/xrp": {
+        "path": "zh/where-to-buy/xrp.html",
+        "sha256": "d315ef1eb3d2b32f26cae7d08bc2f8296dbc5a2563abd25f65380fbec1d091b3"
+      },
+      "https://feeeye.com/zh/where-to-buy/xtz": {
+        "path": "zh/where-to-buy/xtz.html",
+        "sha256": "2bf5c3015a93772a16b73f84ed4b246953d4b85fc1985af28641c3630264ad1b"
+      },
+      "https://feeeye.com/zh/where-to-buy/zec": {
+        "path": "zh/where-to-buy/zec.html",
+        "sha256": "89aad8acbe7542be679a3c2ba50bbb2fb8e8adebe91c8585c1645d0bc4a560ac"
+      },
+      "https://feeeye.com/zh/where-to-buy/zro": {
+        "path": "zh/where-to-buy/zro.html",
+        "sha256": "1ed1f9d844bf9b7ba2280f2c450ca6f170b0748a123b3caba95c993af5fce416"
+      },
+      "https://feeeye.com/zh/za/exchanges": {
+        "path": "zh/za/exchanges.html",
+        "sha256": "4ab0e28eb261fe4cf288fe65d7452d7a101cb2729f63a488f12ad1ab9a2d2677"
+      }
+    },
+    "manifest_hash": "6d71eae81a0b62dc9ac14e05214461a032a64ec256ddb08ce31891100cad76e9"
+  }
+}
