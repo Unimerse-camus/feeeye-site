@@ -56,7 +56,7 @@ for(const lang of ['en','zh']) {
   assert.equal(article.dateModified,snapshot.editorial_updated_at);
 }
 const sitemap=fs.readFileSync(path.join(root,'dist/sitemap.xml'),'utf8');
-const tool=fs.readFileSync(path.join(root,'dist/tools/total-cost-calculator.zh.html'),'utf8');
+const tool=fs.readFileSync(path.join(root,'dist/zh/tools/total-cost-calculator.html'),'utf8');
 assert.match(tool,/\/assets\/analytics\.[a-f0-9]{16}\.js/);
 assert.match(tool,/\/assets\/learning-nav\.[a-f0-9]{16}\.js/);
 assert.ok(!tool.includes('费率实测'));
