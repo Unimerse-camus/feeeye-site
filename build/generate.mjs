@@ -521,7 +521,7 @@ function page({ lang, title, desc, body, jsonLd, depth = 0, path, affiliate = fa
   const exPriority = ['binance', 'okx', 'kucoin'];
   const exOrder = [...exPriority, ...Object.keys(EX).filter((s) => !exPriority.includes(s)).sort()];
   const exLinks = exOrder.map((s) => `<a href="${absPath(lang, 'exchanges/' + s + '.html')}">${EX_LOGO[s] || ICON.coins}<span>${esc(EX[s].name)}</span></a>`).join('');
-  const cmpPairs = exOrder.filter((s) => s !== 'binance').map((s) => `<a href="${absPath(lang, 'compare/binance-vs-' + s + '.html')}">${ICON.compare}<span>Binance vs ${esc(EX[s].name)}</span></a>`).join('');
+  const cmpPairs = [...exOrder.filter((s) => s !== 'binance').map((s) => ['binance', s]), ['bybit', 'okx'], ['bitget', 'bybit'], ['bitget', 'okx'], ['coinbase', 'kraken']].filter(([a, b]) => EX[a] && EX[b]).map(([a, b]) => { const [first, second] = [a, b].sort(); return `<a href="${absPath(lang, `compare/${first}-vs-${second}.html`)}">${ICON.compare}<span>${esc(EX[a].name)} vs ${esc(EX[b].name)}</span></a>`; }).join('');
   const learnLinks = [
     [learnPath(), ICON.coins, i.navLearnStart],
     [learnPath('avoid-crypto-scams'), ICON.shield, i.navLearnSafe],
@@ -658,11 +658,11 @@ input[type=number]{font-size:16px}
 .fee-table td:nth-child(3),.fee-table td:nth-child(4){color:var(--brand);font-weight:600}
 .fee-table tbody tr:nth-child(odd) td{background:#fafbfc}
 .sec-list{border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-top:8px}
-.srow{display:flex;justify-content:space-between;padding:9px 14px;border-bottom:1px solid var(--line);font-size:13.5px}
+.srow{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;padding:9px 14px;border-bottom:1px solid var(--line);font-size:13.5px}
 .srow:last-child{border-bottom:none}
 .srow:nth-child(odd){background:#f8fafc}
-.srow span{color:var(--sub)}
-.srow b{color:#1e293b;font-weight:500;text-align:right;margin-left:16px}
+.srow span{color:var(--sub);flex-shrink:0;white-space:nowrap}
+.srow b{color:#1e293b;font-weight:500;text-align:right;min-width:0;overflow-wrap:anywhere}
 .cap-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px}
 .cap{background:#f8fafc;border:1px solid var(--line);border-radius:8px;padding:8px 12px}
 .cap span{display:block;font-size:11px;color:var(--sub)}
@@ -823,7 +823,7 @@ input[type=number]{font-size:16px}
 .foot a.mail{color:var(--brand);font-weight:600;text-decoration:underline}
 .note{font-size:12px;color:var(--sub);margin:18px 0 28px;padding:0;text-align:left;line-height:1.6}
 .wb-toggle-tip{font-size:12px;color:var(--sub);margin:0 0 4px}
-.col-sel{font-size:12.5px;font-weight:600;border:1px solid var(--line);border-radius:6px;background:#fff;padding:5px 8px;color:var(--ink);cursor:pointer;max-width:170px;white-space:nowrap;text-align:center;text-align-last:center}
+.col-sel{font-size:12.5px;font-weight:600;border:1px solid var(--line);border-radius:6px;background:#fff;padding:5px 8px;color:var(--ink);cursor:pointer;max-width:170px;white-space:nowrap;text-align:center;text-align-last:center}.wb-table{font-size:13px}.wb-table th,.wb-table td{padding:8px 10px}.wb-table .col-sel{max-width:148px;font-size:12px;padding:4px 6px}.wb-table td:last-child{white-space:nowrap}
 .scroll table.wb-table th.ex-sticky,.scroll table.wb-table td.ex-sticky{position:sticky;left:0;z-index:1;background:var(--card);border-right:1px solid var(--line)}
 .scroll table.wb-table th.ex-sticky{z-index:2;background:#f1f5f9}
 .ex-notes{font-size:12px;color:var(--sub);margin:8px 0 0}
@@ -900,7 +900,7 @@ input[type=number]{font-size:16px}
 </div>
 </header>
 ${body}
-<div class="foot">${discLine}${esc(i.foot)} ${esc(UPD)}.<br>${esc(i.footContact)}<a class="mail" href="mailto:feeeyeofficial@gmail.com">feeeyeofficial@gmail.com</a><br>${noHomeFoot ? '' : `<a href="${absPath(lang, 'index.html')}">${esc(i.footHome)}</a> · `}<a href="${absPath(lang, 'about.html')}">${esc(i.footAbout)}</a> · <a href="${absPath(lang, 'privacy.html')}">${esc(i.footPrivacy)}</a> · <a href="${absPath(lang, 'terms.html')}">${esc(i.footTerms)}</a></div>
+<div class="foot">${discLine}${esc(i.foot)} ${esc(UPD)}.<br>${esc(i.footContact)}<a class="mail" href="mailto:feeeyeofficial@gmail.com">feeeyeofficial@gmail.com</a><br>${noHomeFoot ? '' : `<a href="${absPath(lang, 'index.html')}">${esc(i.footHome)}</a> · `}<a href="${absPath(lang, 'about.html')}">${esc(i.footAbout)}</a> · <a href="${absPath(lang, 'privacy.html')}">${esc(i.footPrivacy)}</a> · <a href="${absPath(lang, 'terms.html')}">${esc(i.footTerms)}</a> · <a href="${absPath(lang, 'disclosure.html')}">${esc(lang === 'zh' ? '合作披露' : 'Disclosure')}</a></div>
 </div>
 <script>
 (function(){
@@ -1015,8 +1015,8 @@ function whereToBuy(c, lang) {
     return ex.new_user_note ? `<li><b>${ex.name}</b>${sep}${esc(ex.new_user_note)}</li>` : '';
   }).filter(Boolean).join('');
   const notesHtml = notes ? `<details class="ex-notes"><summary>${esc(T(lang, 'wbNotesTitle'))}</summary><ul>${notes}</ul></details>` : '';
-  const change = c.change_24h;
-  const changeHtml = change != null ? ` · 24h: <span style="color:${change >= 0 ? '#dc2626' : '#16a34a'};font-weight:600">${change >= 0 ? '+' : ''}${change.toFixed(2)}%</span>` : '';
+  const change = c.change_24h; const upColor = lang === 'zh' ? '#dc2626' : '#16a34a'; const downColor = lang === 'zh' ? '#16a34a' : '#dc2626';
+  const changeHtml = change != null ? ` · 24h: <span style="color:${change >= 0 ? upColor : downColor};font-weight:600">${change >= 0 ? '+' : ''}${change.toFixed(2)}%</span>` : '';
   const priceLine = `<p class="intro">${esc(T(lang, 'priceLine', { n: name, s: symbol, p: fmtPrice(c.price), m: fmtCap(c.market_cap), r: c.rank, d: COIN_SNAPSHOT }))}${changeHtml}</p>`;
   // 无上架数据时降级为空态提示，其余渲染可切换子项的下拉维度列
   const toggleBlock = slugs.length === 0
@@ -1982,7 +1982,7 @@ fs.writeFileSync(path.join(distDir, `${indexNowKey}.txt`), indexNowKey);
 // sitemap.xml + robots.txt
 // Only attach lastmod when an editorial date is known; never fabricate today's date.
 // sitemap URL 去掉 .html 后缀 + index.html → 根，与页面 canonical 保持一致，避免谷歌拿到矛盾信号
-const indexableHtml = urls.filter((u) => u.endsWith('.html') && !fs.readFileSync(path.join(distDir,u),'utf8').includes('<meta name="robots" content="noindex'));
+const indexableHtml = urls.filter((u) => u.endsWith('.html') && !/name="robots"\s+content="[^"]*noindex/i.test(fs.readFileSync(path.join(distDir, u), 'utf8')));
 const pages = indexableHtml.map(canonPath);
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
