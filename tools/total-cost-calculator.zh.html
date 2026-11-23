@@ -89,14 +89,14 @@
 
     <!-- 4 个 tab -->
     <div class="tabs">
-      <button class="tab active" data-view="deposit">① 入金</button>
+      <button class="tab" data-view="deposit">① 入金</button>
       <button class="tab" data-view="trade">② 交易</button>
       <button class="tab" data-view="withdraw">③ 提币</button>
-      <button class="tab" data-view="total">④ 基础合计</button>
+      <button class="tab active" data-view="total">④ 基础合计</button>
     </div>
 
     <!-- 入金 tab：只看入金方式 -->
-    <div class="tabpane active" data-view="deposit">
+    <div class="tabpane" data-view="deposit">
       <div class="grid">
         <div>
           <label for="deposit-d">入金方式</label>
@@ -150,7 +150,7 @@
     </div>
 
     <!-- 基础合计 tab：所有参数 -->
-    <div class="tabpane" data-view="total">
+    <div class="tabpane active" data-view="total">
       <div class="grid">
         <div>
           <label for="deposit-a">入金方式</label>
@@ -200,7 +200,7 @@
 <script src="../data/coin-prices.js"></script>
 <script>
 (function(){
-  var state = { deposit:"Bank transfer", coin:"USDT", usdIntent:1000, order:"taker", trades:3, network:"TRC20", view:"deposit" };
+  var state = { deposit:"Bank transfer", coin:"USDT", usdIntent:1000, order:"taker", trades:3, network:"TRC20", view:"total" };
   var LABEL = { cheapest:"← 最低", signup:"注册", save:"节省", note:"备注" };
   var DYNAMIC_NET = { ERC20: true };
   var METHOD_ZH = {
@@ -483,9 +483,9 @@
     var bestRow = rows[0], worstRow = rows[rows.length-1];
     if(bestRow && worstRow && bestRow.slug!==worstRow.slug){
       var diff = worstRow.mid - bestRow.mid;
-      html += '<p class="intro" style="margin-top:12px;font-size:14px">走完「入金 → 交易 '+trades+' 次 → 提币」全流程，最便宜（<b>'+bestRow.name+'</b>）比最贵（'+worstRow.name+'）约<b class="best">'+LABEL.save+' '+fmt(diff)+' USDT</b>（取区间中值）。</p>';
+      var tiedBest = rows.filter(function(r){ return Math.abs(r.mid - bestRow.mid) < 0.001; }); var bestLabel = tiedBest.length > 1 ? tiedBest.map(function(r){ return '<b>'+r.name+'</b>'; }).join('、') + ' 并列最低（入金、现货与提币费率相同）' : '最便宜（<b>'+bestRow.name+'</b>）'; html += '<p class="intro" style="margin-top:12px;font-size:14px">走完「入金 → 交易 '+trades+' 次 → 提币」全流程，'+bestLabel+'比最贵（'+worstRow.name+'）约<b class="best">'+LABEL.save+' '+fmt(diff)+' USDT</b>（取区间中值）。</p>';
     }
-    html += '<div class="formula"><b>基础成本计算：</b><br><code>基础成本 = 入金费 + 交易费（金额 × '+pct(window.EXCHANGES.kucoin.spot[state.order])+' × '+trades+' 次）+ 提币费（'+net+'）</code>。不含价差、滑点、换汇及外部通道费用。费率随地区/卡种浮动时显示区间。快照 <span id="upd2"></span>——交易前请以交易所实时显示为准。</div>';
+    html += '<p class="detail" style="margin-top:6px">刚入门？优先选择支持 0 手续费银行卡/P2P 入金的低成本平台，点击右侧「注册」完成约 5 分钟身份认证即可小额体验。</p>'; html += '<div class="formula"><b>基础成本计算：</b><br><code>基础成本 = 入金费 + 交易费（金额 × '+pct(window.EXCHANGES.kucoin.spot[state.order])+' × '+trades+' 次）+ 提币费（'+net+'）</code>。不含价差、滑点、换汇及外部通道费用。费率随地区/卡种浮动时显示区间。快照 <span id="upd2"></span>——交易前请以交易所实时显示为准。</div>';
     resultA.innerHTML = html;
     resultA.innerHTML += '<div class="fees-note"><b>提币安全提示</b>：转出交易所与接收钱包必须使用同一网络。VIP 等级和平台币抵扣可能改变实际费率，请以交易所实时显示为准。</div>';
     document.getElementById("upd2").textContent = window.EXCHANGES.kucoin.last_updated;
