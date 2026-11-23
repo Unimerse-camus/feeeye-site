@@ -130,11 +130,11 @@
   <div class="sec-sub" id="histSub" style="display:none"></div>
   <div class="scroll" id="histWrap"><table id="histTable" style="display:none"></table></div>
 
-  <div class="refresh"><span id="priceNote"></span> · <a id="refreshBtn">↻ 刷新价格</a></div>
+  <div class="refresh"><span id="priceNote"></span> · <a id="refreshBtn">&#x21bb; 刷新价格</a></div>
 
   <div class="foot">
     如有任何功能需求和建议，或网页有错误需要修正，请联系 <a href="mailto:feeeyeofficial@gmail.com">feeeyeofficial@gmail.com</a><br>
-    <a href="/zh/">首页</a> · <a href="/zh/privacy.html">隐私政策</a> · <a href="/zh/terms.html">使用条款</a>
+    仅供学习参考，不构成投资建议。<br><a href="/zh/">首页</a> · <a href="/zh/about.html">关于我们</a> · <a href="/zh/privacy.html">隐私政策</a> · <a href="/zh/terms.html">使用条款</a>
   </div>
 </div>
 
@@ -438,7 +438,7 @@
         '<td>' + fmt(t.price) + '</td>' +
         '<td>' + fmt(t.qty * t.price) + '</td>' +
         '<td>' + fmt(t.qty * t.price * d.feeRate / 100) + '</td>' +
-        '<td><a class="del" data-id="' + t.id + '">✕</a></td>' +
+        '<td><a class="del" data-id="' + t.id + '">&times;</a></td>' +
         '</tr>';
     });
     histTable.innerHTML = '<thead><tr><th>时间</th><th>方向</th><th>币种</th><th>数量</th><th>价格</th><th>金额</th><th>手续费</th><th></th></tr></thead><tbody>' + hh2 + '</tbody>';
