@@ -72,10 +72,11 @@
   <script>(function(){var btns=document.querySelectorAll(".nav-btn");var t=null;function closeAll(){var op=document.querySelectorAll(".nav-item.open");for(var j=0;j<op.length;j++)op[j].classList.remove("open");}function sched(){clearTimeout(t);t=setTimeout(closeAll,180);}function cancel(){clearTimeout(t);}for(var i=0;i<btns.length;i++){(function(btn){var item=btn.parentElement;btn.addEventListener("click",function(e){e.stopPropagation();var was=item.classList.contains("open");closeAll();cancel();if(!was)item.classList.add("open");});item.addEventListener("mouseenter",function(){cancel();closeAll();item.classList.add("open");});item.addEventListener("mouseleave",sched);})(btns[i]);}document.addEventListener("click",function(){closeAll();cancel();});})();</script>
 
   <h1>Exchange Comparison</h1>
-<p class="intro">Compare <b>14 business dimensions</b> across major crypto exchanges: fiat deposits, spot/margin/futures/options trading, max leverage, coins, liquidity, copy-trading/bots, KYC, licenses, proof of reserves, cold storage. <b>Fee comparison</b> is in the <a href="fee-calculator.html" style="color:var(--brand)">dedicated fee tool</a>.</p>
+<p class="intro">Compare <b>14 business dimensions</b> across major crypto exchanges: fiat deposits, spot/margin/futures/options trading, max leverage, coins, liquidity, copy-trading/bots, KYC, licenses, proof of reserves, cold storage. <b>Fee comparison</b> is in the <a href="total-cost-calculator.html" style="color:var(--brand)">dedicated fee tool</a>.</p>
 
   <div class="panel">
     <label>Choose exchanges to compare (tap to toggle)</label>
+    <div class="chips" id="presets" style="margin-bottom:10px;padding-bottom:10px;border-bottom:1px dashed var(--line)"></div>
     <div class="chips" id="chips"></div>
   </div>
 
@@ -114,6 +115,30 @@
       render();
     });
     chipsEl.appendChild(b);
+  });
+
+  var EX = window.EXCHANGES || {};
+  var presetsEl = document.getElementById("presets");
+  var PRESETS = [
+    { label: "All 7", fn: function(){ return CHIP_ORDER.filter(function(s){ return !!EX[s]; }); } },
+    { label: "Low spot fee (≤0.10%)", fn: function(){ return CHIP_ORDER.filter(function(s){ return EX[s] && EX[s].spot && EX[s].spot.taker <= 0.001; }); } },
+    { label: "Supports P2P", fn: function(){ return CHIP_ORDER.filter(function(s){ return EX[s] && (EX[s].deposit_methods || []).some(function(m){ return (m.m || m) === 'P2P'; }); }); } },
+    { label: "Bank transfer", fn: function(){ return CHIP_ORDER.filter(function(s){ return EX[s] && (EX[s].deposit_methods || []).some(function(m){ return (m.m || m) === 'Bank transfer'; }); }); } }
+  ];
+  PRESETS.forEach(function(p){
+    var btn = document.createElement("button");
+    btn.className = "chip";
+    btn.textContent = p.label;
+    btn.addEventListener("click", function(){
+      state.selected = p.fn();
+      var validSlugs = CHIP_ORDER.filter(function(s){ return !!EX[s]; });
+      Array.prototype.forEach.call(chipsEl.children, function(c, idx){
+        var slug = validSlugs[idx];
+        c.classList.toggle("on", state.selected.indexOf(slug) > -1);
+      });
+      render();
+    });
+    presetsEl.appendChild(btn);
   });
 
   function ctaCell(slug){
