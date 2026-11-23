@@ -1732,7 +1732,7 @@ function learningArticlePage(article, lang) {
     <header class="learn-article-head"><div class="learn-meta"><span class="learn-chip">${esc(LEARN_CATEGORY[lang][article.category])}</span><span class="learn-risk${riskClass}">${esc(LEARN_RISK[lang][article.risk])}</span><span class="learn-chip">${esc(c.readTime)}</span><span class="learn-chip">${zh ? '复核' : 'Reviewed'} ${LEARNING_REVIEWED_AT}</span></div><h1>${esc(c.title)}</h1><p class="learn-article-summary">${esc(c.summary)}</p></header>
     <div class="learn-outcomes"><b>${zh ? '学完你应该能够：' : 'After this guide, you should be able to:'}</b><ul>${outcomes}</ul></div>
     ${sections}
-    <div class="learn-tool"><p><b>${zh ? '把知识用于检查，而不是冲动交易' : 'Use knowledge for a check, not an impulse trade'}</b><br>${esc(c.tool.label)}</p><a href="${absPath(lang, c.tool.path)}">${zh ? '打开相关工具 →' : 'Open related tool →'}</a></div>
+    <div class="learn-tool"><p><b>${zh ? '学完这一步，直接用工具实操验证' : 'Put this guide into practice'}</b><br>${esc(c.tool.label)}</p><a href="${absPath(lang, c.tool.path)}">${zh ? '打开相关工具 →' : 'Open related tool →'}</a>${article.category === 'trading' ? ` <a href="${absPath(lang, 'where-to-buy/btc.html')}" style="margin-left:10px">${zh ? '对比主流交易所买 BTC →' : 'Compare where to buy BTC →'}</a>` : ''}</div>
     <section class="learn-quiz"><h2>${zh ? '3 题自测' : 'Three-question self-check'}</h2>${quiz}</section>
     <section class="learn-sources"><h2>${zh ? '主要来源' : 'Primary sources'}</h2><ul>${sources}</ul></section>
     ${feedback}
