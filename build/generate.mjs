@@ -276,11 +276,11 @@ const I18N = {
     cyUse: 'Use the Fee Calculator to compare your exact trade size across these exchanges.',
     idxH1: 'Free Crypto Tools & Exchange Data',
     idxIntro: 'Compare exchange fees, find where to buy a token, and check withdrawal costs — free, no signup.',
-    idxTcT: 'Spot base cost', idxTcB: 'Estimate deposit / trading / withdrawal fees, with spread, slippage, FX, and external payment charges clearly excluded.', idxTcC: 'Open tool →',
+    idxTcT: 'Spot base cost', idxTcB: 'Calculate your total deposit, trading, and withdrawal fees side by side (base fees only; excludes price spread and bank/FX charges).', idxTcC: 'Open tool →',
     idxFutT: 'Futures Toolbox', idxFutB: 'High risk: leveraged trading can liquidate your position and cause rapid losses. Includes position sizing, liquidation price, PnL and fee comparison.', idxFutC: 'Open tool →',
-    idxCmpT: 'Exchange Comparison', idxCmpB: 'Compare 14 business dimensions: leverage, options, coins, liquidity, copy-trading/bots, reserves/cold storage, KYC, licenses, fiat deposits.', idxCmpC: 'Compare 14 dimensions →',
-    idxGloT: 'Beginner Learning', idxGloB: 'Eight risk-first guides for account security, platform choice, spot costs, transfers, and custody.', idxGloC: 'Start learning →',
-    idxSecT: 'Token Security Check', idxSecB: 'Screen an Ethereum or Solana contract for known technical risk flags such as honeypots, taxes, mint and freeze authority.', idxSecC: 'Check a token →',
+    idxCmpT: 'Exchange Comparison', idxCmpB: 'Compare 7 major exchanges side by side across fees, fiat deposit methods, KYC, reserves, licenses, and supported coins.', idxCmpC: 'Compare 14 dimensions →',
+    idxGloT: 'Beginner Learning', idxGloB: 'Step-by-step beginner roadmap: account security, picking an exchange, your first spot buy, and safe transfers.', idxGloC: 'Start learning →',
+    idxSecT: 'Token Security Check', idxSecB: 'Check an Ethereum or Solana token contract before buying to spot common scam risks (sell locks, high hidden taxes, or mintable supply).', idxSecC: 'Check a token →',
     idxPfT: 'Portfolio Tracker', idxPfB: 'Log your holdings manually and auto-track profit & loss with live prices. No API key needed — data stays in your browser.', idxPfC: 'Track holdings →',
     idxPopular: 'Popular tokens',
     idxTitle: 'FeeEye — Free Crypto Fee Calculator & Exchange Data',
@@ -341,11 +341,11 @@ const I18N = {
     cyUse: '使用手续费计算器对比你在这些交易所的具体交易成本。',
     idxH1: '加密货币手续费计算与交易所费用对比',
     idxIntro: '对比交易所费率、查找代币在哪里购买、查看提币成本——免费、无需注册。',
-    idxTcT: '现货基础成本', idxTcB: '估算入金 / 交易 / 提币的基础费用，并明确提示价差、滑点与外部支付费用不在结果内。', idxTcC: '打开工具 →',
+    idxTcT: '现货基础成本', idxTcB: '一站式算清入金、买币交易和提币的基础总费用（仅含交易所基础费率，不含行情价差与外部支付通道费）。', idxTcC: '打开工具 →',
     idxFutT: '合约工具箱', idxFutB: '高风险：杠杆交易可能快速亏损并被强平。包含仓位、强平价、盈亏和费率对比工具。', idxFutC: '打开工具 →',
-    idxCmpT: '交易所综合对比', idxCmpB: '14 个业务维度对比交易所：杠杆/期权/流动性/币种/跟单/储备/法币入金等。', idxCmpC: '14 维度对比 →',
-    idxGloT: '新手学习中心', idxGloB: '8 篇风险优先教程，覆盖账户安全、平台选择、现货成本、转账和钱包保管。', idxGloC: '开始学习 →',
-    idxSecT: '代币安全检查', idxSecB: '检查以太坊或 Solana 合约中已知的技术风险标记，如貔貅盘、买卖税、增发和冻结权限。', idxSecC: '查一个代币 →',
+    idxCmpT: '交易所综合对比', idxCmpB: '横向对比 7 大交易所的手续费、法币入金方式、KYC 要求、储备证明、牌照与支持币种。', idxCmpC: '14 维度对比 →',
+    idxGloT: '新手学习中心', idxGloB: '新手 8 步入门路线：账户安全、挑选交易所、第一次现货买币、费用避坑与安全转账。', idxGloC: '开始学习 →',
+    idxSecT: '代币安全检查', idxSecB: '买小币种前先查一下以太坊或 Solana 合约，提前排查常见风险（如只能买不能卖的貔貅盘、高额隐藏税或无限增发）。', idxSecC: '查一个代币 →',
     idxPfT: '持仓记账本', idxPfB: '手动记录你的持仓，自动拉取实时价格算盈亏。无需 API Key，数据只存在浏览器本地。', idxPfC: '记一笔持仓 →',
     idxPopular: '热门代币',
     idxTitle: '加密货币手续费计算器与交易所费用对比｜FeeEye',
@@ -1783,7 +1783,7 @@ function indexPage(lang) {
       <li><a href="${p(learnPath())}">${lang === 'zh' ? '先完成风险、安全与转账基础路线' : 'Complete the risk, safety, and transfer basics'}</a></li>
       <li><a href="${p(cmpPath(lang))}">${lang === 'zh' ? '再比较交易所的费用、可用性与安全信息' : 'Compare exchange costs, availability and security information'}</a></li>
       <li><a href="${p(tcPath(lang))}">${lang === 'zh' ? '估算入金、交易和提币基础成本' : 'Estimate deposit, trading and withdrawal costs'}</a></li>
-      <li>${lang === 'zh' ? '最后到交易所官网核对所在地区、费率和提币网络' : 'Finally verify your region, fees and withdrawal network on the exchange itself'}</li>
+      <li><a href="${p('where-to-buy/btc.html')}">${lang === 'zh' ? '选定主流币种（如 BTC）对比真实买币渠道，再前往交易所官网核对费率并开户' : 'Pick a major coin (e.g. BTC) to compare buying options, then verify fees and sign up on the exchange'}</a></li>
     </ol>
   </div>
   <div id="idxCoinSearch" class="coin-search">
@@ -1799,12 +1799,12 @@ function indexPage(lang) {
     <p id="idxSearchMsg" class="search-msg" role="status" aria-live="polite">${searchNf}</p>
   </div>
   <div class="grid">
-    <div class="card"><a class="card-title" href="${p(tcPath(lang))}"><span class="ic">${ICON.receipt}</span><b>${esc(T(lang, 'idxTcT'))}</b></a><p>${esc(T(lang, 'idxTcB'))}</p><a class="card-cta" href="${p(tcPath(lang))}">${esc(T(lang, 'idxTcC'))}</a></div>
-    <div class="card"><a class="card-title" href="${p(futPath(lang))}"><span class="ic">${ICON.trend}</span><b>${esc(T(lang, 'idxFutT'))}</b></a><p>${esc(T(lang, 'idxFutB'))}</p><a class="card-cta" href="${p(futPath(lang))}">${esc(T(lang, 'idxFutC'))}</a></div>
-    <div class="card"><a class="card-title" href="${p(cmpPath(lang))}"><span class="ic">${ICON.scale}</span><b>${esc(T(lang, 'idxCmpT'))}</b></a><p>${esc(T(lang, 'idxCmpB'))}</p><a class="card-cta" href="${p(cmpPath(lang))}">${esc(T(lang, 'idxCmpC'))}</a></div>
-    <div class="card"><a class="card-title" href="${p(secPath(lang))}"><span class="ic">${ICON.shield}</span><b>${esc(T(lang, 'idxSecT'))}</b></a><p>${esc(T(lang, 'idxSecB'))}</p><a class="card-cta" href="${p(secPath(lang))}">${esc(T(lang, 'idxSecC'))}</a></div>
-    <div class="card"><a class="card-title" href="${p(pfPath(lang))}"><span class="ic">${ICON.wallet}</span><b>${esc(T(lang, 'idxPfT'))}</b></a><p>${esc(T(lang, 'idxPfB'))}</p><a class="card-cta" href="${p(pfPath(lang))}">${esc(T(lang, 'idxPfC'))}</a></div>
     <div class="card"><a class="card-title" href="${p(learnPath())}"><span class="ic">${ICON.coins}</span><b>${esc(T(lang, 'idxGloT'))}</b></a><p>${esc(T(lang, 'idxGloB'))}</p><a class="card-cta" href="${p(learnPath())}">${esc(T(lang, 'idxGloC'))}</a></div>
+    <div class="card"><a class="card-title" href="${p(tcPath(lang))}"><span class="ic">${ICON.receipt}</span><b>${esc(T(lang, 'idxTcT'))}</b></a><p>${esc(T(lang, 'idxTcB'))}</p><a class="card-cta" href="${p(tcPath(lang))}">${esc(T(lang, 'idxTcC'))}</a></div>
+    <div class="card"><a class="card-title" href="${p(cmpPath(lang))}"><span class="ic">${ICON.scale}</span><b>${esc(T(lang, 'idxCmpT'))}</b></a><p>${esc(T(lang, 'idxCmpB'))}</p><a class="card-cta" href="${p(cmpPath(lang))}">${esc(T(lang, 'idxCmpC'))}</a></div>
+    <div class="card"><a class="card-title" href="${p(pfPath(lang))}"><span class="ic">${ICON.wallet}</span><b>${esc(T(lang, 'idxPfT'))}</b></a><p>${esc(T(lang, 'idxPfB'))}</p><a class="card-cta" href="${p(pfPath(lang))}">${esc(T(lang, 'idxPfC'))}</a></div>
+    <div class="card"><a class="card-title" href="${p(secPath(lang))}"><span class="ic">${ICON.shield}</span><b>${esc(T(lang, 'idxSecT'))}</b></a><p>${esc(T(lang, 'idxSecB'))}</p><a class="card-cta" href="${p(secPath(lang))}">${esc(T(lang, 'idxSecC'))}</a></div>
+    <div class="card"><a class="card-title" href="${p(futPath(lang))}"><span class="ic">${ICON.trend}</span><b>${esc(T(lang, 'idxFutT'))}</b></a><p>${esc(T(lang, 'idxFutB'))}</p><a class="card-cta" href="${p(futPath(lang))}">${esc(T(lang, 'idxFutC'))}</a></div>
   </div><section class="home-explore"><div class="home-explore-card"><h3>${lang==='zh'?'热门交易所对比':'Popular Exchange Comparisons'}</h3><div class="home-explore-links"><a href="${p('compare/binance-vs-okx.html')}">Binance vs OKX</a><a href="${p('compare/bybit-vs-okx.html')}">Bybit vs OKX</a><a href="${p('compare/bitget-vs-bybit.html')}">Bitget vs Bybit</a><a href="${p('compare/coinbase-vs-kraken.html')}">Coinbase vs Kraken</a></div></div><div class="home-explore-card"><h3>${lang==='zh'?'热门地区交易所':'Exchanges by Region'}</h3><div class="home-explore-links">${Object.keys(CA).slice(0,6).map(cc=>`<a href="${p(cc.toLowerCase()+'/exchanges.html')}">${esc((COUNTRY_NAMES[cc]&&(COUNTRY_NAMES[cc][lang]||COUNTRY_NAMES[cc].en))||cc)}</a>`).join('')}</div></div><div class="home-explore-card"><h3>${lang==='zh'?'币种费率与提币目录':'Coins & Networks'}</h3><div class="home-explore-links"><a href="${p('coins.html')}">${lang==='zh'?`全部 ${COIN_LIST.length}+ 币种目录`:`All ${COIN_LIST.length}+ Coins Directory`}</a></div></div></section>
   <script>
   (function(){
