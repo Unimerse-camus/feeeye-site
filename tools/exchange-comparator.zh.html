@@ -72,10 +72,11 @@
   <script>(function(){var btns=document.querySelectorAll(".nav-btn");var t=null;function closeAll(){var op=document.querySelectorAll(".nav-item.open");for(var j=0;j<op.length;j++)op[j].classList.remove("open");}function sched(){clearTimeout(t);t=setTimeout(closeAll,180);}function cancel(){clearTimeout(t);}for(var i=0;i<btns.length;i++){(function(btn){var item=btn.parentElement;btn.addEventListener("click",function(e){e.stopPropagation();var was=item.classList.contains("open");closeAll();cancel();if(!was)item.classList.add("open");});item.addEventListener("mouseenter",function(){cancel();closeAll();item.classList.add("open");});item.addEventListener("mouseleave",sched);})(btns[i]);}document.addEventListener("click",function(){closeAll();cancel();});})();</script>
 
   <h1>交易所综合对比</h1>
-  <p class="intro">从 <b>14 个业务维度</b>对比主流加密货币交易所，包括法币入金、现货/杠杆/合约/期权交易、杠杆倍数、币种、流动性、跟单/机器人、KYC、合规牌照、储备证明、冷存储等。<b>费率对比</b>请使用<a href="fee-calculator.zh.html" style="color:var(--brand)">专门的费率工具</a>。</p>
+  <p class="intro">从 <b>14 个业务维度</b>对比主流加密货币交易所，包括法币入金、现货/杠杆/合约/期权交易、杠杆倍数、币种、流动性、跟单/机器人、KYC、合规牌照、储备证明、冷存储等。<b>费率对比</b>请使用<a href="total-cost-calculator.html.zh.html" style="color:var(--brand)">专门的费率工具</a>。</p>
 
   <div class="panel">
     <label>选择要对比的交易所（点击切换）</label>
+    <div class="chips" id="presets" style="margin-bottom:10px;padding-bottom:10px;border-bottom:1px dashed var(--line)"></div>
     <div class="chips" id="chips"></div>
   </div>
 
@@ -133,6 +134,30 @@
       render();
     });
     chipsEl.appendChild(b);
+  });
+
+  var EX = window.EXCHANGES || {};
+  var presetsEl = document.getElementById("presets");
+  var PRESETS = [
+    { label: "全部 7 家", fn: function(){ return CHIP_ORDER.filter(function(s){ return !!EX[s]; }); } },
+    { label: "低现货费率 (≤0.10%)", fn: function(){ return CHIP_ORDER.filter(function(s){ return EX[s] && EX[s].spot && EX[s].spot.taker <= 0.001; }); } },
+    { label: "支持 C2C / P2P", fn: function(){ return CHIP_ORDER.filter(function(s){ return EX[s] && (EX[s].deposit_methods || []).some(function(m){ return (m.m || m) === 'P2P'; }); }); } },
+    { label: "支持银行转账", fn: function(){ return CHIP_ORDER.filter(function(s){ return EX[s] && (EX[s].deposit_methods || []).some(function(m){ return (m.m || m) === 'Bank transfer'; }); }); } }
+  ];
+  PRESETS.forEach(function(p){
+    var btn = document.createElement("button");
+    btn.className = "chip";
+    btn.textContent = p.label;
+    btn.addEventListener("click", function(){
+      state.selected = p.fn();
+      var validSlugs = CHIP_ORDER.filter(function(s){ return !!EX[s]; });
+      Array.prototype.forEach.call(chipsEl.children, function(c, idx){
+        var slug = validSlugs[idx];
+        c.classList.toggle("on", state.selected.indexOf(slug) > -1);
+      });
+      render();
+    });
+    presetsEl.appendChild(btn);
   });
 
   function ctaCell(slug){
