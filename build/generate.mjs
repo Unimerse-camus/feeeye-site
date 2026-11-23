@@ -377,19 +377,19 @@ function matchActiveNav(path) {
 }
 // 工具页：zh 用中文版，en 用英文版
 function toolPath(lang) {
-  return 'tools/fee-calculator' + (lang === 'zh' ? '.zh' : '') + '.html';
+  return 'tools/total-cost-calculator.html';
 }
 function tcPath(lang) {
-  return 'tools/total-cost-calculator' + (lang === 'zh' ? '.zh' : '') + '.html';
+  return 'tools/total-cost-calculator.html';
 }
 function cmpPath(lang) {
-  return 'tools/exchange-comparator' + (lang === 'zh' ? '.zh' : '') + '.html';
+  return 'tools/exchange-comparator.html';
 }
 function futPath(lang) {
-  return 'tools/futures-toolbox' + (lang === 'zh' ? '.zh' : '') + '.html';
+  return 'tools/futures-toolbox.html';
 }
 function gloPath(lang) {
-  return 'tools/glossary' + (lang === 'zh' ? '.zh' : '') + '.html';
+  return 'tools/glossary.html';
 }
 function learnPath(slug = 'index') {
   return `learn/${slug === 'index' ? 'index.html' : slug + '.html'}`;
@@ -398,10 +398,10 @@ function researchPath(slug = '1000-usdt-spot-cost') {
   return `research/${slug}.html`;
 }
 function secPath(lang) {
-  return 'tools/token-security-checker' + (lang === 'zh' ? '.zh' : '') + '.html';
+  return 'tools/token-security-checker.html';
 }
 function pfPath(lang) {
-  return 'tools/portfolio-tracker' + (lang === 'zh' ? '.zh' : '') + '.html';
+  return 'tools/portfolio-tracker.html';
 }
 
 // ---- 合规页面（Privacy / Terms / Affiliate Disclosure）----
@@ -871,7 +871,7 @@ input[type=number]{font-size:16px}
 .benchmark-share{width:100%;height:auto;border:1px solid var(--line);border-radius:12px;background:#fff;display:block}.benchmark-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:11px}.benchmark-actions a{display:inline-flex;align-items:center;border:1px solid #bfdbfe;background:#eff6ff;color:#1d4ed8;border-radius:8px;padding:7px 11px;text-decoration:none;font-size:12px;font-weight:700}
 .benchmark-note{background:#fff7ed;border:1px solid #fed7aa;color:#9a3412;border-radius:10px;padding:11px 13px;font-size:12px;margin-top:12px}
 @media(max-width:640px){.benchmark-hero,.benchmark-section{padding:16px}.benchmark-hero h1{font-size:23px}.benchmark-facts,.benchmark-findings,.benchmark-method,.benchmark-unknowns{grid-template-columns:1fr}.benchmark-table{font-size:11.5px}.benchmark-table th,.benchmark-table td{padding:8px 7px}}
-</style>
+.pills{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}.pill{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border:1px solid var(--line);border-radius:999px;background:#fff;color:#0f172a;font-size:13px;font-weight:600;text-decoration:none;transition:border-color .15s,background .15s}.pill:hover{border-color:#93c5fd;background:#f8fbff;color:var(--brand)}.home-explore{margin-top:18px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.home-explore-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px}.home-explore-card h3{margin:0 0 10px;font-size:14px;color:#0f172a}.home-explore-links{display:flex;flex-wrap:wrap;gap:6px}.home-explore-links a{display:inline-flex;align-items:center;padding:5px 10px;border:1px solid var(--line);border-radius:999px;background:#f8fafc;color:#1e293b;font-size:12.5px;font-weight:600;text-decoration:none}.home-explore-links a:hover{border-color:#93c5fd;background:#eff6ff;color:var(--brand)}@media(max-width:780px){.home-explore{grid-template-columns:1fr}}</style>
 </head>
 <body>
 <div class="wrap">
@@ -1495,7 +1495,7 @@ function comparePage(slugA, slugB, lang) {
     <div id="cpCompareActions" class="compare-actions" hidden>${ctaHtml(slugA, esc(T(lang, 'ctaOpenOn', { x: a.name })), lang)}${ctaHtml(slugB, esc(T(lang, 'ctaOpenOn', { x: b.name })), lang)}</div>
     <p class="compare-source-note">${esc(L('Research basis: a 395-person investor/potential-investor survey, interviews with 15 Chinese exchange users, public beginner forum discussions and tutorial-video topic analysis. This is qualitative evidence, not FeeEye behavioural analytics.', '为什么这样设计：参考395人调查、15名中国用户访谈，以及公开的新手论坛和教程视频。这些是外部定性证据，不是FeeEye自己的用户统计。'))} <a href="https://uwspace.uwaterloo.ca/items/49452a36-424c-4758-9f99-932eba2454ac" rel="noopener" target="_blank">${esc(L('395-person study', '395人调查'))}</a> · <a href="https://arxiv.org/abs/2204.08664" rel="noopener" target="_blank">${esc(L('China interview study', '中国用户访谈'))}</a></p>
   </section>
-  </main>
+  ${(() => { const others = Object.keys(EX).filter(s => s !== slugA && s !== slugB); const pairs = []; for (const s of others) { if (pairs.length < 2) pairs.push([slugA, s].sort()); else if (pairs.length < 4) pairs.push([slugB, s].sort()); else break; } return `<section class="compare-section"><div class="compare-section-head"><h2>${esc(L('Related comparisons & calculators', '相关对比与测算工具'))}</h2></div><div class="pills">${pairs.map(([x, y]) => `<a class="pill" href="${absPath(lang, 'compare/' + x + '-vs-' + y + '.html')}">${esc(EX[x].name)} vs ${esc(EX[y].name)}</a>`).join('')}<a class="pill" href="${absPath(lang, 'exchanges/' + slugA + '.html')}">${esc(a.name)} ${esc(L('Fees', '费率详情'))}</a><a class="pill" href="${absPath(lang, 'exchanges/' + slugB + '.html')}">${esc(b.name)} ${esc(L('Fees', '费率详情'))}</a><a class="pill" href="${absPath(lang, tcPath(lang))}">${esc(L('Total Cost Calculator', '总成本计算器'))}</a><a class="pill" href="${absPath(lang, cmpPath(lang))}">${esc(L('Exchange Comparator', '交易所对比工具'))}</a></div></section>`; })()}</main>
   <script>
   (function(){
     var DATA=${decisionJson};
@@ -1804,7 +1804,7 @@ function indexPage(lang) {
     <div class="card"><a class="card-title" href="${p(secPath(lang))}"><span class="ic">${ICON.shield}</span><b>${esc(T(lang, 'idxSecT'))}</b></a><p>${esc(T(lang, 'idxSecB'))}</p><a class="card-cta" href="${p(secPath(lang))}">${esc(T(lang, 'idxSecC'))}</a></div>
     <div class="card"><a class="card-title" href="${p(pfPath(lang))}"><span class="ic">${ICON.wallet}</span><b>${esc(T(lang, 'idxPfT'))}</b></a><p>${esc(T(lang, 'idxPfB'))}</p><a class="card-cta" href="${p(pfPath(lang))}">${esc(T(lang, 'idxPfC'))}</a></div>
     <div class="card"><a class="card-title" href="${p(learnPath())}"><span class="ic">${ICON.coins}</span><b>${esc(T(lang, 'idxGloT'))}</b></a><p>${esc(T(lang, 'idxGloB'))}</p><a class="card-cta" href="${p(learnPath())}">${esc(T(lang, 'idxGloC'))}</a></div>
-  </div>
+  </div><section class="home-explore"><div class="home-explore-card"><h3>${lang==='zh'?'热门交易所对比':'Popular Exchange Comparisons'}</h3><div class="home-explore-links"><a href="${p('compare/binance-vs-okx.html')}">Binance vs OKX</a><a href="${p('compare/bybit-vs-okx.html')}">Bybit vs OKX</a><a href="${p('compare/bitget-vs-bybit.html')}">Bitget vs Bybit</a><a href="${p('compare/coinbase-vs-kraken.html')}">Coinbase vs Kraken</a></div></div><div class="home-explore-card"><h3>${lang==='zh'?'热门地区交易所':'Exchanges by Region'}</h3><div class="home-explore-links">${Object.keys(CA).slice(0,6).map(cc=>`<a href="${p(cc.toLowerCase()+'/exchanges.html')}">${esc((COUNTRY_NAMES[cc]&&(COUNTRY_NAMES[cc][lang]||COUNTRY_NAMES[cc].en))||cc)}</a>`).join('')}</div></div><div class="home-explore-card"><h3>${lang==='zh'?'币种费率与提币目录':'Coins & Networks'}</h3><div class="home-explore-links"><a href="${p('coins.html')}">${lang==='zh'?`全部 ${COIN_LIST.length}+ 币种目录`:`All ${COIN_LIST.length}+ Coins Directory`}</a></div></div></section>
   <script>
   (function(){
     var SEARCH = ${JSON.stringify(searchMap)};
@@ -1944,16 +1944,7 @@ for (const lang of ['en', 'zh']) {
 }
 
 // 拷贝工具与数据，使站内计算器可用（en 根 + zh 双语目录各一份，工具页以 ../data/ 相对引用）
-fs.cpSync(toolsDir, path.join(distDir, 'tools'), { recursive: true });
-fs.cpSync(dataDir, path.join(distDir, 'data'), { recursive: true });
-fs.cpSync(toolsDir, path.join(distDir, 'zh', 'tools'), { recursive: true });
-fs.cpSync(dataDir, path.join(distDir, 'zh', 'data'), { recursive: true });
-for (const folder of ['tools', 'zh/tools']) {
-  for (const name of fs.readdirSync(path.join(distDir,folder)).filter(n => n.endsWith('.html'))) {
-    const target = path.join(distDir,folder,name);
-    fs.writeFileSync(target,versionScripts(fs.readFileSync(target,'utf8')));
-  }
-}
+fs.cpSync(dataDir, path.join(distDir, 'data'), { recursive: true }); fs.cpSync(dataDir, path.join(distDir, 'zh', 'data'), { recursive: true }); fs.mkdirSync(path.join(distDir, 'tools'), { recursive: true }); fs.mkdirSync(path.join(distDir, 'zh', 'tools'), { recursive: true }); const processToolHtml = (raw, slug, isZh) => { let html = versionScripts(raw).replace(/\/zh\/tools\/([a-z0-9-]+)\.zh(\.html)?/g, '/zh/tools/$1.html'); if (!/rel=["']canonical["']/i.test(html)) { const canon = `${SITE_URL}${isZh ? '/zh' : ''}/tools/${slug}`; const tags = `<link rel="canonical" href="${canon}">\n<link rel="alternate" hreflang="en" href="${SITE_URL}/tools/${slug}">\n<link rel="alternate" hreflang="zh" href="${SITE_URL}/zh/tools/${slug}">\n<link rel="alternate" hreflang="x-default" href="${SITE_URL}/tools/${slug}">`; html = html.replace(/<\/head>/i, `${tags}\n</head>`); } if (!/disclosure(\.html)?/i.test(html)) { html = html.replace(/<\/footer>/i, `<a href="${isZh ? '/zh/disclosure' : '/disclosure'}">${isZh ? '合作披露' : 'Disclosure'}</a></footer>`); } return html; }; for (const name of fs.readdirSync(toolsDir)) { const srcPath = path.join(toolsDir, name); if (fs.statSync(srcPath).isDirectory()) continue; if (!name.endsWith('.html')) { fs.copyFileSync(srcPath, path.join(distDir, 'tools', name)); fs.copyFileSync(srcPath, path.join(distDir, 'zh', 'tools', name)); continue; } if (name.endsWith('.zh.html') || name === 'fee-calculator.html') continue; const slug = name.replace(/\.html$/, ''); fs.writeFileSync(path.join(distDir, 'tools', name), processToolHtml(fs.readFileSync(srcPath, 'utf8'), slug, false)); urls.push('tools/' + slug + '.html'); const zhSrc = path.join(toolsDir, `${slug}.zh.html`); if (fs.existsSync(zhSrc)) { fs.writeFileSync(path.join(distDir, 'zh', 'tools', name), processToolHtml(fs.readFileSync(zhSrc, 'utf8'), slug, true)); urls.push('zh/tools/' + slug + '.html'); } } fs.writeFileSync(path.join(distDir, '_redirects'), ['/tools/fee-calculator /tools/total-cost-calculator 301', '/tools/fee-calculator.html /tools/total-cost-calculator 301', '/zh/tools/fee-calculator /zh/tools/total-cost-calculator 301', '/zh/tools/fee-calculator.html /zh/tools/total-cost-calculator 301', '/zh/tools/:name.zh /zh/tools/:name 301', '/zh/tools/:name.zh.html /zh/tools/:name 301', '/tools/:name.zh /tools/:name 301', '/tools/:name.zh.html /tools/:name 301'].join('\n') + '\n');
 // 生成 coin-prices.js：供工具页做币种计价（价格来自 coins.json 的 CoinGecko 快照）
 const priceMap = {};
 for (const c of COIN_LIST) {
