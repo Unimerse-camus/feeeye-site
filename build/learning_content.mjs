@@ -23,7 +23,7 @@ export const LEARNING_ARTICLES = [
       { title: '10 项开始前检查', checklist: ['资金不是借款、信用卡或应急金', '已核对所在地区法律与平台可用性', '理解价格可能大幅波动或归零', '能说清买入资产与退出方式', '已开启独立邮箱、强密码和 2FA', '知道客服永远不需要助记词或私钥', '会核对手续费、价差、提币费和 Gas', '准备先做小额现货而非合约', '每个关键事实都有官方来源', '没有因倒计时、群聊或他人收益截图而赶时间'] }
     ],
     quiz: [['哪类资金不应投入？', '借款、应急金或近期必需支出。'], ['为什么“只投一点”仍需核对地区？', '因为账户限制、身份验证和出金问题与金额大小无关。'], ['第一阶段为什么不含杠杆？', '杠杆会放大亏损并引入强平风险。']],
-    tool: { label: '按地区和需求比较交易所', path: 'tools/exchange-comparator.zh.html' }
+    tool: { label: '按地区和需求比较交易所', path: 'tools/exchange-comparator.html' }
   }, {
     title: '10 Checks Before You Start With Crypto', summary: 'Check your money, jurisdiction, and risk conditions before asking what to buy.', readTime: '6 min',
     outcomes: ['Separate learning, payments, investing, and speculation', 'Set a loss limit that does not affect daily life', 'Know when missing conditions mean stop'],
@@ -45,7 +45,7 @@ export const LEARNING_ARTICLES = [
       { title: '怀疑被骗后的动作', checklist: ['停止转账和与对方争辩', '保存网址、地址、交易哈希和聊天记录', '从官方渠道联系所用平台', '修改相关密码并撤销可疑授权', '向所在地执法或监管渠道报告', '拒绝任何先收费的追回服务'] }
     ],
     quiz: [['提现前要求再付税费意味着什么？', '这是典型预付费诈骗红旗，应停止付款。'], ['客服可以索要助记词吗？', '不可以，获得助记词的人可能控制全部相关资产。'], ['小额提现成功能证明平台真实吗？', '不能，诈骗者常用它建立信任。']],
-    tool: { label: '检查代币合约风险标记', path: 'tools/token-security-checker.zh.html' }
+    tool: { label: '检查代币合约风险标记', path: 'tools/token-security-checker.html' }
   }, {
     title: 'Five Common Crypto Scams and Their Red Flags', summary: 'Recognize fake platforms, support impersonation, relationship scams, pump-and-dumps, and recovery fraud.', readTime: '7 min',
     outcomes: ['Identify fake returns and withdrawal screens', 'Know what to do after an unsolicited message', 'Stop further loss after suspected fraud'],
@@ -65,16 +65,18 @@ export const LEARNING_ARTICLES = [
       { title: '先保护邮箱，再保护交易账户', paragraphs: ['邮箱往往能重置交易平台密码。若邮箱被接管，平台上的强密码也可能失去作用。'], bullets: ['邮箱和交易平台使用不同的长密码或 Passkey。', '使用密码管理器生成并保存唯一密码。', '检查邮箱转发规则和已登录设备。'] },
       { title: '2FA 不是都一样', paragraphs: ['硬件安全密钥和 Passkey 通常更抗钓鱼；验证器 App 通常优于短信。短信仍可能遭遇 SIM 换卡。'], bullets: ['不要把验证码告诉任何人。', '恢复码离线保存，不能和密码放在同一位置。', '启用提现地址白名单时，先理解等待期和恢复流程。'] },
       { title: '入金前安全清单', checklist: ['邮箱与平台密码不重复', '已开启平台支持的最强 2FA', '恢复码已离线备份', '官方域名已加入书签', '登录和提现提醒已开启', '已检查 API Key、活跃会话和授权设备', '没有安装来源不明的浏览器扩展'] }
+, { title: 'KYC 实名认证需要提前准备什么', bullets: ['提前准备有效身份证或护照（部分地区需住址证明）', '通常只需约 5 分钟完成审核', '务必仅在已核对的官方域名或官方 App 内提交证件照'] }
     ],
     quiz: [['为什么先保护邮箱？', '邮箱常用于重置平台密码。'], ['短信 2FA 的主要问题是什么？', '可能受到 SIM 换卡和号码劫持影响。'], ['恢复码应放哪里？', '离线、与密码分开且可安全取回的位置。']],
-    tool: { label: '查阅 2FA、钓鱼与私钥术语', path: 'tools/glossary.zh.html' }
+    tool: { label: '查阅 2FA、钓鱼与私钥术语', path: 'tools/glossary.html' }
   }, {
     title: 'Secure Your Account: Passwords, 2FA, Email, and Phishing', summary: 'Harden your account, email, and recovery methods before funding.', readTime: '6 min',
     outcomes: ['Create non-reused credentials', 'Choose a stronger second factor', 'Store recovery codes and spot phishing'],
     sections: [
       { title: 'Secure email before the exchange account', paragraphs: ['Email often resets a platform password. If email is taken over, a strong exchange password may no longer protect the account.'], bullets: ['Use different long passwords or passkeys for email and the platform.', 'Use a password manager to generate and store unique credentials.', 'Review email forwarding rules and signed-in devices.'] },
       { title: 'Not all 2FA is equal', paragraphs: ['Hardware security keys and passkeys are generally more phishing-resistant; authenticator apps are usually preferable to SMS, which can face SIM swaps.'], bullets: ['Never share a one-time code.', 'Store recovery codes offline and separately from passwords.', 'Understand waiting periods and recovery before enabling withdrawal allowlists.'] },
-      { title: 'Before-funding checklist', checklist: ['Email and platform passwords are unique', 'Strongest supported 2FA enabled', 'Recovery codes backed up offline', 'Official domain bookmarked', 'Login and withdrawal alerts enabled', 'API keys, sessions, and trusted devices reviewed', 'No unknown browser extensions installed'] }
+   , { title: 'What to prepare for KYC verification', bullets: ['Prepare a valid national ID or passport (and proof of address in some regions)', 'Verification usually takes around 5 minutes to complete', 'Only submit ID photos on the verified official domain or inside the official app'] }
+     , { title: 'Before-funding checklist', checklist: ['Email and platform passwords are unique', 'Strongest supported 2FA enabled', 'Recovery codes backed up offline', 'Official domain bookmarked', 'Login and withdrawal alerts enabled', 'API keys, sessions, and trusted devices reviewed', 'No unknown browser extensions installed'] }
     ],
     quiz: [['Why secure email first?', 'It often controls platform password resets.'], ['What is the main SMS risk?', 'SIM swapping and number takeover.'], ['Where should recovery codes go?', 'Offline, separate from passwords, and safely retrievable.']],
     tool: { label: 'Review 2FA, phishing, and key terms', path: 'tools/glossary.html' }
@@ -87,9 +89,10 @@ export const LEARNING_ARTICLES = [
       { title: '先做可用性筛选', bullets: ['确认服务你的法律实体和支持地区。', '核对身份验证材料及是否支持你的证件。', '确认法币入金、卖出和提现方式，不只看买入入口。'] },
       { title: '再比较四类事实', bullets: ['托管与资产隔离：谁控制密钥，发生问题时由谁负责。', '真实成本：入金、价差、交易费、提币费和 Gas。', '产品复杂度：新手只需要现货，不应因功能多而加分。', '证据质量：官方规则、更新日期、提款记录和事故披露。'], warning: '储备证明是一个时点的证据，不能单独证明全部负债、内部控制或持续偿付能力。' },
       { title: '开户前检查', checklist: ['地区和法律实体已确认', 'KYC 材料与隐私政策已阅读', '入金和退出渠道都可用', '基础费率之外的成本已计算', '只启用当前需要的产品', '返佣关系已披露', '准备先用小额测试充值与提现'] }
+    , { title: '新手常见的三种入金买币方式', bullets: ['银行转账：通常费率最低，适合不急着立刻成交', '银行卡快捷买币：最方便但通道费较高，约 1.5%–3.5%', 'P2P/C2C 买 USDT：支持本地支付方式，务必只选高成交率认证商家且不脱离平台聊天'] }
     ],
     quiz: [['为什么不能给全球统一推荐？', '地区、法律实体、KYC和出入金条件不同。'], ['PoR 能证明什么？', '通常只能提供某一时点的部分资产和余额覆盖证据。'], ['为什么先看退出？', '能买入不等于能顺利卖出或提现。']],
-    tool: { label: '打开交易所综合对比', path: 'tools/exchange-comparator.zh.html' }
+    tool: { label: '打开交易所综合对比', path: 'tools/exchange-comparator.html' }
   }, {
     title: 'How to Choose a Crypto Exchange for Your Needs', summary: 'There is no universal best exchange; verify jurisdiction, funding, custody, and total cost first.', readTime: '7 min',
     outcomes: ['Filter by task instead of rankings', 'See limits of affiliate and fee claims', 'Preserve an exit route'],
@@ -97,6 +100,7 @@ export const LEARNING_ARTICLES = [
       { title: 'Start with availability', bullets: ['Identify the legal entity serving you and supported jurisdiction.', 'Verify identity documents and eligibility.', 'Confirm fiat funding, selling, and withdrawal—not just the buy flow.'] },
       { title: 'Then compare four fact groups', bullets: ['Custody and segregation: who controls keys and bears recovery responsibility.', 'Total cost: funding, spread, trading, withdrawal, and gas.', 'Product complexity: beginners need spot, not the most features.', 'Evidence: official rules, review dates, withdrawal history, and incident disclosure.'], warning: 'Proof of reserves is point-in-time evidence and cannot alone prove all liabilities, controls, or continuing solvency.' },
       { title: 'Before-opening checklist', checklist: ['Jurisdiction and legal entity verified', 'KYC documents and privacy policy reviewed', 'Funding and exit rails available', 'Costs beyond headline rate calculated', 'Only needed products enabled', 'Affiliate relationship disclosed', 'Small deposit and withdrawal test planned'] }
+   , { title: 'Three common ways beginners fund an account', bullets: ['Bank transfer: usually the lowest fees, best when you do not need instant execution', 'Card instant buy: most convenient, but carries higher gateway fees (around 1.5%–3.5%)', 'P2P/C2C buying USDT: supports local payment methods; only pick verified high-completion merchants and never chat off-platform'] }
     ],
     quiz: [['Why no universal recommendation?', 'Jurisdiction, entity, KYC, and funding conditions differ.'], ['What does PoR prove?', 'Usually selected asset and balance coverage at a point in time.'], ['Why inspect the exit first?', 'Buying does not guarantee easy selling or withdrawal.']],
     tool: { label: 'Open the exchange comparator', path: 'tools/exchange-comparator.html' }
@@ -106,18 +110,20 @@ export const LEARNING_ARTICLES = [
     title: '第一次小额现货买入', summary: '识别现货、交易对、市价单和限价单，在确认页看清数量与费用。', readTime: '6 分钟',
     outcomes: ['避免误入合约和杠杆页面', '读懂交易对与订单方向', '在提交前核对成本和成交方式'],
     sections: [
+  { title: '第 0 步：先准备好第一笔 USDT', paragraphs: ['新手买 BTC/ETH 现货前，通常先通过银行卡、银行转账或 P2P 买入少量 USDT（如 20–50 美元试水），确认到账至「现货账户」后再下单。'] }, 
       { title: '确认你在现货页面', paragraphs: ['现货买入后持有资产；合约页面通常出现杠杆倍数、保证金、强平价、做多和做空等字段。看到这些词先退出。'], bullets: ['BTC/USDT 表示用 USDT 为 BTC 定价。', 'Buy BTC 表示花费报价资产得到 BTC。', '检查最小订单金额和可用余额。'] },
-      { title: '市价单与限价单', bullets: ['市价单优先立即成交，但最终均价可能因订单簿产生滑点。', '限价单只在指定价格或更优价格成交，但可能一直不成交。', '限价单如果立即与订单簿成交，也可能按 Taker 收费。'] },
+      { title: '市价单与限价单', bullets: ['市价单按当前盘口立即成交，通常按吃单（Taker）费率扣费；限价单可自定义买入价挂单等待，成交时通常按挂单（Maker）费率扣费。', '市价单优先立即成交，但最终均价可能因订单簿产生滑点。', '限价单只在指定价格或更优价格成交，但可能一直不成交。', '限价单如果立即与订单簿成交，也可能按 Taker 收费。'] },
       { title: '提交前 7 项检查', checklist: ['页面明确标为 Spot / 现货', '交易对和买卖方向正确', '金额使用的是预期计价币', '已查看预计收到数量', '已查看手续费和价差', '市价单可能滑点已理解', '金额足够小且不影响生活'] }
     ],
     quiz: [['现货和合约最关键区别？', '现货交付资产；合约建立价格敞口并可能使用杠杆。'], ['限价单一定是 Maker 吗？', '不一定，立即成交的限价单也可能是 Taker。'], ['市价单保证屏幕价格吗？', '不保证，实际均价取决于订单簿和订单规模。']],
-    tool: { label: '下单前估算完整成本', path: 'tools/total-cost-calculator.zh.html' }
+    tool: { label: '下单前估算完整成本', path: 'tools/total-cost-calculator.html' }
   }, {
     title: 'Your First Small Spot Purchase', summary: 'Identify spot, pairs, market orders, and limit orders, then read the confirmation screen.', readTime: '6 min',
     outcomes: ['Avoid derivatives and leverage by mistake', 'Read pair and order direction', 'Verify cost and execution before submitting'],
     sections: [
+    { title: 'Step 0: Get your first USDT', paragraphs: ['Before buying BTC or ETH on spot, beginners typically buy a small amount of USDT (such as $20–$50 to test) via card, bank transfer, or P2P, and confirm it has arrived in their Spot Account before placing an order.'] }, 
       { title: 'Confirm you are on spot', paragraphs: ['A spot purchase delivers the asset. Derivatives screens often show leverage, margin, liquidation price, long, or short—leave if you see them during a first purchase.'], bullets: ['BTC/USDT quotes BTC in USDT.', 'Buy BTC spends the quote asset to receive BTC.', 'Check minimum order and available balance.'] },
-      { title: 'Market versus limit', bullets: ['A market order prioritizes immediate execution but may have slippage.', 'A limit order only fills at the limit or better but may remain open.', 'A limit order that matches immediately can still pay taker fees.'] },
+      { title: 'Market versus limit', bullets: ['In plain terms: a market order fills immediately at the current order book price and usually pays the taker fee; a limit order lets you set your own buy price and wait, usually paying the maker fee when filled.', 'A market order prioritizes immediate execution but may have slippage.', 'A limit order only fills at the limit or better but may remain open.', 'A limit order that matches immediately can still pay taker fees.'] },
       { title: 'Seven checks before submit', checklist: ['Page says Spot', 'Pair and buy/sell direction are correct', 'Amount uses the intended quote currency', 'Estimated received amount reviewed', 'Fee and spread reviewed', 'Market-order slippage understood', 'Amount is small and non-essential'] }
     ],
     quiz: [['Key difference between spot and derivatives?', 'Spot delivers an asset; derivatives create price exposure and may use leverage.'], ['Is every limit order a maker?', 'No. An immediately matching limit order can be a taker.'], ['Does market order guarantee the displayed price?', 'No. Average execution depends on the book and order size.']],
@@ -133,7 +139,7 @@ export const LEARNING_ARTICLES = [
       { title: '计算前检查', checklist: ['金额和计价币一致', '使用正确 Maker/Taker 费率', '价差与滑点单独考虑', '提币网络和固定费已核对', '目标链 Gas 资产已准备', '所有数据有来源和更新时间', '未知成本没有被当成零'] }
     ],
     quiz: [['基础费率等于总成本吗？', '不等于，还可能有价差、滑点、入金、提币和 Gas。'], ['固定提币费对谁影响更大？', '对小额转账的比例影响更大。'], ['无法核实的费用应如何处理？', '标为未知并在行动前到官方页面核对。']],
-    tool: { label: '打开全成本计算器', path: 'tools/total-cost-calculator.zh.html' }
+    tool: { label: '打开全成本计算器', path: 'tools/total-cost-calculator.html' }
   }, {
     title: 'The Real Total Cost of Crypto', summary: 'Headline fees are only the start; include funding, spread, slippage, withdrawal, and gas.', readTime: '6 min',
     outcomes: ['Separate fee rate from total cost', 'See why fixed fees hurt small transfers', 'Know which inputs cannot be exact in advance'],
@@ -155,7 +161,7 @@ export const LEARNING_ARTICLES = [
       { title: '发送前清单', checklist: ['币种完全一致', '发送和接收网络完全一致', '从可信入口获取接收地址', '完整地址已核对', 'Memo/Tag 要求已确认', '提币费与实际到账额已查看', '先发送可承受损失的测试金额', '测试已确认并在接收端入账', '剩余金额再次独立核对'] }
     ],
     quiz: [['地址相同就能跨任意网络发送吗？', '不能，接收平台还必须支持所选网络和资产。'], ['Pending 等于到账吗？', '不等于，还需区块确认和接收平台入账。'], ['为什么不只核对地址首尾？', '地址投毒可制造首尾相似的恶意地址。']],
-    tool: { label: '查阅网络、Gas 与地址术语', path: 'tools/glossary.zh.html' }
+    tool: { label: '查阅网络、Gas 与地址术语', path: 'tools/glossary.html' }
   }, {
     title: 'Safe First Crypto Transfer Checklist', summary: 'Verify asset, network, full address, memo or tag, amount, and final credit.', readTime: '7 min',
     outcomes: ['Understand irreversible-transfer responsibility', 'Avoid wrong-network and missing-memo errors', 'Use a test transfer to limit impact'],
@@ -177,7 +183,7 @@ export const LEARNING_ARTICLES = [
       { title: '选择前检查', checklist: ['知道当前由谁控制私钥', '理解平台和自托管各自最坏情况', '恢复信息可离线、安全取回', '备份与设备不放在同一处', '能在设备屏幕核对地址和交易', '先用小额测试恢复和转账流程', '不会因口号把全部资产迁往不熟悉的钱包'] }
     ],
     quiz: [['钱包里真的存着币吗？', '资产记录在链上，钱包主要管理密钥和签名。'], ['自托管一定更安全吗？', '不一定，它减少部分对手方风险，但增加个人操作和备份责任。'], ['硬件钱包能阻止恶意授权吗？', '不能，如果用户在设备上确认了恶意交易，仍可能损失资产。']],
-    tool: { label: '查阅钱包、助记词与私钥', path: 'tools/glossary.zh.html' }
+    tool: { label: '查阅钱包、助记词与私钥', path: 'tools/glossary.html' }
   }, {
     title: 'Custody vs Self-custody', summary: 'Compare who controls keys, who handles recovery, and whether you can maintain safe backups.', readTime: '7 min',
     outcomes: ['Understand that assets are on-chain and wallets manage keys', 'Balance platform risk and user error', 'Build a recovery plan without exposing the phrase'],
