@@ -1982,7 +1982,7 @@ fs.writeFileSync(path.join(distDir, `${indexNowKey}.txt`), indexNowKey);
 // sitemap.xml + robots.txt
 // Only attach lastmod when an editorial date is known; never fabricate today's date.
 // sitemap URL 去掉 .html 后缀 + index.html → 根，与页面 canonical 保持一致，避免谷歌拿到矛盾信号
-const indexableHtml = urls.filter((u) => u.endsWith('.html') && !fs.!/name="robots"\s+content="[^"]*noindex/i.test(fs.readFileSync(path.join(distDir,u),'utf8'))),'utf8').includes('<meta name="robots" content="noindex'));
+const indexableHtml = urls.filter((u) => u.endsWith('.html') && !/name="robots"\s+content="[^"]*noindex/i.test(fs.readFileSync(path.join(distDir, u), 'utf8')));
 const pages = indexableHtml.map(canonPath);
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
