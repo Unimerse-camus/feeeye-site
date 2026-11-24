@@ -147,7 +147,7 @@ td.num,th.num{text-align:right}
 </main>
 
 <footer class="foot">
-  <div>© FeeEye · 费率快照仅供参考，实际提币请以交易所提现页面实时显示为准。</div>
+  <div>© FeeEye · 费率快照仅供参考，实际提币请以交易所提现页面实时显示为准。数据快照 <span id="upd"></span>。</div>
   <div>
     <a href="/zh/">首页</a> ·
     <a href="/zh/about.html">关于我们</a> ·
@@ -338,7 +338,7 @@ td.num,th.num{text-align:right}
     for (var i = 0; i < all.length; i++) {
       all[i].classList.toggle('active', all[i] === btn);
     }
-    render();
+    var updEl = document.getElementById('upd'); if (updEl && window.EXCHANGES && window.EXCHANGES.kucoin && window.EXCHANGES.kucoin.last_updated) updEl.textContent = window.EXCHANGES.kucoin.last_updated; render();
   });
 
   render();
