@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>USDT Cross-Chain Withdrawal Fee Checker — Compare 7 Exchanges & 8 Networks | FeeEye</title>
+<meta name="description" content="Compare USDT withdrawal fees across 7 major crypto exchanges and 8 networks (SOL, Arbitrum, Base, Optimism, Polygon, BSC, TRC20, ERC20). Find the cheapest withdrawal route and savings vs ERC20.">
+<link rel="stylesheet" href="/assets/responsive.css">
+<script defer src="/assets/learning-nav.js"></script>
+<script defer src="/assets/analytics.js"></script>
+<style>
+:root{
+  --bg:#f7f8fa;--card:#fff;--ink:#1c2430;--sub:#5b6776;--line:#e4e8ee;
+  --brand:#2563eb;--brand2:#0ea5a4;--ok:#0f9d58;--okbg:#ecfdf5;--warn:#b45309;--warnbg:#fffbeb;--bad:#dc2626;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;line-height:1.55}
+a{color:var(--brand);text-decoration:none}
+a:hover{text-decoration:underline}
+header{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}
+.topbar{max-width:1180px;margin:0 auto;padding:12px 18px;display:flex;align-items:center;gap:14px;justify-content:space-between;flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:8px;font-weight:800;color:var(--ink);font-size:17px}
+.nav{display:flex;gap:14px;flex-wrap:wrap;font-size:13.5px}
+.nav a{color:var(--sub);padding:4px 6px;border-radius:6px}
+.nav a.active,.nav a:hover{color:var(--ink);background:#f1f5f9;text-decoration:none}
+.lang{font-size:13px;padding:5px 10px;border:1px solid var(--line);border-radius:8px;color:var(--ink);background:#fff}
+.wrap{max-width:1180px;margin:0 auto;padding:24px 18px 40px}
+.hero{margin-bottom:18px}
+.hero h1{margin:0 0 8px;font-size:28px;line-height:1.25}
+.hero p{margin:0;color:var(--sub);font-size:15px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:18px;box-shadow:0 1px 2px rgba(16,24,40,.03)}
+.filter-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+.filter-title{font-size:14px;font-weight:700;color:var(--ink)}
+.best-pill{font-size:12.5px;background:var(--okbg);color:var(--ok);border:1px solid #a7f3d0;padding:4px 10px;border-radius:999px;font-weight:600}
+.net-tabs{display:flex;gap:8px;flex-wrap:wrap}
+.net-btn{border:1px solid var(--line);background:#fff;color:var(--ink);padding:8px 13px;border-radius:9px;font-size:13.5px;font-weight:600;cursor:pointer;transition:.15s}
+.net-btn:hover{border-color:#cbd5e1;background:#f8fafc}
+.net-btn.active{background:var(--brand);color:#fff;border-color:var(--brand)}
+.tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;font-size:13.5px;min-width:740px}
+th,td{padding:11px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:middle}
+th{font-size:12.5px;color:var(--sub);font-weight:700;background:#fafbfc;white-space:nowrap}
+td.num,th.num{text-align:right}
+.ex-name{font-weight:700;color:var(--ink);display:flex;align-items:center;gap:8px}
+.ex-sub{font-size:12px;color:var(--sub);font-weight:400}
+.cell-best{background:var(--okbg);color:var(--ok);font-weight:800;border-radius:6px}
+.badge{display:inline-block;font-size:11px;padding:2px 6px;border-radius:999px;font-weight:700;margin-left:5px;vertical-align:middle}
+.b-low{background:#d1fae5;color:#065f46}
+.b-dyn{background:var(--warnbg);color:var(--warn)}
+.b-na{color:#94a3b8}
+.rank-list{display:grid;gap:10px}
+.rank-row{display:grid;grid-template-columns:40px 1.3fr 1fr 1.2fr auto;gap:12px;align-items:center;padding:13px 14px;border:1px solid var(--line);border-radius:12px;background:#fff}
+.rank-num{width:30px;height:30px;border-radius:50%;background:#f1f5f9;color:var(--ink);font-weight:800;display:flex;align-items:center;justify-content:center;font-size:13px}
+.rank-row.top1{border-color:#86efac;background:#f0fdf4}
+.rank-row.top1 .rank-num{background:var(--ok);color:#fff}
+.fee-val{font-size:16px;font-weight:800}
+.save-val{font-size:13px;font-weight:600;color:var(--ok)}
+.save-na{font-size:12.5px;color:var(--sub)}
+.cta-btn{display:inline-block;padding:8px 14px;border-radius:8px;background:var(--brand);color:#fff;font-size:13px;font-weight:600;white-space:nowrap}
+.cta-btn:hover{background:#1d4ed8;text-decoration:none}
+.tips-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin-top:12px}
+.tip-box{border:1px solid var(--line);border-radius:10px;padding:14px;background:#fafbfc}
+.tip-box h3{margin:0 0 6px;font-size:14.5px}
+.tip-box p{margin:0;font-size:13px;color:var(--sub)}
+.next-cta{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;background:#eff6ff;border:1px solid #bfdbfe;border-radius:12px;padding:16px;margin-top:16px}
+.next-cta strong{display:block;font-size:15px;margin-bottom:2px}
+.next-cta span{font-size:13px;color:var(--sub)}
+.foot{max-width:1180px;margin:0 auto;padding:18px;border-top:1px solid var(--line);font-size:13px;color:var(--sub);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.foot a{color:var(--sub)}
+@media(max-width:720px){
+  .rank-row{grid-template-columns:32px 1fr;gap:8px}
+  .rank-row .cta-btn{grid-column:1/-1;text-align:center}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="topbar">
+    <a class="logo" href="/" aria-label="FeeEye Home">
+      <img src="/assets/logo.svg?v=2" alt="FeeEye" width="26" height="26">
+      <span>FeeEye</span>
+    </a>
+    <nav class="nav" id="toolNav">
+      <a href="/tools/exchange-comparator.html">Exchange Comparator</a>
+      <a href="/tools/total-cost-calculator.html">Total Cost Calculator</a>
+      <a href="/tools/usdt-withdrawal-fees.html" class="active">USDT Withdrawal Fees</a>
+      <a href="/tools/token-security-checker.html">Token Security</a>
+      <a href="/tools/portfolio-tracker.html">Portfolio Tracker</a>
+    </nav>
+    <a class="lang" href="/zh/tools/usdt-withdrawal-fees.html">中文</a>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="hero">
+    <h1>USDT Cross-Chain Withdrawal Fee Checker</h1>
+    <p>Compare live USDT withdrawal fees across 7 major exchanges and 8 popular networks. Find the cheapest transfer route and avoid overpaying on Ethereum ERC20 gas.</p>
+  </section>
+
+  <section class="card">
+    <div class="filter-head">
+      <span class="filter-title">Filter by Network / Cheapest Route</span>
+      <span class="best-pill" id="bestRoutePill">Scanning cheapest route...</span>
+    </div>
+    <div class="net-tabs" id="netTabs">
+      <button type="button" class="net-btn active" data-net="ALL">All Networks (Matrix)</button>
+      <button type="button" class="net-btn" data-net="SOL">SOL</button>
+      <button type="button" class="net-btn" data-net="Arbitrum">Arbitrum</button>
+      <button type="button" class="net-btn" data-net="Base">Base</button>
+      <button type="button" class="net-btn" data-net="Optimism">Optimism</button>
+      <button type="button" class="net-btn" data-net="Polygon">Polygon</button>
+      <button type="button" class="net-btn" data-net="BSC">BSC</button>
+      <button type="button" class="net-btn" data-net="TRC20">TRC20</button>
+      <button type="button" class="net-btn" data-net="ERC20">ERC20</button>
+    </div>
+  </section>
+
+  <section class="card" id="resultCard">
+    <div id="resultContainer">Loading exchange withdrawal fee data...</div>
+  </section>
+
+  <section class="card">
+    <h2 style="margin:0 0 6px;font-size:18px">Beginner Safety Checklist: Avoid Costly Transfer Mistakes</h2>
+    <p style="margin:0;color:var(--sub);font-size:13.5px">Before clicking Withdraw, verify these three rules to protect your funds:</p>
+    <div class="tips-grid">
+      <div class="tip-box">
+        <h3>1. Match Networks 100%</h3>
+        <p>Your withdrawal network (e.g., Arbitrum, Base, TRC20, or SOL) must match the deposit network selected in your receiving wallet or exchange. Sending to a mismatched network can result in permanent loss.</p>
+      </div>
+      <div class="tip-box">
+        <h3>2. Send a Small Test First</h3>
+        <p>For first-time transfers or large balances, send a minimum test amount (e.g., 5–10 USDT) first and confirm arrival before transferring the remaining funds.</p>
+      </div>
+      <div class="tip-box">
+        <h3>3. Avoid High-Gas ERC20</h3>
+        <p>Ethereum L1 (ERC20) withdrawal fees are dynamic and frequently cost 5–15+ USDT. Whenever your destination supports Layer 2s (Arbitrum, Optimism, Base, Polygon) or SOL/BSC, you can save over 90% on fees.</p>
+      </div>
+    </div>
+    <div class="next-cta">
+      <div>
+        <strong>Planning a full trade + withdrawal?</strong>
+        <span>Estimate trading maker/taker fees, slippage, and withdrawal costs together in one calculation.</span>
+      </div>
+      <a class="cta-btn" href="/tools/total-cost-calculator.html">Open Total Cost Calculator →</a>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div>© FeeEye · Snapshot fee data is for reference; always verify final withdrawal fees on the exchange screen.</div>
+  <div>
+    <a href="/">Home</a> ·
+    <a href="/about.html">About</a> ·
+    <a href="/privacy.html">Privacy</a> ·
+    <a href="/terms.html">Terms</a> ·
+    <a href="/disclosure.html">Disclosure</a>
+  </div>
+</footer>
+
+<script src="../data/exchanges.js"></script>
+<script>
+(function () {
+  var EX_ORDER = ['binance', 'okx', 'kucoin', 'bybit', 'bitget', 'kraken', 'coinbase'];
+  var NETWORKS = ['SOL', 'Arbitrum', 'Base', 'Optimism', 'Polygon', 'BSC', 'TRC20', 'ERC20'];
+  var activeNet = 'ALL';
+
+  function getExchanges() {
+    var src = window.EXCHANGES || {};
+    var list = [];
+    for (var i = 0; i < EX_ORDER.length; i++) {
+      var k = EX_ORDER[i];
+      if (src[k]) list.push(src[k]);
+    }
+    return list;
+  }
+
+  function isSupported(ex, net) {
+    var hasNet = Array.isArray(ex.supported_networks) && ex.supported_networks.indexOf(net) !== -1;
+    var hasFee = ex.withdrawal_fees && Object.prototype.hasOwnProperty.call(ex.withdrawal_fees, net);
+    return hasNet || hasFee;
+  }
+
+  function getFeeInfo(ex, net) {
+    if (!isSupported(ex, net)) {
+      return { supported: false, amount: null, dynamic: false, unknown: false };
+    }
+    var obj = ex.withdrawal_fees && ex.withdrawal_fees[net];
+    if (!obj) {
+      return { supported: true, amount: null, dynamic: false, unknown: true };
+    }
+    var amt = (typeof obj.amount === 'number' && !isNaN(obj.amount)) ? obj.amount : null;
+    var model = String(obj.model || '').toLowerCase();
+    var isDyn = model.indexOf('dynamic') !== -1 || model.indexOf('variable') !== -1;
+    var isUnk = amt === null;
+    return { supported: true, amount: amt, dynamic: isDyn, unknown: isUnk };
+  }
+
+  function fmtAmt(n) {
+    if (n === null || typeof n !== 'number' || isNaN(n)) return '—';
+    return (n % 1 === 0 ? n.toFixed(2) : Number(n.toFixed(4)).toString()) + ' USDT';
+  }
+
+  function findGlobalMin(exList) {
+    var min = Infinity;
+    var routes = [];
+    for (var i = 0; i < exList.length; i++) {
+      for (var j = 0; j < NETWORKS.length; j++) {
+        var info = getFeeInfo(exList[i], NETWORKS[j]);
+        if (info.supported && info.amount !== null) {
+          if (info.amount < min) {
+            min = info.amount;
+            routes = [exList[i].name + ' (' + NETWORKS[j] + ')'];
+          } else if (info.amount === min) {
+            routes.push(exList[i].name + ' (' + NETWORKS[j] + ')');
+          }
+        }
+      }
+    }
+    return { min: min === Infinity ? null : min, routes: routes };
+  }
+
+  function renderMatrix(exList, globalMin) {
+    var html = '<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:12px">' +
+      '<h2 style="margin:0;font-size:17px">7 Exchanges × 8 Networks USDT Withdrawal Fee Matrix</h2>' +
+      '<span style="font-size:12.5px;color:var(--sub)">Green = lowest fee · Amber = dynamic gas / unverified</span></div>';
+    html += '<div class="tbl-wrap"><table><thead><tr><th>Exchange</th>';
+    for (var n = 0; n < NETWORKS.length; n++) {
+      html += '<th class="num">' + NETWORKS[n] + '</th>';
+    }
+    html += '</tr></thead><tbody>';
+
+    for (var i = 0; i < exList.length; i++) {
+      var ex = exList[i];
+      var link = ex.affiliate_link || ex.official_url || '#';
+      html += '<tr><td><div class="ex-name"><a href="' + link + '" target="_blank" rel="noopener noreferrer">' + ex.name + '</a></div></td>';
+      for (var j = 0; j < NETWORKS.length; j++) {
+        var net = NETWORKS[j];
+        var info = getFeeInfo(ex, net);
+        if (!info.supported) {
+          html += '<td class="num"><span class="b-na">—</span></td>';
+        } else if (info.amount === null) {
+          html += '<td class="num"><span class="badge b-dyn">' + (info.dynamic ? 'Dynamic' : 'Unknown') + '</span></td>';
+        } else {
+          var isLowest = globalMin.min !== null && info.amount === globalMin.min;
+          var cls = isLowest ? 'num cell-best' : 'num';
+          var badges = '';
+          if (isLowest) badges += '<span class="badge b-low">Lowest</span>';
+          if (info.dynamic) badges += '<span class="badge b-dyn">Dynamic</span>';
+          html += '<td class="' + cls + '">' + fmtAmt(info.amount) + badges + '</td>';
+        }
+      }
+      html += '</tr>';
+    }
+    html += '</tbody></table></div>';
+    return html;
+  }
+
+  function renderSingleNetwork(exList, net) {
+    var rows = [];
+    for (var i = 0; i < exList.length; i++) {
+      var ex = exList[i];
+      var info = getFeeInfo(ex, net);
+      if (!info.supported) continue;
+      var erc = getFeeInfo(ex, 'ERC20');
+      rows.push({ ex: ex, info: info, erc: erc });
+    }
+
+    rows.sort(function (a, b) {
+      var aVal = a.info.amount !== null ? a.info.amount : Infinity;
+      var bVal = b.info.amount !== null ? b.info.amount : Infinity;
+      return aVal - bVal;
+    });
+
+    var html = '<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:12px">' +
+      '<h2 style="margin:0;font-size:17px">' + net + ' Withdrawal Fee Ranking (' + rows.length + ' Exchanges Supported)</h2>' +
+      '<span style="font-size:12.5px;color:var(--sub)">Sorted from lowest to highest fee</span></div>';
+
+    if (!rows.length) {
+      return html + '<p style="color:var(--sub)">No tracked exchanges currently list support for ' + net + '.</p>';
+    }
+
+    html += '<div class="rank-list">';
+    for (var r = 0; r < rows.length; r++) {
+      var item = rows[r];
+      var ex = item.ex;
+      var info = item.info;
+      var erc = item.erc;
+      var isTop = r === 0 && info.amount !== null;
+      var link = ex.affiliate_link || ex.official_url || '#';
+
+      var feeText = info.amount !== null ? fmtAmt(info.amount) : (info.dynamic ? 'Dynamic Gas' : 'Check Exchange');
+      var dynBadge = info.dynamic && info.amount !== null ? '<span class="badge b-dyn">Dynamic</span>' : '';
+
+      var saveHtml = '<span class="save-na">ERC20 fee unavailable</span>';
+      if (net === 'ERC20') {
+        saveHtml = '<span class="save-na">Baseline Ethereum L1 network</span>';
+      } else if (info.amount !== null && erc.supported && erc.amount !== null) {
+        var diff = erc.amount - info.amount;
+        if (diff > 0) {
+          saveHtml = '<span class="save-val">Save ' + fmtAmt(diff) + ' vs ERC20 (' + fmtAmt(erc.amount) + ')</span>';
+        } else {
+          saveHtml = '<span class="save-na">Same or higher than ERC20</span>';
+        }
+      }
+
+      html += '<div class="rank-row' + (isTop ? ' top1' : '') + '">' +
+        '<div class="rank-num">' + (r + 1) + '</div>' +
+        '<div><div class="ex-name">' + ex.name + (isTop ? '<span class="badge b-low">Cheapest</span>' : '') + '</div><div class="ex-sub">Network: ' + net + '</div></div>' +
+        '<div class="fee-val">' + feeText + dynBadge + '</div>' +
+        '<div>' + saveHtml + '</div>' +
+        '<a class="cta-btn" href="' + link + '" target="_blank" rel="noopener noreferrer">Open / Verify Fee →</a>' +
+        '</div>';
+    }
+    html += '</div>';
+    return html;
+  }
+
+  function render() {
+    var exList = getExchanges();
+    var globalMin = findGlobalMin(exList);
+    var pill = document.getElementById('bestRoutePill');
+    if (globalMin.min !== null) {
+      pill.textContent = 'Cheapest Overall: ' + fmtAmt(globalMin.min) + ' · ' + globalMin.routes.slice(0, 2).join(', ');
+    } else {
+      pill.textContent = 'Fee snapshot loaded';
+    }
+    var container = document.getElementById('resultContainer');
+    container.innerHTML = activeNet === 'ALL'
+      ? renderMatrix(exList, globalMin)
+      : renderSingleNetwork(exList, activeNet);
+  }
+
+  document.getElementById('netTabs').addEventListener('click', function (e) {
+    var btn = e.target.closest('.net-btn');
+    if (!btn) return;
+    activeNet = btn.getAttribute('data-net');
+    var all = document.querySelectorAll('#netTabs .net-btn');
+    for (var i = 0; i < all.length; i++) {
+      all[i].classList.toggle('active', all[i] === btn);
+    }
+    render();
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>

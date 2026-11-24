@@ -32,7 +32,8 @@ const root = path.resolve(__dirname, '..');
 const outPath = path.join(root, 'data', 'coins.json');
 const registryPath = path.join(root, 'data', 'coin-url-registry.json');
 
-const CG = 'https://pro-api.coingecko.com/api/v3';
+const API_MODE = (process.env.COINGECKO_API_MODE || 'demo').toLowerCase();
+const CG = API_MODE === 'pro' ? 'https://pro-api.coingecko.com/api/v3' : 'https://api.coingecko.com/api/v3';
 
 // CoinGecko 交易所 id → 本站交易所 slug
 // 注意：CoinGecko 用的是历史 identifier（OKX 在 CG 里叫 'okex'，Bybit spot 叫 'bybit_spot'）
@@ -65,7 +66,7 @@ async function cgGet(url, tries = 3) {
   for (let t = 0; t < tries; t++) {
     try {
       const headers = { 'accept': 'application/json' };
-      if (API_KEY) headers['x-cg-pro-api-key'] = API_KEY;
+      if (API_KEY) headers[API_MODE === 'pro' ? 'x-cg-pro-api-key' : 'x-cg-demo-api-key'] = API_KEY;
       const res = await fetch(url, { headers });
       if (res.status === 429) {
         const wait = 15000 * (t + 1);

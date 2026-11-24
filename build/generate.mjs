@@ -385,6 +385,7 @@ function tcPath(lang) {
 function cmpPath(lang) {
   return 'tools/exchange-comparator.html';
 }
+function usdtPath() { return 'tools/usdt-withdrawal-fees.html'; }
 function futPath(lang) {
   return 'tools/futures-toolbox.html';
 }
@@ -881,7 +882,7 @@ input[type=number]{font-size:16px}
 <nav class="nav">
 <div class="nav-item">
 <button type="button" class="nav-btn${['tc','fee','fut','cmp','sec','pf'].includes(active) ? ' active' : ''}">${esc(i.navTools)} ${CHEV}</button>
-<div class="dropdown"><a href="${absPath(lang, tcPath(lang))}">${ICON.receipt}<span>${esc(i.navTc)}</span></a><a href="${absPath(lang, futPath(lang))}">${ICON.trend}<span>${esc(i.navFut)}</span></a><a href="${absPath(lang, cmpPath(lang))}">${ICON.scale}<span>${esc(i.navCmp)}</span></a><a href="${absPath(lang, secPath(lang))}">${ICON.shield}<span>${esc(i.navSec)}</span></a><a href="${absPath(lang, pfPath(lang))}">${ICON.wallet}<span>${esc(i.navPf)}</span></a></div>
+<div class="dropdown"><a href="${absPath(lang, tcPath(lang))}">${ICON.receipt}<span>${esc(i.navTc)}</span></a><a href="${absPath(lang, futPath(lang))}">${ICON.trend}<span>${esc(i.navFut)}</span></a><a href="${absPath(lang, cmpPath(lang))}">${ICON.scale}<span>${esc(i.navCmp)}</span></a><a href="${absPath(lang, secPath(lang))}">${ICON.shield}<span>${esc(i.navSec)}</span></a><a href="${absPath(lang, pfPath(lang))}">${ICON.wallet}<span>${esc(i.navPf)}</span></a><a href="${absPath(lang, usdtPath())}">${ICON.wallet}<span>${lang === 'zh' ? 'USDT 提币费率速查' : 'USDT Withdrawal Fees'}</span></a></div>
 </div>
 <div class="nav-item">
 <button type="button" class="nav-btn${active === 'ex' ? ' active' : ''}">${esc(i.navExchanges)} ${CHEV}</button>
@@ -1698,7 +1699,7 @@ function learningHubPage(lang) {
     <section class="learn-section"><h2>${zh ? '按用途查找' : 'Browse by task'}</h2><p>${zh ? '需要解决一个具体问题时，可直接进入对应分类。' : 'Jump to a category when you need to solve one specific problem.'}</p><div class="learn-category-grid">${groups}</div></section>
     <section class="learn-section"><h2>${zh ? '最新原创数据' : 'Latest original research'}</h2><p>${zh ? '固定1000 USDT、普通用户和现货市价单，比较7家交易所公开基础吃单费；所有未知成本明确留空。' : 'A fixed 1,000 USDT-equivalent, regular-user spot market-order comparison across seven exchanges, with unknown costs left explicit.'}</p><a class="cta" href="${absPath(lang, researchPath())}">${zh ? '查看1000 USDT费率对比' : 'Open the $1,000 fee benchmark'}</a></section>
     <section class="learn-section"><h2>${zh ? '术语不是课程' : 'A glossary is not a course'}</h2><p>${zh ? '不懂 Maker、Gas、助记词或 PoR 时可查术语表；但在实际操作前，仍应完成对应教程和检查清单。' : 'Use the glossary for Maker, gas, recovery phrases, or PoR, but complete the related guide and checklist before acting.'}</p><a class="cta" href="${absPath(lang, gloPath(lang))}">${zh ? '打开已审校术语表' : 'Open the reviewed glossary'}</a></section>
-  <section class="learn-section"><h2>${zh ? '搭配免费工具实操' : 'Practice with free tools'}</h2><p>${zh ? '读完教程后，可以直接用站内免费工具核算真实成本、对比交易所或检测合约风险。' : 'Apply each guide with our free tools to calculate real costs, compare exchanges, or check token security.'}</p><div class="pills"><a class="pill" href="${absPath(lang, tcPath(lang))}">${zh ? '现货基础成本' : 'Spot Base Cost'}</a><a class="pill" href="${absPath(lang, cmpPath(lang))}">${zh ? '交易所 14 维度对比' : '14-Dimension Comparator'}</a><a class="pill" href="${absPath(lang, futPath(lang))}">${zh ? '合约工具箱' : 'Futures Toolbox'}</a><a class="pill" href="${absPath(lang, secPath(lang))}">${zh ? '代币安全检测' : 'Token Security Check'}</a></div></section></main>`;
+  <section class="learn-section"><h2>${zh ? '搭配免费工具实操' : 'Practice with free tools'}</h2><p>${zh ? '读完教程后，可以直接用站内免费工具核算真实成本、对比交易所或检测合约风险。' : 'Apply each guide with our free tools to calculate real costs, compare exchanges, or check token security.'}</p><div class="pills"><a class="pill" href="${absPath(lang, tcPath(lang))}">${zh ? '现货基础成本' : 'Spot Base Cost'}</a><a class="pill" href="${absPath(lang, cmpPath(lang))}">${zh ? '交易所 14 维度对比' : '14-Dimension Comparator'}</a><a class="pill" href="${absPath(lang, futPath(lang))}">${zh ? '合约工具箱' : 'Futures Toolbox'}</a><a class="pill" href="${absPath(lang, secPath(lang))}">${zh ? '代币安全检测' : 'Token Security Check'}</a><<a class="pill" href="${absPath(lang, usdtPath())}">${zh ? 'USDT 提币费速查' : 'USDT Withdrawal Fees'}</a>/div></section></main>`;
   const title = zh ? 'Crypto 新手学习中心——安全、费用、转账与钱包' : 'Crypto Beginner Learning Center — Safety, Costs, Transfers & Wallets';
   const desc = zh ? 'FeeEye Crypto 新手路线：账户安全、防骗、交易所选择、第一次现货、真实成本、安全转账和钱包保管。' : 'A risk-first crypto beginner path covering account security, scams, exchange choice, first spot purchase, total cost, transfers, and custody.';
   const jsonLd = {
