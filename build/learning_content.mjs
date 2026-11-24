@@ -194,7 +194,258 @@ export const LEARNING_ARTICLES = [
     ],
     quiz: [['Are coins stored inside a wallet?', 'Asset records are on-chain; the wallet mainly manages keys and signatures.'], ['Is self-custody always safer?', 'No. It reduces some counterparty risk but adds user and backup responsibility.'], ['Can hardware wallets stop malicious approvals?', 'No. A confirmed malicious transaction can still cause loss.']],
     tool: { label: 'Review wallet, phrase, and private-key terms', path: 'tools/glossary.html' }
-  })
+  }),
+A('cheapest-usdt-withdrawal-network', 'wallet', 'caution', ['cftcRisk', 'ethereumSecurity'], {
+  title: '哪条链提 USDT 最便宜？TRC20、SOL、Arbitrum 与 ERC20 费用对比',
+  summary: '对比 TRC20、SOL、Arbitrum 与 ERC20 提现 USDT 的网络手续费与到账速度，帮助新手避开高额 Gas 费与选错链风险。',
+  readTime: '6 分钟',
+  outcomes: [
+    '看懂主流提币网络的手续费与到账时间差异',
+    '理解为什么新手小额提币应尽量避开 ERC20',
+    '掌握提币前核对地址、网络与 Memo 的 4 项防丢币清单'
+  ],
+  sections: [
+    {
+      title: '主流提币网络费用梯度对比',
+      paragraphs: [
+        '同一笔 USDT 从交易所提到钱包或另一家平台，手续费差异可能高达十倍以上。通常 Solana（SOL）与 Arbitrum 等二层网络的固定提币费最低，往往只需零点几美元；TRC20 稳定且兼容性广，常见固定费率在 1 USDT 左右；而以太坊主网 ERC20 受主网拥堵影响，提币费往往最高。',
+        '不同交易所会对各条链收取不同的固定提现手续费，提币前应优先在平台提现页面或费率速查器中核对实时收费与最低提币限额。'
+      ]
+    },
+    {
+      title: '为什么新手尽量避开 ERC20',
+      bullets: [
+        '单笔成本高：ERC20 提现手续费通常显著高于 TRC20、SOL 和 Arbitrum，小额转出损耗极大。',
+        '链上后续操作更贵：即使成功提到自托管钱包，之后在以太坊主网转出或授权仍需额外准备 ETH 作为 Gas 费。',
+        '仅在特定场景使用：只有当接收方明确只支持 ERC20（例如部分冷门 DeFi 协议或特定托管地址）时，才考虑使用 ERC20。'
+      ]
+    },
+    {
+      title: '提币防丢币 4 项核对清单',
+      checklist: [
+        '核对发送端与接收端选择的网络名称是否完全一致（例如同为 TRC20 或同为 Arbitrum One）',
+        '确认接收地址前缀与格式匹配对应链（如 TRC20 通常以 T 开头，ERC20/Arbitrum 以 0x 开头）',
+        '检查是否需要填写 Memo 或 Tag（部分中心化平台充币有特殊标签要求）',
+        '大额转账前先做一笔最低限额的小额测试，确认到账后再转剩余资金'
+      ]
+    }
+  ],
+  quiz: [
+    ['如果对方钱包支持 TRC20、SOL 和 ERC20，小额提 USDT 通常应优先排除哪条链？', '通常应优先排除 ERC20，因为以太坊主网提现与后续链上 Gas 成本最高。'],
+    ['把 TRC20 的 USDT 直接提到仅支持 ERC20 的地址会发生什么？', '不同链互不兼容，选错网络可能导致资产无法直接到账甚至永久丢失。'],
+    ['大额提币前最稳妥的操作是什么？', '先核对网络与地址格式，并先发送一笔小额测试转账确认到账。']
+  ],
+  tool: { label: '打开 USDT 跨链提币费率速查器', path: 'tools/usdt-withdrawal-fees.html' }
+}, {
+  title: 'Cheapest Network to Withdraw USDT: TRC20 vs SOL vs Arbitrum vs ERC20',
+  summary: 'Compare withdrawal fees, confirmation speed, and compatibility across TRC20, SOL, Arbitrum, and ERC20 so beginners avoid overpaying or losing funds.',
+  readTime: '6 min',
+  outcomes: [
+    'Compare fee tiers across major USDT withdrawal networks',
+    'Understand why beginners should usually avoid ERC20 for small transfers',
+    'Follow a 4-point checklist to prevent irreversible wrong-network losses'
+  ],
+  sections: [
+    {
+      title: 'Fee tiers across major withdrawal networks',
+      paragraphs: [
+        'Withdrawing the exact same USDT amount can cost very different fees depending on the network you pick. Solana (SOL) and Layer-2 networks like Arbitrum usually offer the lowest fixed withdrawal fees, while TRC20 provides wide exchange compatibility at a moderate flat fee. Ethereum mainnet (ERC20) typically carries the highest fee.',
+        'Because exchanges set their own flat withdrawal fees and minimums, always check the live fee table before confirming a transfer.'
+      ]
+    },
+    {
+      title: 'Why beginners should usually avoid ERC20',
+      bullets: [
+        'High fixed cost: ERC20 withdrawal fees often take a large bite out of small transfers compared with SOL, Arbitrum, or TRC20.',
+        'Expensive follow-up transfers: moving USDT out of a self-custody wallet on Ethereum mainnet also requires holding ETH for gas.',
+        'Use only when required: choose ERC20 mainly when the receiving platform or protocol strictly accepts only Ethereum mainnet.'
+      ]
+    },
+    {
+      title: '4-point checklist to prevent lost funds',
+      checklist: [
+        'Verify the exact same network is selected on both the sending and receiving sides',
+        'Match address format to the network (e.g. T-prefix for TRC20, 0x-prefix for ERC20/Arbitrum)',
+        'Check whether a Memo or Tag is required by the receiving exchange',
+        'Send a small test transaction first before transferring a large balance'
+      ]
+    }
+  ],
+  quiz: [
+    ['Which network is usually the most expensive option for small USDT withdrawals?', 'ERC20 (Ethereum mainnet), due to higher withdrawal fees and mainnet gas costs.'],
+    ['What happens if you send TRC20 USDT to an ERC20-only deposit address?', 'The networks are incompatible and funds may fail to credit or be permanently lost.'],
+    ['What is the safest habit before a large USDT withdrawal?', 'Double-check network and address format, then send a small test transfer first.']
+  ],
+  tool: { label: 'Open USDT Withdrawal Fee Checker', path: 'tools/usdt-withdrawal-fees.html' }
+}),
+A('p2p-vs-card-buy-crypto', 'trading', 'caution', ['oecd', 'cftcRisk'], {
+  title: '新手买币怎么入金最划算？银行卡、银行转账与 P2P/C2C 费率与避坑对比',
+  summary: '拆解银行卡刷卡、银行转账与 P2P/C2C 三种入金方式的显性手续费与汇率点差，帮新手用更低成本安全完成首次买币。',
+  readTime: '7 分钟',
+  outcomes: [
+    '看清银行卡、银行转账与 P2P/C2C 的真实总成本差异',
+    '掌握 P2P/C2C 挑选商家的 4 条核心防骗底线',
+    '完成首次小额入金前的安全核对清单'
+  ],
+  sections: [
+    {
+      title: '三种常见入金方式的真实成本差异',
+      paragraphs: [
+        '新手买币常只看页面显示的“0 手续费”，却忽略了隐含汇率点差。银行卡（Visa/Mastercard）购买通常到账最快，但常伴随 1.5% 到 3.5% 以上的通道费与发卡行跨境费用；银行转账（如 SEPA、FPS 或本地电汇）费率通常最低，但受地区支持与到账时间限制；P2P/C2C 点对点交易页面往往无平台手续费，实际成本体现在商家报价与实时汇率的溢价点差中。',
+        '计算入金成本时，务必用“实际扣款法币金额 ÷ 到账 USDT 数量”算出综合汇率，再与现货中间价对比。'
+      ]
+    },
+    {
+      title: 'P2P/C2C 选商家的 4 条防骗底线',
+      bullets: [
+        '只看高成交量与高完成率认证商家：优先选择注册时间久、历史成交数千笔以上且好评率高的商家。',
+        '坚持平台内聊天与托管放币：绝不脱离平台转到微信、Telegram 等第三方沟通，也不要在未收到款或未确认到账前放币。',
+        '严格核对实名一致性：付款或收款账户姓名必须与平台实名信息一致，拒绝第三方代付或陌生账户转款。',
+        '保留完整付款凭证：转账备注避免出现敏感词汇，并保存回执截图以便申诉仲裁。'
+      ]
+    },
+    {
+      title: '新手首次小额入金检查清单',
+      checklist: [
+        '确认所用交易所与入金通道在当前地区合法可用且已完成 KYC',
+        '先用小额资金测试完整买币与到账流程，熟悉申诉与客服入口',
+        '对比实际到账单价而非仅看“免手续费”宣传字样',
+        '入金完成后先熟悉现货限价下单，避免急于开高倍合约'
+      ]
+    }
+  ],
+  quiz: [
+    ['为什么“0 手续费”的快捷买币或 P2P 报价依然可能有隐性成本？', '因为成本往往隐藏在高于市场中间价的汇率点差与溢价中。'],
+    ['在 P2P/C2C 交易中遇到对方要求加外部聊天软件并提前放币，应该怎么做？', '立即拒绝并仅在平台托管与站内聊天内完成沟通与核验。'],
+    ['为什么不建议在 P2P 交易中接受第三方代付？', '第三方代付容易引发黑钱或冻卡风险，且违反大多数平台的实名一致性规则。']
+  ],
+  tool: { label: '用现货总成本计算器测算入金费用', path: 'tools/total-cost-calculator.html' }
+}, {
+  title: 'Card vs Bank Transfer vs P2P: Cheapest & Safest Ways to Buy Crypto',
+  summary: 'Compare explicit fees, hidden FX spreads, and counterparty risks across card purchases, bank transfers, and P2P/C2C markets.',
+  readTime: '7 min',
+  outcomes: [
+    'Compare true all-in costs of cards, bank transfers, and P2P/C2C',
+    'Apply 4 strict safety rules when choosing a P2P merchant',
+    'Follow a pre-deposit checklist before your first small crypto purchase'
+  ],
+  sections: [
+    {
+      title: 'True cost differences across three deposit methods',
+      paragraphs: [
+        'Many beginners only look at advertised "zero fee" banners and miss hidden exchange-rate spreads. Credit or debit card purchases are instant but often carry 1.5% to 3.5%+ in processor and FX fees. Bank transfers (such as SEPA, FPS, or local wires) usually offer the lowest fees where supported, though settlement can take longer. P2P/C2C markets often charge no platform fee, so the real cost is the markup baked into the merchant quote.',
+        'Always calculate your effective rate by dividing total fiat paid by total USDT received.'
+      ]
+    },
+    {
+      title: '4 anti-scam rules for choosing a P2P/C2C merchant',
+      bullets: [
+        'Pick verified, high-volume merchants: prioritize merchants with thousands of completed orders and a near-100% completion rate.',
+        'Stay inside platform escrow and chat: never move communication to external apps or release crypto before verifying settled funds.',
+        'Require matching real-name accounts: reject third-party payments from unfamiliar bank or wallet names.',
+        'Keep full payment receipts: avoid sensitive keywords in transfer memos and save proof for dispute resolution.'
+      ]
+    },
+    {
+      title: 'First-time small deposit checklist',
+      checklist: [
+        'Confirm the exchange and payment rail are supported in your region and KYC is complete',
+        'Start with a small test deposit to verify settlement speed and support channels',
+        'Compare effective unit price rather than "0% fee" marketing labels',
+        'Start with simple spot orders after funding instead of jumping into leverage'
+      ]
+    }
+  ],
+  quiz: [
+    ['How can a "0% fee" crypto purchase still cost more than expected?', 'The cost can be hidden inside a wide FX spread or price markup.'],
+    ['What should you do if a P2P counterparty asks to chat off-platform or release early?', 'Refuse immediately and keep all communication and verification inside platform escrow.'],
+    ['Why should you reject third-party P2P payments?', 'They violate real-name matching rules and increase fraud or bank-freeze risk.']
+  ],
+  tool: { label: 'Estimate deposit costs in Spot Calculator', path: 'tools/total-cost-calculator.html' }
+}),
+A('maker-vs-taker-fees-explained', 'trading', 'caution', ['cftcRisk', 'oecd'], {
+  title: '挂单（Maker）与吃单（Taker）手续费区别：新手省手续费实操指南',
+  summary: '用通俗语言讲清挂单（Maker）与吃单（Taker）的撮合原理、费率差异与限价单省钱技巧，帮新手避免高频市价吃单损耗。',
+  readTime: '5 分钟',
+  outcomes: [
+    '一句话分清 Maker 挂单与 Taker 吃单的本质区别',
+    '学会在合适时机使用限价单（Limit Order）降低交易手续费',
+    '掌握下单前检查费率等级、平台币折扣与滑点的自查清单'
+  ],
+  sections: [
+    {
+      title: '一句话看懂 Maker 与 Taker 的区别',
+      paragraphs: [
+        '判断一笔订单是 Maker 还是 Taker，不看订单名字，而看它是否“立刻成交”。当你挂出限价单且没有立刻匹配盘口现有对手单，而是进入订单簿排队等待成交时，你为市场提供了流动性，这就是挂单（Maker）；当你使用市价单或价格直接穿透盘口的限价单立刻成交时，你消耗了市场流动性，这就是吃单（Taker）。',
+        '大多数交易所对 Maker 收取更低甚至显著优惠的手续费，因为挂单能增加订单簿深度。'
+      ]
+    },
+    {
+      title: '何时用限价单省手续费',
+      bullets: [
+        '非极端急迫买卖时：将买入限价设在略低于卖一价、卖出限价设在略高于买一价的位置，耐心等待成交。',
+        '勾选只做 Maker（Post-Only）：如果担心限价单不小心立刻吃单，可开启 Post-Only 选项，确保订单只会以 Maker 身份挂单。',
+        '急需止损或快速成交时不要硬省：剧烈行情下为省千分之一手续费而错过成交，可能带来更大滑点或踏空风险。'
+      ]
+    },
+    {
+      title: '下单前费率自查清单',
+      checklist: [
+        '确认当前账户 VIP 等级与对应现货 Maker/Taker 基准费率',
+        '检查是否开启平台币抵扣或持有手续费返现/折扣券',
+        '在盘口深度较浅的币对上优先使用限价单，避免市价单产生过大滑点',
+        '下单预览时核对预计手续费与实际成交金额是否符合预期'
+      ]
+    }
+  ],
+  quiz: [
+    ['决定一笔订单属于 Maker 还是 Taker 的核心标准是什么？', '订单是否进入订单簿排队等待成交（提供流动性为 Maker，立刻成交消耗流动性为 Taker）。'],
+    ['如何防止限价单意外按 Taker 费率立刻成交？', '把价格挂在盘口未成交区间，或开启“只做 Maker（Post-Only）”选项。'],
+    ['为什么市价单（Market Order）在流动性差的币对上成本尤其高？', '除了通常按较高的 Taker 费率收费外，还容易产生明显的价格滑点。']
+  ],
+  tool: { label: '对比 7 大交易所现货费率与功能', path: 'tools/exchange-comparator.html' }
+}, {
+  title: 'Maker vs Taker Fees Explained: How Beginners Cut Trading Costs',
+  summary: 'Learn how Maker and Taker orders work on an order book, why Maker fees are usually lower, and when to use limit orders to save on trading costs.',
+  readTime: '5 min',
+  outcomes: [
+    'Distinguish Maker orders from Taker orders in one sentence',
+    'Use limit and Post-Only orders to capture lower Maker fee tiers',
+    'Check fee tiers, token discounts, and slippage before placing an order'
+  ],
+  sections: [
+    {
+      title: 'Maker vs Taker in one sentence',
+      paragraphs: [
+        'Whether an order is classified as Maker or Taker depends on whether it fills immediately. When your limit order rests on the order book waiting for a match, you add liquidity and pay the Maker fee. When you place a market order or a limit order that crosses the spread and fills right away, you remove liquidity and pay the Taker fee.',
+        'Most exchanges charge lower fees for Maker orders because resting orders deepen market liquidity.'
+      ]
+    },
+    {
+      title: 'When to use limit orders to save on fees',
+      bullets: [
+        'Routine entries and exits: set a limit buy slightly below the best ask or a limit sell slightly above the best bid.',
+        'Use Post-Only when available: enabling Post-Only prevents your limit order from accidentally filling immediately as a Taker.',
+        'Do not force Maker orders during urgent exits: in fast-moving markets, guaranteed execution can matter more than a small fee difference.'
+      ]
+    },
+    {
+      title: 'Pre-order fee self-check list',
+      checklist: [
+        'Verify your current account tier and spot Maker/Taker rates',
+        'Check whether exchange-token fee discounts or fee vouchers are active',
+        'Prefer limit orders on thin order books to avoid heavy market-order slippage',
+        'Review estimated fees and total cost in the order preview before confirming'
+      ]
+    }
+  ],
+  quiz: [
+    ['What determines whether an order pays the Maker or Taker fee?', 'Whether it rests on the order book to add liquidity (Maker) or fills immediately (Taker).'],
+    ['How can you prevent a limit order from accidentally executing as a Taker order?', 'Place the price away from immediate fill levels or enable the Post-Only option.'],
+    ['Why are market orders especially costly on low-liquidity pairs?', 'They usually pay the higher Taker fee and suffer additional price slippage.']
+  ],
+  tool: { label: 'Compare exchange fees & features', path: 'tools/exchange-comparator.html' }
+})
 ];
 
 export function validateLearningContent(articles = LEARNING_ARTICLES, sources = LEARNING_SOURCES) {
