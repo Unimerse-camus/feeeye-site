@@ -275,7 +275,7 @@
     var minTaker = rows.length ? rows[0].taker : 0;
     var minCount = rows.filter(function(r){return Math.abs(r.taker-minTaker)<0.00001;}).length;
 
-    var html = '<table><thead><tr><th>Exchange</th><th>Maker</th><th>Taker</th><th>Notes</th><th></th></tr></thead><tbody>';
+    var html = '<table><thead><tr><th>Exchange</th><th>Maker</th><th>Taker</th><th></th></tr></thead><tbody>';
     rows.forEach(function(r){
       var bestMark = (minCount===1 && r.taker===minTaker)?' <span class="best">← lowest</span>':"";
       html += '<tr><td><b>'+r.name+'</b></td><td>'+pct(r.maker)+'</td><td>'+pct(r.taker)+bestMark+'</td><td>'+ctaCell(r.slug)+'</td></tr>';
