@@ -1617,12 +1617,16 @@ function countryPage(cc, lang) {
     const cta = ctaHtml(slug, esc(T(lang, 'ctaOpenOn', { x: ex.name })), lang);
     return `<tr><td><b>${ex.name}</b></td><td>${pct(ex.spot.taker)}</td><td>${usd(getFee(slug, 'TRC20'))}</td><td>${cta}</td></tr>`;
   }).join('');
-  const body = `
+ const cmpHref = absPath(lang, cmpPath(lang));
+ const calcHref = absPath(lang, tcPath(lang));
+ const cyUseHtml = esc(T(lang, 'cyUse')).replace(/Fee Calculator|手续费计算器|费率计算器/, (m) => '<a href="' + calcHref + '">' + m + '</a>');
+  const emptyCard = lang === 'zh' ? '<div class="card" style="padding:18px;margin:18px 0"><h3>' + esc(name) + '暂无可展示的合规交易所</h3><p>根据当地监管与合规限制规则（' + esc(info.note || RESTRICTED_LABEL) + '），当前页面不展示具体交易所开户链接或费率表。</p><p><a class="btn" href="' + cmpHref + '">前往交易所 14 维度对比器</a> <a class="btn" href="' + calcHref + '">前往现货成本计算器</a></p></div>' : '<div class="card" style="padding:18px;margin:18px 0"><h3>No locally supported exchanges listed for ' + esc(name) + '</h3><p>Due to local regulatory and compliance restrictions (' + esc(info.note || RESTRICTED_LABEL) + '), no exchange referral links or fee tables are displayed for this region.</p><p><a class="btn" href="' + cmpHref + '">Open 14-Dimension Exchange Comparator</a> <a class="btn" href="' + calcHref + '">Open Spot Cost Calculator</a></p></div>';
+  onst body = `
   <h1>${esc(T(lang, 'cyH1', { n: name }))}</h1>
   <p class="intro">${esc(T(lang, 'cyIntro', { n: name }))}</p>
   <div class="note">${esc(T(lang, 'cyNote', { n: name, r: RESTRICTED_LABEL }))}</div>
-  <div class="scroll"><table><thead><tr><th>${esc(T(lang, 'thExchange'))}</th><th>${esc(T(lang, 'thTaker'))}</th><th>${esc(T(lang, 'thFee20'))}</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>
-  <p class="intro">${esc(T(lang, 'cyUse'))}</p>`;
+  ${avail.length > 0 ? `<div class="scroll"><table><thead><tr><th>${esc(T(lang, 'thExchange'))}</th><th>${esc(T(lang, 'thTaker'))}</th><th>${esc(T(lang, 'thFee20'))}</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>` : emptyCard}
+  <p class="intro">${cyUseHtml}</p>`;
   return page({ lang, title: T(lang, 'cyTitle', { n: name }), desc: T(lang, 'cyDesc', { n: name }), body, depth: lang === 'zh' ? 2 : 1, path: `${lang === 'zh' ? 'zh/' : ''}${cc.toLowerCase()}/exchanges.html`, affiliate: false, noDisc: true, noIndex: !!info.restricted });
 }
 
@@ -1806,7 +1810,7 @@ function indexPage(lang) {
     <div class="card"><a class="card-title" href="${p(pfPath(lang))}"><span class="ic">${ICON.wallet}</span><b>${esc(T(lang, 'idxPfT'))}</b></a><p>${esc(T(lang, 'idxPfB'))}</p><a class="card-cta" href="${p(pfPath(lang))}">${esc(T(lang, 'idxPfC'))}</a></div>
     <div class="card"><a class="card-title" href="${p(secPath(lang))}"><span class="ic">${ICON.shield}</span><b>${esc(T(lang, 'idxSecT'))}</b></a><p>${esc(T(lang, 'idxSecB'))}</p><a class="card-cta" href="${p(secPath(lang))}">${esc(T(lang, 'idxSecC'))}</a></div>
     <div class="card"><a class="card-title" href="${p(futPath(lang))}"><span class="ic">${ICON.trend}</span><b>${esc(T(lang, 'idxFutT'))}</b></a><p>${esc(T(lang, 'idxFutB'))}</p><a class="card-cta" href="${p(futPath(lang))}">${esc(T(lang, 'idxFutC'))}</a></div>
-  </div><section class="home-explore"><div class="home-explore-card"><h3>${lang==='zh'?'热门交易所对比':'Popular Exchange Comparisons'}</h3><div class="home-explore-links"><a href="${p('compare/binance-vs-okx.html')}">Binance vs OKX</a><a href="${p('compare/bybit-vs-okx.html')}">Bybit vs OKX</a><a href="${p('compare/bitget-vs-bybit.html')}">Bitget vs Bybit</a><a href="${p('compare/coinbase-vs-kraken.html')}">Coinbase vs Kraken</a></div></div><div class="home-explore-card"><h3>${lang==='zh'?'热门地区交易所':'Exchanges by Region'}</h3><div class="home-explore-links">${Object.keys(CA).slice(0,6).map(cc=>`<a href="${p(cc.toLowerCase()+'/exchanges.html')}">${esc((COUNTRY_NAMES[cc]&&(COUNTRY_NAMES[cc][lang]||COUNTRY_NAMES[cc].en))||cc)}</a>`).join('')}</div></div><div class="home-explore-card"><h3>${lang==='zh'?'币种费率与提币目录':'Coins & Networks'}</h3><div class="home-explore-links"><a href="${p('coins.html')}">${lang==='zh'?`全部 ${COIN_LIST.length}+ 币种目录`:`All ${COIN_LIST.length}+ Coins Directory`}</a></div></div></section>
+  </div><section class="home-explore"><div class="home-explore-card"><h3>${lang==='zh'?'热门交易所对比':'Popular Exchange Comparisons'}</h3><div class="home-explore-links"><a href="${p('compare/binance-vs-okx.html')}">Binance vs OKX</a><a href="${p('compare/bybit-vs-okx.html')}">Bybit vs OKX</a><a href="${p('compare/bitget-vs-bybit.html')}">Bitget vs Bybit</a><a href="${p('compare/coinbase-vs-kraken.html')}">Coinbase vs Kraken</a></div></div><div class="home-explore-card"><h3>${lang==='zh'?'热门地区交易所':'Exchanges by Region'}</h3><div class="home-explore-links">${Object.keys(CA).filter((cc)=>Object.keys(EX).some((s)=>CA[cc].exchanges&&CA[cc].exchanges[s])).slice(0,6).map(cc=>`<a href="${p(cc.toLowerCase()+'/exchanges.html')}">${esc((COUNTRY_NAMES[cc]&&(COUNTRY_NAMES[cc][lang]||COUNTRY_NAMES[cc].en))||cc)}</a>`).join('')}</div></div><div class="home-explore-card"><h3>${lang==='zh'?'币种费率与提币目录':'Coins & Networks'}</h3><div class="home-explore-links"><a href="${p('coins.html')}">${lang==='zh'?`全部 ${COIN_LIST.length}+ 币种目录`:`All ${COIN_LIST.length}+ Coins Directory`}</a></div></div></section>
   <script>
   (function(){
     var SEARCH = ${JSON.stringify(searchMap)};
