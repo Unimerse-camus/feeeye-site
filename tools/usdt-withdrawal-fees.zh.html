@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>USDT 跨链提币费率速查器 — 7 家交易所 × 8 条主流网络对比 | FeeEye</title>
+<meta name="description" content="一键对比 7 家主流交易所与 8 条热门链（SOL、Arbitrum、Base、Optimism、Polygon、BSC、TRC20、ERC20）的 USDT 提币手续费，快速找到最省钱路线与相比 ERC20 可省金额。">
+<link rel="stylesheet" href="/assets/responsive.css">
+<script defer src="/assets/learning-nav.js"></script>
+<script defer src="/assets/analytics.js"></script>
+<style>
+:root{
+  --bg:#f7f8fa;--card:#fff;--ink:#1c2430;--sub:#5b6776;--line:#e4e8ee;
+  --brand:#2563eb;--brand2:#0ea5a4;--ok:#0f9d58;--okbg:#ecfdf5;--warn:#b45309;--warnbg:#fffbeb;--bad:#dc2626;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,"PingFang SC","Microsoft YaHei",system-ui,-apple-system,sans-serif;line-height:1.6}
+a{color:var(--brand);text-decoration:none}
+a:hover{text-decoration:underline}
+header{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}
+.topbar{max-width:1180px;margin:0 auto;padding:12px 18px;display:flex;align-items:center;gap:14px;justify-content:space-between;flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:8px;font-weight:800;color:var(--ink);font-size:17px}
+.nav{display:flex;gap:14px;flex-wrap:wrap;font-size:13.5px}
+.nav a{color:var(--sub);padding:4px 6px;border-radius:6px}
+.nav a.active,.nav a:hover{color:var(--ink);background:#f1f5f9;text-decoration:none}
+.lang{font-size:13px;padding:5px 10px;border:1px solid var(--line);border-radius:8px;color:var(--ink);background:#fff}
+.wrap{max-width:1180px;margin:0 auto;padding:24px 18px 40px}
+.hero{margin-bottom:18px}
+.hero h1{margin:0 0 8px;font-size:28px;line-height:1.25}
+.hero p{margin:0;color:var(--sub);font-size:15px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:18px;box-shadow:0 1px 2px rgba(16,24,40,.03)}
+.filter-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+.filter-title{font-size:14px;font-weight:700;color:var(--ink)}
+.best-pill{font-size:12.5px;background:var(--okbg);color:var(--ok);border:1px solid #a7f3d0;padding:4px 10px;border-radius:999px;font-weight:600}
+.net-tabs{display:flex;gap:8px;flex-wrap:wrap}
+.net-btn{border:1px solid var(--line);background:#fff;color:var(--ink);padding:8px 13px;border-radius:9px;font-size:13.5px;font-weight:600;cursor:pointer;transition:.15s}
+.net-btn:hover{border-color:#cbd5e1;background:#f8fafc}
+.net-btn.active{background:var(--brand);color:#fff;border-color:var(--brand)}
+.tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;font-size:13.5px;min-width:740px}
+th,td{padding:11px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:middle}
+th{font-size:12.5px;color:var(--sub);font-weight:700;background:#fafbfc;white-space:nowrap}
+td.num,th.num{text-align:right}
+.ex-name{font-weight:700;color:var(--ink);display:flex;align-items:center;gap:8px}
+.ex-sub{font-size:12px;color:var(--sub);font-weight:400}
+.cell-best{background:var(--okbg);color:var(--ok);font-weight:800;border-radius:6px}
+.badge{display:inline-block;font-size:11px;padding:2px 6px;border-radius:999px;font-weight:700;margin-left:5px;vertical-align:middle}
+.b-low{background:#d1fae5;color:#065f46}
+.b-dyn{background:var(--warnbg);color:var(--warn)}
+.b-na{color:#94a3b8}
+.rank-list{display:grid;gap:10px}
+.rank-row{display:grid;grid-template-columns:40px 1.3fr 1fr 1.2fr auto;gap:12px;align-items:center;padding:13px 14px;border:1px solid var(--line);border-radius:12px;background:#fff}
+.rank-num{width:30px;height:30px;border-radius:50%;background:#f1f5f9;color:var(--ink);font-weight:800;display:flex;align-items:center;justify-content:center;font-size:13px}
+.rank-row.top1{border-color:#86efac;background:#f0fdf4}
+.rank-row.top1 .rank-num{background:var(--ok);color:#fff}
+.fee-val{font-size:16px;font-weight:800}
+.save-val{font-size:13px;font-weight:600;color:var(--ok)}
+.save-na{font-size:12.5px;color:var(--sub)}
+.cta-btn{display:inline-block;padding:8px 14px;border-radius:8px;background:var(--brand);color:#fff;font-size:13px;font-weight:600;white-space:nowrap}
+.cta-btn:hover{background:#1d4ed8;text-decoration:none}
+.tips-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin-top:12px}
+.tip-box{border:1px solid var(--line);border-radius:10px;padding:14px;background:#fafbfc}
+.tip-box h3{margin:0 0 6px;font-size:14.5px}
+.tip-box p{margin:0;font-size:13px;color:var(--sub)}
+.next-cta{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;background:#eff6ff;border:1px solid #bfdbfe;border-radius:12px;padding:16px;margin-top:16px}
+.next-cta strong{display:block;font-size:15px;margin-bottom:2px}
+.next-cta span{font-size:13px;color:var(--sub)}
+.foot{max-width:1180px;margin:0 auto;padding:18px;border-top:1px solid var(--line);font-size:13px;color:var(--sub);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.foot a{color:var(--sub)}
+@media(max-width:720px){
+  .rank-row{grid-template-columns:32px 1fr;gap:8px}
+  .rank-row .cta-btn{grid-column:1/-1;text-align:center}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="topbar">
+    <a class="logo" href="/zh/" aria-label="FeeEye 首页">
+      <img src="/assets/logo.svg?v=2" alt="FeeEye" width="26" height="26">
+      <span>FeeEye</span>
+    </a>
+    <nav class="nav" id="toolNav">
+      <a href="/zh/tools/exchange-comparator.html">交易所对比</a>
+      <a href="/zh/tools/total-cost-calculator.html">总成本计算器</a>
+      <a href="/zh/tools/usdt-withdrawal-fees.html" class="active">USDT 提币费率</a>
+      <a href="/zh/tools/token-security-checker.html">代币安全检测</a>
+      <a href="/zh/tools/portfolio-tracker.html">持仓追踪</a>
+    </nav>
+    <a class="lang" href="/tools/usdt-withdrawal-fees.html">English</a>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="hero">
+    <h1>USDT 跨链提币费率速查器</h1>
+    <p>实时对比 7 家主流交易所与 8 条热门网络的 USDT 提币手续费，一键筛选最省钱跨链路线，避开高昂的 ERC20 Gas 费用。</p>
+  </section>
+
+  <section class="card">
+    <div class="filter-head">
+      <span class="filter-title">按网络筛选 / 最省路线推荐</span>
+      <span class="best-pill" id="bestRoutePill">正在扫描全网最低费率...</span>
+    </div>
+    <div class="net-tabs" id="netTabs">
+      <button type="button" class="net-btn active" data-net="ALL">全部网络（对比矩阵）</button>
+      <button type="button" class="net-btn" data-net="SOL">SOL</button>
+      <button type="button" class="net-btn" data-net="Arbitrum">Arbitrum</button>
+      <button type="button" class="net-btn" data-net="Base">Base</button>
+      <button type="button" class="net-btn" data-net="Optimism">Optimism</button>
+      <button type="button" class="net-btn" data-net="Polygon">Polygon</button>
+      <button type="button" class="net-btn" data-net="BSC">BSC</button>
+      <button type="button" class="net-btn" data-net="TRC20">TRC20</button>
+      <button type="button" class="net-btn" data-net="ERC20">ERC20</button>
+    </div>
+  </section>
+
+  <section class="card" id="resultCard">
+    <div id="resultContainer">正在加载交易所提币费率数据...</div>
+  </section>
+
+  <section class="card">
+    <h2 style="margin:0 0 6px;font-size:18px">新手提币防踩坑指南</h2>
+    <p style="margin:0;color:var(--sub);font-size:13.5px">点击确认提币前，请务必核对以下三条核心规则：</p>
+    <div class="tips-grid">
+      <div class="tip-box">
+        <h3>1. 提币网络必须与接收端完全一致</h3>
+        <p>您在提币页面选择的网络（如 Arbitrum、Base、TRC20 或 SOL）必须与对方钱包或交易所的充值网络 100% 一致，选错网络可能导致资产无法找回。</p>
+      </div>
+      <div class="tip-box">
+        <h3>2. 大额转账前先做小额测试</h3>
+        <p>首次向新地址或新平台转账时，建议先转一笔最小额度（如 5–10 USDT）测试，确认顺利到账后再转入剩余资金。</p>
+      </div>
+      <div class="tip-box">
+        <h3>3. 为什么尽量避开高 Gas 的 ERC20</h3>
+        <p>以太坊主网（ERC20）手续费随链上拥堵动态浮动，常见高达 5–15+ USDT。只要接收方支持 Arbitrum、Optimism、Base、Polygon 等二层网络或 SOL/BSC，通常可省下 90% 以上手续费。</p>
+      </div>
+    </div>
+    <div class="next-cta">
+      <div>
+        <strong>想把交易手续费、滑点与提币费一起算清楚？</strong>
+        <span>前往全链路总成本计算器，一次性估算买入、成交与提现的综合成本。</span>
+      </div>
+      <a class="cta-btn" href="/zh/tools/total-cost-calculator.html">前往总成本计算器 →</a>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div>© FeeEye · 费率快照仅供参考，实际提币请以交易所提现页面实时显示为准。</div>
+  <div>
+    <a href="/zh/">首页</a> ·
+    <a href="/zh/about.html">关于我们</a> ·
+    <a href="/zh/privacy.html">隐私政策</a> ·
+    <a href="/zh/terms.html">使用条款</a> ·
+    <a href="/zh/disclosure.html">合作披露</a>
+  </div>
+</footer>
+
+<script src="../data/exchanges.js"></script>
+<script>
+(function () {
+  var EX_ORDER = ['binance', 'okx', 'kucoin', 'bybit', 'bitget', 'kraken', 'coinbase'];
+  var NETWORKS = ['SOL', 'Arbitrum', 'Base', 'Optimism', 'Polygon', 'BSC', 'TRC20', 'ERC20'];
+  var activeNet = 'ALL';
+
+  function getExchanges() {
+    var src = window.EXCHANGES || {};
+    var list = [];
+    for (var i = 0; i < EX_ORDER.length; i++) {
+      var k = EX_ORDER[i];
+      if (src[k]) list.push(src[k]);
+    }
+    return list;
+  }
+
+  function isSupported(ex, net) {
+    var hasNet = Array.isArray(ex.supported_networks) && ex.supported_networks.indexOf(net) !== -1;
+    var hasFee = ex.withdrawal_fees && Object.prototype.hasOwnProperty.call(ex.withdrawal_fees, net);
+    return hasNet || hasFee;
+  }
+
+  function getFeeInfo(ex, net) {
+    if (!isSupported(ex, net)) {
+      return { supported: false, amount: null, dynamic: false, unknown: false };
+    }
+    var obj = ex.withdrawal_fees && ex.withdrawal_fees[net];
+    if (!obj) {
+      return { supported: true, amount: null, dynamic: false, unknown: true };
+    }
+    var amt = (typeof obj.amount === 'number' && !isNaN(obj.amount)) ? obj.amount : null;
+    var model = String(obj.model || '').toLowerCase();
+    var isDyn = model.indexOf('dynamic') !== -1 || model.indexOf('variable') !== -1;
+    var isUnk = amt === null;
+    return { supported: true, amount: amt, dynamic: isDyn, unknown: isUnk };
+  }
+
+  function fmtAmt(n) {
+    if (n === null || typeof n !== 'number' || isNaN(n)) return '—';
+    return (n % 1 === 0 ? n.toFixed(2) : Number(n.toFixed(4)).toString()) + ' USDT';
+  }
+
+  function findGlobalMin(exList) {
+    var min = Infinity;
+    var routes = [];
+    for (var i = 0; i < exList.length; i++) {
+      for (var j = 0; j < NETWORKS.length; j++) {
+        var info = getFeeInfo(exList[i], NETWORKS[j]);
+        if (info.supported && info.amount !== null) {
+          if (info.amount < min) {
+            min = info.amount;
+            routes = [exList[i].name + ' (' + NETWORKS[j] + ')'];
+          } else if (info.amount === min) {
+            routes.push(exList[i].name + ' (' + NETWORKS[j] + ')');
+          }
+        }
+      }
+    }
+    return { min: min === Infinity ? null : min, routes: routes };
+  }
+
+  function renderMatrix(exList, globalMin) {
+    var html = '<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:12px">' +
+      '<h2 style="margin:0;font-size:17px">7 家交易所 × 8 条主流网络 USDT 提币费率矩阵</h2>' +
+      '<span style="font-size:12.5px;color:var(--sub)">绿色 = 全表最低费率 · 琥珀色 = 动态 Gas / 未知费率</span></div>';
+    html += '<div class="tbl-wrap"><table><thead><tr><th>交易所</th>';
+    for (var n = 0; n < NETWORKS.length; n++) {
+      html += '<th class="num">' + NETWORKS[n] + '</th>';
+    }
+    html += '</tr></thead><tbody>';
+
+    for (var i = 0; i < exList.length; i++) {
+      var ex = exList[i];
+      var link = ex.affiliate_link || ex.official_url || '#';
+      html += '<tr><td><div class="ex-name"><a href="' + link + '" target="_blank" rel="noopener noreferrer">' + ex.name + '</a></div></td>';
+      for (var j = 0; j < NETWORKS.length; j++) {
+        var net = NETWORKS[j];
+        var info = getFeeInfo(ex, net);
+        if (!info.supported) {
+          html += '<td class="num"><span class="b-na">—</span></td>';
+        } else if (info.amount === null) {
+          html += '<td class="num"><span class="badge b-dyn">' + (info.dynamic ? '动态' : '未知') + '</span></td>';
+        } else {
+          var isLowest = globalMin.min !== null && info.amount === globalMin.min;
+          var cls = isLowest ? 'num cell-best' : 'num';
+          var badges = '';
+          if (isLowest) badges += '<span class="badge b-low">最低</span>';
+          if (info.dynamic) badges += '<span class="badge b-dyn">动态</span>';
+          html += '<td class="' + cls + '">' + fmtAmt(info.amount) + badges + '</td>';
+        }
+      }
+      html += '</tr>';
+    }
+    html += '</tbody></table></div>';
+    return html;
+  }
+
+  function renderSingleNetwork(exList, net) {
+    var rows = [];
+    for (var i = 0; i < exList.length; i++) {
+      var ex = exList[i];
+      var info = getFeeInfo(ex, net);
+      if (!info.supported) continue;
+      var erc = getFeeInfo(ex, 'ERC20');
+      rows.push({ ex: ex, info: info, erc: erc });
+    }
+
+    rows.sort(function (a, b) {
+      var aVal = a.info.amount !== null ? a.info.amount : Infinity;
+      var bVal = b.info.amount !== null ? b.info.amount : Infinity;
+      return aVal - bVal;
+    });
+
+    var html = '<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:12px">' +
+      '<h2 style="margin:0;font-size:17px">' + net + ' 提币费率排行榜（支持 ' + rows.length + ' 家交易所）</h2>' +
+      '<span style="font-size:12.5px;color:var(--sub)">按该网络提币手续费从低到高排序</span></div>';
+
+    if (!rows.length) {
+      return html + '<p style="color:var(--sub)">当前暂无收录支持 ' + net + ' 网络的交易所。</p>';
+    }
+
+    html += '<div class="rank-list">';
+    for (var r = 0; r < rows.length; r++) {
+      var item = rows[r];
+      var ex = item.ex;
+      var info = item.info;
+      var erc = item.erc;
+      var isTop = r === 0 && info.amount !== null;
+      var link = ex.affiliate_link || ex.official_url || '#';
+
+      var feeText = info.amount !== null ? fmtAmt(info.amount) : (info.dynamic ? '动态 Gas' : '以官网为准');
+      var dynBadge = info.dynamic && info.amount !== null ? '<span class="badge b-dyn">动态</span>' : '';
+
+      var saveHtml = '<span class="save-na">暂无 ERC20 参考值</span>';
+      if (net === 'ERC20') {
+        saveHtml = '<span class="save-na">以太坊主网基准费率</span>';
+      } else if (info.amount !== null && erc.supported && erc.amount !== null) {
+        var diff = erc.amount - info.amount;
+        if (diff > 0) {
+          saveHtml = '<span class="save-val">相比 ERC20 可省 ' + fmtAmt(diff) + '（ERC20 约 ' + fmtAmt(erc.amount) + '）</span>';
+        } else {
+          saveHtml = '<span class="save-na">与 ERC20 持平或更高</span>';
+        }
+      }
+
+      html += '<div class="rank-row' + (isTop ? ' top1' : '') + '">' +
+        '<div class="rank-num">' + (r + 1) + '</div>' +
+        '<div><div class="ex-name">' + ex.name + (isTop ? '<span class="badge b-low">最省</span>' : '') + '</div><div class="ex-sub">提币网络：' + net + '</div></div>' +
+        '<div class="fee-val">' + feeText + dynBadge + '</div>' +
+        '<div>' + saveHtml + '</div>' +
+        '<a class="cta-btn" href="' + link + '" target="_blank" rel="noopener noreferrer">开户 / 核对费率 →</a>' +
+        '</div>';
+    }
+    html += '</div>';
+    return html;
+  }
+
+  function render() {
+    var exList = getExchanges();
+    var globalMin = findGlobalMin(exList);
+    var pill = document.getElementById('bestRoutePill');
+    if (globalMin.min !== null) {
+      pill.textContent = '全网最低：' + fmtAmt(globalMin.min) + ' · ' + globalMin.routes.slice(0, 2).join('、');
+    } else {
+      pill.textContent = '费率快照已加载';
+    }
+    var container = document.getElementById('resultContainer');
+    container.innerHTML = activeNet === 'ALL'
+      ? renderMatrix(exList, globalMin)
+      : renderSingleNetwork(exList, activeNet);
+  }
+
+  document.getElementById('netTabs').addEventListener('click', function (e) {
+    var btn = e.target.closest('.net-btn');
+    if (!btn) return;
+    activeNet = btn.getAttribute('data-net');
+    var all = document.querySelectorAll('#netTabs .net-btn');
+    for (var i = 0; i < all.length; i++) {
+      all[i].classList.toggle('active', all[i] === btn);
+    }
+    render();
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>
