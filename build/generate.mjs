@@ -1621,7 +1621,7 @@ function countryPage(cc, lang) {
  const calcHref = absPath(lang, tcPath(lang));
  const cyUseHtml = esc(T(lang, 'cyUse')).replace(/Fee Calculator|手续费计算器|费率计算器/, (m) => '<a href="' + calcHref + '">' + m + '</a>');
   const emptyCard = lang === 'zh' ? '<div class="card" style="padding:18px;margin:18px 0"><h3>' + esc(name) + '暂无可展示的合规交易所</h3><p>根据当地监管与合规限制规则（' + esc(info.note || RESTRICTED_LABEL) + '），当前页面不展示具体交易所开户链接或费率表。</p><p><a class="btn" href="' + cmpHref + '">前往交易所 14 维度对比器</a> <a class="btn" href="' + calcHref + '">前往现货成本计算器</a></p></div>' : '<div class="card" style="padding:18px;margin:18px 0"><h3>No locally supported exchanges listed for ' + esc(name) + '</h3><p>Due to local regulatory and compliance restrictions (' + esc(info.note || RESTRICTED_LABEL) + '), no exchange referral links or fee tables are displayed for this region.</p><p><a class="btn" href="' + cmpHref + '">Open 14-Dimension Exchange Comparator</a> <a class="btn" href="' + calcHref + '">Open Spot Cost Calculator</a></p></div>';
-  onst body = `
+  const body = `
   <h1>${esc(T(lang, 'cyH1', { n: name }))}</h1>
   <p class="intro">${esc(T(lang, 'cyIntro', { n: name }))}</p>
   <div class="note">${esc(T(lang, 'cyNote', { n: name, r: RESTRICTED_LABEL }))}</div>
