@@ -147,7 +147,7 @@ td.num,th.num{text-align:right}
 </main>
 
 <footer class="foot">
-  <div>© FeeEye · Snapshot fee data is for reference; always verify final withdrawal fees on the exchange screen.</div>
+  <div>© FeeEye · Snapshot fee data is for reference; always verify final withdrawal fees on the exchange screen. Data snapshot <span id="upd"></span>.</div>
   <div>
     <a href="/">Home</a> ·
     <a href="/about.html">About</a> ·
@@ -338,7 +338,7 @@ td.num,th.num{text-align:right}
     for (var i = 0; i < all.length; i++) {
       all[i].classList.toggle('active', all[i] === btn);
     }
-    render();
+    var updEl = document.getElementById('upd'); if (updEl && window.EXCHANGES && window.EXCHANGES.kucoin && window.EXCHANGES.kucoin.last_updated) updEl.textContent = window.EXCHANGES.kucoin.last_updated; render();
   });
 
   render();
