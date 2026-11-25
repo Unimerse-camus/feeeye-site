@@ -83,7 +83,7 @@ window.GLOSSARY = [
     zh: { term: "基础档费率", def: "平台向不满足更高等级条件的用户公布的起始交易费率。真实总成本还可能包括价差、滑点、入金费、提币费、Gas 和税费。", ex: "即使两家平台显示相同基础费率，较宽价差或固定提币费也可能让小额交易成本不同。" },
     en: { term: "Base-tier fee", def: "The starting trading rate published for users who do not qualify for higher tiers. Total cost may also include spread, slippage, deposit charges, withdrawal fees, gas, and taxes.", ex: "Two platforms with the same base rate can still produce different small-trade costs because of spread or fixed withdrawal fees." } },
   { key: "p2p", cat: "trading", risk_level: "high", source: ["cftc_fraud"],
-    zh: { term: "P2P 交易", def: "用户之间直接协商付款、平台可能提供托管或争议处理的交易方式。保障范围因平台和地区而异，并存在假付款凭证、第三方付款、账户冻结和身份诈骗风险。", ex: "确认收到不可撤销的真实付款前，不应仅凭截图或聊天承诺释放资产。" },
+    zh: { term: "P2P / C2C 交易", def: "用户之间直接协商付款、平台可能提供托管或争议处理的交易方式。保障范围因平台和地区而异，并存在假付款凭证、第三方付款、账户冻结和身份诈骗风险。", ex: "确认收到不可撤销的真实付款前，不应仅凭截图或聊天承诺释放资产。" },
     en: { term: "P2P trading", def: "A transaction where users arrange payment directly and a platform may provide escrow or dispute handling. Protection varies; risks include fake receipts, third-party payments, frozen accounts, and identity fraud.", ex: "Do not release assets based only on a screenshot or chat promise before confirming final receipt of funds." } },
   { key: "otc", cat: "trading", risk_level: "caution", source: ["cftc_risk"],
     zh: { term: "OTC（场外交易）", def: "在公开订单簿之外，由双方或经纪柜台协商价格和结算条件的交易。它可能减少公开市场冲击，但不会消除价格、结算、对手方或合规风险。", ex: "大额交易询价时，仍需核对报价有效期、费用、结算资产和交易对手身份。" },
@@ -91,6 +91,10 @@ window.GLOSSARY = [
   { key: "amm", cat: "trading", risk_level: "caution", source: ["uniswap_v2"],
     zh: { term: "AMM（自动做市商）", def: "用资金池和算法报价的链上交易机制。恒定乘积 x×y=k 是常见模型之一，但不同 AMM 的曲线、费用和集中流动性规则并不相同。", ex: "兑换金额相对资金池越大，AMM 报价受到的价格影响通常越明显。" },
     en: { term: "AMM (Automated Market Maker)", def: "An on-chain trading mechanism that prices assets using liquidity pools and algorithms. Constant product x×y=k is one model; curves, fees, and concentrated-liquidity rules vary.", ex: "A swap that is large relative to the pool will usually create more price impact." } },
+
+  { key: "spread", cat: "trading", risk_level: "caution", source: ["cftc_risk", "oecd_literacy"],
+    zh: { term: "买卖价差 Spread", def: "同一市场中最低卖价（Ask）与最高买价（Bid）之间的差额，代表即时成交的隐性交易成本。流动性越低或行情波动越大时，价差往往越宽。", ex: "即使平台标注零手续费，较宽的买卖价差仍会提高实际买入或卖出成本。" },
+    en: { term: "Bid-Ask Spread", def: "The difference between the lowest ask price and the highest bid price in a market, representing an implicit cost of immediate execution. Spreads tend to widen when liquidity is thin or volatility rises.", ex: "Even on a zero-fee venue, a wide bid-ask spread increases the effective cost of entering or exiting a position." } },
 
   // DeFi
   { key: "yield-farming", cat: "defi", risk_level: "high", source: ["cftc_risk"],
@@ -114,6 +118,10 @@ window.GLOSSARY = [
   { key: "gas-fee", cat: "defi", risk_level: "caution", source: ["ethereum_glossary"],
     zh: { term: "Gas Fee（网络手续费）", def: "用户为链上计算和数据占用支付的网络费用，通常用该网络的原生资产结算。费用随交易复杂度、网络拥堵和费用市场变化。", ex: "钱包显示的 Gas 报价会变化；兑换代币前还需保留足够原生资产支付后续交易费。" },
     en: { term: "Gas fee", def: "A network fee paid for on-chain computation and data, usually in the network's native asset. Cost changes with transaction complexity, congestion, and the fee market.", ex: "Wallet gas quotes can change; keep enough native asset for later transactions before swapping tokens." } },
+
+  { key: "usdt-vs-usdc", cat: "defi", risk_level: "high", source: ["cftc_risk", "oecd_literacy"],
+    zh: { term: "USDT vs USDC", def: "两种常见美元稳定币，均旨在锚定 1 美元，但在发行方、储备披露频率、合规框架与支持网络上存在差异。两者都存在发行人、托管、冻结与脱锚风险。", ex: "转账或交易前需同时核对币种名称与所选网络，不同网络上的 USDT 或 USDC 不能混用地址直接互转。" },
+    en: { term: "USDT vs USDC", def: "Two widely used USD-pegged stablecoins that differ in issuer structure, reserve attestation practices, regulatory posture, and supported blockchains. Both carry issuer, custody, freeze, and depeg risks.", ex: "Before transferring or trading, verify both the token and the selected network, as USDT or USDC on different chains cannot be sent across incompatible addresses." } },
 
   // NFT
   { key: "nft", cat: "nft", risk_level: "caution", source: ["ethereum_glossary"],
@@ -143,6 +151,10 @@ window.GLOSSARY = [
     zh: { term: "钱包地址", def: "用于接收资产或识别链上账户的公开标识。地址可公开，但交易记录通常可被追踪；发送前还必须核对网络、完整地址和必要的 Memo/Tag。", ex: "不要只核对首尾几位；地址投毒可能创建外观相似的地址出现在交易历史中。" },
     en: { term: "Wallet address", def: "A public identifier used to receive assets or identify an on-chain account. It can be shared, but transaction history is usually traceable; verify the network, full address, and any required memo or tag.", ex: "Do not check only the first and last characters; address poisoning can place lookalike addresses in transaction history." } },
 
+  { key: "memo-tag", cat: "wallet", risk_level: "high", source: ["ethereum_wallets", "ethereum_security"],
+    zh: { term: "Memo / Tag（转账标签）", def: "部分区块链（如 XRP、XLM、TON、EOS 等）向交易所共享充值地址入账时用于区分具体用户账户的附加数字或字符标识。漏填或填错可能导致资金无法自动入账。", ex: "向交易所充值需要填写 Memo 或 Tag 的币种时，必须同时复制地址和标签，建议先小额测试。" },
+    en: { term: "Memo / Tag", def: "An extra numeric or text identifier required alongside a shared deposit address on certain networks (such as XRP, XLM, TON, or EOS) to credit funds to the correct exchange account. Omitting or mistyping it can prevent automatic crediting.", ex: "When depositing a token that requires a Memo or Tag to an exchange, copy both the address and the tag and consider sending a small test transfer first." } },
+
   // Security
   { key: "2fa", cat: "security", risk_level: "caution", source: ["investor_accounts"],
     zh: { term: "2FA（双因素认证）", def: "登录时要求来自两类不同因素的证明，例如密码加验证器或硬件安全密钥。短信验证码可能受到 SIM 换卡和号码劫持影响；任何 2FA 都不能替代防钓鱼检查。", ex: "优先使用平台支持的验证器、Passkey 或硬件安全密钥，并安全保存恢复码。" },
@@ -170,6 +182,10 @@ window.GLOSSARY = [
   { key: "block-time", cat: "chain", risk_level: "standard", source: ["ethereum_glossary", "bitcoin_basics"],
     zh: { term: "出块时间", def: "网络产生新区块的时间间隔。公开数字通常是目标值或长期平均值，不是每笔交易的到账保证；最终确认还取决于费用、网络状态和应用要求。", ex: "平均十分钟出块不代表每个区块都会恰好间隔十分钟出现。" },
     en: { term: "Block time", def: "The interval between new blocks. Published figures are usually targets or long-run averages, not delivery guarantees; confirmation also depends on fees, network conditions, and application requirements.", ex: "A ten-minute average does not mean every block arrives exactly ten minutes after the last." } },
+
+  { key: "transfer-networks", cat: "chain", risk_level: "high", source: ["ethereum_glossary", "ethereum_security"],
+    zh: { term: "TRC20 / ERC20 / SOL 等提币网络", def: "同一代币在不同区块链或代币标准上的转账通道，例如 TRC20（Tron）、ERC20（Ethereum）和 SPL（Solana）。不同网络的手续费、确认速度与地址格式不同，充提两端网络必须一致。", ex: "提币时若接收方只支持 ERC20 而误选其他网络，资产可能无法找回或需支付高额人工处理费。" },
+    en: { term: "Transfer Networks (TRC20 / ERC20 / SOL)", def: "Different blockchains or token standards used to move the same asset, such as TRC20 (Tron), ERC20 (Ethereum), and SPL (Solana). Fees, confirmation times, and address formats vary by network, and the sending and receiving networks must match.", ex: "Selecting an unsupported network when withdrawing to an address that only accepts ERC20 can result in lost funds or costly manual recovery." } },
 
   // Common language
   { key: "hodl", cat: "common", risk_level: "caution", source: ["cftc_risk"],
