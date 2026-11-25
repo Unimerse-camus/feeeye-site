@@ -1,0 +1,86 @@
+name: x-auto-schedule
+
+on:
+  schedule:
+    - cron: '0 12 * * 1,3,5'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Dry run without posting to X'
+        required: false
+        type: boolean
+        default: true
+      post_id:
+        description: 'Optional post_id to publish'
+        required: false
+        type: string
+        default: ''
+
+permissions:
+  contents: write
+
+concurrency:
+  group: x-receipt-ledger
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: source
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v7
+        with:
+          ref: main
+          path: source
+
+      - name: Checkout receipt ledger
+        uses: actions/checkout@v7
+        with:
+          ref: automation-receipts
+          path: receipt-ledger
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+
+      - name: Dry-run X evergreen auto-publish
+        if: ${{ vars.FEEEYE_X_PUBLISH != 'enabled' || (github.event_name == 'workflow_dispatch' && inputs.dry_run != false) }}
+        env:
+          POST_ID: ${{ inputs.post_id }}
+        run: |
+          ARGS=(--queue ops/content/x-evergreen-queue.json --ledger-dir ../receipt-ledger/x)
+          if [ -n "$POST_ID" ]; then
+            ARGS+=(--post-id "$POST_ID")
+          fi
+          node build/ops/x_auto_publish.mjs "${ARGS[@]}"
+
+      - name: Execute X evergreen auto-publish
+        if: ${{ vars.FEEEYE_X_PUBLISH == 'enabled' && (github.event_name == 'schedule' || inputs.dry_run == false) }}
+        env:
+          FEEEYE_X_CONSUMER_KEY: ${{ secrets.FEEEYE_X_CONSUMER_KEY }}
+          FEEEYE_X_CONSUMER_SECRET: ${{ secrets.FEEEYE_X_CONSUMER_SECRET }}
+          FEEEYE_X_ACCESS_TOKEN: ${{ secrets.FEEEYE_X_ACCESS_TOKEN }}
+          FEEEYE_X_ACCESS_TOKEN_SECRET: ${{ secrets.FEEEYE_X_ACCESS_TOKEN_SECRET }}
+          POST_ID: ${{ inputs.post_id }}
+        run: |
+          ARGS=(--queue ops/content/x-evergreen-queue.json --ledger-dir ../receipt-ledger/x --execute)
+          if [ -n "$POST_ID" ]; then
+            ARGS+=(--post-id "$POST_ID")
+          fi
+          node build/ops/x_auto_publish.mjs "${ARGS[@]}"
+
+      - name: Commit and push receipt ledger
+        if: ${{ vars.FEEEYE_X_PUBLISH == 'enabled' && (github.event_name == 'schedule' || inputs.dry_run == false) }}
+        working-directory: receipt-ledger
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            git config user.name feeeye-automation
+            git config user.email 272079875+Unimerse-camus@users.noreply.github.com
+            git add x
+            git commit -m "record X evergreen receipt $GITHUB_RUN_ID"
+            git push origin HEAD:automation-receipts
+          fi
