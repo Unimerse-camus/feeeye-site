@@ -446,7 +446,339 @@ A('maker-vs-taker-fees-explained', 'trading', 'caution', ['cftcRisk', 'oecd'], {
     ['Why are market orders especially costly on low-liquidity pairs?', 'They usually pay the higher Taker fee and suffer additional price slippage.']
   ],
   tool: { label: 'Compare exchange fees & features', path: 'tools/exchange-comparator.html' }
-})
+}),
+  A('usdt-vs-usdc-for-beginners', 'trading', 'caution', ['oecd', 'cftcRisk'], {
+    title: 'USDT 与 USDC 怎么选？新手稳定币对比指南',
+    summary: '对比 USDT 与 USDC 的流动性、储备透明度、链上转账支持与主流交易所手续费差异，帮助新手选对常用稳定币。',
+    readTime: '5 分钟',
+    outcomes: [
+      '看懂 USDT 与 USDC 在市场深度与合规透明度上的核心差异',
+      '根据所在交易所与常用公链选择更省手续费的稳定币',
+      '避免跨链提币与兑换过程中的隐性点差损失'
+    ],
+    sections: [
+      {
+        title: 'USDT 与 USDC 的核心定位差异',
+        paragraphs: [
+          'USDT（Tether）是目前全球交易量最大、交易对最丰富的美元稳定币，在大多数现货与合约市场拥有最深的订单簿和最低的买卖点差。',
+          'USDC（Circle 发行）则以定期储备审计和美国监管合规见长，在链上 DeFi 协议、部分欧美合规平台以及 Base、Arbitrum 等二层网络中应用广泛。'
+        ]
+      },
+      {
+        title: '新手在流动性、网络与费率上的选择建议',
+        bullets: [
+          '日常高频现货交易优先看交易对深度：主流交易所的 BTC/USDT 往往比同币种 USDC 交易对点差更小，但部分平台会对特定 USDC 交易对提供免挂单费活动。',
+          '跨平台转账先对比支持网络：USDT 在 TRC20 上普及度高但链上生态有限；USDC 在 Arbitrum、Base、Solana 等低费网络上的原生支持通常更统一。',
+          '不要盲目频繁互换：虽然 USDT/USDC 汇率接近 1:1，但市价直接互换仍可能产生吃单手续费或轻微脱锚滑点。'
+        ]
+      },
+      {
+        title: '入金与使用稳定币前自查清单',
+        checklist: [
+          '确认目标交易所或钱包是否同时支持你准备买入的稳定币',
+          '对比充提页面同一公链（如 TRC20、Arbitrum、ERC20）的手续费与最低限额',
+          '下单前查看目标币种的 USDT 与 USDC 交易对哪一个盘口更深、费率更低',
+          '大额持仓分散关注发行方储备报告与平台兑付流动性，避免单一依赖'
+        ]
+      }
+    ],
+    quiz: [
+      ['为什么新手做现货交易时常优先选择 USDT 交易对？', '因为 USDT 交易对数量最多、订单簿深度通常更大，买卖滑点和点差往往更低。'],
+      ['USDC 相比 USDT 最常被提及的优势是什么？', '更高的储备透明度与合规披露节奏，以及在主流公链和二层网络中的原生支持。'],
+      ['把 USDT 换成 USDC 时需要注意什么成本？', '需要注意交易对的吃单或挂单手续费，以及短时流动性变化带来的轻微价格滑点。']
+    ],
+    tool: { label: '估算稳定币入金与买币总成本', path: 'tools/total-cost-calculator.html' }
+  }, {
+    title: 'USDT vs USDC: Which Stablecoin Should Beginners Use?',
+    summary: 'Compare USDT and USDC across liquidity, reserve transparency, supported blockchains, and exchange fee structures to pick the right stablecoin.',
+    readTime: '5 min',
+    outcomes: [
+      'Understand the core differences between USDT market depth and USDC compliance transparency',
+      'Pick the cheaper stablecoin based on your exchange pairs and transfer networks',
+      'Avoid hidden spread and swap costs when moving between stablecoins'
+    ],
+    sections: [
+      {
+        title: 'Core positioning of USDT vs USDC',
+        paragraphs: [
+          'USDT (issued by Tether) has the largest global trading volume and the widest pair coverage, giving most spot and derivatives markets deeper order books and tighter spreads.',
+          'USDC (issued by Circle) emphasizes regular reserve attestations and regulatory alignment, making it widely favored across DeFi protocols, compliant venues, and Layer-2 networks such as Base and Arbitrum.'
+        ]
+      },
+      {
+        title: 'How beginners should weigh liquidity, networks, and fees',
+        bullets: [
+          'Check order book depth for your target pair: BTC/USDT usually has tighter spreads, though some exchanges run zero-maker-fee promotions on selected USDC pairs.',
+          'Compare withdrawal networks before transferring: USDT is ubiquitous on TRC20, while native USDC is broadly standardized across Arbitrum, Base, and Solana with low gas fees.',
+          'Avoid unnecessary stablecoin swaps: converting between USDT and USDC near 1:1 can still incur taker fees or minor spread slippage.'
+        ]
+      },
+      {
+        title: 'Pre-deposit stablecoin checklist',
+        checklist: [
+          'Verify that both your sending and receiving platforms support the same stablecoin',
+          'Compare withdrawal fees and minimums on the exact network (such as Arbitrum, TRC20, or ERC20)',
+          'Check whether the USDT or USDC spot pair offers better liquidity and lower fee tiers',
+          'Review reserve disclosures and diversify large holdings instead of relying on a single issuer'
+        ]
+      }
+    ],
+    quiz: [
+      ['Why do beginners often start with USDT pairs for spot trading?', 'USDT offers the broadest pair coverage and deepest order books, which usually means lower slippage.'],
+      ['What is the most commonly cited advantage of USDC?', 'More frequent reserve transparency disclosures and strong native support across major Layer-2 networks.'],
+      ['What hidden cost can occur when swapping USDT for USDC?', 'Trading fees and minor spread or depeg slippage during execution.']
+    ],
+    tool: { label: 'Estimate stablecoin deposit & spot costs', path: 'tools/total-cost-calculator.html' }
+  }),
+  A('beginner-dca-fee-guide', 'trading', 'caution', ['cftcRisk', 'oecd'], {
+    title: '新手定投（DCA）买 BTC/ETH 怎么省手续费？',
+    summary: '拆解定投 BTC 与 ETH 时常见的隐性点差与固定手续费陷阱，教你用现货限价单与低费渠道降低长期持仓成本。',
+    readTime: '5 分钟',
+    outcomes: [
+      '区分快捷闪兑定投和现货订单簿定投在费率与点差上的差距',
+      '合理设置定投频率，避免小额高频被固定费用或最小下单额拖累',
+      '建立长期定投台账，持续追踪真实平均持仓成本'
+    ],
+    sections: [
+      {
+        title: '为什么看似零手续费的定投其实并不便宜',
+        paragraphs: [
+          '很多交易所的“一键定投”或“闪兑”功能标榜零手续费，但实际会将 0.5% 到 1.5% 的价差直接加进买入报价中，长期复利下来会显著拉高持仓均价。',
+          '相比之下，在现货交易区手动或通过 API 下达限价单（Maker），通常只需支付 0.02% 到 0.1% 的公开手续费，且成交价格紧贴市场盘口。'
+        ]
+      },
+      {
+        title: '新手降低 DCA 定投成本的三大实操技巧',
+        bullets: [
+          '避开闪兑与银行卡直购：先通过低费渠道入金成稳定币，再到现货区挂限价单买入 BTC/ETH，往往能省下数倍价差成本。',
+          '合理合并定投频率：如果单次金额较小，周投或双周投比每天小额买入更易满足最小下单额要求，也减少频繁操作失误。',
+          '善用平台币抵扣与挂单策略：开启手续费抵扣并把买单挂在略低于买一价的位置，能把单次交易费率压到最低档。'
+        ]
+      },
+      {
+        title: '定投执行前费率自查清单',
+        checklist: [
+          '对比当前账户在现货区与一键买币区买入同一金额 BTC/ETH 的实际到手数量',
+          '确认每次定投金额高于交易所的最小下单金额与最小提币门槛',
+          '检查是否开启手续费折扣（如平台币抵扣或免 Maker 费活动交易对）',
+          '定期把每笔成交价、数量与手续费录入持仓记账本，核对真实摊薄成本'
+        ]
+      }
+    ],
+    quiz: [
+      ['“零手续费闪兑定投”主要通过什么方式产生隐性成本？', '通过扩大买卖报价点差，让用户以高于现货盘口的价格成交。'],
+      ['在现货市场定投 BTC/ETH 时，哪种下单方式通常最省手续费？', '在现货订单簿使用限价单（Maker）并开启平台费率抵扣。'],
+      ['为什么小额资金不建议过于频繁地每日多次定投？', '容易触发最小下单额限制，且频繁转账或提币会放大固定手续费占比。']
+    ],
+    tool: { label: '用持仓记账本免费追踪定投成本与盈亏', path: 'tools/portfolio-tracker.html' }
+  }, {
+    title: 'Beginner DCA Guide: How to Save on Fees When Buying BTC & ETH Regularly',
+    summary: 'Learn how instant-buy spreads erode recurring BTC and ETH purchases, and how spot limit orders and smarter cadence cut long-term DCA costs.',
+    readTime: '5 min',
+    outcomes: [
+      'Spot the cost gap between instant-convert DCA and spot order-book DCA',
+      'Choose a purchase cadence that avoids minimum-order and fixed-fee drag',
+      'Track your true average entry price including every trading fee'
+    ],
+    sections: [
+      {
+        title: 'Why zero-fee recurring buys are rarely cheap',
+        paragraphs: [
+          'Many exchange instant-buy or auto-convert features advertise zero commission, yet quietly embed a 0.5% to 1.5% spread inside the quoted execution price.',
+          'Placing limit orders on the regular spot market typically costs only 0.02% to 0.1% in transparent Maker fees while executing right near the live order book.'
+        ]
+      },
+      {
+        title: 'Three practical ways to lower DCA execution costs',
+        bullets: [
+          'Skip card instant-buy and convert widgets: fund with stablecoins via low-cost rails and buy BTC or ETH on the spot order book instead.',
+          'Batch tiny purchases into weekly or bi-weekly buys: slightly larger tickets clear minimum order sizes cleanly and reduce execution mistakes.',
+          'Enable fee discounts and use Maker limit orders: placing your limit buy near the top of the bid book avoids higher Taker fees.'
+        ]
+      },
+      {
+        title: 'Pre-DCA cost self-check list',
+        checklist: [
+          'Compare how much BTC or ETH you actually receive on spot vs instant-buy for the same spend',
+          'Confirm each scheduled order meets the minimum trade size and future withdrawal thresholds',
+          'Verify whether token fee discounts or zero-fee spot pairs are enabled on your account',
+          'Log every fill price and fee in your tracker to monitor your true cost basis'
+        ]
+      }
+    ],
+    quiz: [
+      ['How do zero-fee instant recurring buys usually charge users?', 'They embed a hidden price spread into the quoted conversion rate.'],
+      ['Which execution method is generally cheapest for DCA on an exchange?', 'Placing Maker limit orders on the spot order book with fee discounts enabled.'],
+      ['Why can ultra-frequent tiny DCA orders hurt net returns?', 'They can run into minimum order limits and amplify fixed withdrawal or transfer costs.']
+    ],
+    tool: { label: 'Track your DCA average cost in Portfolio Tracker', path: 'tools/portfolio-tracker.html' }
+  }),
+  A('wrong-network-or-missing-memo', 'wallet', 'high', ['ethereumSecurity', 'cftcRisk'], {
+    title: '提币选错链或漏填 Memo/Tag 怎么办？防丢币实操指南',
+    summary: '详解跨链充提选错网络或漏填 Memo/Tag 后的资产风险与常规找回路径，并提供转账前四步零失误核对清单。',
+    readTime: '6 分钟',
+    outcomes: [
+      '分清不同公链地址格式与充提网络必须完全一致的底层原因',
+      '了解选错网络或漏填 Memo/Tag 时是否还有机会找回资产',
+      '养成大额转账前先做小额测试与逐项核对的操作习惯'
+    ],
+    sections: [
+      {
+        title: '为什么选错链或漏填 Memo 会导致不到账',
+        paragraphs: [
+          '同一币种（如 USDT 或 ETH）常在多条公链上发行，虽然部分 EVM 公链地址长相完全相同，但各自账本相互独立；若发送方选了 Arbitrum 而接收方只支持 ERC20，资产不会自动跨链到账。',
+          '对于 XRP、TON、EOS、XLM 或部分交易所内部共享充币地址的币种，系统依靠 Memo 或 Destination Tag 来识别你的个人账户，漏填或填错会导致资金卡在平台总账中。'
+        ]
+      },
+      {
+        title: '已经选错链或漏填 Memo 后的应急处理',
+        bullets: [
+          '第一时间保存完整凭证：记录交易哈希（TxID）、发送地址、接收地址、币种、数量与实际选择的网络名称。',
+          '区分接收方类型决定能否找回：若提到了自己掌握助记词的去中心化钱包，通常可通过添加对应网络 RPC 或导入私钥取回；若提到了交易所，只能联系接收方客服申请人工工单找回。',
+          '警惕假冒客服二次诈骗：任何工单找回都只能在交易所官方 App 或官网工单系统内进行，切勿向陌生人提供助记词、私钥或支付私下解冻费。'
+        ]
+      },
+      {
+        title: '链上充提防丢币四步核对清单',
+        checklist: [
+          '核对接收方充值页面与发送方提币页面选择的公链名称与代币标准完全一致',
+          '检查页面是否提示必须填写 Memo / Tag，如有则复制粘贴并核对首尾数字',
+          '首次向新地址或新平台大额转账前，先用最低限额做一笔小额测试并确认到账',
+          '核对地址前 6 位与后 6 位字符，防范剪贴板木马篡改收款地址'
+        ]
+      }
+    ],
+    quiz: [
+      ['为什么两个平台的收款地址都是 0x 开头，选错网络依然可能不到账？', '因为不同 EVM 公链共用 0x 地址格式但账本相互独立，接收方若未接入该网络就无法自动入账。'],
+      ['往交易所充币时漏填了 Memo/Tag 该怎么办？', '保存 TxID、币种、数量与充值地址截图，通过接收方交易所官方工单系统联系客服核查找回。'],
+      ['首次大额提币前最稳妥的防丢币习惯是什么？', '先确认网络与 Memo 无误，再用最小提币额做一次小额测试转账，确认到账后再转剩余资金。']
+    ],
+    tool: { label: '转账前先查 USDT 跨链提币费率与支持网络', path: 'tools/usdt-withdrawal-fees.html' }
+  }, {
+    title: 'Wrong Withdrawal Network or Missing Memo/Tag: What Happens & How to Avoid It',
+    summary: 'Understand what happens when you pick the wrong blockchain or omit a Memo/Tag, when recovery is possible, and how to prevent transfer losses.',
+    readTime: '6 min',
+    outcomes: [
+      'Understand why matching deposit and withdrawal networks is mandatory even when addresses look identical',
+      'Know when funds sent on the wrong network or without a Memo/Tag can be recovered',
+      'Adopt a four-step pre-transfer verification and test-send routine'
+    ],
+    sections: [
+      {
+        title: 'Why wrong networks or missing Memos stall deposits',
+        paragraphs: [
+          'Assets like USDT or ETH exist on multiple blockchains, and many EVM chains share identical 0x address formats while running completely separate ledgers. Sending on Arbitrum to an ERC20-only deposit address will not credit automatically.',
+          'For assets such as XRP, TON, EOS, XLM, or shared exchange deposit addresses, a Memo or Destination Tag routes the deposit to your specific account; omitting it leaves the funds uncredited in the exchange pool.'
+        ]
+      },
+      {
+        title: 'What to do if you already made a transfer mistake',
+        bullets: [
+          'Save complete transaction evidence immediately: copy the TxID, sending and receiving addresses, asset, amount, and exact network used.',
+          'Check who controls the destination address: if you sent to your own self-custody wallet, you can usually add the network RPC to access the funds; if you sent to an exchange, only the receiving exchange support team can evaluate manual recovery.',
+          'Watch out for recovery scams: only submit tickets inside the official exchange app or website, and never share seed phrases or pay private recovery fees.'
+        ]
+      },
+      {
+        title: 'Four-step pre-transfer safety checklist',
+        checklist: [
+          'Verify that the exact blockchain network and token standard match on both sender and receiver screens',
+          'Check whether a Memo or Tag is required and copy it verbatim without extra spaces',
+          'Send a small minimum test transfer first whenever using a new address or network',
+          'Verify the first 6 and last 6 characters of the pasted address to guard against clipboard hijacking'
+        ]
+      }
+    ],
+    quiz: [
+      ['Why can sending to a matching 0x address still fail if the network is wrong?', 'Multiple EVM chains share the 0x format but maintain separate ledgers, so unsupported networks will not auto-credit.'],
+      ['What should you do after sending funds to an exchange without a required Memo/Tag?', 'Gather the TxID and transfer details and open a recovery ticket through the receiving exchange official support portal.'],
+      ['What is the safest habit before sending a large transfer to a new address?', 'Confirm network and Memo details and complete a small minimum test transfer first.']
+    ],
+    tool: { label: 'Check supported USDT networks before sending', path: 'tools/usdt-withdrawal-fees.html' }
+  }),
+  A('exchange-kyc-verification-guide', 'security', 'caution', ['investorAccounts', 'oecd'], {
+    title: '交易所 KYC 实名认证全流程：材料准备与审核避坑',
+    summary: '梳理主流中心化交易所 KYC 实名认证所需材料、人脸活体检测要点以及常见驳回原因，帮助新手一次通过审核并保护隐私。',
+    readTime: '5 分钟',
+    outcomes: [
+      '了解基础认证与地址证明等不同 KYC 等级对应的充提与交易权限',
+      '提前准备好清晰合规的证件与环境，减少反复被拒的时间成本',
+      '识别假冒认证钓鱼链接，确保证件信息仅在官方渠道提交'
+    ],
+    sections: [
+      {
+        title: '为什么交易所需要 KYC 以及常见认证等级',
+        paragraphs: [
+          'KYC（Know Your Customer，了解你的客户）是合规交易所遵循反洗钱与金融监管要求的基础流程，未完成认证通常无法使用法币出入金、部分衍生品或高额度提币功能。',
+          '多数平台会分为基础身份认证（姓名、证件照片与人脸活体）和进阶地址认证（近 3 个月水电账单或银行对账单），新手完成基础认证即可满足日常现货交易与常规提币需求。'
+        ]
+      },
+      {
+        title: '导致 KYC 审核被拒的三大常见原因与避坑',
+        bullets: [
+          '证件反光、裁切或过期：拍照时避免强光直射证件覆膜，四角必须完整入镜且文字清晰可辨，不能使用黑白复印件或截屏图片。',
+          '信息填写与证件不一致：注册时填写的姓名拼音顺序、出生日期或国籍必须与身份证/护照完全一致，切勿随意简写或使用昵称。',
+          '活体检测环境光线不足或遮挡：摘掉墨镜、帽子或口罩，保持正面平视镜头并确保背景简洁，避免多人入镜导致系统判定异常。'
+        ]
+      },
+      {
+        title: '提交 KYC 前安全与材料核对清单',
+        checklist: [
+          '确认当前使用的是交易所官方 App 或核对过域名的官网，绝不点击陌生短信或邮件里的认证链接',
+          '准备有效期内的身份证或护照原件，提前擦拭手机摄像头并选择光线均匀的室内环境',
+          '核对账户个人资料页的姓名拼写、证件号与提交证件保持 100% 一致',
+          '提交后顺手开启 2FA 双重验证与防钓鱼码，避免认证通过后账户被他人接管'
+        ]
+      }
+    ],
+    quiz: [
+      ['交易所要求做 KYC 实名认证的主要目的是什么？', '满足反洗钱与金融合规审查要求，同时解锁法币出入金及更高的提币限额。'],
+      ['哪些拍照习惯最容易导致 KYC 证件审核被系统自动驳回？', '证件边角被裁切、表面反光遮挡文字、使用翻拍/截图或证件已过期。'],
+      ['收到邮件或短信催促“点击链接立即重新认证 KYC”时应该怎么做？', '不要直接点击外部链接，应自行打开官方 App 或书签官网查看站内通知核实。']
+    ],
+    tool: { label: '开户前横向对比 7 大交易所 KYC 与安全信息', path: 'tools/exchange-comparator.html' }
+  }, {
+    title: 'Crypto Exchange KYC Verification Guide: Documents, Steps & Common Pitfalls',
+    summary: 'Learn what documents exchanges require for KYC verification, why submissions get rejected, and how to pass checks safely on your first attempt.',
+    readTime: '5 min',
+    outcomes: [
+      'Understand what fiat, trading, and withdrawal limits each KYC tier unlocks',
+      'Prepare clean documents and lighting to avoid repeated verification rejections',
+      'Spot phishing KYC links and submit sensitive identity documents only through official channels'
+    ],
+    sections: [
+      {
+        title: 'Why exchanges require KYC and how tiers work',
+        paragraphs: [
+          'KYC (Know Your Customer) is a standard anti-money-laundering and regulatory requirement. Without verification, exchanges typically restrict fiat on-ramps, certain products, or higher withdrawal limits.',
+          'Most platforms split verification into basic identity checks (legal name, government ID, and liveness selfie) and enhanced proof-of-address checks (recent utility bill or bank statement). Basic KYC is usually enough for everyday spot trading.'
+        ]
+      },
+      {
+        title: 'Three common reasons KYC submissions get rejected',
+        bullets: [
+          'Glare, cropped corners, or expired IDs: avoid harsh reflections on laminated cards, keep all four corners visible in frame, and never upload screenshots or photocopies.',
+          'Mismatched profile details: ensure your full legal name, spelling order, date of birth, and country match your passport or national ID exactly.',
+          'Poor liveness check conditions: remove hats, sunglasses, or masks, face the camera in even lighting, and make sure no one else appears in the background.'
+        ]
+      },
+      {
+        title: 'Pre-KYC document & security checklist',
+        checklist: [
+          'Confirm you are inside the official exchange app or verified domain rather than a link from SMS or email',
+          'Have a valid original passport or national ID ready and shoot in bright, even indoor lighting',
+          'Double-check that your entered name and ID number match the physical document 100%',
+          'Enable app-based 2FA and an anti-phishing code right after submitting your verification'
+        ]
+      }
+    ],
+    quiz: [
+      ['What is the primary purpose of exchange KYC verification?', 'To satisfy anti-money-laundering compliance and unlock fiat rails and higher withdrawal limits.'],
+      ['Which photo issues most frequently trigger automatic KYC rejections?', 'Glare over text, cropped ID corners, blurry images, expired documents, or uploaded screenshots.'],
+      ['What should you do if an email or text tells you to click a link to re-verify KYC urgently?', 'Never click the external link; open the official app or bookmarked website directly to check your account status.']
+    ],
+    tool: { label: 'Compare KYC & security across 7 exchanges', path: 'tools/exchange-comparator.html' }
+  })
 ];
 
 export function validateLearningContent(articles = LEARNING_ARTICLES, sources = LEARNING_SOURCES) {
