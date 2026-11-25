@@ -71,3 +71,5 @@ jobs:
             echo "Invalid value found in generated comparison pages"
             exit 1
           fi
+      - name: Test bilingual self-check
+        run: node build/ops/test_bilingual_self_check.mjs
