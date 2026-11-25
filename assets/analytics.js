@@ -56,7 +56,7 @@
     var medium = cleanText(params.get('utm_medium'));
     var campaign = cleanText(params.get('utm_campaign'));
     var channels = { x: 'social', youtube: 'video', reddit: 'community', telegram: 'social', newsletter: 'email' };
-    var campaigns = ['1000-usdt-fee', 'safe-transfer', 'usdt-cost-2026-09', 'feeeye-launch'];
+    var campaigns = ['1000-usdt-fee', 'safe-transfer', 'usdt-cost-2026-09', 'feeeye-launch', 'usdt-withdrawal', 'usdt-vs-usdc', 'beginner-dca', 'kyc-guide', 'maker-taker', 'x-weekly-fee'];
     // Reject unknown/raw identifiers instead of turning arbitrary personal text into valid-looking tags.
     if (params.getAll('utm_source').length === 1 && params.getAll('utm_medium').length === 1 &&
         params.getAll('utm_campaign').length === 1 &&
