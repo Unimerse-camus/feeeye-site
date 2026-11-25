@@ -73,3 +73,5 @@ jobs:
           fi
       - name: Test bilingual self-check
         run: node build/ops/test_bilingual_self_check.mjs
+      - name: Test feedback ops scripts offline
+        run: node build/ops/test_zaraz_feedback_collector.mjs && node build/ops/test_feedback_revision_planner.mjs && node build/ops/test_feedback_content_diagnostics.mjs && node build/ops/test_feedback_link_evidence.mjs && node build/ops/test_feedback_operations_workflow.mjs
