@@ -143,7 +143,7 @@ td.num,th.num{text-align:right}
       </div>
       <a class="cta-btn" href="/zh/tools/total-cost-calculator.html">前往总成本计算器 →</a>
     </div>
-  </section>
+  </section>    <section class="card" id="lowFeeCtaSection"><h2 style="margin:0 0 6px;font-size:18px;font-weight:800;">低提币费率主流交易所直达开户</h2><p style="margin:0 0 14px;color:var(--sub);font-size:13.5px;">各交易所当前最低 USDT 提币费率与对应网络 — 点击直达官方注册 / 费率页。</p><div id="lowFeeCards" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;"></div></section>
 </main>
 
 <footer class="foot">
@@ -314,7 +314,8 @@ td.num,th.num{text-align:right}
     html += '</div>';
     return html;
   }
-
+    function renderLowFeeCards() { var el = document.getElementById('lowFeeCards'); if (!el || !window.EXCHANGES) return; var ids = ['binance', 'okx', 'kucoin', 'bybit']; var html = ''; for (var i = 0; i < ids.length; i++) { var ex = window.EXCHANGES[ids[i]]; if (!ex) continue; var minAmt = null; var minNet = ''; for (var j = 0; j < NETWORKS.length; j++) { var info = getFeeInfo(ex, NETWORKS[j]); if (info.amount !== null && (minAmt === null || info.amount < minAmt)) { minAmt = info.amount; minNet = NETWORKS[j]; } } var feeStr = minAmt !== null ? fmtAmt(minAmt) + ' (' + minNet + ')' : '查看交易所官网'; var link = ex.affiliate_link || ex.official_url || '#'; html += '<div class="tip-box" style="display:flex;flex-direction:column;justify-content:space-between;gap:10px;"><div><div style="font-weight:700;font-size:15px;margin-bottom:4px;">' + ex.name + '</div><div style="font-size:13px;color:var(--muted);">最低 USDT 提币费：<strong style="color:var(--text);">' + feeStr + '</strong></div></div><a class="cta-btn" style="text-align:center;" href="' + link + '" target="_blank" rel="noopener noreferrer">去注册开户 →</a></div>'; } el.innerHTML = html; }
+  
   function render() {
     var exList = getExchanges();
     var globalMin = findGlobalMin(exList);
@@ -327,7 +328,7 @@ td.num,th.num{text-align:right}
     var container = document.getElementById('resultContainer');
     container.innerHTML = activeNet === 'ALL'
       ? renderMatrix(exList, globalMin)
-      : renderSingleNetwork(exList, activeNet);
+      : renderSingleNetwork(exList, activeNet); var updEl = document.getElementById('upd'); if (updEl && window.EXCHANGES && window.EXCHANGES.kucoin && window.EXCHANGES.kucoin.last_updated) updEl.textContent = window.EXCHANGES.kucoin.last_updated; renderLowFeeCards();
   }
 
   document.getElementById('netTabs').addEventListener('click', function (e) {
