@@ -8,6 +8,9 @@
 <link rel="stylesheet" href="/assets/responsive.css">
 <script defer src="/assets/learning-nav.js"></script>
 <script defer src="/assets/analytics.js"></script>
+<link rel="icon" type="image/svg+xml" href="/assets/logo.svg?v=2">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png?v=2">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png?v=2">
 <style>
 :root{
   --bg:#f7f8fa;--card:#fff;--ink:#1c2430;--sub:#5b6776;--line:#e4e8ee;
@@ -17,14 +20,29 @@
 body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;line-height:1.55}
 a{color:var(--brand);text-decoration:none}
 a:hover{text-decoration:underline}
-header{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}
-.topbar{max-width:1180px;margin:0 auto;padding:12px 18px;display:flex;align-items:center;gap:14px;justify-content:space-between;flex-wrap:wrap}
-.logo{display:flex;align-items:center;gap:8px;font-weight:800;color:var(--ink);font-size:17px}
-.nav{display:flex;gap:14px;flex-wrap:wrap;font-size:13.5px}
-.nav a{color:var(--sub);padding:4px 6px;border-radius:6px}
-.nav a.active,.nav a:hover{color:var(--ink);background:#f1f5f9;text-decoration:none}
-.lang{font-size:13px;padding:5px 10px;border:1px solid var(--line);border-radius:8px;color:var(--ink);background:#fff}
-.wrap{max-width:1180px;margin:0 auto;padding:24px 18px 40px}
+.wrap{max-width:880px;margin:0 auto;padding:22px 18px 60px}
+.topbar{display:flex;align-items:flex-start;gap:24px;flex-wrap:nowrap;padding:0 0 8px;margin:2px 0 14px;border-bottom:1px solid var(--line)}
+.topbar .logo{display:flex;align-items:center;gap:8px;flex-shrink:0;color:var(--brand);font-weight:800;font-size:20px;text-decoration:none}
+.topbar .logo img{height:30px;width:30px;display:block}
+.nav{flex:1;display:flex;gap:20px;align-items:center;flex-wrap:nowrap;justify-content:center;line-height:1;min-height:0;height:auto;margin-top:12px}
+.nav a{color:#1e293b;text-decoration:none;font-size:14px;line-height:1;white-space:nowrap;border-bottom:2px solid transparent;padding-bottom:2px;display:inline-flex;align-items:center;font-weight:500;gap:6px}
+.nav a:hover{color:var(--brand);border-bottom-color:var(--brand)}
+.nav a.active{color:var(--brand);border-bottom:2px solid var(--brand);font-weight:600}
+.nav a svg{width:16px;height:16px;flex-shrink:0;color:var(--brand)}
+.topbar>span{flex-shrink:0;padding-right:30px;padding-top:6px}
+.topbar>span>a{color:var(--sub);text-decoration:none;font-size:13.5px;line-height:1;white-space:nowrap}
+.nav-item{position:relative}
+.nav-btn{background:none;border:none;color:#1e293b;font-size:14px;line-height:1;white-space:nowrap;padding:0 0 2px;cursor:pointer;border-bottom:2px solid transparent;font-family:inherit;font-weight:500;display:inline-flex;align-items:center;gap:4px}
+.nav-btn .chev{transition:transform .2s ease;flex-shrink:0}
+.nav-item:hover .chev,.nav-item.open .chev{transform:rotate(180deg)}
+.nav-btn:hover{color:var(--brand);border-bottom-color:var(--brand)}
+.nav-btn.active{color:var(--brand);border-bottom:2px solid var(--brand);font-weight:600}
+.dropdown{display:none;position:absolute;top:100%;left:50%;transform:translateX(-50%);background:#fff;border:1px solid var(--line);border-radius:10px;box-shadow:0 10px 32px rgba(15,23,42,.14);z-index:200;min-width:170px;padding:6px;white-space:nowrap;margin-top:0;padding-top:10px;opacity:0;transition:opacity .15s ease}
+.nav-item:hover .dropdown,.nav-item.open .dropdown{display:block;opacity:1}
+.dropdown::before{content:"";position:absolute;left:0;right:0;top:-10px;height:10px;background:transparent}
+.dropdown a{display:flex;align-items:center;gap:8px;padding:7px 12px;color:#1e293b;font-size:13.5px;border-radius:7px;border-bottom:none;text-decoration:none}
+.dropdown a svg{width:16px;height:16px;flex-shrink:0;color:var(--brand)}
+.dropdown a:hover{background:#f1f5f9;color:var(--brand);box-shadow:inset 3px 0 0 var(--brand)}
 .hero{margin-bottom:18px}
 .hero h1{margin:0 0 8px;font-size:28px;line-height:1.25}
 .hero p{margin:0;color:var(--sub);font-size:15px}
@@ -65,7 +83,7 @@ td.num,th.num{text-align:right}
 .next-cta{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;background:#eff6ff;border:1px solid #bfdbfe;border-radius:12px;padding:16px;margin-top:16px}
 .next-cta strong{display:block;font-size:15px;margin-bottom:2px}
 .next-cta span{font-size:13px;color:var(--sub)}
-.foot{max-width:1180px;margin:0 auto;padding:18px;border-top:1px solid var(--line);font-size:13px;color:var(--sub);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.foot{max-widt:h880px;margin:0 auto;padding:18px;border-top:1px solid var(--line);font-size:13px;color:var(--sub);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
 .foot a{color:var(--sub)}
 @media(max-width:720px){
   .rank-row{grid-template-columns:32px 1fr;gap:8px}
@@ -74,24 +92,35 @@ td.num,th.num{text-align:right}
 </style>
 </head>
 <body>
-<header>
-  <div class="topbar">
-    <a class="logo" href="/" aria-label="FeeEye Home">
-      <img src="/assets/logo.svg?v=2" alt="FeeEye" width="26" height="26">
-      <span>FeeEye</span>
-    </a>
-    <nav class="nav" id="toolNav">
-      <a href="/tools/exchange-comparator.html">Exchange Comparator</a>
-      <a href="/tools/total-cost-calculator.html">Total Cost Calculator</a>
-      <a href="/tools/usdt-withdrawal-fees.html" class="active">USDT Withdrawal Fees</a>
-      <a href="/tools/token-security-checker.html">Token Security</a>
-      <a href="/tools/portfolio-tracker.html">Portfolio Tracker</a>
-    </nav>
-    <a class="lang" href="/zh/tools/usdt-withdrawal-fees.html">中文</a>
-  </div>
-</header>
-
 <main class="wrap">
+<div class="topbar">
+<a class="logo" href="/">
+<img src="/assets/logo.svg?v=2" alt="FeeEye">FeeEye
+</a>
+<nav class="nav" aria-label="Primary">
+<a href="/">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M9 4v16"/></svg>Exchanges
+</a>
+<a href="/#calculator">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 10h2m4 0h2M8 14h2m4 0h2M8 18h8"/></svg>Calculator
+</a>
+<div class="nav-item">
+<button type="button" class="nav-btn active">Tools <svg class="chev" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+<div class="dropdown">
+<a href="/tools/total-cost-calculator.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M9 9.5h6M9 14.5h6"/></svg>Total Cost Calculator</a>
+<a href="/tools/exchange-comparator.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg>Exchange Comparison</a>
+<a href="/tools/futures-toolbox.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>Futures Toolbox</a>
+<a href="/tools/portfolio-tracker.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>Portfolio Tracker</a>
+<a href="/tools/token-security-checker.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Token Security</a>
+<a href="/tools/glossary.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>Glossary</a>
+</div>
+</div>
+<a href="/docs/methodology.html">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 16v-4M12 8h.01"/></svg>Methodology
+</a>
+</nav>
+<span><a href="/zh/tools/usdt-withdrawal-fees.html">中文</a></span>
+</div>
   <section class="hero">
     <h1>USDT Cross-Chain Withdrawal Fee Checker</h1>
     <p>Compare live USDT withdrawal fees across 7 major exchanges and 8 popular networks. Find the cheapest transfer route and avoid overpaying on Ethereum ERC20 gas.</p>
