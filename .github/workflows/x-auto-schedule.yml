@@ -76,7 +76,16 @@ jobs:
             ARGS+=(--post-id "$POST_ID")
           fi
           node build/ops/x_auto_publish.mjs "${ARGS[@]}"
-
+      - name: Sync published post to Telegram channel
+        if: ${{ vars.FEEEYE_X_PUBLISH == 'enabled' && (github.event_name == 'schedule' || inputs.dry_run == false) }}
+        continue-on-error: true
+        working-directory: source
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHANNEL_ID: ${{ vars.TELEGRAM_CHANNEL_ID }}
+          POST_ID: ${{ inputs.post_id }}
+        run: node build/ops/tg_channel_sync.mjs --queue ops/content/x-evergreen-queue.json --post-id "$POST_ID"
+        
       - name: Commit and push receipt ledger
         if: ${{ vars.FEEEYE_X_PUBLISH == 'enabled' && (github.event_name == 'schedule' || inputs.dry_run == false) }}
         working-directory: receipt-ledger
