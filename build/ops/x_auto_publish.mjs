@@ -110,7 +110,10 @@ async function xRequest(credentials, method, url, body = null) {
   }
   return data;
 }
-
+const MEDIA_UPLOAD_URL = 'https://upload.twitter.com/1.1/media/upload.json';
+async function uploadMedia(credentials, filePath) {
+  const buf = await fs.readFile(filePath); const form = new FormData(); form.append('media', new Blob([buf], { type: 'image/png' }), path.basename(filePath));
+  const res = await fetch(MEDIA_UPLOAD_URL, { method: 'POST', headers: { Authorization: buildOAuthHeader(credentials, { method: 'POST', url: MEDIA_UPLOAD_URL }) }, body: form }); const text = await res.text(); if (!res.ok) throw new Error('X media upload failed (' + res.status + '): ' + text); const data = text ? JSON.parse(text) : null; const mediaId = data?.media_id_string; if (!mediaId) throw new Error('Missing media_id_string: ' + text); return mediaId; }
 async function main() {
   const opts = parseArgs(process.argv.slice(2));
   const queueData = await readJsonSafe(opts.queue);
@@ -135,7 +138,11 @@ async function main() {
   ) {
     throw new Error(`Selected post failed validation: ${selected.post_id}`);
   }
-
+  const imagePath = typeof selected.image === 'string' && selected.image.trim() ? selected.image.trim() : null;
+  let imageExists = false;
+  let imageBytes = 0;
+  if (imagePath) { try { const st = await fs.stat(path.resolve(process.cwd(), imagePath)); imageExists = st.isFile(); imageBytes = st.size; } catch { imageExists = false; imageBytes = 0; } }
+  
   if (!opts.execute) {
     console.log(
       JSON.stringify(
@@ -145,7 +152,10 @@ async function main() {
           text: selected.text,
           char_count: selected.text.length,
           x_length: xLength(selected.text),
-          url: selected.url,
+          url: selected.url, 
+          image: imagePath,
+          image_exists: imageExists,
+          image_bytes: imageBytes,
         },
         null,
         2,
@@ -187,10 +197,11 @@ async function main() {
   if (duplicateLanding) {
     throw new Error(`Landing page already published recently: ${targetLanding}`);
   }
-
+  let mediaIds = null;
+  if (imagePath && imageExists) { try { const mediaId = await uploadMedia(credentials, path.resolve(process.cwd(), imagePath)); if (mediaId) mediaIds = [mediaId]; } catch (err) { console.warn('Warning: X media upload failed, falling back to text-only post:', err?.message || err); } }
   const publishRes = await xRequest(credentials, 'POST', POST_URL, {
     text: selected.text,
-    made_with_ai: true,
+    made_with_ai: true, ...(mediaIds ? { media: { media_ids: mediaIds } } : {}),
   });
   const tweetId = publishRes?.data?.id;
   if (!tweetId) {
