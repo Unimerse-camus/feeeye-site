@@ -1,0 +1,58 @@
+name: render-og-cover
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  render-and-pr:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Install Pillow and Noto CJK fonts
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python3-pil fonts-noto-cjk
+
+      - name: Render 1200x630 OG cover
+        run: python3 build/ops/render_og_cover.py
+
+      - name: Bump og-logo.png cache version to v3
+        run: |
+          python3 -c '
+          from pathlib import Path
+          p = Path("build/generate.mjs")
+          text = p.read_text(encoding="utf-8")
+          text = text.replace("og-logo.png?v=2", "og-logo.png?v=3")
+          p.write_text(text, encoding="utf-8")
+          '
+
+      - name: Commit, push auto/og-cover-v3, and open PR
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -B auto/og-cover-v3
+          git add assets/og-logo.png build/generate.mjs
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+          git commit -m "feat(brand): update og-logo.png to 1200x630 flat editorial cover (v3)"
+          git push -f origin auto/og-cover-v3
+          if ! gh pr list --head auto/og-cover-v3 --state open --json number --jq 'length' | grep -q '^[1-9]'; then
+            gh pr create \
+              --base main \
+              --head auto/og-cover-v3 \
+              --title "feat(brand): update og-logo.png to 1200x630 flat editorial cover (v3)" \
+              --body "Automated 1200x630 OG cover render and cache bust (v2 -> v3)."
+          fi
